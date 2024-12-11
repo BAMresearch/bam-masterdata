@@ -49,6 +49,8 @@ theme:
     - navigation.footer
     - navigation.top
     - content.code.copy
+  icon:
+    repo: fontawesome/brands/github
 plugins:
   - search
 markdown_extensions:
