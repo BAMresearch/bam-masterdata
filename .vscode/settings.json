@@ -77,6 +77,15 @@
         "justMyCode": false,
         "args": ["export_to_excel"]
       },
+      {
+        "name": "bds export-entities-to-json",
+        "type": "debugpy",
+        "request": "launch",
+        "cwd": "${workspaceFolder}",
+        "program": "${workspaceFolder}/.venv/bin/bam_data_store",
+        "justMyCode": false,
+        "args": ["export-entities-to-json"]
+      },
     ]
   },
 }
