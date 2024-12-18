@@ -217,7 +217,6 @@ class TestPropertyTypeDef:
             'vocabulary_code',
             'metadata',
             'dynamic_script',
-            'multivalued',
         ]
         assert field_types == [
             int,
@@ -227,7 +226,6 @@ class TestPropertyTypeDef:
             DataType,
             Optional[str],
             Optional[dict],
-            Optional[str],
             Optional[str],
         ]
 
@@ -248,7 +246,6 @@ class TestPropertyTypeAssignment:
             'vocabulary_code',
             'metadata',
             'dynamic_script',
-            'multivalued',
             'mandatory',
             'show_in_edit_views',
             'section',
@@ -263,7 +260,6 @@ class TestPropertyTypeAssignment:
             DataType,
             Optional[str],
             Optional[dict],
-            Optional[str],
             Optional[str],
             bool,
             bool,
