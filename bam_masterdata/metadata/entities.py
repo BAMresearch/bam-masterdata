@@ -56,7 +56,7 @@ class BaseEntity(BaseModel):
 class ObjectType(BaseEntity):
     """
     Base class used to define object types. All object types must inherit from this class. The
-    object types are defined in the module `bam_masterdata/object_types.py`.
+    object types are defined in the module `bam_data_store/object_types.py`.
 
     The `ObjectType` class contains a list of all `properties` defined for a `ObjectType`, for
     internally represent the model in other formats (e.g., JSON or Excel).
@@ -101,11 +101,18 @@ class ObjectType(BaseEntity):
 
         return data
 
+    @property
+    def entity_type(self) -> str:
+        """
+        Returns the entity type of the class as a string to speed up checks.
+        """
+        return "ObjectType"
+
 
 class VocabularyType(BaseEntity):
     """
     Base class used to define vocabulary types. All vocabulary types must inherit from this class. The
-    vocabulary types are defined in the module `bam_masterdata/vocabulary_types.py`.
+    vocabulary types are defined in the module `bam_data_store/vocabulary_types.py`.
 
     The `VocabularyType` class contains a list of all `terms` defined for a `VocabularyType`, for
     internally represent the model in other formats (e.g., JSON or Excel).
@@ -140,9 +147,12 @@ class VocabularyType(BaseEntity):
 
         return data
 
-
-class PropertyType(BaseEntity):
-    pass
+    @property
+    def entity_type(self) -> str:
+        """
+        Returns the entity type of the class as a string to speed up checks.
+        """
+        return "VocabularyType"
 
 
 class CollectionType(ObjectType):
