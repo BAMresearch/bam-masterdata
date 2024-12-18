@@ -13,7 +13,7 @@ classifiers = [
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
 ]
-name = "bam-data-store"
+name = "bam-masterdata"
 description = "The BAM Data Store utility tools and masterdata models wrapped in a Python package with a front-end web interface."
 dynamic = ["version"]
 readme = "README.md"
@@ -33,8 +33,8 @@ dependencies = [
 ]
 
 [project.urls]
-"Homepage" = "https://git.bam.de/bam-data-store/bam-data-store"
-"Bug Tracker" = "https://git.bam.de/bam-data-store/development/bam-data-store/issues"
+"Homepage" = "https://github.com/BAMresearch/bam-masterdata"
+"Bug Tracker" = "https://github.com/BAMresearch/bam-masterdata/issues"
 
 [project.optional-dependencies]
 dev = [
@@ -59,11 +59,11 @@ docu = [
 ]
 
 [project.scripts]
-bam_data_store = "bam_data_store.cli:cli"
+bam_masterdata = "bam_masterdata.cli:cli"
 
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
-include = ["bam_data_store/*.py", "tests/*.py"]
+include = ["bam_masterdata/*.py", "tests/*.py"]
 exclude = [
     ".bzr",
     ".direnv",
@@ -143,4 +143,4 @@ exclude = ["dependencies*"]
 namespaces = false
 
 [tool.setuptools_scm]
-write_to = "bam_data_store/_version.py"
+write_to = "bam_masterdata/_version.py"

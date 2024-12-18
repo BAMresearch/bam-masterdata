@@ -1,5 +1,5 @@
-from bam_data_store.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
-from bam_data_store.metadata.entities import ObjectType
+from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
+from bam_masterdata.metadata.entities import ObjectType
 
 
 class Instrument(ObjectType):

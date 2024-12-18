@@ -16,7 +16,7 @@ echo "Installing main project dependencies..."
 uv pip install -e '.[dev,docu,jupy]'
 
 echo "Installing submodule dependencies..."
-SUBMODULE_PATH="bam_data_store/dependencies/openbisschema"
+SUBMODULE_PATH="bam_masterdata/dependencies/openbisschema"
 
 if [ -d "$SUBMODULE_PATH" ]; then
     pushd "$SUBMODULE_PATH" > /dev/null
