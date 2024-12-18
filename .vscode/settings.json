@@ -49,7 +49,7 @@
               "-sv",
               "${workspaceFolder}/tests/"  // path to your testing module
           ]
-      }
+      },
     ]
   },
 }
