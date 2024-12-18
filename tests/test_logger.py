@@ -14,7 +14,7 @@ from bam_data_store.logger import logger
     ],
 )
 def test_logger_info_message(
-    cleared_log_storage: list[str], log_level: Callable, message: str, level: str
+    cleared_log_storage: list, log_level: Callable, message: str, level: str
 ):
     """Tests if a `level` message is correctly logged into the (cleared) `log_storage`."""
     log_level(message)
