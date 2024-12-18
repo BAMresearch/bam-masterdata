@@ -33,7 +33,7 @@
           "type": "debugpy",
           "request": "launch",
           "console": "integratedTerminal",
-          "program": "${workspaceFolder}/src/bam_data_store/app.py",  // path to your entry point Python module
+          "program": "${workspaceFolder}/src/bam_masterdata/app.py",  // path to your entry point Python module
       },
       {
           "name": "bds tests",

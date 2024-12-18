@@ -1,7 +1,7 @@
-site_name: BAM Data Store Wiki
-site_description: Documentation page for the BAM Data Store.
+site_name: BAM Masterdata
+site_description: Documentation page for the BAM Masterdata.
 site_author: BAM Data Store
-repo_url: https://github.com/BAMresearch/bam-data-store
+repo_url: https://github.com/BAMresearch/bam-masterdata
 nav:
   - Home: index.md
   - Tutorial:

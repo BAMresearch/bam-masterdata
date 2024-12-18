@@ -1,4 +1,4 @@
 [run]
 omit =
-    bam_data_store/_version.py
+    bam_masterdata/_version.py
     */__init__.py

@@ -2,7 +2,7 @@ from typing import Callable
 
 import pytest
 
-from bam_data_store.logger import logger
+from bam_masterdata.logger import logger
 
 
 @pytest.mark.parametrize(

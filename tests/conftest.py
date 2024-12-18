@@ -3,14 +3,14 @@ import os
 import pytest
 from pydantic import ConfigDict
 
-from bam_data_store.logger import log_storage
-from bam_data_store.metadata.definitions import (
+from bam_masterdata.logger import log_storage
+from bam_masterdata.metadata.definitions import (
     ObjectTypeDef,
     PropertyTypeAssignment,
     VocabularyTerm,
     VocabularyTypeDef,
 )
-from bam_data_store.metadata.entities import BaseEntity, ObjectType, VocabularyType
+from bam_masterdata.metadata.entities import BaseEntity, ObjectType, VocabularyType
 
 if os.getenv('_PYTEST_RAISE', '0') != '0':
 

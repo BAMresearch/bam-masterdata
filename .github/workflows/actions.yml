@@ -34,10 +34,10 @@ jobs:
         uv pip install -e '.[dev]'
     - name: mypy
       run: |
-        python -m mypy --ignore-missing-imports --follow-imports=silent --no-strict-optional --exclude dependencies bam_data_store tests
+        python -m mypy --ignore-missing-imports --follow-imports=silent --no-strict-optional --exclude dependencies bam_masterdata tests
     - name: Test with pytest
       run: |
-        python -m pytest -sv --ignore=bam_data_store/dependencies tests
+        python -m pytest -sv --ignore=bam_masterdata/dependencies tests
   build-and-install:
     runs-on: ubuntu-latest
     steps:
@@ -62,11 +62,11 @@ jobs:
         - uses: actions/checkout@v4
         - uses: chartboost/ruff-action@v1
           with:
-            args: "check . --exclude bam_data_store/dependencies"
+            args: "check . --exclude bam_masterdata/dependencies"
   ruff-formatting:
       runs-on: ubuntu-latest
       steps:
         - uses: actions/checkout@v4
         - uses: chartboost/ruff-action@v1
           with:
-            args: "format . --check --verbose --exclude bam_data_store/dependencies"
+            args: "format . --check --verbose --exclude bam_masterdata/dependencies"

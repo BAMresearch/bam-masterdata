@@ -1,8 +1,8 @@
-from bam_data_store.metadata.definitions import (
+from bam_masterdata.metadata.definitions import (
     VocabularyTerm,
     VocabularyTypeDef,
 )
-from bam_data_store.metadata.entities import VocabularyType
+from bam_masterdata.metadata.entities import VocabularyType
 
 
 class DocumentType(VocabularyType):
