@@ -20,7 +20,7 @@ class MasterdataCodeGenerator:
 
     def generate_object_types(self) -> str:
         """
-        Generate Python code for the object types in the Openbis datamodel. The code is generated
+        Generate Python code for the object types in the sOpenbis datamodel. The code is generated
         as a string which is then printed out to the specific Python module in `bam_masterdata/datamodel/object_types.py`.
 
         Returns:
