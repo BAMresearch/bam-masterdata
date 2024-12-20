@@ -38,8 +38,6 @@ def get_obj_dict():
                         "permId": property_perm_id,
                         "section": entry.get("section", ""),
                         "ordinal": entry.get("ordinal", None),
-                        "entityType": entry.get("entityType", None),
-                        "propertyType": entry.get("propertyType", None),
                         "mandatory": entry.get("mandatory", False),
                         "showInEditView": entry.get("showInEditView", False),
                         "showRawValueInForms": entry.get("showRawValueInForms", False),
@@ -50,6 +48,13 @@ def get_obj_dict():
                         "plugin": entry.get("plugin", "")
                     }
 
+            for prop in assignments:
+                properties[prop.permId].update({
+                    "label": prop.label,
+                    "description": prop.description,
+                    "dataType": prop.dataType
+                })     
+
             # Add properties to the object type in formatted_dict
             formatted_dict[perm_id]["properties"] = properties
         else:
@@ -57,4 +62,3 @@ def get_obj_dict():
             formatted_dict[perm_id]["properties"] = {}
 
     return formatted_dict
-
