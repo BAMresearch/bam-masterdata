@@ -10,7 +10,7 @@ def generate_object_types_code(object_types_dict):
     class_names = {}
 
     def format_class_name(code):
-        return code.replace(".", "_").title().replace("_", "")
+        return code.split(".")[-1].title().replace("_", "")
 
     # Add imports at the top
     lines.append("from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment")
@@ -75,7 +75,8 @@ def generate_object_types_code(object_types_dict):
 object_types_code = generate_object_types_code(object_types_dict)
 
 # Write to file
-output_file = Path("object_types.py")
+output_dir = Path(__file__).resolve().parent.parent / "bam_masterdata" / "datamodel"
+output_file = output_dir / "object_types.py"
 output_file.write_text(object_types_code)
 
 print("Generated object_types.py:")
