@@ -1,66 +1,66 @@
 from pydantic import BaseModel
 
-from bam_masterdata.metadata.definitions import DatasetTypeDef
+from bam_masterdata.metadata.definitions import DataSetTypeDef
 
 
 class ElnPreview(BaseModel):
-    defs = DatasetTypeDef(
+    defs = DataSetTypeDef(
         code='ELN_PREVIEW',
         description="",
     )
 
 
 class RawData(BaseModel):
-    defs = DatasetTypeDef(
+    defs = DataSetTypeDef(
         code='RAW_DATA',
         description="Data not processed",
     )
 
 
 class ProcessedData(BaseModel):
-    defs = DatasetTypeDef(
+    defs = DataSetTypeDef(
         code='PROCESSED_DATA',
         description="",
     )
 
 
 class AnalyzedData(BaseModel):
-    defs = DatasetTypeDef(
+    defs = DataSetTypeDef(
         code='ANALYZED_DATA',
         description="",
     )
 
 
 class Attachment(BaseModel):
-    defs = DatasetTypeDef(
+    defs = DataSetTypeDef(
         code='ATTACHMENT',
         description="",
     )
 
 
 class OtherData(BaseModel):
-    defs = DatasetTypeDef(
+    defs = DataSetTypeDef(
         code='OTHER_DATA',
         description="",
     )
 
 
 class SourceCode(BaseModel):
-    defs = DatasetTypeDef(
+    defs = DataSetTypeDef(
         code='SOURCE_CODE',
         description="",
     )
 
 
 class AnalysisNotebook(BaseModel):
-    defs = DatasetTypeDef(
+    defs = DataSetTypeDef(
         code='ANALYSIS_NOTEBOOK',
         description="",
     )
 
 
 class PublicationData(BaseModel):
-    defs = DatasetTypeDef(
+    defs = DataSetTypeDef(
         code='PUBLICATION_DATA',
         description="",
     )
