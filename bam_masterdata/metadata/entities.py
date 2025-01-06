@@ -135,3 +135,7 @@ class PropertyType(BaseEntity):
 
 class CollectionType(ObjectType):
     pass
+
+
+class DatasetType(BaseEntity):
+    pass
