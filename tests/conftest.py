@@ -33,7 +33,6 @@ def cleared_log_storage():
 class MockedEntity(BaseEntity):
     model_config = ConfigDict(ignored_types=(ObjectTypeDef, PropertyTypeAssignment))
     defs = ObjectTypeDef(
-        version=1,
         code='MOCKED_ENTITY',
         description="""
         Mockup for an entity definition//Mockup für eine Entitätsdefinition
@@ -42,7 +41,6 @@ class MockedEntity(BaseEntity):
     )
 
     name = PropertyTypeAssignment(
-        version=1,
         code='$NAME',
         data_type='VARCHAR',
         property_label='Name',
@@ -57,7 +55,6 @@ class MockedEntity(BaseEntity):
 
 class MockedObjectType(ObjectType):
     defs = ObjectTypeDef(
-        version=1,
         code='MOCKED_OBJECT_TYPE',
         description="""
         Mockup for an object type definition
@@ -66,7 +63,6 @@ class MockedObjectType(ObjectType):
     )
 
     name = PropertyTypeAssignment(
-        version=1,
         code='$NAME',
         data_type='VARCHAR',
         property_label='Name',
@@ -79,7 +75,6 @@ class MockedObjectType(ObjectType):
     )
 
     alias = PropertyTypeAssignment(
-        version=1,
         code='ALIAS',
         data_type='VARCHAR',
         property_label='Alias',
@@ -94,7 +89,6 @@ class MockedObjectType(ObjectType):
 
 class MockedObjectTypeLonger(MockedObjectType):
     defs = ObjectTypeDef(
-        version=1,
         code='MOCKED_OBJECT_TYPE_LONGER',
         description="""
         Mockup for an object type definition with more property type assignments
@@ -103,7 +97,6 @@ class MockedObjectTypeLonger(MockedObjectType):
     )
 
     settings = PropertyTypeAssignment(
-        version=1,
         code='SETTINGS',
         data_type='MULTILINE_VARCHAR',
         property_label='Settings',
@@ -118,7 +111,6 @@ class MockedObjectTypeLonger(MockedObjectType):
 
 class MockedVocabularyType(VocabularyType):
     defs = VocabularyTypeDef(
-        version=1,
         code='MOCKED_VOCABULARY_TYPE',
         description="""
         Mockup for an vocabulary type definition
@@ -126,14 +118,12 @@ class MockedVocabularyType(VocabularyType):
     )
 
     option_a = VocabularyTerm(
-        version=1,
         code='OPTION_A',
         label='Option A',
         description='Option A from two possible options in the vocabulary',
     )
 
     option_b = VocabularyTerm(
-        version=1,
         code='OPTION_B',
         label='Option B',
         description='Option B from two possible options in the vocabulary',
