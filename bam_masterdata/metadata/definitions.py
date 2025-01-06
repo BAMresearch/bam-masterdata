@@ -50,17 +50,9 @@ class DataType(str, Enum):
 class EntityDef(BaseModel):
     """
     Abstract base class for all masterdata entity definitions. The entity definitions are immutable properties.
-    This class provides a common interface (with common attributes like `version`, `code` and
+    This class provides a common interface (with common attributes like `code` and
     `description`.) for all entity definitions.
     """
-
-    version: int = Field(
-        ...,
-        description="""
-        Version of the entity definition. This is an integer that is incremented each time the
-        definition is changed.
-        """,
-    )  # ? is this useful if we end up doing version control?
 
     code: str = Field(
         ...,
@@ -122,7 +114,6 @@ class CollectionTypeDef(BaseObjectTypeDef):
     ```python
     class DefaultExperiment(BaseModel):
         defs = CollectionTypeDef(
-            version=1,
             code='DEFAULT_EXPERIMENT',
             description='...',
             validation_script='DEFAULT_EXPERIMENT.date_range_validation',
@@ -140,7 +131,6 @@ class DataSetTypeDef(BaseObjectTypeDef):
     ```python
     class RawData(BaseModel):
         defs = DataSetTypeDef(
-            version=1,
             code='RAW_DATA',
             description='...',
         )
@@ -167,7 +157,6 @@ class ObjectTypeDef(BaseObjectTypeDef):
     ```python
     class Instrument(BaseModel):
         defs = ObjectTypeDef(
-            version=1,
             code='INSTRUMENT',
             description='
             Measuring Instrument//Messger\u00e4t
@@ -221,7 +210,6 @@ class PropertyTypeDef(EntityDef):
     ```python
     class Alias(PropertyTypeDef):
         defs = PropertyTypeDef(
-            version=1,
             code='ALIAS',
             description='
             e.g. abbreviation or nickname//z.B. Abkürzung oder Spitzname
@@ -298,7 +286,6 @@ class PropertyTypeAssignment(PropertyTypeDef):
     ```python
     class Instrument(ObjectType):
         defs = ObjectTypeDef(
-            version=1,
             code='INSTRUMENT',
             description='
             Measuring Instrument//Messger\u00e4t
@@ -307,7 +294,6 @@ class PropertyTypeAssignment(PropertyTypeDef):
         )
 
         alias = PropertyTypeAssignment(
-            version=1,
             code='ALIAS',
             data_type='VARCHAR',
             property_label='Alternative name',
@@ -367,7 +353,6 @@ class VocabularyTypeDef(EntityDef):
     ```python
     class DocumentType(VocabularyType):
         defs = VocabularyTypeDef(
-            version=1,
             code='DOCUMENT_TYPE',
             description='Document type//Dokumententypen',
         )
@@ -391,20 +376,17 @@ class VocabularyTerm(VocabularyTypeDef):
     ```python
     class DocumentType(VocabularyType):
         defs = VocabularyTypeDef(
-            version=1,
             code='DOCUMENT_TYPE',
             description='Document type//Dokumententypen',
         )
 
         acceptance_certificate = VocabularyTerm(
-            version=1,
             code='ACCEPTANCE_CERTIFICATE',
             label='Acceptance Certificate',
             description='Acceptance Certificate//Abnahmezeugnis',
         )
 
         calibration_certificate = VocabularyTerm(
-            version=1,
             code='CALIBRATION_CERTIFICATE',
             label='Calibration Certificate',
             description='Calibration Certificate//Kalibrierschein',

@@ -4,7 +4,6 @@ from bam_masterdata.metadata.entities import ObjectType
 
 class Instrument(ObjectType):
     defs = ObjectTypeDef(
-        version=1,
         code='INSTRUMENT',
         description="""
         Measuring Instrument//Messger\u00e4t
@@ -13,7 +12,6 @@ class Instrument(ObjectType):
     )
 
     name = PropertyTypeAssignment(
-        version=1,
         code='$NAME',
         data_type='VARCHAR',
         property_label='Name',
@@ -26,7 +24,6 @@ class Instrument(ObjectType):
     )
 
     alias = PropertyTypeAssignment(
-        version=1,
         code='ALIAS',
         data_type='VARCHAR',
         property_label='Alternative name',
@@ -43,7 +40,6 @@ class Instrument(ObjectType):
 
 class WeldingEquipment(Instrument):
     defs = ObjectTypeDef(
-        version=1,
         code='INSTRUMENT.WELDING_EQUIPMENT',
         description="""
         Generic Welding Equipment//Unspezifisches Schweiß-Equipment
@@ -54,7 +50,6 @@ class WeldingEquipment(Instrument):
 
 class GMAWTorch(WeldingEquipment):
     defs = ObjectTypeDef(
-        version=1,
         code='INSTRUMENT.WELDING_EQUIPMENT.GMAW_TORCH',
         description="""
         Arc welding torch for gas metal arc welding (GMAW) applications//Schweißbrenner für Metall-Schutzgas-Schweißen (MSG-Schweißen)
@@ -63,7 +58,6 @@ class GMAWTorch(WeldingEquipment):
     )
 
     torch_type = PropertyTypeAssignment(
-        version=1,
         code='WELDING.TORCH_TYPE',
         data_type='CONTROLLEDVOCABULARY',
         vocabulary_code='WELDING.GMAW_TORCH_TYPE',  # ? use only the class name?
