@@ -168,7 +168,7 @@ def generate_dataset_types_code(dataset_types_dict):
     # Add imports at the top
     lines.append("from pydantic import BaseModel")
     lines.append("")
-    lines.append("from bam_masterdata.metadata.definitions import DatasetTypeDef")
+    lines.append("from bam_masterdata.metadata.definitions import DataSetTypeDef")
     lines.append("")
     lines.append("")
 
@@ -182,7 +182,7 @@ def generate_dataset_types_code(dataset_types_dict):
 
         # Add class definition
         lines.append(f"class {class_name}(BaseModel):")
-        lines.append("    defs = DatasetTypeDef(")
+        lines.append("    defs = DataSetTypeDef(")
         lines.append(f"        code='{code}',")
         description = (data.get('description') or '').replace('"', '\\"').replace("\n", "\\n")
         lines.append(f"        description=\"{description}\",")
