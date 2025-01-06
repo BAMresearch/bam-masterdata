@@ -6,7 +6,6 @@ class Collection(CollectionType):
     defs = CollectionTypeDef(
         code='COLLECTION',
         description="",
-        validation_script='',
     )
 
 
@@ -22,6 +21,5 @@ class DropboxCollection(CollectionType):
     defs = CollectionTypeDef(
         code='DROPBOX_COLLECTION',
         description="Test collection type to test collection properties in dropboxsystem",
-        validation_script='',
     )
 
