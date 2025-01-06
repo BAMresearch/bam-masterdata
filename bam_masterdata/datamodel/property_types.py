@@ -410,7 +410,7 @@ Xmlcomments = PropertyTypeDef(
 
 Alias = PropertyTypeDef(
     code='ALIAS',
-    description="e.g. abbreviation or nickname//z.B. Abkürzung oder Spitzname//z.B. Abkürzung oder Spitzname",
+    description="e.g. abbreviation or nickname//z.B. AbkÃ¼rzung oder Spitzname//z.B. AbkÃ¼rzung oder Spitzname",
     data_type='VARCHAR',
     property_label="Alternative Name",
 )
@@ -490,7 +490,7 @@ BamFocusAreaV2 = PropertyTypeDef(
 
 BamHouse = PropertyTypeDef(
     code='BAM_HOUSE',
-    description="BAM House//BAM Gebäude/Haus",
+    description="BAM House//BAM GebÃ¤ude/Haus",
     data_type='CONTROLLEDVOCABULARY',
     property_label="BAM_HOUSE",
 )
@@ -562,7 +562,7 @@ Concentration = PropertyTypeDef(
 
 DateBottling = PropertyTypeDef(
     code='DATE_BOTTLING',
-    description="Date of Bottling//Abfülldatum",
+    description="Date of Bottling//AbfÃ¼lldatum",
     data_type='DATE',
     property_label="Bottling Date",
 )
@@ -578,7 +578,7 @@ DateExpiration = PropertyTypeDef(
 
 DateOpening = PropertyTypeDef(
     code='DATE_OPENING',
-    description="Opening Data//Öffnungsdatum",
+    description="Opening Data//Ã–ffnungsdatum",
     data_type='DATE',
     property_label="Opening Date",
 )
@@ -618,7 +618,7 @@ Grant = PropertyTypeDef(
 
 DensityGramPerCubicCm = PropertyTypeDef(
     code='DENSITY_GRAM_PER_CUBIC_CM',
-    description="Density [g/cm³]//Dichte [g/cm³]",
+    description="Density [g/cmÂ³]//Dichte [g/cmÂ³]",
     data_type='REAL',
     property_label="Density",
 )
@@ -690,7 +690,7 @@ ForWhat = PropertyTypeDef(
 
 FreqCheck = PropertyTypeDef(
     code='FREQ_CHECK',
-    description="Time required to check in Days//Überprüfungsintervall in Tagen",
+    description="Time required to check in Days//ÃœberprÃ¼fungsintervall in Tagen",
     data_type='INTEGER',
     property_label="Frequency of check",
 )
@@ -762,7 +762,7 @@ IupacName = PropertyTypeDef(
 
 LastCheck = PropertyTypeDef(
     code='LAST_CHECK',
-    description="Date of the last check//Datum der letzten Überprüfung",
+    description="Date of the last check//Datum der letzten ÃœberprÃ¼fung",
     data_type='DATE',
     property_label="Date of last check",
 )
@@ -930,23 +930,23 @@ RandomNumber = PropertyTypeDef(
 
 RectangleArea = PropertyTypeDef(
     code='RECTANGLE_AREA',
-    description="Rectangle area [m²]//Fläche des Rechtecks [m²]",
+    description="Rectangle area [mÂ²]//FlÃ¤che des Rechtecks [mÂ²]",
     data_type='REAL',
-    property_label="Rectangle area [m²]",
+    property_label="Rectangle area [mÂ²]",
 )
 
 
 RectangleAreaInQm = PropertyTypeDef(
     code='RECTANGLE_AREA_IN_QM',
-    description="Rectangle area [m²]//Fläche des Rechtecks [m²]",
+    description="Rectangle area [mÂ²]//FlÃ¤che des Rechtecks [mÂ²]",
     data_type='REAL',
-    property_label="Rectangle area [m²]",
+    property_label="Rectangle area [mÂ²]",
 )
 
 
 RectangleLength = PropertyTypeDef(
     code='RECTANGLE_LENGTH',
-    description="Rectangle length [m]//Länge des Rechtecks [m]",
+    description="Rectangle length [m]//LÃ¤nge des Rechtecks [m]",
     data_type='REAL',
     property_label="Rectangle length [m]",
 )
@@ -954,7 +954,7 @@ RectangleLength = PropertyTypeDef(
 
 RectangleLengthInM = PropertyTypeDef(
     code='RECTANGLE_LENGTH_IN_M',
-    description="Rectangle length [m]//Länge des Rechtecks [m]",
+    description="Rectangle length [m]//LÃ¤nge des Rechtecks [m]",
     data_type='REAL',
     property_label="Rectangle length [m]",
 )
@@ -1042,7 +1042,7 @@ StartDate = PropertyTypeDef(
 
 StateCheck = PropertyTypeDef(
     code='STATE_CHECK',
-    description="TRUE if onject needs to be checked//WAHR wenn das Objekt überprüft werden muss",
+    description="TRUE if onject needs to be checked//WAHR wenn das Objekt Ã¼berprÃ¼ft werden muss",
     data_type='BOOLEAN',
     property_label="Status of check",
 )
