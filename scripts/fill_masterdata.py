@@ -1,16 +1,19 @@
+import os
 from pathlib import Path
 
-from fill_collection_types import get_coll_dict
-from fill_dataset_types import get_dataset_dict
-from fill_object_types import get_obj_dict
-from fill_property_types import get_prop_dict
-from fill_vocabularies import get_voc_dict
+from get_entities import (
+    get_collection_dict,
+    get_dataset_dict,
+    get_object_dict,
+    get_property_dict,
+    get_vocabulary_dict,
+)
 
-object_types_dict = get_obj_dict()
-collection_types_dict = get_coll_dict()
+object_types_dict = get_object_dict()
+collection_types_dict = get_collection_dict()
 dataset_types_dict = get_dataset_dict()
-property_types_dict = get_prop_dict()
-vocabularies_dict = get_voc_dict()
+property_types_dict = get_property_dict()
+vocabulary_types_dict = get_vocabulary_dict()
 
 # Generate the object_types Python file content
 def generate_object_types_code(object_types_dict):
@@ -107,7 +110,8 @@ def generate_collection_types_code(collection_types_dict):
         lines.append(f"        code='{code}',")
         description = (data.get('description') or '').replace('"', '\\"').replace("\n", "\\n")
         lines.append(f"        description=\"{description}\",")
-        lines.append(f"        validation_script='{data.get('validationPlugin', '')}',")
+        if data.get('validationPlugin') != '':
+            lines.append(f"        validation_script='{data.get('validationPlugin')}',")
         lines.append("    )")
         lines.append("")
 
@@ -191,7 +195,7 @@ def generate_dataset_types_code(dataset_types_dict):
     return "\n".join(lines)
 
 # Generate the object_types Python file content
-def generate_vocabularies_code(vocabularies_dict):
+def generate_vocabulary_types_code(vocabularies_dict):
     lines = []
     class_names = {}
 
@@ -257,54 +261,66 @@ def generate_vocabularies_code(vocabularies_dict):
 
     return "\n".join(lines)
 
-# Set output files
-output_dir = Path(__file__).resolve().parent.parent / "bam_masterdata" / "datamodel"
-output_file_obj = output_dir / "object_types.py"
-output_file_coll = output_dir / "collection_types.py"
-output_file_dataset = output_dir / "dataset_types.py"
-output_file_property = output_dir / "property_types.py"
-output_file_vocab = output_dir / "vocabularies.py"
+output_dir = os.path.join('.', 'bam_masterdata', 'datamodel')
+for module_name in ['object', 'collection', 'dataset', 'property', 'vocabulary']:
+    output_file = Path(os.path.join(output_dir, f'{module_name}_types.py'))
+    # here all the logic calling for each specific function
+    function_name = f'generate_{module_name}_types_code'
+    if function_name in globals():
+         entity_dict = globals()[f'{module_name}_types_dict']
+         code = globals()[function_name](entity_dict)
+         output_file.write_text(code, encoding='utf-8')
+         print(f"Generated {module_name} types in:")
+         print(output_file)
 
-# Generate the object_types code
-object_types_code = generate_object_types_code(object_types_dict)
+# # Set output files
+# output_dir = Path(__file__).resolve().parent.parent / "bam_masterdata" / "datamodel"
+# output_file_obj = output_dir / "object_types.py"
+# output_file_coll = output_dir / "collection_types.py"
+# output_file_dataset = output_dir / "dataset_types.py"
+# output_file_property = output_dir / "property_types.py"
+# output_file_vocab = output_dir / "vocabulary_types.py"
 
-# Write to file
-output_file_obj.write_text(object_types_code)
+# # Generate the object_types code
+# object_types_code = generate_object_types_code(object_types_dict)
 
-print("Generated object_types.py in:")
-print(output_file_obj)
+# # Write to file
+# output_file_obj.write_text(object_types_code)
 
-# Generate the collection_types code
-collection_types_code = generate_collection_types_code(collection_types_dict)
+# print("Generated object_types.py in:")
+# print(output_file_obj)
 
-output_file_coll.write_text(collection_types_code)
+# # Generate the collection_types code
+# collection_types_code = generate_collection_types_code(collection_types_dict)
 
-print("Generated collection_types.py:")
-print(output_file_coll)
+# output_file_coll.write_text(collection_types_code)
 
-# Generate the dataset_types code
-dataset_types_code = generate_dataset_types_code(dataset_types_dict)
+# print("Generated collection_types.py:")
+# print(output_file_coll)
 
-output_file_dataset.write_text(dataset_types_code)
+# # Generate the dataset_types code
+# dataset_types_code = generate_dataset_types_code(dataset_types_dict)
 
-print("Generated dataset_types.py:")
-print(output_file_dataset)
+# output_file_dataset.write_text(dataset_types_code)
 
-# Generate the property_types code
-property_types_code = generate_property_types_code(property_types_dict)
+# print("Generated dataset_types.py:")
+# print(output_file_dataset)
 
-output_file_property.write_text(property_types_code)
+# # Generate the property_types code
+# property_types_code = generate_property_types_code(property_types_dict)
 
-print("Generated property_types.py:")
-print(output_file_property)
+# output_file_property.write_text(property_types_code)
 
-# Generate the vocabularies code
-vocabularies_code = generate_vocabularies_code(vocabularies_dict)
+# print("Generated property_types.py:")
+# print(output_file_property)
 
-output_file_vocab.write_text(vocabularies_code, encoding='utf-8')
+# # Generate the vocabularies code
+# vocabularies_code = generate_vocabularies_code(vocabularies_dict)
 
-print("Generated vocabularies.py:")
-print(output_file_vocab)
+# output_file_vocab.write_text(vocabularies_code, encoding='utf-8')
+
+# print("Generated vocabulary_types.py:")
+# print(output_file_vocab)
 
 
 
