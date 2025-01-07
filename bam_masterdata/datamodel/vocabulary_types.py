@@ -5,7 +5,7 @@ from bam_masterdata.metadata.entities import VocabularyType
 class DefaultCollectionViews(VocabularyType):
     defs = VocabularyTypeDef(
         code='$DEFAULT_COLLECTION_VIEWS',
-        description="Default collection views",
+        description='Default collection views',
     )
 
     form_view = VocabularyTerm(
@@ -24,7 +24,7 @@ class DefaultCollectionViews(VocabularyType):
 class OrderStatus(VocabularyType):
     defs = VocabularyTypeDef(
         code='$ORDER.ORDER_STATUS',
-        description="Order Status",
+        description='Order Status',
     )
 
     delivered = VocabularyTerm(
@@ -55,7 +55,7 @@ class OrderStatus(VocabularyType):
 class Currency(VocabularyType):
     defs = VocabularyTypeDef(
         code='$PRODUCT.CURRENCY',
-        description="Currency",
+        description='Currency',
     )
 
     chf = VocabularyTerm(
@@ -80,7 +80,7 @@ class Currency(VocabularyType):
 class StorageValidationLevel(VocabularyType):
     defs = VocabularyTypeDef(
         code='$STORAGE.STORAGE_VALIDATION_LEVEL',
-        description="Validation Level",
+        description='Validation Level',
     )
 
     box = VocabularyTerm(
@@ -105,7 +105,7 @@ class StorageValidationLevel(VocabularyType):
 class StorageFormat(VocabularyType):
     defs = VocabularyTypeDef(
         code='$STORAGE_FORMAT',
-        description="The on-disk storage format of a data set",
+        description='The on-disk storage format of a data set',
     )
 
     bds_directory = VocabularyTerm(
@@ -124,7 +124,7 @@ class StorageFormat(VocabularyType):
 class StorageBoxSize(VocabularyType):
     defs = VocabularyTypeDef(
         code='$STORAGE_POSITION.STORAGE_BOX_SIZE',
-        description="Boxes available on the lab",
+        description='Boxes available on the lab',
     )
 
     _1x1 = VocabularyTerm(
@@ -161,7 +161,7 @@ class StorageBoxSize(VocabularyType):
 class Language(VocabularyType):
     defs = VocabularyTypeDef(
         code='$SUPPLIER.LANGUAGE',
-        description="Language",
+        description='Language',
     )
 
     english = VocabularyTerm(
@@ -180,7 +180,7 @@ class Language(VocabularyType):
 class PreferredOrderMethod(VocabularyType):
     defs = VocabularyTypeDef(
         code='$SUPPLIER.PREFERRED_ORDER_METHOD',
-        description="Preferred Order Method",
+        description='Preferred Order Method',
     )
 
     email = VocabularyTerm(
@@ -205,7 +205,7 @@ class PreferredOrderMethod(VocabularyType):
 class ColorEncodedAnnotations(VocabularyType):
     defs = VocabularyTypeDef(
         code='$WELL.COLOR_ENCODED_ANNOTATIONS',
-        description="Colors used to annotate wells visually, descriptions encode the values following the pattern <HTML_COLOR_CODE> : <DESCRIPTION>",
+        description='Colors used to annotate wells visually, descriptions encode the values following the pattern <HTML_COLOR_CODE> : <DESCRIPTION>',
     )
 
     default = VocabularyTerm(
@@ -224,7 +224,7 @@ class ColorEncodedAnnotations(VocabularyType):
 class AmountUnit(VocabularyType):
     defs = VocabularyTypeDef(
         code='AMOUNT_UNIT',
-        description="Different types of units for describe amounts of objects",
+        description='Different types of units for describe amounts of objects',
     )
 
     a = VocabularyTerm(
@@ -273,7 +273,7 @@ class AmountUnit(VocabularyType):
 class BamBuildingsC(VocabularyType):
     defs = VocabularyTypeDef(
         code='BAM_BUILDINGS_C',
-        description="All locations at BAM",
+        description='All locations at BAM',
     )
 
     ah = VocabularyTerm(
@@ -316,7 +316,7 @@ class BamBuildingsC(VocabularyType):
 class BamFieldOfActivity(VocabularyType):
     defs = VocabularyTypeDef(
         code='BAM_FIELD_OF_ACTIVITY',
-        description="BAM Field of Activity//BAM Aktivitätsfeld",
+        description='BAM Field of Activity//BAM Aktivitätsfeld',
     )
 
     anal_sci_chemical_composition_and_trace_analysis = VocabularyTerm(
@@ -503,7 +503,7 @@ class BamFieldOfActivity(VocabularyType):
 class BamFloor(VocabularyType):
     defs = VocabularyTypeDef(
         code='BAM_FLOOR',
-        description="BAM Floor//BAM Etage",
+        description='BAM Floor//BAM Etage',
     )
 
     flo_ = VocabularyTerm(
@@ -642,7 +642,7 @@ class BamFloor(VocabularyType):
 class BamFocusArea(VocabularyType):
     defs = VocabularyTypeDef(
         code='BAM_FOCUS_AREA',
-        description="BAM Focus Area//BAM Themenfeld",
+        description='BAM Focus Area//BAM Themenfeld',
     )
 
     analytical_sciences = VocabularyTerm(
@@ -679,7 +679,7 @@ class BamFocusArea(VocabularyType):
 class BamHouse(VocabularyType):
     defs = VocabularyTypeDef(
         code='BAM_HOUSE',
-        description="BAM House//BAM Gebäude/Haus",
+        description='BAM House//BAM Gebäude/Haus',
     )
 
     hou_7 = VocabularyTerm(
@@ -1496,7 +1496,7 @@ class BamHouse(VocabularyType):
 class BamHousesC(VocabularyType):
     defs = VocabularyTypeDef(
         code='BAM_HOUSES_C',
-        description="All houses at BAM",
+        description='All houses at BAM',
     )
 
     _7 = VocabularyTerm(
@@ -2343,7 +2343,7 @@ class BamHousesC(VocabularyType):
 class BamLevelsC(VocabularyType):
     defs = VocabularyTypeDef(
         code='BAM_LEVELS_C',
-        description="All levels / floors at BAM Buildings",
+        description='All levels / floors at BAM Buildings',
     )
 
     _1 = VocabularyTerm(
@@ -2860,7 +2860,7 @@ class BamLevelsC(VocabularyType):
 class BamLocation(VocabularyType):
     defs = VocabularyTypeDef(
         code='BAM_LOCATION',
-        description="BAM Location//BAM Standort/Liegenschaft",
+        description='BAM Location//BAM Standort/Liegenschaft',
     )
 
     loc_ah = VocabularyTerm(
@@ -2903,7 +2903,7 @@ class BamLocation(VocabularyType):
 class BamLocationsC(VocabularyType):
     defs = VocabularyTypeDef(
         code='BAM_LOCATIONS_C',
-        description="All rooms used by BAM",
+        description='All rooms used by BAM',
     )
 
     ahm_bessy_0_100 = VocabularyTerm(
@@ -45654,7 +45654,7 @@ class BamLocationsC(VocabularyType):
 class BamLocationComplete(VocabularyType):
     defs = VocabularyTypeDef(
         code='BAM_LOCATION_COMPLETE',
-        description="Complete location (up to room level)//Komplette Ortsangabe (bis Raumlevel)",
+        description='Complete location (up to room level)//Komplette Ortsangabe (bis Raumlevel)',
     )
 
     ahm_bessy_0_100 = VocabularyTerm(
@@ -78367,7 +78367,7 @@ class BamLocationComplete(VocabularyType):
 class BamRoom(VocabularyType):
     defs = VocabularyTypeDef(
         code='BAM_ROOM',
-        description="BAM Room//BAM Raum",
+        description='BAM Room//BAM Raum',
     )
 
     roo_8_a1 = VocabularyTerm(
@@ -93824,7 +93824,7 @@ class BamRoom(VocabularyType):
 class BamRoomsC(VocabularyType):
     defs = VocabularyTypeDef(
         code='BAM_ROOMS_C',
-        description="Specific rooms at BAM Buildings",
+        description='Specific rooms at BAM Buildings',
     )
 
     _8_a1 = VocabularyTerm(
@@ -116601,7 +116601,7 @@ class BamRoomsC(VocabularyType):
 class TestVocab(VocabularyType):
     defs = VocabularyTypeDef(
         code='TEST_VOCAB',
-        description="just for testing",
+        description='just for testing',
     )
 
     blue = VocabularyTerm(
@@ -116633,4 +116633,3 @@ class TestVocab(VocabularyType):
         label='GREEN',
         description='None',
     )
-
