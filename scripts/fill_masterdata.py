@@ -50,8 +50,8 @@ def generate_object_types_code(object_types_dict):
         lines.append(f"class {class_name}({parent_class}):")
         lines.append("    defs = ObjectTypeDef(")
         lines.append(f"        code='{code}',")
-        description = (data.get('description') or '').replace('"', '\\"').replace("\n", "\\n")
-        lines.append(f"        description=\"{description}\",")
+        description = (data.get("description") or "").replace('\\"', '"').replace("\n", "\\n")
+        lines.append(f"        description=\'{description}\',")
         lines.append(f"        generated_code_prefix='{data.get('generatedCodePrefix', '')}',")
         lines.append("    )")
         lines.append("")
@@ -67,13 +67,13 @@ def generate_object_types_code(object_types_dict):
             lines.append(f"        code='{prop_code}',")
             lines.append(f"        data_type='{prop_data.get('dataType', '')}',")
             property_label = (prop_data.get('label') or '').replace('"', '\\"').replace("\n", "\\n")
-            lines.append(f"        property_label=\"{property_label}\",")
-            description = (prop_data.get('description') or '').replace('"', '\\"').replace("\n", "\\n")
-            lines.append(f"        description=\"{description}\",")
+            lines.append(f"        property_label=\'{property_label}\',")
+            description = (prop_data.get("description") or "").replace('\\"', '"').replace("\n", "\\n")
+            lines.append(f"        description=\'{description}\',")
             lines.append(f"        mandatory={prop_data.get('mandatory', False)},")
             lines.append(f"        show_in_edit_views={prop_data.get('show_in_edit_views', False)},")
             section = (prop_data.get('section') or '').replace('"', '\\"').replace("\n", "\\n")
-            lines.append(f"        section=\"{section}\",")
+            lines.append(f"        section=\'{section}\',")
             lines.append("    )")
             lines.append("")
 
@@ -109,7 +109,7 @@ def generate_collection_types_code(collection_types_dict):
         lines.append("    defs = CollectionTypeDef(")
         lines.append(f"        code='{code}',")
         description = (data.get('description') or '').replace('"', '\\"').replace("\n", "\\n")
-        lines.append(f"        description=\"{description}\",")
+        lines.append(f"        description=\'{description}\',")
         if data.get('validationPlugin') != '':
             lines.append(f"        validation_script='{data.get('validationPlugin')}',")
         lines.append("    )")
@@ -145,11 +145,11 @@ def generate_property_types_code(property_types_dict):
         # Add class definition
         lines.append(f"{class_name} = PropertyTypeDef(")
         lines.append(f"    code='{code}',")
-        description = (data.get('description') or '').replace('"', '\\"').replace("\n", "\\n")
-        lines.append(f"    description=\"{description}\",")
+        description = (data.get('description') or '').replace('\\"', '"').replace("\n", "\\n")
+        lines.append(f"    description=\'{description}\',")
         lines.append(f"    data_type='{data.get('dataType', '')}',")
         property_label = (data.get('label') or '').replace('"', '\\"').replace("\n", "\\n")
-        lines.append(f"    property_label=\"{property_label}\",")
+        lines.append(f"    property_label=\'{property_label}\',")
         lines.append(")")
         lines.append("")
 
@@ -185,7 +185,7 @@ def generate_dataset_types_code(dataset_types_dict):
         lines.append("    defs = DataSetTypeDef(")
         lines.append(f"        code='{code}',")
         description = (data.get('description') or '').replace('"', '\\"').replace("\n", "\\n")
-        lines.append(f"        description=\"{description}\",")
+        lines.append(f"        description=\'{description}\',")
         lines.append("    )")
         lines.append("")
 
@@ -230,7 +230,7 @@ def generate_vocabulary_types_code(vocabularies_dict):
         lines.append("    defs = VocabularyTypeDef(")
         lines.append(f"        code='{code}',")
         description = (data.get('description') or '').replace('"', '\\"').replace("\n", "\\n")
-        lines.append(f"        description=\"{description}\",")
+        lines.append(f"        description=\'{description}\',")
         lines.append("    )")
         lines.append("")
 
@@ -269,6 +269,7 @@ for module_name in ['object', 'collection', 'dataset', 'property', 'vocabulary']
     if function_name in globals():
          entity_dict = globals()[f'{module_name}_types_dict']
          code = globals()[function_name](entity_dict)
+         code = code.rstrip("\n") + "\n"
          output_file.write_text(code, encoding='utf-8')
          print(f"Generated {module_name} types in:")
          print(output_file)
