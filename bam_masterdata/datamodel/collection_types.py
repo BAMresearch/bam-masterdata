@@ -5,14 +5,14 @@ from bam_masterdata.metadata.entities import CollectionType
 class Collection(CollectionType):
     defs = CollectionTypeDef(
         code='COLLECTION',
-        description="",
+        description='',
     )
 
 
 class DefaultExperiment(CollectionType):
     defs = CollectionTypeDef(
         code='DEFAULT_EXPERIMENT',
-        description="",
+        description='',
         validation_script='DEFAULT_EXPERIMENT.date_range_validation',
     )
 
@@ -20,6 +20,5 @@ class DefaultExperiment(CollectionType):
 class DropboxCollection(CollectionType):
     defs = CollectionTypeDef(
         code='DROPBOX_COLLECTION',
-        description="Test collection type to test collection properties in dropboxsystem",
+        description='Test collection type to test collection properties in dropboxsystem',
     )
-
