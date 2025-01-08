@@ -23,7 +23,8 @@ class OpenbisEntities:
         ctypes_dict = ctypes.to_dict(orient="records")
         formatted_dict = {entry["permId"]: entry for entry in ctypes_dict}
 
-        return formatted_dict
+        # We return the sorted dictionary in order to have a consistent order for inheritance
+        return dict(sorted(formatted_dict.items(), key=lambda item: item[0].count(".")))
 
     def get_dataset_dict(self) -> dict:
         """
@@ -38,7 +39,8 @@ class OpenbisEntities:
         dtypes_dict = dtypes.to_dict(orient="records")
         formatted_dict = {entry["permId"]: entry for entry in dtypes_dict}
 
-        return formatted_dict
+        # We return the sorted dictionary in order to have a consistent order for inheritance
+        return dict(sorted(formatted_dict.items(), key=lambda item: item[0].count(".")))
 
     def get_object_dict(self) -> dict:
         """
@@ -110,7 +112,8 @@ class OpenbisEntities:
                 # If no properties, add an empty dictionary
                 formatted_dict[perm_id]["properties"] = {}
 
-        return formatted_dict
+        # We return the sorted dictionary in order to have a consistent order for inheritance
+        return dict(sorted(formatted_dict.items(), key=lambda item: item[0].count(".")))
 
     def get_property_dict(self) -> dict:
         """
@@ -125,7 +128,8 @@ class OpenbisEntities:
         ptypes_dict = ptypes.to_dict(orient="records")
         formatted_dict = {entry["code"]: entry for entry in ptypes_dict}
 
-        return formatted_dict
+        # We return the sorted dictionary in order to have a consistent order for inheritance
+        return dict(sorted(formatted_dict.items(), key=lambda item: item[0].count(".")))
 
     def get_vocabulary_dict(self) -> dict:
         """
@@ -167,4 +171,5 @@ class OpenbisEntities:
                 # If no properties, add an empty dictionary
                 formatted_dict[code]["terms"] = {}
 
-        return formatted_dict
+        # We return the sorted dictionary in order to have a consistent order for inheritance
+        return dict(sorted(formatted_dict.items(), key=lambda item: item[0].count(".")))
