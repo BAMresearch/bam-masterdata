@@ -31,11 +31,11 @@ class BaseEntity(BaseModel):
         # * `model_dump_json()` from pydantic does not store the `defs` section of each entity.
         data = self.model_dump()
 
-        attr_value = getattr(self, 'defs')
+        attr_value = getattr(self, "defs")
         if isinstance(attr_value, BaseModel):
-            data['defs'] = attr_value.model_dump()
+            data["defs"] = attr_value.model_dump()
         else:
-            data['defs'] = attr_value
+            data["defs"] = attr_value
 
         return json.dumps(data, indent=indent)
 
@@ -69,7 +69,7 @@ class ObjectType(BaseEntity):
         """,
     )
 
-    @model_validator(mode='after')
+    @model_validator(mode="after")
     @classmethod
     def model_validator_after_init(cls, data: Any) -> Any:
         """
@@ -108,7 +108,7 @@ class VocabularyType(BaseEntity):
         """,
     )
 
-    @model_validator(mode='after')
+    @model_validator(mode="after")
     @classmethod
     def model_validator_after_init(cls, data: Any) -> Any:
         """

@@ -6,11 +6,11 @@ from bam_masterdata.logger import logger
 
 
 @pytest.mark.parametrize(
-    'log_level, message, level',
+    "log_level, message, level",
     [
-        (logger.info, 'This is a test info message.', 'info'),
-        (logger.debug, 'This is a test debug message.', 'debug'),
-        (logger.warning, 'This is a test warning message.', 'warning'),
+        (logger.info, "This is a test info message.", "info"),
+        (logger.debug, "This is a test debug message.", "debug"),
+        (logger.warning, "This is a test warning message.", "warning"),
     ],
 )
 def test_logger_info_message(
@@ -21,6 +21,6 @@ def test_logger_info_message(
 
     # Check the log storage for the recorded message
     assert len(cleared_log_storage) == 1
-    assert cleared_log_storage[0]['event'] == message
-    assert cleared_log_storage[0]['level'] == level
-    assert 'timestamp' in cleared_log_storage[0]
+    assert cleared_log_storage[0]["event"] == message
+    assert cleared_log_storage[0]["level"] == level
+    assert "timestamp" in cleared_log_storage[0]

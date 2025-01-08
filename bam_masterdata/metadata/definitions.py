@@ -8,18 +8,18 @@ from pydantic import BaseModel, Field, field_validator, model_validator
 class DataType(str, Enum):
     """Enumeration of the data types available in openBIS."""
 
-    BOOLEAN = 'BOOLEAN'
-    CONTROLLEDVOCABULARY = 'CONTROLLEDVOCABULARY'
-    DATE = 'DATE'
-    HYPERLINK = 'HYPERLINK'
-    INTEGER = 'INTEGER'
-    MATERIAL = 'MATERIAL'
-    MULTILINE_VARCHAR = 'MULTILINE_VARCHAR'
-    OBJECT = 'OBJECT'
-    REAL = 'REAL'
-    TIMESTAMP = 'TIMESTAMP'
-    VARCHAR = 'VARCHAR'
-    XML = 'XML'
+    BOOLEAN = "BOOLEAN"
+    CONTROLLEDVOCABULARY = "CONTROLLEDVOCABULARY"
+    DATE = "DATE"
+    HYPERLINK = "HYPERLINK"
+    INTEGER = "INTEGER"
+    MATERIAL = "MATERIAL"
+    MULTILINE_VARCHAR = "MULTILINE_VARCHAR"
+    OBJECT = "OBJECT"
+    REAL = "REAL"
+    TIMESTAMP = "TIMESTAMP"
+    VARCHAR = "VARCHAR"
+    XML = "XML"
 
     @property
     def pytype(self) -> type:
@@ -31,17 +31,17 @@ class DataType(str, Enum):
         """
         # TODO check the other data types
         mapping = {
-            'BOOLEAN': bool,
+            "BOOLEAN": bool,
             # 'CONTROLLEDVOCABULARY': ,
             # 'DATE': ,
-            'HYPERLINK': str,
-            'INTEGER': int,
+            "HYPERLINK": str,
+            "INTEGER": int,
             # 'MATERIAL': ,
-            'MULTILINE_VARCHAR': str,
+            "MULTILINE_VARCHAR": str,
             # 'OBJECT': ,
-            'REAL': float,
+            "REAL": float,
             # 'TIMESTAMP': ,
-            'VARCHAR': str,
+            "VARCHAR": str,
             # 'XML': ,
         }
         return mapping.get(self, None)
@@ -76,18 +76,18 @@ class EntityDef(BaseModel):
 
     # TODO check ontology_id, ontology_version, ontology_annotation_id, internal (found in the openBIS docu)
 
-    @field_validator('code')
+    @field_validator("code")
     @classmethod
     def validate_code(cls, value: str) -> str:
-        if not value or not re.match(r'^[A-Z_\$\.]+$', value):
+        if not value or not re.match(r"^[A-Z_\$\.]+$", value):
             raise ValueError(
-                '`code` must follow the rules specified in the description: 1) Must be uppercase, '
-                '2) separated by underscores, 3) start with a dollar sign if native to openBIS, '
-                '4) separated by dots if there is inheritance.'
+                "`code` must follow the rules specified in the description: 1) Must be uppercase, "
+                "2) separated by underscores, 3) start with a dollar sign if native to openBIS, "
+                "4) separated by dots if there is inheritance."
             )
         return value
 
-    @field_validator('description')
+    @field_validator("description")
     @classmethod
     def strip_description(cls, value: str) -> str:
         return value.strip()
@@ -182,7 +182,7 @@ class ObjectTypeDef(BaseObjectTypeDef):
         """,
     )
 
-    @model_validator(mode='after')
+    @model_validator(mode="after")
     @classmethod
     def model_validator_after_init(cls, data: Any) -> Any:
         """
