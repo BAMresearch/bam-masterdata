@@ -23,7 +23,7 @@ def store_log_message(_, __, event_dict):
 # Configure structlog with the custom processor
 structlog.configure(
     processors=[
-        structlog.processors.TimeStamper(fmt='iso'),
+        structlog.processors.TimeStamper(fmt="iso"),
         structlog.processors.add_log_level,
         store_log_message,
         structlog.dev.ConsoleRenderer(),

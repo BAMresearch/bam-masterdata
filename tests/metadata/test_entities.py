@@ -19,12 +19,12 @@ class TestBaseEntity:
         """Test the method `to_dict` from the class `BaseEntity`."""
         entity = generate_base_entity()
         assert entity.to_dict() == {
-            'defs': {
-                'code': 'MOCKED_ENTITY',
-                'description': 'Mockup for an entity definition//Mockup für eine Entitätsdefinition',
-                'validation_script': None,
-                'generated_code_prefix': 'MOCKENT',
-                'auto_generated_codes': True,
+            "defs": {
+                "code": "MOCKED_ENTITY",
+                "description": "Mockup for an entity definition//Mockup für eine Entitätsdefinition",
+                "validation_script": None,
+                "generated_code_prefix": "MOCKENT",
+                "auto_generated_codes": True,
             }
         }
 
@@ -36,13 +36,13 @@ class TestObjectType:
         object_type = generate_object_type()
         assert len(object_type.properties) == 2
         prop_names = [prop.code for prop in object_type.properties]
-        assert prop_names == ['ALIAS', '$NAME']
+        assert prop_names == ["ALIAS", "$NAME"]
 
         # 3 properties in this `ObjectType`
         object_type = generate_object_type_longer()
         assert len(object_type.properties) == 3
         prop_names = [prop.code for prop in object_type.properties]
-        assert prop_names == ['ALIAS', '$NAME', 'SETTINGS']
+        assert prop_names == ["ALIAS", "$NAME", "SETTINGS"]
 
 
 class TestVocabularyType:
@@ -51,4 +51,4 @@ class TestVocabularyType:
         vocabulary_type = generate_vocabulary_type()
         assert len(vocabulary_type.terms) == 2
         term_names = [term.code for term in vocabulary_type.terms]
-        assert term_names == ['OPTION_A', 'OPTION_B']
+        assert term_names == ["OPTION_A", "OPTION_B"]
