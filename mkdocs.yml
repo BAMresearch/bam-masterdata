@@ -53,6 +53,17 @@ theme:
     repo: fontawesome/brands/github
 plugins:
   - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          options:
+            show_bases: true  # show inheritance from classes
+            show_source: true  # show source code
+            show_if_no_docstring: true  # show methods if they don't have docstrings
+            show_labels: false  # not showing labels in class attrs
+            docstring_section_style: spacy  # different style for input parameters of methods
+            members_order: source  # order of definitions according to source code
 markdown_extensions:
   - attr_list
   - md_in_html
@@ -76,3 +87,4 @@ extra_css:
 extra_javascript:
   - 'https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js'
   - 'https://unpkg.com/cytoscape@3.19.1/dist/cytoscape.min.js'
+  - 'https://unpkg.com/mermaid@10.9.0/dist/mermaid.min.js'

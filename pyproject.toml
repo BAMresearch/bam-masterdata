@@ -52,10 +52,9 @@ jupy = [
   "ipywidgets",
 ]
 docu = [
-  "mkdocs",
   "mkdocs-material",
-  "pymdown-extensions",
   "mkdocs-click",
+  "mkdocstrings-python",
 ]
 
 [project.scripts]
