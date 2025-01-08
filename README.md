@@ -128,12 +128,7 @@ Simply click on `http://127.0.0.1:8000/`. The changes in the `md` files of the d
 
 ## Main contributors
 
-| Name                | E-mail                                                       | Role                  |
-| ------------------- | ------------------------------------------------------------ | --------------------- |
-| Dr. Angela Ariza    | [angela.ariza@bam.de](mailto:angela.ariza@bam.de)               | Outreach and Training |
-| Caroline Demidova   | [caroline.demidova@bam.de](mailto:caroline.demidova@bam.de)     | Outreach and Training |
-| Daniel Kosztyla     | [daniel.kosztyla@bam.de](mailto:daniel.kosztyla@bam.de)         | IT                    |
-| Carlos Madariaga    | [carlos.madariaga@bam.de](mailto:carlos.madariaga@bam.de)       | Software Developer    |
-| Kristina Meindl     | [kristina.meindl@bam.de](mailto:kristina.meindl@bam.de)         | Project Manager       |
-| Dr. Jose M. Pizarro | [jose.pizarro-blanco@bam.de](mailto:jose.pizarro-blanco@bam.de) | Data Management       |
-| Jörg Rädler       | [joerg.raedler@bam.de](mailto:joerg.raedler@bam.de)             | IT                    |
+| Name                | E-mail                                                       |
+| ------------------- | ------------------------------------------------------------ |
+| Carlos Madariaga    | [carlos.madariaga@bam.de](mailto:carlos.madariaga@bam.de)       |
+| Dr. Jose M. Pizarro | [jose.pizarro-blanco@bam.de](mailto:jose.pizarro-blanco@bam.de) |

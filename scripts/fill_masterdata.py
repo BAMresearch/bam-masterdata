@@ -1,4 +1,5 @@
 import os
+import time
 from pathlib import Path
 
 from bam_masterdata.openbis import OpenbisEntities
@@ -11,12 +12,17 @@ class MasterdataCodeGenerator:
     """
 
     def __init__(self):
+        start_time = time.time()
         # * This part takes some time due to the loading of all entities from Openbis
         self.objects = OpenbisEntities().get_object_dict()
         self.collections = OpenbisEntities().get_collection_dict()
         self.datasets = OpenbisEntities().get_dataset_dict()
         self.properties = OpenbisEntities().get_property_dict()
         self.vocabularies = OpenbisEntities().get_vocabulary_dict()
+        elapsed_time = time.time() - start_time
+        print(
+            f'Loaded OpenBIS entities in `MasterdataCodeGenerator` initialization {elapsed_time:.2f} seconds\n'
+        )
 
     def generate_object_types(self) -> str:
         """
@@ -361,17 +367,25 @@ class MasterdataCodeGenerator:
 
 
 if __name__ == '__main__':
+    start_time = time.time()
+
     # ! this takes a lot of time loading all the entities in Openbis
     generator = MasterdataCodeGenerator()
 
     # Add each module to the `bam_masterdata/datamodel` directory
     output_dir = os.path.join('.', 'bam_masterdata', 'datamodel')
     for module_name in ['object', 'collection', 'dataset', 'property', 'vocabulary']:
+        module_start_time = time.perf_counter()  # more precise time measurement
         output_file = Path(os.path.join(output_dir, f'{module_name}_types.py'))
 
         # Get the method from `MasterdataCodeGenerator`
         code = getattr(generator, f'generate_{module_name}_types')()
         code = code.rstrip('\n') + '\n'
         output_file.write_text(code, encoding='utf-8')
-        print(f'Generated {module_name} types in:')
-        print(output_file)
+        module_elapsed_time = time.perf_counter() - module_start_time
+        print(
+            f'Generated {module_name} types in {module_elapsed_time:.2f} seconds in {output_file}\n'
+        )
+
+    elapsed_time = time.time() - start_time
+    print(f'Generated all types in {elapsed_time:.2f} seconds')
