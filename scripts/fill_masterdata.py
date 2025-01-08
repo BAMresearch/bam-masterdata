@@ -21,8 +21,34 @@ class MasterdataCodeGenerator:
         self.vocabularies = OpenbisEntities().get_vocabulary_dict()
         elapsed_time = time.time() - start_time
         print(
-            f'Loaded OpenBIS entities in `MasterdataCodeGenerator` initialization {elapsed_time:.2f} seconds\n'
+            f"Loaded OpenBIS entities in `MasterdataCodeGenerator` initialization {elapsed_time:.2f} seconds\n"
         )
+
+    def _format_class_name(self, code: str) -> str:
+        if "." in code:
+            code = code.split(".")[-1]
+        return code.title().replace("_", "").replace("$", "")
+
+    def determine_parent_class(
+        self, code: str, class_names: dict, default: str, lines: list
+    ) -> tuple:
+        # Determine parent class
+        parent_code = ""
+        if "." in code:
+            parent_code = code.rsplit(".", 1)[0]
+        parent_class = class_names.get(parent_code, default)
+
+        # Format class name
+        class_name = self._format_class_name(code)
+        class_names[code] = class_name
+
+        # If the parent class does not exist but the `code` shows some inheritance, we add a note for debugging
+        if parent_code and parent_class == default:
+            lines.append(
+                f"# ! The parent class of {class_name} is not defined (missing {parent_class})"
+            )
+
+        return parent_code, parent_class, class_name
 
     def generate_object_types(self) -> str:
         """
@@ -36,91 +62,88 @@ class MasterdataCodeGenerator:
         class_names = {}
 
         def format_class_name(code):
-            return code.split('.')[-1].title().replace('_', '')
+            return code.split(".")[-1].title().replace("_", "")
 
         # Add imports at the top
         lines.append(
-            'from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment'
+            "from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment"
         )
-        lines.append('from bam_masterdata.metadata.entities import ObjectType')
-        lines.append('')
-        lines.append('')
+        lines.append("from bam_masterdata.metadata.entities import ObjectType")
+        lines.append("")
+        lines.append("")
 
         # Process each object type
         for code, data in self.objects.items():
             # Skip the "UNKNOWN" object type
-            if code == 'UNKNOWN':
+            if code == "UNKNOWN":
                 continue
 
             # Determine parent class
-            if '.' in code:
-                parent_code = code.rsplit('.', 1)[0]
-                parent_class_name = parent_code.split('.')[-1].title().replace('_', '').replace('$', '')
-                parent_class = class_names.get(parent_code, parent_class_name)
-            else:
-                # Default to ObjectType if no dots in the code
-                parent_class = 'ObjectType'
-
-            # Format class name
-            class_name = format_class_name(code)
-            class_names[code] = class_name
+            parent_code, parent_class, class_name = self.determine_parent_class(
+                code=code, class_names=class_names, default="ObjectType", lines=lines
+            )
 
             # Add class definition
-            lines.append(f'class {class_name}({parent_class}):')
-            lines.append('    defs = ObjectTypeDef(')
-            lines.append(f"        code='{code}',")
+            lines.append(f"class {class_name}({parent_class}):")
+            lines.append("    defs = ObjectTypeDef(")
+            lines.append(f'        code="{code}",')
             description = (
-                (data.get('description') or '').replace('\\"', '"').replace('\n', '\\n').replace("'", "\\'")
+                (data.get("description") or "")
+                .replace('"', "`")
+                .replace("\n", "\\n")
+                .replace("'", "`")
             )
-            lines.append(f"        description='{description}',")
+            lines.append(f'        description="""{description}""",')
             lines.append(
-                f"        generated_code_prefix='{data.get('generatedCodePrefix', '')}',"
+                f"        generated_code_prefix=\"{data.get('generatedCodePrefix', '')}\","
             )
-            lines.append('    )')
-            lines.append('')
+            lines.append("    )")
+            lines.append("")
 
             # Add properties
-            for prop_code, prop_data in data.get('properties', {}).items():
+            parent_properties = (
+                self.objects.get(parent_code, {}).get("properties", {}).keys()
+            )
+            for prop_code, prop_data in data.get("properties", {}).items():
                 # Skip "UNKNOWN" properties
-                if prop_code == 'UNKNOWN':
+                if prop_code == "UNKNOWN":
                     continue
 
-                prop_name = prop_code.lstrip('$').replace('.', '_').lower()
-                lines.append(f'    {prop_name} = PropertyTypeAssignment(')
-                lines.append(f"        code='{prop_code}',")
-                lines.append(f"        data_type='{prop_data.get('dataType', '')}',")
-                property_label = (
-                    (prop_data.get('label') or '')
-                    .replace('"', '\\"')
-                    .replace('\n', '\\n')
-                    .replace("'", "\\'")
-                )
-                lines.append(f"        property_label='{property_label}',")
+                # We check if the property is inherited from the parent class
+                if prop_code in parent_properties:
+                    continue
+
+                prop_name = prop_code.lstrip("$").replace(".", "_").lower()
+                lines.append(f"    {prop_name} = PropertyTypeAssignment(")
+                lines.append(f'        code="{prop_code}",')
+                lines.append(f"        data_type=\"{prop_data.get('dataType', '')}\",")
+                property_label = (prop_data.get("label") or "").replace("\n", "\\n")
+                lines.append(f'        property_label="{property_label}",')
                 description = (
-                    (prop_data.get('description') or '')
-                    .replace('\\"', '"')
-                    .replace('\n', '\\n')
-                    .replace("'", "\\'")
+                    (prop_data.get("description") or "")
+                    .replace('"', "`")
+                    .replace("\n", "\\n")
+                    .replace("'", "`")
                 )
-                lines.append(f"        description='{description}',")
+                lines.append(f'        description="""{description}""",')
                 lines.append(f"        mandatory={prop_data.get('mandatory', False)},")
                 lines.append(
                     f"        show_in_edit_views={prop_data.get('show_in_edit_views', False)},"
                 )
                 section = (
-                    (prop_data.get('section') or '')
+                    (prop_data.get("section") or "")
                     .replace('"', '\\"')
-                    .replace('\n', '\\n')
+                    .replace("\n", "\\n")
                     .replace("'", "\\'")
                 )
-                lines.append(f"        section='{section}',")
-                lines.append('    )')
-                lines.append('')
+                lines.append(f'        section="{section}",')
+                lines.append("    )")
+                lines.append("")
 
             # Add newline between classes
-            lines.append('')
+            lines.append("")
 
-        return '\n'.join(lines)
+        return "\n".join(lines)
 
     def generate_collection_types(self) -> str:
         """
@@ -132,44 +155,44 @@ class MasterdataCodeGenerator:
         """
         lines = []
 
-        def format_class_name(code):
-            return code.title().replace('_', '')
-
         # Add imports at the top
         lines.append(
-            'from bam_masterdata.metadata.definitions import CollectionTypeDef'
+            "from bam_masterdata.metadata.definitions import CollectionTypeDef"
         )
-        lines.append('from bam_masterdata.metadata.entities import CollectionType')
-        lines.append('')
-        lines.append('')
+        lines.append("from bam_masterdata.metadata.entities import CollectionType")
+        lines.append("")
+        lines.append("")
 
         # Process each collection type
         for code, data in self.collections.items():
             # Skip the "UNKNOWN" object type
-            if code == 'UNKNOWN':
+            if code == "UNKNOWN":
                 continue
 
-            class_name = format_class_name(code)
+            class_name = self._format_class_name(code)
 
             # Add class definition
-            lines.append(f'class {class_name}(CollectionType):')
-            lines.append('    defs = CollectionTypeDef(')
-            lines.append(f"        code='{code}',")
+            lines.append(f"class {class_name}(CollectionType):")
+            lines.append("    defs = CollectionTypeDef(")
+            lines.append(f'        code="{code}",')
             description = (
-                (data.get('description') or '').replace('"', '\\"').replace('\n', '\\n').replace("'", "\\'")
+                (data.get("description") or "")
+                .replace('"', "`")
+                .replace("\n", "\\n")
+                .replace("'", "`")
             )
-            lines.append(f"        description='{description}',")
-            if data.get('validationPlugin') != '':
+            lines.append(f'        description="""{description}""",')
+            if data.get("validationPlugin") != "":
                 lines.append(
-                    f"        validation_script='{data.get('validationPlugin')}',"
+                    f"        validation_script=\"{data.get('validationPlugin')}\","
                 )
-            lines.append('    )')
-            lines.append('')
+            lines.append("    )")
+            lines.append("")
 
             # Add newline between classes
-            lines.append('')
+            lines.append("")
 
-        return '\n'.join(lines)
+        return "\n".join(lines)
 
     def generate_property_types(self) -> str:
         """
@@ -180,44 +203,42 @@ class MasterdataCodeGenerator:
             str: Python code for the property types.
         """
         lines = []
-        class_names = {}
-
-        def format_class_name(code):
-            return code.split('.')[-1].title().replace('_', '').replace('$', '')
 
         # Add imports at the top
-        lines.append('from bam_masterdata.metadata.definitions import PropertyTypeDef')
-        lines.append('')
+        lines.append("from bam_masterdata.metadata.definitions import PropertyTypeDef")
+        lines.append("")
 
         # Process each property type
         for code, data in self.properties.items():
             # Skip the "UNKNOWN" object type
-            if code == 'UNKNOWN':
+            if code == "UNKNOWN":
                 continue
 
             # Format class name
-            class_name = format_class_name(code)
-            class_names[code] = class_name
+            class_name = self._format_class_name(code)
 
             # Add class definition
-            lines.append(f'{class_name} = PropertyTypeDef(')
-            lines.append(f"    code='{code}',")
+            lines.append(f"{class_name} = PropertyTypeDef(")
+            lines.append(f'    code="{code}",')
             description = (
-                (data.get('description') or '').replace('\\"', '"').replace('\n', '\\n').replace("'", "\\'")
+                (data.get("description") or "")
+                .replace('"', "`")
+                .replace("\n", "\\n")
+                .replace("'", "`")
             )
-            lines.append(f"    description='{description}',")
-            lines.append(f"    data_type='{data.get('dataType', '')}',")
+            lines.append(f'    description="""{description}""",')
+            lines.append(f"    data_type=\"{data.get('dataType', '')}\",")
             property_label = (
-                (data.get('label') or '').replace('"', '\\"').replace('\n', '\\n').replace("'", "\\'")
+                (data.get("label") or "").replace('"', '\\"').replace("\n", "\\n")
             )
-            lines.append(f"    property_label='{property_label}',")
-            lines.append(')')
-            lines.append('')
+            lines.append(f'    property_label="{property_label}",')
+            lines.append(")")
+            lines.append("")
 
             # Add newline between classes
-            lines.append('')
+            lines.append("")
 
-        return '\n'.join(lines)
+        return "\n".join(lines)
 
     def generate_dataset_types(self) -> str:
         """
@@ -230,47 +251,41 @@ class MasterdataCodeGenerator:
         lines = []
         class_names = {}
 
-        def format_class_name(code):
-            return code.split('.')[-1].title().replace('_', '').replace('$', '')
-
         # Add imports at the top
-        lines.append('from bam_masterdata.metadata.definitions import DataSetTypeDef')
-        lines.append('from bam_masterdata.metadata.entities import DatasetType')
-        lines.append('')
-        lines.append('')
+        lines.append("from bam_masterdata.metadata.definitions import DataSetTypeDef")
+        lines.append("from bam_masterdata.metadata.entities import DatasetType")
+        lines.append("")
+        lines.append("")
 
         # Process each dataset type
         for code, data in self.datasets.items():
             # Skip the "UNKNOWN" object type
-            if code == 'UNKNOWN':
+            if code == "UNKNOWN":
                 continue
-            
-            # Determine parent class
-            if '.' in code:
-                parent_code = code.rsplit('.', 1)[0]
-                parent_class_name = parent_code.split('.')[-1].title().replace('_', '')
-                parent_class = class_names.get(parent_code, parent_class_name)
-            else:
-                # Default to ObjectType if no dots in the code
-                parent_class = 'DatasetType'
 
-            class_name = format_class_name(code)
+            # Determine parent class
+            _, parent_class, class_name = self.determine_parent_class(
+                code=code, class_names=class_names, default="DatasetType", lines=lines
+            )
 
             # Add class definition
-            lines.append(f'class {class_name}({parent_class}):')
-            lines.append('    defs = DataSetTypeDef(')
-            lines.append(f"        code='{code}',")
+            lines.append(f"class {class_name}({parent_class}):")
+            lines.append("    defs = DataSetTypeDef(")
+            lines.append(f'        code="{code}",')
             description = (
-                (data.get('description') or '').replace('"', '\\"').replace('\n', '\\n').replace("'", "\\'")
+                (data.get("description") or "")
+                .replace('"', "`")
+                .replace("\n", "\\n")
+                .replace("'", "`")
             )
-            lines.append(f"        description='{description}',")
-            lines.append('    )')
-            lines.append('')
+            lines.append(f'        description="""{description}""",')
+            lines.append("    )")
+            lines.append("")
 
             # Add newline between classes
-            lines.append('')
+            lines.append("")
 
-        return '\n'.join(lines)
+        return "\n".join(lines)
 
     def generate_vocabulary_types(self) -> str:
         """
@@ -283,109 +298,105 @@ class MasterdataCodeGenerator:
         lines = []
         class_names = {}
 
-        def format_class_name(code):
-            return code.split('.')[-1].title().replace('_', '').replace('$', '')
-
         # Add imports at the top
         lines.append(
-            'from bam_masterdata.metadata.definitions import VocabularyTerm, VocabularyTypeDef'
+            "from bam_masterdata.metadata.definitions import VocabularyTerm, VocabularyTypeDef"
         )
-        lines.append('from bam_masterdata.metadata.entities import VocabularyType')
-        lines.append('')
-        lines.append('')
+        lines.append("from bam_masterdata.metadata.entities import VocabularyType")
+        lines.append("")
+        lines.append("")
 
         # Process each object type
         for code, data in self.vocabularies.items():
             # Skip the "UNKNOWN" object type
-            if code == 'UNKNOWN':
+            if code == "UNKNOWN":
                 continue
 
             # Determine parent class
-            if '.' in code:
-                parent_code = code.rsplit('.', 1)[0]
-                parent_class_name = parent_code.split('.')[-1].title().replace('_', '').replace('$', '')
-                parent_class = class_names.get(parent_code, parent_class_name)
-            else:
-                # Default to ObjectType if no dots in the code
-                parent_class = 'VocabularyType'
-
-            # Format class name
-            class_name = format_class_name(code)
-            class_names[code] = class_name
+            parent_code, parent_class, class_name = self.determine_parent_class(
+                code=code,
+                class_names=class_names,
+                default="VocabularyType",
+                lines=lines,
+            )
 
             # Add class definition
-            lines.append(f'class {class_name}({parent_class}):')
-            lines.append('    defs = VocabularyTypeDef(')
-            lines.append(f"        code='{code}',")
+            lines.append(f"class {class_name}({parent_class}):")
+            lines.append("    defs = VocabularyTypeDef(")
+            lines.append(f'        code="{code}",')
             description = (
-                (data.get('description') or '').replace('"', '\\"').replace('\n', '\\n').replace("'", "\\'")
+                (data.get("description") or "")
+                .replace('"', "`")
+                .replace("\n", "\\n")
+                .replace("'", "`")
             )
-            lines.append(f"        description='{description}',")
-            lines.append('    )')
-            lines.append('')
+            lines.append(f'        description="""{description}""",')
+            lines.append("    )")
+            lines.append("")
 
             # Add terms
-            for term_code, term_data in data.get('terms', {}).items():
+            parent_terms = self.objects.get(parent_code, {}).get("terms", {}).keys()
+            for term_code, term_data in data.get("terms", {}).items():
                 # Skip "UNKNOWN" properties
-                if term_code == 'UNKNOWN':
+                if term_code == "UNKNOWN":
+                    continue
+
+                # We check if the term is inherited from the parent class
+                if term_code in parent_terms:
                     continue
 
                 term_name = (
-                    term_code.lstrip('$').replace('.', '_').replace('-', '_').lower()
+                    term_code.lstrip("$").replace(".", "_").replace("-", "_").lower()
                 )
                 if term_name[0].isdigit():
-                    term_name = f'_{term_name}'
-                if term_name == 'l':
-                    term_name = 'L'
-                if term_name == 'O':
-                    term_name = 'o'
-                if term_name == 'I':
-                    term_name = 'i'
-                lines.append(f'    {term_name} = VocabularyTerm(')
-                lines.append(f"        code='{term_code}',")
-                label = (
-                    (term_data.get('label') or '')
-                    .replace('\\"', '"')
-                    .replace('\n', '\\n')
-                    .replace("'", "\\'")
+                    term_name = f"_{term_name}"
+                if term_name == "l":
+                    term_name = "L"
+                if term_name == "O":
+                    term_name = "o"
+                if term_name == "I":
+                    term_name = "i"
+                lines.append(f"    {term_name} = VocabularyTerm(")
+                lines.append(f'        code="{term_code}",')
+                lines.append(
+                    f"        label=\"{(term_data.get('label') or '').replace('\"', '')}\","
                 )
-                lines.append(f"        label='{label}',")
                 description = (
-                    (term_data.get('description') or '')
-                    .replace('\\"', '"')
-                    .replace('\n', '\\n')
-                    .replace("'", "\\'")
+                    (term_data.get("description") or "")
+                    .replace('"', "`")
+                    .replace("\n", "\\n")
+                    .replace("'", "`")
                 )
-                lines.append(f"        description='{description}',")
-                lines.append('    )')
-                lines.append('')
+                lines.append(f'        description="""{description}""",')
+                lines.append("    )")
+                lines.append("")
 
             # Add newline between classes
-            lines.append('')
+            lines.append("")
 
-        return '\n'.join(lines)
+        return "\n".join(lines)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     start_time = time.time()
 
     # ! this takes a lot of time loading all the entities in Openbis
     generator = MasterdataCodeGenerator()
 
     # Add each module to the `bam_masterdata/datamodel` directory
-    output_dir = os.path.join('.', 'bam_masterdata', 'datamodel')
-    for module_name in ['object', 'collection', 'dataset', 'property', 'vocabulary']:
+    output_dir = os.path.join(".", "bam_masterdata", "datamodel")
+    for module_name in ["object", "collection", "dataset", "property", "vocabulary"]:
         module_start_time = time.perf_counter()  # more precise time measurement
-        output_file = Path(os.path.join(output_dir, f'{module_name}_types.py'))
+        output_file = Path(os.path.join(output_dir, f"{module_name}_types.py"))
 
         # Get the method from `MasterdataCodeGenerator`
-        code = getattr(generator, f'generate_{module_name}_types')()
-        code = code.rstrip('\n') + '\n'
-        output_file.write_text(code, encoding='utf-8')
+        code = getattr(generator, f"generate_{module_name}_types")()
+        code = code.rstrip("\n") + "\n"
+        output_file.write_text(code, encoding="utf-8")
         module_elapsed_time = time.perf_counter() - module_start_time
         print(
-            f'Generated {module_name} types in {module_elapsed_time:.2f} seconds in {output_file}\n'
+            f"Generated {module_name} types in {module_elapsed_time:.2f} seconds in {output_file}\n"
         )
 
     elapsed_time = time.time() - start_time
-    print(f'Generated all types in {elapsed_time:.2f} seconds')
+    print(f"Generated all types in {elapsed_time:.2f} seconds")
