@@ -10,7 +10,7 @@ class DefaultCollectionViews(VocabularyType):
 
     form_view = VocabularyTerm(
         code='FORM_VIEW',
-        label="Form view",
+        label='Form view',
         description='None',
     )
 
