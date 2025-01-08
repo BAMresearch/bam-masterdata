@@ -1,11 +1,10 @@
----
+<!-- ---
 hide: toc
----
+--- -->
 
-# Welcome to the BAM Data Store documentation page.
+# Welcome to the `bam-masterdata` documentation page.
 
-The BAM **Data Store** is a central system for digital Research Data Management at the Bundesanstalt für Materialforschung und -prüfung (BAM). It is a modified instance of [openBIS](https://openbis.ch/), so this documentation page does not intend to replace the openBIS documentation, but rather serve as an additional source of information for BAM employees who use the Data Store.
-
+The `bam-masterdata` is a Python package used to define and handle the data model defined in the BAM Data Store project. The BAM Data Store is the central system for Research Data Management at the Bundesanstalt für Materialforschung und -prüfung (BAM). It is a modified instance of [openBIS](https://openbis.ch/).
 <!-- This documentation page is divided according to the [diataxis method](https://www.diataxis.fr/). -->
 
 
@@ -15,10 +14,9 @@ The BAM **Data Store** is a central system for digital Research Data Management 
 
 <h3>Tutorials</h3>
 
-The **Tutorials** are designed to guide you through the general and basic understanding of the functionalities of the Data Store. These are intended for learning the software in a first approach.
+The **Tutorials** are designed to guide you through the general and basic understanding of the functionalities. These are intended for learning the software in a first approach.
 
 - [Creating Masterdata](tutorials/create-masterdata.md)
-- [pyBIS tutorial](tutorials/pybis.md)
 
 </div>
 
@@ -35,7 +33,7 @@ The **How-to guides** provide step-by-step instructions for a wide range of task
 
 <h3>Explanations</h3>
 
-The **Explanations** give you a theoretical background about the main concepts used in the Data Store. These are overlapping with openBIS and pyBIS concepts, but also some specific Data Store ones, as well as on Research Data Management and Good Scientific Practices.
+The **Explanations** give you a theoretical background about the main concepts. These are overlapping with BAM Data Store, openBIS and pyBIS concepts, but also some specific BAM Masterdata ones.
 
 </div>
 
