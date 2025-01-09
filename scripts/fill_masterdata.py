@@ -25,6 +25,15 @@ class MasterdataCodeGenerator:
         )
 
     def _format_class_name(self, code: str) -> str:
+        """
+        Format the class name based on the `code` of the entity to follow Python snake case conventions.
+
+        Args:
+            code (str): The code of the entity.
+
+        Returns:
+            str: The formatted class name.
+        """
         if "." in code:
             code = code.split(".")[-1]
         return code.title().replace("_", "").replace("$", "")
@@ -32,7 +41,22 @@ class MasterdataCodeGenerator:
     def determine_parent_class(
         self, code: str, class_names: dict, default: str, lines: list
     ) -> tuple:
-        # Determine parent class
+        """
+        Determine the parent class information of the entity based on its `code`. It returns
+        the `parent_code` and `parent class`, as well as the `class_name` of the entity. The
+        class will inherit from `parent_class`.
+
+        If the parent class does not exist, a note is added to the `lines` list for debugging purposes.
+
+        Args:
+            code (str): The code of the entity.
+            class_names (dict): A dictionary with the class names of the entities.
+            default (str): The default parent class if the parent class does not exist.
+            lines (list): A list of strings to be printed to the Python module.
+
+        Returns:
+            tuple: The parent code, parent class, and class name of the entity.
+        """
         parent_code = ""
         if "." in code:
             parent_code = code.rsplit(".", 1)[0]
@@ -50,7 +74,19 @@ class MasterdataCodeGenerator:
 
         return parent_code, parent_class, class_name
 
-    def add_properties(self, entities, parent_code, data, lines):
+    def add_properties(
+        self, entities: dict, parent_code: str, data: str, lines: list
+    ) -> None:
+        """
+        Add the properties of the entity to the `lines` list. The properties are added as
+        `PropertyTypeAssignment` objects.
+
+        Args:
+            entities (dict): The dictionary of entities (objects, collections, datasets, vocabularies).
+            parent_code (code): The code of the parent class.
+            data (str): The data information for the entity as obtained from openBIS.
+            lines (list): A list of strings to be printed to the Python module.
+        """
         parent_properties = entities.get(parent_code, {}).get("properties", {}).keys()
         for prop_code, prop_data in data.get("properties", {}).items():
             # Skip "UNKNOWN" properties
