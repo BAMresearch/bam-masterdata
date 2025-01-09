@@ -5,7 +5,7 @@ import pytest
 from bam_masterdata.metadata.definitions import (
     BaseObjectTypeDef,
     CollectionTypeDef,
-    DataSetTypeDef,
+    DatasetTypeDef,
     DataType,
     EntityDef,
     ObjectTypeDef,
@@ -131,12 +131,12 @@ class TestCollectionTypeDef:
         assert field_types == [str, str, Optional[str]]
 
 
-class TestDataSetTypeDef:
+class TestDatasetTypeDef:
     def test_fields(self):
-        """Test the existing defined fields of the `DataSetTypeDef` class."""
-        names = list(DataSetTypeDef.model_fields.keys())
+        """Test the existing defined fields of the `DatasetTypeDef` class."""
+        names = list(DatasetTypeDef.model_fields.keys())
         field_types = [
-            val.annotation for val in list(DataSetTypeDef.model_fields.values())
+            val.annotation for val in list(DatasetTypeDef.model_fields.values())
         ]
         assert names == [
             "code",

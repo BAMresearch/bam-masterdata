@@ -95,7 +95,7 @@ class EntityDef(BaseModel):
 
 class BaseObjectTypeDef(EntityDef):
     """
-    Definition class used for the common fields for `CollectionTypeDef`, `ObjectTypeDef`, and `DataSetType`.
+    Definition class used for the common fields for `CollectionTypeDef`, `ObjectTypeDef`, and `DatasetTypeDef`.
     It adds the fields of `validation_script`.
     """
 
@@ -124,13 +124,13 @@ class CollectionTypeDef(BaseObjectTypeDef):
     pass
 
 
-class DataSetTypeDef(BaseObjectTypeDef):
+class DatasetTypeDef(BaseObjectTypeDef):
     """
     Definition class for a data set type. E.g.:
 
     ```python
     class RawData(BaseModel):
-        defs = DataSetTypeDef(
+        defs = DatasetTypeDef(
             code='RAW_DATA',
             description='...',
         )
@@ -279,9 +279,10 @@ class PropertyTypeDef(EntityDef):
 
 class PropertyTypeAssignment(PropertyTypeDef):
     """
-    Base class used to define properties inside an `ObjectType`. This is used to construct the object types
-    by assigning property types to them. It adds the fields of `mandatory`, `show_in_edit_views`, `section`,
-    `unique`, and `internal_assignment` to the common attributes of a property type definition. E.g.:
+    Base class used to define properties inside `ObjectType`, `CollectionType`, or `DatasetType`.
+    This is used to construct these types by assigning property types to them. It adds the fields
+    of `mandatory`, `show_in_edit_views`, `section`, `unique`, and `internal_assignment` to the common
+    attributes of a property type definition. E.g.:
 
     ```python
     class Instrument(ObjectType):

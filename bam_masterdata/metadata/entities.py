@@ -4,6 +4,8 @@ from typing import Any, Optional
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from bam_masterdata.metadata.definitions import (
+    CollectionTypeDef,
+    DatasetTypeDef,
     ObjectTypeDef,
     PropertyTypeAssignment,
     VocabularyTerm,
@@ -58,9 +60,19 @@ class ObjectType(BaseEntity):
 
     The `ObjectType` class contains a list of all `properties` defined for a `ObjectType`, for
     internally represent the model in other formats (e.g., JSON or Excel).
+
+    Note this is also used for `CollectionType` and `DatasetType`, as they also contain a list of
+    properties.
     """
 
-    model_config = ConfigDict(ignored_types=(ObjectTypeDef, PropertyTypeAssignment))
+    model_config = ConfigDict(
+        ignored_types=(
+            ObjectTypeDef,
+            CollectionTypeDef,
+            DatasetTypeDef,
+            PropertyTypeAssignment,
+        )
+    )
 
     properties: list[PropertyTypeAssignment] = Field(
         default=[],
@@ -137,5 +149,5 @@ class CollectionType(ObjectType):
     pass
 
 
-class DatasetType(BaseEntity):
+class DatasetType(ObjectType):
     pass
