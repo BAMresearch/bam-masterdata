@@ -14,10 +14,10 @@ class MasterdataCodeGenerator:
     def __init__(self):
         start_time = time.time()
         # * This part takes some time due to the loading of all entities from Openbis
-        self.objects = OpenbisEntities().get_object_dict()
+        self.properties = OpenbisEntities().get_property_dict()
         self.collections = OpenbisEntities().get_collection_dict()
         self.datasets = OpenbisEntities().get_dataset_dict()
-        self.properties = OpenbisEntities().get_property_dict()
+        self.objects = OpenbisEntities().get_object_dict()
         self.vocabularies = OpenbisEntities().get_vocabulary_dict()
         elapsed_time = time.time() - start_time
         print(
@@ -50,149 +50,43 @@ class MasterdataCodeGenerator:
 
         return parent_code, parent_class, class_name
 
-    def generate_object_types(self) -> str:
-        """
-        Generate Python code for the object types in the Openbis datamodel. The code is generated
-        as a string which is then printed out to the specific Python module in `bam_masterdata/datamodel/object_types.py`.
-
-        Returns:
-            str: Python code for the object types.
-        """
-        lines = []
-        class_names = {}
-
-        def format_class_name(code):
-            return code.split(".")[-1].title().replace("_", "")
-
-        # Add imports at the top
-        lines.append(
-            "from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment"
-        )
-        lines.append("from bam_masterdata.metadata.entities import ObjectType")
-        lines.append("")
-        lines.append("")
-
-        # Process each object type
-        for code, data in self.objects.items():
-            # Skip the "UNKNOWN" object type
-            if code == "UNKNOWN":
+    def add_properties(self, entities, parent_code, data, lines):
+        parent_properties = entities.get(parent_code, {}).get("properties", {}).keys()
+        for prop_code, prop_data in data.get("properties", {}).items():
+            # Skip "UNKNOWN" properties
+            if prop_code == "UNKNOWN":
                 continue
 
-            # Determine parent class
-            parent_code, parent_class, class_name = self.determine_parent_class(
-                code=code, class_names=class_names, default="ObjectType", lines=lines
-            )
+            # We check if the property is inherited from the parent class
+            if prop_code in parent_properties:
+                continue
 
-            # Add class definition
-            lines.append(f"class {class_name}({parent_class}):")
-            lines.append("    defs = ObjectTypeDef(")
-            lines.append(f'        code="{code}",')
+            prop_name = prop_code.lstrip("$").replace(".", "_").lower()
+            lines.append(f"    {prop_name} = PropertyTypeAssignment(")
+            lines.append(f'        code="{prop_code}",')
+            lines.append(f"        data_type=\"{prop_data.get('dataType', '')}\",")
+            property_label = (prop_data.get("label") or "").replace("\n", "\\n")
+            lines.append(f'        property_label="{property_label}",')
             description = (
-                (data.get("description") or "")
+                (prop_data.get("description") or "")
                 .replace('"', "`")
                 .replace("\n", "\\n")
                 .replace("'", "`")
             )
             lines.append(f'        description="""{description}""",')
+            lines.append(f"        mandatory={prop_data.get('mandatory', False)},")
             lines.append(
-                f"        generated_code_prefix=\"{data.get('generatedCodePrefix', '')}\","
+                f"        show_in_edit_views={prop_data.get('show_in_edit_views', False)},"
             )
-            lines.append("    )")
-            lines.append("")
-
-            # Add properties
-            parent_properties = (
-                self.objects.get(parent_code, {}).get("properties", {}).keys()
-            )
-            for prop_code, prop_data in data.get("properties", {}).items():
-                # Skip "UNKNOWN" properties
-                if prop_code == "UNKNOWN":
-                    continue
-
-                # We check if the property is inherited from the parent class
-                if prop_code in parent_properties:
-                    continue
-
-                prop_name = prop_code.lstrip("$").replace(".", "_").lower()
-                lines.append(f"    {prop_name} = PropertyTypeAssignment(")
-                lines.append(f'        code="{prop_code}",')
-                lines.append(f"        data_type=\"{prop_data.get('dataType', '')}\",")
-                property_label = (prop_data.get("label") or "").replace("\n", "\\n")
-                lines.append(f'        property_label="{property_label}",')
-                description = (
-                    (prop_data.get("description") or "")
-                    .replace('"', "`")
-                    .replace("\n", "\\n")
-                    .replace("'", "`")
-                )
-                lines.append(f'        description="""{description}""",')
-                lines.append(f"        mandatory={prop_data.get('mandatory', False)},")
-                lines.append(
-                    f"        show_in_edit_views={prop_data.get('show_in_edit_views', False)},"
-                )
-                section = (
-                    (prop_data.get("section") or "")
-                    .replace('"', '\\"')
-                    .replace("\n", "\\n")
-                    .replace("'", "\\'")
-                )
-                lines.append(f'        section="{section}",')
-                lines.append("    )")
-                lines.append("")
-
-            # Add newline between classes
-            lines.append("")
-
-        return "\n".join(lines)
-
-    def generate_collection_types(self) -> str:
-        """
-        Generate Python code for the collection types in the Openbis datamodel. The code is generated
-        as a string which is then printed out to the specific Python module in `bam_masterdata/datamodel/collection_types.py`.
-
-        Returns:
-            str: Python code for the collection types.
-        """
-        lines = []
-
-        # Add imports at the top
-        lines.append(
-            "from bam_masterdata.metadata.definitions import CollectionTypeDef"
-        )
-        lines.append("from bam_masterdata.metadata.entities import CollectionType")
-        lines.append("")
-        lines.append("")
-
-        # Process each collection type
-        for code, data in self.collections.items():
-            # Skip the "UNKNOWN" object type
-            if code == "UNKNOWN":
-                continue
-
-            class_name = self._format_class_name(code)
-
-            # Add class definition
-            lines.append(f"class {class_name}(CollectionType):")
-            lines.append("    defs = CollectionTypeDef(")
-            lines.append(f'        code="{code}",')
-            description = (
-                (data.get("description") or "")
-                .replace('"', "`")
+            section = (
+                (prop_data.get("section") or "")
+                .replace('"', '\\"')
                 .replace("\n", "\\n")
-                .replace("'", "`")
+                .replace("'", "\\'")
             )
-            lines.append(f'        description="""{description}""",')
-            if data.get("validationPlugin") != "":
-                lines.append(
-                    f"        validation_script=\"{data.get('validationPlugin')}\","
-                )
+            lines.append(f'        section="{section}",')
             lines.append("    )")
             lines.append("")
-
-            # Add newline between classes
-            lines.append("")
-
-        return "\n".join(lines)
 
     def generate_property_types(self) -> str:
         """
@@ -240,6 +134,64 @@ class MasterdataCodeGenerator:
 
         return "\n".join(lines)
 
+    def generate_collection_types(self) -> str:
+        """
+        Generate Python code for the collection types in the Openbis datamodel. The code is generated
+        as a string which is then printed out to the specific Python module in `bam_masterdata/datamodel/collection_types.py`.
+
+        Returns:
+            str: Python code for the collection types.
+        """
+        lines = []
+        class_names = {}
+
+        # Add imports at the top
+        lines.append(
+            "from bam_masterdata.metadata.definitions import CollectionTypeDef, PropertyTypeAssignment"
+        )
+        lines.append("from bam_masterdata.metadata.entities import CollectionType")
+        lines.append("")
+        lines.append("")
+
+        # Process each collection type
+        for code, data in self.collections.items():
+            # Skip the "UNKNOWN" object type
+            if code == "UNKNOWN":
+                continue
+
+            # Determine parent class
+            parent_code, parent_class, class_name = self.determine_parent_class(
+                code=code,
+                class_names=class_names,
+                default="CollectionType",
+                lines=lines,
+            )
+
+            # Add class definition
+            lines.append(f"class {class_name}({parent_class}):")
+            lines.append("    defs = CollectionTypeDef(")
+            lines.append(f'        code="{code}",')
+            description = (
+                (data.get("description") or "")
+                .replace('"', "`")
+                .replace("\n", "\\n")
+                .replace("'", "`")
+            )
+            lines.append(f'        description="""{description}""",')
+            if data.get("validationPlugin") != "":
+                lines.append(
+                    f"        validation_script=\"{data.get('validationPlugin')}\","
+                )
+            lines.append("    )")
+            lines.append("")
+
+            # Add properties
+            self.add_properties(self.collections, parent_code, data, lines)
+            # Add newline between classes
+            lines.append("")
+
+        return "\n".join(lines)
+
     def generate_dataset_types(self) -> str:
         """
         Generate Python code for the dataset types in the Openbis datamodel. The code is generated
@@ -252,7 +204,9 @@ class MasterdataCodeGenerator:
         class_names = {}
 
         # Add imports at the top
-        lines.append("from bam_masterdata.metadata.definitions import DataSetTypeDef")
+        lines.append(
+            "from bam_masterdata.metadata.definitions import DatasetTypeDef, PropertyTypeAssignment"
+        )
         lines.append("from bam_masterdata.metadata.entities import DatasetType")
         lines.append("")
         lines.append("")
@@ -264,13 +218,13 @@ class MasterdataCodeGenerator:
                 continue
 
             # Determine parent class
-            _, parent_class, class_name = self.determine_parent_class(
+            parent_code, parent_class, class_name = self.determine_parent_class(
                 code=code, class_names=class_names, default="DatasetType", lines=lines
             )
 
             # Add class definition
             lines.append(f"class {class_name}({parent_class}):")
-            lines.append("    defs = DataSetTypeDef(")
+            lines.append("    defs = DatasetTypeDef(")
             lines.append(f'        code="{code}",')
             description = (
                 (data.get("description") or "")
@@ -282,6 +236,62 @@ class MasterdataCodeGenerator:
             lines.append("    )")
             lines.append("")
 
+            # Add properties
+            self.add_properties(self.datasets, parent_code, data, lines)
+            # Add newline between classes
+            lines.append("")
+
+        return "\n".join(lines)
+
+    def generate_object_types(self) -> str:
+        """
+        Generate Python code for the object types in the Openbis datamodel. The code is generated
+        as a string which is then printed out to the specific Python module in `bam_masterdata/datamodel/object_types.py`.
+
+        Returns:
+            str: Python code for the object types.
+        """
+        lines = []
+        class_names = {}
+
+        # Add imports at the top
+        lines.append(
+            "from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment"
+        )
+        lines.append("from bam_masterdata.metadata.entities import ObjectType")
+        lines.append("")
+        lines.append("")
+
+        # Process each object type
+        for code, data in self.objects.items():
+            # Skip the "UNKNOWN" object type
+            if code == "UNKNOWN":
+                continue
+
+            # Determine parent class
+            parent_code, parent_class, class_name = self.determine_parent_class(
+                code=code, class_names=class_names, default="ObjectType", lines=lines
+            )
+
+            # Add class definition
+            lines.append(f"class {class_name}({parent_class}):")
+            lines.append("    defs = ObjectTypeDef(")
+            lines.append(f'        code="{code}",')
+            description = (
+                (data.get("description") or "")
+                .replace('"', "`")
+                .replace("\n", "\\n")
+                .replace("'", "`")
+            )
+            lines.append(f'        description="""{description}""",')
+            lines.append(
+                f"        generated_code_prefix=\"{data.get('generatedCodePrefix', '')}\","
+            )
+            lines.append("    )")
+            lines.append("")
+
+            # Add properties
+            self.add_properties(self.objects, parent_code, data, lines)
             # Add newline between classes
             lines.append("")
 
@@ -385,7 +395,7 @@ if __name__ == "__main__":
 
     # Add each module to the `bam_masterdata/datamodel` directory
     output_dir = os.path.join(".", "bam_masterdata", "datamodel")
-    for module_name in ["object", "collection", "dataset", "property", "vocabulary"]:
+    for module_name in ["property", "collection", "dataset", "object", "vocabulary"]:
         module_start_time = time.perf_counter()  # more precise time measurement
         output_file = Path(os.path.join(output_dir, f"{module_name}_types.py"))
 
@@ -399,4 +409,11 @@ if __name__ == "__main__":
         )
 
     elapsed_time = time.time() - start_time
-    print(f"Generated all types in {elapsed_time:.2f} seconds")
+    print(f"Generated all types in {elapsed_time:.2f} seconds\n\n")
+
+    # ! this could be automated in the CLI
+    print(
+        "Don't forget to apply ruff at the end after generating the files by doing:\n"
+    )
+    print("    ruff check .\n")
+    print("    ruff format .\n")
