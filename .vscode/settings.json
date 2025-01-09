@@ -29,26 +29,53 @@
     "version": "0.2.0",
     "configurations": [
       {
-          "name": "bds Python",
-          "type": "debugpy",
-          "request": "launch",
-          "console": "integratedTerminal",
-          "program": "${workspaceFolder}/src/bam_masterdata/app.py",  // path to your entry point Python module
+        "name": "BM Python",
+        "type": "debugpy",
+        "request": "launch",
+        "console": "integratedTerminal",
+        "program": "${workspaceFolder}/bam_masterdata/metadata/entities.py",  // path to your entry point Python module
       },
       {
-          "name": "bds tests",
-          "type": "debugpy",
-          "request": "launch",
-          "console": "integratedTerminal",
-          "program": "${workspaceFolder}/.venv/bin/pytest",  // path to your virtual environment
-          "justMyCode": false,
-          "env": {
-          "_PYTEST_RAISE": "1"
-          },
-          "args": [
-              "-sv",
-              "${workspaceFolder}/tests/"  // path to your testing module
-          ]
+        "name": "BM tests",
+        "type": "debugpy",
+        "request": "launch",
+        "console": "integratedTerminal",
+        "program": "${workspaceFolder}/.venv/bin/pytest",  // path to your virtual environment
+        "justMyCode": false,
+        "env": {
+        "_PYTEST_RAISE": "1"
+        },
+        "args": [
+            "-sv",
+            "${workspaceFolder}/tests/cli/test_cli.py"  // path to your testing module
+        ]
+      },
+      {
+        "name": "BM fill-masterdata",
+        "type": "debugpy",
+        "request": "launch",
+        "cwd": "${workspaceFolder}",
+        "program": "${workspaceFolder}/.venv/bin/bam_masterdata",
+        "justMyCode": false,
+        "args": ["fill_masterdata"]
+      },
+      {
+        "name": "BM export-to-json",
+        "type": "debugpy",
+        "request": "launch",
+        "cwd": "${workspaceFolder}",
+        "program": "${workspaceFolder}/.venv/bin/bam_masterdata",
+        "justMyCode": false,
+        "args": ["export_to_json"]
+      },
+      {
+        "name": "BM export-to-excel",
+        "type": "debugpy",
+        "request": "launch",
+        "cwd": "${workspaceFolder}",
+        "program": "${workspaceFolder}/.venv/bin/bam_masterdata",
+        "justMyCode": false,
+        "args": ["export_to_excel"]
       },
     ]
   },
