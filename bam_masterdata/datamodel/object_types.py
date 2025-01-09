@@ -13091,6 +13091,7 @@ class Robot(WeldingEquipment):
     )
 
 
+# ! The parent class of StationLayout is not defined (missing ObjectType)
 # StationLayout is defined several times in the model
 class StationLayout1(ObjectType):
     defs = ObjectTypeDef(
@@ -13329,6 +13330,7 @@ class StationLayout2(WeldingEquipment):
     )
 
 
+# ! The parent class of StationLayout is not defined (missing ObjectType)
 # StationLayout is defined several times in the model
 class StationLayout3(ObjectType):
     defs = ObjectTypeDef(

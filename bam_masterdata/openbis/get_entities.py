@@ -10,55 +10,17 @@ class OpenbisEntities:
     def __init__(self):
         self.openbis = ologin()
 
-    def get_collection_dict(self) -> dict:
-        """
-        Get the collection types from openBIS and return them as a dictionary where the keys
-        are the collection type `code` and the value is a dictionary of attributes assigned to that
-        collection type.
+    def _get_formatted_dict(self, entity_name: str):
+        # entity_name is property_types, collection_types, dataset_types, object_types, or vocabularies
+        entity_types = getattr(self.openbis, f"get_{entity_name}")().df.to_dict(
+            orient="records"
+        )
+        return {entry["code"]: entry for entry in entity_types}
 
-        Returns:
-            dict: Dictionary of collection types with their attributes.
-        """
-        ctypes = self.openbis.get_collection_types().df
-        ctypes_dict = ctypes.to_dict(orient="records")
-        formatted_dict = {entry["permId"]: entry for entry in ctypes_dict}
-
-        # We return the sorted dictionary in order to have a consistent order for inheritance
-        return dict(sorted(formatted_dict.items(), key=lambda item: item[0].count(".")))
-
-    def get_dataset_dict(self) -> dict:
-        """
-        Get the dataset types from openBIS and return them as a dictionary where the keys
-        are the dataset type `code` and the value is a dictionary of attributes assigned to that
-        dataset type.
-
-        Returns:
-            dict: Dictionary of dataset types with their attributes.
-        """
-        dtypes = self.openbis.get_dataset_types().df
-        dtypes_dict = dtypes.to_dict(orient="records")
-        formatted_dict = {entry["permId"]: entry for entry in dtypes_dict}
-
-        # We return the sorted dictionary in order to have a consistent order for inheritance
-        return dict(sorted(formatted_dict.items(), key=lambda item: item[0].count(".")))
-
-    def get_object_dict(self) -> dict:
-        """
-        Get the object types from openBIS and return them as a dictionary where the keys
-        are the object type `code` and the value is a dictionary of attributes assigned to that
-        object type.
-
-        Returns:
-            dict: Dictionary of object types with their attributes.
-        """
-        otypes = self.openbis.get_object_types().df
-        otypes_dict = otypes.to_dict(orient="records")
-        formatted_dict = {entry["permId"]: entry for entry in otypes_dict}
-
-        # Add properties to each object type
-        for obj in self.openbis.get_object_types():
-            perm_id = obj.permId  # Unique identifier for the object type
-            assignments = obj.get_property_assignments()
+    def _assign_properties(self, entity_name: str, formatted_dict: dict) -> None:
+        for entity in getattr(self.openbis, f"get_{entity_name}")():
+            perm_id = entity.permId  # Unique identifier for the entity
+            assignments = entity.get_property_assignments()
 
             if assignments:
                 # Convert property assignments to list of dictionaries
@@ -112,9 +74,6 @@ class OpenbisEntities:
                 # If no properties, add an empty dictionary
                 formatted_dict[perm_id]["properties"] = {}
 
-        # We return the sorted dictionary in order to have a consistent order for inheritance
-        return dict(sorted(formatted_dict.items(), key=lambda item: item[0].count(".")))
-
     def get_property_dict(self) -> dict:
         """
         Get the property types from openBIS and return them as a dictionary where the keys
@@ -124,9 +83,58 @@ class OpenbisEntities:
         Returns:
             dict: Dictionary of property types with their attributes.
         """
-        ptypes = self.openbis.get_property_types().df
-        ptypes_dict = ptypes.to_dict(orient="records")
-        formatted_dict = {entry["code"]: entry for entry in ptypes_dict}
+        formatted_dict = self._get_formatted_dict("property_types")
+
+        # We return the sorted dictionary in order to have a consistent order for inheritance
+        return dict(sorted(formatted_dict.items(), key=lambda item: item[0].count(".")))
+
+    def get_collection_dict(self) -> dict:
+        """
+        Get the collection types from openBIS and return them as a dictionary where the keys
+        are the collection type `code` and the value is a dictionary of attributes assigned to that
+        collection type.
+
+        Returns:
+            dict: Dictionary of collection types with their attributes.
+        """
+        formatted_dict = self._get_formatted_dict("collection_types")
+        self._assign_properties(
+            entity_name="collection_types", formatted_dict=formatted_dict
+        )
+
+        # We return the sorted dictionary in order to have a consistent order for inheritance
+        return dict(sorted(formatted_dict.items(), key=lambda item: item[0].count(".")))
+
+    def get_dataset_dict(self) -> dict:
+        """
+        Get the dataset types from openBIS and return them as a dictionary where the keys
+        are the dataset type `code` and the value is a dictionary of attributes assigned to that
+        dataset type.
+
+        Returns:
+            dict: Dictionary of dataset types with their attributes.
+        """
+        formatted_dict = self._get_formatted_dict("dataset_types")
+        self._assign_properties(
+            entity_name="dataset_types", formatted_dict=formatted_dict
+        )
+
+        # We return the sorted dictionary in order to have a consistent order for inheritance
+        return dict(sorted(formatted_dict.items(), key=lambda item: item[0].count(".")))
+
+    def get_object_dict(self) -> dict:
+        """
+        Get the object types from openBIS and return them as a dictionary where the keys
+        are the object type `code` and the value is a dictionary of attributes assigned to that
+        object type.
+
+        Returns:
+            dict: Dictionary of object types with their attributes.
+        """
+        formatted_dict = self._get_formatted_dict("object_types")
+        self._assign_properties(
+            entity_name="object_types", formatted_dict=formatted_dict
+        )
 
         # We return the sorted dictionary in order to have a consistent order for inheritance
         return dict(sorted(formatted_dict.items(), key=lambda item: item[0].count(".")))
@@ -140,9 +148,7 @@ class OpenbisEntities:
         Returns:
             dict: Dictionary of vocabulary types with their attributes.
         """
-        vtypes = self.openbis.get_vocabularies().df
-        vtypes_dict = vtypes.to_dict(orient="records")
-        formatted_dict = {entry["code"]: entry for entry in vtypes_dict}
+        formatted_dict = self._get_formatted_dict("vocabularies")
 
         # Add properties to each object type
         for voc in self.openbis.get_vocabularies():
