@@ -102,11 +102,11 @@ class EntityDef(BaseModel):
         Returns the name of the entity in a format suitable for the openBIS Excel file.
         """
         name_map = {
-            'CollectionTypeDef': 'EXPERIMENT_TYPE',
-            'DataSetTypeDef': 'DATASET_TYPE',
-            'ObjectTypeDef': 'SAMPLE_TYPE',
-            'PropertyTypeDef': 'PROPERTY_TYPE',
-            'VocabularyTypeDef': 'VOCABULARY_TYPE',
+            "CollectionTypeDef": "EXPERIMENT_TYPE",
+            "DataSetTypeDef": "DATASET_TYPE",
+            "ObjectTypeDef": "SAMPLE_TYPE",
+            "PropertyTypeDef": "PROPERTY_TYPE",
+            "VocabularyTypeDef": "VOCABULARY_TYPE",
         }
         return name_map.get(self.name)
 
@@ -115,7 +115,7 @@ class EntityDef(BaseModel):
         """
         Returns the headers for the entity in a format suitable for the openBIS Excel file.
         """
-        return [k.capitalize().replace('_', ' ') for k in self.model_fields.keys()]
+        return [k.capitalize().replace("_", " ") for k in self.model_fields.keys()]
 
 
 class BaseObjectTypeDef(EntityDef):

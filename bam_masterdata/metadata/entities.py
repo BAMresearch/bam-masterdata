@@ -52,6 +52,13 @@ class BaseEntity(BaseModel):
         dump_json = self.to_json()
         return json.loads(dump_json)
 
+    @property
+    def cls_name(self) -> str:
+        """
+        Returns the entity name of the class as a string to speed up checks.
+        """
+        return self.__class__.__name__
+
 
 class ObjectType(BaseEntity):
     """
@@ -101,13 +108,6 @@ class ObjectType(BaseEntity):
 
         return data
 
-    @property
-    def entity_type(self) -> str:
-        """
-        Returns the entity type of the class as a string to speed up checks.
-        """
-        return "ObjectType"
-
 
 class VocabularyType(BaseEntity):
     """
@@ -147,13 +147,6 @@ class VocabularyType(BaseEntity):
 
         return data
 
-    @property
-    def entity_type(self) -> str:
-        """
-        Returns the entity type of the class as a string to speed up checks.
-        """
-        return "VocabularyType"
-
 
 class CollectionType(ObjectType):
     pass
@@ -161,3 +154,6 @@ class CollectionType(ObjectType):
 
 class DatasetType(ObjectType):
     pass
+
+
+obj = ObjectType()
