@@ -1,3 +1,5 @@
+![test-and-build pipeline](https://github.com/BAMresearch/bam-masterdata/actions/workflows/actions.yml/badge.svg)
+
 # BAM Masterdata
 
 The BAM Masterdata is a repository containing all the masterdata schema defining in BAM, as well as some utility functions to handle the masterdata.
