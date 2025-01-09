@@ -8,7 +8,7 @@ from bam_masterdata.utils import import_module
 
 
 def entities_to_excel(
-    worksheet: 'Worksheet',
+    worksheet: "Worksheet",
     module_path: str,
     definitions_module: Any,
 ) -> None:
@@ -27,9 +27,9 @@ def entities_to_excel(
     module = import_module(module_path=module_path)
 
     # Special case of `PropertyTypeDef` in `property_types.py`
-    if 'property_types.py' in module_path:
+    if "property_types.py" in module_path:
         for name, obj in inspect.getmembers(module):
-            if name.startswith('_') or name == 'PropertyTypeDef':
+            if name.startswith("_") or name == "PropertyTypeDef":
                 continue
 
             # Entity title
@@ -39,7 +39,7 @@ def entities_to_excel(
             worksheet.append(obj.excel_headers)
             row = []
             for f_set in obj.model_fields.keys():
-                if f_set == 'data_type':
+                if f_set == "data_type":
                     val = obj.data_type.value
                 else:
                     val = getattr(obj, f_set)
@@ -50,7 +50,7 @@ def entities_to_excel(
     # All other datamodel modules
     for _, obj in inspect.getmembers(module, inspect.isclass):
         # Ensure the class has the `to_json` method
-        if not hasattr(obj, 'defs') or not callable(getattr(obj, 'to_json')):
+        if not hasattr(obj, "defs") or not callable(getattr(obj, "to_json")):
             continue
 
         obj_instance = obj()
@@ -70,21 +70,21 @@ def entities_to_excel(
         worksheet.append(header_values)
 
         # Properties assignment for ObjectType
-        if obj_instance.entity_type == 'ObjectType':
+        if obj_instance.cls_name == "ObjectType":
             if not obj_instance.properties:
                 continue
             worksheet.append(obj_instance.properties[0].excel_headers)
             for prop in obj_instance.properties:
                 row = []
                 for f_set in prop.model_fields.keys():
-                    if f_set == 'data_type':
+                    if f_set == "data_type":
                         val = prop.data_type.value
                     else:
                         val = getattr(prop, f_set)
                     row.append(val)
                 worksheet.append(row)
         # Terms assignment for VocabularyType
-        elif obj_instance.entity_type == 'VocabularyType':
+        elif obj_instance.cls_name == "VocabularyType":
             if not obj_instance.terms:
                 continue
             worksheet.append(obj_instance.terms[0].excel_headers)
@@ -95,4 +95,4 @@ def entities_to_excel(
 
         # ? do the PropertyTypeDef need to be exported to Excel?
 
-        worksheet.append([''])  # empty row after entity definitions
+        worksheet.append([""])  # empty row after entity definitions

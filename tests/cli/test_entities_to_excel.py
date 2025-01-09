@@ -8,44 +8,44 @@ from bam_masterdata.utils import import_module
 
 
 @pytest.mark.parametrize(
-    'module_name, entity_name, entity_headers',
+    "module_name, entity_name, entity_headers",
     [
         (
-            'collection_types',
-            'EXPERIMENT_TYPE',
-            ['Version', 'Code', 'Description', 'Validation script'],
+            "collection_types",
+            "EXPERIMENT_TYPE",
+            ["Version", "Code", "Description", "Validation script"],
         ),
         # ('dataset_types', 'DATASET_TYPE', ['Version', 'Code', 'Description', 'Validation script']),  # ! this module does not have classes yet
         (
-            'object_types',
-            'SAMPLE_TYPE',
+            "object_types",
+            "SAMPLE_TYPE",
             [
-                'Version',
-                'Code',
-                'Description',
-                'Validation script',
-                'Generated code prefix',
-                'Auto generated codes',
+                "Version",
+                "Code",
+                "Description",
+                "Validation script",
+                "Generated code prefix",
+                "Auto generated codes",
             ],
         ),
         (
-            'property_types',
-            'PROPERTY_TYPE',
+            "property_types",
+            "PROPERTY_TYPE",
             [
-                'Version',
-                'Code',
-                'Description',
-                'Property label',
-                'Data type',
-                'Vocabulary code',
-                'Metadata',
-                'Dynamic script',
+                "Version",
+                "Code",
+                "Description",
+                "Property label",
+                "Data type",
+                "Vocabulary code",
+                "Metadata",
+                "Dynamic script",
             ],
         ),
         (
-            'vocabulary_types',
-            'VOCABULARY_TYPE',
-            ['Version', 'Code', 'Description', 'Url template'],
+            "vocabulary_types",
+            "VOCABULARY_TYPE",
+            ["Version", "Code", "Description", "Url template"],
         ),
     ],
 )
@@ -54,15 +54,15 @@ def test_entities_to_excel(
 ):
     """Test the `entities_to_excel` function."""
     definitions_module = import_module(
-        module_path='./bam_masterdata/metadata/definitions.py'
+        module_path="./bam_masterdata/metadata/definitions.py"
     )
 
     # Get the Python modules to process the datamodel
-    module_path = os.path.join('./bam_masterdata/datamodel', f'{module_name}.py')
+    module_path = os.path.join("./bam_masterdata/datamodel", f"{module_name}.py")
     wb = Workbook()
     ws = wb.active
     ws.title = (
-        os.path.basename(module_path).capitalize().replace('.py', '').replace('_', ' ')
+        os.path.basename(module_path).capitalize().replace(".py", "").replace("_", " ")
     )
 
     entities_to_excel(
