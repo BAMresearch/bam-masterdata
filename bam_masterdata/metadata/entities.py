@@ -55,7 +55,8 @@ class BaseEntity(BaseModel):
     @property
     def cls_name(self) -> str:
         """
-        Returns the entity name of the class as a string to speed up checks.
+        Returns the entity name of the class as a string to speed up checks. This is a property
+        to be overwritten by each of the abstract entity types.
         """
         return self.__class__.__name__
 
@@ -108,6 +109,13 @@ class ObjectType(BaseEntity):
 
         return data
 
+    @property
+    def cls_name(self) -> str:
+        """
+        Returns the entity name of the class as a string.
+        """
+        return "ObjectType"
+
 
 class VocabularyType(BaseEntity):
     """
@@ -147,10 +155,27 @@ class VocabularyType(BaseEntity):
 
         return data
 
+    @property
+    def cls_name(self) -> str:
+        """
+        Returns the entity name of the class as a string.
+        """
+        return "VocabularyType"
+
 
 class CollectionType(ObjectType):
-    pass
+    @property
+    def cls_name(self) -> str:
+        """
+        Returns the entity name of the class as a string.
+        """
+        return "CollectionType"
 
 
 class DatasetType(ObjectType):
-    pass
+    @property
+    def cls_name(self) -> str:
+        """
+        Returns the entity name of the class as a string.
+        """
+        return "DatasetType"
