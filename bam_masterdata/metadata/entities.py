@@ -154,6 +154,3 @@ class CollectionType(ObjectType):
 
 class DatasetType(ObjectType):
     pass
-
-
-obj = ObjectType()
