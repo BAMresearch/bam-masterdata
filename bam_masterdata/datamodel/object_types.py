@@ -1187,7 +1187,7 @@ class Calibration(ObjectType):
 
     instrument = PropertyTypeAssignment(
         code="INSTRUMENT",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Testing Machine or Measurement Device",
         description="""Testing machine or measurement device//Prüfmaschine oder Messgerät""",
         mandatory=True,
@@ -1483,7 +1483,7 @@ class Instrument(ObjectType):
 
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
@@ -1493,7 +1493,7 @@ class Instrument(ObjectType):
 
     co_responsible_person = PropertyTypeAssignment(
         code="CO_RESPONSIBLE_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
@@ -1711,7 +1711,7 @@ class TestingMachine(ObjectType):
 
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
@@ -1721,7 +1721,7 @@ class TestingMachine(ObjectType):
 
     co_responsible_person = PropertyTypeAssignment(
         code="CO_RESPONSIBLE_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
@@ -2127,7 +2127,7 @@ class GasBottle(ObjectType):
 
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
@@ -2137,7 +2137,7 @@ class GasBottle(ObjectType):
 
     co_responsible_person = PropertyTypeAssignment(
         code="CO_RESPONSIBLE_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
@@ -2305,7 +2305,7 @@ class TestObject(ObjectType):
 
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
@@ -2533,7 +2533,7 @@ class Project(ObjectType):
 
     project_leader_bam = PropertyTypeAssignment(
         code="PROJECT_LEADER_BAM",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Project Leader",
         description="""Project Leader at BAM//Projektleitung an der BAM""",
         mandatory=False,
@@ -2779,7 +2779,7 @@ class Control(ObjectType):
 
     acting_person = PropertyTypeAssignment(
         code="ACTING_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Acting Person",
         description="""Acting Person//Handelnde Person""",
         mandatory=False,
@@ -2837,7 +2837,7 @@ class Task(ObjectType):
 
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=True,
@@ -2847,7 +2847,7 @@ class Task(ObjectType):
 
     co_responsible_person = PropertyTypeAssignment(
         code="CO_RESPONSIBLE_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
@@ -2925,7 +2925,7 @@ class SpecificPersonInfo(ObjectType):
 
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=True,
@@ -3023,7 +3023,7 @@ class Sop(ObjectType):
 
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=True,
@@ -3033,7 +3033,7 @@ class Sop(ObjectType):
 
     co_responsible_person = PropertyTypeAssignment(
         code="CO_RESPONSIBLE_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=True,
@@ -3211,7 +3211,7 @@ class Sample(ObjectType):
 
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
@@ -3221,7 +3221,7 @@ class Sample(ObjectType):
 
     co_responsible_person = PropertyTypeAssignment(
         code="CO_RESPONSIBLE_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
@@ -3489,7 +3489,7 @@ class Chemical(ObjectType):
 
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
@@ -3775,7 +3775,7 @@ class BamGentechFacility(ObjectType):
 
     gentech_project_lead = PropertyTypeAssignment(
         code="GENTECH_PROJECT_LEAD",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Genetic Engineering Facility Project Leader",
         description="""BAM Project Leader according to GenTSV//BAM Project Leiter nach GenTSV""",
         mandatory=True,
@@ -3785,7 +3785,7 @@ class BamGentechFacility(ObjectType):
 
     gentech_biosafety_officer = PropertyTypeAssignment(
         code="GENTECH_BIOSAFETY_OFFICER",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Genetic Engineering Facility Biosafety Officer",
         description="""BAM Biosafety Officer according to GenTSV//BAM Beauftragte für biologische Sicherheit nach GenTSV""",
         mandatory=True,
@@ -4139,7 +4139,7 @@ class Action(ObjectType):
 
     acting_person = PropertyTypeAssignment(
         code="ACTING_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Acting Person",
         description="""Acting Person//Handelnde Person""",
         mandatory=False,
@@ -4939,7 +4939,7 @@ class Hpc(ObjectType):
 
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
@@ -4949,7 +4949,7 @@ class Hpc(ObjectType):
 
     co_responsible_person = PropertyTypeAssignment(
         code="CO_RESPONSIBLE_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
@@ -6678,7 +6678,7 @@ class Fcg(ObjectType):
 
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
@@ -6827,7 +6827,7 @@ class Steel(ObjectType):
 
     mat_code = PropertyTypeAssignment(
         code="MAT_CODE",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Material Number",
         description="""Material Number//Werkstoffnummer""",
         mandatory=False,
@@ -7196,7 +7196,7 @@ class Aluminium(ObjectType):
 
     mat_code = PropertyTypeAssignment(
         code="MAT_CODE",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Material Number",
         description="""Material Number//Werkstoffnummer""",
         mandatory=False,
@@ -8676,7 +8676,7 @@ class Welding(ObjectType):
 
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
@@ -8686,7 +8686,7 @@ class Welding(ObjectType):
 
     co_responsible_person = PropertyTypeAssignment(
         code="CO_RESPONSIBLE_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
@@ -10314,7 +10314,7 @@ class MsCenter(Project):
 
     acting_person = PropertyTypeAssignment(
         code="ACTING_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Acting Person",
         description="""Acting Person//Handelnde Person""",
         mandatory=True,
@@ -10546,7 +10546,7 @@ class GmoDonor(Sample):
 
     donor = PropertyTypeAssignment(
         code="DONOR",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Donor Organism",
         description="""Name of the donor organism of which the genetic information is used for generating a GMO//Name des Spenderorganismus, dessen genetische Information für die Erzeugung eines GVO verwendet wird""",
         mandatory=False,
@@ -10566,7 +10566,7 @@ class GmoDonor(Sample):
 
     gentech_facility = PropertyTypeAssignment(
         code="GENTECH_FACILITY",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="BAM genetic engineering installation",
         description="""BAM genetic engineering facility//BAM gentechnische Anlage""",
         mandatory=True,
@@ -10584,7 +10584,7 @@ class GmoRecipient(Sample):
 
     recipient = PropertyTypeAssignment(
         code="RECIPIENT",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Recipient Organism",
         description="""Name of the recipient organism in which the genetic information is used to generate a GMO//Name des Empfängerorganismus, in dem die genetische Information für die Erzeugung eines GVO verwendet wird""",
         mandatory=False,
@@ -10614,7 +10614,7 @@ class GmoRecipient(Sample):
 
     gentech_facility = PropertyTypeAssignment(
         code="GENTECH_FACILITY",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="BAM genetic engineering installation",
         description="""BAM genetic engineering facility//BAM gentechnische Anlage""",
         mandatory=True,
@@ -10672,7 +10672,7 @@ class Plasmid(Sample):
 
     gentech_facility = PropertyTypeAssignment(
         code="GENTECH_FACILITY",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="BAM genetic engineering installation",
         description="""BAM genetic engineering facility//BAM gentechnische Anlage""",
         mandatory=True,
@@ -10690,7 +10690,7 @@ class Gmo(Sample):
 
     vector = PropertyTypeAssignment(
         code="VECTOR",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Vector name",
         description="""A plasmid used as a biological carrier to introduce nucleic acid segments into a new cell//Ein Plasmid, das als biologischer Träger verwendet wird, um Nukleinsäuresegmente in eine neue Zelle einzubringen""",
         mandatory=True,
@@ -10700,7 +10700,7 @@ class Gmo(Sample):
 
     gmo_recipient = PropertyTypeAssignment(
         code="GMO_RECIPIENT",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Recipient Organism",
         description="""Recipient organism in which the genetic information is used for generating a GMO//Empfängerorganismus, in dem die genetische Information für die Erzeugung eines GVO verwendet wird""",
         mandatory=True,
@@ -10710,7 +10710,7 @@ class Gmo(Sample):
 
     gmo_donor = PropertyTypeAssignment(
         code="GMO_DONOR",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Donor Organism",
         description="""Donor organism of which the genetic information is used for generating a GMO//Spenderorganismus, dessen genetische Information für die Erzeugung eines GVO verwendet wird""",
         mandatory=True,
@@ -10780,7 +10780,7 @@ class Gmo(Sample):
 
     gentech_facility = PropertyTypeAssignment(
         code="GENTECH_FACILITY",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="BAM genetic engineering installation",
         description="""BAM genetic engineering facility//BAM gentechnische Anlage""",
         mandatory=True,
@@ -10826,7 +10826,7 @@ class DeviceTraining(Action):
 
     trained_person = PropertyTypeAssignment(
         code="TRAINED_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Trained Person",
         description="""Trained Person//Eingewiesene Person""",
         mandatory=False,
@@ -11388,7 +11388,7 @@ class ThermographicMeasurement(ExperimentalStep):
 
     associated_project = PropertyTypeAssignment(
         code="ASSOCIATED_PROJECT",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Associated project",
         description="""Associated project//Assoziiertes Projekt""",
         mandatory=False,
@@ -11466,7 +11466,7 @@ class Named(SampleNdt):
 
     associated_project = PropertyTypeAssignment(
         code="ASSOCIATED_PROJECT",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Associated project",
         description="""Associated project//Assoziiertes Projekt""",
         mandatory=False,
@@ -11476,7 +11476,7 @@ class Named(SampleNdt):
 
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
@@ -11486,7 +11486,7 @@ class Named(SampleNdt):
 
     co_responsible_person = PropertyTypeAssignment(
         code="CO_RESPONSIBLE_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
@@ -12490,7 +12490,7 @@ class MeasurementSession(ExperimentalStep):
 
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
@@ -13212,7 +13212,7 @@ class StationLayout1(ObjectType):
 
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
@@ -13222,7 +13222,7 @@ class StationLayout1(ObjectType):
 
     co_responsible_person = PropertyTypeAssignment(
         code="CO_RESPONSIBLE_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
@@ -13451,7 +13451,7 @@ class StationLayout3(ObjectType):
 
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
@@ -13461,7 +13461,7 @@ class StationLayout3(ObjectType):
 
     co_responsible_person = PropertyTypeAssignment(
         code="CO_RESPONSIBLE_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,

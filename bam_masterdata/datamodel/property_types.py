@@ -115,7 +115,7 @@ Acronym = PropertyTypeDef(
 ActingPerson = PropertyTypeDef(
     code="ACTING_PERSON",
     description="""Acting Person//Handelnde Person""",
-    data_type="SAMPLE",
+    data_type="OBJECT",
     property_label="Acting Person",
 )
 
@@ -283,7 +283,7 @@ Arrest = PropertyTypeDef(
 AssociatedProject = PropertyTypeDef(
     code="ASSOCIATED_PROJECT",
     description="""Associated project//Assoziiertes Projekt""",
-    data_type="SAMPLE",
+    data_type="OBJECT",
     property_label="Associated project",
 )
 
@@ -1043,7 +1043,7 @@ ConductivityInMs = PropertyTypeDef(
 CoResponsiblePerson = PropertyTypeDef(
     code="CO_RESPONSIBLE_PERSON",
     description="""Co-responsible person//Weitere verantwortliche Person""",
-    data_type="SAMPLE",
+    data_type="OBJECT",
     property_label="Co-responsible person",
 )
 
@@ -1283,7 +1283,7 @@ DocumentType = PropertyTypeDef(
 Donor = PropertyTypeDef(
     code="DONOR",
     description="""Name of the donor organism of which the genetic information is used for generating a GMO//Name des Spenderorganismus, dessen genetische Information für die Erzeugung eines GVO verwendet wird""",
-    data_type="SAMPLE",
+    data_type="OBJECT",
     property_label="Donor Organism",
 )
 
@@ -1675,7 +1675,7 @@ GeneticMaterialRiskPotential = PropertyTypeDef(
 GentechBiosafetyOfficer = PropertyTypeDef(
     code="GENTECH_BIOSAFETY_OFFICER",
     description="""BAM Biosafety Officer according to GenTSV//BAM Beauftragte für biologische Sicherheit nach GenTSV""",
-    data_type="SAMPLE",
+    data_type="OBJECT",
     property_label="Genetic Engineering Facility Biosafety Officer",
 )
 
@@ -1683,7 +1683,7 @@ GentechBiosafetyOfficer = PropertyTypeDef(
 GentechFacility = PropertyTypeDef(
     code="GENTECH_FACILITY",
     description="""BAM genetic engineering facility//BAM gentechnische Anlage""",
-    data_type="SAMPLE",
+    data_type="OBJECT",
     property_label="BAM genetic engineering installation",
 )
 
@@ -1691,7 +1691,7 @@ GentechFacility = PropertyTypeDef(
 GentechProjectLead = PropertyTypeDef(
     code="GENTECH_PROJECT_LEAD",
     description="""BAM Project Leader according to GenTSV//BAM Project Leiter nach GenTSV""",
-    data_type="SAMPLE",
+    data_type="OBJECT",
     property_label="Genetic Engineering Facility Project Leader",
 )
 
@@ -1723,7 +1723,7 @@ GmoDisposalDate = PropertyTypeDef(
 GmoDonor = PropertyTypeDef(
     code="GMO_DONOR",
     description="""Donor organism of which the genetic information is used for generating a GMO//Spenderorganismus, dessen genetische Information für die Erzeugung eines GVO verwendet wird""",
-    data_type="SAMPLE",
+    data_type="OBJECT",
     property_label="Donor Organism",
 )
 
@@ -1739,7 +1739,7 @@ GmoProductionDate = PropertyTypeDef(
 GmoRecipient = PropertyTypeDef(
     code="GMO_RECIPIENT",
     description="""Recipient organism in which the genetic information is used for generating a GMO//Empfängerorganismus, in dem die genetische Information für die Erzeugung eines GVO verwendet wird""",
-    data_type="SAMPLE",
+    data_type="OBJECT",
     property_label="Recipient Organism",
 )
 
@@ -2099,7 +2099,7 @@ InitialSsyRatio = PropertyTypeDef(
 Instrument = PropertyTypeDef(
     code="INSTRUMENT",
     description="""Testing machine or measurement device//Prüfmaschine oder Messgerät""",
-    data_type="SAMPLE",
+    data_type="OBJECT",
     property_label="Testing Machine or Measurement Device",
 )
 
@@ -2475,7 +2475,7 @@ MatBondingType = PropertyTypeDef(
 MatCode = PropertyTypeDef(
     code="MAT_CODE",
     description="""Material Number//Werkstoffnummer""",
-    data_type="SAMPLE",
+    data_type="OBJECT",
     property_label="Material Number",
 )
 
@@ -3211,7 +3211,7 @@ ProjectLeader = PropertyTypeDef(
 ProjectLeaderBam = PropertyTypeDef(
     code="PROJECT_LEADER_BAM",
     description="""Project Leader at BAM//Projektleitung an der BAM""",
-    data_type="SAMPLE",
+    data_type="OBJECT",
     property_label="Project Leader",
 )
 
@@ -3539,7 +3539,7 @@ RazorStrokespeed = PropertyTypeDef(
 Recipient = PropertyTypeDef(
     code="RECIPIENT",
     description="""Name of the recipient organism in which the genetic information is used to generate a GMO//Name des Empfängerorganismus, in dem die genetische Information für die Erzeugung eines GVO verwendet wird""",
-    data_type="SAMPLE",
+    data_type="OBJECT",
     property_label="Recipient Organism",
 )
 
@@ -3571,7 +3571,7 @@ ResearchBamProjectId = PropertyTypeDef(
 ResponsiblePerson = PropertyTypeDef(
     code="RESPONSIBLE_PERSON",
     description="""Responsible person//Verantwortliche Person""",
-    data_type="SAMPLE",
+    data_type="OBJECT",
     property_label="Responsible person",
 )
 
@@ -4411,7 +4411,7 @@ ThicknessInMillimeter = PropertyTypeDef(
 TrainedPerson = PropertyTypeDef(
     code="TRAINED_PERSON",
     description="""Trained Person//Eingewiesene Person""",
-    data_type="SAMPLE",
+    data_type="OBJECT",
     property_label="Trained Person",
 )
 
@@ -4475,7 +4475,7 @@ ValveTypeId = PropertyTypeDef(
 Vector = PropertyTypeDef(
     code="VECTOR",
     description="""A plasmid used as a biological carrier to introduce nucleic acid segments into a new cell//Ein Plasmid, das als biologischer Träger verwendet wird, um Nukleinsäuresegmente in eine neue Zelle einzubringen""",
-    data_type="SAMPLE",
+    data_type="OBJECT",
     property_label="Vector name",
 )
 
