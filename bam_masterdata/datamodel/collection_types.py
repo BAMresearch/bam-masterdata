@@ -268,7 +268,7 @@ class MeasurementsCollection(CollectionType):
 
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
@@ -278,7 +278,7 @@ class MeasurementsCollection(CollectionType):
 
     co_responsible_person = PropertyTypeAssignment(
         code="CO_RESPONSIBLE_PERSON",
-        data_type="SAMPLE",
+        data_type="OBJECT",
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
