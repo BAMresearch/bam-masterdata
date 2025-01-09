@@ -13,14 +13,13 @@ from bam_masterdata.utils import import_module
         (
             "collection_types",
             "EXPERIMENT_TYPE",
-            ["Version", "Code", "Description", "Validation script"],
+            ["Code", "Description", "Validation script"],
         ),
-        # ('dataset_types', 'DATASET_TYPE', ['Version', 'Code', 'Description', 'Validation script']),  # ! this module does not have classes yet
+        # ('dataset_types', 'DATASET_TYPE', ['Code', 'Description', 'Validation script']),  # ! this module does not have classes yet
         (
             "object_types",
             "SAMPLE_TYPE",
             [
-                "Version",
                 "Code",
                 "Description",
                 "Validation script",
@@ -32,7 +31,6 @@ from bam_masterdata.utils import import_module
             "property_types",
             "PROPERTY_TYPE",
             [
-                "Version",
                 "Code",
                 "Description",
                 "Property label",
@@ -45,7 +43,7 @@ from bam_masterdata.utils import import_module
         (
             "vocabulary_types",
             "VOCABULARY_TYPE",
-            ["Version", "Code", "Description", "Url template"],
+            ["Code", "Description", "Url template"],
         ),
     ],
 )
