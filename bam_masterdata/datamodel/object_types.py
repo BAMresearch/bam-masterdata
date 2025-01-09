@@ -10181,8 +10181,7 @@ class Bam(Person):
     )
 
 
-# Freezer is defined several times in the model
-class Freezer1(Control):
+class Freezer(Control):
     defs = ObjectTypeDef(
         code="CONTROL.FREEZER",
         description="""This Object allows to store temperature data as a control point for a Freezer//Dieses Objekt erlaubt einen Kontrollpunkt für ein Kühlgerät zu erstellen""",
@@ -10210,8 +10209,7 @@ class Freezer1(Control):
     )
 
 
-# Freezer is defined several times in the model
-class Freezer2(Instrument):
+class Freezer(Instrument):
     defs = ObjectTypeDef(
         code="INSTRUMENT.FREEZER",
         description="""Cooling Device//Kühlgerät""",
@@ -13092,8 +13090,7 @@ class Robot(WeldingEquipment):
 
 
 # ! The parent class of StationLayout is not defined (missing ObjectType)
-# StationLayout is defined several times in the model
-class StationLayout1(ObjectType):
+class StationLayout(ObjectType):
     defs = ObjectTypeDef(
         code="WELDING.EQUIPMENT.STATION_LAYOUT",
         description="""Layout and configuration of a welding station""",
@@ -13321,8 +13318,7 @@ class StationLayout1(ObjectType):
     )
 
 
-# StationLayout is defined several times in the model
-class StationLayout2(WeldingEquipment):
+class StationLayout(WeldingEquipment):
     defs = ObjectTypeDef(
         code="INSTRUMENT.WELDING_EQUIPMENT.STATION_LAYOUT",
         description="""Layout and configuration of a welding station""",
@@ -13331,8 +13327,7 @@ class StationLayout2(WeldingEquipment):
 
 
 # ! The parent class of StationLayout is not defined (missing ObjectType)
-# StationLayout is defined several times in the model
-class StationLayout3(ObjectType):
+class StationLayout(ObjectType):
     defs = ObjectTypeDef(
         code="INSTRUMENT.WELDING.EQUIPMENT.STATION_LAYOUT",
         description="""Layout and configuration of a welding station""",

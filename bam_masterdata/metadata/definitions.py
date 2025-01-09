@@ -79,7 +79,7 @@ class EntityDef(BaseModel):
     @field_validator("code")
     @classmethod
     def validate_code(cls, value: str) -> str:
-        if not value or not re.match(r"^[A-Z_\$\.]+$", value):
+        if not value or not re.match(r"^[\w_\$\.\-\+]+$", value):
             raise ValueError(
                 "`code` must follow the rules specified in the description: 1) Must be uppercase, "
                 "2) separated by underscores, 3) start with a dollar sign if native to openBIS, "
