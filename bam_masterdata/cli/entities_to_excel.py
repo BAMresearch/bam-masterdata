@@ -45,6 +45,7 @@ def entities_to_excel(
                     val = getattr(obj, f_set)
                 row.append(val)
             worksheet.append(row)
+            worksheet.append([""])  # empty row after entity definitions
         return None
 
     # All other datamodel modules
@@ -69,8 +70,8 @@ def entities_to_excel(
         ]
         worksheet.append(header_values)
 
-        # Properties assignment for ObjectType
-        if obj_instance.cls_name == "ObjectType":
+        # Properties assignment for ObjectType, DatasetType, and CollectionType
+        if obj_instance.cls_name in ["ObjectType", "DatasetType", "CollectionType"]:
             if not obj_instance.properties:
                 continue
             worksheet.append(obj_instance.properties[0].excel_headers)
