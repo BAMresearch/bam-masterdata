@@ -75,7 +75,7 @@ class MasterdataCodeGenerator:
         return parent_code, parent_class, class_name
 
     def add_properties(
-        self, entities: dict, parent_code: str, data: str, lines: list
+        self, entities: dict, parent_code: str, data: dict, lines: list
     ) -> None:
         """
         Add the properties of the entity to the `lines` list. The properties are added as
@@ -84,7 +84,7 @@ class MasterdataCodeGenerator:
         Args:
             entities (dict): The dictionary of entities (objects, collections, datasets, vocabularies).
             parent_code (code): The code of the parent class.
-            data (str): The data information for the entity as obtained from openBIS.
+            data (dict): The data information for the entity as obtained from openBIS.
             lines (list): A list of strings to be printed to the Python module.
         """
         parent_properties = entities.get(parent_code, {}).get("properties", {}).keys()
@@ -185,7 +185,7 @@ class MasterdataCodeGenerator:
             str: Python code for the collection types.
         """
         lines = []
-        class_names = {}
+        class_names: dict = {}
 
         # Add imports at the top
         lines.append(
@@ -243,7 +243,7 @@ class MasterdataCodeGenerator:
             str: Python code for the dataset types.
         """
         lines = []
-        class_names = {}
+        class_names: dict = {}
 
         # Add imports at the top
         lines.append(
@@ -294,7 +294,7 @@ class MasterdataCodeGenerator:
             str: Python code for the object types.
         """
         lines = []
-        class_names = {}
+        class_names: dict = {}
 
         # Add imports at the top
         lines.append(
@@ -348,7 +348,7 @@ class MasterdataCodeGenerator:
             str: Python code for the vocabulary types.
         """
         lines = []
-        class_names = {}
+        class_names: dict = {}
 
         # Add imports at the top
         lines.append(
@@ -410,9 +410,8 @@ class MasterdataCodeGenerator:
                     term_name = "i"
                 lines.append(f"    {term_name} = VocabularyTerm(")
                 lines.append(f'        code="{term_code}",')
-                lines.append(
-                    f"        label=\"{(term_data.get('label') or '').replace('\"', '')}\","
-                )
+                label = (term_data.get("label") or "").replace('"', "")
+                lines.append(f'        label="{label}",')
                 description = (
                     (term_data.get("description") or "")
                     .replace('"', "`")
