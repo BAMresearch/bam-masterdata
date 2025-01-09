@@ -259,6 +259,9 @@ class MasterdataCodeGenerator:
             if code == "UNKNOWN":
                 continue
 
+            if code == "NORM":
+                print("hey")
+
             # Determine parent class
             parent_code, parent_class, class_name = self.determine_parent_class(
                 code=code, class_names=class_names, default="DatasetType", lines=lines
