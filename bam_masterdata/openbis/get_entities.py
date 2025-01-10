@@ -58,10 +58,9 @@ class OpenbisEntities:
                             "registrationDate": entry.get("registrationDate", None),
                             "plugin": entry.get("plugin", ""),
                         }
-
-                # ! This has changed and now permId, label, and description do not exist on the property assignments!!
                 for prop in assignments:
-                    properties[prop.get_property_type().permId].update(
+                    prop = prop.get_property_type()
+                    properties[prop.permId].update(
                         {
                             "label": prop.label,
                             "description": prop.description,
