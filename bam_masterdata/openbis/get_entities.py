@@ -29,6 +29,7 @@ class OpenbisEntities:
                 # Create a dictionary of properties using the correct permId
                 properties = {}
                 for entry in assignments_dict:
+                    # ! This has changed and now permId does not exist on the property assignments!!
                     property_perm_id = (
                         entry.get("permId", {}).get("propertyTypeId", {}).get("permId")
                     )
@@ -59,6 +60,7 @@ class OpenbisEntities:
                             "plugin": entry.get("plugin", ""),
                         }
 
+                # ! This has changed and now permId, label, and description do not exist on the property assignments!!
                 for prop in assignments:
                     properties[prop.permId].update(
                         {

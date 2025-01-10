@@ -57,7 +57,10 @@
         "cwd": "${workspaceFolder}",
         "program": "${workspaceFolder}/.venv/bin/bam_masterdata",
         "justMyCode": false,
-        "args": ["fill_masterdata"]
+        "args": [
+          "fill_masterdata",
+          // "--url=https://devel.datastore.bam.de/"
+        ]
       },
       {
         "name": "BM export-to-json",
