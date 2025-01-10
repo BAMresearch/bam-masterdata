@@ -1,8 +1,21 @@
 import json
-from typing import Any, Optional
+from typing import TYPE_CHECKING, Any, Optional
+
+if TYPE_CHECKING:
+    from pybis import Openbis
+    from structlog._config import BoundLoggerLazyProxy
+
+
+from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from bam_masterdata.metadata._maps import (
+    COLLECTION_TYPE_MAP,
+    DATASET_TYPE_MAP,
+    OBJECT_TYPE_MAP,
+    VOCABULARY_TYPE_MAP,
+)
 from bam_masterdata.metadata.definitions import (
     CollectionTypeDef,
     DatasetTypeDef,
@@ -11,6 +24,7 @@ from bam_masterdata.metadata.definitions import (
     VocabularyTerm,
     VocabularyTypeDef,
 )
+from bam_masterdata.openbis import OpenbisEntities
 
 
 class BaseEntity(BaseModel):
@@ -59,6 +73,66 @@ class BaseEntity(BaseModel):
         to be overwritten by each of the abstract entity types.
         """
         return self.__class__.__name__
+
+    def to_openbis(
+        self,
+        logger: "BoundLoggerLazyProxy",
+        openbis: "Openbis",
+        type: str,
+        type_map: dict,
+    ) -> None:
+        """
+        Add the property type to openBIS if it does not exist yet. If it exists, it checks if the
+        values have changed and logs criticals if `code` or `data_type` have changed, while only warnings
+        for the other attributes.
+
+        Args:
+            logger (BoundLoggerLazyProxy): The logger to log messages.
+            openbis (Openbis): The openBIS instance.
+        """
+        openbis_entities = getattr(
+            OpenbisEntities(url=openbis.url), f"get_{type}_dict"
+        )()
+        if self.defs.code in openbis_entities.keys():
+            obis_entity = openbis_entities.get(self.defs.code)
+            for key in self.model_fields.keys():
+                obis_attr = type_map.get(key)
+                value = obis_entity.get(obis_attr)
+
+                # Skip if the value is empty and the attribute is not set
+                if not value and not getattr(self, key):
+                    continue
+
+                # Check if the value has changed
+                if value != getattr(self.defs, key):
+                    # `code` are immutable if they exist already in openBIS
+                    if key == "code":
+                        logger.critical(
+                            f"`code` cannot be changed once it is set (old {value}, new {getattr(self, key)}). "
+                            "You need to define a new property."
+                        )
+                        return None
+                    # Otherwise, the attribute can be changed
+                    else:
+                        logger.warning(
+                            f"{self.code} has changed the value for `{key}` from ``{value}`` to ``{getattr(self, key)}``, <<{datetime.now()}>>\n"
+                            "We will update its value in openBIS."
+                        )
+                        prop = openbis.get_property_type(self.defs.code)
+                        print(prop)  # TODO delete this and uncomment next line
+                        # setattr(prop, obis_attr, getattr(self, key))
+        else:
+            # Adding it to openBIS
+            prop = openbis.new_property_type(
+                code=self.code,
+                description=self.description,
+                label=self.property_label,
+                dataType=self.data_type,
+                vocabulary=self.vocabulary_code,
+                metaData=self.metadata,
+            )
+            print(prop)  # TODO delete this and uncomment next line
+            # prop.save()
 
 
 class ObjectType(BaseEntity):
@@ -116,6 +190,15 @@ class ObjectType(BaseEntity):
         """
         return "ObjectType"
 
+    def to_openbis(
+        self,
+        logger: "BoundLoggerLazyProxy",
+        openbis: "Openbis",
+        type: str = "object",
+        type_map: dict = OBJECT_TYPE_MAP,
+    ) -> None:
+        super().to_openbis(logger=logger, openbis=openbis, type=type, type_map=type_map)
+
 
 class VocabularyType(BaseEntity):
     """
@@ -162,6 +245,14 @@ class VocabularyType(BaseEntity):
         """
         return "VocabularyType"
 
+    def to_openbis(self, logger: "BoundLoggerLazyProxy", openbis: "Openbis") -> None:
+        super().to_openbis(
+            logger=logger,
+            openbis=openbis,
+            type="vocabulary",
+            type_map=VOCABULARY_TYPE_MAP,
+        )
+
 
 class CollectionType(ObjectType):
     @property
@@ -171,6 +262,14 @@ class CollectionType(ObjectType):
         """
         return "CollectionType"
 
+    def to_openbis(self, logger: "BoundLoggerLazyProxy", openbis: "Openbis") -> None:
+        super().to_openbis(
+            logger=logger,
+            openbis=openbis,
+            type="collection",
+            type_map=COLLECTION_TYPE_MAP,
+        )
+
 
 class DatasetType(ObjectType):
     @property
@@ -179,3 +278,11 @@ class DatasetType(ObjectType):
         Returns the entity name of the class as a string.
         """
         return "DatasetType"
+
+    def to_openbis(self, logger: "BoundLoggerLazyProxy", openbis: "Openbis") -> None:
+        super().to_openbis(
+            logger=logger,
+            openbis=openbis,
+            type="dataset",
+            type_map=DATASET_TYPE_MAP,
+        )

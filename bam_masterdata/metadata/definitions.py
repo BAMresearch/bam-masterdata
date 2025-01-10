@@ -1,8 +1,16 @@
 import re
+from datetime import datetime
 from enum import Enum
-from typing import Any, Optional
+from typing import TYPE_CHECKING, Any, Optional
+
+if TYPE_CHECKING:
+    from pybis import Openbis
+    from structlog._config import BoundLoggerLazyProxy
 
 from pydantic import BaseModel, Field, field_validator, model_validator
+
+from bam_masterdata.metadata._maps import PROPERTY_TYPE_MAP
+from bam_masterdata.openbis import OpenbisEntities
 
 
 class DataType(str, Enum):
@@ -296,10 +304,65 @@ class PropertyTypeDef(EntityDef):
         """,
     )
 
-    dynamic_script: Optional[str] = Field(
-        default=None,
-        description="""""",
-    )
+    def to_openbis(self, logger: "BoundLoggerLazyProxy", openbis: "Openbis") -> None:
+        """
+        Add the property type to openBIS if it does not exist yet. If it exists, it checks if the
+        values have changed and logs criticals if `code` or `data_type` have changed, while only warnings
+        for the other attributes.
+
+        Args:
+            logger (BoundLoggerLazyProxy): The logger to log messages.
+            openbis (Openbis): The openBIS instance.
+        """
+        # ? does this can only be used if with admin permissions or any user can add a property type using this?
+        openbis_entities = OpenbisEntities(url=openbis.url).get_property_dict()
+        if self.code in openbis_entities.keys():
+            obis_entity = openbis_entities.get(self.code)
+            for key in self.model_fields.keys():
+                obis_attr = PROPERTY_TYPE_MAP.get(key)
+                value = obis_entity.get(obis_attr)
+
+                # Skip if the value is empty and the attribute is not set
+                if not value and not getattr(self, key):
+                    continue
+
+                # Check if the value has changed
+                if value != getattr(self, key):
+                    # `code` and `data_type` are immutable if they exist already in openBIS
+                    if key == "code":
+                        logger.critical(
+                            f"`code` cannot be changed once it is set (old {value}, new {getattr(self, key)}). "
+                            "You need to define a new property."
+                        )
+                        return None
+                    elif key == "data_type":
+                        logger.critical(
+                            f"`data_type` has changed (old {value}, new {getattr(self, key)}), which means that "
+                            "data using a type that is not compatible with the new type will probably break openBIS. "
+                            "You need to define a new property."
+                        )
+                        return None
+                    # Otherwise, the attribute can be changed
+                    else:
+                        logger.warning(
+                            f"{self.code} has changed the value for `{key}` from ``{value}`` to ``{getattr(self, key)}``, <<{datetime.now()}>>\n"
+                            "We will update its value in openBIS."
+                        )
+                        prop = openbis.get_property_type(self.code)
+                        print(prop)  # TODO delete this and uncomment next line
+                        # setattr(prop, obis_attr, getattr(self, key))
+        else:
+            # Adding it to openBIS
+            prop = openbis.new_property_type(
+                code=self.code,
+                description=self.description,
+                label=self.property_label,
+                dataType=self.data_type,
+                vocabulary=self.vocabulary_code,
+                metaData=self.metadata,
+            )
+            print(prop)  # TODO delete this and uncomment next line
+            # prop.save()
 
 
 class PropertyTypeAssignment(PropertyTypeDef):
