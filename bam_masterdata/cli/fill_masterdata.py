@@ -3,6 +3,7 @@ import time
 import click
 
 from bam_masterdata.openbis import OpenbisEntities
+from bam_masterdata.openbis.login import environ
 
 
 class MasterdataCodeGenerator:
@@ -11,14 +12,14 @@ class MasterdataCodeGenerator:
     openBIS instance.
     """
 
-    def __init__(self):
+    def __init__(self, url: str = environ("OPENBIS_URL")):
         start_time = time.time()
         # * This part takes some time due to the loading of all entities from Openbis
-        self.properties = OpenbisEntities().get_property_dict()
-        self.collections = OpenbisEntities().get_collection_dict()
-        self.datasets = OpenbisEntities().get_dataset_dict()
-        self.objects = OpenbisEntities().get_object_dict()
-        self.vocabularies = OpenbisEntities().get_vocabulary_dict()
+        self.properties = OpenbisEntities(url=url).get_property_dict()
+        self.collections = OpenbisEntities(url=url).get_collection_dict()
+        self.datasets = OpenbisEntities(url=url).get_dataset_dict()
+        self.objects = OpenbisEntities(url=url).get_object_dict()
+        self.vocabularies = OpenbisEntities(url=url).get_vocabulary_dict()
         elapsed_time = time.time() - start_time
         click.echo(
             f"Loaded OpenBIS entities in `MasterdataCodeGenerator` initialization {elapsed_time:.2f} seconds\n"

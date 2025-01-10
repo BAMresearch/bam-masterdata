@@ -1,4 +1,4 @@
-from bam_masterdata.openbis.login import ologin
+from bam_masterdata.openbis.login import environ, ologin
 
 
 class OpenbisEntities:
@@ -7,8 +7,8 @@ class OpenbisEntities:
     Python modules of `bam_masterdata/datamodel/`.
     """
 
-    def __init__(self):
-        self.openbis = ologin()
+    def __init__(self, url: str = environ("OPENBIS_URL")):
+        self.openbis = ologin(url=url)
 
     def _get_formatted_dict(self, entity_name: str):
         # entity_name is property_types, collection_types, dataset_types, object_types, or vocabularies
