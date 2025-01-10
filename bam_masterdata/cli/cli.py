@@ -1,4 +1,5 @@
 import os
+import subprocess
 import time
 from pathlib import Path
 
@@ -64,12 +65,18 @@ def fill_masterdata(url):
     elapsed_time = time.time() - start_time
     click.echo(f"Generated all types in {elapsed_time:.2f} seconds\n\n")
 
-    # ! this could be automated in the CLI
-    click.echo(
-        "Don't forget to apply ruff at the end after generating the files by doing:\n"
-    )
-    click.echo("    ruff check .\n")
-    click.echo("    ruff format .\n")
+    try:
+        # Run ruff check
+        click.echo("Running `ruff check .`...")
+        subprocess.run(["ruff", "check", "."], check=True)
+
+        # Run ruff format
+        click.echo("Running `ruff format .`...")
+        subprocess.run(["ruff", "format", "."], check=True)
+    except subprocess.CalledProcessError as e:
+        click.echo(f"Error during ruff execution: {e}", err=True)
+    else:
+        click.echo("Ruff checks and formatting completed successfully!")
 
 
 @cli.command(
