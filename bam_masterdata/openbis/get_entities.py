@@ -29,11 +29,9 @@ class OpenbisEntities:
                 # Create a dictionary of properties using the correct permId
                 properties = {}
                 for entry in assignments_dict:
-                    # ! This has changed and now permId does not exist on the property assignments!!
                     property_perm_id = self.openbis.get_property_type(
                         entry.get("code", {})
                     ).permId
-                    print(property_perm_id)
                     if property_perm_id:
                         # Include the desired property fields
                         properties[property_perm_id] = {
