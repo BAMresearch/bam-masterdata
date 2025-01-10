@@ -31,8 +31,9 @@ class OpenbisEntities:
                 for entry in assignments_dict:
                     # ! This has changed and now permId does not exist on the property assignments!!
                     property_perm_id = (
-                        entry.get("permId", {}).get("propertyTypeId", {}).get("permId")
+                        self.openbis.get_property_type(entry.get("code", {})).permId
                     )
+                    print(property_perm_id)
                     if property_perm_id:
                         # Include the desired property fields
                         properties[property_perm_id] = {
@@ -62,7 +63,7 @@ class OpenbisEntities:
 
                 # ! This has changed and now permId, label, and description do not exist on the property assignments!!
                 for prop in assignments:
-                    properties[prop.permId].update(
+                    properties[prop.get_property_type().permId].update(
                         {
                             "label": prop.label,
                             "description": prop.description,
