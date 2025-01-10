@@ -12,7 +12,7 @@ class MasterdataCodeGenerator:
     openBIS instance.
     """
 
-    def __init__(self, url: str = environ("OPENBIS_URL")):
+    def __init__(self, url: str = ""):
         start_time = time.time()
         # * This part takes some time due to the loading of all entities from Openbis
         self.properties = OpenbisEntities(url=url).get_property_dict()

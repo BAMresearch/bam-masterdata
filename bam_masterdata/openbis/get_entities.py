@@ -7,7 +7,7 @@ class OpenbisEntities:
     Python modules of `bam_masterdata/datamodel/`.
     """
 
-    def __init__(self, url: str = environ("OPENBIS_URL")):
+    def __init__(self, url: str = ""):
         self.openbis = ologin(url=url)
 
     def _get_formatted_dict(self, entity_name: str):

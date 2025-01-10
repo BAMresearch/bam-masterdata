@@ -3,7 +3,7 @@ from pybis import Openbis
 
 
 # Connect to openBIS
-def ologin(url: str = environ("OPENBIS_URL")) -> Openbis:
+def ologin(url: str = "") -> Openbis:
     """
     Connect to openBIS using the credentials stored in the environment variables.
 
