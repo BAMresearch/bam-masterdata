@@ -104,7 +104,7 @@ class MasterdataCodeGenerator:
             # ! patching dataType=SAMPLE instead of OBJECT
             if prop_data.get("dataType", "") == "SAMPLE":
                 prop_data["dataType"] = "OBJECT"
-            lines.append(f"        data_type=\"{prop_data.get('dataType', '')}\",")
+            lines.append(f'        data_type="{prop_data.get("dataType", "")}",')
             property_label = (prop_data.get("label") or "").replace("\n", "\\n")
             lines.append(f'        property_label="{property_label}",')
             description = (
@@ -164,7 +164,7 @@ class MasterdataCodeGenerator:
             # ! patching dataType=SAMPLE instead of OBJECT
             if data.get("dataType", "") == "SAMPLE":
                 data["dataType"] = "OBJECT"
-            lines.append(f"    data_type=\"{data.get('dataType', '')}\",")
+            lines.append(f'    data_type="{data.get("dataType", "")}",')
             property_label = (
                 (data.get("label") or "").replace('"', '\\"').replace("\n", "\\n")
             )
@@ -223,7 +223,7 @@ class MasterdataCodeGenerator:
             lines.append(f'        description="""{description}""",')
             if data.get("validationPlugin") != "":
                 lines.append(
-                    f"        validation_script=\"{data.get('validationPlugin')}\","
+                    f'        validation_script="{data.get("validationPlugin")}",'
                 )
             lines.append("    )")
             lines.append("")
@@ -328,7 +328,7 @@ class MasterdataCodeGenerator:
             )
             lines.append(f'        description="""{description}""",')
             lines.append(
-                f"        generated_code_prefix=\"{data.get('generatedCodePrefix', '')}\","
+                f'        generated_code_prefix="{data.get("generatedCodePrefix", "")}",'
             )
             lines.append("    )")
             lines.append("")
