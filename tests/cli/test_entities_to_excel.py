@@ -37,7 +37,6 @@ from bam_masterdata.utils import import_module
                 "Data type",
                 "Vocabulary code",
                 "Metadata",
-                "Dynamic script",
             ],
         ),
         (

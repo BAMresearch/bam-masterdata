@@ -206,7 +206,6 @@ class TestPropertyTypeDef:
             "data_type",
             "vocabulary_code",
             "metadata",
-            "dynamic_script",
         ]
         assert field_types == [
             str,
@@ -215,7 +214,6 @@ class TestPropertyTypeDef:
             DataType,
             Optional[str],
             Optional[dict],
-            Optional[str],
         ]
 
 
@@ -233,7 +231,6 @@ class TestPropertyTypeAssignment:
             "data_type",
             "vocabulary_code",
             "metadata",
-            "dynamic_script",
             "mandatory",
             "show_in_edit_views",
             "section",
@@ -247,7 +244,6 @@ class TestPropertyTypeAssignment:
             DataType,
             Optional[str],
             Optional[dict],
-            Optional[str],
             bool,
             bool,
             str,
