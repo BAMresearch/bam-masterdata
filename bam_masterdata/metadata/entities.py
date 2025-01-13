@@ -93,8 +93,9 @@ class BaseEntity(BaseModel):
         openbis_entities = getattr(
             OpenbisEntities(url=openbis.url), f"get_{type}_dict"
         )()
-        if self.defs.code in openbis_entities.keys():
-            obis_entity = openbis_entities.get(self.defs.code)
+        defs = getattr(self, "defs")
+        if defs.code in openbis_entities.keys():
+            obis_entity = openbis_entities.get(defs.code)
             for key in self.model_fields.keys():
                 obis_attr = type_map.get(key)
                 value = obis_entity.get(obis_attr)
@@ -104,7 +105,7 @@ class BaseEntity(BaseModel):
                     continue
 
                 # Check if the value has changed
-                if value != getattr(self.defs, key):
+                if value != getattr(defs, key):
                     # `code` are immutable if they exist already in openBIS
                     if key == "code":
                         logger.critical(
@@ -115,21 +116,21 @@ class BaseEntity(BaseModel):
                     # Otherwise, the attribute can be changed
                     else:
                         logger.warning(
-                            f"{self.code} has changed the value for `{key}` from ``{value}`` to ``{getattr(self, key)}``, <<{datetime.now()}>>\n"
+                            f"{defs.code} has changed the value for `{key}` from ``{value}`` to ``{getattr(self, key)}``, <<{datetime.now()}>>\n"
                             "We will update its value in openBIS."
                         )
-                        prop = openbis.get_property_type(self.defs.code)
+                        prop = openbis.get_property_type(defs.code)  # !!!
                         print(prop)  # TODO delete this and uncomment next line
                         # setattr(prop, obis_attr, getattr(self, key))
         else:
             # Adding it to openBIS
-            prop = openbis.new_property_type(
-                code=self.code,
-                description=self.description,
-                label=self.property_label,
-                dataType=self.data_type,
-                vocabulary=self.vocabulary_code,
-                metaData=self.metadata,
+            prop = openbis.new_property_type(  # !!!
+                code=defs.code,
+                description=defs.description,
+                label=defs.property_label,
+                dataType=defs.data_type,
+                vocabulary=defs.vocabulary_code,
+                metaData=defs.metadata,
             )
             print(prop)  # TODO delete this and uncomment next line
             # prop.save()

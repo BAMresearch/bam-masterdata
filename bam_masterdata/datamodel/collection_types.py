@@ -315,3 +315,15 @@ class MeasurementsCollection(CollectionType):
         show_in_edit_views=False,
         section="Comments",
     )
+
+
+from decouple import config as environ
+
+from bam_masterdata.logger import logger
+from bam_masterdata.openbis.login import ologin
+
+openbis = ologin(url=environ("OPENBIS_URL"))
+
+Collection().to_openbis(logger=logger, openbis=openbis)
+DefaultExperiment().to_openbis(logger=logger, openbis=openbis)
+MeasurementsCollection().to_openbis(logger=logger, openbis=openbis)
