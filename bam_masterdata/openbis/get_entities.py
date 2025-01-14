@@ -1,4 +1,4 @@
-from bam_masterdata.openbis.login import environ, ologin
+from bam_masterdata.openbis.login import ologin
 
 
 class OpenbisEntities:
