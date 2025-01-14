@@ -3,7 +3,6 @@ import time
 import click
 
 from bam_masterdata.openbis import OpenbisEntities
-from bam_masterdata.openbis.login import environ
 
 
 class MasterdataCodeGenerator:
