@@ -8,18 +8,27 @@ if TYPE_CHECKING:
     from structlog._config import BoundLoggerLazyProxy
 
 
-def delete_and_create_dir(directory_path: str, logger: "BoundLoggerLazyProxy") -> None:
+def delete_and_create_dir(
+    directory_path: str, logger: "BoundLoggerLazyProxy", force_delete: bool = False
+) -> None:
     """
     Deletes the directory at `directory_path` and creates a new one in the same path.
 
     Args:
         directory_path (str): The directory path to delete and create the folder.
-        logger (BoundLoggerLazyProxy): The logger to log messages.
+        logger (BoundLoggerLazyProxy): The logger to log messages..
+        force_delete (bool): If True, the directory will be forcibly deleted if it exists.
     """
     if not directory_path:
         logger.warning(
             "The `directory_path` is empty. Please, provide a proper input to the function."
         )
+        return None
+
+    if not force_delete:
+        logger.info(f"Skipping the deletion of the directory at {directory_path}.")
+        if not os.path.exists(directory_path):
+            os.makedirs(directory_path)
         return None
 
     if os.path.exists(directory_path):

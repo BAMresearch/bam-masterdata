@@ -13,20 +13,32 @@ from bam_masterdata.utils import (
 
 
 @pytest.mark.parametrize(
-    "directory_path, dir_exists",
+    "directory_path, force_delete, dir_exists",
     [
         # `directory_path` is empty
-        ("", False),
+        ("", True, False),
+        # `directory_path` exists but `force_delete` is False
+        ("tests/data/tmp/", False, True),
         # `directory_path` does not exist and it is created
-        ("tests/data/tmp/", True),
+        ("tests/data/tmp/", True, True),
     ],
 )
 def test_delete_and_create_dir(
-    cleared_log_storage: list, directory_path: str, dir_exists: bool
+    cleared_log_storage: list, directory_path: str, force_delete: bool, dir_exists: bool
 ):
     """Tests the `delete_and_delete_dir` function."""
-    delete_and_create_dir(directory_path=directory_path, logger=logger)
+    delete_and_create_dir(
+        directory_path=directory_path,
+        logger=logger,
+        force_delete=force_delete,
+    )
     assert dir_exists == os.path.exists(directory_path)
+    if not force_delete:
+        assert cleared_log_storage[0]["level"] == "info"
+        assert (
+            cleared_log_storage[0]["event"]
+            == f"Skipping the deletion of the directory at {directory_path}."
+        )
     if dir_exists:
         shutil.rmtree(directory_path)  # ! careful with this line
     else:
