@@ -46,7 +46,8 @@ def listdir_py_modules(
     directory_path: str, logger: "BoundLoggerLazyProxy"
 ) -> list[str]:
     """
-    Recursively goes through the `directory_path` and returns a list of all .py files that do not start with '_'.
+    Recursively goes through the `directory_path` and returns a list of all .py files that do not start with '_'. If
+    `directory_path` is a single Python module file, it will return a list with that file.
 
     Args:
         directory_path (str): The directory path to search through.
@@ -61,8 +62,12 @@ def listdir_py_modules(
         )
         return []
 
-    # Use glob to find all .py files recursively
-    files = glob.glob(os.path.join(directory_path, "**", "*.py"), recursive=True)
+    # In case of a individual Python module file
+    if directory_path.endswith(".py"):
+        return [directory_path]
+    # Use glob to find all .py files recursively in a directory containing all modules
+    else:
+        files = glob.glob(os.path.join(directory_path, "**", "*.py"), recursive=True)
     if not files:
         logger.info("No Python files found in the directory.")
         return []
