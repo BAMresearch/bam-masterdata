@@ -1,5 +1,5 @@
 import json
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any, Callable, Optional
 
 if TYPE_CHECKING:
     from pybis import Openbis
@@ -74,34 +74,47 @@ class BaseEntity(BaseModel):
         """
         return self.__class__.__name__
 
-    def to_openbis(
+    def _to_openbis(
         self,
         logger: "BoundLoggerLazyProxy",
         openbis: "Openbis",
         type: str,
         type_map: dict,
+        get_type: Callable[..., Any],
+        create_type: Callable[..., Any],
     ) -> None:
         """
-        Add the property type to openBIS if it does not exist yet. If it exists, it checks if the
-        values have changed and logs criticals if `code` or `data_type` have changed, while only warnings
-        for the other attributes.
+        Add the entity type (object, collection, dataset, or vocabulary) to openBIS if it does not
+        exist. If it exists, it checks if the values have changed and logs criticals if `code` has
+        been modified while only warnings for the other attributes.
+
+        This function is used in `ObjectType`, `CollectionType`, `DatasetType`, and `VocabularyType` classes.
+        Each of these classes' method `to_openbis()` calls their internal functions (they must be explictly
+        defined in those classes) `get_type` and `create_type` using PyBIS utilities.
 
         Args:
             logger (BoundLoggerLazyProxy): The logger to log messages.
             openbis (Openbis): The openBIS instance.
+            type (str): The type of entity to add to openBIS.
+            type_map (dict): The mapping of the attributes between the model and openBIS. Defined in `bam_masterdata/metadata/_maps.py`.
+            get_type (Callable[..., Any]): The function to get the entity type from openBIS using PyBIS.
+            create_type (Callable[..., Any]): The function to create the entity type in openBIS using PyBIS.
         """
+        # Initialize entity to None
+        entity = None
+
         openbis_entities = getattr(
             OpenbisEntities(url=openbis.url), f"get_{type}_dict"
         )()
         defs = getattr(self, "defs")
         if defs.code in openbis_entities.keys():
             obis_entity = openbis_entities.get(defs.code)
-            for key in self.model_fields.keys():
+            for key in defs.model_fields.keys():
                 obis_attr = type_map.get(key)
                 value = obis_entity.get(obis_attr)
 
                 # Skip if the value is empty and the attribute is not set
-                if not value and not getattr(self, key):
+                if not value and not getattr(defs, key):
                     continue
 
                 # Check if the value has changed
@@ -109,31 +122,63 @@ class BaseEntity(BaseModel):
                     # `code` are immutable if they exist already in openBIS
                     if key == "code":
                         logger.critical(
-                            f"`code` cannot be changed once it is set (old {value}, new {getattr(self, key)}). "
+                            f"`code` cannot be changed once it is set (old {value}, new {getattr(defs, key)}). "
                             "You need to define a new property."
                         )
                         return None
                     # Otherwise, the attribute can be changed
                     else:
                         logger.warning(
-                            f"{defs.code} has changed the value for `{key}` from ``{value}`` to ``{getattr(self, key)}``, <<{datetime.now()}>>\n"
+                            f"{defs.code} has changed the value for `{key}` from ``{value}`` to ``{getattr(defs, key)}``, <<{datetime.now()}>>\n"
                             "We will update its value in openBIS."
                         )
-                        prop = openbis.get_property_type(defs.code)  # !!!
-                        print(prop)  # TODO delete this and uncomment next line
-                        # setattr(prop, obis_attr, getattr(self, key))
+                        entity = get_type(openbis, defs.code)
+                        print(entity)  # TODO delete this and uncomment next line
+                        # setattr(entity, obis_attr, getattr(self, key))
+
+            # Need to assign `entity` to check on the `properties` later
+            if entity is None:
+                entity = get_type(openbis, defs.code)
         else:
             # Adding it to openBIS
-            prop = openbis.new_property_type(  # !!!
-                code=defs.code,
-                description=defs.description,
-                label=defs.property_label,
-                dataType=defs.data_type,
-                vocabulary=defs.vocabulary_code,
-                metaData=defs.metadata,
-            )
-            print(prop)  # TODO delete this and uncomment next line
-            # prop.save()
+            entity = create_type(openbis, defs)
+            print(entity)  # TODO delete this and uncomment next line
+            # entity.save()
+
+        # Properties/Terms assignment
+        properties = getattr(self, "properties", [])
+        obis_properties = entity.get_property_assignments()
+        obis_properties_codes = [ob_prop.code for ob_prop in obis_properties]
+        for prop in properties:
+            # If property is not assigned, assign it
+            if prop.code not in obis_properties_codes:
+                logger.info(f"Adding new property {prop} to {defs.code}.")
+                entity.assign_property(
+                    prop=prop.code,
+                    section=prop.section,
+                    mandatory=prop.mandatory,
+                    showInEditView=prop.show_in_edit_views,
+                )
+            # If property is assigned...
+            else:
+                pass
+                # for ob_prop in obis_properties:
+                #     ob_prop = ob_prop.get_property_type()
+                #     # ? check if we need to test more attributes
+                #     if (
+                #         prop.code == ob_prop.code
+                #         and prop.description == ob_prop.description
+                #         and prop.property_label == ob_prop.label
+                #         and prop.data_type == ob_prop.dataType
+                #     ):
+                #         continue
+                #     logger.error(
+                #         f"The definition of the property {prop} has changed:\n"
+                #         f"    - New code: `{prop.code}` | openBIS code: `{ob_prop.code}`"
+                #         f"    - New description: `{prop.description}` | openBIS description: `{ob_prop.description}`"
+                #         f"    - New label: `{prop.property_label}` | openBIS label: `{ob_prop.label}`"
+                #         "Please, update the PropertyType first in openBIS."
+                #     )
 
 
 class ObjectType(BaseEntity):
@@ -198,7 +243,26 @@ class ObjectType(BaseEntity):
         type: str = "object",
         type_map: dict = OBJECT_TYPE_MAP,
     ) -> None:
-        super().to_openbis(logger=logger, openbis=openbis, type=type, type_map=type_map)
+        def get_type(openbis: "Openbis", code: str):
+            return openbis.get_object_type(code)
+
+        def create_type(openbis: "Openbis", defs: ObjectTypeDef):
+            return openbis.new_object_type(
+                code=defs.code,
+                description=defs.description,
+                validationPlugin=defs.validation_script,
+                generatedCodePrefix=defs.generated_code_prefix,
+                autoGeneratedCodes=defs.auto_generated_codes,
+            )
+
+        super()._to_openbis(
+            logger=logger,
+            openbis=openbis,
+            type=type,
+            type_map=type_map,
+            get_type=get_type,
+            create_type=create_type,
+        )
 
 
 class VocabularyType(BaseEntity):
@@ -246,14 +310,6 @@ class VocabularyType(BaseEntity):
         """
         return "VocabularyType"
 
-    def to_openbis(self, logger: "BoundLoggerLazyProxy", openbis: "Openbis") -> None:
-        super().to_openbis(
-            logger=logger,
-            openbis=openbis,
-            type="vocabulary",
-            type_map=VOCABULARY_TYPE_MAP,
-        )
-
 
 class CollectionType(ObjectType):
     @property
@@ -263,12 +319,30 @@ class CollectionType(ObjectType):
         """
         return "CollectionType"
 
-    def to_openbis(self, logger: "BoundLoggerLazyProxy", openbis: "Openbis") -> None:
-        super().to_openbis(
+    def to_openbis(
+        self,
+        logger: "BoundLoggerLazyProxy",
+        openbis: "Openbis",
+        type: str = "collection",
+        type_map: dict = COLLECTION_TYPE_MAP,
+    ) -> None:
+        def get_type(openbis: "Openbis", code: str):
+            return openbis.get_collection_type(code)
+
+        def create_type(openbis: "Openbis", defs: CollectionTypeDef):
+            return openbis.new_collection_type(
+                code=defs.code,
+                description=defs.description,
+                validationPlugin=defs.validation_script,
+            )
+
+        super()._to_openbis(
             logger=logger,
             openbis=openbis,
-            type="collection",
-            type_map=COLLECTION_TYPE_MAP,
+            type=type,
+            type_map=type_map,
+            get_type=get_type,
+            create_type=create_type,
         )
 
 
@@ -280,10 +354,30 @@ class DatasetType(ObjectType):
         """
         return "DatasetType"
 
-    def to_openbis(self, logger: "BoundLoggerLazyProxy", openbis: "Openbis") -> None:
-        super().to_openbis(
+    def to_openbis(
+        self,
+        logger: "BoundLoggerLazyProxy",
+        openbis: "Openbis",
+        type: str = "dataset",
+        type_map: dict = DATASET_TYPE_MAP,
+    ) -> None:
+        def get_type(openbis: "Openbis", code: str):
+            return openbis.get_dataset_type(code)
+
+        def create_type(openbis: "Openbis", defs: DatasetTypeDef):
+            return openbis.new_dataset_type(
+                code=defs.code,
+                description=defs.description,
+                validationPlugin=defs.validation_script,
+                mainDatasetPattern=defs.main_dataset_pattern,
+                mainDatasetPath=defs.main_dataset_path,
+            )
+
+        super()._to_openbis(
             logger=logger,
             openbis=openbis,
-            type="dataset",
-            type_map=DATASET_TYPE_MAP,
+            type=type,
+            type_map=type_map,
+            get_type=get_type,
+            create_type=create_type,
         )
