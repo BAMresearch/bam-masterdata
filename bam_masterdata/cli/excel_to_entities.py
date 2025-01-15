@@ -14,7 +14,7 @@ def entities_to_excel(
     
     complete_dict = {}
     attributes_dict = {}
-    properties_dict = {}
+    #properties_dict = {}
     
     workbook = openpyxl.load_workbook(excel_path)
 
