@@ -104,6 +104,10 @@ class MasterdataCodeGenerator:
             if prop_data.get("dataType", "") == "SAMPLE":
                 prop_data["dataType"] = "OBJECT"
             lines.append(f'        data_type="{prop_data.get("dataType", "")}",')
+            if prop_data.get("dataType", "") == "CONTROLLEDVOCABULARY":
+                lines.append(
+                    f'        vocabulary_code="{prop_data.get("vocabulary", "")}",'
+                )
             property_label = (prop_data.get("label") or "").replace("\n", "\\n")
             lines.append(f'        property_label="{property_label}",')
             description = (
@@ -147,6 +151,9 @@ class MasterdataCodeGenerator:
             if code == "UNKNOWN":
                 continue
 
+            if code == "ACTING_PERSON":
+                print("hey")
+
             # Format class name
             class_name = self._format_class_name(code)
 
@@ -167,6 +174,8 @@ class MasterdataCodeGenerator:
             property_label = (
                 (data.get("label") or "").replace('"', '\\"').replace("\n", "\\n")
             )
+            if data.get("dataType", "") == "CONTROLLEDVOCABULARY":
+                lines.append(f'    vocabulary_code="{data.get("vocabulary", "")}",')
             lines.append(f'    property_label="{property_label}",')
             lines.append(")")
             lines.append("")
