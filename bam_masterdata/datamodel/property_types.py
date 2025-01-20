@@ -1072,6 +1072,7 @@ CoResponsiblePerson = PropertyTypeDef(
     code="CO_RESPONSIBLE_PERSON",
     description="""Co-responsible person//Weitere verantwortliche Person""",
     data_type="OBJECT",
+    object_code="PERSON.BAM",
     property_label="Co-responsible person",
 )
 
@@ -1712,6 +1713,7 @@ GentechBiosafetyOfficer = PropertyTypeDef(
     code="GENTECH_BIOSAFETY_OFFICER",
     description="""BAM Biosafety Officer according to GenTSV//BAM Beauftragte für biologische Sicherheit nach GenTSV""",
     data_type="OBJECT",
+    object_code="PERSON.BAM",
     property_label="Genetic Engineering Facility Biosafety Officer",
 )
 
@@ -1729,6 +1731,7 @@ GentechProjectLead = PropertyTypeDef(
     code="GENTECH_PROJECT_LEAD",
     description="""BAM Project Leader according to GenTSV//BAM Project Leiter nach GenTSV""",
     data_type="OBJECT",
+    object_code="PERSON.BAM",
     property_label="Genetic Engineering Facility Project Leader",
 )
 
@@ -2140,6 +2143,7 @@ InitialSsyRatio = PropertyTypeDef(
 )
 
 
+# ! Missing `object_code`
 Instrument = PropertyTypeDef(
     code="INSTRUMENT",
     description="""Testing machine or measurement device//Prüfmaschine oder Messgerät""",
@@ -3276,6 +3280,7 @@ ProjectLeaderBam = PropertyTypeDef(
     code="PROJECT_LEADER_BAM",
     description="""Project Leader at BAM//Projektleitung an der BAM""",
     data_type="OBJECT",
+    object_code="PERSON.BAM",
     property_label="Project Leader",
 )
 
@@ -3609,6 +3614,7 @@ Recipient = PropertyTypeDef(
     code="RECIPIENT",
     description="""Name of the recipient organism in which the genetic information is used to generate a GMO//Name des Empfängerorganismus, in dem die genetische Information für die Erzeugung eines GVO verwendet wird""",
     data_type="OBJECT",
+    object_code="ORGANISM",
     property_label="Recipient Organism",
 )
 
@@ -3642,6 +3648,7 @@ ResponsiblePerson = PropertyTypeDef(
     code="RESPONSIBLE_PERSON",
     description="""Responsible person//Verantwortliche Person""",
     data_type="OBJECT",
+    object_code="PERSON.BAM",
     property_label="Responsible person",
 )
 
@@ -4508,6 +4515,7 @@ TrainedPerson = PropertyTypeDef(
     code="TRAINED_PERSON",
     description="""Trained Person//Eingewiesene Person""",
     data_type="OBJECT",
+    object_code="PERSON.BAM",
     property_label="Trained Person",
 )
 
