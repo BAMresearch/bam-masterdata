@@ -128,6 +128,7 @@ class MasterdataCodeGenerator:
                 .replace("'", "\\'")
             )
             lines.append(f'        section="{section}",')
+            lines.append(f'        ordinal={prop_data.get("ordinal", 0)},')
             lines.append("    )")
             lines.append("")
 

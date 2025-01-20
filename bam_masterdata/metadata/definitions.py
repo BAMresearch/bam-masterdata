@@ -366,6 +366,14 @@ class PropertyTypeAssignment(PropertyTypeDef):
         """,
     )
 
+    ordinal: int = Field(
+        0,
+        description="""
+        Integer value used to order the properties in the object type instantiation. The properties
+        are ordered by ascending ordinal in the same `section`.
+        """,
+    )
+
     # TODO add descriptions for `unique` and `internal_assignment`
 
     unique: Optional[str] = Field(

@@ -19,6 +19,7 @@ class Collection(CollectionType):
         mandatory=False,
         show_in_edit_views=False,
         section="General info",
+        ordinal=1,
     )
 
     default_object_type = PropertyTypeAssignment(
@@ -29,6 +30,7 @@ class Collection(CollectionType):
         mandatory=False,
         show_in_edit_views=False,
         section="General info",
+        ordinal=2,
     )
 
     default_collection_view = PropertyTypeAssignment(
@@ -39,6 +41,7 @@ class Collection(CollectionType):
         mandatory=False,
         show_in_edit_views=False,
         section="General info",
+        ordinal=3,
     )
 
 
@@ -57,6 +60,7 @@ class DefaultExperiment(CollectionType):
         mandatory=False,
         show_in_edit_views=False,
         section="General info",
+        ordinal=1,
     )
 
     default_object_type = PropertyTypeAssignment(
@@ -67,6 +71,7 @@ class DefaultExperiment(CollectionType):
         mandatory=False,
         show_in_edit_views=False,
         section="General info",
+        ordinal=2,
     )
 
     show_in_project_overview = PropertyTypeAssignment(
@@ -77,6 +82,7 @@ class DefaultExperiment(CollectionType):
         mandatory=False,
         show_in_edit_views=False,
         section="General info",
+        ordinal=3,
     )
 
     finished_flag = PropertyTypeAssignment(
@@ -87,6 +93,7 @@ class DefaultExperiment(CollectionType):
         mandatory=False,
         show_in_edit_views=False,
         section="General info",
+        ordinal=4,
     )
 
     default_experiment_grant = PropertyTypeAssignment(
@@ -97,6 +104,7 @@ class DefaultExperiment(CollectionType):
         mandatory=False,
         show_in_edit_views=False,
         section="General info",
+        ordinal=5,
     )
 
     start_date = PropertyTypeAssignment(
@@ -107,6 +115,7 @@ class DefaultExperiment(CollectionType):
         mandatory=False,
         show_in_edit_views=False,
         section="General info",
+        ordinal=6,
     )
 
     end_date = PropertyTypeAssignment(
@@ -117,6 +126,7 @@ class DefaultExperiment(CollectionType):
         mandatory=False,
         show_in_edit_views=False,
         section="General info",
+        ordinal=7,
     )
 
     default_experiment_experimental_goals = PropertyTypeAssignment(
@@ -127,6 +137,7 @@ class DefaultExperiment(CollectionType):
         mandatory=False,
         show_in_edit_views=False,
         section="Experimental details",
+        ordinal=8,
     )
 
     default_experiment_experimental_description = PropertyTypeAssignment(
@@ -137,6 +148,7 @@ class DefaultExperiment(CollectionType):
         mandatory=False,
         show_in_edit_views=False,
         section="Experimental details",
+        ordinal=9,
     )
 
     default_experiment_experimental_results = PropertyTypeAssignment(
@@ -147,6 +159,7 @@ class DefaultExperiment(CollectionType):
         mandatory=False,
         show_in_edit_views=False,
         section="Experimental details",
+        ordinal=10,
     )
 
     reference = PropertyTypeAssignment(
@@ -157,6 +170,7 @@ class DefaultExperiment(CollectionType):
         mandatory=False,
         show_in_edit_views=False,
         section="References",
+        ordinal=11,
     )
 
     publication = PropertyTypeAssignment(
@@ -167,6 +181,7 @@ class DefaultExperiment(CollectionType):
         mandatory=False,
         show_in_edit_views=False,
         section="References",
+        ordinal=12,
     )
 
     notes = PropertyTypeAssignment(
@@ -177,6 +192,7 @@ class DefaultExperiment(CollectionType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=13,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -187,6 +203,7 @@ class DefaultExperiment(CollectionType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=14,
     )
 
 
@@ -204,6 +221,7 @@ class MeasurementsCollection(CollectionType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     default_object_type = PropertyTypeAssignment(
@@ -214,6 +232,7 @@ class MeasurementsCollection(CollectionType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     default_collection_view = PropertyTypeAssignment(
@@ -224,6 +243,7 @@ class MeasurementsCollection(CollectionType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     measurement_date = PropertyTypeAssignment(
@@ -234,6 +254,7 @@ class MeasurementsCollection(CollectionType):
         mandatory=True,
         show_in_edit_views=False,
         section="Experiment Details",
+        ordinal=4,
     )
 
     description = PropertyTypeAssignment(
@@ -244,6 +265,7 @@ class MeasurementsCollection(CollectionType):
         mandatory=False,
         show_in_edit_views=False,
         section="Experiment Details",
+        ordinal=5,
     )
 
     air_temperature_in_celsius = PropertyTypeAssignment(
@@ -254,6 +276,7 @@ class MeasurementsCollection(CollectionType):
         mandatory=False,
         show_in_edit_views=False,
         section="Experiment Details",
+        ordinal=6,
     )
 
     bam_oe = PropertyTypeAssignment(
@@ -264,6 +287,7 @@ class MeasurementsCollection(CollectionType):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=7,
     )
 
     responsible_person = PropertyTypeAssignment(
@@ -274,6 +298,7 @@ class MeasurementsCollection(CollectionType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=8,
     )
 
     co_responsible_person = PropertyTypeAssignment(
@@ -284,6 +309,7 @@ class MeasurementsCollection(CollectionType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=9,
     )
 
     notes = PropertyTypeAssignment(
@@ -294,6 +320,7 @@ class MeasurementsCollection(CollectionType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=10,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -304,6 +331,7 @@ class MeasurementsCollection(CollectionType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=11,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -314,4 +342,5 @@ class MeasurementsCollection(CollectionType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=12,
     )
