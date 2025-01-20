@@ -17,6 +17,7 @@ class SearchQuery(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     search_query_search_criteria = PropertyTypeAssignment(
@@ -27,6 +28,7 @@ class SearchQuery(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     search_query_fetch_options = PropertyTypeAssignment(
@@ -37,6 +39,7 @@ class SearchQuery(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     search_query_custom_data = PropertyTypeAssignment(
@@ -47,6 +50,7 @@ class SearchQuery(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=4,
     )
 
 
@@ -65,6 +69,7 @@ class GeneralElnSettings(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Settings",
+        ordinal=1,
     )
 
 
@@ -83,6 +88,7 @@ class Entry(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     show_in_project_overview = PropertyTypeAssignment(
@@ -93,6 +99,7 @@ class Entry(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     document = PropertyTypeAssignment(
@@ -103,6 +110,7 @@ class Entry(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -113,6 +121,7 @@ class Entry(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=4,
     )
 
 
@@ -131,6 +140,7 @@ class GeneralProtocol(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     for_what = PropertyTypeAssignment(
@@ -141,6 +151,7 @@ class GeneralProtocol(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Details",
+        ordinal=2,
     )
 
     general_protocol_protocol_type = PropertyTypeAssignment(
@@ -151,6 +162,7 @@ class GeneralProtocol(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Details",
+        ordinal=3,
     )
 
     general_protocol_materials = PropertyTypeAssignment(
@@ -161,6 +173,7 @@ class GeneralProtocol(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Details",
+        ordinal=4,
     )
 
     general_protocol_time_requirement = PropertyTypeAssignment(
@@ -171,6 +184,7 @@ class GeneralProtocol(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Details",
+        ordinal=5,
     )
 
     procedure = PropertyTypeAssignment(
@@ -181,6 +195,7 @@ class GeneralProtocol(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Details",
+        ordinal=6,
     )
 
     general_protocol_protocol_evaluation = PropertyTypeAssignment(
@@ -191,6 +206,7 @@ class GeneralProtocol(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Details",
+        ordinal=7,
     )
 
     general_protocol_spreadsheet = PropertyTypeAssignment(
@@ -201,6 +217,7 @@ class GeneralProtocol(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Details",
+        ordinal=8,
     )
 
     reference = PropertyTypeAssignment(
@@ -211,6 +228,7 @@ class GeneralProtocol(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="References",
+        ordinal=9,
     )
 
     publication = PropertyTypeAssignment(
@@ -221,6 +239,7 @@ class GeneralProtocol(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="References",
+        ordinal=10,
     )
 
     notes = PropertyTypeAssignment(
@@ -231,6 +250,7 @@ class GeneralProtocol(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=11,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -241,6 +261,7 @@ class GeneralProtocol(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=12,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -251,6 +272,7 @@ class GeneralProtocol(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=13,
     )
 
 
@@ -269,6 +291,7 @@ class ExperimentalStep(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     show_in_project_overview = PropertyTypeAssignment(
@@ -279,6 +302,7 @@ class ExperimentalStep(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     finished_flag = PropertyTypeAssignment(
@@ -289,6 +313,7 @@ class ExperimentalStep(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     start_date = PropertyTypeAssignment(
@@ -299,6 +324,7 @@ class ExperimentalStep(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=4,
     )
 
     end_date = PropertyTypeAssignment(
@@ -309,6 +335,7 @@ class ExperimentalStep(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=5,
     )
 
     experimental_step_experimental_goals = PropertyTypeAssignment(
@@ -319,6 +346,7 @@ class ExperimentalStep(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Experimental Details",
+        ordinal=6,
     )
 
     experimental_step_experimental_description = PropertyTypeAssignment(
@@ -329,6 +357,7 @@ class ExperimentalStep(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Experimental Details",
+        ordinal=7,
     )
 
     experimental_step_experimental_results = PropertyTypeAssignment(
@@ -339,6 +368,7 @@ class ExperimentalStep(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Experimental Details",
+        ordinal=8,
     )
 
     experimental_step_spreadsheet = PropertyTypeAssignment(
@@ -349,6 +379,7 @@ class ExperimentalStep(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Experimental Details",
+        ordinal=9,
     )
 
     reference = PropertyTypeAssignment(
@@ -359,6 +390,7 @@ class ExperimentalStep(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="References",
+        ordinal=10,
     )
 
     publication = PropertyTypeAssignment(
@@ -369,6 +401,7 @@ class ExperimentalStep(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="References",
+        ordinal=11,
     )
 
     notes = PropertyTypeAssignment(
@@ -379,6 +412,7 @@ class ExperimentalStep(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=12,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -389,6 +423,7 @@ class ExperimentalStep(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=13,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -399,6 +434,7 @@ class ExperimentalStep(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=14,
     )
 
 
@@ -417,6 +453,7 @@ class Storage(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     storage_row_num = PropertyTypeAssignment(
@@ -427,6 +464,7 @@ class Storage(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     storage_column_num = PropertyTypeAssignment(
@@ -437,6 +475,7 @@ class Storage(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     storage_box_num = PropertyTypeAssignment(
@@ -447,6 +486,7 @@ class Storage(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=4,
     )
 
     storage_storage_space_warning = PropertyTypeAssignment(
@@ -457,6 +497,7 @@ class Storage(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=5,
     )
 
     storage_box_space_warning = PropertyTypeAssignment(
@@ -467,6 +508,7 @@ class Storage(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=6,
     )
 
     storage_storage_validation_level = PropertyTypeAssignment(
@@ -477,6 +519,7 @@ class Storage(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=7,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -487,6 +530,7 @@ class Storage(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=8,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -497,6 +541,7 @@ class Storage(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=9,
     )
 
 
@@ -515,6 +560,7 @@ class StoragePosition(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Physical Storage",
+        ordinal=1,
     )
 
     storage_position_storage_rack_row = PropertyTypeAssignment(
@@ -525,6 +571,7 @@ class StoragePosition(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Physical Storage",
+        ordinal=2,
     )
 
     storage_position_storage_rack_column = PropertyTypeAssignment(
@@ -535,6 +582,7 @@ class StoragePosition(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Physical Storage",
+        ordinal=3,
     )
 
     storage_position_storage_box_name = PropertyTypeAssignment(
@@ -545,6 +593,7 @@ class StoragePosition(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Physical Storage",
+        ordinal=4,
     )
 
     storage_position_storage_box_size = PropertyTypeAssignment(
@@ -555,6 +604,7 @@ class StoragePosition(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Physical Storage",
+        ordinal=5,
     )
 
     storage_position_storage_box_position = PropertyTypeAssignment(
@@ -565,6 +615,7 @@ class StoragePosition(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Physical Storage",
+        ordinal=6,
     )
 
     storage_position_storage_user = PropertyTypeAssignment(
@@ -575,6 +626,7 @@ class StoragePosition(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Physical Storage",
+        ordinal=7,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -585,6 +637,7 @@ class StoragePosition(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=8,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -595,6 +648,7 @@ class StoragePosition(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=9,
     )
 
 
@@ -613,6 +667,7 @@ class Supplier(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     supplier_company_address_line_1 = PropertyTypeAssignment(
@@ -623,6 +678,7 @@ class Supplier(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     supplier_company_address_line_2 = PropertyTypeAssignment(
@@ -633,6 +689,7 @@ class Supplier(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     supplier_company_fax = PropertyTypeAssignment(
@@ -643,6 +700,7 @@ class Supplier(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=4,
     )
 
     supplier_company_phone = PropertyTypeAssignment(
@@ -653,6 +711,7 @@ class Supplier(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=5,
     )
 
     supplier_company_email = PropertyTypeAssignment(
@@ -663,6 +722,7 @@ class Supplier(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=6,
     )
 
     supplier_company_language = PropertyTypeAssignment(
@@ -673,6 +733,7 @@ class Supplier(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=7,
     )
 
     supplier_customer_number = PropertyTypeAssignment(
@@ -683,6 +744,7 @@ class Supplier(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=8,
     )
 
     supplier_company_contact_name = PropertyTypeAssignment(
@@ -693,6 +755,7 @@ class Supplier(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=9,
     )
 
     supplier_company_contact_email = PropertyTypeAssignment(
@@ -703,6 +766,7 @@ class Supplier(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=10,
     )
 
     supplier_preferred_order_method = PropertyTypeAssignment(
@@ -713,6 +777,7 @@ class Supplier(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=11,
     )
 
     supplier_url = PropertyTypeAssignment(
@@ -723,6 +788,7 @@ class Supplier(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=12,
     )
 
     supplier_additional_information = PropertyTypeAssignment(
@@ -733,6 +799,7 @@ class Supplier(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=13,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -743,6 +810,7 @@ class Supplier(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=14,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -753,6 +821,7 @@ class Supplier(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=15,
     )
 
 
@@ -771,6 +840,7 @@ class Product(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     product_product_secondary_names = PropertyTypeAssignment(
@@ -781,6 +851,7 @@ class Product(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     product_description = PropertyTypeAssignment(
@@ -791,6 +862,7 @@ class Product(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     product_company = PropertyTypeAssignment(
@@ -801,6 +873,7 @@ class Product(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=4,
     )
 
     product_catalog_num = PropertyTypeAssignment(
@@ -811,6 +884,7 @@ class Product(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=5,
     )
 
     product_category = PropertyTypeAssignment(
@@ -821,6 +895,7 @@ class Product(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=6,
     )
 
     product_hazard_statement = PropertyTypeAssignment(
@@ -831,6 +906,7 @@ class Product(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=7,
     )
 
     product_price_per_unit = PropertyTypeAssignment(
@@ -841,6 +917,7 @@ class Product(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=8,
     )
 
     product_currency = PropertyTypeAssignment(
@@ -851,6 +928,7 @@ class Product(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=9,
     )
 
     product_size_of_item = PropertyTypeAssignment(
@@ -861,6 +939,7 @@ class Product(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=10,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -871,6 +950,7 @@ class Product(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=11,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -881,6 +961,7 @@ class Product(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=12,
     )
 
 
@@ -899,6 +980,7 @@ class Request(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     ordering_order_status = PropertyTypeAssignment(
@@ -909,6 +991,7 @@ class Request(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     request_project = PropertyTypeAssignment(
@@ -919,6 +1002,7 @@ class Request(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     request_department = PropertyTypeAssignment(
@@ -929,6 +1013,7 @@ class Request(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=4,
     )
 
     request_buyer = PropertyTypeAssignment(
@@ -939,6 +1024,7 @@ class Request(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=5,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -949,6 +1035,7 @@ class Request(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=6,
     )
 
 
@@ -967,6 +1054,7 @@ class Order(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General",
+        ordinal=1,
     )
 
     order_ship_to = PropertyTypeAssignment(
@@ -977,6 +1065,7 @@ class Order(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General",
+        ordinal=2,
     )
 
     order_bill_to = PropertyTypeAssignment(
@@ -987,6 +1076,7 @@ class Order(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General",
+        ordinal=3,
     )
 
     order_ship_address = PropertyTypeAssignment(
@@ -997,6 +1087,7 @@ class Order(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General",
+        ordinal=4,
     )
 
     order_contact_phone = PropertyTypeAssignment(
@@ -1007,6 +1098,7 @@ class Order(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General",
+        ordinal=5,
     )
 
     order_contact_fax = PropertyTypeAssignment(
@@ -1017,6 +1109,7 @@ class Order(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General",
+        ordinal=6,
     )
 
     ordering_order_status = PropertyTypeAssignment(
@@ -1027,6 +1120,7 @@ class Order(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General",
+        ordinal=7,
     )
 
     order_price_paid = PropertyTypeAssignment(
@@ -1037,6 +1131,7 @@ class Order(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General",
+        ordinal=8,
     )
 
     order_additional_information = PropertyTypeAssignment(
@@ -1047,6 +1142,7 @@ class Order(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General",
+        ordinal=9,
     )
 
     order_order_state = PropertyTypeAssignment(
@@ -1057,6 +1153,7 @@ class Order(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=10,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -1067,6 +1164,7 @@ class Order(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=11,
     )
 
 
@@ -1085,6 +1183,7 @@ class Publication(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General",
+        ordinal=1,
     )
 
     publication_organization = PropertyTypeAssignment(
@@ -1095,6 +1194,7 @@ class Publication(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General",
+        ordinal=2,
     )
 
     publication_type = PropertyTypeAssignment(
@@ -1105,6 +1205,7 @@ class Publication(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General",
+        ordinal=3,
     )
 
     publication_identifier = PropertyTypeAssignment(
@@ -1115,6 +1216,7 @@ class Publication(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General",
+        ordinal=4,
     )
 
     publication_url = PropertyTypeAssignment(
@@ -1125,6 +1227,7 @@ class Publication(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General",
+        ordinal=5,
     )
 
     publication_description = PropertyTypeAssignment(
@@ -1135,6 +1238,7 @@ class Publication(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General",
+        ordinal=6,
     )
 
     publication_openbis_related_identifiers = PropertyTypeAssignment(
@@ -1145,6 +1249,7 @@ class Publication(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General",
+        ordinal=7,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -1155,6 +1260,7 @@ class Publication(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=8,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -1165,6 +1271,7 @@ class Publication(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=9,
     )
 
 
@@ -1183,6 +1290,7 @@ class Calibration(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     instrument = PropertyTypeAssignment(
@@ -1193,6 +1301,7 @@ class Calibration(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     calibration_date = PropertyTypeAssignment(
@@ -1203,6 +1312,7 @@ class Calibration(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     calibration_provider = PropertyTypeAssignment(
@@ -1213,6 +1323,7 @@ class Calibration(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=4,
     )
 
     calibration_certificate_number = PropertyTypeAssignment(
@@ -1223,6 +1334,7 @@ class Calibration(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=5,
     )
 
     accreditated_calibration_lab = PropertyTypeAssignment(
@@ -1233,6 +1345,7 @@ class Calibration(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=6,
     )
 
     calibration_lab_accreditation_number = PropertyTypeAssignment(
@@ -1243,6 +1356,7 @@ class Calibration(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=8,
     )
 
     notes = PropertyTypeAssignment(
@@ -1253,6 +1367,7 @@ class Calibration(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=10,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -1263,6 +1378,7 @@ class Calibration(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=12,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -1273,6 +1389,7 @@ class Calibration(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=14,
     )
 
 
@@ -1291,6 +1408,7 @@ class AuxiliaryMaterial(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     alias = PropertyTypeAssignment(
@@ -1301,6 +1419,7 @@ class AuxiliaryMaterial(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     manufacturer = PropertyTypeAssignment(
@@ -1311,6 +1430,7 @@ class AuxiliaryMaterial(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     supplier = PropertyTypeAssignment(
@@ -1321,6 +1441,7 @@ class AuxiliaryMaterial(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=4,
     )
 
     auxiliary_material_type = PropertyTypeAssignment(
@@ -1331,6 +1452,7 @@ class AuxiliaryMaterial(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=5,
     )
 
     notes = PropertyTypeAssignment(
@@ -1341,6 +1463,7 @@ class AuxiliaryMaterial(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=6,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -1351,6 +1474,7 @@ class AuxiliaryMaterial(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=7,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -1361,6 +1485,7 @@ class AuxiliaryMaterial(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=8,
     )
 
 
@@ -1379,6 +1504,7 @@ class Instrument(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     alias = PropertyTypeAssignment(
@@ -1389,6 +1515,7 @@ class Instrument(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     description = PropertyTypeAssignment(
@@ -1399,6 +1526,7 @@ class Instrument(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     device_model_name = PropertyTypeAssignment(
@@ -1409,6 +1537,7 @@ class Instrument(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=4,
     )
 
     manufacturer = PropertyTypeAssignment(
@@ -1419,6 +1548,7 @@ class Instrument(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=5,
     )
 
     supplier = PropertyTypeAssignment(
@@ -1429,6 +1559,7 @@ class Instrument(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=7,
     )
 
     serial_number = PropertyTypeAssignment(
@@ -1439,6 +1570,7 @@ class Instrument(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=9,
     )
 
     dfg_device_code = PropertyTypeAssignment(
@@ -1449,6 +1581,7 @@ class Instrument(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=11,
     )
 
     inventory_no = PropertyTypeAssignment(
@@ -1459,6 +1592,7 @@ class Instrument(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=13,
     )
 
     inventory_no_add = PropertyTypeAssignment(
@@ -1469,6 +1603,7 @@ class Instrument(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=15,
     )
 
     bam_oe = PropertyTypeAssignment(
@@ -1479,6 +1614,7 @@ class Instrument(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=17,
     )
 
     responsible_person = PropertyTypeAssignment(
@@ -1489,6 +1625,7 @@ class Instrument(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=19,
     )
 
     co_responsible_person = PropertyTypeAssignment(
@@ -1499,6 +1636,7 @@ class Instrument(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=21,
     )
 
     bam_room = PropertyTypeAssignment(
@@ -1509,6 +1647,7 @@ class Instrument(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=23,
     )
 
     bam_floor = PropertyTypeAssignment(
@@ -1519,6 +1658,7 @@ class Instrument(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=25,
     )
 
     bam_location = PropertyTypeAssignment(
@@ -1529,6 +1669,7 @@ class Instrument(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=28,
     )
 
     bam_house = PropertyTypeAssignment(
@@ -1539,6 +1680,7 @@ class Instrument(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=29,
     )
 
     bam_location_complete = PropertyTypeAssignment(
@@ -1549,6 +1691,7 @@ class Instrument(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=30,
     )
 
     instrument_status = PropertyTypeAssignment(
@@ -1559,6 +1702,7 @@ class Instrument(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Status",
+        ordinal=32,
     )
 
     last_calibration = PropertyTypeAssignment(
@@ -1569,6 +1713,7 @@ class Instrument(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Status",
+        ordinal=34,
     )
 
     notes = PropertyTypeAssignment(
@@ -1579,6 +1724,7 @@ class Instrument(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=36,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -1589,6 +1735,7 @@ class Instrument(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=38,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -1599,6 +1746,7 @@ class Instrument(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=40,
     )
 
 
@@ -1617,6 +1765,7 @@ class TestingMachine(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     alias = PropertyTypeAssignment(
@@ -1627,6 +1776,7 @@ class TestingMachine(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     description = PropertyTypeAssignment(
@@ -1637,6 +1787,7 @@ class TestingMachine(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     manufacturer = PropertyTypeAssignment(
@@ -1647,6 +1798,7 @@ class TestingMachine(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=4,
     )
 
     supplier = PropertyTypeAssignment(
@@ -1657,6 +1809,7 @@ class TestingMachine(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=5,
     )
 
     serial_number = PropertyTypeAssignment(
@@ -1667,6 +1820,7 @@ class TestingMachine(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=6,
     )
 
     dfg_device_code = PropertyTypeAssignment(
@@ -1677,6 +1831,7 @@ class TestingMachine(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=7,
     )
 
     inventory_no = PropertyTypeAssignment(
@@ -1687,6 +1842,7 @@ class TestingMachine(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=8,
     )
 
     inventory_no_add = PropertyTypeAssignment(
@@ -1697,6 +1853,7 @@ class TestingMachine(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=9,
     )
 
     bam_oe = PropertyTypeAssignment(
@@ -1707,6 +1864,7 @@ class TestingMachine(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=10,
     )
 
     responsible_person = PropertyTypeAssignment(
@@ -1717,6 +1875,7 @@ class TestingMachine(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=11,
     )
 
     co_responsible_person = PropertyTypeAssignment(
@@ -1727,6 +1886,7 @@ class TestingMachine(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=12,
     )
 
     bam_room = PropertyTypeAssignment(
@@ -1737,6 +1897,7 @@ class TestingMachine(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=13,
     )
 
     bam_floor = PropertyTypeAssignment(
@@ -1747,6 +1908,7 @@ class TestingMachine(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=14,
     )
 
     bam_house = PropertyTypeAssignment(
@@ -1757,6 +1919,7 @@ class TestingMachine(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=16,
     )
 
     bam_location = PropertyTypeAssignment(
@@ -1767,6 +1930,7 @@ class TestingMachine(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=18,
     )
 
     bam_location_complete = PropertyTypeAssignment(
@@ -1777,6 +1941,7 @@ class TestingMachine(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=20,
     )
 
     testing_machine_drive_type = PropertyTypeAssignment(
@@ -1787,6 +1952,7 @@ class TestingMachine(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="Machine Details",
+        ordinal=22,
     )
 
     testing_machine_load_type = PropertyTypeAssignment(
@@ -1797,6 +1963,7 @@ class TestingMachine(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="Machine Details",
+        ordinal=24,
     )
 
     max_load_static_primary = PropertyTypeAssignment(
@@ -1807,6 +1974,7 @@ class TestingMachine(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="Machine Details",
+        ordinal=26,
     )
 
     max_load_dynamic_primary = PropertyTypeAssignment(
@@ -1817,6 +1985,7 @@ class TestingMachine(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="Machine Details",
+        ordinal=28,
     )
 
     max_load_static_secondary = PropertyTypeAssignment(
@@ -1827,6 +1996,7 @@ class TestingMachine(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Machine Details",
+        ordinal=30,
     )
 
     max_load_dynamic_secondary = PropertyTypeAssignment(
@@ -1837,6 +2007,7 @@ class TestingMachine(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Machine Details",
+        ordinal=32,
     )
 
     max_stroke = PropertyTypeAssignment(
@@ -1847,6 +2018,7 @@ class TestingMachine(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Machine Details",
+        ordinal=34,
     )
 
     instrument_status = PropertyTypeAssignment(
@@ -1857,6 +2029,7 @@ class TestingMachine(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Status",
+        ordinal=36,
     )
 
     last_calibration = PropertyTypeAssignment(
@@ -1867,6 +2040,7 @@ class TestingMachine(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Status",
+        ordinal=38,
     )
 
     notes = PropertyTypeAssignment(
@@ -1877,6 +2051,7 @@ class TestingMachine(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=40,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -1887,6 +2062,7 @@ class TestingMachine(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=42,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -1897,6 +2073,7 @@ class TestingMachine(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=44,
     )
 
 
@@ -1915,6 +2092,7 @@ class Document(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     document_type = PropertyTypeAssignment(
@@ -1925,6 +2103,7 @@ class Document(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     alias = PropertyTypeAssignment(
@@ -1935,6 +2114,7 @@ class Document(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     author = PropertyTypeAssignment(
@@ -1945,6 +2125,7 @@ class Document(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=4,
     )
 
     version = PropertyTypeAssignment(
@@ -1955,6 +2136,7 @@ class Document(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=5,
     )
 
     notes = PropertyTypeAssignment(
@@ -1965,6 +2147,7 @@ class Document(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=6,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -1975,6 +2158,7 @@ class Document(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=7,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -1985,6 +2169,7 @@ class Document(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=8,
     )
 
 
@@ -2003,6 +2188,7 @@ class GasBottle(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     supplier = PropertyTypeAssignment(
@@ -2013,6 +2199,7 @@ class GasBottle(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     gas_volume = PropertyTypeAssignment(
@@ -2023,6 +2210,7 @@ class GasBottle(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     gas_pressure_bar = PropertyTypeAssignment(
@@ -2033,6 +2221,7 @@ class GasBottle(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=4,
     )
 
     volume_percent_argon = PropertyTypeAssignment(
@@ -2043,6 +2232,7 @@ class GasBottle(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Gas Mixture",
+        ordinal=5,
     )
 
     volume_percent_carbon_dioxide = PropertyTypeAssignment(
@@ -2053,6 +2243,7 @@ class GasBottle(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Gas Mixture",
+        ordinal=6,
     )
 
     volume_percent_oxygen = PropertyTypeAssignment(
@@ -2063,6 +2254,7 @@ class GasBottle(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Gas Mixture",
+        ordinal=7,
     )
 
     volume_percent_helium = PropertyTypeAssignment(
@@ -2073,6 +2265,7 @@ class GasBottle(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Gas Mixture",
+        ordinal=8,
     )
 
     volume_percent_hydrogen = PropertyTypeAssignment(
@@ -2083,6 +2276,7 @@ class GasBottle(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Gas Mixture",
+        ordinal=9,
     )
 
     volume_percent_nitrogen = PropertyTypeAssignment(
@@ -2093,6 +2287,7 @@ class GasBottle(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Gas Mixture",
+        ordinal=10,
     )
 
     inventory_no = PropertyTypeAssignment(
@@ -2103,6 +2298,7 @@ class GasBottle(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=11,
     )
 
     inventory_no_add = PropertyTypeAssignment(
@@ -2113,6 +2309,7 @@ class GasBottle(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=12,
     )
 
     bam_oe = PropertyTypeAssignment(
@@ -2123,6 +2320,7 @@ class GasBottle(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=13,
     )
 
     responsible_person = PropertyTypeAssignment(
@@ -2133,6 +2331,7 @@ class GasBottle(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=14,
     )
 
     co_responsible_person = PropertyTypeAssignment(
@@ -2143,6 +2342,7 @@ class GasBottle(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=15,
     )
 
     bam_room = PropertyTypeAssignment(
@@ -2153,6 +2353,7 @@ class GasBottle(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=16,
     )
 
     bam_floor = PropertyTypeAssignment(
@@ -2163,6 +2364,7 @@ class GasBottle(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=17,
     )
 
     bam_house = PropertyTypeAssignment(
@@ -2173,6 +2375,7 @@ class GasBottle(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=19,
     )
 
     bam_location = PropertyTypeAssignment(
@@ -2183,6 +2386,7 @@ class GasBottle(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=21,
     )
 
     bam_location_complete = PropertyTypeAssignment(
@@ -2193,6 +2397,7 @@ class GasBottle(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=23,
     )
 
     notes = PropertyTypeAssignment(
@@ -2203,6 +2408,7 @@ class GasBottle(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=25,
     )
 
     last_systemcheck = PropertyTypeAssignment(
@@ -2213,6 +2419,7 @@ class GasBottle(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=27,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -2223,6 +2430,7 @@ class GasBottle(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=29,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -2233,6 +2441,7 @@ class GasBottle(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=31,
     )
 
 
@@ -2251,6 +2460,7 @@ class TestObject(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     alias = PropertyTypeAssignment(
@@ -2261,6 +2471,7 @@ class TestObject(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     description = PropertyTypeAssignment(
@@ -2271,6 +2482,7 @@ class TestObject(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     production_date = PropertyTypeAssignment(
@@ -2281,6 +2493,7 @@ class TestObject(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=4,
     )
 
     test_obj_status = PropertyTypeAssignment(
@@ -2291,6 +2504,7 @@ class TestObject(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=5,
     )
 
     bam_oe = PropertyTypeAssignment(
@@ -2301,6 +2515,7 @@ class TestObject(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=6,
     )
 
     responsible_person = PropertyTypeAssignment(
@@ -2311,6 +2526,7 @@ class TestObject(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=7,
     )
 
     bam_room = PropertyTypeAssignment(
@@ -2321,6 +2537,7 @@ class TestObject(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=8,
     )
 
     bam_floor = PropertyTypeAssignment(
@@ -2331,6 +2548,7 @@ class TestObject(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=9,
     )
 
     bam_house = PropertyTypeAssignment(
@@ -2341,6 +2559,7 @@ class TestObject(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=11,
     )
 
     bam_location = PropertyTypeAssignment(
@@ -2351,6 +2570,7 @@ class TestObject(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=13,
     )
 
     bam_location_complete = PropertyTypeAssignment(
@@ -2361,6 +2581,7 @@ class TestObject(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=15,
     )
 
     test_obj_material = PropertyTypeAssignment(
@@ -2371,6 +2592,7 @@ class TestObject(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="Specific Information",
+        ordinal=17,
     )
 
     test_obj_length = PropertyTypeAssignment(
@@ -2381,6 +2603,7 @@ class TestObject(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Specific Information",
+        ordinal=19,
     )
 
     test_obj_width = PropertyTypeAssignment(
@@ -2391,6 +2614,7 @@ class TestObject(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Specific Information",
+        ordinal=21,
     )
 
     test_obj_height = PropertyTypeAssignment(
@@ -2401,6 +2625,7 @@ class TestObject(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Specific Information",
+        ordinal=23,
     )
 
     notes = PropertyTypeAssignment(
@@ -2411,6 +2636,7 @@ class TestObject(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=25,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -2421,6 +2647,7 @@ class TestObject(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=27,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -2431,6 +2658,7 @@ class TestObject(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=29,
     )
 
 
@@ -2449,6 +2677,7 @@ class Project(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     acronym = PropertyTypeAssignment(
@@ -2459,6 +2688,7 @@ class Project(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     abstract = PropertyTypeAssignment(
@@ -2469,6 +2699,7 @@ class Project(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     description = PropertyTypeAssignment(
@@ -2479,6 +2710,7 @@ class Project(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=4,
     )
 
     homepage = PropertyTypeAssignment(
@@ -2489,6 +2721,7 @@ class Project(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=5,
     )
 
     project_status = PropertyTypeAssignment(
@@ -2499,6 +2732,7 @@ class Project(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=6,
     )
 
     start_date = PropertyTypeAssignment(
@@ -2509,6 +2743,7 @@ class Project(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=7,
     )
 
     end_date = PropertyTypeAssignment(
@@ -2519,6 +2754,7 @@ class Project(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=8,
     )
 
     project_leader = PropertyTypeAssignment(
@@ -2529,6 +2765,7 @@ class Project(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=9,
     )
 
     project_leader_bam = PropertyTypeAssignment(
@@ -2539,6 +2776,7 @@ class Project(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=10,
     )
 
     bam_oe = PropertyTypeAssignment(
@@ -2549,6 +2787,7 @@ class Project(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=11,
     )
 
     bam_focus_area = PropertyTypeAssignment(
@@ -2559,6 +2798,7 @@ class Project(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=13,
     )
 
     bam_field_of_activity = PropertyTypeAssignment(
@@ -2569,6 +2809,7 @@ class Project(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=15,
     )
 
     bam_partner = PropertyTypeAssignment(
@@ -2579,6 +2820,7 @@ class Project(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=17,
     )
 
     parfis_project_no = PropertyTypeAssignment(
@@ -2589,6 +2831,7 @@ class Project(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=19,
     )
 
     research_bam_project_id = PropertyTypeAssignment(
@@ -2599,6 +2842,7 @@ class Project(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=21,
     )
 
     funding_grant_no = PropertyTypeAssignment(
@@ -2609,6 +2853,7 @@ class Project(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Funding Information",
+        ordinal=23,
     )
 
     notes = PropertyTypeAssignment(
@@ -2619,6 +2864,7 @@ class Project(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=25,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -2629,6 +2875,7 @@ class Project(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=27,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -2639,6 +2886,7 @@ class Project(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=29,
     )
 
 
@@ -2657,6 +2905,7 @@ class Person(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     family_name = PropertyTypeAssignment(
@@ -2667,6 +2916,7 @@ class Person(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     given_name = PropertyTypeAssignment(
@@ -2677,6 +2927,7 @@ class Person(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     alias = PropertyTypeAssignment(
@@ -2687,6 +2938,7 @@ class Person(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=4,
     )
 
     affiliation = PropertyTypeAssignment(
@@ -2697,6 +2949,7 @@ class Person(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=5,
     )
 
     email = PropertyTypeAssignment(
@@ -2707,6 +2960,7 @@ class Person(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Contact Information",
+        ordinal=6,
     )
 
     telephone = PropertyTypeAssignment(
@@ -2717,6 +2971,7 @@ class Person(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Contact Information",
+        ordinal=7,
     )
 
     address = PropertyTypeAssignment(
@@ -2727,6 +2982,7 @@ class Person(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Contact Information",
+        ordinal=8,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -2737,6 +2993,7 @@ class Person(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=9,
     )
 
 
@@ -2755,6 +3012,7 @@ class Control(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     monitoring_date = PropertyTypeAssignment(
@@ -2765,6 +3023,7 @@ class Control(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Control Data",
+        ordinal=2,
     )
 
     monitoring_value = PropertyTypeAssignment(
@@ -2775,6 +3034,7 @@ class Control(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Control Data",
+        ordinal=3,
     )
 
     acting_person = PropertyTypeAssignment(
@@ -2785,6 +3045,7 @@ class Control(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Control Data",
+        ordinal=4,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -2795,6 +3056,7 @@ class Control(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=5,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -2805,6 +3067,7 @@ class Control(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=6,
     )
 
 
@@ -2823,6 +3086,7 @@ class Task(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     description = PropertyTypeAssignment(
@@ -2833,6 +3097,7 @@ class Task(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Task Details",
+        ordinal=2,
     )
 
     responsible_person = PropertyTypeAssignment(
@@ -2843,6 +3108,7 @@ class Task(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="Automation",
+        ordinal=3,
     )
 
     co_responsible_person = PropertyTypeAssignment(
@@ -2853,6 +3119,7 @@ class Task(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Automation",
+        ordinal=4,
     )
 
     last_check = PropertyTypeAssignment(
@@ -2863,6 +3130,7 @@ class Task(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="Automation",
+        ordinal=5,
     )
 
     check_interval = PropertyTypeAssignment(
@@ -2873,6 +3141,7 @@ class Task(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="Automation",
+        ordinal=6,
     )
 
     state_check = PropertyTypeAssignment(
@@ -2883,6 +3152,7 @@ class Task(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Automation",
+        ordinal=7,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -2893,6 +3163,7 @@ class Task(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=8,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -2903,6 +3174,7 @@ class Task(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=9,
     )
 
 
@@ -2921,6 +3193,7 @@ class SpecificPersonInfo(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General information",
+        ordinal=1,
     )
 
     responsible_person = PropertyTypeAssignment(
@@ -2931,6 +3204,7 @@ class SpecificPersonInfo(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="Employee Information",
+        ordinal=2,
     )
 
     person_alias = PropertyTypeAssignment(
@@ -2941,6 +3215,7 @@ class SpecificPersonInfo(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="Employee Information",
+        ordinal=3,
     )
 
     person_status = PropertyTypeAssignment(
@@ -2951,6 +3226,7 @@ class SpecificPersonInfo(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="Employee Information",
+        ordinal=4,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -2961,6 +3237,7 @@ class SpecificPersonInfo(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=5,
     )
 
 
@@ -2979,6 +3256,7 @@ class Sop(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     description = PropertyTypeAssignment(
@@ -2989,6 +3267,7 @@ class Sop(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     id_eakte = PropertyTypeAssignment(
@@ -2999,6 +3278,7 @@ class Sop(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=3,
     )
 
     link_eakte = PropertyTypeAssignment(
@@ -3009,6 +3289,7 @@ class Sop(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=4,
     )
 
     bam_oe = PropertyTypeAssignment(
@@ -3019,6 +3300,7 @@ class Sop(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=5,
     )
 
     responsible_person = PropertyTypeAssignment(
@@ -3029,6 +3311,7 @@ class Sop(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=6,
     )
 
     co_responsible_person = PropertyTypeAssignment(
@@ -3039,6 +3322,7 @@ class Sop(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=7,
     )
 
     author = PropertyTypeAssignment(
@@ -3049,6 +3333,7 @@ class Sop(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=8,
     )
 
     version = PropertyTypeAssignment(
@@ -3059,6 +3344,7 @@ class Sop(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=9,
     )
 
     last_check = PropertyTypeAssignment(
@@ -3069,6 +3355,7 @@ class Sop(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="Automation",
+        ordinal=10,
     )
 
     check_interval = PropertyTypeAssignment(
@@ -3079,6 +3366,7 @@ class Sop(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="Automation",
+        ordinal=11,
     )
 
     state_check = PropertyTypeAssignment(
@@ -3089,6 +3377,7 @@ class Sop(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Automation",
+        ordinal=12,
     )
 
     notes = PropertyTypeAssignment(
@@ -3099,6 +3388,7 @@ class Sop(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=13,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -3109,6 +3399,7 @@ class Sop(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=14,
     )
 
 
@@ -3127,6 +3418,7 @@ class Sample(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     alias = PropertyTypeAssignment(
@@ -3137,6 +3429,7 @@ class Sample(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     description = PropertyTypeAssignment(
@@ -3147,6 +3440,7 @@ class Sample(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     sample_id_number = PropertyTypeAssignment(
@@ -3157,6 +3451,7 @@ class Sample(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=4,
     )
 
     manufacturer = PropertyTypeAssignment(
@@ -3167,6 +3462,7 @@ class Sample(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=5,
     )
 
     barcode_external = PropertyTypeAssignment(
@@ -3177,6 +3473,7 @@ class Sample(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=6,
     )
 
     supplier = PropertyTypeAssignment(
@@ -3187,6 +3484,7 @@ class Sample(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=8,
     )
 
     physical_state = PropertyTypeAssignment(
@@ -3197,6 +3495,7 @@ class Sample(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Properties",
+        ordinal=10,
     )
 
     bam_oe = PropertyTypeAssignment(
@@ -3207,6 +3506,7 @@ class Sample(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=11,
     )
 
     responsible_person = PropertyTypeAssignment(
@@ -3217,6 +3517,7 @@ class Sample(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=13,
     )
 
     co_responsible_person = PropertyTypeAssignment(
@@ -3227,6 +3528,7 @@ class Sample(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=15,
     )
 
     bam_room = PropertyTypeAssignment(
@@ -3237,6 +3539,7 @@ class Sample(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=17,
     )
 
     bam_floor = PropertyTypeAssignment(
@@ -3247,6 +3550,7 @@ class Sample(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=19,
     )
 
     bam_house = PropertyTypeAssignment(
@@ -3257,6 +3561,7 @@ class Sample(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=21,
     )
 
     bam_location = PropertyTypeAssignment(
@@ -3267,6 +3572,7 @@ class Sample(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=23,
     )
 
     bam_location_complete = PropertyTypeAssignment(
@@ -3277,6 +3583,7 @@ class Sample(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=25,
     )
 
     notes = PropertyTypeAssignment(
@@ -3287,6 +3594,7 @@ class Sample(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=27,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -3297,6 +3605,7 @@ class Sample(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=29,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -3307,6 +3616,7 @@ class Sample(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=31,
     )
 
 
@@ -3325,6 +3635,7 @@ class Chemical(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     alias = PropertyTypeAssignment(
@@ -3335,6 +3646,7 @@ class Chemical(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     iupac_name = PropertyTypeAssignment(
@@ -3345,6 +3657,7 @@ class Chemical(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     cas_number = PropertyTypeAssignment(
@@ -3355,6 +3668,7 @@ class Chemical(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=4,
     )
 
     manufacturer = PropertyTypeAssignment(
@@ -3365,6 +3679,7 @@ class Chemical(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=5,
     )
 
     supplier = PropertyTypeAssignment(
@@ -3375,6 +3690,7 @@ class Chemical(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=6,
     )
 
     lot_number = PropertyTypeAssignment(
@@ -3385,6 +3701,7 @@ class Chemical(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=7,
     )
 
     barcode_external = PropertyTypeAssignment(
@@ -3395,6 +3712,7 @@ class Chemical(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=8,
     )
 
     description = PropertyTypeAssignment(
@@ -3405,6 +3723,7 @@ class Chemical(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=9,
     )
 
     product_category = PropertyTypeAssignment(
@@ -3415,6 +3734,7 @@ class Chemical(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=10,
     )
 
     hazardous_substance = PropertyTypeAssignment(
@@ -3425,6 +3745,7 @@ class Chemical(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=11,
     )
 
     bam_oe = PropertyTypeAssignment(
@@ -3435,6 +3756,7 @@ class Chemical(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=12,
     )
 
     bam_room = PropertyTypeAssignment(
@@ -3445,6 +3767,7 @@ class Chemical(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=13,
     )
 
     bam_floor = PropertyTypeAssignment(
@@ -3455,6 +3778,7 @@ class Chemical(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=14,
     )
 
     bam_house = PropertyTypeAssignment(
@@ -3465,6 +3789,7 @@ class Chemical(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=15,
     )
 
     bam_location = PropertyTypeAssignment(
@@ -3475,6 +3800,7 @@ class Chemical(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=16,
     )
 
     bam_location_complete = PropertyTypeAssignment(
@@ -3485,6 +3811,7 @@ class Chemical(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=17,
     )
 
     responsible_person = PropertyTypeAssignment(
@@ -3495,6 +3822,7 @@ class Chemical(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=18,
     )
 
     mass_molar = PropertyTypeAssignment(
@@ -3505,6 +3833,7 @@ class Chemical(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Chemical Properties",
+        ordinal=19,
     )
 
     density_gram_per_cubic_cm = PropertyTypeAssignment(
@@ -3515,6 +3844,7 @@ class Chemical(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Chemical Properties",
+        ordinal=20,
     )
 
     concentration = PropertyTypeAssignment(
@@ -3525,6 +3855,7 @@ class Chemical(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Chemical Properties",
+        ordinal=21,
     )
 
     date_bottling = PropertyTypeAssignment(
@@ -3535,6 +3866,7 @@ class Chemical(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Handling",
+        ordinal=22,
     )
 
     date_opening = PropertyTypeAssignment(
@@ -3545,6 +3877,7 @@ class Chemical(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Handling",
+        ordinal=23,
     )
 
     date_expiration = PropertyTypeAssignment(
@@ -3555,6 +3888,7 @@ class Chemical(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Handling",
+        ordinal=24,
     )
 
     substance_empty = PropertyTypeAssignment(
@@ -3565,6 +3899,7 @@ class Chemical(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Handling",
+        ordinal=25,
     )
 
     notes = PropertyTypeAssignment(
@@ -3575,6 +3910,7 @@ class Chemical(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=26,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -3585,6 +3921,7 @@ class Chemical(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=27,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -3595,6 +3932,7 @@ class Chemical(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=28,
     )
 
 
@@ -3613,6 +3951,7 @@ class Organism(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     alias = PropertyTypeAssignment(
@@ -3623,6 +3962,7 @@ class Organism(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     description = PropertyTypeAssignment(
@@ -3633,6 +3973,7 @@ class Organism(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     supplier = PropertyTypeAssignment(
@@ -3643,6 +3984,7 @@ class Organism(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=4,
     )
 
     organism_risk_group = PropertyTypeAssignment(
@@ -3653,6 +3995,7 @@ class Organism(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=5,
     )
 
     organism_group = PropertyTypeAssignment(
@@ -3663,6 +4006,7 @@ class Organism(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=6,
     )
 
     organism_family = PropertyTypeAssignment(
@@ -3673,6 +4017,7 @@ class Organism(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=7,
     )
 
     organism_footnote = PropertyTypeAssignment(
@@ -3683,6 +4028,7 @@ class Organism(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=8,
     )
 
     organism_zkbs_statement = PropertyTypeAssignment(
@@ -3693,6 +4039,7 @@ class Organism(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=9,
     )
 
     notes = PropertyTypeAssignment(
@@ -3703,6 +4050,7 @@ class Organism(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=10,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -3713,6 +4061,7 @@ class Organism(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=11,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -3723,6 +4072,7 @@ class Organism(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=12,
     )
 
 
@@ -3741,6 +4091,7 @@ class BamGentechFacility(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     alias = PropertyTypeAssignment(
@@ -3751,6 +4102,7 @@ class BamGentechFacility(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     description = PropertyTypeAssignment(
@@ -3761,6 +4113,7 @@ class BamGentechFacility(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     gentech_safety_level = PropertyTypeAssignment(
@@ -3771,6 +4124,7 @@ class BamGentechFacility(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=4,
     )
 
     gentech_project_lead = PropertyTypeAssignment(
@@ -3781,6 +4135,7 @@ class BamGentechFacility(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=5,
     )
 
     gentech_biosafety_officer = PropertyTypeAssignment(
@@ -3791,6 +4146,7 @@ class BamGentechFacility(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=6,
     )
 
     bam_oe = PropertyTypeAssignment(
@@ -3801,6 +4157,7 @@ class BamGentechFacility(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=7,
     )
 
     bam_room = PropertyTypeAssignment(
@@ -3811,6 +4168,7 @@ class BamGentechFacility(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=8,
     )
 
     bam_floor = PropertyTypeAssignment(
@@ -3821,6 +4179,7 @@ class BamGentechFacility(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=9,
     )
 
     bam_house = PropertyTypeAssignment(
@@ -3831,6 +4190,7 @@ class BamGentechFacility(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=10,
     )
 
     bam_location = PropertyTypeAssignment(
@@ -3841,6 +4201,7 @@ class BamGentechFacility(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=11,
     )
 
     bam_location_complete = PropertyTypeAssignment(
@@ -3851,6 +4212,7 @@ class BamGentechFacility(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=12,
     )
 
     notes = PropertyTypeAssignment(
@@ -3861,6 +4223,7 @@ class BamGentechFacility(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=13,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -3871,6 +4234,7 @@ class BamGentechFacility(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=14,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -3881,6 +4245,7 @@ class BamGentechFacility(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=15,
     )
 
 
@@ -3899,6 +4264,7 @@ class GlassWare(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     description = PropertyTypeAssignment(
@@ -3909,6 +4275,7 @@ class GlassWare(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     manufacturer = PropertyTypeAssignment(
@@ -3919,6 +4286,7 @@ class GlassWare(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     supplier = PropertyTypeAssignment(
@@ -3929,6 +4297,7 @@ class GlassWare(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=5,
     )
 
     lot_number = PropertyTypeAssignment(
@@ -3939,6 +4308,7 @@ class GlassWare(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=7,
     )
 
     barcode_external = PropertyTypeAssignment(
@@ -3949,6 +4319,7 @@ class GlassWare(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=9,
     )
 
     volume_min_in_ml = PropertyTypeAssignment(
@@ -3959,6 +4330,7 @@ class GlassWare(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=11,
     )
 
     volume_max_in_ml = PropertyTypeAssignment(
@@ -3969,6 +4341,7 @@ class GlassWare(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=13,
     )
 
     bam_oe = PropertyTypeAssignment(
@@ -3979,6 +4352,7 @@ class GlassWare(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=15,
     )
 
     bam_room = PropertyTypeAssignment(
@@ -3989,6 +4363,7 @@ class GlassWare(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=16,
     )
 
     bam_floor = PropertyTypeAssignment(
@@ -3999,6 +4374,7 @@ class GlassWare(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=17,
     )
 
     bam_house = PropertyTypeAssignment(
@@ -4009,6 +4385,7 @@ class GlassWare(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=18,
     )
 
     bam_location = PropertyTypeAssignment(
@@ -4019,6 +4396,7 @@ class GlassWare(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=19,
     )
 
     bam_location_complete = PropertyTypeAssignment(
@@ -4029,6 +4407,7 @@ class GlassWare(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=20,
     )
 
     notes = PropertyTypeAssignment(
@@ -4039,6 +4418,7 @@ class GlassWare(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=21,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -4049,6 +4429,7 @@ class GlassWare(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=22,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -4059,6 +4440,7 @@ class GlassWare(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=23,
     )
 
 
@@ -4077,6 +4459,7 @@ class StorageConnector(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     description = PropertyTypeAssignment(
@@ -4087,6 +4470,7 @@ class StorageConnector(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -4097,6 +4481,7 @@ class StorageConnector(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=3,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -4107,6 +4492,7 @@ class StorageConnector(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=4,
     )
 
 
@@ -4125,6 +4511,7 @@ class Action(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Device ID",
+        ordinal=1,
     )
 
     action_date = PropertyTypeAssignment(
@@ -4135,6 +4522,7 @@ class Action(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Action Data",
+        ordinal=2,
     )
 
     acting_person = PropertyTypeAssignment(
@@ -4145,6 +4533,7 @@ class Action(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Action Data",
+        ordinal=3,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -4155,6 +4544,7 @@ class Action(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=4,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -4165,6 +4555,7 @@ class Action(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=5,
     )
 
 
@@ -4183,6 +4574,7 @@ class RawMaterialCode(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     alias = PropertyTypeAssignment(
@@ -4193,6 +4585,7 @@ class RawMaterialCode(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     description = PropertyTypeAssignment(
@@ -4203,6 +4596,7 @@ class RawMaterialCode(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     material_number = PropertyTypeAssignment(
@@ -4213,6 +4607,7 @@ class RawMaterialCode(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="Material Information",
+        ordinal=4,
     )
 
     material_group = PropertyTypeAssignment(
@@ -4223,6 +4618,7 @@ class RawMaterialCode(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Material Information",
+        ordinal=5,
     )
 
     characteristics = PropertyTypeAssignment(
@@ -4233,6 +4629,7 @@ class RawMaterialCode(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Material Information",
+        ordinal=6,
     )
 
     notes = PropertyTypeAssignment(
@@ -4243,6 +4640,7 @@ class RawMaterialCode(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=7,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -4253,6 +4651,7 @@ class RawMaterialCode(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=8,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -4263,6 +4662,7 @@ class RawMaterialCode(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=9,
     )
 
 
@@ -4281,6 +4681,7 @@ class ParameterSet(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     description = PropertyTypeAssignment(
@@ -4291,6 +4692,7 @@ class ParameterSet(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     parameter_set_spreadsheet = PropertyTypeAssignment(
@@ -4301,6 +4703,7 @@ class ParameterSet(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=3,
     )
 
     notes = PropertyTypeAssignment(
@@ -4311,6 +4714,7 @@ class ParameterSet(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=4,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -4321,6 +4725,7 @@ class ParameterSet(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=5,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -4331,6 +4736,7 @@ class ParameterSet(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=6,
     )
 
 
@@ -4349,6 +4755,7 @@ class EnvironmentalConditions(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     air_temperature_in_celsius = PropertyTypeAssignment(
@@ -4359,6 +4766,7 @@ class EnvironmentalConditions(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="Atmospheric Conditions",
+        ordinal=2,
     )
 
     air_rel_humidity_in_percent = PropertyTypeAssignment(
@@ -4369,6 +4777,7 @@ class EnvironmentalConditions(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="Atmospheric Conditions",
+        ordinal=3,
     )
 
     notes = PropertyTypeAssignment(
@@ -4379,6 +4788,7 @@ class EnvironmentalConditions(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=4,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -4389,6 +4799,7 @@ class EnvironmentalConditions(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=5,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -4399,6 +4810,7 @@ class EnvironmentalConditions(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=6,
     )
 
 
@@ -4417,6 +4829,7 @@ class SampleNdt(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     description = PropertyTypeAssignment(
@@ -4427,6 +4840,7 @@ class SampleNdt(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="Properties",
+        ordinal=2,
     )
 
     ndt_material = PropertyTypeAssignment(
@@ -4437,6 +4851,7 @@ class SampleNdt(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="Properties",
+        ordinal=3,
     )
 
     ndt_material_number = PropertyTypeAssignment(
@@ -4447,6 +4862,7 @@ class SampleNdt(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="NDT Material number",
+        ordinal=4,
     )
 
     notes = PropertyTypeAssignment(
@@ -4457,6 +4873,7 @@ class SampleNdt(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=5,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -4467,6 +4884,7 @@ class SampleNdt(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=6,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -4477,6 +4895,7 @@ class SampleNdt(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=7,
     )
 
 
@@ -4495,6 +4914,7 @@ class SampleHolder(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     alias = PropertyTypeAssignment(
@@ -4505,6 +4925,7 @@ class SampleHolder(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     manufacturer = PropertyTypeAssignment(
@@ -4515,6 +4936,7 @@ class SampleHolder(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     sample_holder_material = PropertyTypeAssignment(
@@ -4525,6 +4947,7 @@ class SampleHolder(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="Physical Properties",
+        ordinal=4,
     )
 
     sample_holder_thickness_in_mm = PropertyTypeAssignment(
@@ -4535,6 +4958,7 @@ class SampleHolder(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="Physical Properties",
+        ordinal=5,
     )
 
     notes = PropertyTypeAssignment(
@@ -4545,6 +4969,7 @@ class SampleHolder(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=7,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -4555,6 +4980,7 @@ class SampleHolder(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=9,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -4565,6 +4991,7 @@ class SampleHolder(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=11,
     )
 
 
@@ -4583,6 +5010,7 @@ class SamplePretreatment(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     duration_in_seconds = PropertyTypeAssignment(
@@ -4593,6 +5021,7 @@ class SamplePretreatment(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="Properties",
+        ordinal=2,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -4603,6 +5032,7 @@ class SamplePretreatment(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=3,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -4613,6 +5043,7 @@ class SamplePretreatment(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=4,
     )
 
 
@@ -4631,6 +5062,7 @@ class InstrumentAccessory(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     description = PropertyTypeAssignment(
@@ -4641,6 +5073,7 @@ class InstrumentAccessory(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     size_effective_mm = PropertyTypeAssignment(
@@ -4651,6 +5084,7 @@ class InstrumentAccessory(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Properties",
+        ordinal=3,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -4661,6 +5095,7 @@ class InstrumentAccessory(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=4,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -4671,6 +5106,7 @@ class InstrumentAccessory(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=5,
     )
 
 
@@ -4689,6 +5125,7 @@ class ComputationalAnalysis(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     description = PropertyTypeAssignment(
@@ -4699,6 +5136,7 @@ class ComputationalAnalysis(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     source_code_language = PropertyTypeAssignment(
@@ -4709,6 +5147,7 @@ class ComputationalAnalysis(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=3,
     )
 
     notes = PropertyTypeAssignment(
@@ -4719,6 +5158,7 @@ class ComputationalAnalysis(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=4,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -4729,6 +5169,7 @@ class ComputationalAnalysis(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=5,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -4739,6 +5180,7 @@ class ComputationalAnalysis(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=6,
     )
 
 
@@ -4757,6 +5199,7 @@ class CondaEnvironment(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     description = PropertyTypeAssignment(
@@ -4767,6 +5210,7 @@ class CondaEnvironment(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     conda_channels = PropertyTypeAssignment(
@@ -4777,6 +5221,7 @@ class CondaEnvironment(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=3,
     )
 
     conda_pip = PropertyTypeAssignment(
@@ -4787,6 +5232,7 @@ class CondaEnvironment(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=4,
     )
 
     notes = PropertyTypeAssignment(
@@ -4797,6 +5243,7 @@ class CondaEnvironment(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=5,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -4807,6 +5254,7 @@ class CondaEnvironment(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=6,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -4817,6 +5265,7 @@ class CondaEnvironment(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=7,
     )
 
 
@@ -4835,6 +5284,7 @@ class Hpc(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     alias = PropertyTypeAssignment(
@@ -4845,6 +5295,7 @@ class Hpc(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     description = PropertyTypeAssignment(
@@ -4855,6 +5306,7 @@ class Hpc(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     hpc_ext_phys_address = PropertyTypeAssignment(
@@ -4865,6 +5317,7 @@ class Hpc(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=4,
     )
 
     hpc_ext_email_address = PropertyTypeAssignment(
@@ -4875,6 +5328,7 @@ class Hpc(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=5,
     )
 
     operating_system = PropertyTypeAssignment(
@@ -4885,6 +5339,7 @@ class Hpc(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=6,
     )
 
     queuing_system = PropertyTypeAssignment(
@@ -4895,6 +5350,7 @@ class Hpc(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=8,
     )
 
     cpu_nodes_config = PropertyTypeAssignment(
@@ -4905,6 +5361,7 @@ class Hpc(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=10,
     )
 
     gpu_nodes_config = PropertyTypeAssignment(
@@ -4915,6 +5372,7 @@ class Hpc(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=12,
     )
 
     file_system_config = PropertyTypeAssignment(
@@ -4925,6 +5383,7 @@ class Hpc(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=14,
     )
 
     reference = PropertyTypeAssignment(
@@ -4935,6 +5394,7 @@ class Hpc(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="External Documentation",
+        ordinal=16,
     )
 
     responsible_person = PropertyTypeAssignment(
@@ -4945,6 +5405,7 @@ class Hpc(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=18,
     )
 
     co_responsible_person = PropertyTypeAssignment(
@@ -4955,6 +5416,7 @@ class Hpc(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=20,
     )
 
     notes = PropertyTypeAssignment(
@@ -4965,6 +5427,7 @@ class Hpc(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=22,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -4975,6 +5438,7 @@ class Hpc(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=24,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -4985,6 +5449,7 @@ class Hpc(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=26,
     )
 
 
@@ -5003,6 +5468,7 @@ class InteratomicPotential(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     description = PropertyTypeAssignment(
@@ -5013,6 +5479,7 @@ class InteratomicPotential(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     chem_species_addressed = PropertyTypeAssignment(
@@ -5023,6 +5490,7 @@ class InteratomicPotential(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Material Information",
+        ordinal=3,
     )
 
     atom_potential_style = PropertyTypeAssignment(
@@ -5033,6 +5501,7 @@ class InteratomicPotential(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Method Specific",
+        ordinal=4,
     )
 
     source_link = PropertyTypeAssignment(
@@ -5043,6 +5512,7 @@ class InteratomicPotential(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=5,
     )
 
     sftw_compatibility = PropertyTypeAssignment(
@@ -5053,6 +5523,7 @@ class InteratomicPotential(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=7,
     )
 
     reference = PropertyTypeAssignment(
@@ -5063,6 +5534,7 @@ class InteratomicPotential(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="External Documentation",
+        ordinal=9,
     )
 
     notes = PropertyTypeAssignment(
@@ -5073,6 +5545,7 @@ class InteratomicPotential(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=11,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -5083,6 +5556,7 @@ class InteratomicPotential(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=13,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -5093,6 +5567,7 @@ class InteratomicPotential(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=15,
     )
 
 
@@ -5111,6 +5586,7 @@ class JupyterNotebook(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     description = PropertyTypeAssignment(
@@ -5121,6 +5597,7 @@ class JupyterNotebook(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     source_code_language = PropertyTypeAssignment(
@@ -5131,6 +5608,7 @@ class JupyterNotebook(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=3,
     )
 
     jupyter_modules = PropertyTypeAssignment(
@@ -5141,6 +5619,7 @@ class JupyterNotebook(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=4,
     )
 
     jupyter_headers = PropertyTypeAssignment(
@@ -5151,6 +5630,7 @@ class JupyterNotebook(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=5,
     )
 
     notes = PropertyTypeAssignment(
@@ -5161,6 +5641,7 @@ class JupyterNotebook(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=6,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -5171,6 +5652,7 @@ class JupyterNotebook(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=7,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -5181,6 +5663,7 @@ class JupyterNotebook(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=8,
     )
 
 
@@ -5199,6 +5682,7 @@ class Pseudopotential(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     description = PropertyTypeAssignment(
@@ -5209,6 +5693,7 @@ class Pseudopotential(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     version = PropertyTypeAssignment(
@@ -5219,6 +5704,7 @@ class Pseudopotential(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     license = PropertyTypeAssignment(
@@ -5229,6 +5715,7 @@ class Pseudopotential(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=4,
     )
 
     chem_species_addressed = PropertyTypeAssignment(
@@ -5239,6 +5726,7 @@ class Pseudopotential(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Material Information",
+        ordinal=5,
     )
 
     pseudopot_func = PropertyTypeAssignment(
@@ -5249,6 +5737,7 @@ class Pseudopotential(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Method Specific",
+        ordinal=6,
     )
 
     pseudopot_type = PropertyTypeAssignment(
@@ -5259,6 +5748,7 @@ class Pseudopotential(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Method Specific",
+        ordinal=8,
     )
 
     sw_compatibility = PropertyTypeAssignment(
@@ -5269,6 +5759,7 @@ class Pseudopotential(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=10,
     )
 
     pseudopot_semicore = PropertyTypeAssignment(
@@ -5279,6 +5770,7 @@ class Pseudopotential(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=12,
     )
 
     reference = PropertyTypeAssignment(
@@ -5289,6 +5781,7 @@ class Pseudopotential(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="External Documetation",
+        ordinal=14,
     )
 
     notes = PropertyTypeAssignment(
@@ -5299,6 +5792,7 @@ class Pseudopotential(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=16,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -5309,6 +5803,7 @@ class Pseudopotential(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=18,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -5319,6 +5814,7 @@ class Pseudopotential(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=20,
     )
 
 
@@ -5337,6 +5833,7 @@ class PyironJob(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     description = PropertyTypeAssignment(
@@ -5347,6 +5844,7 @@ class PyironJob(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     bam_username = PropertyTypeAssignment(
@@ -5357,6 +5855,7 @@ class PyironJob(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     workflow_manager = PropertyTypeAssignment(
@@ -5367,6 +5866,7 @@ class PyironJob(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=4,
     )
 
     sim_job_finished = PropertyTypeAssignment(
@@ -5377,6 +5877,7 @@ class PyironJob(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Pyiron Information",
+        ordinal=5,
     )
 
     start_date = PropertyTypeAssignment(
@@ -5387,6 +5888,7 @@ class PyironJob(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Pyiron Information",
+        ordinal=6,
     )
 
     sim_walltime_in_hours = PropertyTypeAssignment(
@@ -5397,6 +5899,7 @@ class PyironJob(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Pyiron Information",
+        ordinal=7,
     )
 
     sim_coretime_in_hours = PropertyTypeAssignment(
@@ -5407,6 +5910,7 @@ class PyironJob(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Pyiron Information",
+        ordinal=8,
     )
 
     ncores = PropertyTypeAssignment(
@@ -5417,6 +5921,7 @@ class PyironJob(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Pyiron Information",
+        ordinal=9,
     )
 
     ngpus = PropertyTypeAssignment(
@@ -5427,6 +5932,7 @@ class PyironJob(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Pyiron Information",
+        ordinal=10,
     )
 
     nthreads = PropertyTypeAssignment(
@@ -5437,6 +5943,7 @@ class PyironJob(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Pyiron Information",
+        ordinal=11,
     )
 
     hpc_job_queue = PropertyTypeAssignment(
@@ -5447,6 +5954,7 @@ class PyironJob(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Pyiron Information",
+        ordinal=12,
     )
 
     hpc_job_id = PropertyTypeAssignment(
@@ -5457,6 +5965,7 @@ class PyironJob(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Pyiron Information",
+        ordinal=13,
     )
 
     notes = PropertyTypeAssignment(
@@ -5467,6 +5976,7 @@ class PyironJob(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=14,
     )
 
     conceptual_dictionary = PropertyTypeAssignment(
@@ -5477,6 +5987,7 @@ class PyironJob(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Annotations",
+        ordinal=15,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -5487,6 +5998,7 @@ class PyironJob(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=16,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -5497,6 +6009,7 @@ class PyironJob(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=17,
     )
 
 
@@ -5515,6 +6028,7 @@ class SoftwareCode(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     description = PropertyTypeAssignment(
@@ -5525,6 +6039,7 @@ class SoftwareCode(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     version = PropertyTypeAssignment(
@@ -5535,6 +6050,7 @@ class SoftwareCode(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     license = PropertyTypeAssignment(
@@ -5545,6 +6061,7 @@ class SoftwareCode(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=4,
     )
 
     source_link = PropertyTypeAssignment(
@@ -5555,6 +6072,7 @@ class SoftwareCode(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=5,
     )
 
     software_name = PropertyTypeAssignment(
@@ -5565,6 +6083,7 @@ class SoftwareCode(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=6,
     )
 
     reference = PropertyTypeAssignment(
@@ -5575,6 +6094,7 @@ class SoftwareCode(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="External Documentation",
+        ordinal=7,
     )
 
     notes = PropertyTypeAssignment(
@@ -5585,6 +6105,7 @@ class SoftwareCode(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=8,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -5595,6 +6116,7 @@ class SoftwareCode(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=9,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -5605,6 +6127,7 @@ class SoftwareCode(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=10,
     )
 
 
@@ -5623,6 +6146,7 @@ class WorkflowReference(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     description = PropertyTypeAssignment(
@@ -5633,6 +6157,7 @@ class WorkflowReference(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     reference = PropertyTypeAssignment(
@@ -5643,6 +6168,7 @@ class WorkflowReference(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="External Documetation",
+        ordinal=3,
     )
 
     notes = PropertyTypeAssignment(
@@ -5653,6 +6179,7 @@ class WorkflowReference(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=4,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -5663,6 +6190,7 @@ class WorkflowReference(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=5,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -5673,6 +6201,7 @@ class WorkflowReference(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=6,
     )
 
 
@@ -5691,6 +6220,7 @@ class MaterialV1(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     description = PropertyTypeAssignment(
@@ -5701,6 +6231,7 @@ class MaterialV1(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     mat_bonding_type = PropertyTypeAssignment(
@@ -5711,6 +6242,7 @@ class MaterialV1(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Material Information",
+        ordinal=3,
     )
 
     mat_structure = PropertyTypeAssignment(
@@ -5721,6 +6253,7 @@ class MaterialV1(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Material Information",
+        ordinal=4,
     )
 
     chem_species_by_wt_in_pct = PropertyTypeAssignment(
@@ -5731,6 +6264,7 @@ class MaterialV1(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Material Information",
+        ordinal=6,
     )
 
     chem_species_by_comp_in_pct = PropertyTypeAssignment(
@@ -5741,6 +6275,7 @@ class MaterialV1(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Material Information",
+        ordinal=8,
     )
 
     notes = PropertyTypeAssignment(
@@ -5751,6 +6286,7 @@ class MaterialV1(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=10,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -5761,6 +6297,7 @@ class MaterialV1(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=12,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -5771,6 +6308,7 @@ class MaterialV1(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=14,
     )
 
 
@@ -5789,6 +6327,7 @@ class MatSimStructure(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     description = PropertyTypeAssignment(
@@ -5799,6 +6338,7 @@ class MatSimStructure(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     workflow_manager = PropertyTypeAssignment(
@@ -5809,6 +6349,7 @@ class MatSimStructure(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=3,
     )
 
     crystal_orientation = PropertyTypeAssignment(
@@ -5819,6 +6360,7 @@ class MatSimStructure(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Material Information",
+        ordinal=4,
     )
 
     sim_cell_lengths_in_a = PropertyTypeAssignment(
@@ -5829,6 +6371,7 @@ class MatSimStructure(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Simulation Information",
+        ordinal=5,
     )
 
     sim_cell_vectors = PropertyTypeAssignment(
@@ -5839,6 +6382,7 @@ class MatSimStructure(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Simulation Information",
+        ordinal=6,
     )
 
     sim_cell_angles_in_deg = PropertyTypeAssignment(
@@ -5849,6 +6393,7 @@ class MatSimStructure(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Simulation Information",
+        ordinal=7,
     )
 
     sim_cell_volume_in_a3 = PropertyTypeAssignment(
@@ -5859,6 +6404,7 @@ class MatSimStructure(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Simulation Information",
+        ordinal=8,
     )
 
     notes = PropertyTypeAssignment(
@@ -5869,6 +6415,7 @@ class MatSimStructure(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=9,
     )
 
     conceptual_dictionary = PropertyTypeAssignment(
@@ -5879,6 +6426,7 @@ class MatSimStructure(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Annotations",
+        ordinal=10,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -5889,6 +6437,7 @@ class MatSimStructure(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=11,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -5899,6 +6448,7 @@ class MatSimStructure(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=12,
     )
 
 
@@ -5917,6 +6467,7 @@ class Dcpd(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Setup",
+        ordinal=12,
     )
 
     dcpd_current = PropertyTypeAssignment(
@@ -5927,6 +6478,7 @@ class Dcpd(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Setup",
+        ordinal=13,
     )
 
     dcpd_initial_cracklength = PropertyTypeAssignment(
@@ -5937,6 +6489,7 @@ class Dcpd(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Setup",
+        ordinal=14,
     )
 
     dcpd_yzero_fitted = PropertyTypeAssignment(
@@ -5947,6 +6500,7 @@ class Dcpd(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Setup",
+        ordinal=15,
     )
 
     fem_fit_eq = PropertyTypeAssignment(
@@ -5957,6 +6511,7 @@ class Dcpd(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Setup",
+        ordinal=16,
     )
 
     dcpd_proportional_potential = PropertyTypeAssignment(
@@ -5967,6 +6522,7 @@ class Dcpd(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Direct Amplification of Corrected Potential Drop",
+        ordinal=17,
     )
 
     dcpd_initial_potential_drop = PropertyTypeAssignment(
@@ -5977,6 +6533,7 @@ class Dcpd(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Direct Amplification of Corrected Potential Drop",
+        ordinal=18,
     )
 
     dcpd_amplification_factor = PropertyTypeAssignment(
@@ -5987,6 +6544,7 @@ class Dcpd(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Direct Amplification of Corrected Potential Drop",
+        ordinal=19,
     )
 
     dcpd_linearised_potential = PropertyTypeAssignment(
@@ -5997,6 +6555,7 @@ class Dcpd(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Output Potential Proportional to Cracklength",
+        ordinal=20,
     )
 
     dcpd_temp_comp = PropertyTypeAssignment(
@@ -6007,6 +6566,7 @@ class Dcpd(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Temperature Compensation",
+        ordinal=21,
     )
 
     dcpd_initial_temp = PropertyTypeAssignment(
@@ -6017,6 +6577,7 @@ class Dcpd(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Temperature Compensation",
+        ordinal=22,
     )
 
     dcpd_temp_coeff = PropertyTypeAssignment(
@@ -6027,6 +6588,7 @@ class Dcpd(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Temperature Compensation",
+        ordinal=23,
     )
 
 
@@ -6045,6 +6607,7 @@ class FcgTest(ExperimentalStep):
         mandatory=True,
         show_in_edit_views=False,
         section="Experimental Details FCG",
+        ordinal=10,
     )
 
     fcg_thrshld = PropertyTypeAssignment(
@@ -6055,6 +6618,7 @@ class FcgTest(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Experimental Details FCG",
+        ordinal=11,
     )
 
     fcg_paris = PropertyTypeAssignment(
@@ -6065,6 +6629,7 @@ class FcgTest(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Experimental Details FCG",
+        ordinal=12,
     )
 
     fcg_cyclic_r = PropertyTypeAssignment(
@@ -6075,6 +6640,7 @@ class FcgTest(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Experimental Details FCG",
+        ordinal=13,
     )
 
     fcg_result_thrshld = PropertyTypeAssignment(
@@ -6085,6 +6651,7 @@ class FcgTest(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Experimental Results",
+        ordinal=14,
     )
 
     fcg_result_paris_c = PropertyTypeAssignment(
@@ -6095,6 +6662,7 @@ class FcgTest(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Experimental Results",
+        ordinal=15,
     )
 
     fcg_result_paris_m = PropertyTypeAssignment(
@@ -6105,6 +6673,7 @@ class FcgTest(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Experimental Results",
+        ordinal=17,
     )
 
     fcg_result_cyclicr_a = PropertyTypeAssignment(
@@ -6115,6 +6684,7 @@ class FcgTest(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Experimental Results",
+        ordinal=19,
     )
 
     fcg_result_cyclicr_b = PropertyTypeAssignment(
@@ -6125,6 +6695,7 @@ class FcgTest(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Experimental Results",
+        ordinal=21,
     )
 
 
@@ -6143,6 +6714,7 @@ class RazorbladeNotching(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Process Parameters",
+        ordinal=10,
     )
 
     razor_strokespeed = PropertyTypeAssignment(
@@ -6153,6 +6725,7 @@ class RazorbladeNotching(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Process Parameters",
+        ordinal=11,
     )
 
     razor_strokecount = PropertyTypeAssignment(
@@ -6163,6 +6736,7 @@ class RazorbladeNotching(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Process Parameters",
+        ordinal=12,
     )
 
     razor_depth = PropertyTypeAssignment(
@@ -6173,6 +6747,7 @@ class RazorbladeNotching(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Results",
+        ordinal=13,
     )
 
 
@@ -6191,6 +6766,7 @@ class FcgStep(ExperimentalStep):
         mandatory=True,
         show_in_edit_views=False,
         section="Step Information",
+        ordinal=12,
     )
 
     fcg_step_type = PropertyTypeAssignment(
@@ -6201,6 +6777,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Step Information",
+        ordinal=13,
     )
 
     fcg_step_precrack = PropertyTypeAssignment(
@@ -6211,6 +6788,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Step Information",
+        ordinal=14,
     )
 
     initial_cycles = PropertyTypeAssignment(
@@ -6221,6 +6799,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Step Initial Parameters (Manual Input)",
+        ordinal=15,
     )
 
     initial_cracklength = PropertyTypeAssignment(
@@ -6231,6 +6810,7 @@ class FcgStep(ExperimentalStep):
         mandatory=True,
         show_in_edit_views=False,
         section="Step Initial Parameters (Manual Input)",
+        ordinal=16,
     )
 
     initial_r_ratio = PropertyTypeAssignment(
@@ -6241,6 +6821,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Step Initial Parameters (Manual Input)",
+        ordinal=17,
     )
 
     initial_deltak = PropertyTypeAssignment(
@@ -6251,6 +6832,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Step Initial Parameters (Manual Input)",
+        ordinal=18,
     )
 
     deltak_exponent = PropertyTypeAssignment(
@@ -6261,6 +6843,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Step Initial Parameters (Manual Input)",
+        ordinal=20,
     )
 
     increment_dadn = PropertyTypeAssignment(
@@ -6271,6 +6854,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Step Initial Parameters (Manual Input)",
+        ordinal=22,
     )
 
     final_cycles = PropertyTypeAssignment(
@@ -6281,6 +6865,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Step Final Parameters (Manual Input)",
+        ordinal=24,
     )
 
     final_cracklength = PropertyTypeAssignment(
@@ -6291,6 +6876,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Step Final Parameters (Manual Input)",
+        ordinal=26,
     )
 
     final_r_ratio = PropertyTypeAssignment(
@@ -6301,6 +6887,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Step Final Parameters (Manual Input)",
+        ordinal=28,
     )
 
     final_deltak = PropertyTypeAssignment(
@@ -6311,6 +6898,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Step Final Parameters (Manual Input)",
+        ordinal=30,
     )
 
     propagation = PropertyTypeAssignment(
@@ -6321,6 +6909,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Propagation/Arrest",
+        ordinal=32,
     )
 
     arrest = PropertyTypeAssignment(
@@ -6331,6 +6920,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Propagation/Arrest",
+        ordinal=34,
     )
 
     initial_kmax = PropertyTypeAssignment(
@@ -6341,6 +6931,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
+        ordinal=36,
     )
 
     initial_kmin = PropertyTypeAssignment(
@@ -6351,6 +6942,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
+        ordinal=38,
     )
 
     initial_kamp = PropertyTypeAssignment(
@@ -6361,6 +6953,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
+        ordinal=40,
     )
 
     initial_kmean = PropertyTypeAssignment(
@@ -6371,6 +6964,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
+        ordinal=42,
     )
 
     initial_geomfun = PropertyTypeAssignment(
@@ -6381,6 +6975,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
+        ordinal=44,
     )
 
     initial_deltaf = PropertyTypeAssignment(
@@ -6391,6 +6986,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
+        ordinal=46,
     )
 
     initial_fmax = PropertyTypeAssignment(
@@ -6401,6 +6997,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
+        ordinal=48,
     )
 
     initial_fmin = PropertyTypeAssignment(
@@ -6411,6 +7008,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
+        ordinal=50,
     )
 
     initial_famp = PropertyTypeAssignment(
@@ -6421,6 +7019,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
+        ordinal=52,
     )
 
     initial_fmean = PropertyTypeAssignment(
@@ -6431,6 +7030,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
+        ordinal=54,
     )
 
     initial_ssy_ratio = PropertyTypeAssignment(
@@ -6441,6 +7041,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
+        ordinal=56,
     )
 
     delta_a = PropertyTypeAssignment(
@@ -6451,6 +7052,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
+        ordinal=58,
     )
 
     delta_n = PropertyTypeAssignment(
@@ -6461,6 +7063,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
+        ordinal=60,
     )
 
     final_geomfun = PropertyTypeAssignment(
@@ -6471,6 +7074,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
+        ordinal=62,
     )
 
     final_deltaf = PropertyTypeAssignment(
@@ -6481,6 +7085,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
+        ordinal=64,
     )
 
     final_fmax = PropertyTypeAssignment(
@@ -6491,6 +7096,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
+        ordinal=66,
     )
 
     final_fmin = PropertyTypeAssignment(
@@ -6501,6 +7107,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
+        ordinal=68,
     )
 
     final_famp = PropertyTypeAssignment(
@@ -6511,6 +7118,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
+        ordinal=70,
     )
 
     final_fmean = PropertyTypeAssignment(
@@ -6521,6 +7129,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
+        ordinal=72,
     )
 
     final_ssy_ratio = PropertyTypeAssignment(
@@ -6531,6 +7140,7 @@ class FcgStep(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
+        ordinal=74,
     )
 
 
@@ -6549,6 +7159,7 @@ class ForceTransducer(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=32,
     )
 
     max_static_force = PropertyTypeAssignment(
@@ -6559,6 +7170,7 @@ class ForceTransducer(Instrument):
         mandatory=True,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=34,
     )
 
     max_dynamic_force = PropertyTypeAssignment(
@@ -6569,6 +7181,7 @@ class ForceTransducer(Instrument):
         mandatory=True,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=36,
     )
 
     max_excitation_voltage = PropertyTypeAssignment(
@@ -6579,6 +7192,7 @@ class ForceTransducer(Instrument):
         mandatory=True,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=38,
     )
 
     calibration_interval = PropertyTypeAssignment(
@@ -6589,6 +7203,7 @@ class ForceTransducer(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Status",
+        ordinal=44,
     )
 
 
@@ -6607,6 +7222,7 @@ class MicroscopyFcgFractureSurfaceCracklength(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Experimental Details",
+        ordinal=10,
     )
 
     mic_fcg_fracsurf_cracklength_value = PropertyTypeAssignment(
@@ -6617,6 +7233,7 @@ class MicroscopyFcgFractureSurfaceCracklength(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Experimental Details",
+        ordinal=11,
     )
 
     mic_fcg_fracsurf_cracklength_cycles = PropertyTypeAssignment(
@@ -6627,6 +7244,7 @@ class MicroscopyFcgFractureSurfaceCracklength(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Experimental Details",
+        ordinal=12,
     )
 
 
@@ -6645,6 +7263,7 @@ class FcgEvaluation(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Experimental Details",
+        ordinal=6,
     )
 
 
@@ -6664,6 +7283,7 @@ class Fcg(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     spec_status = PropertyTypeAssignment(
@@ -6674,6 +7294,7 @@ class Fcg(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     responsible_person = PropertyTypeAssignment(
@@ -6684,6 +7305,7 @@ class Fcg(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=3,
     )
 
     spec_fcg_type = PropertyTypeAssignment(
@@ -6694,6 +7316,7 @@ class Fcg(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Geometry (in accordance with ISO 12108)",
+        ordinal=4,
     )
 
     spec_fcg_width_side2 = PropertyTypeAssignment(
@@ -6704,6 +7327,7 @@ class Fcg(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Geometry (in accordance with ISO 12108)",
+        ordinal=5,
     )
 
     spec_fcg_width_side1 = PropertyTypeAssignment(
@@ -6714,6 +7338,7 @@ class Fcg(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Geometry (in accordance with ISO 12108)",
+        ordinal=7,
     )
 
     spec_fcg_thickness = PropertyTypeAssignment(
@@ -6724,6 +7349,7 @@ class Fcg(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Geometry (in accordance with ISO 12108)",
+        ordinal=9,
     )
 
     spec_fcg_notchtype = PropertyTypeAssignment(
@@ -6734,6 +7360,7 @@ class Fcg(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="Notch Geometry",
+        ordinal=11,
     )
 
     spec_fcg_notchlength_side1 = PropertyTypeAssignment(
@@ -6744,6 +7371,7 @@ class Fcg(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Notch Geometry",
+        ordinal=13,
     )
 
     spec_fcg_notchlength_side2 = PropertyTypeAssignment(
@@ -6754,6 +7382,7 @@ class Fcg(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Notch Geometry",
+        ordinal=15,
     )
 
     spec_fcg_notchlength_middle = PropertyTypeAssignment(
@@ -6764,6 +7393,7 @@ class Fcg(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Notch Geometry",
+        ordinal=17,
     )
 
     notes = PropertyTypeAssignment(
@@ -6774,6 +7404,7 @@ class Fcg(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=19,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -6784,6 +7415,7 @@ class Fcg(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=21,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -6794,6 +7426,7 @@ class Fcg(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=23,
     )
 
 
@@ -6813,6 +7446,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     alias = PropertyTypeAssignment(
@@ -6823,6 +7457,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     mat_code = PropertyTypeAssignment(
@@ -6833,6 +7468,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     manufacturer = PropertyTypeAssignment(
@@ -6843,6 +7479,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=4,
     )
 
     supplier = PropertyTypeAssignment(
@@ -6853,6 +7490,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=5,
     )
 
     raw_mat_batch_number = PropertyTypeAssignment(
@@ -6863,6 +7501,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=7,
     )
 
     steel_treatment_first = PropertyTypeAssignment(
@@ -6873,6 +7512,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Delivery Condition",
+        ordinal=9,
     )
 
     steel_treatment_second = PropertyTypeAssignment(
@@ -6883,6 +7523,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Delivery Condition",
+        ordinal=11,
     )
 
     steel_treatment_third = PropertyTypeAssignment(
@@ -6893,6 +7534,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Delivery Condition",
+        ordinal=13,
     )
 
     steel_treatment_fourth = PropertyTypeAssignment(
@@ -6903,6 +7545,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Delivery Condition",
+        ordinal=15,
     )
 
     raw_mat_form = PropertyTypeAssignment(
@@ -6913,6 +7556,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Geometry",
+        ordinal=17,
     )
 
     raw_mat_thickness = PropertyTypeAssignment(
@@ -6923,6 +7567,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Geometry",
+        ordinal=19,
     )
 
     raw_mat_width = PropertyTypeAssignment(
@@ -6933,6 +7578,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Geometry",
+        ordinal=21,
     )
 
     raw_mat_diameter = PropertyTypeAssignment(
@@ -6943,6 +7589,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Geometry",
+        ordinal=23,
     )
 
     raw_mat_length = PropertyTypeAssignment(
@@ -6953,6 +7600,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Geometry",
+        ordinal=25,
     )
 
     raw_mat_component_description = PropertyTypeAssignment(
@@ -6963,6 +7611,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Geometry",
+        ordinal=27,
     )
 
     raw_mat_amount_in_stock = PropertyTypeAssignment(
@@ -6973,6 +7622,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Stock",
+        ordinal=29,
     )
 
     rawmat_mech_prop_supplier_density = PropertyTypeAssignment(
@@ -6983,6 +7633,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=31,
     )
 
     rawmat_mechprop_supplier_youngsmodulus = PropertyTypeAssignment(
@@ -6993,6 +7644,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=33,
     )
 
     rawmat_mechprop_supplier_upperyieldstrength_min = PropertyTypeAssignment(
@@ -7003,6 +7655,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=35,
     )
 
     rawmat_mechprop_supplier_upperyieldstrength_max = PropertyTypeAssignment(
@@ -7013,6 +7666,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=37,
     )
 
     rawmat_mechprop_supplier_loweryieldstrength_min = PropertyTypeAssignment(
@@ -7023,6 +7677,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=39,
     )
 
     rawmat_mechprop_supplier_loweryieldstrength_max = PropertyTypeAssignment(
@@ -7033,6 +7688,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=41,
     )
 
     rawmat_mechprop_supplier_yieldlimit_min = PropertyTypeAssignment(
@@ -7043,6 +7699,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=43,
     )
 
     rawmat_mechprop_supplier_yieldlimit_max = PropertyTypeAssignment(
@@ -7053,6 +7710,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=45,
     )
 
     rawmat_mechprop_supplier_uts_min = PropertyTypeAssignment(
@@ -7063,6 +7721,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=47,
     )
 
     rawmat_mechprop_supplier_uts_max = PropertyTypeAssignment(
@@ -7073,6 +7732,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=49,
     )
 
     rawmat_mechprop_supplier_uniformelongation_min = PropertyTypeAssignment(
@@ -7083,6 +7743,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=51,
     )
 
     rawmat_mechprop_supplier_uniformelongation_max = PropertyTypeAssignment(
@@ -7093,6 +7754,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=53,
     )
 
     rawmat_mechprop_supplier_breakelongation_5_min = PropertyTypeAssignment(
@@ -7103,6 +7765,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=55,
     )
 
     rawmat_mechprop_supplier_breakelongation_5_max = PropertyTypeAssignment(
@@ -7113,6 +7776,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=57,
     )
 
     rawmat_mechprop_supplier_breakelongation_10_min = PropertyTypeAssignment(
@@ -7123,6 +7787,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=59,
     )
 
     rawmat_mechprop_supplier_breakelongation_10_max = PropertyTypeAssignment(
@@ -7133,6 +7798,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=61,
     )
 
     notes = PropertyTypeAssignment(
@@ -7143,6 +7809,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=63,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -7153,6 +7820,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=65,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -7163,6 +7831,7 @@ class Steel(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=67,
     )
 
 
@@ -7182,6 +7851,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     alias = PropertyTypeAssignment(
@@ -7192,6 +7862,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     mat_code = PropertyTypeAssignment(
@@ -7202,6 +7873,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     manufacturer = PropertyTypeAssignment(
@@ -7212,6 +7884,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=4,
     )
 
     supplier = PropertyTypeAssignment(
@@ -7222,6 +7895,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=5,
     )
 
     raw_mat_batch_number = PropertyTypeAssignment(
@@ -7232,6 +7906,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=7,
     )
 
     alu_treatment_first = PropertyTypeAssignment(
@@ -7242,6 +7917,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Delivery Condition",
+        ordinal=9,
     )
 
     alu_treatment_second = PropertyTypeAssignment(
@@ -7252,6 +7928,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Delivery Condition",
+        ordinal=11,
     )
 
     alu_treatment_third = PropertyTypeAssignment(
@@ -7262,6 +7939,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Delivery Condition",
+        ordinal=13,
     )
 
     alu_treatment_fourth = PropertyTypeAssignment(
@@ -7272,6 +7950,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Delivery Condition",
+        ordinal=15,
     )
 
     raw_mat_form = PropertyTypeAssignment(
@@ -7282,6 +7961,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Geometry",
+        ordinal=17,
     )
 
     raw_mat_thickness = PropertyTypeAssignment(
@@ -7292,6 +7972,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Geometry",
+        ordinal=19,
     )
 
     raw_mat_width = PropertyTypeAssignment(
@@ -7302,6 +7983,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Geometry",
+        ordinal=21,
     )
 
     raw_mat_diameter = PropertyTypeAssignment(
@@ -7312,6 +7994,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Geometry",
+        ordinal=23,
     )
 
     raw_mat_length = PropertyTypeAssignment(
@@ -7322,6 +8005,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Geometry",
+        ordinal=25,
     )
 
     raw_mat_component_description = PropertyTypeAssignment(
@@ -7332,6 +8016,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Geometry",
+        ordinal=27,
     )
 
     raw_mat_amount_in_stock = PropertyTypeAssignment(
@@ -7342,6 +8027,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Stock",
+        ordinal=29,
     )
 
     rawmat_mech_prop_supplier_density = PropertyTypeAssignment(
@@ -7352,6 +8038,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=31,
     )
 
     rawmat_mechprop_supplier_youngsmodulus = PropertyTypeAssignment(
@@ -7362,6 +8049,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=33,
     )
 
     rawmat_mechprop_supplier_upperyieldstrength_min = PropertyTypeAssignment(
@@ -7372,6 +8060,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=35,
     )
 
     rawmat_mechprop_supplier_upperyieldstrength_max = PropertyTypeAssignment(
@@ -7382,6 +8071,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=37,
     )
 
     rawmat_mechprop_supplier_loweryieldstrength_min = PropertyTypeAssignment(
@@ -7392,6 +8082,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=39,
     )
 
     rawmat_mechprop_supplier_loweryieldstrength_max = PropertyTypeAssignment(
@@ -7402,6 +8093,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=41,
     )
 
     rawmat_mechprop_supplier_yieldlimit_min = PropertyTypeAssignment(
@@ -7412,6 +8104,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=43,
     )
 
     rawmat_mechprop_supplier_yieldlimit_max = PropertyTypeAssignment(
@@ -7422,6 +8115,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=45,
     )
 
     rawmat_mechprop_supplier_uts_min = PropertyTypeAssignment(
@@ -7432,6 +8126,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=47,
     )
 
     rawmat_mechprop_supplier_uts_max = PropertyTypeAssignment(
@@ -7442,6 +8137,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=49,
     )
 
     rawmat_mechprop_supplier_uniformelongation_min = PropertyTypeAssignment(
@@ -7452,6 +8148,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=51,
     )
 
     rawmat_mechprop_supplier_uniformelongation_max = PropertyTypeAssignment(
@@ -7462,6 +8159,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=53,
     )
 
     rawmat_mechprop_supplier_breakelongation_5_min = PropertyTypeAssignment(
@@ -7472,6 +8170,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=55,
     )
 
     rawmat_mechprop_supplier_breakelongation_5_max = PropertyTypeAssignment(
@@ -7482,6 +8181,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=57,
     )
 
     rawmat_mechprop_supplier_breakelongation_10_min = PropertyTypeAssignment(
@@ -7492,6 +8192,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=59,
     )
 
     rawmat_mechprop_supplier_breakelongation_10_max = PropertyTypeAssignment(
@@ -7502,6 +8203,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
+        ordinal=61,
     )
 
     notes = PropertyTypeAssignment(
@@ -7512,6 +8214,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=63,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -7522,6 +8225,7 @@ class Aluminium(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=65,
     )
 
 
@@ -7540,6 +8244,7 @@ class HydraulicCylinder(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=32,
     )
 
     max_static_force = PropertyTypeAssignment(
@@ -7550,6 +8255,7 @@ class HydraulicCylinder(Instrument):
         mandatory=True,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=34,
     )
 
     max_dynamic_force = PropertyTypeAssignment(
@@ -7560,6 +8266,7 @@ class HydraulicCylinder(Instrument):
         mandatory=True,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=36,
     )
 
     max_excitation_voltage = PropertyTypeAssignment(
@@ -7570,6 +8277,7 @@ class HydraulicCylinder(Instrument):
         mandatory=True,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=38,
     )
 
     calibration_interval = PropertyTypeAssignment(
@@ -7580,6 +8288,7 @@ class HydraulicCylinder(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Status",
+        ordinal=44,
     )
 
 
@@ -7598,6 +8307,7 @@ class HydraulicMisc(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=32,
     )
 
     calibration_interval = PropertyTypeAssignment(
@@ -7608,6 +8318,7 @@ class HydraulicMisc(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Status",
+        ordinal=38,
     )
 
 
@@ -7626,6 +8337,7 @@ class Servovalve(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=32,
     )
 
     valve_model_id = PropertyTypeAssignment(
@@ -7636,6 +8348,7 @@ class Servovalve(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=34,
     )
 
     rated_flow = PropertyTypeAssignment(
@@ -7646,6 +8359,7 @@ class Servovalve(Instrument):
         mandatory=True,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=36,
     )
 
     max_pressure = PropertyTypeAssignment(
@@ -7656,6 +8370,7 @@ class Servovalve(Instrument):
         mandatory=True,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=38,
     )
 
     rated_power = PropertyTypeAssignment(
@@ -7666,6 +8381,7 @@ class Servovalve(Instrument):
         mandatory=True,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=40,
     )
 
     calibration_interval = PropertyTypeAssignment(
@@ -7676,6 +8392,7 @@ class Servovalve(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Status",
+        ordinal=46,
     )
 
 
@@ -7694,6 +8411,7 @@ class LoadFrame(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=32,
     )
 
     max_static_force = PropertyTypeAssignment(
@@ -7704,6 +8422,7 @@ class LoadFrame(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=34,
     )
 
     max_dynamic_force = PropertyTypeAssignment(
@@ -7714,6 +8433,7 @@ class LoadFrame(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=36,
     )
 
     load_frame_orientation = PropertyTypeAssignment(
@@ -7724,6 +8444,7 @@ class LoadFrame(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=38,
     )
 
     max_space_vert = PropertyTypeAssignment(
@@ -7734,6 +8455,7 @@ class LoadFrame(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=40,
     )
 
     max_space_hor = PropertyTypeAssignment(
@@ -7744,6 +8466,7 @@ class LoadFrame(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=42,
     )
 
 
@@ -7762,6 +8485,7 @@ class AlignmentFixture(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=32,
     )
 
     max_dynamic_force = PropertyTypeAssignment(
@@ -7772,6 +8496,7 @@ class AlignmentFixture(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=34,
     )
 
 
@@ -7790,6 +8515,7 @@ class Thermocouple(Instrument):
         mandatory=True,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=32,
     )
 
     tc_min_temp = PropertyTypeAssignment(
@@ -7800,6 +8526,7 @@ class Thermocouple(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=34,
     )
 
     tc_max_temp = PropertyTypeAssignment(
@@ -7810,6 +8537,7 @@ class Thermocouple(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=36,
     )
 
     tc_diameter = PropertyTypeAssignment(
@@ -7820,6 +8548,7 @@ class Thermocouple(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=38,
     )
 
     tc_cable_length = PropertyTypeAssignment(
@@ -7830,6 +8559,7 @@ class Thermocouple(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=40,
     )
 
     tc_connector = PropertyTypeAssignment(
@@ -7840,6 +8570,7 @@ class Thermocouple(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=42,
     )
 
 
@@ -7858,6 +8589,7 @@ class Rtd(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=32,
     )
 
     rtd_min_temp = PropertyTypeAssignment(
@@ -7868,6 +8600,7 @@ class Rtd(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=34,
     )
 
     rtd_max_temp = PropertyTypeAssignment(
@@ -7878,6 +8611,7 @@ class Rtd(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=36,
     )
 
     rtd_accuracy_class = PropertyTypeAssignment(
@@ -7888,6 +8622,7 @@ class Rtd(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=38,
     )
 
     rtd_insulation_material = PropertyTypeAssignment(
@@ -7898,6 +8633,7 @@ class Rtd(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=40,
     )
 
     rtd_cover_tube_diameter = PropertyTypeAssignment(
@@ -7908,6 +8644,7 @@ class Rtd(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=42,
     )
 
     rtd_cover_tube_length = PropertyTypeAssignment(
@@ -7918,6 +8655,7 @@ class Rtd(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=44,
     )
 
     rtd_cable_length = PropertyTypeAssignment(
@@ -7928,6 +8666,7 @@ class Rtd(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=46,
     )
 
     rtd_connection = PropertyTypeAssignment(
@@ -7938,6 +8677,7 @@ class Rtd(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=48,
     )
 
 
@@ -7956,6 +8696,7 @@ class Nanovoltmeter(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Inputs",
+        ordinal=32,
     )
 
     minrange = PropertyTypeAssignment(
@@ -7966,6 +8707,7 @@ class Nanovoltmeter(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Inputs",
+        ordinal=34,
     )
 
     minrange_resolution = PropertyTypeAssignment(
@@ -7976,6 +8718,7 @@ class Nanovoltmeter(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Inputs",
+        ordinal=36,
     )
 
     maxrange = PropertyTypeAssignment(
@@ -7986,6 +8729,7 @@ class Nanovoltmeter(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Inputs",
+        ordinal=38,
     )
 
     maxrange_resolution = PropertyTypeAssignment(
@@ -7996,6 +8740,7 @@ class Nanovoltmeter(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Inputs",
+        ordinal=40,
     )
 
     number_of_analog_outputs = PropertyTypeAssignment(
@@ -8006,6 +8751,7 @@ class Nanovoltmeter(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Outputs",
+        ordinal=42,
     )
 
     analog_output_voltage_min = PropertyTypeAssignment(
@@ -8016,6 +8762,7 @@ class Nanovoltmeter(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Outputs",
+        ordinal=44,
     )
 
     analog_output_voltage_max = PropertyTypeAssignment(
@@ -8026,6 +8773,7 @@ class Nanovoltmeter(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Outputs",
+        ordinal=46,
     )
 
     gpib = PropertyTypeAssignment(
@@ -8036,6 +8784,7 @@ class Nanovoltmeter(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Command Interfaces",
+        ordinal=48,
     )
 
     rs232 = PropertyTypeAssignment(
@@ -8046,6 +8795,7 @@ class Nanovoltmeter(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Command Interfaces",
+        ordinal=50,
     )
 
     ethernet = PropertyTypeAssignment(
@@ -8056,6 +8806,7 @@ class Nanovoltmeter(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Command Interfaces",
+        ordinal=52,
     )
 
     usb = PropertyTypeAssignment(
@@ -8066,6 +8817,7 @@ class Nanovoltmeter(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Command Interfaces",
+        ordinal=54,
     )
 
 
@@ -8084,6 +8836,7 @@ class PowerSupply(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Outputs",
+        ordinal=32,
     )
 
     max_output_voltage = PropertyTypeAssignment(
@@ -8094,6 +8847,7 @@ class PowerSupply(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Outputs",
+        ordinal=34,
     )
 
     max_output_current = PropertyTypeAssignment(
@@ -8104,6 +8858,7 @@ class PowerSupply(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Outputs",
+        ordinal=36,
     )
 
     gpib = PropertyTypeAssignment(
@@ -8114,6 +8869,7 @@ class PowerSupply(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Command Interfaces",
+        ordinal=38,
     )
 
     rs232 = PropertyTypeAssignment(
@@ -8124,6 +8880,7 @@ class PowerSupply(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Command Interfaces",
+        ordinal=40,
     )
 
     ethernet = PropertyTypeAssignment(
@@ -8134,6 +8891,7 @@ class PowerSupply(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Command Interfaces",
+        ordinal=42,
     )
 
     usb = PropertyTypeAssignment(
@@ -8144,6 +8902,7 @@ class PowerSupply(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Command Interfaces",
+        ordinal=44,
     )
 
 
@@ -8163,6 +8922,7 @@ class Test(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     show_in_project_overview = PropertyTypeAssignment(
@@ -8173,6 +8933,7 @@ class Test(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     test_setup_type = PropertyTypeAssignment(
@@ -8183,6 +8944,7 @@ class Test(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     description = PropertyTypeAssignment(
@@ -8193,6 +8955,7 @@ class Test(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=4,
     )
 
     start_date = PropertyTypeAssignment(
@@ -8203,6 +8966,7 @@ class Test(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=5,
     )
 
     end_date = PropertyTypeAssignment(
@@ -8213,6 +8977,7 @@ class Test(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=6,
     )
 
     notes = PropertyTypeAssignment(
@@ -8223,6 +8988,7 @@ class Test(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=8,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -8233,6 +8999,7 @@ class Test(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=10,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -8243,6 +9010,7 @@ class Test(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=12,
     )
 
 
@@ -8261,6 +9029,7 @@ class MeasuringAmplifier(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=19,
     )
 
     accuracy_class_vde0410 = PropertyTypeAssignment(
@@ -8271,6 +9040,7 @@ class MeasuringAmplifier(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=21,
     )
 
     number_of_inputs = PropertyTypeAssignment(
@@ -8281,6 +9051,7 @@ class MeasuringAmplifier(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Inputs",
+        ordinal=23,
     )
 
     min_excitation_voltage = PropertyTypeAssignment(
@@ -8291,6 +9062,7 @@ class MeasuringAmplifier(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Inputs",
+        ordinal=25,
     )
 
     max_excitation_voltage = PropertyTypeAssignment(
@@ -8301,6 +9073,7 @@ class MeasuringAmplifier(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Inputs",
+        ordinal=27,
     )
 
     max_common_mode_voltage = PropertyTypeAssignment(
@@ -8311,6 +9084,7 @@ class MeasuringAmplifier(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Inputs",
+        ordinal=29,
     )
 
     number_of_analog_outputs = PropertyTypeAssignment(
@@ -8321,6 +9095,7 @@ class MeasuringAmplifier(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Outputs",
+        ordinal=31,
     )
 
     analog_output_voltage_min = PropertyTypeAssignment(
@@ -8331,6 +9106,7 @@ class MeasuringAmplifier(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Outputs",
+        ordinal=33,
     )
 
     analog_output_voltage_max = PropertyTypeAssignment(
@@ -8341,6 +9117,7 @@ class MeasuringAmplifier(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Outputs",
+        ordinal=35,
     )
 
     gpib = PropertyTypeAssignment(
@@ -8351,6 +9128,7 @@ class MeasuringAmplifier(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Command Interfaces",
+        ordinal=37,
     )
 
     rs232 = PropertyTypeAssignment(
@@ -8361,6 +9139,7 @@ class MeasuringAmplifier(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Command Interfaces",
+        ordinal=39,
     )
 
     ethernet = PropertyTypeAssignment(
@@ -8371,6 +9150,7 @@ class MeasuringAmplifier(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Command Interfaces",
+        ordinal=41,
     )
 
     usb = PropertyTypeAssignment(
@@ -8381,6 +9161,7 @@ class MeasuringAmplifier(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Command Interfaces",
+        ordinal=43,
     )
 
     calibration_interval = PropertyTypeAssignment(
@@ -8391,6 +9172,7 @@ class MeasuringAmplifier(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Status",
+        ordinal=49,
     )
 
 
@@ -8409,6 +9191,7 @@ class ImageSeries(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Identifiers",
+        ordinal=6,
     )
 
     image_horizontal_resolution = PropertyTypeAssignment(
@@ -8419,6 +9202,7 @@ class ImageSeries(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Image Series Information",
+        ordinal=7,
     )
 
     image_vertical_resolution = PropertyTypeAssignment(
@@ -8429,6 +9213,7 @@ class ImageSeries(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Image Series Information",
+        ordinal=8,
     )
 
     image_series_count = PropertyTypeAssignment(
@@ -8439,6 +9224,7 @@ class ImageSeries(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Image Series Information",
+        ordinal=9,
     )
 
 
@@ -8457,6 +9243,7 @@ class ProfileScan(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Identifiers",
+        ordinal=14,
     )
 
     scan_line_count = PropertyTypeAssignment(
@@ -8467,6 +9254,7 @@ class ProfileScan(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Scan Information",
+        ordinal=16,
     )
 
     scan_line_resolution = PropertyTypeAssignment(
@@ -8477,6 +9265,7 @@ class ProfileScan(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Scan Information",
+        ordinal=18,
     )
 
 
@@ -8495,6 +9284,7 @@ class VideoRecording(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Identifiers",
+        ordinal=6,
     )
 
     image_horizontal_resolution = PropertyTypeAssignment(
@@ -8505,6 +9295,7 @@ class VideoRecording(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Video Information",
+        ordinal=7,
     )
 
     image_vertical_resolution = PropertyTypeAssignment(
@@ -8515,6 +9306,7 @@ class VideoRecording(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Video Information",
+        ordinal=8,
     )
 
     video_frame_per_seconds = PropertyTypeAssignment(
@@ -8525,6 +9317,7 @@ class VideoRecording(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Video Information",
+        ordinal=9,
     )
 
     video_codec = PropertyTypeAssignment(
@@ -8535,6 +9328,7 @@ class VideoRecording(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Video Information",
+        ordinal=10,
     )
 
     video_dynamic_framerate = PropertyTypeAssignment(
@@ -8545,6 +9339,7 @@ class VideoRecording(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Video Information",
+        ordinal=11,
     )
 
     camera_shutter_mode = PropertyTypeAssignment(
@@ -8555,6 +9350,7 @@ class VideoRecording(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Video Information",
+        ordinal=12,
     )
 
 
@@ -8573,6 +9369,7 @@ class Weldment(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Identifiers",
+        ordinal=6,
     )
 
     experimental_step_weldment_type = PropertyTypeAssignment(
@@ -8583,6 +9380,7 @@ class Weldment(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Weldment Information",
+        ordinal=7,
     )
 
 
@@ -8602,6 +9400,7 @@ class Welding(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     alias = PropertyTypeAssignment(
@@ -8612,6 +9411,7 @@ class Welding(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     manufacturer = PropertyTypeAssignment(
@@ -8622,6 +9422,7 @@ class Welding(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     supplier = PropertyTypeAssignment(
@@ -8632,6 +9433,7 @@ class Welding(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=4,
     )
 
     batch_number = PropertyTypeAssignment(
@@ -8642,6 +9444,7 @@ class Welding(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=5,
     )
 
     inventory_no = PropertyTypeAssignment(
@@ -8652,6 +9455,7 @@ class Welding(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=6,
     )
 
     inventory_no_add = PropertyTypeAssignment(
@@ -8662,6 +9466,7 @@ class Welding(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=7,
     )
 
     bam_oe = PropertyTypeAssignment(
@@ -8672,6 +9477,7 @@ class Welding(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=8,
     )
 
     responsible_person = PropertyTypeAssignment(
@@ -8682,6 +9488,7 @@ class Welding(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=9,
     )
 
     co_responsible_person = PropertyTypeAssignment(
@@ -8692,6 +9499,7 @@ class Welding(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=10,
     )
 
     notes = PropertyTypeAssignment(
@@ -8702,6 +9510,7 @@ class Welding(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=11,
     )
 
     last_systemcheck = PropertyTypeAssignment(
@@ -8712,6 +9521,7 @@ class Welding(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=12,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -8722,6 +9532,7 @@ class Welding(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=13,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -8732,6 +9543,7 @@ class Welding(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=15,
     )
 
 
@@ -8750,6 +9562,7 @@ class Camera(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Camera Information",
+        ordinal=9,
     )
 
     image_sensor_size = PropertyTypeAssignment(
@@ -8760,6 +9573,7 @@ class Camera(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Camera Information",
+        ordinal=10,
     )
 
     image_sensor_resolution_horizontal = PropertyTypeAssignment(
@@ -8770,6 +9584,7 @@ class Camera(Instrument):
         mandatory=True,
         show_in_edit_views=False,
         section="Camera Information",
+        ordinal=11,
     )
 
     image_sensor_resolution_vertical = PropertyTypeAssignment(
@@ -8780,6 +9595,7 @@ class Camera(Instrument):
         mandatory=True,
         show_in_edit_views=False,
         section="Camera Information",
+        ordinal=12,
     )
 
     image_sensor_framerate = PropertyTypeAssignment(
@@ -8790,6 +9606,7 @@ class Camera(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Camera Information",
+        ordinal=13,
     )
 
     lens_mount_type = PropertyTypeAssignment(
@@ -8800,6 +9617,7 @@ class Camera(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Camera Information",
+        ordinal=14,
     )
 
     firmware_version = PropertyTypeAssignment(
@@ -8810,6 +9628,7 @@ class Camera(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Software Information",
+        ordinal=15,
     )
 
     last_systemcheck = PropertyTypeAssignment(
@@ -8820,6 +9639,7 @@ class Camera(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=32,
     )
 
 
@@ -8838,6 +9658,7 @@ class LaserLineScanner(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Laser Sensor Information",
+        ordinal=9,
     )
 
     instrument_laser_scanner_z_max = PropertyTypeAssignment(
@@ -8848,6 +9669,7 @@ class LaserLineScanner(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Laser Sensor Information",
+        ordinal=10,
     )
 
     instrument_laser_scanner_x_min = PropertyTypeAssignment(
@@ -8858,6 +9680,7 @@ class LaserLineScanner(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Laser Sensor Information",
+        ordinal=11,
     )
 
     instrument_laser_scanner_x_max = PropertyTypeAssignment(
@@ -8868,6 +9691,7 @@ class LaserLineScanner(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Laser Sensor Information",
+        ordinal=12,
     )
 
     instrument_laser_scanner_line_resolution = PropertyTypeAssignment(
@@ -8878,6 +9702,7 @@ class LaserLineScanner(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Laser Sensor Information",
+        ordinal=13,
     )
 
     laser_wavelength = PropertyTypeAssignment(
@@ -8888,6 +9713,7 @@ class LaserLineScanner(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Laser Sensor Information",
+        ordinal=14,
     )
 
     laser_class = PropertyTypeAssignment(
@@ -8898,6 +9724,7 @@ class LaserLineScanner(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Laser Sensor Information",
+        ordinal=15,
     )
 
     firmware_version = PropertyTypeAssignment(
@@ -8908,6 +9735,7 @@ class LaserLineScanner(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Software Information",
+        ordinal=16,
     )
 
     last_systemcheck = PropertyTypeAssignment(
@@ -8918,6 +9746,7 @@ class LaserLineScanner(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=33,
     )
 
 
@@ -8936,6 +9765,7 @@ class WeldingEquipment(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=23,
     )
 
 
@@ -8954,6 +9784,7 @@ class Centrifuge(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Instrument Specification",
+        ordinal=32,
     )
 
     centrifuge_maximum_speed_rcf = PropertyTypeAssignment(
@@ -8964,6 +9795,7 @@ class Centrifuge(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Instrument Specification",
+        ordinal=34,
     )
 
     centrifuge_is_temperature_controlled = PropertyTypeAssignment(
@@ -8974,6 +9806,7 @@ class Centrifuge(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Instrument Specification",
+        ordinal=36,
     )
 
     centrifuge_minimum_temperature = PropertyTypeAssignment(
@@ -8984,6 +9817,7 @@ class Centrifuge(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Instrument Specification",
+        ordinal=38,
     )
 
     centrifuge_maximum_temperature = PropertyTypeAssignment(
@@ -8994,6 +9828,7 @@ class Centrifuge(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Instrument Specification",
+        ordinal=40,
     )
 
     centrifuge_compatible_rotors = PropertyTypeAssignment(
@@ -9004,6 +9839,7 @@ class Centrifuge(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Instrument Specification",
+        ordinal=42,
     )
 
     centrifuge_requires_dguv_checking = PropertyTypeAssignment(
@@ -9014,6 +9850,7 @@ class Centrifuge(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Instrument Specification",
+        ordinal=44,
     )
 
     centrifuge_date_last_dguv_checking = PropertyTypeAssignment(
@@ -9024,6 +9861,7 @@ class Centrifuge(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Instrument Specification",
+        ordinal=46,
     )
 
 
@@ -9042,6 +9880,7 @@ class CentrifugeRotor(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Rotor Specification",
+        ordinal=32,
     )
 
     centrifuge_rotor_maximum_speed_rcf = PropertyTypeAssignment(
@@ -9052,6 +9891,7 @@ class CentrifugeRotor(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Rotor Specification",
+        ordinal=34,
     )
 
     centrifuge_rotor_maximum_capacity_vials = PropertyTypeAssignment(
@@ -9062,6 +9902,7 @@ class CentrifugeRotor(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Rotor Specification",
+        ordinal=36,
     )
 
     centrifuge_rotor_maximum_capacity_volume = PropertyTypeAssignment(
@@ -9072,6 +9913,7 @@ class CentrifugeRotor(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Rotor Specification",
+        ordinal=38,
     )
 
     centrifuge_rotor_compatible_vials = PropertyTypeAssignment(
@@ -9082,6 +9924,7 @@ class CentrifugeRotor(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Rotor Specification",
+        ordinal=40,
     )
 
 
@@ -9100,6 +9943,7 @@ class Ftir(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Meaurement Parameters",
+        ordinal=10,
     )
 
     ftir_start_wavenumber = PropertyTypeAssignment(
@@ -9110,6 +9954,7 @@ class Ftir(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Meaurement Parameters",
+        ordinal=11,
     )
 
     ftir_end_wavenumber = PropertyTypeAssignment(
@@ -9120,6 +9965,7 @@ class Ftir(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Meaurement Parameters",
+        ordinal=12,
     )
 
     ftir_resolution = PropertyTypeAssignment(
@@ -9130,6 +9976,7 @@ class Ftir(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Meaurement Parameters",
+        ordinal=13,
     )
 
     ftir_scans = PropertyTypeAssignment(
@@ -9140,6 +9987,7 @@ class Ftir(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Meaurement Parameters",
+        ordinal=14,
     )
 
     ftir_accessory = PropertyTypeAssignment(
@@ -9150,6 +9998,7 @@ class Ftir(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Meaurement Parameters",
+        ordinal=15,
     )
 
     ftir_is_flushed = PropertyTypeAssignment(
@@ -9160,6 +10009,7 @@ class Ftir(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Meaurement Parameters",
+        ordinal=16,
     )
 
 
@@ -9178,6 +10028,7 @@ class Sem(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=10,
     )
 
     sem_imagesizex = PropertyTypeAssignment(
@@ -9188,6 +10039,7 @@ class Sem(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=11,
     )
 
     sem_imagesizey = PropertyTypeAssignment(
@@ -9198,6 +10050,7 @@ class Sem(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=12,
     )
 
     sem_operatingmode = PropertyTypeAssignment(
@@ -9208,6 +10061,7 @@ class Sem(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=13,
     )
 
     sem_detector = PropertyTypeAssignment(
@@ -9218,6 +10072,7 @@ class Sem(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=14,
     )
 
     sem_projectormode = PropertyTypeAssignment(
@@ -9228,6 +10083,7 @@ class Sem(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=15,
     )
 
     sem_pixelsizex = PropertyTypeAssignment(
@@ -9238,6 +10094,7 @@ class Sem(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=16,
     )
 
     sem_pixelsizey = PropertyTypeAssignment(
@@ -9248,6 +10105,7 @@ class Sem(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=17,
     )
 
     sem_accelerationvoltage = PropertyTypeAssignment(
@@ -9258,6 +10116,7 @@ class Sem(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=18,
     )
 
     sem_magnification = PropertyTypeAssignment(
@@ -9268,6 +10127,7 @@ class Sem(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=19,
     )
 
     sem_workingdistance = PropertyTypeAssignment(
@@ -9278,6 +10138,7 @@ class Sem(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=20,
     )
 
 
@@ -9296,6 +10157,7 @@ class Nmr(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=10,
     )
 
     nmr_nucleus_direct = PropertyTypeAssignment(
@@ -9306,6 +10168,7 @@ class Nmr(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=11,
     )
 
     nmr_nucleus_indirect = PropertyTypeAssignment(
@@ -9316,6 +10179,7 @@ class Nmr(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=12,
     )
 
     nmr_solvent = PropertyTypeAssignment(
@@ -9326,6 +10190,7 @@ class Nmr(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=13,
     )
 
     nmr_frequency = PropertyTypeAssignment(
@@ -9336,6 +10201,7 @@ class Nmr(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=14,
     )
 
     nmr_experiment = PropertyTypeAssignment(
@@ -9346,6 +10212,7 @@ class Nmr(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=15,
     )
 
     nmr_scans = PropertyTypeAssignment(
@@ -9356,6 +10223,7 @@ class Nmr(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=16,
     )
 
     nmr_start_chemical_shift = PropertyTypeAssignment(
@@ -9366,6 +10234,7 @@ class Nmr(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=17,
     )
 
     nmr_end_chemical_shift = PropertyTypeAssignment(
@@ -9376,6 +10245,7 @@ class Nmr(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=18,
     )
 
     nmr_is_qnmr = PropertyTypeAssignment(
@@ -9386,6 +10256,7 @@ class Nmr(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=19,
     )
 
     nmr_pulse_angle = PropertyTypeAssignment(
@@ -9396,6 +10267,7 @@ class Nmr(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=20,
     )
 
     nmr_interpulse_delay = PropertyTypeAssignment(
@@ -9406,6 +10278,7 @@ class Nmr(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=21,
     )
 
     nmr_acquisition_time = PropertyTypeAssignment(
@@ -9416,6 +10289,7 @@ class Nmr(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=22,
     )
 
 
@@ -9434,6 +10308,7 @@ class Tem(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=10,
     )
 
     tem_imagesizex = PropertyTypeAssignment(
@@ -9444,6 +10319,7 @@ class Tem(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=11,
     )
 
     tem_imagesizey = PropertyTypeAssignment(
@@ -9454,6 +10330,7 @@ class Tem(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=12,
     )
 
     tem_operatingmode = PropertyTypeAssignment(
@@ -9464,6 +10341,7 @@ class Tem(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=13,
     )
 
     tem_detector = PropertyTypeAssignment(
@@ -9474,6 +10352,7 @@ class Tem(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=14,
     )
 
     tem_projectormode = PropertyTypeAssignment(
@@ -9484,6 +10363,7 @@ class Tem(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=15,
     )
 
     tem_pixelsizex = PropertyTypeAssignment(
@@ -9494,6 +10374,7 @@ class Tem(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=16,
     )
 
     tem_pixelsizey = PropertyTypeAssignment(
@@ -9504,6 +10385,7 @@ class Tem(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=17,
     )
 
     tem_accelerationvoltage = PropertyTypeAssignment(
@@ -9514,6 +10396,7 @@ class Tem(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=18,
     )
 
     tem_magnification = PropertyTypeAssignment(
@@ -9524,6 +10407,7 @@ class Tem(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=19,
     )
 
     tem_cameralength = PropertyTypeAssignment(
@@ -9534,6 +10418,7 @@ class Tem(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=20,
     )
 
     tem_spot_index = PropertyTypeAssignment(
@@ -9544,6 +10429,7 @@ class Tem(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=21,
     )
 
     tem_gun_lens_setting = PropertyTypeAssignment(
@@ -9554,6 +10440,7 @@ class Tem(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=22,
     )
 
     tem_c2_aperture_name = PropertyTypeAssignment(
@@ -9564,6 +10451,7 @@ class Tem(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=23,
     )
 
     tem_obj_aperture_name = PropertyTypeAssignment(
@@ -9574,6 +10462,7 @@ class Tem(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=24,
     )
 
     tem_saed_aperturediameter = PropertyTypeAssignment(
@@ -9584,6 +10473,7 @@ class Tem(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=25,
     )
 
     tem_saed_apertureposx = PropertyTypeAssignment(
@@ -9594,6 +10484,7 @@ class Tem(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=26,
     )
 
     tem_saed_apertureposy = PropertyTypeAssignment(
@@ -9604,6 +10495,7 @@ class Tem(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=27,
     )
 
 
@@ -9622,6 +10514,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=10,
     )
 
     dls_dispersant = PropertyTypeAssignment(
@@ -9632,6 +10525,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=11,
     )
 
     dls_temperature = PropertyTypeAssignment(
@@ -9642,6 +10536,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=12,
     )
 
     dls_celldescription = PropertyTypeAssignment(
@@ -9652,6 +10547,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=13,
     )
 
     dls_attenuator = PropertyTypeAssignment(
@@ -9662,6 +10558,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Parameters",
+        ordinal=14,
     )
 
     dls_zavg = PropertyTypeAssignment(
@@ -9672,6 +10569,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results",
+        ordinal=15,
     )
 
     dls_pdi = PropertyTypeAssignment(
@@ -9682,6 +10580,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results",
+        ordinal=16,
     )
 
     dls_zeta = PropertyTypeAssignment(
@@ -9692,6 +10591,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results",
+        ordinal=17,
     )
 
     dls_pk1int = PropertyTypeAssignment(
@@ -9702,6 +10602,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Intensity Distribution)",
+        ordinal=18,
     )
 
     dls_pk1intwidth = PropertyTypeAssignment(
@@ -9712,6 +10613,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Intensity Distribution)",
+        ordinal=19,
     )
 
     dls_pk1intpd = PropertyTypeAssignment(
@@ -9722,6 +10624,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Intensity Distribution)",
+        ordinal=20,
     )
 
     dls_pk2int = PropertyTypeAssignment(
@@ -9732,6 +10635,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Intensity Distribution)",
+        ordinal=21,
     )
 
     dls_pk2intwidth = PropertyTypeAssignment(
@@ -9742,6 +10646,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Intensity Distribution)",
+        ordinal=22,
     )
 
     dls_pk2intpd = PropertyTypeAssignment(
@@ -9752,6 +10657,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Intensity Distribution)",
+        ordinal=23,
     )
 
     dls_pk3int = PropertyTypeAssignment(
@@ -9762,6 +10668,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Intensity Distribution)",
+        ordinal=24,
     )
 
     dls_pk3intwidth = PropertyTypeAssignment(
@@ -9772,6 +10679,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Intensity Distribution)",
+        ordinal=25,
     )
 
     dls_pk3intpd = PropertyTypeAssignment(
@@ -9782,6 +10690,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Intensity Distribution)",
+        ordinal=26,
     )
 
     dls_pk1vol = PropertyTypeAssignment(
@@ -9792,6 +10701,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Volume Distribution)",
+        ordinal=27,
     )
 
     dls_pk1volwidth = PropertyTypeAssignment(
@@ -9802,6 +10712,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Volume Distribution)",
+        ordinal=28,
     )
 
     dls_pk1volpd = PropertyTypeAssignment(
@@ -9812,6 +10723,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Volume Distribution)",
+        ordinal=29,
     )
 
     dls_pk2vol = PropertyTypeAssignment(
@@ -9822,6 +10734,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Volume Distribution)",
+        ordinal=30,
     )
 
     dls_pk2volwidth = PropertyTypeAssignment(
@@ -9832,6 +10745,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Volume Distribution)",
+        ordinal=31,
     )
 
     dls_pk2volpd = PropertyTypeAssignment(
@@ -9842,6 +10756,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Volume Distribution)",
+        ordinal=32,
     )
 
     dls_pk3vol = PropertyTypeAssignment(
@@ -9852,6 +10767,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Volume Distribution)",
+        ordinal=33,
     )
 
     dls_pk3volwidth = PropertyTypeAssignment(
@@ -9862,6 +10778,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Volume Distribution)",
+        ordinal=34,
     )
 
     dls_pk3volpd = PropertyTypeAssignment(
@@ -9872,6 +10789,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Volume Distribution)",
+        ordinal=35,
     )
 
     dls_pk1num = PropertyTypeAssignment(
@@ -9882,6 +10800,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Number Distribution)",
+        ordinal=36,
     )
 
     dls_pk1numwidth = PropertyTypeAssignment(
@@ -9892,6 +10811,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Number Distribution)",
+        ordinal=37,
     )
 
     dls_pk1numpd = PropertyTypeAssignment(
@@ -9902,6 +10822,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Number Distribution)",
+        ordinal=38,
     )
 
     dls_pk2num = PropertyTypeAssignment(
@@ -9912,6 +10833,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Number Distribution)",
+        ordinal=39,
     )
 
     dls_pk2numwidth = PropertyTypeAssignment(
@@ -9922,6 +10844,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Number Distribution)",
+        ordinal=40,
     )
 
     dls_pk2numpd = PropertyTypeAssignment(
@@ -9932,6 +10855,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Number Distribution)",
+        ordinal=41,
     )
 
     dls_pk3num = PropertyTypeAssignment(
@@ -9942,6 +10866,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Number Distribution)",
+        ordinal=42,
     )
 
     dls_pk3numwidth = PropertyTypeAssignment(
@@ -9952,6 +10877,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Number Distribution)",
+        ordinal=43,
     )
 
     dls_pk3numpd = PropertyTypeAssignment(
@@ -9962,6 +10888,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Number Distribution)",
+        ordinal=44,
     )
 
     dls_pk1zeta = PropertyTypeAssignment(
@@ -9972,6 +10899,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Zeta Potential)",
+        ordinal=45,
     )
 
     dls_pk1zetawidth = PropertyTypeAssignment(
@@ -9982,6 +10910,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Zeta Potential)",
+        ordinal=46,
     )
 
     dls_pk2zeta = PropertyTypeAssignment(
@@ -9992,6 +10921,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Zeta Potential)",
+        ordinal=47,
     )
 
     dls_pk2zetawidth = PropertyTypeAssignment(
@@ -10002,6 +10932,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Zeta Potential)",
+        ordinal=48,
     )
 
     dls_pk3zeta = PropertyTypeAssignment(
@@ -10012,6 +10943,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Zeta Potential)",
+        ordinal=49,
     )
 
     dls_pk3zetawidth = PropertyTypeAssignment(
@@ -10022,6 +10954,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Results (Zeta Potential)",
+        ordinal=50,
     )
 
     dls_analysismodel = PropertyTypeAssignment(
@@ -10032,6 +10965,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Information",
+        ordinal=51,
     )
 
     dls_intercept = PropertyTypeAssignment(
@@ -10042,6 +10976,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Information",
+        ordinal=52,
     )
 
     dls_sizemerit = PropertyTypeAssignment(
@@ -10052,6 +10987,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Information",
+        ordinal=53,
     )
 
     dls_cumulantsfiterror = PropertyTypeAssignment(
@@ -10062,6 +10998,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Information",
+        ordinal=54,
     )
 
     dls_multimodalfiterror = PropertyTypeAssignment(
@@ -10072,6 +11009,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Information",
+        ordinal=55,
     )
 
     dls_fkamodel = PropertyTypeAssignment(
@@ -10082,6 +11020,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Information",
+        ordinal=56,
     )
 
     dls_volt = PropertyTypeAssignment(
@@ -10092,6 +11031,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Information",
+        ordinal=57,
     )
 
     dls_cond = PropertyTypeAssignment(
@@ -10102,6 +11042,7 @@ class Dls(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Measurement Information",
+        ordinal=58,
     )
 
 
@@ -10120,6 +11061,7 @@ class MsBatch(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="MS Information",
+        ordinal=10,
     )
 
     ms_hyphenation_method = PropertyTypeAssignment(
@@ -10130,6 +11072,7 @@ class MsBatch(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="MS Information",
+        ordinal=12,
     )
 
 
@@ -10148,6 +11091,7 @@ class Bam(Person):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=6,
     )
 
     bam_username = PropertyTypeAssignment(
@@ -10158,6 +11102,7 @@ class Bam(Person):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=7,
     )
 
     bam_userprofile = PropertyTypeAssignment(
@@ -10168,6 +11113,7 @@ class Bam(Person):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=8,
     )
 
     bam_data_store_user_status = PropertyTypeAssignment(
@@ -10178,6 +11124,7 @@ class Bam(Person):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=9,
     )
 
 
@@ -10197,6 +11144,7 @@ class Freezer1(Control):
         mandatory=True,
         show_in_edit_views=False,
         section="Control Data",
+        ordinal=4,
     )
 
     temp_max_celsius = PropertyTypeAssignment(
@@ -10207,6 +11155,7 @@ class Freezer1(Control):
         mandatory=True,
         show_in_edit_views=False,
         section="Control Data",
+        ordinal=5,
     )
 
 
@@ -10226,6 +11175,7 @@ class Freezer2(Instrument):
         mandatory=True,
         show_in_edit_views=False,
         section="Freezer Details",
+        ordinal=37,
     )
 
     temp_max_celsius = PropertyTypeAssignment(
@@ -10236,6 +11186,7 @@ class Freezer2(Instrument):
         mandatory=True,
         show_in_edit_views=False,
         section="Freezer Details",
+        ordinal=39,
     )
 
 
@@ -10254,6 +11205,7 @@ class MassSpec(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=37,
     )
 
 
@@ -10272,6 +11224,7 @@ class Scale(Instrument):
         mandatory=True,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=37,
     )
 
     weight_max = PropertyTypeAssignment(
@@ -10282,6 +11235,7 @@ class Scale(Instrument):
         mandatory=True,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=39,
     )
 
     precision_mass = PropertyTypeAssignment(
@@ -10292,6 +11246,7 @@ class Scale(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=41,
     )
 
     unit_mass = PropertyTypeAssignment(
@@ -10302,6 +11257,7 @@ class Scale(Instrument):
         mandatory=True,
         show_in_edit_views=False,
         section="Technical Details",
+        ordinal=43,
     )
 
 
@@ -10320,6 +11276,7 @@ class MsCenter(Project):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=9,
     )
 
     sample_provider = PropertyTypeAssignment(
@@ -10330,6 +11287,7 @@ class MsCenter(Project):
         mandatory=True,
         show_in_edit_views=False,
         section="Sample Information",
+        ordinal=25,
     )
 
     sample_name = PropertyTypeAssignment(
@@ -10340,6 +11298,7 @@ class MsCenter(Project):
         mandatory=True,
         show_in_edit_views=False,
         section="Sample Information",
+        ordinal=27,
     )
 
     sample_received = PropertyTypeAssignment(
@@ -10350,6 +11309,7 @@ class MsCenter(Project):
         mandatory=True,
         show_in_edit_views=False,
         section="Sample Information",
+        ordinal=29,
     )
 
     sample_location = PropertyTypeAssignment(
@@ -10360,6 +11320,7 @@ class MsCenter(Project):
         mandatory=False,
         show_in_edit_views=False,
         section="Sample Information",
+        ordinal=31,
     )
 
     sample_consumed = PropertyTypeAssignment(
@@ -10370,6 +11331,7 @@ class MsCenter(Project):
         mandatory=True,
         show_in_edit_views=False,
         section="Sample Information",
+        ordinal=33,
     )
 
     sample_matrix = PropertyTypeAssignment(
@@ -10380,6 +11342,7 @@ class MsCenter(Project):
         mandatory=False,
         show_in_edit_views=False,
         section="Sample Information",
+        ordinal=35,
     )
 
     sample_analyte = PropertyTypeAssignment(
@@ -10390,6 +11353,7 @@ class MsCenter(Project):
         mandatory=False,
         show_in_edit_views=False,
         section="Sample Information",
+        ordinal=37,
     )
 
 
@@ -10408,6 +11372,7 @@ class SpectrometerOptical(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Specifications",
+        ordinal=37,
     )
 
     detection_range_max_in_nm = PropertyTypeAssignment(
@@ -10418,6 +11383,7 @@ class SpectrometerOptical(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Specifications",
+        ordinal=39,
     )
 
     spectrometer_type = PropertyTypeAssignment(
@@ -10428,6 +11394,7 @@ class SpectrometerOptical(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Specifications",
+        ordinal=41,
     )
 
 
@@ -10446,6 +11413,7 @@ class LaserGeneral(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Laser Specifications",
+        ordinal=37,
     )
 
     laser_beam_diameter_in_mm = PropertyTypeAssignment(
@@ -10456,6 +11424,7 @@ class LaserGeneral(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Laser Specifications",
+        ordinal=39,
     )
 
     laser_wavelength_in_nm = PropertyTypeAssignment(
@@ -10466,6 +11435,7 @@ class LaserGeneral(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Laser Specifications",
+        ordinal=41,
     )
 
     laser_repetition_rate_in_hz = PropertyTypeAssignment(
@@ -10476,6 +11446,7 @@ class LaserGeneral(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Laser Specifications",
+        ordinal=43,
     )
 
     laser_m2 = PropertyTypeAssignment(
@@ -10486,6 +11457,7 @@ class LaserGeneral(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Laser Specifications",
+        ordinal=45,
     )
 
     laser_type = PropertyTypeAssignment(
@@ -10496,6 +11468,7 @@ class LaserGeneral(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Laser Specifications",
+        ordinal=47,
     )
 
 
@@ -10514,6 +11487,7 @@ class Technikum(Sample):
         mandatory=False,
         show_in_edit_views=False,
         section="Material Details",
+        ordinal=26,
     )
 
     technikum_substance_concentration = PropertyTypeAssignment(
@@ -10524,6 +11498,7 @@ class Technikum(Sample):
         mandatory=False,
         show_in_edit_views=False,
         section="Material Details",
+        ordinal=28,
     )
 
     technikum_material_usage = PropertyTypeAssignment(
@@ -10534,6 +11509,7 @@ class Technikum(Sample):
         mandatory=False,
         show_in_edit_views=False,
         section="Material Details",
+        ordinal=30,
     )
 
 
@@ -10552,6 +11528,7 @@ class GmoDonor(Sample):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=10,
     )
 
     donor_risk_group = PropertyTypeAssignment(
@@ -10562,6 +11539,7 @@ class GmoDonor(Sample):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=12,
     )
 
     gentech_facility = PropertyTypeAssignment(
@@ -10572,6 +11550,7 @@ class GmoDonor(Sample):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=14,
     )
 
 
@@ -10590,6 +11569,7 @@ class GmoRecipient(Sample):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=10,
     )
 
     recipient_risk_group = PropertyTypeAssignment(
@@ -10600,6 +11580,7 @@ class GmoRecipient(Sample):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=12,
     )
 
     plasmid_bacterial_antibiotic_resistance = PropertyTypeAssignment(
@@ -10610,6 +11591,7 @@ class GmoRecipient(Sample):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=14,
     )
 
     gentech_facility = PropertyTypeAssignment(
@@ -10620,6 +11602,7 @@ class GmoRecipient(Sample):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=16,
     )
 
 
@@ -10638,6 +11621,7 @@ class Plasmid(Sample):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=10,
     )
 
     plasmid_bacterial_antibiotic_resistance = PropertyTypeAssignment(
@@ -10648,6 +11632,7 @@ class Plasmid(Sample):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=12,
     )
 
     plasmid_marker = PropertyTypeAssignment(
@@ -10658,6 +11643,7 @@ class Plasmid(Sample):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=14,
     )
 
     plasmid_other_marker = PropertyTypeAssignment(
@@ -10668,6 +11654,7 @@ class Plasmid(Sample):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=16,
     )
 
     gentech_facility = PropertyTypeAssignment(
@@ -10678,6 +11665,7 @@ class Plasmid(Sample):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=18,
     )
 
 
@@ -10696,6 +11684,7 @@ class Gmo(Sample):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=10,
     )
 
     gmo_recipient = PropertyTypeAssignment(
@@ -10706,6 +11695,7 @@ class Gmo(Sample):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=12,
     )
 
     gmo_donor = PropertyTypeAssignment(
@@ -10716,6 +11706,7 @@ class Gmo(Sample):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=14,
     )
 
     gmo_production_date = PropertyTypeAssignment(
@@ -10726,6 +11717,7 @@ class Gmo(Sample):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=16,
     )
 
     gmo_disposal_date = PropertyTypeAssignment(
@@ -10736,6 +11728,7 @@ class Gmo(Sample):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=18,
     )
 
     genetic_material = PropertyTypeAssignment(
@@ -10746,6 +11739,7 @@ class Gmo(Sample):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=20,
     )
 
     gmo_risk_group = PropertyTypeAssignment(
@@ -10756,6 +11750,7 @@ class Gmo(Sample):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=22,
     )
 
     genetic_material_risk_potential = PropertyTypeAssignment(
@@ -10766,6 +11761,7 @@ class Gmo(Sample):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=24,
     )
 
     genetic_material_justification = PropertyTypeAssignment(
@@ -10776,6 +11772,7 @@ class Gmo(Sample):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=26,
     )
 
     gentech_facility = PropertyTypeAssignment(
@@ -10786,6 +11783,7 @@ class Gmo(Sample):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=28,
     )
 
 
@@ -10804,6 +11802,7 @@ class RmEthanol(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=6,
     )
 
     conductivity_in_ms = PropertyTypeAssignment(
@@ -10814,6 +11813,7 @@ class RmEthanol(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=7,
     )
 
 
@@ -10832,6 +11832,7 @@ class DeviceTraining(Action):
         mandatory=False,
         show_in_edit_views=False,
         section="Action Data",
+        ordinal=3,
     )
 
 
@@ -10850,6 +11851,7 @@ class DeviceUsage(Action):
         mandatory=False,
         show_in_edit_views=False,
         section="Action Data",
+        ordinal=3,
     )
 
     action_end = PropertyTypeAssignment(
@@ -10860,6 +11862,7 @@ class DeviceUsage(Action):
         mandatory=False,
         show_in_edit_views=False,
         section="Action Data",
+        ordinal=4,
     )
 
 
@@ -10878,6 +11881,7 @@ class IrCameraAcquisition(ParameterSet):
         mandatory=False,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=3,
     )
 
     framerate_in_hertz = PropertyTypeAssignment(
@@ -10888,6 +11892,7 @@ class IrCameraAcquisition(ParameterSet):
         mandatory=True,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=4,
     )
 
     number_recorded_frames = PropertyTypeAssignment(
@@ -10898,6 +11903,7 @@ class IrCameraAcquisition(ParameterSet):
         mandatory=True,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=5,
     )
 
     number_pretrigger_frames = PropertyTypeAssignment(
@@ -10908,6 +11914,7 @@ class IrCameraAcquisition(ParameterSet):
         mandatory=True,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=6,
     )
 
     subframe = PropertyTypeAssignment(
@@ -10918,6 +11925,7 @@ class IrCameraAcquisition(ParameterSet):
         mandatory=True,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=7,
     )
 
     arbitrary_subframe_height_in_pixel = PropertyTypeAssignment(
@@ -10928,6 +11936,7 @@ class IrCameraAcquisition(ParameterSet):
         mandatory=False,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=9,
     )
 
     arbitrary_subframe_width_in_pixel = PropertyTypeAssignment(
@@ -10938,6 +11947,7 @@ class IrCameraAcquisition(ParameterSet):
         mandatory=False,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=11,
     )
 
     arbitrary_subframe_start_height_in_pixel = PropertyTypeAssignment(
@@ -10948,6 +11958,7 @@ class IrCameraAcquisition(ParameterSet):
         mandatory=False,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=13,
     )
 
     arbitrary_subframe_start_width_in_pixel = PropertyTypeAssignment(
@@ -10958,6 +11969,7 @@ class IrCameraAcquisition(ParameterSet):
         mandatory=False,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=15,
     )
 
     ir_camera_trigger_setting = PropertyTypeAssignment(
@@ -10968,6 +11980,7 @@ class IrCameraAcquisition(ParameterSet):
         mandatory=True,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=17,
     )
 
     number_consecutive_acquisitons = PropertyTypeAssignment(
@@ -10978,6 +11991,7 @@ class IrCameraAcquisition(ParameterSet):
         mandatory=True,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=19,
     )
 
     hardware_trigger_input = PropertyTypeAssignment(
@@ -10988,6 +12002,7 @@ class IrCameraAcquisition(ParameterSet):
         mandatory=False,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=21,
     )
 
     ad_channel_description = PropertyTypeAssignment(
@@ -10998,6 +12013,7 @@ class IrCameraAcquisition(ParameterSet):
         mandatory=False,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=23,
     )
 
     nuc_performed = PropertyTypeAssignment(
@@ -11008,6 +12024,7 @@ class IrCameraAcquisition(ParameterSet):
         mandatory=True,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=25,
     )
 
     used_calibration_range_min_in_celsius = PropertyTypeAssignment(
@@ -11018,6 +12035,7 @@ class IrCameraAcquisition(ParameterSet):
         mandatory=False,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=27,
     )
 
     used_calibration_range_max_in_celsius = PropertyTypeAssignment(
@@ -11028,6 +12046,7 @@ class IrCameraAcquisition(ParameterSet):
         mandatory=False,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=29,
     )
 
 
@@ -11046,6 +12065,7 @@ class ThermographySetup(ParameterSet):
         mandatory=True,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=3,
     )
 
     heat_source_distance_in_millimeter = PropertyTypeAssignment(
@@ -11056,6 +12076,7 @@ class ThermographySetup(ParameterSet):
         mandatory=False,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=4,
     )
 
     sample_treatment = PropertyTypeAssignment(
@@ -11066,6 +12087,7 @@ class ThermographySetup(ParameterSet):
         mandatory=False,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=5,
     )
 
     setup_configuration = PropertyTypeAssignment(
@@ -11076,6 +12098,7 @@ class ThermographySetup(ParameterSet):
         mandatory=True,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=10,
     )
 
     heat_source_orientation = PropertyTypeAssignment(
@@ -11086,6 +12109,7 @@ class ThermographySetup(ParameterSet):
         mandatory=False,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=11,
     )
 
 
@@ -11104,6 +12128,7 @@ class ThermographyHeating(ParameterSet):
         mandatory=True,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=3,
     )
 
     heating_principle = PropertyTypeAssignment(
@@ -11114,6 +12139,7 @@ class ThermographyHeating(ParameterSet):
         mandatory=True,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=5,
     )
 
     power_in_watt = PropertyTypeAssignment(
@@ -11124,6 +12150,7 @@ class ThermographyHeating(ParameterSet):
         mandatory=False,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=7,
     )
 
     pulse_energy_in_joule = PropertyTypeAssignment(
@@ -11134,6 +12161,7 @@ class ThermographyHeating(ParameterSet):
         mandatory=False,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=9,
     )
 
     heating_temperature_in_celsius = PropertyTypeAssignment(
@@ -11144,6 +12172,7 @@ class ThermographyHeating(ParameterSet):
         mandatory=False,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=11,
     )
 
     heating_duration_in_seconds = PropertyTypeAssignment(
@@ -11154,6 +12183,7 @@ class ThermographyHeating(ParameterSet):
         mandatory=False,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=13,
     )
 
     heating_frequency_in_hertz = PropertyTypeAssignment(
@@ -11164,6 +12194,7 @@ class ThermographyHeating(ParameterSet):
         mandatory=False,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=15,
     )
 
     heating_area_desc = PropertyTypeAssignment(
@@ -11174,6 +12205,7 @@ class ThermographyHeating(ParameterSet):
         mandatory=True,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=17,
     )
 
     heating_height_in_millimeter = PropertyTypeAssignment(
@@ -11184,6 +12216,7 @@ class ThermographyHeating(ParameterSet):
         mandatory=False,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=19,
     )
 
     heating_width_in_millimeter = PropertyTypeAssignment(
@@ -11194,6 +12227,7 @@ class ThermographyHeating(ParameterSet):
         mandatory=False,
         show_in_edit_views=False,
         section="Parameters",
+        ordinal=21,
     )
 
 
@@ -11212,6 +12246,7 @@ class BamLaboratory(EnvironmentalConditions):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=4,
     )
 
     bam_floor = PropertyTypeAssignment(
@@ -11222,6 +12257,7 @@ class BamLaboratory(EnvironmentalConditions):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=5,
     )
 
     bam_house = PropertyTypeAssignment(
@@ -11232,6 +12268,7 @@ class BamLaboratory(EnvironmentalConditions):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=6,
     )
 
     bam_location = PropertyTypeAssignment(
@@ -11242,6 +12279,7 @@ class BamLaboratory(EnvironmentalConditions):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=7,
     )
 
     bam_location_complete = PropertyTypeAssignment(
@@ -11252,6 +12290,7 @@ class BamLaboratory(EnvironmentalConditions):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=8,
     )
 
 
@@ -11270,6 +12309,7 @@ class Outdoor(EnvironmentalConditions):
         mandatory=False,
         show_in_edit_views=False,
         section="Atmospheric Conditions",
+        ordinal=4,
     )
 
     wind_direction = PropertyTypeAssignment(
@@ -11280,6 +12320,7 @@ class Outdoor(EnvironmentalConditions):
         mandatory=False,
         show_in_edit_views=False,
         section="Atmospheric Conditions",
+        ordinal=5,
     )
 
     sun_irradiance_in_watt_per_meter_squared = PropertyTypeAssignment(
@@ -11290,6 +12331,7 @@ class Outdoor(EnvironmentalConditions):
         mandatory=False,
         show_in_edit_views=False,
         section="Weather Conditions",
+        ordinal=7,
     )
 
     weather_condition = PropertyTypeAssignment(
@@ -11300,6 +12342,7 @@ class Outdoor(EnvironmentalConditions):
         mandatory=False,
         show_in_edit_views=False,
         section="Weather Conditions",
+        ordinal=9,
     )
 
     location_latitude_in_degrees = PropertyTypeAssignment(
@@ -11310,6 +12353,7 @@ class Outdoor(EnvironmentalConditions):
         mandatory=False,
         show_in_edit_views=False,
         section="Location",
+        ordinal=11,
     )
 
     location_longitude_in_degrees = PropertyTypeAssignment(
@@ -11320,6 +12364,7 @@ class Outdoor(EnvironmentalConditions):
         mandatory=False,
         show_in_edit_views=False,
         section="Location",
+        ordinal=13,
     )
 
     location_address = PropertyTypeAssignment(
@@ -11330,6 +12375,7 @@ class Outdoor(EnvironmentalConditions):
         mandatory=False,
         show_in_edit_views=False,
         section="Location",
+        ordinal=15,
     )
 
 
@@ -11348,6 +12394,7 @@ class FlashLamp(Instrument):
         mandatory=True,
         show_in_edit_views=False,
         section="Flash Lamp Specifics",
+        ordinal=36,
     )
 
     flash_lamp_shape = PropertyTypeAssignment(
@@ -11358,6 +12405,7 @@ class FlashLamp(Instrument):
         mandatory=True,
         show_in_edit_views=False,
         section="Flash Lamp Specifics",
+        ordinal=38,
     )
 
 
@@ -11376,6 +12424,7 @@ class ObjectiveSpacer(Instrument):
         mandatory=True,
         show_in_edit_views=False,
         section="Properties",
+        ordinal=37,
     )
 
 
@@ -11394,6 +12443,7 @@ class ThermographicMeasurement(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="References",
+        ordinal=10,
     )
 
 
@@ -11412,6 +12462,7 @@ class Named(SampleNdt):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     material = PropertyTypeAssignment(
@@ -11422,6 +12473,7 @@ class Named(SampleNdt):
         mandatory=True,
         show_in_edit_views=False,
         section="Properties",
+        ordinal=4,
     )
 
     defect_description = PropertyTypeAssignment(
@@ -11432,6 +12484,7 @@ class Named(SampleNdt):
         mandatory=True,
         show_in_edit_views=False,
         section="Properties",
+        ordinal=5,
     )
 
     size_height_in_millimeter = PropertyTypeAssignment(
@@ -11442,6 +12495,7 @@ class Named(SampleNdt):
         mandatory=True,
         show_in_edit_views=False,
         section="Properties",
+        ordinal=6,
     )
 
     size_width_in_millimeter = PropertyTypeAssignment(
@@ -11452,6 +12506,7 @@ class Named(SampleNdt):
         mandatory=True,
         show_in_edit_views=False,
         section="Properties",
+        ordinal=7,
     )
 
     size_thickness_in_millimeter = PropertyTypeAssignment(
@@ -11462,6 +12517,7 @@ class Named(SampleNdt):
         mandatory=True,
         show_in_edit_views=False,
         section="Properties",
+        ordinal=8,
     )
 
     associated_project = PropertyTypeAssignment(
@@ -11472,6 +12528,7 @@ class Named(SampleNdt):
         mandatory=False,
         show_in_edit_views=False,
         section="Properties",
+        ordinal=9,
     )
 
     responsible_person = PropertyTypeAssignment(
@@ -11482,6 +12539,7 @@ class Named(SampleNdt):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=10,
     )
 
     co_responsible_person = PropertyTypeAssignment(
@@ -11492,6 +12550,7 @@ class Named(SampleNdt):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=11,
     )
 
 
@@ -11510,6 +12569,7 @@ class SaxsMeasurement(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="Experiment Details",
+        ordinal=6,
     )
 
     measurement_date = PropertyTypeAssignment(
@@ -11520,6 +12580,7 @@ class SaxsMeasurement(ExperimentalStep):
         mandatory=True,
         show_in_edit_views=False,
         section="Experiment Details",
+        ordinal=7,
     )
 
     cell_temperature_in_celsius = PropertyTypeAssignment(
@@ -11530,6 +12591,7 @@ class SaxsMeasurement(ExperimentalStep):
         mandatory=True,
         show_in_edit_views=False,
         section="Experiment Details",
+        ordinal=9,
     )
 
     exposure_time_in_seconds = PropertyTypeAssignment(
@@ -11540,6 +12602,7 @@ class SaxsMeasurement(ExperimentalStep):
         mandatory=True,
         show_in_edit_views=False,
         section="Experiment Details",
+        ordinal=11,
     )
 
     frame_count = PropertyTypeAssignment(
@@ -11550,6 +12613,7 @@ class SaxsMeasurement(ExperimentalStep):
         mandatory=True,
         show_in_edit_views=False,
         section="Experiment Details",
+        ordinal=13,
     )
 
 
@@ -11568,6 +12632,7 @@ class LocalWorkstation(Instrument):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=8,
     )
 
 
@@ -11586,6 +12651,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Method Specific",
+        ordinal=14,
     )
 
     periodic_boundary_x = PropertyTypeAssignment(
@@ -11596,6 +12662,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Method Specific",
+        ordinal=16,
     )
 
     periodic_boundary_y = PropertyTypeAssignment(
@@ -11606,6 +12673,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Method Specific",
+        ordinal=18,
     )
 
     periodic_boundary_z = PropertyTypeAssignment(
@@ -11616,6 +12684,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Method Specific",
+        ordinal=20,
     )
 
     atom_cell_vol_relax = PropertyTypeAssignment(
@@ -11626,6 +12695,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Method Specific",
+        ordinal=22,
     )
 
     atom_cell_shp_relax = PropertyTypeAssignment(
@@ -11636,6 +12706,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Method Specific",
+        ordinal=24,
     )
 
     atom_pos_relax = PropertyTypeAssignment(
@@ -11646,6 +12717,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Method Specific",
+        ordinal=26,
     )
 
     atom_md_ensemble = PropertyTypeAssignment(
@@ -11656,6 +12728,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Method Specific",
+        ordinal=28,
     )
 
     atom_ionic_min_algo = PropertyTypeAssignment(
@@ -11666,6 +12739,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Method Specific",
+        ordinal=30,
     )
 
     atom_md_time_stp_in_ps = PropertyTypeAssignment(
@@ -11676,6 +12750,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Input",
+        ordinal=32,
     )
 
     atom_sim_time_ps_in_ps = PropertyTypeAssignment(
@@ -11686,6 +12761,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Input",
+        ordinal=34,
     )
 
     atom_md_langevin = PropertyTypeAssignment(
@@ -11696,6 +12772,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Input",
+        ordinal=36,
     )
 
     max_iters = PropertyTypeAssignment(
@@ -11706,6 +12783,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Input",
+        ordinal=38,
     )
 
     atom_e_tol_ion_in_ev = PropertyTypeAssignment(
@@ -11716,6 +12794,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Input",
+        ordinal=40,
     )
 
     atom_f_tol_in_ev_a = PropertyTypeAssignment(
@@ -11726,6 +12805,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Input",
+        ordinal=42,
     )
 
     atom_md_init_temp_in_k = PropertyTypeAssignment(
@@ -11736,6 +12816,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Input",
+        ordinal=44,
     )
 
     atom_md_init_press_in_gpa = PropertyTypeAssignment(
@@ -11746,6 +12827,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Input",
+        ordinal=46,
     )
 
     atom_md_targ_temp_in_k = PropertyTypeAssignment(
@@ -11756,6 +12838,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Input",
+        ordinal=48,
     )
 
     atom_targ_press_in_gpa = PropertyTypeAssignment(
@@ -11766,6 +12849,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Input",
+        ordinal=50,
     )
 
     atom_ionic_steps = PropertyTypeAssignment(
@@ -11776,6 +12860,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Output",
+        ordinal=52,
     )
 
     atom_md_avg_temp_in_k = PropertyTypeAssignment(
@@ -11786,6 +12871,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Output",
+        ordinal=54,
     )
 
     atom_avg_press_in_gpa = PropertyTypeAssignment(
@@ -11796,6 +12882,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Output",
+        ordinal=56,
     )
 
     atom_fin_tot_eng_in_ev = PropertyTypeAssignment(
@@ -11806,6 +12893,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Output",
+        ordinal=58,
     )
 
     atom_avg_tot_eng_in_ev = PropertyTypeAssignment(
@@ -11816,6 +12904,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Output",
+        ordinal=60,
     )
 
     atom_fin_vol_in_a3 = PropertyTypeAssignment(
@@ -11826,6 +12915,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Output",
+        ordinal=62,
     )
 
     atom_avg_vol_in_a3 = PropertyTypeAssignment(
@@ -11836,6 +12926,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Output",
+        ordinal=64,
     )
 
     atom_fin_pot_eng_in_ev = PropertyTypeAssignment(
@@ -11846,6 +12937,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Output",
+        ordinal=66,
     )
 
     atom_avg_pot_eng_in_ev = PropertyTypeAssignment(
@@ -11856,6 +12948,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Output",
+        ordinal=68,
     )
 
     atom_fin_fnorm_in_ev_a = PropertyTypeAssignment(
@@ -11866,6 +12959,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Output",
+        ordinal=70,
     )
 
     atom_avg_fnorm_in_ev_a = PropertyTypeAssignment(
@@ -11876,6 +12970,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Output",
+        ordinal=72,
     )
 
     atom_force_max_in_ev_a = PropertyTypeAssignment(
@@ -11886,6 +12981,7 @@ class Lammps(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Output",
+        ordinal=74,
     )
 
 
@@ -11904,6 +13000,7 @@ class Murnaghan(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Method Specific",
+        ordinal=14,
     )
 
     murn_fit_eqn_order = PropertyTypeAssignment(
@@ -11914,6 +13011,7 @@ class Murnaghan(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Method Specific",
+        ordinal=16,
     )
 
     murn_strain_axes = PropertyTypeAssignment(
@@ -11924,6 +13022,7 @@ class Murnaghan(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Method Specific",
+        ordinal=18,
     )
 
     murn_n_data_points = PropertyTypeAssignment(
@@ -11934,6 +13033,7 @@ class Murnaghan(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Input",
+        ordinal=20,
     )
 
     murn_strainvol_range = PropertyTypeAssignment(
@@ -11944,6 +13044,7 @@ class Murnaghan(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Input",
+        ordinal=22,
     )
 
     atom_equil_k_mod_in_gpa = PropertyTypeAssignment(
@@ -11954,6 +13055,7 @@ class Murnaghan(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Output",
+        ordinal=24,
     )
 
     atom_equil_toteng_in_ev = PropertyTypeAssignment(
@@ -11964,6 +13066,7 @@ class Murnaghan(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Output",
+        ordinal=26,
     )
 
     atom_equil_vol_in_a3 = PropertyTypeAssignment(
@@ -11974,6 +13077,7 @@ class Murnaghan(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Output",
+        ordinal=28,
     )
 
 
@@ -11992,6 +13096,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Method Specific",
+        ordinal=14,
     )
 
     atom_wavefunc_reuse = PropertyTypeAssignment(
@@ -12002,6 +13107,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Method Specific",
+        ordinal=16,
     )
 
     atom_chgdens_reuse = PropertyTypeAssignment(
@@ -12012,6 +13118,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Method Specific",
+        ordinal=18,
     )
 
     atom_cell_vol_relax = PropertyTypeAssignment(
@@ -12022,6 +13129,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Method Specific",
+        ordinal=20,
     )
 
     atom_cell_shp_relax = PropertyTypeAssignment(
@@ -12032,6 +13140,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Method Specific",
+        ordinal=22,
     )
 
     atom_pos_relax = PropertyTypeAssignment(
@@ -12042,6 +13151,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Method Specific",
+        ordinal=24,
     )
 
     atom_xc_functional = PropertyTypeAssignment(
@@ -12052,6 +13162,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Method Specific",
+        ordinal=26,
     )
 
     atom_xc_u_correction = PropertyTypeAssignment(
@@ -12062,6 +13173,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Method Specific",
+        ordinal=28,
     )
 
     electronic_smearing = PropertyTypeAssignment(
@@ -12072,6 +13184,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Method Specific",
+        ordinal=30,
     )
 
     atom_ionic_min_algo = PropertyTypeAssignment(
@@ -12082,6 +13195,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Method Specific",
+        ordinal=32,
     )
 
     atom_elec_min_algo = PropertyTypeAssignment(
@@ -12092,6 +13206,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Method Specific",
+        ordinal=34,
     )
 
     atom_spin_polarized = PropertyTypeAssignment(
@@ -12102,6 +13217,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Method Specific",
+        ordinal=36,
     )
 
     atom_non_coll_mag = PropertyTypeAssignment(
@@ -12112,6 +13228,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Method Specific",
+        ordinal=38,
     )
 
     atom_kpoint_type = PropertyTypeAssignment(
@@ -12122,6 +13239,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Method Specific",
+        ordinal=40,
     )
 
     atom_kpt_gamma_cent = PropertyTypeAssignment(
@@ -12132,6 +13250,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Method Specific",
+        ordinal=42,
     )
 
     atomistic_n_kpt_x = PropertyTypeAssignment(
@@ -12142,6 +13261,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Input",
+        ordinal=44,
     )
 
     atomistic_n_kpt_y = PropertyTypeAssignment(
@@ -12152,6 +13272,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Input",
+        ordinal=46,
     )
 
     atomistic_n_kpt_z = PropertyTypeAssignment(
@@ -12162,6 +13283,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Input",
+        ordinal=48,
     )
 
     atomistic_kpt_spacin_in_1_a = PropertyTypeAssignment(
@@ -12172,6 +13294,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Input",
+        ordinal=50,
     )
 
     atomistic_kpt_full = PropertyTypeAssignment(
@@ -12182,6 +13305,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Input",
+        ordinal=52,
     )
 
     atom_e_tol_ion_in_ev = PropertyTypeAssignment(
@@ -12192,6 +13316,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Input",
+        ordinal=54,
     )
 
     atom_el_e_tol_in_ev = PropertyTypeAssignment(
@@ -12202,6 +13327,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Input",
+        ordinal=56,
     )
 
     atom_f_tol_in_ev_a = PropertyTypeAssignment(
@@ -12212,6 +13338,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Input",
+        ordinal=58,
     )
 
     atom_e_cutoff_in_ev = PropertyTypeAssignment(
@@ -12222,6 +13349,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Input",
+        ordinal=60,
     )
 
     atom_sigma_in_ev = PropertyTypeAssignment(
@@ -12232,6 +13360,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Input",
+        ordinal=62,
     )
 
     atomistic_ionic_steps = PropertyTypeAssignment(
@@ -12242,6 +13371,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Output",
+        ordinal=64,
     )
 
     atom_fin_tot_eng_in_ev = PropertyTypeAssignment(
@@ -12252,6 +13382,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Output",
+        ordinal=66,
     )
 
     atom_fin_pot_eng_in_ev = PropertyTypeAssignment(
@@ -12262,6 +13393,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Output",
+        ordinal=68,
     )
 
     atom_fin_press_in_gpa = PropertyTypeAssignment(
@@ -12272,6 +13404,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Output",
+        ordinal=70,
     )
 
     atom_fin_vol_in_a3 = PropertyTypeAssignment(
@@ -12282,6 +13415,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Output",
+        ordinal=72,
     )
 
     atom_force_max_in_ev_a = PropertyTypeAssignment(
@@ -12292,6 +13426,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Output",
+        ordinal=74,
     )
 
     atom_fin_totmgmo_in_mub = PropertyTypeAssignment(
@@ -12302,6 +13437,7 @@ class Vasp(PyironJob):
         mandatory=False,
         show_in_edit_views=False,
         section="Output",
+        ordinal=76,
     )
 
 
@@ -12320,6 +13456,7 @@ class Amorphous(MatSimStructure):
         mandatory=False,
         show_in_edit_views=False,
         section="Material Information",
+        ordinal=5,
     )
 
     chem_species_by_n_atoms = PropertyTypeAssignment(
@@ -12330,6 +13467,7 @@ class Amorphous(MatSimStructure):
         mandatory=False,
         show_in_edit_views=False,
         section="Simulation Information",
+        ordinal=7,
     )
 
     n_atoms_total = PropertyTypeAssignment(
@@ -12340,6 +13478,7 @@ class Amorphous(MatSimStructure):
         mandatory=False,
         show_in_edit_views=False,
         section="Simulation Information",
+        ordinal=9,
     )
 
     atom_sample_temp_in_k = PropertyTypeAssignment(
@@ -12350,6 +13489,7 @@ class Amorphous(MatSimStructure):
         mandatory=False,
         show_in_edit_views=False,
         section="Simulation Information",
+        ordinal=19,
     )
 
 
@@ -12368,6 +13508,7 @@ class Crystal(MatSimStructure):
         mandatory=False,
         show_in_edit_views=False,
         section="Material Information",
+        ordinal=5,
     )
 
     lattice_param_b_in_a = PropertyTypeAssignment(
@@ -12378,6 +13519,7 @@ class Crystal(MatSimStructure):
         mandatory=False,
         show_in_edit_views=False,
         section="Material Information",
+        ordinal=6,
     )
 
     lattice_param_c_in_a = PropertyTypeAssignment(
@@ -12388,6 +13530,7 @@ class Crystal(MatSimStructure):
         mandatory=False,
         show_in_edit_views=False,
         section="Material Information",
+        ordinal=7,
     )
 
     lattice_c_over_a = PropertyTypeAssignment(
@@ -12398,6 +13541,7 @@ class Crystal(MatSimStructure):
         mandatory=False,
         show_in_edit_views=False,
         section="Material Information",
+        ordinal=8,
     )
 
     lattice_angalpha_in_deg = PropertyTypeAssignment(
@@ -12408,6 +13552,7 @@ class Crystal(MatSimStructure):
         mandatory=False,
         show_in_edit_views=False,
         section="Material Information",
+        ordinal=9,
     )
 
     lattice_angbeta_in_deg = PropertyTypeAssignment(
@@ -12418,6 +13563,7 @@ class Crystal(MatSimStructure):
         mandatory=False,
         show_in_edit_views=False,
         section="Material Information",
+        ordinal=10,
     )
 
     lattice_anggamma_in_deg = PropertyTypeAssignment(
@@ -12428,6 +13574,7 @@ class Crystal(MatSimStructure):
         mandatory=False,
         show_in_edit_views=False,
         section="Material Information",
+        ordinal=11,
     )
 
     lattice_volume_in_a3 = PropertyTypeAssignment(
@@ -12438,6 +13585,7 @@ class Crystal(MatSimStructure):
         mandatory=False,
         show_in_edit_views=False,
         section="Material Information",
+        ordinal=12,
     )
 
     space_group = PropertyTypeAssignment(
@@ -12448,6 +13596,7 @@ class Crystal(MatSimStructure):
         mandatory=False,
         show_in_edit_views=False,
         section="Material Information",
+        ordinal=13,
     )
 
     bravais_lattice = PropertyTypeAssignment(
@@ -12458,6 +13607,7 @@ class Crystal(MatSimStructure):
         mandatory=False,
         show_in_edit_views=False,
         section="Material Information",
+        ordinal=15,
     )
 
     chem_species_by_n_atoms = PropertyTypeAssignment(
@@ -12468,6 +13618,7 @@ class Crystal(MatSimStructure):
         mandatory=False,
         show_in_edit_views=False,
         section="Simulation Information",
+        ordinal=17,
     )
 
     n_atoms_total = PropertyTypeAssignment(
@@ -12478,6 +13629,7 @@ class Crystal(MatSimStructure):
         mandatory=False,
         show_in_edit_views=False,
         section="Simulation Information",
+        ordinal=19,
     )
 
 
@@ -12496,6 +13648,7 @@ class MeasurementSession(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=6,
     )
 
     bam_partner = PropertyTypeAssignment(
@@ -12506,6 +13659,7 @@ class MeasurementSession(ExperimentalStep):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=7,
     )
 
 
@@ -12524,6 +13678,7 @@ class GmawBase(Weldment):
         mandatory=False,
         show_in_edit_views=False,
         section="Workpiece Parameters",
+        ordinal=8,
     )
 
     experimental_step_weldment_groove_preparation = PropertyTypeAssignment(
@@ -12534,6 +13689,7 @@ class GmawBase(Weldment):
         mandatory=False,
         show_in_edit_views=False,
         section="Workpiece Parameters",
+        ordinal=9,
     )
 
     experimental_step_weldment_weld_travel_speed = PropertyTypeAssignment(
@@ -12544,6 +13700,7 @@ class GmawBase(Weldment):
         mandatory=False,
         show_in_edit_views=False,
         section="Welding Parameters",
+        ordinal=10,
     )
 
     experimental_step_weldment_shielding_gas_flow = PropertyTypeAssignment(
@@ -12554,6 +13711,7 @@ class GmawBase(Weldment):
         mandatory=False,
         show_in_edit_views=False,
         section="Welding Parameters",
+        ordinal=11,
     )
 
     experimental_step_weldment_arc_process = PropertyTypeAssignment(
@@ -12564,6 +13722,7 @@ class GmawBase(Weldment):
         mandatory=False,
         show_in_edit_views=False,
         section="Arc welding Parameters",
+        ordinal=12,
     )
 
     experimental_step_weldment_arc_voltage = PropertyTypeAssignment(
@@ -12574,6 +13733,7 @@ class GmawBase(Weldment):
         mandatory=False,
         show_in_edit_views=False,
         section="Arc welding Parameters",
+        ordinal=13,
     )
 
     experimental_step_weldment_arc_current = PropertyTypeAssignment(
@@ -12584,6 +13744,7 @@ class GmawBase(Weldment):
         mandatory=False,
         show_in_edit_views=False,
         section="Arc welding Parameters",
+        ordinal=14,
     )
 
     experimental_step_weldment_wire_stickout_length = PropertyTypeAssignment(
@@ -12594,6 +13755,7 @@ class GmawBase(Weldment):
         mandatory=False,
         show_in_edit_views=False,
         section="Arc welding Parameters",
+        ordinal=15,
     )
 
     experimental_step_weldment_wire_feed_rate = PropertyTypeAssignment(
@@ -12604,6 +13766,7 @@ class GmawBase(Weldment):
         mandatory=False,
         show_in_edit_views=False,
         section="Arc welding Parameters",
+        ordinal=16,
     )
 
 
@@ -12622,6 +13785,7 @@ class LaserHybridMagnet(Weldment):
         mandatory=False,
         show_in_edit_views=False,
         section="Workpiece Parameters",
+        ordinal=8,
     )
 
     experimental_step_weldment_groove_preparation = PropertyTypeAssignment(
@@ -12632,6 +13796,7 @@ class LaserHybridMagnet(Weldment):
         mandatory=False,
         show_in_edit_views=False,
         section="Workpiece Parameters",
+        ordinal=9,
     )
 
     experimental_step_weldment_weld_travel_speed = PropertyTypeAssignment(
@@ -12642,6 +13807,7 @@ class LaserHybridMagnet(Weldment):
         mandatory=False,
         show_in_edit_views=False,
         section="Welding Parameters",
+        ordinal=10,
     )
 
     experimental_step_weldment_shielding_gas_flow = PropertyTypeAssignment(
@@ -12652,6 +13818,7 @@ class LaserHybridMagnet(Weldment):
         mandatory=False,
         show_in_edit_views=False,
         section="Welding Parameters",
+        ordinal=11,
     )
 
     experimental_step_weldment_laser_wire_offset = PropertyTypeAssignment(
@@ -12662,6 +13829,7 @@ class LaserHybridMagnet(Weldment):
         mandatory=False,
         show_in_edit_views=False,
         section="Laser Parameters",
+        ordinal=12,
     )
 
     experimental_step_weldment_laser_power = PropertyTypeAssignment(
@@ -12672,6 +13840,7 @@ class LaserHybridMagnet(Weldment):
         mandatory=False,
         show_in_edit_views=False,
         section="Laser Parameters",
+        ordinal=13,
     )
 
     experimental_step_weldment_laser_focus = PropertyTypeAssignment(
@@ -12682,6 +13851,7 @@ class LaserHybridMagnet(Weldment):
         mandatory=False,
         show_in_edit_views=False,
         section="Laser Parameters",
+        ordinal=14,
     )
 
     experimental_step_weldment_magnet_capacitance = PropertyTypeAssignment(
@@ -12692,6 +13862,7 @@ class LaserHybridMagnet(Weldment):
         mandatory=False,
         show_in_edit_views=False,
         section="Magnet Parameters",
+        ordinal=15,
     )
 
     experimental_step_weldment_magnet_frequency = PropertyTypeAssignment(
@@ -12702,6 +13873,7 @@ class LaserHybridMagnet(Weldment):
         mandatory=False,
         show_in_edit_views=False,
         section="Magnet Parameters",
+        ordinal=16,
     )
 
     experimental_step_weldment_current_transformer = PropertyTypeAssignment(
@@ -12712,6 +13884,7 @@ class LaserHybridMagnet(Weldment):
         mandatory=False,
         show_in_edit_views=False,
         section="Magnet Parameters",
+        ordinal=17,
     )
 
     experimental_step_weldment_magnet_u_1 = PropertyTypeAssignment(
@@ -12722,6 +13895,7 @@ class LaserHybridMagnet(Weldment):
         mandatory=False,
         show_in_edit_views=False,
         section="Magnet Parameters",
+        ordinal=18,
     )
 
     experimental_step_weldment_magnet_i_1 = PropertyTypeAssignment(
@@ -12732,6 +13906,7 @@ class LaserHybridMagnet(Weldment):
         mandatory=False,
         show_in_edit_views=False,
         section="Magnet Parameters",
+        ordinal=19,
     )
 
     experimental_step_weldment_arc_process = PropertyTypeAssignment(
@@ -12742,6 +13917,7 @@ class LaserHybridMagnet(Weldment):
         mandatory=False,
         show_in_edit_views=False,
         section="Arc Welding Parameters",
+        ordinal=20,
     )
 
     experimental_step_weldment_arc_voltage = PropertyTypeAssignment(
@@ -12752,6 +13928,7 @@ class LaserHybridMagnet(Weldment):
         mandatory=False,
         show_in_edit_views=False,
         section="Arc Welding Parameters",
+        ordinal=21,
     )
 
     experimental_step_weldment_arc_current = PropertyTypeAssignment(
@@ -12762,6 +13939,7 @@ class LaserHybridMagnet(Weldment):
         mandatory=False,
         show_in_edit_views=False,
         section="Arc Welding Parameters",
+        ordinal=22,
     )
 
     experimental_step_weldment_wire_stickout_length = PropertyTypeAssignment(
@@ -12772,6 +13950,7 @@ class LaserHybridMagnet(Weldment):
         mandatory=False,
         show_in_edit_views=False,
         section="Arc Welding Parameters",
+        ordinal=23,
     )
 
     experimental_step_weldment_wire_feed_rate = PropertyTypeAssignment(
@@ -12782,6 +13961,7 @@ class LaserHybridMagnet(Weldment):
         mandatory=False,
         show_in_edit_views=False,
         section="Arc Welding Parameters",
+        ordinal=24,
     )
 
 
@@ -12800,6 +13980,7 @@ class WireSolid(Welding):
         mandatory=True,
         show_in_edit_views=False,
         section="Wire Information",
+        ordinal=6,
     )
 
     welding_wire_iso_specname = PropertyTypeAssignment(
@@ -12810,6 +13991,7 @@ class WireSolid(Welding):
         mandatory=False,
         show_in_edit_views=False,
         section="Wire Information",
+        ordinal=7,
     )
 
     welding_wire_iso_standard = PropertyTypeAssignment(
@@ -12820,6 +14002,7 @@ class WireSolid(Welding):
         mandatory=False,
         show_in_edit_views=False,
         section="Wire Information",
+        ordinal=8,
     )
 
     welding_wire_aws_specname = PropertyTypeAssignment(
@@ -12830,6 +14013,7 @@ class WireSolid(Welding):
         mandatory=False,
         show_in_edit_views=False,
         section="Wire Information",
+        ordinal=9,
     )
 
     welding_wire_aws_standard = PropertyTypeAssignment(
@@ -12840,6 +14024,7 @@ class WireSolid(Welding):
         mandatory=False,
         show_in_edit_views=False,
         section="Wire Information",
+        ordinal=10,
     )
 
     welding_wire_weight = PropertyTypeAssignment(
@@ -12850,6 +14035,7 @@ class WireSolid(Welding):
         mandatory=False,
         show_in_edit_views=False,
         section="Wire Information",
+        ordinal=11,
     )
 
 
@@ -12868,6 +14054,7 @@ class Lens(Camera):
         mandatory=True,
         show_in_edit_views=False,
         section="Lens Information",
+        ordinal=9,
     )
 
     lens_aperture_max = PropertyTypeAssignment(
@@ -12878,6 +14065,7 @@ class Lens(Camera):
         mandatory=False,
         show_in_edit_views=False,
         section="Lens Information",
+        ordinal=10,
     )
 
     lens_aperture_min = PropertyTypeAssignment(
@@ -12888,6 +14076,7 @@ class Lens(Camera):
         mandatory=False,
         show_in_edit_views=False,
         section="Lens Information",
+        ordinal=11,
     )
 
     lens_confocal = PropertyTypeAssignment(
@@ -12898,6 +14087,7 @@ class Lens(Camera):
         mandatory=False,
         show_in_edit_views=False,
         section="Lens Information",
+        ordinal=12,
     )
 
 
@@ -12916,6 +14106,7 @@ class GmawTorch(WeldingEquipment):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=9,
     )
 
 
@@ -12934,6 +14125,7 @@ class GmawWeldingPowerSource(WeldingEquipment):
         mandatory=False,
         show_in_edit_views=False,
         section="Power Source Information",
+        ordinal=23,
     )
 
     welding_arc_current_max = PropertyTypeAssignment(
@@ -12944,6 +14136,7 @@ class GmawWeldingPowerSource(WeldingEquipment):
         mandatory=False,
         show_in_edit_views=False,
         section="Power Source Information",
+        ordinal=25,
     )
 
     welding_arc_current_continuous = PropertyTypeAssignment(
@@ -12954,6 +14147,7 @@ class GmawWeldingPowerSource(WeldingEquipment):
         mandatory=False,
         show_in_edit_views=False,
         section="Power Source Information",
+        ordinal=27,
     )
 
     firmware_version = PropertyTypeAssignment(
@@ -12964,6 +14158,7 @@ class GmawWeldingPowerSource(WeldingEquipment):
         mandatory=False,
         show_in_edit_views=False,
         section="Software Information",
+        ordinal=29,
     )
 
 
@@ -12982,6 +14177,7 @@ class Positioner(WeldingEquipment):
         mandatory=False,
         show_in_edit_views=False,
         section="Positioner Information",
+        ordinal=23,
     )
 
     positioner_axis_count = PropertyTypeAssignment(
@@ -12992,6 +14188,7 @@ class Positioner(WeldingEquipment):
         mandatory=False,
         show_in_edit_views=False,
         section="Positioner Information",
+        ordinal=25,
     )
 
     positioner_payload_max = PropertyTypeAssignment(
@@ -13002,6 +14199,7 @@ class Positioner(WeldingEquipment):
         mandatory=False,
         show_in_edit_views=False,
         section="Positioner Information",
+        ordinal=27,
     )
 
 
@@ -13020,6 +14218,7 @@ class RobotController(WeldingEquipment):
         mandatory=True,
         show_in_edit_views=False,
         section="Controller Information",
+        ordinal=23,
     )
 
     robot_controller_axis_count_external = PropertyTypeAssignment(
@@ -13030,6 +14229,7 @@ class RobotController(WeldingEquipment):
         mandatory=True,
         show_in_edit_views=False,
         section="Controller Information",
+        ordinal=25,
     )
 
     firmware_version = PropertyTypeAssignment(
@@ -13040,6 +14240,7 @@ class RobotController(WeldingEquipment):
         mandatory=False,
         show_in_edit_views=False,
         section="Software Information",
+        ordinal=27,
     )
 
 
@@ -13058,6 +14259,7 @@ class Robot(WeldingEquipment):
         mandatory=True,
         show_in_edit_views=False,
         section="Robot Information",
+        ordinal=23,
     )
 
     robot_payload_max = PropertyTypeAssignment(
@@ -13068,6 +14270,7 @@ class Robot(WeldingEquipment):
         mandatory=False,
         show_in_edit_views=False,
         section="Robot Information",
+        ordinal=25,
     )
 
     robot_working_range = PropertyTypeAssignment(
@@ -13078,6 +14281,7 @@ class Robot(WeldingEquipment):
         mandatory=False,
         show_in_edit_views=False,
         section="Robot Information",
+        ordinal=27,
     )
 
     robot_axis_count = PropertyTypeAssignment(
@@ -13088,6 +14292,7 @@ class Robot(WeldingEquipment):
         mandatory=False,
         show_in_edit_views=False,
         section="Robot Information",
+        ordinal=29,
     )
 
 
@@ -13108,6 +14313,7 @@ class StationLayout1(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General information",
+        ordinal=1,
     )
 
     alias = PropertyTypeAssignment(
@@ -13118,6 +14324,7 @@ class StationLayout1(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General information",
+        ordinal=2,
     )
 
     description = PropertyTypeAssignment(
@@ -13128,6 +14335,7 @@ class StationLayout1(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General information",
+        ordinal=3,
     )
 
     device_model_name = PropertyTypeAssignment(
@@ -13138,6 +14346,7 @@ class StationLayout1(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General information",
+        ordinal=4,
     )
 
     manufacturer = PropertyTypeAssignment(
@@ -13148,6 +14357,7 @@ class StationLayout1(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General information",
+        ordinal=5,
     )
 
     supplier = PropertyTypeAssignment(
@@ -13158,6 +14368,7 @@ class StationLayout1(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General information",
+        ordinal=6,
     )
 
     serial_number = PropertyTypeAssignment(
@@ -13168,6 +14379,7 @@ class StationLayout1(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General information",
+        ordinal=7,
     )
 
     dfg_device_code = PropertyTypeAssignment(
@@ -13178,6 +14390,7 @@ class StationLayout1(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General information",
+        ordinal=8,
     )
 
     inventory_no = PropertyTypeAssignment(
@@ -13188,6 +14401,7 @@ class StationLayout1(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM information",
+        ordinal=9,
     )
 
     inventory_no_add = PropertyTypeAssignment(
@@ -13198,6 +14412,7 @@ class StationLayout1(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM information",
+        ordinal=10,
     )
 
     bam_oe = PropertyTypeAssignment(
@@ -13208,6 +14423,7 @@ class StationLayout1(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM information",
+        ordinal=11,
     )
 
     responsible_person = PropertyTypeAssignment(
@@ -13218,6 +14434,7 @@ class StationLayout1(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM information",
+        ordinal=12,
     )
 
     co_responsible_person = PropertyTypeAssignment(
@@ -13228,6 +14445,7 @@ class StationLayout1(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM information",
+        ordinal=13,
     )
 
     bam_room = PropertyTypeAssignment(
@@ -13238,6 +14456,7 @@ class StationLayout1(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM information",
+        ordinal=14,
     )
 
     bam_floor = PropertyTypeAssignment(
@@ -13248,6 +14467,7 @@ class StationLayout1(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM information",
+        ordinal=16,
     )
 
     bam_house = PropertyTypeAssignment(
@@ -13258,6 +14478,7 @@ class StationLayout1(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM information",
+        ordinal=18,
     )
 
     bam_location = PropertyTypeAssignment(
@@ -13268,6 +14489,7 @@ class StationLayout1(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM information",
+        ordinal=20,
     )
 
     bam_location_complete = PropertyTypeAssignment(
@@ -13278,6 +14500,7 @@ class StationLayout1(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM information",
+        ordinal=22,
     )
 
     notes = PropertyTypeAssignment(
@@ -13288,6 +14511,7 @@ class StationLayout1(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Details",
+        ordinal=24,
     )
 
     last_systemcheck = PropertyTypeAssignment(
@@ -13298,6 +14522,7 @@ class StationLayout1(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Details",
+        ordinal=26,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -13308,6 +14533,7 @@ class StationLayout1(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=28,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -13318,6 +14544,7 @@ class StationLayout1(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=30,
     )
 
 
@@ -13347,6 +14574,7 @@ class StationLayout3(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     alias = PropertyTypeAssignment(
@@ -13357,6 +14585,7 @@ class StationLayout3(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     description = PropertyTypeAssignment(
@@ -13367,6 +14596,7 @@ class StationLayout3(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     device_model_name = PropertyTypeAssignment(
@@ -13377,6 +14607,7 @@ class StationLayout3(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=4,
     )
 
     manufacturer = PropertyTypeAssignment(
@@ -13387,6 +14618,7 @@ class StationLayout3(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=5,
     )
 
     supplier = PropertyTypeAssignment(
@@ -13397,6 +14629,7 @@ class StationLayout3(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=6,
     )
 
     serial_number = PropertyTypeAssignment(
@@ -13407,6 +14640,7 @@ class StationLayout3(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=7,
     )
 
     dfg_device_code = PropertyTypeAssignment(
@@ -13417,6 +14651,7 @@ class StationLayout3(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=8,
     )
 
     inventory_no = PropertyTypeAssignment(
@@ -13427,6 +14662,7 @@ class StationLayout3(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=9,
     )
 
     inventory_no_add = PropertyTypeAssignment(
@@ -13437,6 +14673,7 @@ class StationLayout3(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=10,
     )
 
     bam_oe = PropertyTypeAssignment(
@@ -13447,6 +14684,7 @@ class StationLayout3(ObjectType):
         mandatory=True,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=11,
     )
 
     responsible_person = PropertyTypeAssignment(
@@ -13457,6 +14695,7 @@ class StationLayout3(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=12,
     )
 
     co_responsible_person = PropertyTypeAssignment(
@@ -13467,6 +14706,7 @@ class StationLayout3(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=13,
     )
 
     bam_room = PropertyTypeAssignment(
@@ -13477,6 +14717,7 @@ class StationLayout3(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=14,
     )
 
     bam_floor = PropertyTypeAssignment(
@@ -13487,6 +14728,7 @@ class StationLayout3(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=15,
     )
 
     bam_house = PropertyTypeAssignment(
@@ -13497,6 +14739,7 @@ class StationLayout3(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=17,
     )
 
     bam_location = PropertyTypeAssignment(
@@ -13507,6 +14750,7 @@ class StationLayout3(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=19,
     )
 
     bam_location_complete = PropertyTypeAssignment(
@@ -13517,6 +14761,7 @@ class StationLayout3(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="BAM Information",
+        ordinal=21,
     )
 
     last_systemcheck = PropertyTypeAssignment(
@@ -13527,6 +14772,7 @@ class StationLayout3(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=23,
     )
 
     notes = PropertyTypeAssignment(
@@ -13537,6 +14783,7 @@ class StationLayout3(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=25,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -13547,6 +14794,7 @@ class StationLayout3(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=27,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -13557,4 +14805,5 @@ class StationLayout3(ObjectType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=29,
     )

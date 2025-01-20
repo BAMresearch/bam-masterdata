@@ -16,6 +16,7 @@ class ElnPreview(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General info",
+        ordinal=1,
     )
 
     notes = PropertyTypeAssignment(
@@ -26,6 +27,7 @@ class ElnPreview(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=2,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -36,6 +38,7 @@ class ElnPreview(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=3,
     )
 
 
@@ -53,6 +56,7 @@ class RawData(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General info",
+        ordinal=1,
     )
 
     notes = PropertyTypeAssignment(
@@ -63,6 +67,7 @@ class RawData(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=2,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -73,6 +78,7 @@ class RawData(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=3,
     )
 
 
@@ -90,6 +96,7 @@ class ProcessedData(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General info",
+        ordinal=1,
     )
 
     notes = PropertyTypeAssignment(
@@ -100,6 +107,7 @@ class ProcessedData(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=2,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -110,6 +118,7 @@ class ProcessedData(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=3,
     )
 
 
@@ -127,6 +136,7 @@ class AnalyzedData(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General info",
+        ordinal=1,
     )
 
     notes = PropertyTypeAssignment(
@@ -137,6 +147,7 @@ class AnalyzedData(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=2,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -147,6 +158,7 @@ class AnalyzedData(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=3,
     )
 
 
@@ -164,6 +176,7 @@ class Attachment(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General info",
+        ordinal=1,
     )
 
     notes = PropertyTypeAssignment(
@@ -174,6 +187,7 @@ class Attachment(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=2,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -184,6 +198,7 @@ class Attachment(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=3,
     )
 
 
@@ -201,6 +216,7 @@ class OtherData(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General info",
+        ordinal=1,
     )
 
     notes = PropertyTypeAssignment(
@@ -211,6 +227,7 @@ class OtherData(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=2,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -221,6 +238,7 @@ class OtherData(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=3,
     )
 
 
@@ -238,6 +256,7 @@ class SourceCode(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General info",
+        ordinal=1,
     )
 
     notes = PropertyTypeAssignment(
@@ -248,6 +267,7 @@ class SourceCode(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=2,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -258,6 +278,7 @@ class SourceCode(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=3,
     )
 
 
@@ -275,6 +296,7 @@ class AnalysisNotebook(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General info",
+        ordinal=1,
     )
 
     notes = PropertyTypeAssignment(
@@ -285,6 +307,7 @@ class AnalysisNotebook(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=2,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -295,6 +318,7 @@ class AnalysisNotebook(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=3,
     )
 
     history_id = PropertyTypeAssignment(
@@ -305,6 +329,7 @@ class AnalysisNotebook(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=4,
     )
 
 
@@ -322,6 +347,7 @@ class PublicationData(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General info",
+        ordinal=1,
     )
 
     notes = PropertyTypeAssignment(
@@ -332,6 +358,7 @@ class PublicationData(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=2,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -342,6 +369,7 @@ class PublicationData(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=3,
     )
 
 
@@ -359,6 +387,7 @@ class Document(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     document_type = PropertyTypeAssignment(
@@ -369,6 +398,7 @@ class Document(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     alias = PropertyTypeAssignment(
@@ -379,6 +409,7 @@ class Document(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     author = PropertyTypeAssignment(
@@ -389,6 +420,7 @@ class Document(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=4,
     )
 
     version = PropertyTypeAssignment(
@@ -399,6 +431,7 @@ class Document(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=5,
     )
 
     notes = PropertyTypeAssignment(
@@ -409,6 +442,7 @@ class Document(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=6,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -419,6 +453,7 @@ class Document(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=7,
     )
 
 
@@ -436,6 +471,7 @@ class TestFile(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     document_type = PropertyTypeAssignment(
@@ -446,6 +482,7 @@ class TestFile(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     alias = PropertyTypeAssignment(
@@ -456,6 +493,7 @@ class TestFile(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     author = PropertyTypeAssignment(
@@ -466,6 +504,7 @@ class TestFile(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=4,
     )
 
     version = PropertyTypeAssignment(
@@ -476,6 +515,7 @@ class TestFile(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=5,
     )
 
     notes = PropertyTypeAssignment(
@@ -486,6 +526,7 @@ class TestFile(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=6,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -496,6 +537,7 @@ class TestFile(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=7,
     )
 
 
@@ -513,6 +555,7 @@ class LogFile(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     notes = PropertyTypeAssignment(
@@ -523,6 +566,7 @@ class LogFile(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=2,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -533,6 +577,7 @@ class LogFile(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=3,
     )
 
 
@@ -550,6 +595,7 @@ class MeasurementProtocolFile(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     measurement_protocol_file_software_name = PropertyTypeAssignment(
@@ -560,6 +606,7 @@ class MeasurementProtocolFile(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Software",
+        ordinal=2,
     )
 
     measurement_protocol_file_software_version = PropertyTypeAssignment(
@@ -570,6 +617,7 @@ class MeasurementProtocolFile(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Software",
+        ordinal=3,
     )
 
     notes = PropertyTypeAssignment(
@@ -580,6 +628,7 @@ class MeasurementProtocolFile(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=4,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -590,6 +639,7 @@ class MeasurementProtocolFile(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=5,
     )
 
 
@@ -607,6 +657,7 @@ class Norm(DatasetType):
         mandatory=True,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     date_publication = PropertyTypeAssignment(
@@ -617,6 +668,7 @@ class Norm(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Norm Details",
+        ordinal=2,
     )
 
     norm_analyzed_matrix = PropertyTypeAssignment(
@@ -627,6 +679,7 @@ class Norm(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Norm Details",
+        ordinal=3,
     )
 
     norm_title = PropertyTypeAssignment(
@@ -637,6 +690,7 @@ class Norm(DatasetType):
         mandatory=True,
         show_in_edit_views=False,
         section="Norm Details",
+        ordinal=4,
     )
 
     version = PropertyTypeAssignment(
@@ -647,6 +701,7 @@ class Norm(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Norm Details",
+        ordinal=5,
     )
 
     norm_url = PropertyTypeAssignment(
@@ -657,6 +712,7 @@ class Norm(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Norm Details",
+        ordinal=6,
     )
 
     last_check = PropertyTypeAssignment(
@@ -667,6 +723,7 @@ class Norm(DatasetType):
         mandatory=True,
         show_in_edit_views=False,
         section="Automation",
+        ordinal=7,
     )
 
     check_interval = PropertyTypeAssignment(
@@ -677,6 +734,7 @@ class Norm(DatasetType):
         mandatory=True,
         show_in_edit_views=False,
         section="Automation",
+        ordinal=8,
     )
 
     state_check = PropertyTypeAssignment(
@@ -687,6 +745,7 @@ class Norm(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Automation",
+        ordinal=9,
     )
 
     responsible_person = PropertyTypeAssignment(
@@ -697,6 +756,7 @@ class Norm(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Automation",
+        ordinal=10,
     )
 
     notes = PropertyTypeAssignment(
@@ -707,6 +767,7 @@ class Norm(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=11,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -717,6 +778,7 @@ class Norm(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=12,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -727,6 +789,7 @@ class Norm(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+        ordinal=13,
     )
 
 
@@ -744,6 +807,7 @@ class CompEnv(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     env_tool = PropertyTypeAssignment(
@@ -754,6 +818,7 @@ class CompEnv(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=2,
     )
 
     notes = PropertyTypeAssignment(
@@ -764,6 +829,7 @@ class CompEnv(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=3,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -774,6 +840,7 @@ class CompEnv(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=4,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -784,6 +851,7 @@ class CompEnv(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=5,
     )
 
 
@@ -801,6 +869,7 @@ class MatModel(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     author = PropertyTypeAssignment(
@@ -811,6 +880,7 @@ class MatModel(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     mat_scale = PropertyTypeAssignment(
@@ -821,6 +891,7 @@ class MatModel(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=3,
     )
 
     file_format = PropertyTypeAssignment(
@@ -831,6 +902,7 @@ class MatModel(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=4,
     )
 
     reference = PropertyTypeAssignment(
@@ -841,6 +913,7 @@ class MatModel(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="External Documetation",
+        ordinal=6,
     )
 
     notes = PropertyTypeAssignment(
@@ -851,6 +924,7 @@ class MatModel(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=8,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -861,6 +935,7 @@ class MatModel(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=10,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -871,6 +946,7 @@ class MatModel(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=12,
     )
 
 
@@ -888,6 +964,7 @@ class PyironJob(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     production_date = PropertyTypeAssignment(
@@ -898,6 +975,7 @@ class PyironJob(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     file_format = PropertyTypeAssignment(
@@ -908,6 +986,7 @@ class PyironJob(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=3,
     )
 
     pyiron_hdf5_version = PropertyTypeAssignment(
@@ -918,6 +997,7 @@ class PyironJob(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Pyiron Information",
+        ordinal=4,
     )
 
     reference = PropertyTypeAssignment(
@@ -928,6 +1008,7 @@ class PyironJob(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="External Documetation",
+        ordinal=5,
     )
 
     notes = PropertyTypeAssignment(
@@ -938,6 +1019,7 @@ class PyironJob(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=6,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -948,6 +1030,7 @@ class PyironJob(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=7,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -958,6 +1041,7 @@ class PyironJob(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=8,
     )
 
 
@@ -975,6 +1059,7 @@ class SourceCodeWorkflow(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     compilation_req = PropertyTypeAssignment(
@@ -985,6 +1070,7 @@ class SourceCodeWorkflow(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=2,
     )
 
     compiler = PropertyTypeAssignment(
@@ -995,6 +1081,7 @@ class SourceCodeWorkflow(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=3,
     )
 
     source_code_language = PropertyTypeAssignment(
@@ -1005,6 +1092,7 @@ class SourceCodeWorkflow(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical information",
+        ordinal=4,
     )
 
     notes = PropertyTypeAssignment(
@@ -1015,6 +1103,7 @@ class SourceCodeWorkflow(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=5,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -1025,6 +1114,7 @@ class SourceCodeWorkflow(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=6,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -1035,6 +1125,7 @@ class SourceCodeWorkflow(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=7,
     )
 
 
@@ -1052,6 +1143,7 @@ class Figure(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     col_blind_access = PropertyTypeAssignment(
@@ -1062,6 +1154,7 @@ class Figure(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=2,
     )
 
     author = PropertyTypeAssignment(
@@ -1072,6 +1165,7 @@ class Figure(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=3,
     )
 
     production_date = PropertyTypeAssignment(
@@ -1082,6 +1176,7 @@ class Figure(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=4,
     )
 
     license = PropertyTypeAssignment(
@@ -1092,6 +1187,7 @@ class Figure(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=5,
     )
 
     image_horizontal_resolution = PropertyTypeAssignment(
@@ -1102,6 +1198,7 @@ class Figure(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=6,
     )
 
     image_vertical_resolution = PropertyTypeAssignment(
@@ -1112,6 +1209,7 @@ class Figure(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=7,
     )
 
     fig_dpi = PropertyTypeAssignment(
@@ -1122,6 +1220,7 @@ class Figure(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=8,
     )
 
     file_format = PropertyTypeAssignment(
@@ -1132,6 +1231,7 @@ class Figure(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=9,
     )
 
     notes = PropertyTypeAssignment(
@@ -1142,6 +1242,7 @@ class Figure(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=10,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -1152,6 +1253,7 @@ class Figure(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=11,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -1162,6 +1264,7 @@ class Figure(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=12,
     )
 
 
@@ -1179,6 +1282,7 @@ class MatSimStructure(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
+        ordinal=1,
     )
 
     mat_scale = PropertyTypeAssignment(
@@ -1189,6 +1293,7 @@ class MatSimStructure(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=2,
     )
 
     multi_mat_scale = PropertyTypeAssignment(
@@ -1199,6 +1304,7 @@ class MatSimStructure(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=3,
     )
 
     sw_compatibility = PropertyTypeAssignment(
@@ -1209,6 +1315,7 @@ class MatSimStructure(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=5,
     )
 
     file_format = PropertyTypeAssignment(
@@ -1219,6 +1326,7 @@ class MatSimStructure(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Technical Information",
+        ordinal=7,
     )
 
     notes = PropertyTypeAssignment(
@@ -1229,6 +1337,7 @@ class MatSimStructure(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
+        ordinal=9,
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -1239,6 +1348,7 @@ class MatSimStructure(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=11,
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -1249,6 +1359,7 @@ class MatSimStructure(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="Comments",
+        ordinal=13,
     )
 
 
@@ -1280,6 +1391,7 @@ class Plot(Figure):
         mandatory=False,
         show_in_edit_views=False,
         section="Content Information",
+        ordinal=6,
     )
 
     plot_y_label = PropertyTypeAssignment(
@@ -1290,6 +1402,7 @@ class Plot(Figure):
         mandatory=False,
         show_in_edit_views=False,
         section="Content Information",
+        ordinal=7,
     )
 
     plot_z_label = PropertyTypeAssignment(
@@ -1300,6 +1413,7 @@ class Plot(Figure):
         mandatory=False,
         show_in_edit_views=False,
         section="Content Information",
+        ordinal=8,
     )
 
     plot_x_range = PropertyTypeAssignment(
@@ -1310,6 +1424,7 @@ class Plot(Figure):
         mandatory=False,
         show_in_edit_views=False,
         section="Content Information",
+        ordinal=9,
     )
 
     plot_y_range = PropertyTypeAssignment(
@@ -1320,6 +1435,7 @@ class Plot(Figure):
         mandatory=False,
         show_in_edit_views=False,
         section="Content Information",
+        ordinal=10,
     )
 
     plot_z_range = PropertyTypeAssignment(
@@ -1330,6 +1446,7 @@ class Plot(Figure):
         mandatory=False,
         show_in_edit_views=False,
         section="Content Information",
+        ordinal=11,
     )
 
     plot_x_units = PropertyTypeAssignment(
@@ -1340,6 +1457,7 @@ class Plot(Figure):
         mandatory=False,
         show_in_edit_views=False,
         section="Content Information",
+        ordinal=12,
     )
 
     plot_y_units = PropertyTypeAssignment(
@@ -1350,6 +1468,7 @@ class Plot(Figure):
         mandatory=False,
         show_in_edit_views=False,
         section="Content Information",
+        ordinal=13,
     )
 
     plot_z_units = PropertyTypeAssignment(
@@ -1360,6 +1479,7 @@ class Plot(Figure):
         mandatory=False,
         show_in_edit_views=False,
         section="Content Information",
+        ordinal=14,
     )
 
     plot_legend = PropertyTypeAssignment(
@@ -1370,6 +1490,7 @@ class Plot(Figure):
         mandatory=False,
         show_in_edit_views=False,
         section="Content Information",
+        ordinal=15,
     )
 
 
@@ -1394,6 +1515,7 @@ class SimVis(Figure):
         mandatory=False,
         show_in_edit_views=False,
         section="Content Information",
+        ordinal=6,
     )
 
     sim_vis_cbar_max = PropertyTypeAssignment(
@@ -1404,6 +1526,7 @@ class SimVis(Figure):
         mandatory=False,
         show_in_edit_views=False,
         section="Content Information",
+        ordinal=7,
     )
 
     sim_vis_cbar_min = PropertyTypeAssignment(
@@ -1414,6 +1537,7 @@ class SimVis(Figure):
         mandatory=False,
         show_in_edit_views=False,
         section="Content Information",
+        ordinal=8,
     )
 
     sim_vis_cbar_prop = PropertyTypeAssignment(
@@ -1424,6 +1548,7 @@ class SimVis(Figure):
         mandatory=False,
         show_in_edit_views=False,
         section="Content Information",
+        ordinal=9,
     )
 
     sim_vis_cbar_units = PropertyTypeAssignment(
@@ -1434,6 +1559,7 @@ class SimVis(Figure):
         mandatory=False,
         show_in_edit_views=False,
         section="Content Information",
+        ordinal=10,
     )
 
     sim_vis_coord = PropertyTypeAssignment(
@@ -1444,6 +1570,7 @@ class SimVis(Figure):
         mandatory=False,
         show_in_edit_views=False,
         section="Content Information",
+        ordinal=11,
     )
 
     sim_vis_coord_x = PropertyTypeAssignment(
@@ -1454,6 +1581,7 @@ class SimVis(Figure):
         mandatory=False,
         show_in_edit_views=False,
         section="Content Information",
+        ordinal=12,
     )
 
     sim_vis_coord_y = PropertyTypeAssignment(
@@ -1464,6 +1592,7 @@ class SimVis(Figure):
         mandatory=False,
         show_in_edit_views=False,
         section="Content Information",
+        ordinal=13,
     )
 
     sim_vis_coord_z = PropertyTypeAssignment(
@@ -1474,6 +1603,7 @@ class SimVis(Figure):
         mandatory=False,
         show_in_edit_views=False,
         section="Content Information",
+        ordinal=14,
     )
 
     sim_vis_scbar = PropertyTypeAssignment(
@@ -1484,6 +1614,7 @@ class SimVis(Figure):
         mandatory=False,
         show_in_edit_views=False,
         section="Content Information",
+        ordinal=15,
     )
 
     sim_vis_scbar_units = PropertyTypeAssignment(
@@ -1494,4 +1625,5 @@ class SimVis(Figure):
         mandatory=False,
         show_in_edit_views=False,
         section="Content Information",
+        ordinal=16,
     )
