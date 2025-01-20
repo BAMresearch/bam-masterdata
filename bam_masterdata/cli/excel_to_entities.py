@@ -15,16 +15,31 @@ def index_to_excel_column(index):
     return column
 
 
-def get_last_non_empty_row(sheet, column_letter, start_index):
-    last_non_empty_row = 0
+def get_last_non_empty_row(sheet, start_index):
+    """
+    Finds the last non-empty row before encountering a completely empty row.
+
+    Args:
+        sheet: The worksheet object.
+        start_index: The row number to start checking from (1-based index).
+
+    Returns:
+        The row number of the last non-empty row before an empty row is encountered,
+        or None if no non-empty rows are found starting from the given index.
+    """
+    last_non_empty_row = None
+
     for row in range(start_index, sheet.max_row + 1):
-        cell_value = sheet[f"{column_letter}{row}"].value
-        if cell_value is not None:
-            last_non_empty_row = row
-    return last_non_empty_row
+        # Check if the entire row is empty
+        if all(sheet.cell(row=row, column=col).value in (None, '') for col in range(1, sheet.max_column + 1)):
+            return last_non_empty_row  # Return the last non-empty row before the current empty row
+        
+        last_non_empty_row = row  # Update the last non-empty row
+
+    return last_non_empty_row  # If no empty row is encountered, return the last non-empty row
 
 
-def properties_to_dict(sheet, property_type: bool):
+def properties_to_dict(sheet, start_index_row, last_non_empty_row):
     property_dict = {}
     expected_terms = [
         "Version",
@@ -38,12 +53,9 @@ def properties_to_dict(sheet, property_type: bool):
         "Vocabulary code",
     ]
 
-    header_index = 2 if property_type else 4
+    header_index = start_index_row + 3
     row_headers = [cell.value for cell in sheet[header_index]]
-    code_index = row_headers.index("Code") + 1
-    last_non_empty_row = get_last_non_empty_row(
-        sheet, index_to_excel_column(code_index), header_index
-    )
+    #code_index = row_headers.index("Code") + 1
     (
         versions,
         codes,
@@ -251,22 +263,19 @@ def properties_to_dict(sheet, property_type: bool):
             "vocabularyCode": vocabulary_codes[i],
         }
 
-    return property_dict
+    return property_dict, last_non_empty_row
 
 
-def entities_to_excel(
-    excel_path: str,
-    module_path: str = None,
-    definitions_module: Any = None,
-) -> None:
+def block_to_entity_dict(sheet, start_index_row, last_non_empty_row):
     complete_dict = {}
     attributes_dict = {}
 
-    workbook = openpyxl.load_workbook(excel_path)
+    #workbook = openpyxl.load_workbook(excel_path)
 
-    sheet = workbook.active
+    #sheet = workbook.active
 
-    cell_value_A1 = sheet["A1"].value
+    entity_type_position = f"A{start_index_row}"
+    entity_type = sheet[entity_type_position].value
 
     entity_types = [
         "OBJECT_TYPE",
@@ -276,13 +285,16 @@ def entities_to_excel(
         "PROPERTY_TYPE",
         "VOCABULARY_TYPE",
     ]
-    if cell_value_A1 not in entity_types:
+
+    header_terms = [cell.value for cell in sheet[start_index_row+1]]
+
+    if entity_type not in entity_types:
         print(
             "The entity type (cell A1) should be one of the following: SAMPLE_TYPE/OBJECT_TYPE, EXPERIMENT_TYPE/COLLECTION_TYPE, DATASET_TYPE, PROPERTY_TYPE, VOCABULARY_TYPE"
         )
         # return "\n".join(errors)
     else:
-        if cell_value_A1 == "SAMPLE_TYPE" or cell_value_A1 == "OBJECT_TYPE":
+        if entity_type == "SAMPLE_TYPE" or entity_type == "OBJECT_TYPE":
             expected_terms = [
                 "Code",
                 "Version",
@@ -291,19 +303,19 @@ def entities_to_excel(
                 "Generated code prefix",
                 "Auto generate codes",
             ]
-            second_row_values = [cell.value for cell in sheet[2]]
+            
             code_value = ""
             for term in expected_terms:
-                if term not in second_row_values:
+                if term not in header_terms:
                     # logger.error(f"Error: '{term}' not found in the entity headers.")
                     print(f"Error: '{term}' not found in the entity headers.")
                 else:
                     # Find the index of the term in the second row
-                    term_index = second_row_values.index(term)
+                    term_index = header_terms.index(term)
 
                     # Check the cell below "Code"
                     if term == "Code":
-                        code_value = sheet.cell(row=3, column=term_index + 1).value
+                        code_value = sheet.cell(row=start_index_row + 2, column=term_index + 1).value
                         attributes_dict["permId"] = code_value
                         attributes_dict["code"] = code_value
                         # if cell_below_code.value != code:
@@ -311,7 +323,7 @@ def entities_to_excel(
 
                     # Check the cell below "Version"
                     elif term == "Version":
-                        version_value = sheet.cell(row=3, column=term_index + 1).value
+                        version_value = sheet.cell(row=start_index_row + 2, column=term_index + 1).value
                         attributes_dict["version"] = version_value
                         # if str(cell_below_version.value) != version[1:]:
                         # logger.error("Error: The version should be the same one indicated in the file name")
@@ -319,7 +331,7 @@ def entities_to_excel(
                     # Check the cell below "Description"
                     elif term == "Description":
                         description_value = sheet.cell(
-                            row=3, column=term_index + 1
+                            row=start_index_row + 2, column=term_index + 1
                         ).value
                         attributes_dict["description"] = description_value
                         # description_pattern = re.compile(r".*//.*")
@@ -329,7 +341,7 @@ def entities_to_excel(
                     # Check the cell below "Generated code prefix"
                     elif term == "Generated code prefix":
                         generated_code_value = sheet.cell(
-                            row=3, column=term_index + 1
+                            row=start_index_row + 2, column=term_index + 1
                         ).value
                         attributes_dict["generatedCodePrefix"] = generated_code_value
                         # if cell_below_generated_code.value not in code:
@@ -338,7 +350,7 @@ def entities_to_excel(
                     # Check the cell below "Validation script"
                     elif term == "Validation script":
                         validation_value = sheet.cell(
-                            row=3, column=term_index + 1
+                            row=start_index_row + 2, column=term_index + 1
                         ).value
                         attributes_dict["validationPlugin"] = validation_value
                         # validation_pattern = re.compile(r"^[A-Za-z0-9_]+\.py$")
@@ -348,31 +360,30 @@ def entities_to_excel(
                     # Check the cell below "Auto generate codes"
                     elif term == "Auto generate codes":
                         auto_generate_value = sheet.cell(
-                            row=3, column=term_index + 1
+                            row=start_index_row + 2, column=term_index + 1
                         ).value
                         attributes_dict["autoGeneratedCode"] = auto_generate_value
                         # if cell_below_auto_generate.value not in ["TRUE", "FALSE"]:
                         # logger.error("Error: Value below 'Auto generate codes' should be 'TRUE' or 'FALSE'.")
 
-            attributes_dict["properties"] = properties_to_dict(sheet, False)
+            attributes_dict["properties"] = properties_to_dict(sheet, start_index_row, last_non_empty_row)
 
             complete_dict[code_value] = attributes_dict
 
             print(complete_dict)
 
-        elif cell_value_A1 == "EXPERIMENT_TYPE" or cell_value_A1 == "DATASET_TYPE":
+        elif entity_type == "EXPERIMENT_TYPE" or entity_type == "DATASET_TYPE":
             expected_terms = ["Version", "Code", "Description", "Validation script"]
-            second_row_values = [cell.value for cell in sheet[2]]
             for term in expected_terms:
-                if term not in second_row_values:
+                if term not in header_terms:
                     print(f"Error: '{term}' not found in the second row.")
                 else:
                     # Find the index of the term in the second row
-                    term_index = second_row_values.index(term)
+                    term_index = header_terms.index(term)
 
                     # Check the cell below "Code"
                     if term == "Code":
-                        code_value = sheet.cell(row=3, column=term_index + 1).value
+                        code_value = sheet.cell(row=start_index_row + 2, column=term_index + 1).value
                         attributes_dict["permId"] = code_value
                         attributes_dict["code"] = code_value
                         # if cell_below_code.value != code:
@@ -380,7 +391,7 @@ def entities_to_excel(
 
                     # Check the cell below "Version"
                     elif term == "Version":
-                        version_value = sheet.cell(row=3, column=term_index + 1).value
+                        version_value = sheet.cell(row=start_index_row + 2, column=term_index + 1).value
                         attributes_dict["version"] = version_value
                         # if str(cell_below_version.value) != version[1:]:
                         # logger.error("Error: The version should be the same one indicated in the file name")
@@ -388,7 +399,7 @@ def entities_to_excel(
                     # Check the cell below "Description"
                     elif term == "Description":
                         description_value = sheet.cell(
-                            row=3, column=term_index + 1
+                            row=start_index_row + 2, column=term_index + 1
                         ).value
                         attributes_dict["description"] = description_value
                         # description_pattern = re.compile(r".*//.*")
@@ -398,30 +409,31 @@ def entities_to_excel(
                     # Check the cell below "Validation script"
                     elif term == "Validation script":
                         validation_value = sheet.cell(
-                            row=3, column=term_index + 1
+                            row=start_index_row + 2, column=term_index + 1
                         ).value
                         attributes_dict["validationPlugin"] = validation_value
                         # validation_pattern = re.compile(r"^[A-Za-z0-9_]+\.py$")
                         # if cell_below_validation.value and not validation_pattern.match(cell_below_validation.value):
                         # logger.error("Error: Validation script should follow the schema: Words and/or numbers separated by '_' and ending in '.py'")
 
-            attributes_dict["properties"] = properties_to_dict(sheet, False)
+            attributes_dict["properties"] = properties_to_dict(sheet, start_index_row, False)
 
             complete_dict[code_value] = attributes_dict
 
-        elif cell_value_A1 == "VOCABULARY_TYPE":
+            print(complete_dict)
+
+        elif entity_type == "VOCABULARY_TYPE":
             expected_terms = ["Version", "Code", "Description"]
-            second_row_values = [cell.value for cell in sheet[2]]
             for term in expected_terms:
-                if term not in second_row_values:
+                if term not in header_terms:
                     print(f"Error: '{term}' not found in the second row.")
                 else:
                     # Find the index of the term in the second row
-                    term_index = second_row_values.index(term)
+                    term_index = header_terms.index(term)
 
                     # Check the cell below "Code"
                     if term == "Code":
-                        code_value = sheet.cell(row=3, column=term_index + 1).value
+                        code_value = sheet.cell(row=start_index_row + 2, column=term_index + 1).value
                         attributes_dict["permId"] = code_value
                         attributes_dict["code"] = code_value
                         # if cell_below_code.value != code:
@@ -429,7 +441,7 @@ def entities_to_excel(
 
                     # Check the cell below "Version"
                     elif term == "Version":
-                        version_value = sheet.cell(row=3, column=term_index + 1).value
+                        version_value = sheet.cell(row=start_index_row + 2, column=term_index + 1).value
                         attributes_dict["version"] = version_value
                         # if str(cell_below_version.value) != version[1:]:
                         # logger.error("Error: The version should be the same one indicated in the file name")
@@ -437,16 +449,23 @@ def entities_to_excel(
                     # Check the cell below "Description"
                     elif term == "Description":
                         description_value = sheet.cell(
-                            row=3, column=term_index + 1
+                            row=start_index_row + 2, column=term_index + 1
                         ).value
                         attributes_dict["description"] = description_value
                         # description_pattern = re.compile(r".*//.*")
                         # if not description_pattern.match(cell_below_description.value):
                         # logger.error("Error: Description should follow the schema: English Description + '//' + German Description.")
 
+            #TBD: vocabulary_terms as properties
+            #attributes_dict["terms"] = properties_to_dict(sheet, False)
+
             complete_dict[code_value] = attributes_dict
 
+            print(complete_dict)
 
-entities_to_excel(
+            return complete_dict
+
+
+excel_to_entities(
     r"C:\Users\cmadaria\Documents\Projects\Masterdata Checker\object_type_CHEMICAL_v1_S.3_cmadaria.xlsx"
 )
