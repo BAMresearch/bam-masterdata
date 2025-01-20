@@ -286,6 +286,14 @@ class PropertyTypeDef(EntityDef):
         """,
     )
 
+    object_code: Optional[str] = Field(
+        default=None,
+        description="""
+        String identifying the object type used for the data type of the property. This is only
+        relevant if `data_type == 'OBJECT'`.
+        """,
+    )
+
     # TODO add descriptions for `dynamic_script`
 
     metadata: Optional[dict] = Field(

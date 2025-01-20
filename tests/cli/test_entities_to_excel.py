@@ -36,6 +36,7 @@ from bam_masterdata.utils import import_module
                 "Property label",
                 "Data type",
                 "Vocabulary code",
+                "Object code",
                 "Metadata",
                 "Dynamic script",
             ],

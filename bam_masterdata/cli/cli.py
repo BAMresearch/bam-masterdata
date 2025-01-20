@@ -65,18 +65,19 @@ def fill_masterdata(url):
     elapsed_time = time.time() - start_time
     click.echo(f"Generated all types in {elapsed_time:.2f} seconds\n\n")
 
-    try:
-        # Run ruff check
-        click.echo("Running `ruff check .`...")
-        subprocess.run(["ruff", "check", "."], check=True)
+    # ! for some reason this ruff is not working; apply after using the CLI
+    # try:
+    #     # Run ruff check
+    #     click.echo("Running `ruff check .`...")
+    #     subprocess.run(["ruff", "check", "."], check=True)
 
-        # Run ruff format
-        click.echo("Running `ruff format .`...")
-        subprocess.run(["ruff", "format", "."], check=True)
-    except subprocess.CalledProcessError as e:
-        click.echo(f"Error during ruff execution: {e}", err=True)
-    else:
-        click.echo("Ruff checks and formatting completed successfully!")
+    #     # Run ruff format
+    #     click.echo("Running `ruff format .`...")
+    #     subprocess.run(["ruff", "format", "."], check=True)
+    # except subprocess.CalledProcessError as e:
+    #     click.echo(f"Error during ruff execution: {e}", err=True)
+    # else:
+    #     click.echo("Ruff checks and formatting completed successfully!")
 
 
 @cli.command(
