@@ -4,6 +4,8 @@ from typing import Any, Optional
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
+from bam_masterdata.utils import code_to_class_name
+
 
 class DataType(str, Enum):
     """Enumeration of the data types available in openBIS."""
@@ -74,6 +76,14 @@ class EntityDef(BaseModel):
         """,
     )
 
+    id: Optional[str] = Field(
+        default=None,
+        description="""
+        Identifier of the entity defined as the class name and used to serialize the entity definitions
+        in other formats.
+        """,
+    )
+
     # TODO check ontology_id, ontology_version, ontology_annotation_id, internal (found in the openBIS docu)
 
     @field_validator("code")
@@ -115,7 +125,26 @@ class EntityDef(BaseModel):
         """
         Returns the headers for the entity in a format suitable for the openBIS Excel file.
         """
-        return [k.capitalize().replace("_", " ") for k in self.model_fields.keys()]
+        return [
+            k.capitalize().replace("_", " ")
+            for k in self.model_fields.keys()
+            if k != "id"
+        ]
+
+    @model_validator(mode="after")
+    @classmethod
+    def model_id(cls, data: Any) -> Any:
+        """
+        Stores the model `id` as the class name from the `code` field.
+
+        Args:
+            data (Any): The data containing the fields values to validate.
+
+        Returns:
+            Any: The data with the validated fields.
+        """
+        data.id = code_to_class_name(data.code)
+        return data
 
 
 class BaseObjectTypeDef(EntityDef):

@@ -47,32 +47,33 @@ class TestEntityDef:
         """Test the existing defined fields of the `EntityDef` class."""
         names = list(EntityDef.model_fields.keys())
         field_types = [val.annotation for val in list(EntityDef.model_fields.values())]
-        assert names == ["code", "description"]
-        assert field_types == [str, str]
+        assert names == ["code", "description", "id"]
+        assert field_types == [str, str, Optional[str]]
 
     @pytest.mark.parametrize(
-        "code, description, is_valid",
+        "code, description, id, is_valid",
         [
             # `code` in capital and separated by underscores
-            ("EXPERIMENTAL_STEP", "Valid description", True),
+            ("EXPERIMENTAL_STEP", "Valid description", "ExperimentalStep", True),
             # `code` starting with $ symbol
-            ("$NAME", "Valid description", True),
+            ("$NAME", "Valid description", "Name", True),
             # `code` separating inheritance with points
-            ("WELDING_EQUIPMENT.INSTRUMENT", "Valid description", True),
+            ("WELDING_EQUIPMENT.INSTRUMENT", "Valid description", "Instrument", True),
             # Invalid `code`
-            ("INVALID CODE", "Valid description", False),
+            ("INVALID CODE", "Valid description", None, False),
             # `description` is not a string
-            ("EXPERIMENTAL_STEP", 2, False),
+            ("EXPERIMENTAL_STEP", 2, None, False),
             # Empty `code`
-            ("", "Valid description", False),
+            ("", "Valid description", "", False),
         ],
     )
-    def test_entity_def(self, code: str, description: str, is_valid: bool):
+    def test_entity_def(self, code: str, description: str, id: str, is_valid: bool):
         """Test creation of `EntityDef` and field validation."""
         if is_valid:
             entity = EntityDef(code=code, description=description)
             assert entity.code == code
             assert entity.description == description
+            assert entity.id == id
         else:
             with pytest.raises(ValueError):
                 EntityDef(code=code, description=description)
@@ -116,8 +117,8 @@ class TestBaseObjectTypeDef:
         field_types = [
             val.annotation for val in list(BaseObjectTypeDef.model_fields.values())
         ]
-        assert names == ["code", "description", "validation_script"]
-        assert field_types == [str, str, Optional[str]]
+        assert names == ["code", "description", "id", "validation_script"]
+        assert field_types == [str, str, Optional[str], Optional[str]]
 
 
 class TestCollectionTypeDef:
@@ -127,8 +128,8 @@ class TestCollectionTypeDef:
         field_types = [
             val.annotation for val in list(CollectionTypeDef.model_fields.values())
         ]
-        assert names == ["code", "description", "validation_script"]
-        assert field_types == [str, str, Optional[str]]
+        assert names == ["code", "description", "id", "validation_script"]
+        assert field_types == [str, str, Optional[str], Optional[str]]
 
 
 class TestDatasetTypeDef:
@@ -141,6 +142,7 @@ class TestDatasetTypeDef:
         assert names == [
             "code",
             "description",
+            "id",
             "validation_script",
             "main_dataset_pattern",
             "main_dataset_path",
@@ -148,6 +150,7 @@ class TestDatasetTypeDef:
         assert field_types == [
             str,
             str,
+            Optional[str],
             Optional[str],
             Optional[str],
             Optional[str],
@@ -164,11 +167,19 @@ class TestObjectTypeDef:
         assert names == [
             "code",
             "description",
+            "id",
             "validation_script",
             "generated_code_prefix",
             "auto_generated_codes",
         ]
-        assert field_types == [str, str, Optional[str], Optional[str], bool]
+        assert field_types == [
+            str,
+            str,
+            Optional[str],
+            Optional[str],
+            Optional[str],
+            bool,
+        ]
 
     @pytest.mark.parametrize(
         "code, generated_code_prefix, result",
@@ -202,6 +213,7 @@ class TestPropertyTypeDef:
         assert names == [
             "code",
             "description",
+            "id",
             "property_label",
             "data_type",
             "vocabulary_code",
@@ -212,6 +224,7 @@ class TestPropertyTypeDef:
         assert field_types == [
             str,
             str,
+            Optional[str],
             str,
             DataType,
             Optional[str],
@@ -231,6 +244,7 @@ class TestPropertyTypeAssignment:
         assert names == [
             "code",
             "description",
+            "id",
             "property_label",
             "data_type",
             "vocabulary_code",
@@ -246,6 +260,7 @@ class TestPropertyTypeAssignment:
         assert field_types == [
             str,
             str,
+            Optional[str],
             str,
             DataType,
             Optional[str],
@@ -267,8 +282,8 @@ class TestVocabularyTypeDef:
         field_types = [
             val.annotation for val in list(VocabularyTypeDef.model_fields.values())
         ]
-        assert names == ["code", "description", "url_template"]
-        assert field_types == [str, str, Optional[str]]
+        assert names == ["code", "description", "id", "url_template"]
+        assert field_types == [str, str, Optional[str], Optional[str]]
 
 
 class TestVocabularyTerm:
@@ -281,8 +296,9 @@ class TestVocabularyTerm:
         assert names == [
             "code",
             "description",
+            "id",
             "url_template",
             "label",
             "official",
         ]
-        assert field_types == [str, str, Optional[str], str, bool]
+        assert field_types == [str, str, Optional[str], Optional[str], str, bool]
