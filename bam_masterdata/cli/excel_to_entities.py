@@ -42,7 +42,6 @@ def get_last_non_empty_row(sheet, start_index):
 def properties_to_dict(sheet, start_index_row, last_non_empty_row):
     property_dict = {}
     expected_terms = [
-        "Version",
         "Code",
         "Description",
         "Mandatory",
@@ -55,9 +54,10 @@ def properties_to_dict(sheet, start_index_row, last_non_empty_row):
 
     header_index = start_index_row + 3
     row_headers = [cell.value for cell in sheet[header_index]]
+
+    #print("Header index:", header_index, "//Header:", row_headers)
     #code_index = row_headers.index("Code") + 1
     (
-        versions,
         codes,
         descriptions,
         mandatories,
@@ -66,7 +66,7 @@ def properties_to_dict(sheet, start_index_row, last_non_empty_row):
         labels,
         data_types,
         vocabulary_codes,
-    ) = [], [], [], [], [], [], [], [], []
+    ) = [], [], [], [], [], [], [], []
 
     for term in expected_terms:
         if term not in row_headers:
@@ -80,28 +80,8 @@ def properties_to_dict(sheet, start_index_row, last_non_empty_row):
             term_letter = index_to_excel_column(term_index)
             # print(term_index)
 
-            # Check the column below "Version"
-            if term == "Version":
-                for cell in sheet[term_letter][header_index:last_non_empty_row]:
-                    if cell.value is not None:
-                        versions.append(cell.value)
-                    else:
-                        versions.append(1)
-
-                # Check if any value in the column is not an integer
-                non_integer_indices = [
-                    i + 5
-                    for i, cell in enumerate(versions)
-                    if not str(cell).isnumeric()
-                ]
-                if non_integer_indices:
-                    # Append an error indicating the positions (row numbers) that are not integers
-                    print(
-                        f"Error: Values not valid found in the 'Version' column (they should be Integers) at row(s): {', '.join(map(str, non_integer_indices))}"
-                    )
-
             # Check the column below "Code"
-            elif term == "Code":
+            if term == "Code":
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
                     if cell.value is not None:
                         codes.append(cell.value)
@@ -266,13 +246,8 @@ def properties_to_dict(sheet, start_index_row, last_non_empty_row):
     return property_dict, last_non_empty_row
 
 
-def block_to_entity_dict(sheet, start_index_row, last_non_empty_row):
-    complete_dict = {}
+def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_dict):
     attributes_dict = {}
-
-    #workbook = openpyxl.load_workbook(excel_path)
-
-    #sheet = workbook.active
 
     entity_type_position = f"A{start_index_row}"
     entity_type = sheet[entity_type_position].value
@@ -297,7 +272,6 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row):
         if entity_type == "SAMPLE_TYPE" or entity_type == "OBJECT_TYPE":
             expected_terms = [
                 "Code",
-                "Version",
                 "Description",
                 "Validation script",
                 "Generated code prefix",
@@ -320,13 +294,6 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row):
                         attributes_dict["code"] = code_value
                         # if cell_below_code.value != code:
                         # logger.error("Error: The code should be the same one indicated in the file name")
-
-                    # Check the cell below "Version"
-                    elif term == "Version":
-                        version_value = sheet.cell(row=start_index_row + 2, column=term_index + 1).value
-                        attributes_dict["version"] = version_value
-                        # if str(cell_below_version.value) != version[1:]:
-                        # logger.error("Error: The version should be the same one indicated in the file name")
 
                     # Check the cell below "Description"
                     elif term == "Description":
@@ -366,14 +333,14 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row):
                         # if cell_below_auto_generate.value not in ["TRUE", "FALSE"]:
                         # logger.error("Error: Value below 'Auto generate codes' should be 'TRUE' or 'FALSE'.")
 
-            attributes_dict["properties"] = properties_to_dict(sheet, start_index_row, last_non_empty_row)
+            attributes_dict["properties"] = properties_to_dict(sheet, start_index_row, last_non_empty_row)[0]
 
             complete_dict[code_value] = attributes_dict
 
-            print(complete_dict)
+            return complete_dict
 
         elif entity_type == "EXPERIMENT_TYPE" or entity_type == "DATASET_TYPE":
-            expected_terms = ["Version", "Code", "Description", "Validation script"]
+            expected_terms = ["Code", "Description", "Validation script"]
             for term in expected_terms:
                 if term not in header_terms:
                     print(f"Error: '{term}' not found in the second row.")
@@ -388,13 +355,6 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row):
                         attributes_dict["code"] = code_value
                         # if cell_below_code.value != code:
                         # logger.error("Error: The code should be the same one indicated in the file name")
-
-                    # Check the cell below "Version"
-                    elif term == "Version":
-                        version_value = sheet.cell(row=start_index_row + 2, column=term_index + 1).value
-                        attributes_dict["version"] = version_value
-                        # if str(cell_below_version.value) != version[1:]:
-                        # logger.error("Error: The version should be the same one indicated in the file name")
 
                     # Check the cell below "Description"
                     elif term == "Description":
@@ -416,14 +376,14 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row):
                         # if cell_below_validation.value and not validation_pattern.match(cell_below_validation.value):
                         # logger.error("Error: Validation script should follow the schema: Words and/or numbers separated by '_' and ending in '.py'")
 
-            attributes_dict["properties"] = properties_to_dict(sheet, start_index_row, False)
+            attributes_dict["properties"] = properties_to_dict(sheet, start_index_row, last_non_empty_row)[0]
 
             complete_dict[code_value] = attributes_dict
 
-            print(complete_dict)
+            return complete_dict
 
         elif entity_type == "VOCABULARY_TYPE":
-            expected_terms = ["Version", "Code", "Description"]
+            expected_terms = ["Code", "Description"]
             for term in expected_terms:
                 if term not in header_terms:
                     print(f"Error: '{term}' not found in the second row.")
@@ -438,13 +398,6 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row):
                         attributes_dict["code"] = code_value
                         # if cell_below_code.value != code:
                         # logger.error("Error: The code should be the same one indicated in the file name")
-
-                    # Check the cell below "Version"
-                    elif term == "Version":
-                        version_value = sheet.cell(row=start_index_row + 2, column=term_index + 1).value
-                        attributes_dict["version"] = version_value
-                        # if str(cell_below_version.value) != version[1:]:
-                        # logger.error("Error: The version should be the same one indicated in the file name")
 
                     # Check the cell below "Description"
                     elif term == "Description":
@@ -461,11 +414,51 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row):
 
             complete_dict[code_value] = attributes_dict
 
-            print(complete_dict)
-
             return complete_dict
 
+def excel_to_entities(excel_path, output_directory="./artifacts/tmp/"):
+    complete_dict = {}
+
+    workbook = openpyxl.load_workbook(excel_path)
+
+    sheet = workbook.active
+    tab_name = sheet.title
+
+    start_row = 1
+    while start_row <= sheet.max_row:
+        # Find the last non-empty row of the current block
+        last_non_empty_row = get_last_non_empty_row(sheet, start_row)
+
+        # Check if we've reached the end of the sheet or found two consecutive empty rows
+        if last_non_empty_row is None:
+            print(f"End of the current sheet {tab_name} reached. Switching to next sheet...")
+            break
+
+        # Process the block (from start_row to last_non_empty_row)
+        complete_dict = block_to_entity_dict(sheet, start_row, last_non_empty_row, complete_dict)
+
+        # Add your block processing logic here
+        #for row in range(start_row, last_non_empty_row + 1):
+        #    # Example: Print the row content
+        #    row_values = [sheet.cell(row=row, column=col).value for col in range(1, sheet.max_column + 1)]
+        #    print(row_values)
+
+        # Update start_row to the row after the empty row
+        start_row = last_non_empty_row + 1
+        while start_row <= sheet.max_row and all(
+            sheet.cell(row=start_row, column=col).value in (None, '') for col in range(1, sheet.max_column + 1)
+        ):
+            start_row += 1
+
+        # Check if there are two consecutive empty rows
+        if start_row > sheet.max_row or all(
+            sheet.cell(row=start_row, column=col).value in (None, '') for col in range(1, sheet.max_column + 1)
+        ):
+            print("End of the current sheet reached. Switching to next sheet...")
+            break
+    
+    print(complete_dict)
 
 excel_to_entities(
-    r"C:\Users\cmadaria\Documents\Projects\Masterdata Checker\object_type_CHEMICAL_v1_S.3_cmadaria.xlsx"
+    r"C:\Users\cmadaria\Documents\Projects\BAMresearch\bam-masterdata\artifacts\masterdata.xlsx"
 )
