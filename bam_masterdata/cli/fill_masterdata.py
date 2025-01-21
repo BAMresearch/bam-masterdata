@@ -2,6 +2,7 @@ import time
 
 import click
 
+from bam_masterdata.cli.excel_to_entities import excel_to_entities
 from bam_masterdata.openbis import OpenbisEntities
 from bam_masterdata.utils import code_to_class_name
 
@@ -12,18 +13,30 @@ class MasterdataCodeGenerator:
     openBIS instance.
     """
 
-    def __init__(self, url: str = ""):
+    def __init__(self, url: str = "", path: str = ""):
         start_time = time.time()
         # * This part takes some time due to the loading of all entities from Openbis
-        self.properties = OpenbisEntities(url=url).get_property_dict()
-        self.collections = OpenbisEntities(url=url).get_collection_dict()
-        self.datasets = OpenbisEntities(url=url).get_dataset_dict()
-        self.objects = OpenbisEntities(url=url).get_object_dict()
-        self.vocabularies = OpenbisEntities(url=url).get_vocabulary_dict()
-        elapsed_time = time.time() - start_time
-        click.echo(
-            f"Loaded OpenBIS entities in `MasterdataCodeGenerator` initialization {elapsed_time:.2f} seconds\n"
-        )
+        if url:
+            self.properties = OpenbisEntities(url=url).get_property_dict()
+            self.collections = OpenbisEntities(url=url).get_collection_dict()
+            self.datasets = OpenbisEntities(url=url).get_dataset_dict()
+            self.objects = OpenbisEntities(url=url).get_object_dict()
+            self.vocabularies = OpenbisEntities(url=url).get_vocabulary_dict()
+            elapsed_time = time.time() - start_time
+            click.echo(
+                f"Loaded OpenBIS entities in `MasterdataCodeGenerator` initialization {elapsed_time:.2f} seconds\n"
+            )
+        else:
+            entities_dict = excel_to_entities(excel_path=path)
+            self.properties = entities_dict["property_types"]
+            self.collections = entities_dict["collection_types"]
+            self.datasets = entities_dict["dataset_types"]
+            self.objects = entities_dict["object_types"]
+            self.vocabularies = entities_dict["vocabulary_types"]
+            elapsed_time = time.time() - start_time
+            click.echo(
+                f"Loaded Masterdata excel entities in `MasterdataCodeGenerator` initialization {elapsed_time:.2f} seconds\n"
+            )
 
     def determine_parent_class(
         self, code: str, class_names: dict, default: str, lines: list
