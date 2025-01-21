@@ -87,16 +87,16 @@ def properties_to_dict(sheet, start_index_row, last_non_empty_row):
                         codes.append(cell.value)
                     else:
                         codes.append(None)
-                invalid_codes = [
-                    i + 5
-                    for i, cell in enumerate(codes)
-                    if not re.match(r"^\$?[A-Z0-9_.]+$", str(cell))
-                ]
-                if invalid_codes:
-                    # Append an error indicating the positions (row numbers) with invalid values for the current term
-                    print(
-                        f"Error: Invalid code found in the '{term}' column at row(s): {', '.join(map(str, invalid_codes))}"
-                    )
+                # invalid_codes = [
+                #     i + 5
+                #     for i, cell in enumerate(codes)
+                #     if not re.match(r"^\$?[A-Z0-9_.]+$", str(cell))
+                # ]
+                # if invalid_codes:
+                #     # Append an error indicating the positions (row numbers) with invalid values for the current term
+                #     print(
+                #         f"Error: Invalid code found in the '{term}' column at row(s): {', '.join(map(str, invalid_codes))}"
+                #     )
 
             # Check the cell below "Description"
             elif term == "Description":
@@ -105,15 +105,15 @@ def properties_to_dict(sheet, start_index_row, last_non_empty_row):
                         descriptions.append(cell.value)
                     else:
                         descriptions.append("")
-                invalid_descriptions = [
-                    i + 5
-                    for i, cell in enumerate(descriptions)
-                    if not re.match(r".*//.*", str(cell))
-                ]
-                if invalid_descriptions:
-                    print(
-                        f"Error: Invalid value(s) found in the '{term}' column at row(s): {', '.join(map(str, invalid_descriptions))}. Description should follow the schema: English Description + '//' + German Description."
-                    )
+                # invalid_descriptions = [
+                #     i + 5
+                #     for i, cell in enumerate(descriptions)
+                #     if not re.match(r".*//.*", str(cell))
+                # ]
+                # if invalid_descriptions:
+                #     print(
+                #         f"Error: Invalid value(s) found in the '{term}' column at row(s): {', '.join(map(str, invalid_descriptions))}. Description should follow the schema: English Description + '//' + German Description."
+                #     )
 
             # Check the cell below "Mandatory"
             elif term == "Mandatory":
@@ -122,15 +122,15 @@ def properties_to_dict(sheet, start_index_row, last_non_empty_row):
                         mandatories.append(str(cell.value).upper())
                     else:
                         mandatories.append(False)
-                invalid_mandatory = [
-                    i + 5
-                    for i, cell in enumerate(mandatories)
-                    if cell not in ["TRUE", "FALSE"]
-                ]
-                if invalid_mandatory:
-                    print(
-                        f"Error: Invalid value found in the '{term}' column at row(s): {', '.join(map(str, invalid_mandatory))}. Accepted values: TRUE, FALSE"
-                    )
+                # invalid_mandatory = [
+                #     i + 5
+                #     for i, cell in enumerate(mandatories)
+                #     if cell not in ["TRUE", "FALSE"]
+                # ]
+                # if invalid_mandatory:
+                #     print(
+                #         f"Error: Invalid value found in the '{term}' column at row(s): {', '.join(map(str, invalid_mandatory))}. Accepted values: TRUE, FALSE"
+                #     )
 
             # Check the cell below "Show in edit views"
             elif term == "Show in edit views":
@@ -139,15 +139,15 @@ def properties_to_dict(sheet, start_index_row, last_non_empty_row):
                         shows.append(str(cell.value).upper())
                     else:
                         shows.append(False)
-                invalid_show = [
-                    i + 5
-                    for i, cell in enumerate(shows)
-                    if cell not in ["TRUE", "FALSE"]
-                ]
-                if invalid_show:
-                    print(
-                        f"Error: Invalid value found in the '{term}' column at row(s): {', '.join(map(str, invalid_show))}. Accepted values: TRUE, FALSE"
-                    )
+                # invalid_show = [
+                #     i + 5
+                #     for i, cell in enumerate(shows)
+                #     if cell not in ["TRUE", "FALSE"]
+                # ]
+                # if invalid_show:
+                #     print(
+                #         f"Error: Invalid value found in the '{term}' column at row(s): {', '.join(map(str, invalid_show))}. Accepted values: TRUE, FALSE"
+                #     )
 
             # Check the cell below "Section"
             elif term == "Section":
@@ -156,15 +156,15 @@ def properties_to_dict(sheet, start_index_row, last_non_empty_row):
                         sections.append(cell.value)
                     else:
                         sections.append("")
-                invalid_section = [
-                    i + 5
-                    for i, cell in enumerate(sections)
-                    if not re.match(r".*", str(cell))
-                ]
-                if invalid_section:
-                    print(
-                        f"Error: Invalid value found in the '{term}' column at row(s): {', '.join(map(str, invalid_section))}. Specify the section as text format"
-                    )
+                # invalid_section = [
+                #     i + 5
+                #     for i, cell in enumerate(sections)
+                #     if not re.match(r".*", str(cell))
+                # ]
+                # if invalid_section:
+                #     print(
+                #         f"Error: Invalid value found in the '{term}' column at row(s): {', '.join(map(str, invalid_section))}. Specify the section as text format"
+                #     )
 
             # Check the cell below "Property label"
             elif term == "Property label":
@@ -173,15 +173,15 @@ def properties_to_dict(sheet, start_index_row, last_non_empty_row):
                         labels.append(cell.value)
                     else:
                         labels.append("")
-                invalid_label = [
-                    i + 5
-                    for i, cell in enumerate(labels)
-                    if not re.match(r".*", str(cell))
-                ]
-                if invalid_label:
-                    print(
-                        f"Error: Invalid value found in the '{term}' column at row(s): {', '.join(map(str, invalid_label))}. Specify the property label as text format"
-                    )
+                # invalid_label = [
+                #     i + 5
+                #     for i, cell in enumerate(labels)
+                #     if not re.match(r".*", str(cell))
+                # ]
+                # if invalid_label:
+                #     print(
+                #         f"Error: Invalid value found in the '{term}' column at row(s): {', '.join(map(str, invalid_label))}. Specify the property label as text format"
+                #     )
 
             # Check the cell below "Data type"
             elif term == "Data type":
@@ -190,28 +190,28 @@ def properties_to_dict(sheet, start_index_row, last_non_empty_row):
                         data_types.append(str(cell.value).upper())
                     else:
                         data_types.append("")
-                invalid_type = [
-                    i + 5
-                    for i, cell in enumerate(data_types)
-                    if cell
-                    not in [
-                        "INTEGER",
-                        "REAL",
-                        "VARCHAR",
-                        "MULTILINE_VARCHAR",
-                        "HYPERLINK",
-                        "BOOLEAN",
-                        "CONTROLLEDVOCABULARY",
-                        "XML",
-                        "TIMESTAMP",
-                        "DATE",
-                        "SAMPLE",
-                    ]
-                ]
-                if invalid_type:
-                    print(
-                        f"Error: Invalid value found in the '{term}' column at row(s): {', '.join(map(str, invalid_type))}. Accepted types: INTEGER, REAL, VARCHAR, MULTILINE_VARCHAR, HYPERLINK, BOOLEAN, CONTROLLEDVOCABULARY, XML, TIMESTAMP, DATE, SAMPLE"
-                    )
+                # invalid_type = [
+                #     i + 5
+                #     for i, cell in enumerate(data_types)
+                #     if cell
+                #     not in [
+                #         "INTEGER",
+                #         "REAL",
+                #         "VARCHAR",
+                #         "MULTILINE_VARCHAR",
+                #         "HYPERLINK",
+                #         "BOOLEAN",
+                #         "CONTROLLEDVOCABULARY",
+                #         "XML",
+                #         "TIMESTAMP",
+                #         "DATE",
+                #         "SAMPLE",
+                #     ]
+                # ]
+                # if invalid_type:
+                #     print(
+                #         f"Error: Invalid value found in the '{term}' column at row(s): {', '.join(map(str, invalid_type))}. Accepted types: INTEGER, REAL, VARCHAR, MULTILINE_VARCHAR, HYPERLINK, BOOLEAN, CONTROLLEDVOCABULARY, XML, TIMESTAMP, DATE, SAMPLE"
+                #     )
 
             # Check the column below "Vocabulary code"
             elif term == "Vocabulary code":
@@ -220,16 +220,16 @@ def properties_to_dict(sheet, start_index_row, last_non_empty_row):
                         vocabulary_codes.append(str(cell.value).upper())
                     else:
                         vocabulary_codes.append("")
-                invalid_vocab = [
-                    i + 5
-                    for i, cell in enumerate(vocabulary_codes)
-                    if cell and not re.match(r"^\$?[A-Z0-9_.]+$", str(cell))
-                ]
-                if invalid_vocab:
-                    # Append an error indicating the positions (row numbers) with invalid values for the current term
-                    print(
-                        f"Error: Invalid vocabulary code found in the '{term}' column at row(s): {', '.join(map(str, invalid_vocab))}"
-                    )
+                # invalid_vocab = [
+                #     i + 5
+                #     for i, cell in enumerate(vocabulary_codes)
+                #     if cell and not re.match(r"^\$?[A-Z0-9_.]+$", str(cell))
+                # ]
+                # if invalid_vocab:
+                #     # Append an error indicating the positions (row numbers) with invalid values for the current term
+                #     print(
+                #         f"Error: Invalid vocabulary code found in the '{term}' column at row(s): {', '.join(map(str, invalid_vocab))}"
+                #     )
 
     for i in range(0, len(codes)):
         property_dict[codes[i]] = {
@@ -243,7 +243,87 @@ def properties_to_dict(sheet, start_index_row, last_non_empty_row):
             "vocabularyCode": vocabulary_codes[i],
         }
 
-    return property_dict, last_non_empty_row
+    return property_dict
+
+def terms_to_dict(sheet, start_index_row, last_non_empty_row):
+    terms_dict = {}
+    expected_terms = [
+        "Code",
+        "Description",
+        "Url template",
+        "Label",
+        "Official"
+    ]
+
+    header_index = start_index_row + 3
+    row_headers = [cell.value for cell in sheet[header_index]]
+
+    (
+        codes,
+        descriptions,
+        urls,
+        labels,
+        officials
+    ) = [], [], [], [], []
+
+    for term in expected_terms:
+        if term not in row_headers:
+            print(f"Warning: '{term}' not found in the properties headers.")
+        else:
+            # Find the index of the term in the row
+            term_index = row_headers.index(term) + 1
+            term_letter = index_to_excel_column(term_index)
+            # print(term_index)
+
+            # Check the column below "Code"
+            if term == "Code":
+                for cell in sheet[term_letter][header_index:last_non_empty_row]:
+                    if cell.value is not None:
+                        codes.append(cell.value)
+                    else:
+                        codes.append(None)
+
+            # Check the cell below "Description"
+            elif term == "Description":
+                for cell in sheet[term_letter][header_index:last_non_empty_row]:
+                    if cell.value is not None:
+                        descriptions.append(cell.value)
+                    else:
+                        descriptions.append("")
+
+            elif term == "Url template":
+                for cell in sheet[term_letter][header_index:last_non_empty_row]:
+                    if cell.value is not None:
+                        urls.append(str(cell.value).upper())
+                    else:
+                        urls.append(False)
+
+            # Check the cell below "Label"
+            elif term == "Label":
+                for cell in sheet[term_letter][header_index:last_non_empty_row]:
+                    if cell.value is not None:
+                        labels.append(cell.value)
+                    else:
+                        labels.append("")
+
+            # Check the cell below "Officials"
+            elif term == "Label":
+                for cell in sheet[term_letter][header_index:last_non_empty_row]:
+                    if cell.value is not None:
+                        officials.append(cell.value)
+                    else:
+                        officials.append("")
+
+    for i in range(0, len(codes)):
+        terms_dict[codes[i]] = {
+            "permId": codes[i],
+            "code": codes[i],
+            "url_template": urls[i],
+            "label": labels[i],
+            "official": officials[i],
+        }
+
+    return terms_dict
 
 
 def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_dict):
@@ -275,7 +355,7 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
                 "Description",
                 "Validation script",
                 "Generated code prefix",
-                "Auto generate codes",
+                "Auto generated codes",
             ]
             
             code_value = ""
@@ -333,7 +413,7 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
                         # if cell_below_auto_generate.value not in ["TRUE", "FALSE"]:
                         # logger.error("Error: Value below 'Auto generate codes' should be 'TRUE' or 'FALSE'.")
 
-            attributes_dict["properties"] = properties_to_dict(sheet, start_index_row, last_non_empty_row)[0]
+            attributes_dict["properties"] = properties_to_dict(sheet, start_index_row, last_non_empty_row)
 
             complete_dict[code_value] = attributes_dict
 
@@ -376,14 +456,14 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
                         # if cell_below_validation.value and not validation_pattern.match(cell_below_validation.value):
                         # logger.error("Error: Validation script should follow the schema: Words and/or numbers separated by '_' and ending in '.py'")
 
-            attributes_dict["properties"] = properties_to_dict(sheet, start_index_row, last_non_empty_row)[0]
+            attributes_dict["properties"] = properties_to_dict(sheet, start_index_row, last_non_empty_row)
 
             complete_dict[code_value] = attributes_dict
 
             return complete_dict
-
-        elif entity_type == "VOCABULARY_TYPE":
-            expected_terms = ["Code", "Description"]
+        
+        elif entity_type == "PROPERTY_TYPE":
+            expected_terms = ["Code", "Description", "Property label", "Data type", "Vocabulary code", "Metadata", "Dynamic script"]
             for term in expected_terms:
                 if term not in header_terms:
                     print(f"Error: '{term}' not found in the second row.")
@@ -409,56 +489,128 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
                         # if not description_pattern.match(cell_below_description.value):
                         # logger.error("Error: Description should follow the schema: English Description + '//' + German Description.")
 
-            #TBD: vocabulary_terms as properties
-            #attributes_dict["terms"] = properties_to_dict(sheet, False)
+                    # Check the cell below "Property label"
+                    elif term == "Property label":
+                        property_value = sheet.cell(
+                            row=start_index_row + 2, column=term_index + 1
+                        ).value
+                        attributes_dict["label"] = property_value
+
+                    # Check the cell below "Data type"
+                    elif term == "Data type":
+                        data_value = sheet.cell(
+                            row=start_index_row + 2, column=term_index + 1
+                        ).value
+                        attributes_dict["dataType"] = data_value
+
+                    # Check the cell below "Vocabulary code"
+                    elif term == "Vocabulary code":
+                        vocabulary_value = sheet.cell(
+                            row=start_index_row + 2, column=term_index + 1
+                        ).value
+                        attributes_dict["vocabularyCode"] = vocabulary_value
+
+                    # Check the cell below "Data type"
+                    elif term == "Metadata":
+                        metadata_value = sheet.cell(
+                            row=start_index_row + 2, column=term_index + 1
+                        ).value
+                        attributes_dict["metadata"] = metadata_value
+
+                    # Check the cell below "Dynamic script"
+                    elif term == "Dynamic script":
+                        plugin_value = sheet.cell(
+                            row=start_index_row + 2, column=term_index + 1
+                        ).value
+                        attributes_dict["plugin"] = plugin_value
+
+            complete_dict[code_value] = attributes_dict
+
+            return complete_dict
+
+        elif entity_type == "VOCABULARY_TYPE":
+            expected_terms = ["Code", "Description", "Url template"]
+            for term in expected_terms:
+                if term not in header_terms:
+                    print(f"Error: '{term}' not found in the second row.")
+                else:
+                    # Find the index of the term in the second row
+                    term_index = header_terms.index(term)
+
+                    # Check the cell below "Code"
+                    if term == "Code":
+                        code_value = sheet.cell(row=start_index_row + 2, column=term_index + 1).value
+                        attributes_dict["permId"] = code_value
+                        attributes_dict["code"] = code_value
+                        # if cell_below_code.value != code:
+                        # logger.error("Error: The code should be the same one indicated in the file name")
+
+                    # Check the cell below "Description"
+                    elif term == "Description":
+                        description_value = sheet.cell(
+                            row=start_index_row + 2, column=term_index + 1
+                        ).value
+                        attributes_dict["description"] = description_value
+                        # description_pattern = re.compile(r".*//.*")
+                        # if not description_pattern.match(cell_below_description.value):
+                        # logger.error("Error: Description should follow the schema: English Description + '//' + German Description.")
+
+                    # Check the cell below "Description"
+                    elif term == "Url template":
+                        url_value = sheet.cell(
+                            row=start_index_row + 2, column=term_index + 1
+                        ).value
+                        attributes_dict["url_template"] = url_value
+                        # description_pattern = re.compile(r".*//.*")
+                        # if not description_pattern.match(cell_below_description.value):
+                        # logger.error("Error: Description should follow the schema: English Description + '//' + German Description.")
+
+            attributes_dict["terms"] = terms_to_dict(sheet, start_index_row, last_non_empty_row)
 
             complete_dict[code_value] = attributes_dict
 
             return complete_dict
 
 def excel_to_entities(excel_path, output_directory="./artifacts/tmp/"):
-    complete_dict = {}
+    sheets_dict = {}
 
     workbook = openpyxl.load_workbook(excel_path)
 
-    sheet = workbook.active
-    tab_name = sheet.title
+    for sheet_name in workbook.sheetnames:
+        
+        normalized_sheet_name = sheet_name.lower().replace(" ", "_")
 
-    start_row = 1
-    while start_row <= sheet.max_row:
-        # Find the last non-empty row of the current block
-        last_non_empty_row = get_last_non_empty_row(sheet, start_row)
+        sheet = workbook[sheet_name]
+        start_row = 1
 
-        # Check if we've reached the end of the sheet or found two consecutive empty rows
-        if last_non_empty_row is None:
-            print(f"End of the current sheet {tab_name} reached. Switching to next sheet...")
-            break
+        sheets_dict[normalized_sheet_name] = {}
 
-        # Process the block (from start_row to last_non_empty_row)
-        complete_dict = block_to_entity_dict(sheet, start_row, last_non_empty_row, complete_dict)
+        while start_row <= sheet.max_row:
+            # Find the last non-empty row of the current block
+            last_non_empty_row = get_last_non_empty_row(sheet, start_row)
 
-        # Add your block processing logic here
-        #for row in range(start_row, last_non_empty_row + 1):
-        #    # Example: Print the row content
-        #    row_values = [sheet.cell(row=row, column=col).value for col in range(1, sheet.max_column + 1)]
-        #    print(row_values)
+            # Check if we've reached the end of the sheet or found two consecutive empty rows
+            if last_non_empty_row is None:
+                print(f"End of the current sheet {sheet_name} reached. Switching to next sheet...")
+                break
 
-        # Update start_row to the row after the empty row
-        start_row = last_non_empty_row + 1
-        while start_row <= sheet.max_row and all(
-            sheet.cell(row=start_row, column=col).value in (None, '') for col in range(1, sheet.max_column + 1)
-        ):
-            start_row += 1
+            # Process the block (from start_row to last_non_empty_row)
+            sheets_dict[sheet_name] = block_to_entity_dict(
+                sheet, start_row, last_non_empty_row, sheets_dict[sheet_name]
+            )
 
-        # Check if there are two consecutive empty rows
-        if start_row > sheet.max_row or all(
-            sheet.cell(row=start_row, column=col).value in (None, '') for col in range(1, sheet.max_column + 1)
-        ):
-            print("End of the current sheet reached. Switching to next sheet...")
-            break
+            # Update start_row to the row after the empty row
+            start_row = last_non_empty_row + 1
+            while start_row <= sheet.max_row and all(
+                sheet.cell(row=start_row, column=col).value in (None, '') for col in range(1, sheet.max_column + 1)
+            ):
+                start_row += 1
+
+            # Check if there are two consecutive empty rows
+            if start_row > sheet.max_row or all(
+                sheet.cell(row=start_row, column=col).value in (None, '') for col in range(1, sheet.max_column + 1)
+            ):
+                print(f"End of the current sheet {sheet_name} reached. Switching to next sheet...")
+                break
     
-    print(complete_dict)
-
-excel_to_entities(
-    r"C:\Users\cmadaria\Documents\Projects\BAMresearch\bam-masterdata\artifacts\masterdata.xlsx"
-)
+    return sheets_dict
