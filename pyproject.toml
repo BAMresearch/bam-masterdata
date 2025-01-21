@@ -30,6 +30,7 @@ dependencies = [
   "openpyxl",
   "click",
   "pydantic",
+  "rdflib",
 ]
 
 [project.urls]
