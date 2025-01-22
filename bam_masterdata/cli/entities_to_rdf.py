@@ -6,10 +6,10 @@ if TYPE_CHECKING:
     from structlog._config import BoundLoggerLazyProxy
 
 import click
-from rdflib import Literal, Namespace
+from rdflib import BNode, Literal, Namespace
 from rdflib.namespace import DC, OWL, RDF, RDFS, SKOS
 
-from bam_masterdata.utils import import_module
+from bam_masterdata.utils import code_to_class_name, import_module
 
 BAM = Namespace("http://bam.de/masterdata/")
 
@@ -39,28 +39,32 @@ def rdf_graph_init(g: "Graph") -> None:
     bam_props_uri = {
         BAM["hasMandatoryProperty"]: [
             (RDF.type, OWL.ObjectProperty),
-            (RDFS.subPropertyOf, OWL.topObjectProperty),
-            (RDFS.domain, OWL.Thing),
+            (RDFS.domain, BAM.ObjectType),
+            (RDFS.range, BAM.PropertyType),
             (SKOS.prefLabel, Literal("hasMandatoryProperty", lang="en")),
         ],
         BAM["hasOptionalProperty"]: [
             (RDF.type, OWL.ObjectProperty),
-            (RDFS.subPropertyOf, OWL.topObjectProperty),
-            (RDFS.domain, OWL.Thing),
+            (RDFS.domain, BAM.ObjectType),
+            (RDFS.range, BAM.PropertyType),
             (SKOS.prefLabel, Literal("hasOptionalProperty", lang="en")),
+        ],
+        BAM["referenceTo"]: [
+            (RDF.type, OWL.ObjectProperty),
+            (RDFS.domain, BAM.PropertyType),  # Restricting domain to PropertyType
+            (RDFS.range, BAM.ObjectType),  # Explicitly setting range to ObjectType
+            (SKOS.prefLabel, Literal("referenceTo", lang="en")),
         ],
     }
     for prop_uri, obj_properties in bam_props_uri.items():
-        for prop in obj_properties:
-            g.add((prop_uri, prop[0], prop[1]))
+        for prop in obj_properties:  # type: ignore
+            g.add((prop_uri, prop[0], prop[1]))  # type: ignore
 
     # Adding base entity types objects
     for entity in ["PropertyType", "ObjectType", "CollectionType", "DatasetType"]:
         entity_uri = BAM[entity]
         g.add((entity_uri, RDF.type, OWL.Class))
         g.add((entity_uri, SKOS.prefLabel, Literal(entity, lang="en")))
-
-    return g
 
 
 def entities_to_rdf(
@@ -104,6 +108,19 @@ def entities_to_rdf(
                 )
             graph.add((prop_uri, SKOS.altLabel, Literal(obj.property_label, lang="en")))
             graph.add((prop_uri, DC.type, Literal(obj.data_type.value)))
+            if obj.data_type.value == "OBJECT":
+                # entity_ref_uri = BAM[code_to_class_name(obj.object_code)]
+                # graph.add((prop_uri, BAM.referenceTo, entity_ref_uri))
+                entity_ref_uri = BAM[code_to_class_name(obj.object_code)]
+
+                # Create a restriction with referenceTo
+                restriction = BNode()
+                graph.add((restriction, RDF.type, OWL.Restriction))
+                graph.add((restriction, OWL.onProperty, BAM["referenceTo"]))
+                graph.add((restriction, OWL.someValuesFrom, entity_ref_uri))
+
+                # Add the restriction as a subclass of the property
+                graph.add((prop_uri, RDFS.subClassOf, restriction))
         return None
 
     # All other datamodel modules
