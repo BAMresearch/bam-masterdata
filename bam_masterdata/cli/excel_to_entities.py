@@ -419,7 +419,9 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
 
             complete_dict[code_value] = attributes_dict
 
-            return complete_dict
+            return dict(
+                sorted(complete_dict.items(), key=lambda item: item[0].count("."))
+            )
 
         elif entity_type == "EXPERIMENT_TYPE" or entity_type == "DATASET_TYPE":
             expected_terms = ["Code", "Description", "Validation script"]
@@ -466,7 +468,9 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
 
             complete_dict[code_value] = attributes_dict
 
-            return complete_dict
+            return dict(
+                sorted(complete_dict.items(), key=lambda item: item[0].count("."))
+            )
 
         elif entity_type == "PROPERTY_TYPE":
             expected_terms = [
@@ -542,7 +546,9 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
 
             complete_dict[code_value] = attributes_dict
 
-            return complete_dict
+            return dict(
+                sorted(complete_dict.items(), key=lambda item: item[0].count("."))
+            )
 
         elif entity_type == "VOCABULARY_TYPE":
             expected_terms = ["Code", "Description", "Url template"]
@@ -589,7 +595,9 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
 
             complete_dict[code_value] = attributes_dict
 
-            return complete_dict
+            return dict(
+                sorted(complete_dict.items(), key=lambda item: item[0].count("."))
+            )
 
 
 def excel_to_entities(excel_path, output_directory="./artifacts/tmp/"):
