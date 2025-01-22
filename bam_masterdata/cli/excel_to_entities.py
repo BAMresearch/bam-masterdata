@@ -31,9 +31,12 @@ def get_last_non_empty_row(sheet, start_index):
 
     for row in range(start_index, sheet.max_row + 1):
         # Check if the entire row is empty
-        if all(sheet.cell(row=row, column=col).value in (None, '') for col in range(1, sheet.max_column + 1)):
+        if all(
+            sheet.cell(row=row, column=col).value in (None, "")
+            for col in range(1, sheet.max_column + 1)
+        ):
             return last_non_empty_row  # Return the last non-empty row before the current empty row
-        
+
         last_non_empty_row = row  # Update the last non-empty row
 
     return last_non_empty_row  # If no empty row is encountered, return the last non-empty row
@@ -55,8 +58,8 @@ def properties_to_dict(sheet, start_index_row, last_non_empty_row):
     header_index = start_index_row + 3
     row_headers = [cell.value for cell in sheet[header_index]]
 
-    #print("Header index:", header_index, "//Header:", row_headers)
-    #code_index = row_headers.index("Code") + 1
+    # print("Header index:", header_index, "//Header:", row_headers)
+    # code_index = row_headers.index("Code") + 1
     (
         codes,
         descriptions,
@@ -118,8 +121,10 @@ def properties_to_dict(sheet, start_index_row, last_non_empty_row):
             # Check the cell below "Mandatory"
             elif term == "Mandatory":
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
-                    if cell.value is not None:
-                        mandatories.append(str(cell.value).upper())
+                    mandatory = cell.value
+                    if mandatory is not None:
+                        mandatory = mandatory.strip().lower() == "true"
+                        mandatories.append(mandatory)
                     else:
                         mandatories.append(False)
                 # invalid_mandatory = [
@@ -135,8 +140,10 @@ def properties_to_dict(sheet, start_index_row, last_non_empty_row):
             # Check the cell below "Show in edit views"
             elif term == "Show in edit views":
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
-                    if cell.value is not None:
-                        shows.append(str(cell.value).upper())
+                    show = cell.value
+                    if show is not None:
+                        show = show.strip().lower() == "true"
+                        shows.append(show)
                     else:
                         shows.append(False)
                 # invalid_show = [
@@ -245,26 +252,15 @@ def properties_to_dict(sheet, start_index_row, last_non_empty_row):
 
     return property_dict
 
+
 def terms_to_dict(sheet, start_index_row, last_non_empty_row):
     terms_dict = {}
-    expected_terms = [
-        "Code",
-        "Description",
-        "Url template",
-        "Label",
-        "Official"
-    ]
+    expected_terms = ["Code", "Description", "Url template", "Label", "Official"]
 
     header_index = start_index_row + 3
     row_headers = [cell.value for cell in sheet[header_index]]
 
-    (
-        codes,
-        descriptions,
-        urls,
-        labels,
-        officials
-    ) = [], [], [], [], []
+    (codes, descriptions, urls, labels, officials) = [], [], [], [], []
 
     for term in expected_terms:
         if term not in row_headers:
@@ -294,9 +290,9 @@ def terms_to_dict(sheet, start_index_row, last_non_empty_row):
             elif term == "Url template":
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
                     if cell.value is not None:
-                        urls.append(str(cell.value).upper())
+                        urls.append(cell.value)
                     else:
-                        urls.append(False)
+                        urls.append("")
 
             # Check the cell below "Label"
             elif term == "Label":
@@ -307,12 +303,14 @@ def terms_to_dict(sheet, start_index_row, last_non_empty_row):
                         labels.append("")
 
             # Check the cell below "Officials"
-            elif term == "Label":
+            elif term == "Official":
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
-                    if cell.value is not None:
-                        officials.append(cell.value)
+                    official = cell.value
+                    if official is not None:
+                        official = official.strip().lower() == "true"
+                        officials.append(official)
                     else:
-                        officials.append("")
+                        officials.append(False)
 
     for i in range(0, len(codes)):
         terms_dict[codes[i]] = {
@@ -341,7 +339,7 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
         "VOCABULARY_TYPE",
     ]
 
-    header_terms = [cell.value for cell in sheet[start_index_row+1]]
+    header_terms = [cell.value for cell in sheet[start_index_row + 1]]
 
     if entity_type not in entity_types:
         print(
@@ -357,7 +355,7 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
                 "Generated code prefix",
                 "Auto generated codes",
             ]
-            
+
             code_value = ""
             for term in expected_terms:
                 if term not in header_terms:
@@ -369,7 +367,9 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
 
                     # Check the cell below "Code"
                     if term == "Code":
-                        code_value = sheet.cell(row=start_index_row + 2, column=term_index + 1).value
+                        code_value = sheet.cell(
+                            row=start_index_row + 2, column=term_index + 1
+                        ).value
                         attributes_dict["permId"] = code_value
                         attributes_dict["code"] = code_value
                         # if cell_below_code.value != code:
@@ -413,7 +413,9 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
                         # if cell_below_auto_generate.value not in ["TRUE", "FALSE"]:
                         # logger.error("Error: Value below 'Auto generate codes' should be 'TRUE' or 'FALSE'.")
 
-            attributes_dict["properties"] = properties_to_dict(sheet, start_index_row, last_non_empty_row)
+            attributes_dict["properties"] = properties_to_dict(
+                sheet, start_index_row, last_non_empty_row
+            )
 
             complete_dict[code_value] = attributes_dict
 
@@ -430,7 +432,9 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
 
                     # Check the cell below "Code"
                     if term == "Code":
-                        code_value = sheet.cell(row=start_index_row + 2, column=term_index + 1).value
+                        code_value = sheet.cell(
+                            row=start_index_row + 2, column=term_index + 1
+                        ).value
                         attributes_dict["permId"] = code_value
                         attributes_dict["code"] = code_value
                         # if cell_below_code.value != code:
@@ -456,14 +460,24 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
                         # if cell_below_validation.value and not validation_pattern.match(cell_below_validation.value):
                         # logger.error("Error: Validation script should follow the schema: Words and/or numbers separated by '_' and ending in '.py'")
 
-            attributes_dict["properties"] = properties_to_dict(sheet, start_index_row, last_non_empty_row)
+            attributes_dict["properties"] = properties_to_dict(
+                sheet, start_index_row, last_non_empty_row
+            )
 
             complete_dict[code_value] = attributes_dict
 
             return complete_dict
-        
+
         elif entity_type == "PROPERTY_TYPE":
-            expected_terms = ["Code", "Description", "Property label", "Data type", "Vocabulary code", "Metadata", "Dynamic script"]
+            expected_terms = [
+                "Code",
+                "Description",
+                "Property label",
+                "Data type",
+                "Vocabulary code",
+                "Metadata",
+                "Dynamic script",
+            ]
             for term in expected_terms:
                 if term not in header_terms:
                     print(f"Error: '{term}' not found in the second row.")
@@ -473,7 +487,9 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
 
                     # Check the cell below "Code"
                     if term == "Code":
-                        code_value = sheet.cell(row=start_index_row + 2, column=term_index + 1).value
+                        code_value = sheet.cell(
+                            row=start_index_row + 2, column=term_index + 1
+                        ).value
                         attributes_dict["permId"] = code_value
                         attributes_dict["code"] = code_value
                         # if cell_below_code.value != code:
@@ -539,7 +555,9 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
 
                     # Check the cell below "Code"
                     if term == "Code":
-                        code_value = sheet.cell(row=start_index_row + 2, column=term_index + 1).value
+                        code_value = sheet.cell(
+                            row=start_index_row + 2, column=term_index + 1
+                        ).value
                         attributes_dict["permId"] = code_value
                         attributes_dict["code"] = code_value
                         # if cell_below_code.value != code:
@@ -565,19 +583,22 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
                         # if not description_pattern.match(cell_below_description.value):
                         # logger.error("Error: Description should follow the schema: English Description + '//' + German Description.")
 
-            attributes_dict["terms"] = terms_to_dict(sheet, start_index_row, last_non_empty_row)
+            attributes_dict["terms"] = terms_to_dict(
+                sheet, start_index_row, last_non_empty_row
+            )
 
             complete_dict[code_value] = attributes_dict
 
             return complete_dict
 
+
 def excel_to_entities(excel_path, output_directory="./artifacts/tmp/"):
     sheets_dict = {}
 
     workbook = openpyxl.load_workbook(excel_path)
+    sheet_names = workbook.sheetnames
 
-    for sheet_name in workbook.sheetnames:
-        
+    for i, sheet_name in enumerate(sheet_names):
         normalized_sheet_name = sheet_name.lower().replace(" ", "_")
 
         sheet = workbook[sheet_name]
@@ -591,26 +612,42 @@ def excel_to_entities(excel_path, output_directory="./artifacts/tmp/"):
 
             # Check if we've reached the end of the sheet or found two consecutive empty rows
             if last_non_empty_row is None:
-                print(f"End of the current sheet {sheet_name} reached. Switching to next sheet...")
+                if i == len(sheet_names) - 1:  # Check if it's the last sheet
+                    print(
+                        f"Last sheet {sheet_name} processed. End of the file reached."
+                    )
+                else:
+                    print(
+                        f"End of the current sheet {sheet_name} reached. Switching to next sheet..."
+                    )
                 break
 
             # Process the block (from start_row to last_non_empty_row)
-            sheets_dict[sheet_name] = block_to_entity_dict(
-                sheet, start_row, last_non_empty_row, sheets_dict[sheet_name]
+            sheets_dict[normalized_sheet_name] = block_to_entity_dict(
+                sheet, start_row, last_non_empty_row, sheets_dict[normalized_sheet_name]
             )
 
             # Update start_row to the row after the empty row
             start_row = last_non_empty_row + 1
             while start_row <= sheet.max_row and all(
-                sheet.cell(row=start_row, column=col).value in (None, '') for col in range(1, sheet.max_column + 1)
+                sheet.cell(row=start_row, column=col).value in (None, "")
+                for col in range(1, sheet.max_column + 1)
             ):
                 start_row += 1
 
             # Check if there are two consecutive empty rows
             if start_row > sheet.max_row or all(
-                sheet.cell(row=start_row, column=col).value in (None, '') for col in range(1, sheet.max_column + 1)
+                sheet.cell(row=start_row, column=col).value in (None, "")
+                for col in range(1, sheet.max_column + 1)
             ):
-                print(f"End of the current sheet {sheet_name} reached. Switching to next sheet...")
+                if i == len(sheet_names) - 1:  # Check if it's the last sheet
+                    print(
+                        f"Last sheet {sheet_name} processed. End of the file reached."
+                    )
+                else:
+                    print(
+                        f"End of the current sheet {sheet_name} reached. Switching to next sheet..."
+                    )
                 break
-    
+
     return sheets_dict

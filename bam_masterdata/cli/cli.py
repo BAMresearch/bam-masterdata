@@ -57,7 +57,9 @@ def fill_masterdata(url, path):
 
     # Check for mutual exclusivity
     if path and url:
-        raise click.UsageError("You cannot specify both --url and --path. Please choose one.")
+        raise click.UsageError(
+            "You cannot specify both --url and --path. Please choose one."
+        )
 
     # ! this takes a lot of time loading all the entities in Openbis
     # Use the URL if provided, otherwise fall back to defaults
