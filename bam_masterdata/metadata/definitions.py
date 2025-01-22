@@ -103,7 +103,7 @@ class EntityDef(BaseModel):
         """
         name_map = {
             "CollectionTypeDef": "EXPERIMENT_TYPE",
-            "DataSetTypeDef": "DATASET_TYPE",
+            "DatasetTypeDef": "DATASET_TYPE",
             "ObjectTypeDef": "SAMPLE_TYPE",
             "PropertyTypeDef": "PROPERTY_TYPE",
             "VocabularyTypeDef": "VOCABULARY_TYPE",
