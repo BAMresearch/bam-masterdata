@@ -1,5 +1,5 @@
 import json
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any, Optional, no_type_check
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 from rdflib import BNode, Literal
@@ -90,6 +90,7 @@ class BaseEntity(BaseModel):
     # assigned properties can be Mandatory or Optional, can be PropertyType or ObjectType
     # ? For OBJECT TYPES
     # ? `generated_code_prefix`, `auto_generated_codes`?
+    @no_type_check
     def to_rdf(self, namespace: "Namespace", graph: "Graph") -> None:
         entity_uri = namespace[self.defs.id]
 
