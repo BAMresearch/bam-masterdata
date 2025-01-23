@@ -166,17 +166,18 @@ class MasterdataCodeGenerator:
             lines.append(f'    description="""{description}""",')
             # ! patching dataType=SAMPLE instead of OBJECT
             data_type = data.get("dataType", "")
-            object_type = data.get("sampleType", {})
             if data_type == "SAMPLE":
                 data_type = "OBJECT"
             lines.append(f'    data_type="{data_type}",')
-            if object_type and isinstance(object_type, dict):
-                lines.append(f'    object_code="{object_type.get("code", "")}",')
+            object_code = data.get("sampleType", "")
+            if object_code:
+                lines.append(f'    object_code="{object_code}",')
             property_label = (
                 (data.get("label") or "").replace('"', '\\"').replace("\n", "\\n")
             )
-            if data.get("dataType", "") == "CONTROLLEDVOCABULARY":
-                lines.append(f'    vocabulary_code="{data.get("vocabulary", "")}",')
+            vocabulary_code = data.get("vocabulary", "")
+            if vocabulary_code:
+                lines.append(f'    vocabulary_code="{vocabulary_code}",')
             lines.append(f'    property_label="{property_label}",')
             lines.append(")")
             lines.append("")

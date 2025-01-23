@@ -2148,6 +2148,7 @@ Instrument = PropertyTypeDef(
     code="INSTRUMENT",
     description="""Testing machine or measurement device//Prüfmaschine oder Messgerät""",
     data_type="OBJECT",
+    # object_code="(ALL)",
     property_label="Testing Machine or Measurement Device",
 )
 
