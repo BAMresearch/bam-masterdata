@@ -25,14 +25,32 @@ def rdf_graph_init(g: "Graph") -> None:
 
     # Adding annotation properties from base namespaces
     annotation_props = [
+        RDFS.label,
+        RDFS.comment,
         DC.identifier,
-        DC.type,
-        SKOS.altLabel,
-        SKOS.definition,
-        SKOS.prefLabel,
     ]
     for prop in annotation_props:
         g.add((prop, RDF.type, OWL.AnnotationProperty))
+
+    # Custom annotation properties from openBIS: `dataType`, `propertyLabel
+    custom_annotation_props = {
+        BAM[
+            "dataType"
+        ]: "Defines the data type of the property type in openBIS (VARCHAR, OBJECT, CONTROLLEDVOCABULARY)",
+        BAM[
+            "propertyLabel"
+        ]: "A human-readable label used to identify the property in user interfaces or documentation of openBIS.",
+    }
+    for custom_prop, custom_prop_def in custom_annotation_props.items():
+        g.add((custom_prop, RDF.type, OWL.AnnotationProperty))
+        g.add(
+            (
+                custom_prop,
+                RDFS.label,
+                Literal(f"obis:{custom_prop.split('/')[-1]}", lang="en"),
+            )
+        )
+        g.add((custom_prop, RDFS.comment, Literal(custom_prop_def, lang="en")))
 
     # Internal BAM properties
     # ? `section`, `ordinal`, `show_in_edit_views`?
@@ -47,13 +65,13 @@ def rdf_graph_init(g: "Graph") -> None:
             (RDF.type, OWL.ObjectProperty),
             (RDFS.domain, BAM.ObjectType),
             (RDFS.range, BAM.PropertyType),
-            (SKOS.prefLabel, Literal("hasOptionalProperty", lang="en")),
+            (RDFS.label, Literal("hasOptionalProperty", lang="en")),
         ],
         BAM["referenceTo"]: [
             (RDF.type, OWL.ObjectProperty),
             (RDFS.domain, BAM.PropertyType),  # Restricting domain to PropertyType
             (RDFS.range, BAM.ObjectType),  # Explicitly setting range to ObjectType
-            (SKOS.prefLabel, Literal("referenceTo", lang="en")),
+            (RDFS.label, Literal("referenceTo", lang="en")),
         ],
     }
     for prop_uri, obj_properties in bam_props_uri.items():
@@ -64,7 +82,7 @@ def rdf_graph_init(g: "Graph") -> None:
     for entity in ["PropertyType", "ObjectType", "CollectionType", "DatasetType"]:
         entity_uri = BAM[entity]
         g.add((entity_uri, RDF.type, OWL.Class))
-        g.add((entity_uri, SKOS.prefLabel, Literal(entity, lang="en")))
+        g.add((entity_uri, RDFS.label, Literal(entity, lang="en")))
 
 
 def entities_to_rdf(
@@ -92,22 +110,18 @@ def entities_to_rdf(
             graph.add((prop_uri, RDFS.subClassOf, BAM.PropertyType))
 
             # Add attributes like id, code, description in English and Deutsch, property_label, data_type
-            graph.add((prop_uri, SKOS.prefLabel, Literal(obj.id, lang="en")))
+            graph.add((prop_uri, RDFS.label, Literal(obj.id, lang="en")))
             graph.add((prop_uri, DC.identifier, Literal(obj.code)))
             descriptions = obj.description.split("//")
             if len(descriptions) > 1:
-                graph.add(
-                    (prop_uri, SKOS.definition, Literal(descriptions[0], lang="en"))
-                )
-                graph.add(
-                    (prop_uri, SKOS.definition, Literal(descriptions[1], lang="de"))
-                )
+                graph.add((prop_uri, RDFS.comment, Literal(descriptions[0], lang="en")))
+                graph.add((prop_uri, RDFS.comment, Literal(descriptions[1], lang="de")))
             else:
-                graph.add(
-                    (prop_uri, SKOS.definition, Literal(obj.description, lang="en"))
-                )
-            graph.add((prop_uri, SKOS.altLabel, Literal(obj.property_label, lang="en")))
-            graph.add((prop_uri, DC.type, Literal(obj.data_type.value)))
+                graph.add((prop_uri, RDFS.comment, Literal(obj.description, lang="en")))
+            graph.add(
+                (prop_uri, BAM.propertyLabel, Literal(obj.property_label, lang="en"))
+            )
+            graph.add((prop_uri, BAM.dataType, Literal(obj.data_type.value)))
             if obj.data_type.value == "OBJECT":
                 # entity_ref_uri = BAM[code_to_class_name(obj.object_code)]
                 # graph.add((prop_uri, BAM.referenceTo, entity_ref_uri))
