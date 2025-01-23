@@ -285,7 +285,7 @@ def export_to_rdf(force_delete, python_path):
     # Saving RDF/XML to file
     rdf_output = graph.serialize(format="pretty-xml")
     masterdata_file = os.path.join(export_dir, "masterdata.owl")
-    with open(masterdata_file, "w") as f:
+    with open(masterdata_file, "w", encoding="utf-8") as f:
         f.write(rdf_output)
 
     click.echo(
