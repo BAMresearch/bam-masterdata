@@ -45,7 +45,8 @@ class BaseEntity(BaseModel):
             if not (
                 attr_name.startswith("_")
                 or callable(cls_attrs[attr_name])
-                or attr_name in ["defs", "model_config"]
+                or attr_name
+                in ["defs", "model_config", "model_fields", "model_computed_fields"]
             )
         ]
         return [getattr(self, attr_name) for attr_name in base_attrs]
