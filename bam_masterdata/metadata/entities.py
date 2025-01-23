@@ -104,19 +104,15 @@ class BaseEntity(BaseModel):
                 graph.add((entity_uri, RDFS.subClassOf, parent_uri))
 
         # Add attributes like id, code, description in English and Deutsch, property_label, data_type
-        graph.add((entity_uri, SKOS.prefLabel, Literal(self.defs.id, lang="en")))
+        graph.add((entity_uri, RDFS.label, Literal(self.defs.id, lang="en")))
         graph.add((entity_uri, DC.identifier, Literal(self.defs.code)))
         descriptions = self.defs.description.split("//")
         if len(descriptions) > 1:
-            graph.add(
-                (entity_uri, SKOS.definition, Literal(descriptions[0], lang="en"))
-            )
-            graph.add(
-                (entity_uri, SKOS.definition, Literal(descriptions[1], lang="de"))
-            )
+            graph.add((entity_uri, RDFS.comment, Literal(descriptions[0], lang="en")))
+            graph.add((entity_uri, RDFS.comment, Literal(descriptions[1], lang="de")))
         else:
             graph.add(
-                (entity_uri, SKOS.definition, Literal(self.defs.description, lang="en"))
+                (entity_uri, RDFS.comment, Literal(self.defs.description, lang="en"))
             )
         # Adding properties relationships to the entities
         for assigned_prop in self._base_attrs:
