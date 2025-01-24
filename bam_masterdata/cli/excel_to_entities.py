@@ -251,15 +251,20 @@ def terms_to_dict(sheet, start_index_row, last_non_empty_row):
             # Check the column below "Code"
             if term == "Code":
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
-                    if cell.value is not None:
-                        codes.append(cell.value)
-                    else:
-                        codes.append(None)
+                    if not re.match(r"^\$?[A-Z0-9_.]+$", cell.value):
+                        logger.error(
+                            f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate}"
+                        )
+                    codes.append(cell.value)
 
             # Check the cell below "Description"
             elif term == "Description":
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
                     if cell.value is not None:
+                        if not re.match(r".*//.*", str(cell.value)):
+                            logger.error(
+                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate}. Description should follow the schema: English Description + '//' + German Description. "
+                            )
                         descriptions.append(cell.value)
                     else:
                         descriptions.append("")
@@ -267,6 +272,13 @@ def terms_to_dict(sheet, start_index_row, last_non_empty_row):
             elif term == "Url template":
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
                     if cell.value is not None:
+                        if not re.match(
+                            r"https?://(?:www\.)?[a-zA-Z0-9-._~:/?#@!$&'()*+,;=%]+",
+                            str(cell.value),
+                        ):
+                            logger.error(
+                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate}."
+                            )
                         urls.append(cell.value)
                     else:
                         urls.append("")
@@ -275,6 +287,10 @@ def terms_to_dict(sheet, start_index_row, last_non_empty_row):
             elif term == "Label":
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
                     if cell.value is not None:
+                        if not re.match(r".*", str(cell.value)):
+                            logger.error(
+                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate}"
+                            )
                         labels.append(cell.value)
                     else:
                         labels.append("")
@@ -284,6 +300,10 @@ def terms_to_dict(sheet, start_index_row, last_non_empty_row):
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
                     official = cell.value
                     if official is not None:
+                        if official not in ["TRUE", "FALSE"]:
+                            logger.error(
+                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate}. Accepted values: TRUE or FALSE."
+                            )
                         official = official.strip().lower() == "true"
                         officials.append(official)
                     else:
