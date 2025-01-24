@@ -1,13 +1,23 @@
 import re
 from typing import TYPE_CHECKING, Any
 
-# import logger
 import openpyxl
+
+from bam_masterdata.logger import logger
 
 # logger = logger()
 
 
 def index_to_excel_column(index):
+    """
+    Converts a 1-based index to an Excel column name.
+
+    Args:
+        index: The 1-based index to convert.
+
+    Returns:
+        The corresponding Excel column name.
+    """
     column = ""
     while index > 0:
         index, remainder = divmod(index - 1, 26)
@@ -28,9 +38,7 @@ def get_last_non_empty_row(sheet, start_index):
         or None if no non-empty rows are found starting from the given index.
     """
     last_non_empty_row = None
-
     for row in range(start_index, sheet.max_row + 1):
-        # Check if the entire row is empty
         if all(
             sheet.cell(row=row, column=col).value in (None, "")
             for col in range(1, sheet.max_column + 1)
@@ -43,6 +51,18 @@ def get_last_non_empty_row(sheet, start_index):
 
 
 def properties_to_dict(sheet, start_index_row, last_non_empty_row):
+    """
+    Extracts properties from an Entity type block in the Excel sheet and returns them as a dictionary.
+
+    Args:
+        sheet: The worksheet object.
+        start_index_row: Row where the current entity type begins (1-based index).
+        last_non_empty_row: Row where the current entity type finish (1-based index).
+
+    Returns:
+        A dictionary where each key is a property code and the value is a dictionary
+        containing the attributes of the property.
+    """
     property_dict = {}
     expected_terms = [
         "Code",
@@ -55,11 +75,11 @@ def properties_to_dict(sheet, start_index_row, last_non_empty_row):
         "Vocabulary code",
     ]
 
+    # Determine the header row index
     header_index = start_index_row + 3
     row_headers = [cell.value for cell in sheet[header_index]]
 
-    # print("Header index:", header_index, "//Header:", row_headers)
-    # code_index = row_headers.index("Code") + 1
+    # Initialize lists to store property attributes
     (
         codes,
         descriptions,
@@ -71,177 +91,134 @@ def properties_to_dict(sheet, start_index_row, last_non_empty_row):
         vocabulary_codes,
     ) = [], [], [], [], [], [], [], []
 
+    # Iterate over expected terms and extract corresponding column values
     for term in expected_terms:
         if term not in row_headers:
             if term in ("Mandatory", "Show in edit views", "Section"):
-                print(f"Warning: '{term}' not found in the properties headers.")
+                logger.warning(f"'{term}' not found in the properties headers.")
             else:
-                print(f"Error: '{term}' not found in the properties headers.")
+                logger.error(f"'{term}' not found in the properties headers.")
         else:
             # Find the index of the term in the row
             term_index = row_headers.index(term) + 1
             term_letter = index_to_excel_column(term_index)
-            # print(term_index)
 
+            # Extract values based on the term
             # Check the column below "Code"
             if term == "Code":
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
-                    if cell.value is not None:
-                        codes.append(cell.value)
-                    else:
-                        codes.append(None)
-                # invalid_codes = [
-                #     i + 5
-                #     for i, cell in enumerate(codes)
-                #     if not re.match(r"^\$?[A-Z0-9_.]+$", str(cell))
-                # ]
-                # if invalid_codes:
-                #     # Append an error indicating the positions (row numbers) with invalid values for the current term
-                #     print(
-                #         f"Error: Invalid code found in the '{term}' column at row(s): {', '.join(map(str, invalid_codes))}"
-                #     )
+                    if not re.match(r"^\$?[A-Z0-9_.]+$", cell.value):
+                        logger.error(
+                            f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate}"
+                        )
+                    codes.append(cell.value)
 
             # Check the cell below "Description"
             elif term == "Description":
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
                     if cell.value is not None:
+                        if not re.match(r".*//.*", str(cell.value)):
+                            logger.error(
+                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate}. Description should follow the schema: English Description + '//' + German Description. "
+                            )
                         descriptions.append(cell.value)
                     else:
                         descriptions.append("")
-                # invalid_descriptions = [
-                #     i + 5
-                #     for i, cell in enumerate(descriptions)
-                #     if not re.match(r".*//.*", str(cell))
-                # ]
-                # if invalid_descriptions:
-                #     print(
-                #         f"Error: Invalid value(s) found in the '{term}' column at row(s): {', '.join(map(str, invalid_descriptions))}. Description should follow the schema: English Description + '//' + German Description."
-                #     )
 
             # Check the cell below "Mandatory"
             elif term == "Mandatory":
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
                     mandatory = cell.value
                     if mandatory is not None:
+                        if mandatory not in ["TRUE", "FALSE"]:
+                            logger.error(
+                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate}. Accepted values: TRUE or FALSE."
+                            )
                         mandatory = mandatory.strip().lower() == "true"
                         mandatories.append(mandatory)
                     else:
                         mandatories.append(False)
-                # invalid_mandatory = [
-                #     i + 5
-                #     for i, cell in enumerate(mandatories)
-                #     if cell not in ["TRUE", "FALSE"]
-                # ]
-                # if invalid_mandatory:
-                #     print(
-                #         f"Error: Invalid value found in the '{term}' column at row(s): {', '.join(map(str, invalid_mandatory))}. Accepted values: TRUE, FALSE"
-                #     )
 
             # Check the cell below "Show in edit views"
             elif term == "Show in edit views":
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
                     show = cell.value
                     if show is not None:
+                        if show not in ["TRUE", "FALSE"]:
+                            logger.error(
+                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate}. Accepted values: TRUE or FALSE."
+                            )
                         show = show.strip().lower() == "true"
                         shows.append(show)
                     else:
                         shows.append(False)
-                # invalid_show = [
-                #     i + 5
-                #     for i, cell in enumerate(shows)
-                #     if cell not in ["TRUE", "FALSE"]
-                # ]
-                # if invalid_show:
-                #     print(
-                #         f"Error: Invalid value found in the '{term}' column at row(s): {', '.join(map(str, invalid_show))}. Accepted values: TRUE, FALSE"
-                #     )
 
             # Check the cell below "Section"
             elif term == "Section":
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
+                    if not re.match(r".*", str(cell.value)):
+                        logger.error(
+                            f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate}."
+                        )
                     if cell.value is not None:
                         sections.append(cell.value)
                     else:
                         sections.append("")
-                # invalid_section = [
-                #     i + 5
-                #     for i, cell in enumerate(sections)
-                #     if not re.match(r".*", str(cell))
-                # ]
-                # if invalid_section:
-                #     print(
-                #         f"Error: Invalid value found in the '{term}' column at row(s): {', '.join(map(str, invalid_section))}. Specify the section as text format"
-                #     )
 
             # Check the cell below "Property label"
             elif term == "Property label":
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
+                    if not re.match(r".*", str(cell.value)):
+                        logger.error(
+                            f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate}"
+                        )
                     if cell.value is not None:
                         labels.append(cell.value)
                     else:
                         labels.append("")
-                # invalid_label = [
-                #     i + 5
-                #     for i, cell in enumerate(labels)
-                #     if not re.match(r".*", str(cell))
-                # ]
-                # if invalid_label:
-                #     print(
-                #         f"Error: Invalid value found in the '{term}' column at row(s): {', '.join(map(str, invalid_label))}. Specify the property label as text format"
-                #     )
 
             # Check the cell below "Data type"
             elif term == "Data type":
+                data_types = [
+                    "INTEGER",
+                    "REAL",
+                    "VARCHAR",
+                    "MULTILINE_VARCHAR",
+                    "HYPERLINK",
+                    "BOOLEAN",
+                    "CONTROLLEDVOCABULARY",
+                    "XML",
+                    "TIMESTAMP",
+                    "DATE",
+                    "SAMPLE",
+                ]
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
+                    if cell.value not in data_types:
+                        logger.error(
+                            f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate}. The Data Type should be one of the following: {data_types}"
+                        )
                     if cell.value is not None:
                         data_types.append(str(cell.value).upper())
                     else:
                         data_types.append("")
-                # invalid_type = [
-                #     i + 5
-                #     for i, cell in enumerate(data_types)
-                #     if cell
-                #     not in [
-                #         "INTEGER",
-                #         "REAL",
-                #         "VARCHAR",
-                #         "MULTILINE_VARCHAR",
-                #         "HYPERLINK",
-                #         "BOOLEAN",
-                #         "CONTROLLEDVOCABULARY",
-                #         "XML",
-                #         "TIMESTAMP",
-                #         "DATE",
-                #         "SAMPLE",
-                #     ]
-                # ]
-                # if invalid_type:
-                #     print(
-                #         f"Error: Invalid value found in the '{term}' column at row(s): {', '.join(map(str, invalid_type))}. Accepted types: INTEGER, REAL, VARCHAR, MULTILINE_VARCHAR, HYPERLINK, BOOLEAN, CONTROLLEDVOCABULARY, XML, TIMESTAMP, DATE, SAMPLE"
-                #     )
 
             # Check the column below "Vocabulary code"
             elif term == "Vocabulary code":
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
                     if cell.value is not None:
-                        vocabulary_codes.append(str(cell.value).upper())
+                        if not re.match(r"^\$?[A-Z0-9_.]+$", str(cell.value)):
+                            logger.error(
+                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate}"
+                            )
                     else:
                         vocabulary_codes.append("")
-                # invalid_vocab = [
-                #     i + 5
-                #     for i, cell in enumerate(vocabulary_codes)
-                #     if cell and not re.match(r"^\$?[A-Z0-9_.]+$", str(cell))
-                # ]
-                # if invalid_vocab:
-                #     # Append an error indicating the positions (row numbers) with invalid values for the current term
-                #     print(
-                #         f"Error: Invalid vocabulary code found in the '{term}' column at row(s): {', '.join(map(str, invalid_vocab))}"
-                #     )
 
+    # Combine extracted values into a dictionary
     for i in range(0, len(codes)):
         property_dict[codes[i]] = {
             "permId": codes[i],
             "code": codes[i],
+            "description": descriptions[i],
             "section": sections[i],
             "mandatory": mandatories[i],
             "show_in_edit_views": shows[i],
