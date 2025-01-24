@@ -80,30 +80,50 @@ def rdf_graph_init(g: "Graph") -> None:
     bam_props_uri = {
         BAM["hasMandatoryProperty"]: [
             (RDF.type, OWL.ObjectProperty),
-            (RDFS.domain, BAM.ObjectType),
+            # (RDFS.domain, OWL.Class),
             (RDFS.range, BAM.PropertyType),
             (RDFS.label, Literal("hasMandatoryProperty", lang="en")),
+            (
+                RDFS.comment,
+                Literal(
+                    "The property must be mandatorily filled when creating the object in openBIS.",
+                    lang="en",
+                ),
+            ),
         ],
         BAM["hasOptionalProperty"]: [
             (RDF.type, OWL.ObjectProperty),
-            (RDFS.domain, BAM.ObjectType),
+            # (RDFS.domain, OWL.Class),
             (RDFS.range, BAM.PropertyType),
             (RDFS.label, Literal("hasOptionalProperty", lang="en")),
+            (
+                RDFS.comment,
+                Literal(
+                    "The property is optionally filled when creating the object in openBIS.",
+                    lang="en",
+                ),
+            ),
         ],
         BAM["referenceTo"]: [
             (RDF.type, OWL.ObjectProperty),
             (RDFS.domain, BAM.PropertyType),  # Restricting domain to PropertyType
-            (RDFS.range, BAM.ObjectType),  # Explicitly setting range to ObjectType
+            # (RDFS.range, OWL.Class),  # Explicitly setting range to ObjectType
             (RDFS.label, Literal("referenceTo", lang="en")),
+            (
+                RDFS.comment,
+                Literal(
+                    "The property is referencing an object existing in openBIS.",
+                    lang="en",
+                ),
+            ),
         ],
     }
     for prop_uri, obj_properties in bam_props_uri.items():
         for prop in obj_properties:  # type: ignore
             g.add((prop_uri, prop[0], prop[1]))  # type: ignore
 
-    # Adding base PropertyType object as a placeholder for all properties
-    prop_uri = BAM.PropertyType
-    g.add((prop_uri, RDF.type, OWL.Class))
+    # Adding base PropertyType and other objects as placeholders
+    # ! add only PropertyType
     prop_type_description = """A conceptual placeholder used to define and organize properties as first-class entities.
         PropertyType is used to place properties and define their metadata, separating properties from the
         entities they describe.
@@ -112,7 +132,12 @@ def rdf_graph_init(g: "Graph") -> None:
         - PropertyType can align with `BFO:Quality` for inherent attributes.
         - PropertyType can represent `BFO:Role` if properties serve functional purposes.
         - PropertyType can be treated as a `prov:Entity` when properties participate in provenance relationships."""
-    g.add((prop_uri, RDFS.comment, Literal(prop_type_description, lang="en")))
+    for entity in ["PropertyType", "ObjectType", "CollectionType", "DatasetType"]:
+        entity_uri = BAM[entity]
+        g.add((entity_uri, RDF.type, OWL.Thing))
+        g.add((entity_uri, RDFS.label, Literal(entity, lang="en")))
+        if entity == "PropertyType":
+            g.add((entity_uri, RDFS.comment, Literal(prop_type_description, lang="en")))
 
 
 def entities_to_rdf(
@@ -136,7 +161,7 @@ def entities_to_rdf(
             prop_uri = BAM[obj.id]
 
             # Define the property as an OWL class inheriting from PropertyType
-            graph.add((prop_uri, RDF.type, OWL.Class))
+            graph.add((prop_uri, RDF.type, OWL.Thing))
             graph.add((prop_uri, RDFS.subClassOf, BAM.PropertyType))
 
             # Add attributes like id, code, description in English and Deutsch, property_label, data_type
