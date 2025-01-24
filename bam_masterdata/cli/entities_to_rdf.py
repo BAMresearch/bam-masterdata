@@ -7,11 +7,12 @@ if TYPE_CHECKING:
 
 import click
 from rdflib import BNode, Literal, Namespace
-from rdflib.namespace import DC, OWL, RDF, RDFS, SKOS
+from rdflib.namespace import DC, OWL, RDF, RDFS
 
 from bam_masterdata.utils import code_to_class_name, import_module
 
-BAM = Namespace("http://bam.de/masterdata/")
+BAM = Namespace("https://bamresearch.github.io/bam-masterdata/")
+PROV = Namespace("http://www.w3.org/ns/prov#")
 
 
 def rdf_graph_init(g: "Graph") -> None:
@@ -20,8 +21,8 @@ def rdf_graph_init(g: "Graph") -> None:
     g.bind("owl", OWL)
     g.bind("rdf", RDF)
     g.bind("rdfs", RDFS)
-    g.bind("skos", SKOS)
     g.bind("bam", BAM)
+    g.bind("prov", PROV)
 
     # Adding annotation properties from base namespaces
     annotation_props = [
@@ -36,10 +37,32 @@ def rdf_graph_init(g: "Graph") -> None:
     custom_annotation_props = {
         BAM[
             "dataType"
-        ]: "Defines the data type of the property type in openBIS (VARCHAR, OBJECT, CONTROLLEDVOCABULARY)",
+        ]: """Represents the data type of a property as defined in the openBIS platform.
+        This annotation is used to ensure alignment with the native data types in openBIS,
+        facilitating seamless integration and data exchange.
+
+        The allowed values for this annotation correspond directly to the openBIS type system,
+        including BOOLEAN, CONTROLLEDVOCABULARY, DATE, HYPERLINK, INTEGER, MULTILINE_VARCHAR, OBJECT,
+        REAL, TIMESTAMP, VARCHAR, and XML.
+
+        While `bam:dataType` is primarily intended for internal usage with openBIS, mappings to
+        standard vocabularies such as `xsd` (e.g., `xsd:boolean`, `xsd:string`) are possible to use and documented to
+        enhance external interoperability. The full mapping is:
+        - BOOLEAN: xsd:boolean
+        - CONTROLLEDVOCABULARY: xsd:string
+        - DATE: xsd:date
+        - HYPERLINK: xsd:anyURI
+        - INTEGER: xsd:integer
+        - MULTILINE_VARCHAR: xsd:string
+        - OBJECT: bam:ObjectType
+        - REAL: xsd:decimal
+        - TIMESTAMP: xsd:dateTime
+        - VARCHAR: xsd:string
+        - XML: xsd:string""",
         BAM[
             "propertyLabel"
-        ]: "A human-readable label used to identify the property in user interfaces or documentation of openBIS.",
+        ]: """A UI-specific annotation used in openBIS to provide an alternative label for a property
+        displayed in the frontend. Not intended for semantic reasoning or interoperability beyond openBIS.""",
     }
     for custom_prop, custom_prop_def in custom_annotation_props.items():
         g.add((custom_prop, RDF.type, OWL.AnnotationProperty))
@@ -47,7 +70,7 @@ def rdf_graph_init(g: "Graph") -> None:
             (
                 custom_prop,
                 RDFS.label,
-                Literal(f"obis:{custom_prop.split('/')[-1]}", lang="en"),
+                Literal(f"bam:{custom_prop.split('/')[-1]}", lang="en"),
             )
         )
         g.add((custom_prop, RDFS.comment, Literal(custom_prop_def, lang="en")))
@@ -59,7 +82,7 @@ def rdf_graph_init(g: "Graph") -> None:
             (RDF.type, OWL.ObjectProperty),
             (RDFS.domain, BAM.ObjectType),
             (RDFS.range, BAM.PropertyType),
-            (SKOS.prefLabel, Literal("hasMandatoryProperty", lang="en")),
+            (RDFS.label, Literal("hasMandatoryProperty", lang="en")),
         ],
         BAM["hasOptionalProperty"]: [
             (RDF.type, OWL.ObjectProperty),
@@ -78,11 +101,18 @@ def rdf_graph_init(g: "Graph") -> None:
         for prop in obj_properties:  # type: ignore
             g.add((prop_uri, prop[0], prop[1]))  # type: ignore
 
-    # Adding base entity types objects
-    for entity in ["PropertyType", "ObjectType", "CollectionType", "DatasetType"]:
-        entity_uri = BAM[entity]
-        g.add((entity_uri, RDF.type, OWL.Class))
-        g.add((entity_uri, RDFS.label, Literal(entity, lang="en")))
+    # Adding base PropertyType object as a placeholder for all properties
+    prop_uri = BAM.PropertyType
+    g.add((prop_uri, RDF.type, OWL.Class))
+    prop_type_description = """A conceptual placeholder used to define and organize properties as first-class entities.
+        PropertyType is used to place properties and define their metadata, separating properties from the
+        entities they describe.
+
+        In integration scenarios:
+        - PropertyType can align with `BFO:Quality` for inherent attributes.
+        - PropertyType can represent `BFO:Role` if properties serve functional purposes.
+        - PropertyType can be treated as a `prov:Entity` when properties participate in provenance relationships."""
+    g.add((prop_uri, RDFS.comment, Literal(prop_type_description, lang="en")))
 
 
 def entities_to_rdf(
