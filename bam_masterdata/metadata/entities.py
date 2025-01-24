@@ -96,20 +96,20 @@ class BaseEntity(BaseModel):
         entity_uri = namespace[self.defs.id]
 
         # Define the entity as an OWL class inheriting from the specific namespace type
-        graph.add((entity_uri, RDF.type, OWL.Class))
+        graph.add((entity_uri, RDF.type, OWL.Thing))
         parent_classes = self.__class__.__bases__
         for parent_class in parent_classes:
             if issubclass(parent_class, BaseEntity) and parent_class != BaseEntity:
-                if parent_class.__name__ in [
-                    "ObjectType",
-                    "CollectionType",
-                    "DatasetType",
-                ]:
-                    # ! add here logic of subClassOf connecting with PROV-O or BFO
-                    # ! maybe via classes instead of ObjectType/CollectionType/DatasetType?
-                    # ! Example:
-                    # !     graph.add((entity_uri, RDFS.subClassOf, "http://www.w3.org/ns/prov#Entity"))
-                    continue
+                # if parent_class.__name__ in [
+                #     "ObjectType",
+                #     "CollectionType",
+                #     "DatasetType",
+                # ]:
+                #     # ! add here logic of subClassOf connecting with PROV-O or BFO
+                #     # ! maybe via classes instead of ObjectType/CollectionType/DatasetType?
+                #     # ! Example:
+                #     # !     graph.add((entity_uri, RDFS.subClassOf, "http://www.w3.org/ns/prov#Entity"))
+                #     continue
                 parent_uri = namespace[parent_class.__name__]
                 graph.add((entity_uri, RDFS.subClassOf, parent_uri))
 
