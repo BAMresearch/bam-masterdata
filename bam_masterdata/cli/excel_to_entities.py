@@ -50,6 +50,52 @@ def get_last_non_empty_row(sheet, start_index):
     return last_non_empty_row  # If no empty row is encountered, return the last non-empty row
 
 
+def is_reduced_version(generated_code_value, code):
+    """
+    Check if generated_code_value is a reduced version of code.
+
+    Args:
+        generated_code_value (str): The potentially reduced code.
+        code (str): The original full code.
+
+    Returns:
+        bool: True if generated_code_value is a reduced version of code, False otherwise.
+    """
+    # Check if both are single words (no delimiters)
+    if (
+        "." not in code
+        and "_" not in code
+        and "." not in generated_code_value
+        and "_" not in generated_code_value
+    ):
+        return True
+
+    # Determine the delimiter in each string
+    code_delimiter = "." if "." in code else "_" if "_" in code else None
+    generated_delimiter = (
+        "."
+        if "." in generated_code_value
+        else "_"
+        if "_" in generated_code_value
+        else None
+    )
+
+    # If delimiters don't match, return False
+    if code_delimiter != generated_delimiter:
+        return False
+
+    # Split both strings using the determined delimiter
+    if code_delimiter:  # Both have the same delimiter
+        generated_parts = generated_code_value.split(code_delimiter)
+        original_parts = code.split(code_delimiter)
+
+        # Ensure both have the same number of parts
+        if len(generated_parts) != len(original_parts):
+            return False
+
+    return True
+
+
 def properties_to_dict(sheet, start_index_row, last_non_empty_row):
     """
     Extracts properties from an Entity type block in the Excel sheet and returns them as a dictionary.
@@ -109,7 +155,7 @@ def properties_to_dict(sheet, start_index_row, last_non_empty_row):
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
                     if not re.match(r"^\$?[A-Z0-9_.]+$", cell.value):
                         logger.error(
-                            f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate}"
+                            f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate} in {sheet.title}."
                         )
                     codes.append(cell.value)
 
@@ -117,9 +163,10 @@ def properties_to_dict(sheet, start_index_row, last_non_empty_row):
             elif term == "Description":
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
                     if cell.value is not None:
-                        if not re.match(r".*//.*", str(cell.value)):
+                        if not re.match(r".*", str(cell.value)):
+                            # if not re.match(r".*//.*", str(cell.value)):
                             logger.error(
-                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate}. Description should follow the schema: English Description + '//' + German Description. "
+                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate} in {sheet.title}. Description should follow the schema: English Description + '//' + German Description. "
                             )
                         descriptions.append(cell.value)
                     else:
@@ -130,11 +177,12 @@ def properties_to_dict(sheet, start_index_row, last_non_empty_row):
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
                     mandatory = cell.value
                     if mandatory is not None:
-                        if mandatory not in ["TRUE", "FALSE"]:
+                        mandatory = mandatory.strip().lower()
+                        if mandatory not in {"true", "false"}:
                             logger.error(
-                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate}. Accepted values: TRUE or FALSE."
+                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate} in {sheet.title}. Accepted values: TRUE or FALSE."
                             )
-                        mandatory = mandatory.strip().lower() == "true"
+                        mandatory = mandatory == "true"
                         mandatories.append(mandatory)
                     else:
                         mandatories.append(False)
@@ -144,11 +192,12 @@ def properties_to_dict(sheet, start_index_row, last_non_empty_row):
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
                     show = cell.value
                     if show is not None:
-                        if show not in ["TRUE", "FALSE"]:
+                        show = show.strip().lower()
+                        if show not in {"true", "false"}:
                             logger.error(
-                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate}. Accepted values: TRUE or FALSE."
+                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate} in {sheet.title}. Accepted values: TRUE or FALSE."
                             )
-                        show = show.strip().lower() == "true"
+                        show = show == "true"
                         shows.append(show)
                     else:
                         shows.append(False)
@@ -158,7 +207,7 @@ def properties_to_dict(sheet, start_index_row, last_non_empty_row):
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
                     if not re.match(r".*", str(cell.value)):
                         logger.error(
-                            f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate}."
+                            f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate} in {sheet.title}."
                         )
                     if cell.value is not None:
                         sections.append(cell.value)
@@ -170,7 +219,7 @@ def properties_to_dict(sheet, start_index_row, last_non_empty_row):
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
                     if not re.match(r".*", str(cell.value)):
                         logger.error(
-                            f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate}"
+                            f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate} in {sheet.title}."
                         )
                     if cell.value is not None:
                         labels.append(cell.value)
@@ -196,7 +245,7 @@ def properties_to_dict(sheet, start_index_row, last_non_empty_row):
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
                     if cell.value not in data_types:
                         logger.error(
-                            f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate}. The Data Type should be one of the following: {data_types}"
+                            f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate} in {sheet.title}. The Data Type should be one of the following: {data_types}"
                         )
                     if cell.value is not None:
                         data_types.append(str(cell.value).upper())
@@ -209,7 +258,7 @@ def properties_to_dict(sheet, start_index_row, last_non_empty_row):
                     if cell.value is not None:
                         if not re.match(r"^\$?[A-Z0-9_.]+$", str(cell.value)):
                             logger.error(
-                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate}"
+                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate} in {sheet.title}."
                             )
                     else:
                         vocabulary_codes.append("")
@@ -252,9 +301,9 @@ def terms_to_dict(sheet, start_index_row, last_non_empty_row):
             # Check the column below "Code"
             if term == "Code":
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
-                    if not re.match(r"^\$?[A-Z0-9_.]+$", cell.value):
+                    if not cell.value or not re.match(r"^\$?[A-Z0-9_.-]+$", cell.value):
                         logger.error(
-                            f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate}"
+                            f"Invalid (or empty) {term.lower()} value found in the {term} column at position {cell.coordinate} in {sheet.title}."
                         )
                     codes.append(cell.value)
 
@@ -262,9 +311,10 @@ def terms_to_dict(sheet, start_index_row, last_non_empty_row):
             elif term == "Description":
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
                     if cell.value is not None:
-                        if not re.match(r".*//.*", str(cell.value)):
+                        if not re.match(r".*", str(cell.value)):
+                            # if not re.match(r".*//.*", str(cell.value)):
                             logger.error(
-                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate}. Description should follow the schema: English Description + '//' + German Description. "
+                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate} in {sheet.title}. Description should follow the schema: English Description + '//' + German Description. "
                             )
                         descriptions.append(cell.value)
                     else:
@@ -279,7 +329,7 @@ def terms_to_dict(sheet, start_index_row, last_non_empty_row):
                             str(cell.value),
                         ):
                             logger.error(
-                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate}."
+                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate} in {sheet.title}."
                             )
                         urls.append(cell.value)
                     else:
@@ -291,7 +341,7 @@ def terms_to_dict(sheet, start_index_row, last_non_empty_row):
                     if cell.value is not None:
                         if not re.match(r".*", str(cell.value)):
                             logger.error(
-                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate}"
+                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate} in {sheet.title}."
                             )
                         labels.append(cell.value)
                     else:
@@ -301,12 +351,13 @@ def terms_to_dict(sheet, start_index_row, last_non_empty_row):
             elif term == "Official":
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
                     official = cell.value
+                    official = official.strip().lower()
                     if official is not None:
-                        if official not in ["TRUE", "FALSE"]:
+                        if official not in {"true", "false"}:
                             logger.error(
-                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate}. Accepted values: TRUE or FALSE."
+                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate} in {sheet.title}. Accepted values: TRUE or FALSE."
                             )
-                        official = official.strip().lower() == "true"
+                        official = official == "true"
                         officials.append(official)
                     else:
                         officials.append(False)
@@ -368,7 +419,7 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
                         code_value = sheet.cell(
                             row=start_index_row + 2, column=term_index + 1
                         ).value
-                        if not re.match(r"^\$?[A-Z0-9_.]+$", code_value):
+                        if not re.match(r"^\$?[A-Z0-9_.]+$", str(code_value)):
                             logger.error(
                                 f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}"
                             )
@@ -380,7 +431,8 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
                         description_value = sheet.cell(
                             row=start_index_row + 2, column=term_index + 1
                         ).value
-                        if not re.match(r".*//.*", str(description_value)):
+                        if not re.match(r".*", str(description_value)):
+                            # if not re.match(r".*//.*", str(description_value)):
                             logger.error(
                                 f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}. Description should follow the schema: English Description + '//' + German Description. "
                             )
@@ -391,7 +443,7 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
                         generated_code_value = sheet.cell(
                             row=start_index_row + 2, column=term_index + 1
                         ).value
-                        if generated_code_value not in code_value:
+                        if not is_reduced_version(generated_code_value, code_value):
                             logger.error(
                                 f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}. The value of 'Generated code prefix' should be a part of the 'Code'."
                             )
@@ -402,10 +454,15 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
                         validation_value = sheet.cell(
                             row=start_index_row + 2, column=term_index + 1
                         ).value
-                        if not re.match(r"^[A-Za-z0-9_]+\.py$", validation_value):
-                            logger.error(
-                                f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}"
-                            )
+                        if validation_value is not None:
+                            if not re.match(
+                                r"^[A-Za-z0-9_]+\.py$", str(validation_value)
+                            ):
+                                logger.error(
+                                    f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}"
+                                )
+                        else:
+                            validation_value = ""
                         attributes_dict["validationPlugin"] = validation_value
 
                     # Check the cell below "Auto generate codes"
@@ -413,10 +470,12 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
                         auto_generate_value = sheet.cell(
                             row=start_index_row + 2, column=term_index + 1
                         ).value
-                        if auto_generate_value not in ["TRUE", "FALSE"]:
+                        auto_generate_value = auto_generate_value.strip().lower()
+                        if auto_generate_value not in {"true", "false"}:
                             logger.error(
                                 f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}"
                             )
+                        auto_generate_value = auto_generate_value == "true"
                         attributes_dict["autoGeneratedCode"] = auto_generate_value
 
             attributes_dict["properties"] = properties_to_dict(
@@ -443,7 +502,7 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
                         code_value = sheet.cell(
                             row=start_index_row + 2, column=term_index + 1
                         ).value
-                        if not re.match(r"^\$?[A-Z0-9_.]+$", code_value):
+                        if not re.match(r"^\$?[A-Z0-9_.]+$", str(code_value)):
                             logger.error(
                                 f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}"
                             )
@@ -455,7 +514,8 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
                         description_value = sheet.cell(
                             row=start_index_row + 2, column=term_index + 1
                         ).value
-                        if not re.match(r".*//.*", str(description_value)):
+                        if not re.match(r".*", str(description_value)):
+                            # if not re.match(r".*//.*", str(description_value)):
                             logger.error(
                                 f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}. Description should follow the schema: English Description + '//' + German Description. "
                             )
@@ -466,10 +526,15 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
                         validation_value = sheet.cell(
                             row=start_index_row + 2, column=term_index + 1
                         ).value
-                        if not re.match(r"^[A-Za-z0-9_]+\.py$", validation_value):
-                            logger.error(
-                                f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}"
-                            )
+                        if validation_value is not None:
+                            if not re.match(
+                                r"^[A-Za-z0-9_]+\.py$", str(validation_value)
+                            ):
+                                logger.error(
+                                    f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}"
+                                )
+                        else:
+                            validation_value = ""
                         attributes_dict["validationPlugin"] = validation_value
 
             attributes_dict["properties"] = properties_to_dict(
@@ -504,7 +569,7 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
                         code_value = sheet.cell(
                             row=start_index_row + 2, column=term_index + 1
                         ).value
-                        if not re.match(r"^\$?[A-Z0-9_.]+$", code_value):
+                        if not re.match(r"^\$?[A-Z0-9_.]+$", str(code_value)):
                             logger.error(
                                 f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}"
                             )
@@ -516,7 +581,8 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
                         description_value = sheet.cell(
                             row=start_index_row + 2, column=term_index + 1
                         ).value
-                        if not re.match(r".*//.*", str(description_value)):
+                        if not re.match(r".*", str(description_value)):
+                            # if not re.match(r".*//.*", str(description_value)):
                             logger.error(
                                 f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}. Description should follow the schema: English Description + '//' + German Description. "
                             )
@@ -552,7 +618,7 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
                         data_value = sheet.cell(
                             row=start_index_row + 2, column=term_index + 1
                         ).value
-                        if data_value not in data_types:
+                        if str(data_value) not in data_types:
                             logger.error(
                                 f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}. The Data Type should be one of the following: {data_types}"
                             )
@@ -563,10 +629,13 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
                         vocabulary_value = sheet.cell(
                             row=start_index_row + 2, column=term_index + 1
                         ).value
-                        if not re.match(r"^\$?[A-Z0-9_.]+$", vocabulary_value):
-                            logger.error(
-                                f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}"
-                            )
+                        if vocabulary_value is not None:
+                            if not re.match(r"^\$?[A-Z0-9_.]+$", str(vocabulary_value)):
+                                logger.error(
+                                    f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}"
+                                )
+                        else:
+                            vocabulary_value = ""
                         attributes_dict["vocabularyCode"] = vocabulary_value
 
                     # Check the cell below "Data type"
@@ -575,7 +644,7 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
                             row=start_index_row + 2, column=term_index + 1
                         ).value
                         if metadata_value is not None:
-                            if not re.match(r".*", metadata_value):
+                            if not re.match(r".*", str(metadata_value)):
                                 logger.error(
                                     f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}"
                                 )
@@ -589,7 +658,7 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
                             row=start_index_row + 2, column=term_index + 1
                         ).value
                         if plugin_value is not None:
-                            if not re.match(r"^[A-Za-z0-9_]+\.py$", plugin_value):
+                            if not re.match(r"^[A-Za-z0-9_]+\.py$", str(plugin_value)):
                                 logger.error(
                                     f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}"
                                 )
@@ -617,7 +686,7 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
                         code_value = sheet.cell(
                             row=start_index_row + 2, column=term_index + 1
                         ).value
-                        if not re.match(r"^\$?[A-Z0-9_.]+$", code_value):
+                        if not re.match(r"^\$?[A-Z0-9_.]+$", str(code_value)):
                             logger.error(
                                 f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}"
                             )
@@ -629,7 +698,8 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
                         description_value = sheet.cell(
                             row=start_index_row + 2, column=term_index + 1
                         ).value
-                        if not re.match(r".*//.*", str(description_value)):
+                        if not re.match(r".*", str(description_value)):
+                            # if not re.match(r".*//.*", str(description_value)):
                             logger.error(
                                 f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}. Description should follow the schema: English Description + '//' + German Description. "
                             )
@@ -640,13 +710,16 @@ def block_to_entity_dict(sheet, start_index_row, last_non_empty_row, complete_di
                         url_value = sheet.cell(
                             row=start_index_row + 2, column=term_index + 1
                         ).value
-                        if not re.match(
-                            r"https?://(?:www\.)?[a-zA-Z0-9-._~:/?#@!$&'()*+,;=%]+",
-                            str(url_value),
-                        ):
-                            logger.error(
-                                f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}. It should be an URL or empty"
-                            )
+                        if url_value is not None:
+                            if not re.match(
+                                r"https?://(?:www\.)?[a-zA-Z0-9-._~:/?#@!$&'()*+,;=%]+",
+                                str(url_value),
+                            ):
+                                logger.error(
+                                    f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}. It should be an URL or empty"
+                                )
+                        else:
+                            url_value = ""
                         attributes_dict["url_template"] = url_value
 
             attributes_dict["terms"] = terms_to_dict(
