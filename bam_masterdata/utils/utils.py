@@ -2,6 +2,7 @@ import glob
 import importlib.util
 import os
 import shutil
+from itertools import chain
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
@@ -92,3 +93,23 @@ def import_module(module_path: str) -> Any:
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
+
+
+def code_to_class_name(code: str, entity_type: str = "object") -> str:
+    """
+    Converts an openBIS `code` to a class name by capitalizing each word and removing special characters. In
+    the special case the entity is a property type, it retains the full name separated by points instead of
+    only keeping the last name (e.g., "TEM.INSTRUMENT" -> "TemInstrument" instead of "Instrument").
+
+    Args:
+        code (str): The openBIS code to convert to a class name.
+        entity_type (str): The type of entity to convert. Default is "object".
+    Returns:
+        str: The class name derived from the openBIS code.
+    """
+    if entity_type == "property":
+        code_names = chain.from_iterable(
+            [c.split("_") for c in code.lstrip("$").split(".")]
+        )
+        return "".join(c.capitalize() for c in code_names)
+    return "".join(c.capitalize() for c in code.lstrip("$").rsplit(".")[-1].split("_"))
