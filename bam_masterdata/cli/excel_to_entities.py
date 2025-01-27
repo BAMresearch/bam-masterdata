@@ -1,5 +1,5 @@
 import re
-from typing import TYPE_CHECKING, Any, Optional, dict
+from typing import TYPE_CHECKING, Any, Optional
 
 import openpyxl
 from openpyxl.worksheet.worksheet import Worksheet
@@ -791,7 +791,7 @@ def excel_to_entities(
         A dictionary where each key is a normalized sheet name and the value is a dictionary
         containing the extracted entities.
     """
-    sheets_dict = {}
+    sheets_dict: dict[str, dict[str, Any]] = {}
 
     # Load the workbook and get the sheet names
     workbook = openpyxl.load_workbook(excel_path)
