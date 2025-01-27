@@ -3,6 +3,7 @@ import time
 import click
 
 from bam_masterdata.openbis import OpenbisEntities
+from bam_masterdata.utils import code_to_class_name
 
 
 class MasterdataCodeGenerator:
@@ -23,20 +24,6 @@ class MasterdataCodeGenerator:
         click.echo(
             f"Loaded OpenBIS entities in `MasterdataCodeGenerator` initialization {elapsed_time:.2f} seconds\n"
         )
-
-    def _format_class_name(self, code: str) -> str:
-        """
-        Format the class name based on the `code` of the entity to follow Python snake case conventions.
-
-        Args:
-            code (str): The code of the entity.
-
-        Returns:
-            str: The formatted class name.
-        """
-        if "." in code:
-            code = code.split(".")[-1]
-        return code.title().replace("_", "").replace("$", "")
 
     def determine_parent_class(
         self, code: str, class_names: dict, default: str, lines: list
@@ -63,7 +50,7 @@ class MasterdataCodeGenerator:
         parent_class = class_names.get(parent_code, default)
 
         # Format class name
-        class_name = self._format_class_name(code)
+        class_name = code_to_class_name(code)
         class_names[code] = class_name
 
         # If the parent class does not exist but the `code` shows some inheritance, we add a note for debugging
@@ -152,7 +139,7 @@ class MasterdataCodeGenerator:
                 continue
 
             # Format class name
-            class_name = self._format_class_name(code)
+            class_name = code_to_class_name(code, entity_type="property")
 
             # Add class definition
             lines.append(f"{class_name} = PropertyTypeDef(")
