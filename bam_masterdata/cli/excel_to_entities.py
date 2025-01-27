@@ -177,7 +177,7 @@ def properties_to_dict(
             # Check the cell below "Mandatory"
             elif term == "Mandatory":
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
-                    mandatory = cell.value
+                    mandatory = str(cell.value)
                     if mandatory is not None:
                         mandatory = mandatory.strip().lower()
                         if mandatory not in {"true", "false"}:
@@ -192,7 +192,7 @@ def properties_to_dict(
             # Check the cell below "Show in edit views"
             elif term == "Show in edit views":
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
-                    show = cell.value
+                    show = str(cell.value)
                     if show is not None:
                         show = show.strip().lower()
                         if show not in {"true", "false"}:
@@ -307,12 +307,11 @@ def terms_to_dict(
 
     for term in expected_terms:
         if term not in row_headers:
-            print(f"Warning: '{term}' not found in the properties headers.")
+            logger.warning(f"{term} not found in the properties headers.")
         else:
             # Find the index of the term in the row
             term_index = row_headers.index(term) + 1
             term_letter = index_to_excel_column(term_index)
-            # print(term_index)
 
             # Check the column below "Code"
             if term == "Code":
@@ -366,7 +365,7 @@ def terms_to_dict(
             # Check the cell below "Officials"
             elif term == "Official":
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
-                    official = cell.value
+                    official = str(cell.value)
                     official = official.strip().lower()
                     if official is not None:
                         if official not in {"true", "false"}:
@@ -408,7 +407,7 @@ def block_to_entity_dict(
     Returns:
         A dictionary containing the entity attributes.
     """
-    attributes_dict = {}
+    attributes_dict: dict[str, Any] = {}
 
     # Get the entity type from the specified cell
     entity_type_position = f"A{start_index_row}"
@@ -429,7 +428,7 @@ def block_to_entity_dict(
 
     # Check if the entity type is valid
     if entity_type not in entity_types:
-        print(
+        logger.error(
             "The entity type (cell A1) should be one of the following: SAMPLE_TYPE/OBJECT_TYPE, EXPERIMENT_TYPE/COLLECTION_TYPE, DATASET_TYPE, PROPERTY_TYPE, VOCABULARY_TYPE"
         )
     else:
@@ -504,9 +503,11 @@ def block_to_entity_dict(
 
                     # Check the cell below "Auto generate codes"
                     elif term == "Auto generate codes":
-                        auto_generate_value = sheet.cell(
-                            row=start_index_row + 2, column=term_index + 1
-                        ).value
+                        auto_generate_value = str(
+                            sheet.cell(
+                                row=start_index_row + 2, column=term_index + 1
+                            ).value
+                        )
                         auto_generate_value = auto_generate_value.strip().lower()
                         if auto_generate_value not in {"true", "false"}:
                             logger.error(
@@ -600,7 +601,7 @@ def block_to_entity_dict(
             ]
             for term in expected_terms:
                 if term not in header_terms:
-                    print(f"Error: '{term}' not found in the second row.")
+                    logger.error(f"{term} not found in the second row.")
                 else:
                     # Find the index of the term in the second row
                     term_index = header_terms.index(term)
@@ -718,7 +719,7 @@ def block_to_entity_dict(
             expected_terms = ["Code", "Description", "Url template"]
             for term in expected_terms:
                 if term not in header_terms:
-                    print(f"Error: '{term}' not found in the second row.")
+                    logger.error(f"{term} not found in the second row.")
                 else:
                     # Find the index of the term in the second row
                     term_index = header_terms.index(term)
@@ -812,11 +813,11 @@ def excel_to_entities(
             # Check if we've reached the end of the sheet or found two consecutive empty rows
             if last_non_empty_row is None:
                 if i == len(sheet_names) - 1:  # Check if it's the last sheet
-                    print(
+                    logger.info(
                         f"Last sheet {sheet_name} processed. End of the file reached."
                     )
                 else:
-                    print(
+                    logger.info(
                         f"End of the current sheet {sheet_name} reached. Switching to next sheet..."
                     )
                 break
@@ -840,11 +841,11 @@ def excel_to_entities(
                 for col in range(1, sheet.max_column + 1)
             ):
                 if i == len(sheet_names) - 1:  # Check if it's the last sheet
-                    print(
+                    logger.info(
                         f"Last sheet {sheet_name} processed. End of the file reached."
                     )
                 else:
-                    print(
+                    logger.info(
                         f"End of the current sheet {sheet_name} reached. Switching to next sheet..."
                     )
                 break
