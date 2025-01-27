@@ -39,7 +39,7 @@ def cli():
     """,
 )
 @click.option(
-    "--path",
+    "--excel-file",
     type=click.Path(exists=True, dir_okay=False),
     required=False,
     help="""
@@ -50,7 +50,7 @@ def fill_masterdata(url, path):
     start_time = time.time()
 
     # Define output directory
-    output_directory = "./artifacts/tmp/" if path else DATAMODEL_DIR
+    output_directory = os.path.join(DATAMODEL_DIR, "tmp") if path else DATAMODEL_DIR
 
     # Ensure the output directory exists
     os.makedirs(output_directory, exist_ok=True)
