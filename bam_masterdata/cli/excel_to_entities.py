@@ -131,13 +131,14 @@ def properties_to_dict(
     (
         codes,
         descriptions,
-        mandatories,
-        shows,
         sections,
         labels,
         data_types,
         vocabulary_codes,
-    ) = [], [], [], [], [], [], [], []
+    ) = [], [], [], [], [], []
+
+    mandatories: list[bool] = []
+    shows: list[bool] = []
 
     # Iterate over expected terms and extract corresponding column values
     for term in expected_terms:
@@ -303,7 +304,8 @@ def terms_to_dict(
     header_index = start_index_row + 3
     row_headers = [cell.value for cell in sheet[header_index]]
 
-    (codes, descriptions, urls, labels, officials) = [], [], [], [], []
+    (codes, descriptions, urls, labels) = [], [], [], []
+    officials: list[bool] = []
 
     for term in expected_terms:
         if term not in row_headers:
@@ -407,7 +409,7 @@ def block_to_entity_dict(
     Returns:
         A dictionary containing the entity attributes.
     """
-    attributes_dict: dict[str, Any] = {}
+    attributes_dict = {}
 
     # Get the entity type from the specified cell
     entity_type_position = f"A{start_index_row}"
@@ -428,7 +430,7 @@ def block_to_entity_dict(
 
     # Check if the entity type is valid
     if entity_type not in entity_types:
-        logger.error(
+        raise ValueError(
             "The entity type (cell A1) should be one of the following: SAMPLE_TYPE/OBJECT_TYPE, EXPERIMENT_TYPE/COLLECTION_TYPE, DATASET_TYPE, PROPERTY_TYPE, VOCABULARY_TYPE"
         )
     else:
