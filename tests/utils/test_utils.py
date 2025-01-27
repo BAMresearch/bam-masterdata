@@ -6,6 +6,7 @@ import pytest
 
 from bam_masterdata.logger import logger
 from bam_masterdata.utils import (
+    code_to_class_name,
     delete_and_create_dir,
     import_module,
     listdir_py_modules,
@@ -106,3 +107,46 @@ def test_import_module():
         "import_module",
         "listdir_py_modules",
     ]
+
+
+@pytest.mark.parametrize(
+    "code, entity_type, result",
+    [
+        # for entities which are objects
+        # normal code
+        ("NORMAL", "object", "Normal"),
+        # code starting with '$'
+        ("$NATIVE", "object", "Native"),
+        # code separated by underscores
+        ("SEPARATED_BY_UNDERSCORES", "object", "SeparatedByUnderscores"),
+        # code starting with '$' and separated by underscores
+        ("$NATIVE_SEPARATED_BY_UNDERSCORES", "object", "NativeSeparatedByUnderscores"),
+        # code with a dot for inheritance
+        ("POINT.INHERITANCE", "object", "Inheritance"),
+        # code starting with '$' and with a dot for inheritance
+        ("$POINT.INHERITANCE", "object", "Inheritance"),
+        # code starting with '$' and with a dot for inheritance and separated by underscores
+        ("$POINT.INHERITANCE_SEPARATED", "object", "InheritanceSeparated"),
+        # for entities which are properties
+        # normal code
+        ("NORMAL", "property", "Normal"),
+        # code starting with '$'
+        ("$NATIVE", "property", "Native"),
+        # code separated by underscores
+        ("SEPARATED_BY_UNDERSCORES", "property", "SeparatedByUnderscores"),
+        # code starting with '$' and separated by underscores
+        (
+            "$NATIVE_SEPARATED_BY_UNDERSCORES",
+            "property",
+            "NativeSeparatedByUnderscores",
+        ),
+        # code with a dot for inheritance
+        ("POINT.INHERITANCE", "property", "PointInheritance"),
+        # code starting with '$' and with a dot for inheritance
+        ("$POINT.INHERITANCE", "property", "PointInheritance"),
+        # code starting with '$' and with a dot for inheritance and separated by underscores
+        ("$POINT.INHERITANCE_SEPARATED", "property", "PointInheritanceSeparated"),
+    ],
+)
+def test_code_to_class_name(code: str, entity_type: str, result: str):
+    assert code_to_class_name(code, entity_type) == result
