@@ -46,26 +46,28 @@ def cli():
     (Optional) The path to the Masterdata Excel file.
     """,
 )
-def fill_masterdata(url, path):
+def fill_masterdata(url, excel_file):
     start_time = time.time()
 
     # Define output directory
-    output_directory = os.path.join(DATAMODEL_DIR, "tmp") if path else DATAMODEL_DIR
+    output_directory = (
+        os.path.join(DATAMODEL_DIR, "tmp") if excel_file else DATAMODEL_DIR
+    )
 
     # Ensure the output directory exists
     os.makedirs(output_directory, exist_ok=True)
 
     # Check for mutual exclusivity
-    if path and url:
+    if excel_file and url:
         raise click.UsageError(
-            "You cannot specify both --url and --path. Please choose one."
+            "You cannot specify both --url and --excel-file. Please choose one."
         )
 
     # ! this takes a lot of time loading all the entities in Openbis
     # Use the URL if provided, otherwise fall back to defaults
-    if path:
-        click.echo(f"Using the Masterdata Excel file path: {path}\n")
-        generator = MasterdataCodeGenerator(path=path)
+    if excel_file:
+        click.echo(f"Using the Masterdata Excel file path: {excel_file}\n")
+        generator = MasterdataCodeGenerator(path=excel_file)
     else:
         if not url:
             url = environ("OPENBIS_URL")
