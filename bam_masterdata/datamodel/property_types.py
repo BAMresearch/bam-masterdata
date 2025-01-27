@@ -2143,12 +2143,11 @@ InitialSsyRatio = PropertyTypeDef(
 )
 
 
-# ! Missing `object_code`
 Instrument = PropertyTypeDef(
     code="INSTRUMENT",
     description="""Testing machine or measurement device//Prüfmaschine oder Messgerät""",
     data_type="OBJECT",
-    # object_code="(ALL)",
+    object_code="(ALL)",
     property_label="Testing Machine or Measurement Device",
 )
 
@@ -4733,7 +4732,7 @@ WorkflowManager = PropertyTypeDef(
 )
 
 
-AdditionalInformation = PropertyTypeDef(
+OrderAdditionalInformation = PropertyTypeDef(
     code="$ORDER.ADDITIONAL_INFORMATION",
     description="""Additional Information""",
     data_type="VARCHAR",
@@ -4741,7 +4740,7 @@ AdditionalInformation = PropertyTypeDef(
 )
 
 
-BillTo = PropertyTypeDef(
+OrderBillTo = PropertyTypeDef(
     code="$ORDER.BILL_TO",
     description="""Bill To""",
     data_type="VARCHAR",
@@ -4749,7 +4748,7 @@ BillTo = PropertyTypeDef(
 )
 
 
-ContactFax = PropertyTypeDef(
+OrderContactFax = PropertyTypeDef(
     code="$ORDER.CONTACT_FAX",
     description="""Fax""",
     data_type="VARCHAR",
@@ -4757,7 +4756,7 @@ ContactFax = PropertyTypeDef(
 )
 
 
-ContactPhone = PropertyTypeDef(
+OrderContactPhone = PropertyTypeDef(
     code="$ORDER.CONTACT_PHONE",
     description="""Phone""",
     data_type="VARCHAR",
@@ -4765,7 +4764,7 @@ ContactPhone = PropertyTypeDef(
 )
 
 
-OrderState = PropertyTypeDef(
+OrderOrderState = PropertyTypeDef(
     code="$ORDER.ORDER_STATE",
     description="""Order State""",
     data_type="VARCHAR",
@@ -4773,7 +4772,7 @@ OrderState = PropertyTypeDef(
 )
 
 
-ShipAddress = PropertyTypeDef(
+OrderShipAddress = PropertyTypeDef(
     code="$ORDER.SHIP_ADDRESS",
     description="""Ship Address""",
     data_type="VARCHAR",
@@ -4781,7 +4780,7 @@ ShipAddress = PropertyTypeDef(
 )
 
 
-ShipTo = PropertyTypeDef(
+OrderShipTo = PropertyTypeDef(
     code="$ORDER.SHIP_TO",
     description="""Ship To""",
     data_type="VARCHAR",
@@ -4789,7 +4788,7 @@ ShipTo = PropertyTypeDef(
 )
 
 
-OrderStatus = PropertyTypeDef(
+OrderingOrderStatus = PropertyTypeDef(
     code="$ORDERING.ORDER_STATUS",
     description="""Order Status""",
     data_type="CONTROLLEDVOCABULARY",
@@ -4798,7 +4797,7 @@ OrderStatus = PropertyTypeDef(
 )
 
 
-CatalogNum = PropertyTypeDef(
+ProductCatalogNum = PropertyTypeDef(
     code="$PRODUCT.CATALOG_NUM",
     description="""Catalog Number""",
     data_type="VARCHAR",
@@ -4806,7 +4805,7 @@ CatalogNum = PropertyTypeDef(
 )
 
 
-Currency = PropertyTypeDef(
+ProductCurrency = PropertyTypeDef(
     code="$PRODUCT.CURRENCY",
     description="""Currency""",
     data_type="CONTROLLEDVOCABULARY",
@@ -4815,7 +4814,7 @@ Currency = PropertyTypeDef(
 )
 
 
-PricePerUnit = PropertyTypeDef(
+ProductPricePerUnit = PropertyTypeDef(
     code="$PRODUCT.PRICE_PER_UNIT",
     description="""Estimated Price""",
     data_type="REAL",
@@ -4823,7 +4822,7 @@ PricePerUnit = PropertyTypeDef(
 )
 
 
-Description = PropertyTypeDef(
+PublicationDescription = PropertyTypeDef(
     code="$PUBLICATION.DESCRIPTION",
     description="""Description""",
     data_type="VARCHAR",
@@ -4831,7 +4830,7 @@ Description = PropertyTypeDef(
 )
 
 
-Identifier = PropertyTypeDef(
+PublicationIdentifier = PropertyTypeDef(
     code="$PUBLICATION.IDENTIFIER",
     description="""Identifier""",
     data_type="VARCHAR",
@@ -4839,7 +4838,7 @@ Identifier = PropertyTypeDef(
 )
 
 
-OpenbisRelatedIdentifiers = PropertyTypeDef(
+PublicationOpenbisRelatedIdentifiers = PropertyTypeDef(
     code="$PUBLICATION.OPENBIS_RELATED_IDENTIFIERS",
     description="""openBIS Related Identifiers""",
     data_type="VARCHAR",
@@ -4847,7 +4846,7 @@ OpenbisRelatedIdentifiers = PropertyTypeDef(
 )
 
 
-Organization = PropertyTypeDef(
+PublicationOrganization = PropertyTypeDef(
     code="$PUBLICATION.ORGANIZATION",
     description="""Organization""",
     data_type="VARCHAR",
@@ -4855,7 +4854,7 @@ Organization = PropertyTypeDef(
 )
 
 
-Type = PropertyTypeDef(
+PublicationType = PropertyTypeDef(
     code="$PUBLICATION.TYPE",
     description="""Type""",
     data_type="VARCHAR",
@@ -4863,7 +4862,7 @@ Type = PropertyTypeDef(
 )
 
 
-Url = PropertyTypeDef(
+PublicationUrl = PropertyTypeDef(
     code="$PUBLICATION.URL",
     description="""URL""",
     data_type="HYPERLINK",
@@ -4871,7 +4870,7 @@ Url = PropertyTypeDef(
 )
 
 
-CustomData = PropertyTypeDef(
+SearchQueryCustomData = PropertyTypeDef(
     code="$SEARCH_QUERY.CUSTOM_DATA",
     description="""Additional data in custom format""",
     data_type="XML",
@@ -4879,7 +4878,7 @@ CustomData = PropertyTypeDef(
 )
 
 
-FetchOptions = PropertyTypeDef(
+SearchQueryFetchOptions = PropertyTypeDef(
     code="$SEARCH_QUERY.FETCH_OPTIONS",
     description="""V3 API fetch options""",
     data_type="XML",
@@ -4887,7 +4886,7 @@ FetchOptions = PropertyTypeDef(
 )
 
 
-SearchCriteria = PropertyTypeDef(
+SearchQuerySearchCriteria = PropertyTypeDef(
     code="$SEARCH_QUERY.SEARCH_CRITERIA",
     description="""V3 API search criteria""",
     data_type="XML",
@@ -4895,7 +4894,7 @@ SearchCriteria = PropertyTypeDef(
 )
 
 
-BoxNum = PropertyTypeDef(
+StorageBoxNum = PropertyTypeDef(
     code="$STORAGE.BOX_NUM",
     description="""Allowed number of Boxes in a rack""",
     data_type="INTEGER",
@@ -4903,7 +4902,7 @@ BoxNum = PropertyTypeDef(
 )
 
 
-BoxSpaceWarning = PropertyTypeDef(
+StorageBoxSpaceWarning = PropertyTypeDef(
     code="$STORAGE.BOX_SPACE_WARNING",
     description="""Number between 0 and 99, represents a percentage""",
     data_type="INTEGER",
@@ -4911,7 +4910,7 @@ BoxSpaceWarning = PropertyTypeDef(
 )
 
 
-ColumnNum = PropertyTypeDef(
+StorageColumnNum = PropertyTypeDef(
     code="$STORAGE.COLUMN_NUM",
     description="""Number of Columns""",
     data_type="INTEGER",
@@ -4919,7 +4918,7 @@ ColumnNum = PropertyTypeDef(
 )
 
 
-RowNum = PropertyTypeDef(
+StorageRowNum = PropertyTypeDef(
     code="$STORAGE.ROW_NUM",
     description="""Number of Rows""",
     data_type="INTEGER",
@@ -4927,7 +4926,7 @@ RowNum = PropertyTypeDef(
 )
 
 
-StorageSpaceWarning = PropertyTypeDef(
+StorageStorageSpaceWarning = PropertyTypeDef(
     code="$STORAGE.STORAGE_SPACE_WARNING",
     description="""Number between 0 and 99, represents a percentage""",
     data_type="INTEGER",
@@ -4935,7 +4934,7 @@ StorageSpaceWarning = PropertyTypeDef(
 )
 
 
-StorageValidationLevel = PropertyTypeDef(
+StorageStorageValidationLevel = PropertyTypeDef(
     code="$STORAGE.STORAGE_VALIDATION_LEVEL",
     description="""Validation level""",
     data_type="CONTROLLEDVOCABULARY",
@@ -4944,7 +4943,7 @@ StorageValidationLevel = PropertyTypeDef(
 )
 
 
-StorageBoxName = PropertyTypeDef(
+StoragePositionStorageBoxName = PropertyTypeDef(
     code="$STORAGE_POSITION.STORAGE_BOX_NAME",
     description="""Box Name""",
     data_type="VARCHAR",
@@ -4952,7 +4951,7 @@ StorageBoxName = PropertyTypeDef(
 )
 
 
-StorageBoxPosition = PropertyTypeDef(
+StoragePositionStorageBoxPosition = PropertyTypeDef(
     code="$STORAGE_POSITION.STORAGE_BOX_POSITION",
     description="""Box Position""",
     data_type="VARCHAR",
@@ -4960,7 +4959,7 @@ StorageBoxPosition = PropertyTypeDef(
 )
 
 
-StorageBoxSize = PropertyTypeDef(
+StoragePositionStorageBoxSize = PropertyTypeDef(
     code="$STORAGE_POSITION.STORAGE_BOX_SIZE",
     description="""Box Size""",
     data_type="CONTROLLEDVOCABULARY",
@@ -4969,7 +4968,7 @@ StorageBoxSize = PropertyTypeDef(
 )
 
 
-StorageCode = PropertyTypeDef(
+StoragePositionStorageCode = PropertyTypeDef(
     code="$STORAGE_POSITION.STORAGE_CODE",
     description="""Storage Code""",
     data_type="VARCHAR",
@@ -4977,7 +4976,7 @@ StorageCode = PropertyTypeDef(
 )
 
 
-StorageRackColumn = PropertyTypeDef(
+StoragePositionStorageRackColumn = PropertyTypeDef(
     code="$STORAGE_POSITION.STORAGE_RACK_COLUMN",
     description="""Number of Columns""",
     data_type="INTEGER",
@@ -4985,7 +4984,7 @@ StorageRackColumn = PropertyTypeDef(
 )
 
 
-StorageRackRow = PropertyTypeDef(
+StoragePositionStorageRackRow = PropertyTypeDef(
     code="$STORAGE_POSITION.STORAGE_RACK_ROW",
     description="""Number of Rows""",
     data_type="INTEGER",
@@ -4993,7 +4992,7 @@ StorageRackRow = PropertyTypeDef(
 )
 
 
-StorageUser = PropertyTypeDef(
+StoragePositionStorageUser = PropertyTypeDef(
     code="$STORAGE_POSITION.STORAGE_USER",
     description="""Storage User Id""",
     data_type="VARCHAR",
@@ -5001,7 +5000,7 @@ StorageUser = PropertyTypeDef(
 )
 
 
-CompanyAddressLine1 = PropertyTypeDef(
+SupplierCompanyAddressLine1 = PropertyTypeDef(
     code="$SUPPLIER.COMPANY_ADDRESS_LINE_1",
     description="""Company address""",
     data_type="VARCHAR",
@@ -5009,7 +5008,7 @@ CompanyAddressLine1 = PropertyTypeDef(
 )
 
 
-CompanyAddressLine2 = PropertyTypeDef(
+SupplierCompanyAddressLine2 = PropertyTypeDef(
     code="$SUPPLIER.COMPANY_ADDRESS_LINE_2",
     description="""Company address, line 2""",
     data_type="VARCHAR",
@@ -5017,7 +5016,7 @@ CompanyAddressLine2 = PropertyTypeDef(
 )
 
 
-CompanyEmail = PropertyTypeDef(
+SupplierCompanyEmail = PropertyTypeDef(
     code="$SUPPLIER.COMPANY_EMAIL",
     description="""Company email""",
     data_type="VARCHAR",
@@ -5025,7 +5024,7 @@ CompanyEmail = PropertyTypeDef(
 )
 
 
-CompanyFax = PropertyTypeDef(
+SupplierCompanyFax = PropertyTypeDef(
     code="$SUPPLIER.COMPANY_FAX",
     description="""Company fax""",
     data_type="VARCHAR",
@@ -5033,7 +5032,7 @@ CompanyFax = PropertyTypeDef(
 )
 
 
-CompanyLanguage = PropertyTypeDef(
+SupplierCompanyLanguage = PropertyTypeDef(
     code="$SUPPLIER.COMPANY_LANGUAGE",
     description="""Company language""",
     data_type="CONTROLLEDVOCABULARY",
@@ -5042,7 +5041,7 @@ CompanyLanguage = PropertyTypeDef(
 )
 
 
-CompanyPhone = PropertyTypeDef(
+SupplierCompanyPhone = PropertyTypeDef(
     code="$SUPPLIER.COMPANY_PHONE",
     description="""Company phone""",
     data_type="VARCHAR",
@@ -5050,7 +5049,7 @@ CompanyPhone = PropertyTypeDef(
 )
 
 
-CustomerNumber = PropertyTypeDef(
+SupplierCustomerNumber = PropertyTypeDef(
     code="$SUPPLIER.CUSTOMER_NUMBER",
     description="""Customer number""",
     data_type="VARCHAR",
@@ -5058,7 +5057,7 @@ CustomerNumber = PropertyTypeDef(
 )
 
 
-ColorEncodedAnnotation = PropertyTypeDef(
+WellColorEncodedAnnotation = PropertyTypeDef(
     code="$WELL.COLOR_ENCODED_ANNOTATION",
     description="""Color Annotation for plate wells""",
     data_type="CONTROLLEDVOCABULARY",
@@ -5067,7 +5066,7 @@ ColorEncodedAnnotation = PropertyTypeDef(
 )
 
 
-CompatibleRotors = PropertyTypeDef(
+CentrifugeCompatibleRotors = PropertyTypeDef(
     code="CENTRIFUGE.COMPATIBLE_ROTORS",
     description="""Compatible Rotors with this Centrifuge//Kompatible Rotatoren mit dieser Zentrifuge""",
     data_type="VARCHAR",
@@ -5075,7 +5074,7 @@ CompatibleRotors = PropertyTypeDef(
 )
 
 
-DateLastDguvChecking = PropertyTypeDef(
+CentrifugeDateLastDguvChecking = PropertyTypeDef(
     code="CENTRIFUGE.DATE_LAST_DGUV_CHECKING",
     description="""Date of last checks according to DGUV Paragraph 3 Rule 100-500//Datum der letzten sicherheitstechnischen Überprüfung gemäß DGUV Paragraph 3 Regel 100-500""",
     data_type="DATE",
@@ -5083,7 +5082,7 @@ DateLastDguvChecking = PropertyTypeDef(
 )
 
 
-IsTemperatureControlled = PropertyTypeDef(
+CentrifugeIsTemperatureControlled = PropertyTypeDef(
     code="CENTRIFUGE.IS_TEMPERATURE_CONTROLLED",
     description="""Centrifuge Temperature can be set//Zentrifuge ist temperierbar""",
     data_type="BOOLEAN",
@@ -5091,7 +5090,7 @@ IsTemperatureControlled = PropertyTypeDef(
 )
 
 
-MaximumSpeedRcf = PropertyTypeDef(
+CentrifugeMaximumSpeedRcf = PropertyTypeDef(
     code="CENTRIFUGE.MAXIMUM_SPEED_RCF",
     description="""Maximum Centrifugation Speed (depending on rotor) [rcf]//Maximale Zentrifugationsgeschwindigkeit (rotorabhängig) [rcf]""",
     data_type="INTEGER",
@@ -5099,7 +5098,7 @@ MaximumSpeedRcf = PropertyTypeDef(
 )
 
 
-MaximumSpeedRpm = PropertyTypeDef(
+CentrifugeMaximumSpeedRpm = PropertyTypeDef(
     code="CENTRIFUGE.MAXIMUM_SPEED_RPM",
     description="""Maximum Centrifugation Speed (depending on rotor) [rpm]//Maximale Zentrifugationsgeschwindigkeit (rotorabhängig) [rpm]""",
     data_type="INTEGER",
@@ -5107,7 +5106,7 @@ MaximumSpeedRpm = PropertyTypeDef(
 )
 
 
-MaximumTemperature = PropertyTypeDef(
+CentrifugeMaximumTemperature = PropertyTypeDef(
     code="CENTRIFUGE.MAXIMUM_TEMPERATURE",
     description="""Maximum Centrifuge Temperature [°C]//Maximale Zentrifugen-Temperatur [°C]""",
     data_type="INTEGER",
@@ -5115,7 +5114,7 @@ MaximumTemperature = PropertyTypeDef(
 )
 
 
-MinimumTemperature = PropertyTypeDef(
+CentrifugeMinimumTemperature = PropertyTypeDef(
     code="CENTRIFUGE.MINIMUM_TEMPERATURE",
     description="""Minimum Centrifuge Temperature [°C]//Minimale Zentrifugen-Temperatur [°C]""",
     data_type="INTEGER",
@@ -5123,7 +5122,7 @@ MinimumTemperature = PropertyTypeDef(
 )
 
 
-RequiresDguvChecking = PropertyTypeDef(
+CentrifugeRequiresDguvChecking = PropertyTypeDef(
     code="CENTRIFUGE.REQUIRES_DGUV_CHECKING",
     description="""Requires checks according to DGUV Paragraph 3 Rule 100-500//Sicherheitstechnische Überprüfung gemäß DGUV Paragraph 3 Regel 100-500 vorgeschrieben""",
     data_type="BOOLEAN",
@@ -5131,7 +5130,7 @@ RequiresDguvChecking = PropertyTypeDef(
 )
 
 
-CompatibleVials = PropertyTypeDef(
+CentrifugeRotorCompatibleVials = PropertyTypeDef(
     code="CENTRIFUGE_ROTOR.COMPATIBLE_VIALS",
     description="""Compatible vials (possibly with adapters)//Kompatible Gefäße (ggf. mit Adapter)""",
     data_type="VARCHAR",
@@ -5139,7 +5138,7 @@ CompatibleVials = PropertyTypeDef(
 )
 
 
-MaximumCapacityVials = PropertyTypeDef(
+CentrifugeRotorMaximumCapacityVials = PropertyTypeDef(
     code="CENTRIFUGE_ROTOR.MAXIMUM_CAPACITY_VIALS",
     description="""Maximum Rotor Capacity (number of vials)//Maximale Rotor-Kapazität (Anzahl an Gefäßen)""",
     data_type="INTEGER",
@@ -5147,7 +5146,7 @@ MaximumCapacityVials = PropertyTypeDef(
 )
 
 
-MaximumCapacityVolume = PropertyTypeDef(
+CentrifugeRotorMaximumCapacityVolume = PropertyTypeDef(
     code="CENTRIFUGE_ROTOR.MAXIMUM_CAPACITY_VOLUME",
     description="""Maximum Rotor Capacity (volume) [mL]//Maximale Rotor-Kapazität (Volumen) [mL]""",
     data_type="INTEGER",
@@ -5155,7 +5154,7 @@ MaximumCapacityVolume = PropertyTypeDef(
 )
 
 
-MaximumSpeedRcf = PropertyTypeDef(
+CentrifugeRotorMaximumSpeedRcf = PropertyTypeDef(
     code="CENTRIFUGE_ROTOR.MAXIMUM_SPEED_RCF",
     description="""Maximum Rotor Speed [rcf]//Maximale Rotor-Geschwindigkeit [rcf]""",
     data_type="INTEGER",
@@ -5163,7 +5162,7 @@ MaximumSpeedRcf = PropertyTypeDef(
 )
 
 
-MaximumSpeedRpm = PropertyTypeDef(
+CentrifugeRotorMaximumSpeedRpm = PropertyTypeDef(
     code="CENTRIFUGE_ROTOR.MAXIMUM_SPEED_RPM",
     description="""Maximum Rotor Speed [rpm]//Maximale Rotor-Geschwindigkeit [rpm]""",
     data_type="INTEGER",
@@ -5171,7 +5170,7 @@ MaximumSpeedRpm = PropertyTypeDef(
 )
 
 
-ExperimentalDescription = PropertyTypeDef(
+DefaultExperimentExperimentalDescription = PropertyTypeDef(
     code="DEFAULT_EXPERIMENT.EXPERIMENTAL_DESCRIPTION",
     description="""Description of the experiment""",
     data_type="MULTILINE_VARCHAR",
@@ -5179,7 +5178,7 @@ ExperimentalDescription = PropertyTypeDef(
 )
 
 
-ExperimentalGoals = PropertyTypeDef(
+DefaultExperimentExperimentalGoals = PropertyTypeDef(
     code="DEFAULT_EXPERIMENT.EXPERIMENTAL_GOALS",
     description="""Goals of the experiment""",
     data_type="MULTILINE_VARCHAR",
@@ -5187,7 +5186,7 @@ ExperimentalGoals = PropertyTypeDef(
 )
 
 
-ExperimentalResults = PropertyTypeDef(
+DefaultExperimentExperimentalResults = PropertyTypeDef(
     code="DEFAULT_EXPERIMENT.EXPERIMENTAL_RESULTS",
     description="""Summary of  experimental results""",
     data_type="MULTILINE_VARCHAR",
@@ -5195,7 +5194,7 @@ ExperimentalResults = PropertyTypeDef(
 )
 
 
-Grant = PropertyTypeDef(
+DefaultExperimentGrant = PropertyTypeDef(
     code="DEFAULT_EXPERIMENT.GRANT",
     description="""Grant""",
     data_type="VARCHAR",
@@ -5203,7 +5202,7 @@ Grant = PropertyTypeDef(
 )
 
 
-Analysismodel = PropertyTypeDef(
+DlsAnalysismodel = PropertyTypeDef(
     code="DLS.ANALYSISMODEL",
     description="""Analysis Model//Analysemodell""",
     data_type="VARCHAR",
@@ -5211,7 +5210,7 @@ Analysismodel = PropertyTypeDef(
 )
 
 
-Attenuator = PropertyTypeDef(
+DlsAttenuator = PropertyTypeDef(
     code="DLS.ATTENUATOR",
     description="""Attenuator for DLS Measurement//Abschwächung für DLS Messung""",
     data_type="INTEGER",
@@ -5219,7 +5218,7 @@ Attenuator = PropertyTypeDef(
 )
 
 
-Celldescription = PropertyTypeDef(
+DlsCelldescription = PropertyTypeDef(
     code="DLS.CELLDESCRIPTION",
     description="""DLS Cell Description//DLS Messküvette""",
     data_type="VARCHAR",
@@ -5227,7 +5226,7 @@ Celldescription = PropertyTypeDef(
 )
 
 
-Cond = PropertyTypeDef(
+DlsCond = PropertyTypeDef(
     code="DLS.COND",
     description="""Conductivity [mS/cm]//Leitfähigkeit [mS/cm]""",
     data_type="REAL",
@@ -5235,7 +5234,7 @@ Cond = PropertyTypeDef(
 )
 
 
-Cumulantsfiterror = PropertyTypeDef(
+DlsCumulantsfiterror = PropertyTypeDef(
     code="DLS.CUMULANTSFITERROR",
     description="""Cumulants Fit Error//Fehler des Kummulanten-Fits""",
     data_type="REAL",
@@ -5243,7 +5242,7 @@ Cumulantsfiterror = PropertyTypeDef(
 )
 
 
-Dispersant = PropertyTypeDef(
+DlsDispersant = PropertyTypeDef(
     code="DLS.DISPERSANT",
     description="""Dispersant for DLS Measurement//Dispersant für DLS Messung""",
     data_type="VARCHAR",
@@ -5251,7 +5250,7 @@ Dispersant = PropertyTypeDef(
 )
 
 
-Fkamodel = PropertyTypeDef(
+DlsFkamodel = PropertyTypeDef(
     code="DLS.FKAMODEL",
     description="""Fka Model//Fka Modell""",
     data_type="VARCHAR",
@@ -5259,7 +5258,7 @@ Fkamodel = PropertyTypeDef(
 )
 
 
-Intercept = PropertyTypeDef(
+DlsIntercept = PropertyTypeDef(
     code="DLS.INTERCEPT",
     description="""Measured Intercept//Achsenabschnitt""",
     data_type="REAL",
@@ -5267,7 +5266,7 @@ Intercept = PropertyTypeDef(
 )
 
 
-Material = PropertyTypeDef(
+DlsMaterial = PropertyTypeDef(
     code="DLS.MATERIAL",
     description="""Material Name for DLS Measurement//Materialname für DLS Messung""",
     data_type="VARCHAR",
@@ -5275,7 +5274,7 @@ Material = PropertyTypeDef(
 )
 
 
-Multimodalfiterror = PropertyTypeDef(
+DlsMultimodalfiterror = PropertyTypeDef(
     code="DLS.MULTIMODALFITERROR",
     description="""Multimodal Fit Error//Fehler des multimodalen Fits""",
     data_type="REAL",
@@ -5283,7 +5282,7 @@ Multimodalfiterror = PropertyTypeDef(
 )
 
 
-Pdi = PropertyTypeDef(
+DlsPdi = PropertyTypeDef(
     code="DLS.PDI",
     description="""Polydispersity Index//Polydispersitätsindex""",
     data_type="REAL",
@@ -5291,7 +5290,7 @@ Pdi = PropertyTypeDef(
 )
 
 
-Pk1Int = PropertyTypeDef(
+DlsPk1int = PropertyTypeDef(
     code="DLS.PK1INT",
     description="""Peak 1 (Intensity) [nm]//Peak 1 (Intensität) [nm]""",
     data_type="REAL",
@@ -5299,7 +5298,7 @@ Pk1Int = PropertyTypeDef(
 )
 
 
-Pk1Intpd = PropertyTypeDef(
+DlsPk1intpd = PropertyTypeDef(
     code="DLS.PK1INTPD",
     description="""Peak 1 Polydispersity (Intensity)//Peak 1 Polydispersität (Intensität)""",
     data_type="REAL",
@@ -5307,7 +5306,7 @@ Pk1Intpd = PropertyTypeDef(
 )
 
 
-Pk1Intwidth = PropertyTypeDef(
+DlsPk1intwidth = PropertyTypeDef(
     code="DLS.PK1INTWIDTH",
     description="""Peak 1 Width (Intensity) [nm]//Peak 1 Breite (Intensität) [nm]""",
     data_type="REAL",
@@ -5315,7 +5314,7 @@ Pk1Intwidth = PropertyTypeDef(
 )
 
 
-Pk1Num = PropertyTypeDef(
+DlsPk1num = PropertyTypeDef(
     code="DLS.PK1NUM",
     description="""Peak 1 (Number) [nm]//Peak 1 (Anzahl) [nm]""",
     data_type="REAL",
@@ -5323,7 +5322,7 @@ Pk1Num = PropertyTypeDef(
 )
 
 
-Pk1Numpd = PropertyTypeDef(
+DlsPk1numpd = PropertyTypeDef(
     code="DLS.PK1NUMPD",
     description="""Peak 1 Polydispersity (Number)//Peak 1 Polydispersität (Anzahl)""",
     data_type="REAL",
@@ -5331,7 +5330,7 @@ Pk1Numpd = PropertyTypeDef(
 )
 
 
-Pk1Numwidth = PropertyTypeDef(
+DlsPk1numwidth = PropertyTypeDef(
     code="DLS.PK1NUMWIDTH",
     description="""Peak 1 Width (Number) [nm]//Peak 1 Breite (Anzahl) [nm]""",
     data_type="REAL",
@@ -5339,7 +5338,7 @@ Pk1Numwidth = PropertyTypeDef(
 )
 
 
-Pk1Vol = PropertyTypeDef(
+DlsPk1vol = PropertyTypeDef(
     code="DLS.PK1VOL",
     description="""Peak 1 (Volume) [nm]//Peak 1 (Volumen) [nm]""",
     data_type="REAL",
@@ -5347,7 +5346,7 @@ Pk1Vol = PropertyTypeDef(
 )
 
 
-Pk1Volpd = PropertyTypeDef(
+DlsPk1volpd = PropertyTypeDef(
     code="DLS.PK1VOLPD",
     description="""Peak 1 Polydispersity (Volume)//Peak 1 Polydispersität (Volumen)""",
     data_type="REAL",
@@ -5355,7 +5354,7 @@ Pk1Volpd = PropertyTypeDef(
 )
 
 
-Pk1Volwidth = PropertyTypeDef(
+DlsPk1volwidth = PropertyTypeDef(
     code="DLS.PK1VOLWIDTH",
     description="""Peak 1 Width (Volume) [nm]//Peak 1 Breite (Volumen) [nm]""",
     data_type="REAL",
@@ -5363,7 +5362,7 @@ Pk1Volwidth = PropertyTypeDef(
 )
 
 
-Pk1Zeta = PropertyTypeDef(
+DlsPk1zeta = PropertyTypeDef(
     code="DLS.PK1ZETA",
     description="""Peak 1 (Zetapotential) [mV]//Peak 1 (Zetapotential) [mV]""",
     data_type="REAL",
@@ -5371,7 +5370,7 @@ Pk1Zeta = PropertyTypeDef(
 )
 
 
-Pk1Zetawidth = PropertyTypeDef(
+DlsPk1zetawidth = PropertyTypeDef(
     code="DLS.PK1ZETAWIDTH",
     description="""Peak 1 Width (Zetapotential) [mV]//Peak 1 Breite (Zetapotential) [mV]""",
     data_type="REAL",
@@ -5379,7 +5378,7 @@ Pk1Zetawidth = PropertyTypeDef(
 )
 
 
-Pk2Int = PropertyTypeDef(
+DlsPk2int = PropertyTypeDef(
     code="DLS.PK2INT",
     description="""Peak 2 (Intensity) [nm]//Peak 2 (Intensität) [nm]""",
     data_type="REAL",
@@ -5387,7 +5386,7 @@ Pk2Int = PropertyTypeDef(
 )
 
 
-Pk2Intpd = PropertyTypeDef(
+DlsPk2intpd = PropertyTypeDef(
     code="DLS.PK2INTPD",
     description="""Peak 2 Polydispersity (Intensity)//Peak 2 Polydispersität (Intensität)""",
     data_type="REAL",
@@ -5395,7 +5394,7 @@ Pk2Intpd = PropertyTypeDef(
 )
 
 
-Pk2Intwidth = PropertyTypeDef(
+DlsPk2intwidth = PropertyTypeDef(
     code="DLS.PK2INTWIDTH",
     description="""Peak 2 Width (Intensity) [nm]//Peak 2 Breite (Intensität) [nm]""",
     data_type="REAL",
@@ -5403,7 +5402,7 @@ Pk2Intwidth = PropertyTypeDef(
 )
 
 
-Pk2Num = PropertyTypeDef(
+DlsPk2num = PropertyTypeDef(
     code="DLS.PK2NUM",
     description="""Peak 2 (Number) [nm]//Peak 2 (Anzahl) [nm]""",
     data_type="REAL",
@@ -5411,7 +5410,7 @@ Pk2Num = PropertyTypeDef(
 )
 
 
-Pk2Numpd = PropertyTypeDef(
+DlsPk2numpd = PropertyTypeDef(
     code="DLS.PK2NUMPD",
     description="""Peak 2 Polydispersity (Number)//Peak 2 Polydispersität (Anzahl)""",
     data_type="REAL",
@@ -5419,7 +5418,7 @@ Pk2Numpd = PropertyTypeDef(
 )
 
 
-Pk2Numwidth = PropertyTypeDef(
+DlsPk2numwidth = PropertyTypeDef(
     code="DLS.PK2NUMWIDTH",
     description="""Peak 2 Width (Number) [nm]//Peak 2 Breite (Anzahl) [nm]""",
     data_type="REAL",
@@ -5427,7 +5426,7 @@ Pk2Numwidth = PropertyTypeDef(
 )
 
 
-Pk2Vol = PropertyTypeDef(
+DlsPk2vol = PropertyTypeDef(
     code="DLS.PK2VOL",
     description="""Peak 2 (Volume) [nm]//Peak 2 (Volumen) [nm]""",
     data_type="REAL",
@@ -5435,7 +5434,7 @@ Pk2Vol = PropertyTypeDef(
 )
 
 
-Pk2Volpd = PropertyTypeDef(
+DlsPk2volpd = PropertyTypeDef(
     code="DLS.PK2VOLPD",
     description="""Peak 2 Polydispersity (Volume)//Peak 2 Polydispersität (Volumen)""",
     data_type="REAL",
@@ -5443,7 +5442,7 @@ Pk2Volpd = PropertyTypeDef(
 )
 
 
-Pk2Volwidth = PropertyTypeDef(
+DlsPk2volwidth = PropertyTypeDef(
     code="DLS.PK2VOLWIDTH",
     description="""Peak 2 Width (Volume) [nm]//Peak 2 Breite (Volumen) [nm]""",
     data_type="REAL",
@@ -5451,7 +5450,7 @@ Pk2Volwidth = PropertyTypeDef(
 )
 
 
-Pk2Zeta = PropertyTypeDef(
+DlsPk2zeta = PropertyTypeDef(
     code="DLS.PK2ZETA",
     description="""Peak 2 (Zetapotential) [mV]//Peak 2 (Zetapotential) [mV]""",
     data_type="REAL",
@@ -5459,7 +5458,7 @@ Pk2Zeta = PropertyTypeDef(
 )
 
 
-Pk2Zetawidth = PropertyTypeDef(
+DlsPk2zetawidth = PropertyTypeDef(
     code="DLS.PK2ZETAWIDTH",
     description="""Peak 2 Width (Zetapotential) [mV]//Peak 2 Breite (Zetapotential) [mV]""",
     data_type="REAL",
@@ -5467,7 +5466,7 @@ Pk2Zetawidth = PropertyTypeDef(
 )
 
 
-Pk3Int = PropertyTypeDef(
+DlsPk3int = PropertyTypeDef(
     code="DLS.PK3INT",
     description="""Peak 3 (Intensity) [nm]//Peak 3 (Intensität) [nm]""",
     data_type="REAL",
@@ -5475,7 +5474,7 @@ Pk3Int = PropertyTypeDef(
 )
 
 
-Pk3Intpd = PropertyTypeDef(
+DlsPk3intpd = PropertyTypeDef(
     code="DLS.PK3INTPD",
     description="""Peak 3 Polydispersity (Intensity)//Peak 3 Polydispersität (Intensität)""",
     data_type="REAL",
@@ -5483,7 +5482,7 @@ Pk3Intpd = PropertyTypeDef(
 )
 
 
-Pk3Intwidth = PropertyTypeDef(
+DlsPk3intwidth = PropertyTypeDef(
     code="DLS.PK3INTWIDTH",
     description="""Peak 3 Width (Intensity) [nm]//Peak 3 Breite (Intensität) [nm]""",
     data_type="REAL",
@@ -5491,7 +5490,7 @@ Pk3Intwidth = PropertyTypeDef(
 )
 
 
-Pk3Num = PropertyTypeDef(
+DlsPk3num = PropertyTypeDef(
     code="DLS.PK3NUM",
     description="""Peak 3 (Number) [nm]//Peak 3 (Anzahl) [nm]""",
     data_type="REAL",
@@ -5499,7 +5498,7 @@ Pk3Num = PropertyTypeDef(
 )
 
 
-Pk3Numpd = PropertyTypeDef(
+DlsPk3numpd = PropertyTypeDef(
     code="DLS.PK3NUMPD",
     description="""Peak 3 Polydispersity (Number)//Peak 3 Polydispersität (Anzahl)""",
     data_type="REAL",
@@ -5507,7 +5506,7 @@ Pk3Numpd = PropertyTypeDef(
 )
 
 
-Pk3Numwidth = PropertyTypeDef(
+DlsPk3numwidth = PropertyTypeDef(
     code="DLS.PK3NUMWIDTH",
     description="""Peak 3 Width (Number) [nm]//Peak 3 Breite (Anzahl) [nm]""",
     data_type="REAL",
@@ -5515,7 +5514,7 @@ Pk3Numwidth = PropertyTypeDef(
 )
 
 
-Pk3Vol = PropertyTypeDef(
+DlsPk3vol = PropertyTypeDef(
     code="DLS.PK3VOL",
     description="""Peak 3 (Volume) [nm]//Peak 3 (Volumen) [nm]""",
     data_type="REAL",
@@ -5523,7 +5522,7 @@ Pk3Vol = PropertyTypeDef(
 )
 
 
-Pk3Volpd = PropertyTypeDef(
+DlsPk3volpd = PropertyTypeDef(
     code="DLS.PK3VOLPD",
     description="""Peak 3 Polydispersity (Volume)//Peak 3 Polydispersität (Volumen)""",
     data_type="REAL",
@@ -5531,7 +5530,7 @@ Pk3Volpd = PropertyTypeDef(
 )
 
 
-Pk3Volwidth = PropertyTypeDef(
+DlsPk3volwidth = PropertyTypeDef(
     code="DLS.PK3VOLWIDTH",
     description="""Peak 3 Width (Volume) [nm]//Peak 3 Breite (Volumen) [nm]""",
     data_type="REAL",
@@ -5539,7 +5538,7 @@ Pk3Volwidth = PropertyTypeDef(
 )
 
 
-Pk3Zeta = PropertyTypeDef(
+DlsPk3zeta = PropertyTypeDef(
     code="DLS.PK3ZETA",
     description="""Peak 3 (Zetapotential) [mV]//Peak 3 (Zetapotential) [mV]""",
     data_type="REAL",
@@ -5547,7 +5546,7 @@ Pk3Zeta = PropertyTypeDef(
 )
 
 
-Pk3Zetawidth = PropertyTypeDef(
+DlsPk3zetawidth = PropertyTypeDef(
     code="DLS.PK3ZETAWIDTH",
     description="""Peak 3 Width (Zetapotential) [mV]//Peak 3 Breite (Zetapotential) [mV]""",
     data_type="REAL",
@@ -5555,7 +5554,7 @@ Pk3Zetawidth = PropertyTypeDef(
 )
 
 
-Sizemerit = PropertyTypeDef(
+DlsSizemerit = PropertyTypeDef(
     code="DLS.SIZEMERIT",
     description="""Size Merit//Güte""",
     data_type="REAL",
@@ -5563,7 +5562,7 @@ Sizemerit = PropertyTypeDef(
 )
 
 
-Temperature = PropertyTypeDef(
+DlsTemperature = PropertyTypeDef(
     code="DLS.TEMPERATURE",
     description="""Temperature [°C]//Temperatur [°C]""",
     data_type="REAL",
@@ -5571,7 +5570,7 @@ Temperature = PropertyTypeDef(
 )
 
 
-Volt = PropertyTypeDef(
+DlsVolt = PropertyTypeDef(
     code="DLS.VOLT",
     description="""Measured Voltage [V]//Gemessene Spannung [V]""",
     data_type="REAL",
@@ -5579,7 +5578,7 @@ Volt = PropertyTypeDef(
 )
 
 
-Zavg = PropertyTypeDef(
+DlsZavg = PropertyTypeDef(
     code="DLS.ZAVG",
     description="""Z-Average//Z-Durchschnitt""",
     data_type="REAL",
@@ -5587,7 +5586,7 @@ Zavg = PropertyTypeDef(
 )
 
 
-Zeta = PropertyTypeDef(
+DlsZeta = PropertyTypeDef(
     code="DLS.ZETA",
     description="""Zeta Potential [mV]//Zeta Potential [mV]""",
     data_type="REAL",
@@ -5595,7 +5594,7 @@ Zeta = PropertyTypeDef(
 )
 
 
-ExperimentalDescription = PropertyTypeDef(
+ExperimentalStepExperimentalDescription = PropertyTypeDef(
     code="EXPERIMENTAL_STEP.EXPERIMENTAL_DESCRIPTION",
     description="""Description of the experiment//Beschreibung des Experiments""",
     data_type="MULTILINE_VARCHAR",
@@ -5603,7 +5602,7 @@ ExperimentalDescription = PropertyTypeDef(
 )
 
 
-ExperimentalGoals = PropertyTypeDef(
+ExperimentalStepExperimentalGoals = PropertyTypeDef(
     code="EXPERIMENTAL_STEP.EXPERIMENTAL_GOALS",
     description="""Goals of the experiment//Ziele des Experiments""",
     data_type="MULTILINE_VARCHAR",
@@ -5611,7 +5610,7 @@ ExperimentalGoals = PropertyTypeDef(
 )
 
 
-ExperimentalResults = PropertyTypeDef(
+ExperimentalStepExperimentalResults = PropertyTypeDef(
     code="EXPERIMENTAL_STEP.EXPERIMENTAL_RESULTS",
     description="""Summary of experimental results//Zusammenfassung der Ergebnisse des Experiments""",
     data_type="MULTILINE_VARCHAR",
@@ -5619,7 +5618,7 @@ ExperimentalResults = PropertyTypeDef(
 )
 
 
-Spreadsheet = PropertyTypeDef(
+ExperimentalStepSpreadsheet = PropertyTypeDef(
     code="EXPERIMENTAL_STEP.SPREADSHEET",
     description="""Multi-purpose Spreadsheet//Spreadsheet zur freien Verwendung""",
     data_type="XML",
@@ -5627,7 +5626,7 @@ Spreadsheet = PropertyTypeDef(
 )
 
 
-WeldmentType = PropertyTypeDef(
+ExperimentalStepWeldmentType = PropertyTypeDef(
     code="EXPERIMENTAL_STEP.WELDMENT_TYPE",
     description="""Type of weldment made//Art der Schweißverbindung""",
     data_type="CONTROLLEDVOCABULARY",
@@ -5636,7 +5635,7 @@ WeldmentType = PropertyTypeDef(
 )
 
 
-Accessory = PropertyTypeDef(
+FtirAccessory = PropertyTypeDef(
     code="FTIR.ACCESSORY",
     description="""FTIR Accessory//FTIR Zubehör""",
     data_type="CONTROLLEDVOCABULARY",
@@ -5645,7 +5644,7 @@ Accessory = PropertyTypeDef(
 )
 
 
-EndWavenumber = PropertyTypeDef(
+FtirEndWavenumber = PropertyTypeDef(
     code="FTIR.END_WAVENUMBER",
     description="""End Wavenumber [1/cm]//End-Wellenzahl [1/cm]""",
     data_type="REAL",
@@ -5653,7 +5652,7 @@ EndWavenumber = PropertyTypeDef(
 )
 
 
-Instrument = PropertyTypeDef(
+FtirInstrument = PropertyTypeDef(
     code="FTIR.INSTRUMENT",
     description="""FT-IR Instrument//FT-IR Instrument""",
     data_type="VARCHAR",
@@ -5661,7 +5660,7 @@ Instrument = PropertyTypeDef(
 )
 
 
-IsFlushed = PropertyTypeDef(
+FtirIsFlushed = PropertyTypeDef(
     code="FTIR.IS_FLUSHED",
     description="""Flushed with Nitrogen//Gespült mit Sickstoff""",
     data_type="BOOLEAN",
@@ -5669,7 +5668,7 @@ IsFlushed = PropertyTypeDef(
 )
 
 
-Resolution = PropertyTypeDef(
+FtirResolution = PropertyTypeDef(
     code="FTIR.RESOLUTION",
     description="""Resolution [1/cm]//Auflösung [1/cm]""",
     data_type="INTEGER",
@@ -5677,7 +5676,7 @@ Resolution = PropertyTypeDef(
 )
 
 
-Scans = PropertyTypeDef(
+FtirScans = PropertyTypeDef(
     code="FTIR.SCANS",
     description="""Number of FTIR Scans//Anzahl FTIR Scans""",
     data_type="INTEGER",
@@ -5685,7 +5684,7 @@ Scans = PropertyTypeDef(
 )
 
 
-StartWavenumber = PropertyTypeDef(
+FtirStartWavenumber = PropertyTypeDef(
     code="FTIR.START_WAVENUMBER",
     description="""Start Wavenumber [1/cm]//Start-Wellenzahl [1/cm]""",
     data_type="REAL",
@@ -5693,7 +5692,7 @@ StartWavenumber = PropertyTypeDef(
 )
 
 
-Materials = PropertyTypeDef(
+GeneralProtocolMaterials = PropertyTypeDef(
     code="GENERAL_PROTOCOL.MATERIALS",
     description="""Machines (and relative set up)""",
     data_type="MULTILINE_VARCHAR",
@@ -5701,7 +5700,7 @@ Materials = PropertyTypeDef(
 )
 
 
-ProtocolEvaluation = PropertyTypeDef(
+GeneralProtocolProtocolEvaluation = PropertyTypeDef(
     code="GENERAL_PROTOCOL.PROTOCOL_EVALUATION",
     description="""Parameters and observations to meet the minimal efficiency of the protocol""",
     data_type="MULTILINE_VARCHAR",
@@ -5709,7 +5708,7 @@ ProtocolEvaluation = PropertyTypeDef(
 )
 
 
-ProtocolType = PropertyTypeDef(
+GeneralProtocolProtocolType = PropertyTypeDef(
     code="GENERAL_PROTOCOL.PROTOCOL_TYPE",
     description="""Category the protocol belongs to""",
     data_type="MULTILINE_VARCHAR",
@@ -5717,7 +5716,7 @@ ProtocolType = PropertyTypeDef(
 )
 
 
-Spreadsheet = PropertyTypeDef(
+GeneralProtocolSpreadsheet = PropertyTypeDef(
     code="GENERAL_PROTOCOL.SPREADSHEET",
     description="""Multi purpose Spreatsheet""",
     data_type="XML",
@@ -5725,7 +5724,7 @@ Spreadsheet = PropertyTypeDef(
 )
 
 
-TimeRequirement = PropertyTypeDef(
+GeneralProtocolTimeRequirement = PropertyTypeDef(
     code="GENERAL_PROTOCOL.TIME_REQUIREMENT",
     description="""Time required to complete a protocol""",
     data_type="MULTILINE_VARCHAR",
@@ -5733,7 +5732,7 @@ TimeRequirement = PropertyTypeDef(
 )
 
 
-TriggerSetting = PropertyTypeDef(
+IrCameraTriggerSetting = PropertyTypeDef(
     code="IR_CAMERA.TRIGGER_SETTING",
     description="""Trigger setting//Einstellung Kameratrigger""",
     data_type="CONTROLLEDVOCABULARY",
@@ -5742,7 +5741,7 @@ TriggerSetting = PropertyTypeDef(
 )
 
 
-SoftwareName = PropertyTypeDef(
+MeasurementProtocolFileSoftwareName = PropertyTypeDef(
     code="MEASUREMENT_PROTOCOL_FILE.SOFTWARE_NAME",
     description="""Name of the Software that was used to process this measurement protocol file//Name der Software die verwendet wurde, um diese Messprotokolldatei zu verarbeiteten""",
     data_type="VARCHAR",
@@ -5750,7 +5749,7 @@ SoftwareName = PropertyTypeDef(
 )
 
 
-SoftwareVersion = PropertyTypeDef(
+MeasurementProtocolFileSoftwareVersion = PropertyTypeDef(
     code="MEASUREMENT_PROTOCOL_FILE.SOFTWARE_VERSION",
     description="""Version of the Software that was used to process this measurement protocol file//Version der Software die verwendet wurde, um diese Messprotokolldatei zu verarbeiteten""",
     data_type="VARCHAR",
@@ -5758,7 +5757,7 @@ SoftwareVersion = PropertyTypeDef(
 )
 
 
-Material = PropertyTypeDef(
+NdtMaterial = PropertyTypeDef(
     code="NDT.MATERIAL",
     description="""NDT Material//NDT Material""",
     data_type="VARCHAR",
@@ -5766,7 +5765,7 @@ Material = PropertyTypeDef(
 )
 
 
-MaterialNumber = PropertyTypeDef(
+NdtMaterialNumber = PropertyTypeDef(
     code="NDT.MATERIAL_NUMBER",
     description="""NDT Material number//NDT Werkstoffnummer""",
     data_type="VARCHAR",
@@ -5774,7 +5773,7 @@ MaterialNumber = PropertyTypeDef(
 )
 
 
-AcquisitionTime = PropertyTypeDef(
+NmrAcquisitionTime = PropertyTypeDef(
     code="NMR.ACQUISITION_TIME",
     description="""Acquisition Time [s]//Akquisitionszeit [s]""",
     data_type="REAL",
@@ -5782,7 +5781,7 @@ AcquisitionTime = PropertyTypeDef(
 )
 
 
-EndChemicalShift = PropertyTypeDef(
+NmrEndChemicalShift = PropertyTypeDef(
     code="NMR.END_CHEMICAL_SHIFT",
     description="""End Chemical Shift [ppm]//Ende Chemische Verschiebung [ppm]""",
     data_type="REAL",
@@ -5790,7 +5789,7 @@ EndChemicalShift = PropertyTypeDef(
 )
 
 
-Experiment = PropertyTypeDef(
+NmrExperiment = PropertyTypeDef(
     code="NMR.EXPERIMENT",
     description="""NMR Experiment//NMR Experiment""",
     data_type="CONTROLLEDVOCABULARY",
@@ -5799,7 +5798,7 @@ Experiment = PropertyTypeDef(
 )
 
 
-Frequency = PropertyTypeDef(
+NmrFrequency = PropertyTypeDef(
     code="NMR.FREQUENCY",
     description="""NMR Frequency [MHz]//NMR Frequenz [MHz]""",
     data_type="REAL",
@@ -5807,7 +5806,7 @@ Frequency = PropertyTypeDef(
 )
 
 
-Instrument = PropertyTypeDef(
+NmrInstrument = PropertyTypeDef(
     code="NMR.INSTRUMENT",
     description="""NMR Instrument//NMR Instrument""",
     data_type="VARCHAR",
@@ -5815,7 +5814,7 @@ Instrument = PropertyTypeDef(
 )
 
 
-InterpulseDelay = PropertyTypeDef(
+NmrInterpulseDelay = PropertyTypeDef(
     code="NMR.INTERPULSE_DELAY",
     description="""Interpulse Delay [s]//Wartezeit zwischen Pulsen [s]""",
     data_type="REAL",
@@ -5823,7 +5822,7 @@ InterpulseDelay = PropertyTypeDef(
 )
 
 
-IsQnmr = PropertyTypeDef(
+NmrIsQnmr = PropertyTypeDef(
     code="NMR.IS_QNMR",
     description="""Quantitative NMR//Quantitatives NMR""",
     data_type="BOOLEAN",
@@ -5831,7 +5830,7 @@ IsQnmr = PropertyTypeDef(
 )
 
 
-NucleusDirect = PropertyTypeDef(
+NmrNucleusDirect = PropertyTypeDef(
     code="NMR.NUCLEUS_DIRECT",
     description="""Nucleus (direct)//Kern (direct)""",
     data_type="CONTROLLEDVOCABULARY",
@@ -5840,7 +5839,7 @@ NucleusDirect = PropertyTypeDef(
 )
 
 
-NucleusIndirect = PropertyTypeDef(
+NmrNucleusIndirect = PropertyTypeDef(
     code="NMR.NUCLEUS_INDIRECT",
     description="""Nucleus (indirect, 2D only)//Kern (indirekt, nur 2D)""",
     data_type="CONTROLLEDVOCABULARY",
@@ -5849,7 +5848,7 @@ NucleusIndirect = PropertyTypeDef(
 )
 
 
-PulseAngle = PropertyTypeDef(
+NmrPulseAngle = PropertyTypeDef(
     code="NMR.PULSE_ANGLE",
     description="""Pulse Angle [degree]//Pulswinkel [degree]""",
     data_type="REAL",
@@ -5857,7 +5856,7 @@ PulseAngle = PropertyTypeDef(
 )
 
 
-Scans = PropertyTypeDef(
+NmrScans = PropertyTypeDef(
     code="NMR.SCANS",
     description="""Number of NMR Scans//Anzahl NMR Scans""",
     data_type="INTEGER",
@@ -5865,7 +5864,7 @@ Scans = PropertyTypeDef(
 )
 
 
-Solvent = PropertyTypeDef(
+NmrSolvent = PropertyTypeDef(
     code="NMR.SOLVENT",
     description="""NMR Solvent//NMR Lösungsmittel""",
     data_type="CONTROLLEDVOCABULARY",
@@ -5874,7 +5873,7 @@ Solvent = PropertyTypeDef(
 )
 
 
-StartChemicalShift = PropertyTypeDef(
+NmrStartChemicalShift = PropertyTypeDef(
     code="NMR.START_CHEMICAL_SHIFT",
     description="""Start Chemical Shift [ppm]//Start Chemische Verschiebung [ppm]""",
     data_type="REAL",
@@ -5882,7 +5881,7 @@ StartChemicalShift = PropertyTypeDef(
 )
 
 
-PricePaid = PropertyTypeDef(
+OrderPricePaid = PropertyTypeDef(
     code="ORDER.PRICE_PAID",
     description="""Price Paid""",
     data_type="REAL",
@@ -5890,7 +5889,7 @@ PricePaid = PropertyTypeDef(
 )
 
 
-Spreadsheet = PropertyTypeDef(
+ParameterSetSpreadsheet = PropertyTypeDef(
     code="PARAMETER_SET.SPREADSHEET",
     description="""Table of parameters//Parameter-Tabelle""",
     data_type="XML",
@@ -5898,7 +5897,7 @@ Spreadsheet = PropertyTypeDef(
 )
 
 
-Category = PropertyTypeDef(
+ProductCategory = PropertyTypeDef(
     code="PRODUCT.CATEGORY",
     description="""Category""",
     data_type="VARCHAR",
@@ -5906,7 +5905,7 @@ Category = PropertyTypeDef(
 )
 
 
-Company = PropertyTypeDef(
+ProductCompany = PropertyTypeDef(
     code="PRODUCT.COMPANY",
     description="""Company""",
     data_type="VARCHAR",
@@ -5914,7 +5913,7 @@ Company = PropertyTypeDef(
 )
 
 
-Description = PropertyTypeDef(
+ProductDescription = PropertyTypeDef(
     code="PRODUCT.DESCRIPTION",
     description="""Description""",
     data_type="MULTILINE_VARCHAR",
@@ -5922,7 +5921,7 @@ Description = PropertyTypeDef(
 )
 
 
-HazardStatement = PropertyTypeDef(
+ProductHazardStatement = PropertyTypeDef(
     code="PRODUCT.HAZARD_STATEMENT",
     description="""Hazard Statement""",
     data_type="VARCHAR",
@@ -5930,7 +5929,7 @@ HazardStatement = PropertyTypeDef(
 )
 
 
-ProductSecondaryNames = PropertyTypeDef(
+ProductProductSecondaryNames = PropertyTypeDef(
     code="PRODUCT.PRODUCT_SECONDARY_NAMES",
     description="""Product Secondary Names""",
     data_type="VARCHAR",
@@ -5938,7 +5937,7 @@ ProductSecondaryNames = PropertyTypeDef(
 )
 
 
-SizeOfItem = PropertyTypeDef(
+ProductSizeOfItem = PropertyTypeDef(
     code="PRODUCT.SIZE_OF_ITEM",
     description="""Size of Item""",
     data_type="VARCHAR",
@@ -5946,7 +5945,7 @@ SizeOfItem = PropertyTypeDef(
 )
 
 
-Buyer = PropertyTypeDef(
+RequestBuyer = PropertyTypeDef(
     code="REQUEST.BUYER",
     description="""Buyer""",
     data_type="VARCHAR",
@@ -5954,7 +5953,7 @@ Buyer = PropertyTypeDef(
 )
 
 
-Department = PropertyTypeDef(
+RequestDepartment = PropertyTypeDef(
     code="REQUEST.DEPARTMENT",
     description="""Department""",
     data_type="VARCHAR",
@@ -5962,7 +5961,7 @@ Department = PropertyTypeDef(
 )
 
 
-Project = PropertyTypeDef(
+RequestProject = PropertyTypeDef(
     code="REQUEST.PROJECT",
     description="""Project""",
     data_type="VARCHAR",
@@ -5970,7 +5969,7 @@ Project = PropertyTypeDef(
 )
 
 
-Accelerationvoltage = PropertyTypeDef(
+SemAccelerationvoltage = PropertyTypeDef(
     code="SEM.ACCELERATIONVOLTAGE",
     description="""Acceleration Voltage [keV]//Beschleunigungsspannung [keV]""",
     data_type="VARCHAR",
@@ -5978,7 +5977,7 @@ Accelerationvoltage = PropertyTypeDef(
 )
 
 
-Detector = PropertyTypeDef(
+SemDetector = PropertyTypeDef(
     code="SEM.DETECTOR",
     description="""Detector//Detektor""",
     data_type="VARCHAR",
@@ -5986,7 +5985,7 @@ Detector = PropertyTypeDef(
 )
 
 
-Imagesizex = PropertyTypeDef(
+SemImagesizex = PropertyTypeDef(
     code="SEM.IMAGESIZEX",
     description="""Image Size X//Bildgröße X""",
     data_type="VARCHAR",
@@ -5994,7 +5993,7 @@ Imagesizex = PropertyTypeDef(
 )
 
 
-Imagesizey = PropertyTypeDef(
+SemImagesizey = PropertyTypeDef(
     code="SEM.IMAGESIZEY",
     description="""Image Size Y//Bildgröße Y""",
     data_type="VARCHAR",
@@ -6002,7 +6001,7 @@ Imagesizey = PropertyTypeDef(
 )
 
 
-Instrument = PropertyTypeDef(
+SemInstrument = PropertyTypeDef(
     code="SEM.INSTRUMENT",
     description="""SEM Instrument//SEM Instrument""",
     data_type="VARCHAR",
@@ -6010,7 +6009,7 @@ Instrument = PropertyTypeDef(
 )
 
 
-Magnification = PropertyTypeDef(
+SemMagnification = PropertyTypeDef(
     code="SEM.MAGNIFICATION",
     description="""Magnificaiton//Vergrößerung""",
     data_type="VARCHAR",
@@ -6018,7 +6017,7 @@ Magnification = PropertyTypeDef(
 )
 
 
-Operatingmode = PropertyTypeDef(
+SemOperatingmode = PropertyTypeDef(
     code="SEM.OPERATINGMODE",
     description="""Operating Mode//Aufnahmemodus""",
     data_type="VARCHAR",
@@ -6026,7 +6025,7 @@ Operatingmode = PropertyTypeDef(
 )
 
 
-Pixelsizex = PropertyTypeDef(
+SemPixelsizex = PropertyTypeDef(
     code="SEM.PIXELSIZEX",
     description="""Pixel Size X//Pixelgröße X""",
     data_type="VARCHAR",
@@ -6034,7 +6033,7 @@ Pixelsizex = PropertyTypeDef(
 )
 
 
-Pixelsizey = PropertyTypeDef(
+SemPixelsizey = PropertyTypeDef(
     code="SEM.PIXELSIZEY",
     description="""Pixel Size Y//Pixelgrße Y""",
     data_type="VARCHAR",
@@ -6042,7 +6041,7 @@ Pixelsizey = PropertyTypeDef(
 )
 
 
-Projectormode = PropertyTypeDef(
+SemProjectormode = PropertyTypeDef(
     code="SEM.PROJECTORMODE",
     description="""Projector Mode//Projektionsmodus""",
     data_type="VARCHAR",
@@ -6050,7 +6049,7 @@ Projectormode = PropertyTypeDef(
 )
 
 
-Workingdistance = PropertyTypeDef(
+SemWorkingdistance = PropertyTypeDef(
     code="SEM.WORKINGDISTANCE",
     description="""Working Distance [mm]//Arbeitsabstand [mm]""",
     data_type="VARCHAR",
@@ -6058,7 +6057,7 @@ Workingdistance = PropertyTypeDef(
 )
 
 
-AdditionalInformation = PropertyTypeDef(
+SupplierAdditionalInformation = PropertyTypeDef(
     code="SUPPLIER.ADDITIONAL_INFORMATION",
     description="""Additional Information""",
     data_type="VARCHAR",
@@ -6066,7 +6065,7 @@ AdditionalInformation = PropertyTypeDef(
 )
 
 
-CompanyContactEmail = PropertyTypeDef(
+SupplierCompanyContactEmail = PropertyTypeDef(
     code="SUPPLIER.COMPANY_CONTACT_EMAIL",
     description="""Company contact email""",
     data_type="VARCHAR",
@@ -6074,7 +6073,7 @@ CompanyContactEmail = PropertyTypeDef(
 )
 
 
-CompanyContactName = PropertyTypeDef(
+SupplierCompanyContactName = PropertyTypeDef(
     code="SUPPLIER.COMPANY_CONTACT_NAME",
     description="""Company contact name""",
     data_type="VARCHAR",
@@ -6082,7 +6081,7 @@ CompanyContactName = PropertyTypeDef(
 )
 
 
-PreferredOrderMethod = PropertyTypeDef(
+SupplierPreferredOrderMethod = PropertyTypeDef(
     code="SUPPLIER.PREFERRED_ORDER_METHOD",
     description="""Preferred order method""",
     data_type="CONTROLLEDVOCABULARY",
@@ -6091,7 +6090,7 @@ PreferredOrderMethod = PropertyTypeDef(
 )
 
 
-Url = PropertyTypeDef(
+SupplierUrl = PropertyTypeDef(
     code="SUPPLIER.URL",
     description="""URL""",
     data_type="HYPERLINK",
@@ -6099,7 +6098,7 @@ Url = PropertyTypeDef(
 )
 
 
-Accelerationvoltage = PropertyTypeDef(
+TemAccelerationvoltage = PropertyTypeDef(
     code="TEM.ACCELERATIONVOLTAGE",
     description="""Acceleration Voltage [keV]//Beschleunigungsspannung [keV]""",
     data_type="VARCHAR",
@@ -6107,7 +6106,7 @@ Accelerationvoltage = PropertyTypeDef(
 )
 
 
-C2ApertureName = PropertyTypeDef(
+TemC2ApertureName = PropertyTypeDef(
     code="TEM.C2_APERTURE_NAME",
     description="""C2 Aperture//C2 Apertur""",
     data_type="VARCHAR",
@@ -6115,7 +6114,7 @@ C2ApertureName = PropertyTypeDef(
 )
 
 
-Cameralength = PropertyTypeDef(
+TemCameralength = PropertyTypeDef(
     code="TEM.CAMERALENGTH",
     description="""Camera Length//Kamera-Länge""",
     data_type="VARCHAR",
@@ -6123,7 +6122,7 @@ Cameralength = PropertyTypeDef(
 )
 
 
-Detector = PropertyTypeDef(
+TemDetector = PropertyTypeDef(
     code="TEM.DETECTOR",
     description="""Detector//Detektor""",
     data_type="VARCHAR",
@@ -6131,7 +6130,7 @@ Detector = PropertyTypeDef(
 )
 
 
-GunLensSetting = PropertyTypeDef(
+TemGunLensSetting = PropertyTypeDef(
     code="TEM.GUN_LENS_SETTING",
     description="""Gun Lens Setting//Einstellung der Elektronenquellenlinse""",
     data_type="VARCHAR",
@@ -6139,7 +6138,7 @@ GunLensSetting = PropertyTypeDef(
 )
 
 
-Imagesizex = PropertyTypeDef(
+TemImagesizex = PropertyTypeDef(
     code="TEM.IMAGESIZEX",
     description="""Image Size X//Bildgröße X""",
     data_type="VARCHAR",
@@ -6147,7 +6146,7 @@ Imagesizex = PropertyTypeDef(
 )
 
 
-Imagesizey = PropertyTypeDef(
+TemImagesizey = PropertyTypeDef(
     code="TEM.IMAGESIZEY",
     description="""Image Size Y//Bildgröße Y""",
     data_type="VARCHAR",
@@ -6155,7 +6154,7 @@ Imagesizey = PropertyTypeDef(
 )
 
 
-Instrument = PropertyTypeDef(
+TemInstrument = PropertyTypeDef(
     code="TEM.INSTRUMENT",
     description="""TEM Instrument//TEM Instrument""",
     data_type="VARCHAR",
@@ -6163,7 +6162,7 @@ Instrument = PropertyTypeDef(
 )
 
 
-Magnification = PropertyTypeDef(
+TemMagnification = PropertyTypeDef(
     code="TEM.MAGNIFICATION",
     description="""Magnification//Vergrößerung""",
     data_type="VARCHAR",
@@ -6171,7 +6170,7 @@ Magnification = PropertyTypeDef(
 )
 
 
-ObjApertureName = PropertyTypeDef(
+TemObjApertureName = PropertyTypeDef(
     code="TEM.OBJ_APERTURE_NAME",
     description="""Objective Aperture//Objektiv Apertur""",
     data_type="VARCHAR",
@@ -6179,7 +6178,7 @@ ObjApertureName = PropertyTypeDef(
 )
 
 
-Operatingmode = PropertyTypeDef(
+TemOperatingmode = PropertyTypeDef(
     code="TEM.OPERATINGMODE",
     description="""Operating Mode//Aufnahmemodus""",
     data_type="VARCHAR",
@@ -6187,7 +6186,7 @@ Operatingmode = PropertyTypeDef(
 )
 
 
-Pixelsizex = PropertyTypeDef(
+TemPixelsizex = PropertyTypeDef(
     code="TEM.PIXELSIZEX",
     description="""Pixel Size X//Pixelgröße X""",
     data_type="VARCHAR",
@@ -6195,7 +6194,7 @@ Pixelsizex = PropertyTypeDef(
 )
 
 
-Pixelsizey = PropertyTypeDef(
+TemPixelsizey = PropertyTypeDef(
     code="TEM.PIXELSIZEY",
     description="""Pixel Size Y//Pixelgrße Y""",
     data_type="VARCHAR",
@@ -6203,7 +6202,7 @@ Pixelsizey = PropertyTypeDef(
 )
 
 
-Projectormode = PropertyTypeDef(
+TemProjectormode = PropertyTypeDef(
     code="TEM.PROJECTORMODE",
     description="""Projector Mode//Projektionsmodus""",
     data_type="VARCHAR",
@@ -6211,7 +6210,7 @@ Projectormode = PropertyTypeDef(
 )
 
 
-SaedAperturediameter = PropertyTypeDef(
+TemSaedAperturediameter = PropertyTypeDef(
     code="TEM.SAED_APERTUREDIAMETER",
     description="""SAED Aperture Diameter//SAED Apertur Durchmesser""",
     data_type="VARCHAR",
@@ -6219,7 +6218,7 @@ SaedAperturediameter = PropertyTypeDef(
 )
 
 
-SaedApertureposx = PropertyTypeDef(
+TemSaedApertureposx = PropertyTypeDef(
     code="TEM.SAED_APERTUREPOSX",
     description="""SAED Aperture Pos X//SAED Apertur Position X""",
     data_type="VARCHAR",
@@ -6227,7 +6226,7 @@ SaedApertureposx = PropertyTypeDef(
 )
 
 
-SaedApertureposy = PropertyTypeDef(
+TemSaedApertureposy = PropertyTypeDef(
     code="TEM.SAED_APERTUREPOSY",
     description="""SAED Aperture Pos Y//SAED Apertur Position Y""",
     data_type="VARCHAR",
@@ -6235,7 +6234,7 @@ SaedApertureposy = PropertyTypeDef(
 )
 
 
-SpotIndex = PropertyTypeDef(
+TemSpotIndex = PropertyTypeDef(
     code="TEM.SPOT_INDEX",
     description="""Spot Index//Spot Index""",
     data_type="VARCHAR",
@@ -6243,7 +6242,7 @@ SpotIndex = PropertyTypeDef(
 )
 
 
-ArcCurrentContinuous = PropertyTypeDef(
+WeldingArcCurrentContinuous = PropertyTypeDef(
     code="WELDING.ARC_CURRENT_CONTINUOUS",
     description="""Maximum continuous arc current at 100% duty cycle//Maximaler Schweißstrom bei 100% Einschaltdauer""",
     data_type="REAL",
@@ -6251,7 +6250,7 @@ ArcCurrentContinuous = PropertyTypeDef(
 )
 
 
-ArcCurrentMax = PropertyTypeDef(
+WeldingArcCurrentMax = PropertyTypeDef(
     code="WELDING.ARC_CURRENT_MAX",
     description="""Maximum arc current//Maximaler Schweißstrom""",
     data_type="REAL",
@@ -6259,7 +6258,7 @@ ArcCurrentMax = PropertyTypeDef(
 )
 
 
-ArcCurrentMin = PropertyTypeDef(
+WeldingArcCurrentMin = PropertyTypeDef(
     code="WELDING.ARC_CURRENT_MIN",
     description="""Minimum arc current//Minimaler Schweißstrom""",
     data_type="REAL",
@@ -6267,7 +6266,7 @@ ArcCurrentMin = PropertyTypeDef(
 )
 
 
-TorchType = PropertyTypeDef(
+WeldingTorchType = PropertyTypeDef(
     code="WELDING.TORCH_TYPE",
     description="""type of welding torch//Art des Schweißbrenners""",
     data_type="CONTROLLEDVOCABULARY",
@@ -6276,7 +6275,7 @@ TorchType = PropertyTypeDef(
 )
 
 
-AwsSpecname = PropertyTypeDef(
+WeldingWireAwsSpecname = PropertyTypeDef(
     code="WELDING_WIRE.AWS_SPECNAME",
     description="""AWS specification of the wire//AWS Klassifizierung des Zusatzwerkstoffs""",
     data_type="VARCHAR",
@@ -6284,7 +6283,7 @@ AwsSpecname = PropertyTypeDef(
 )
 
 
-AwsStandard = PropertyTypeDef(
+WeldingWireAwsStandard = PropertyTypeDef(
     code="WELDING_WIRE.AWS_STANDARD",
     description="""AWS standard providing the specification//AWS Standard mit Angabe zur Klassifizierung""",
     data_type="VARCHAR",
@@ -6292,7 +6291,7 @@ AwsStandard = PropertyTypeDef(
 )
 
 
-Diameter = PropertyTypeDef(
+WeldingWireDiameter = PropertyTypeDef(
     code="WELDING_WIRE.DIAMETER",
     description="""Diameter in mm//Durchmesser in mm""",
     data_type="REAL",
@@ -6300,7 +6299,7 @@ Diameter = PropertyTypeDef(
 )
 
 
-IsoSpecname = PropertyTypeDef(
+WeldingWireIsoSpecname = PropertyTypeDef(
     code="WELDING_WIRE.ISO_SPECNAME",
     description="""ISO specification of the wire//ISO Klassifizierung des Zusatzwerkstoffs""",
     data_type="VARCHAR",
@@ -6308,7 +6307,7 @@ IsoSpecname = PropertyTypeDef(
 )
 
 
-IsoStandard = PropertyTypeDef(
+WeldingWireIsoStandard = PropertyTypeDef(
     code="WELDING_WIRE.ISO_STANDARD",
     description="""ISO standard providing the specification//ISO Norm o.ä. mit Angabe zur Klassifizierung""",
     data_type="VARCHAR",
@@ -6316,7 +6315,7 @@ IsoStandard = PropertyTypeDef(
 )
 
 
-Weight = PropertyTypeDef(
+WeldingWireWeight = PropertyTypeDef(
     code="WELDING_WIRE.WEIGHT",
     description="""Weight of the wire package as delivered//Gesamtgewicht des Drahtes bei Lieferung""",
     data_type="REAL",
@@ -6324,7 +6323,7 @@ Weight = PropertyTypeDef(
 )
 
 
-QuantityOfItems = PropertyTypeDef(
+AnnotationRequestQuantityOfItems = PropertyTypeDef(
     code="ANNOTATION.REQUEST.QUANTITY_OF_ITEMS",
     description="""Quantity of Items""",
     data_type="INTEGER",
@@ -6332,7 +6331,7 @@ QuantityOfItems = PropertyTypeDef(
 )
 
 
-Comments = PropertyTypeDef(
+AnnotationSystemComments = PropertyTypeDef(
     code="ANNOTATION.SYSTEM.COMMENTS",
     description="""Comments""",
     data_type="VARCHAR",
@@ -6340,7 +6339,7 @@ Comments = PropertyTypeDef(
 )
 
 
-ArcCurrent = PropertyTypeDef(
+ExperimentalStepWeldmentArcCurrent = PropertyTypeDef(
     code="EXPERIMENTAL_STEP.WELDMENT.ARC_CURRENT",
     description="""Welding arc current//Schweißstrom""",
     data_type="REAL",
@@ -6348,7 +6347,7 @@ ArcCurrent = PropertyTypeDef(
 )
 
 
-ArcProcess = PropertyTypeDef(
+ExperimentalStepWeldmentArcProcess = PropertyTypeDef(
     code="EXPERIMENTAL_STEP.WELDMENT.ARC_PROCESS",
     description="""Name of the selected arc welding process//Name des Lichtbogenschweißprozesses""",
     data_type="VARCHAR",
@@ -6356,7 +6355,7 @@ ArcProcess = PropertyTypeDef(
 )
 
 
-ArcVoltage = PropertyTypeDef(
+ExperimentalStepWeldmentArcVoltage = PropertyTypeDef(
     code="EXPERIMENTAL_STEP.WELDMENT.ARC_VOLTAGE",
     description="""Welding arc voltage//Lichtbogenspannung""",
     data_type="REAL",
@@ -6364,7 +6363,7 @@ ArcVoltage = PropertyTypeDef(
 )
 
 
-CurrentTransformer = PropertyTypeDef(
+ExperimentalStepWeldmentCurrentTransformer = PropertyTypeDef(
     code="EXPERIMENTAL_STEP.WELDMENT.CURRENT_TRANSFORMER",
     description="""Current transformer HAS 50-S//Stromwandler HAS 50-S""",
     data_type="REAL",
@@ -6372,7 +6371,7 @@ CurrentTransformer = PropertyTypeDef(
 )
 
 
-GroovePreparation = PropertyTypeDef(
+ExperimentalStepWeldmentGroovePreparation = PropertyTypeDef(
     code="EXPERIMENTAL_STEP.WELDMENT.GROOVE_PREPARATION",
     description="""Groove or Joint preparation description//Beschreibung der Nahtvorbereitung""",
     data_type="VARCHAR",
@@ -6380,7 +6379,7 @@ GroovePreparation = PropertyTypeDef(
 )
 
 
-LaserFocus = PropertyTypeDef(
+ExperimentalStepWeldmentLaserFocus = PropertyTypeDef(
     code="EXPERIMENTAL_STEP.WELDMENT.LASER_FOCUS",
     description="""Laser focus position//Laser Fokuslage""",
     data_type="REAL",
@@ -6388,7 +6387,7 @@ LaserFocus = PropertyTypeDef(
 )
 
 
-LaserPower = PropertyTypeDef(
+ExperimentalStepWeldmentLaserPower = PropertyTypeDef(
     code="EXPERIMENTAL_STEP.WELDMENT.LASER_POWER",
     description="""Laser power//Laserleistung""",
     data_type="REAL",
@@ -6396,7 +6395,7 @@ LaserPower = PropertyTypeDef(
 )
 
 
-LaserWireOffset = PropertyTypeDef(
+ExperimentalStepWeldmentLaserWireOffset = PropertyTypeDef(
     code="EXPERIMENTAL_STEP.WELDMENT.LASER_WIRE_OFFSET",
     description="""Distance from laser spot to wire feed//Abstand zwischen Laser und Draht""",
     data_type="REAL",
@@ -6404,7 +6403,7 @@ LaserWireOffset = PropertyTypeDef(
 )
 
 
-MagnetCapacitance = PropertyTypeDef(
+ExperimentalStepWeldmentMagnetCapacitance = PropertyTypeDef(
     code="EXPERIMENTAL_STEP.WELDMENT.MAGNET_CAPACITANCE",
     description="""Capacitance//Kapazität""",
     data_type="REAL",
@@ -6412,7 +6411,7 @@ MagnetCapacitance = PropertyTypeDef(
 )
 
 
-MagnetFrequency = PropertyTypeDef(
+ExperimentalStepWeldmentMagnetFrequency = PropertyTypeDef(
     code="EXPERIMENTAL_STEP.WELDMENT.MAGNET_FREQUENCY",
     description="""Frequency//Frequenz""",
     data_type="REAL",
@@ -6420,7 +6419,7 @@ MagnetFrequency = PropertyTypeDef(
 )
 
 
-MagnetI1 = PropertyTypeDef(
+ExperimentalStepWeldmentMagnetI1 = PropertyTypeDef(
     code="EXPERIMENTAL_STEP.WELDMENT.MAGNET_I_1",
     description="""Magnet I_1 value//Magnet I_1 Wert""",
     data_type="REAL",
@@ -6428,7 +6427,7 @@ MagnetI1 = PropertyTypeDef(
 )
 
 
-MagnetU1 = PropertyTypeDef(
+ExperimentalStepWeldmentMagnetU1 = PropertyTypeDef(
     code="EXPERIMENTAL_STEP.WELDMENT.MAGNET_U_1",
     description="""Magnet U_1 value//Magnet U_1 Wert""",
     data_type="REAL",
@@ -6436,7 +6435,7 @@ MagnetU1 = PropertyTypeDef(
 )
 
 
-ShieldingGasFlow = PropertyTypeDef(
+ExperimentalStepWeldmentShieldingGasFlow = PropertyTypeDef(
     code="EXPERIMENTAL_STEP.WELDMENT.SHIELDING_GAS_FLOW",
     description="""Shielding gas flowrate//Schutzgasflussgeschwindigkeit""",
     data_type="REAL",
@@ -6444,7 +6443,7 @@ ShieldingGasFlow = PropertyTypeDef(
 )
 
 
-WeldTravelSpeed = PropertyTypeDef(
+ExperimentalStepWeldmentWeldTravelSpeed = PropertyTypeDef(
     code="EXPERIMENTAL_STEP.WELDMENT.WELD_TRAVEL_SPEED",
     description="""Welding travel speed//Schweißgeschwindigkeit""",
     data_type="REAL",
@@ -6452,7 +6451,7 @@ WeldTravelSpeed = PropertyTypeDef(
 )
 
 
-WireFeedRate = PropertyTypeDef(
+ExperimentalStepWeldmentWireFeedRate = PropertyTypeDef(
     code="EXPERIMENTAL_STEP.WELDMENT.WIRE_FEED_RATE",
     description="""Welding wire feed rate//Drahtvorschubrate""",
     data_type="REAL",
@@ -6460,7 +6459,7 @@ WireFeedRate = PropertyTypeDef(
 )
 
 
-WireStickoutLength = PropertyTypeDef(
+ExperimentalStepWeldmentWireStickoutLength = PropertyTypeDef(
     code="EXPERIMENTAL_STEP.WELDMENT.WIRE_STICKOUT_LENGTH",
     description="""Length of the wire stickout//Stickoutlänge des Schweißdrahtes""",
     data_type="REAL",
@@ -6468,7 +6467,7 @@ WireStickoutLength = PropertyTypeDef(
 )
 
 
-WorkpieceThickness = PropertyTypeDef(
+ExperimentalStepWeldmentWorkpieceThickness = PropertyTypeDef(
     code="EXPERIMENTAL_STEP.WELDMENT.WORKPIECE_THICKNESS",
     description="""Workpiece thickness//Bauteildicke""",
     data_type="REAL",
@@ -6476,7 +6475,7 @@ WorkpieceThickness = PropertyTypeDef(
 )
 
 
-LineResolution = PropertyTypeDef(
+InstrumentLaserScannerLineResolution = PropertyTypeDef(
     code="INSTRUMENT.LASER_SCANNER.LINE_RESOLUTION",
     description="""Maximum resolution per laser line//Maximale Anzahl Messpunkte per Linienmessung""",
     data_type="INTEGER",
@@ -6484,7 +6483,7 @@ LineResolution = PropertyTypeDef(
 )
 
 
-XMax = PropertyTypeDef(
+InstrumentLaserScannerXMax = PropertyTypeDef(
     code="INSTRUMENT.LASER_SCANNER.X_MAX",
     description="""Maximum measuring distance in z-Direction//Maximaler Messabstand in z-Richtung""",
     data_type="REAL",
@@ -6492,7 +6491,7 @@ XMax = PropertyTypeDef(
 )
 
 
-XMin = PropertyTypeDef(
+InstrumentLaserScannerXMin = PropertyTypeDef(
     code="INSTRUMENT.LASER_SCANNER.X_MIN",
     description="""Minimal measuring distance in z-Direction//Minimaler Messabstand in z-Richtung""",
     data_type="REAL",
@@ -6500,7 +6499,7 @@ XMin = PropertyTypeDef(
 )
 
 
-ZMax = PropertyTypeDef(
+InstrumentLaserScannerZMax = PropertyTypeDef(
     code="INSTRUMENT.LASER_SCANNER.Z_MAX",
     description="""Maximum measuring distance in z-Direction//Maximaler Messabstand in z-Richtung""",
     data_type="REAL",
@@ -6508,7 +6507,7 @@ ZMax = PropertyTypeDef(
 )
 
 
-ZMin = PropertyTypeDef(
+InstrumentLaserScannerZMin = PropertyTypeDef(
     code="INSTRUMENT.LASER_SCANNER.Z_MIN",
     description="""Minimal measuring distance in z-Direction//Minimaler Messabstand in z-Richtung""",
     data_type="REAL",
