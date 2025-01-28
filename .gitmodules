@@ -1,3 +1,0 @@
-[submodule "bam_masterdata/dependencies/openbisschema"]
-	path = bam_masterdata/dependencies/openbisschema
-	url = https://git.bam.de/bam-data-store/development/openbisschema.git
