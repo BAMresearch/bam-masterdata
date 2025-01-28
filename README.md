@@ -4,10 +4,13 @@
 
 The BAM Masterdata is a repository containing all the masterdata schema defining in BAM, as well as some utility functions to handle the masterdata.
 
-<!--
+
 ## Getting started
 
- Add here installation instructions once the package is deployed -->
+`bam-masterdata` can be installed as a PyPI package using `pip`:
+```sh
+pip install bam-masterdata
+```
 
 ## Development
 
@@ -28,7 +31,7 @@ source .venv/bin/activate
 Run the following script:
 
 ```sh
-./scripts/install_python_dependencies
+./scripts/install_python_dependencies.sh
 ```
 
 ### Run the tests

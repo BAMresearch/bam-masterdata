@@ -46,11 +46,6 @@ dev = [
   "python-decouple",
   "structlog==24.4.0",
 ]
-jupy = [
-  "jupyterlab",
-  "notebook",
-  "ipywidgets",
-]
 docu = [
   "mkdocs-material",
   "mkdocs-click",
