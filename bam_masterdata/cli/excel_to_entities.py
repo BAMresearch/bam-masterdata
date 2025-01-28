@@ -1,5 +1,8 @@
 import re
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any, Optional, Union
+
+if TYPE_CHECKING:
+    from structlog._config import BoundLoggerLazyProxy
 
 import openpyxl
 from openpyxl.worksheet.worksheet import Worksheet
@@ -95,6 +98,34 @@ def is_reduced_version(generated_code_value: str, code: str) -> bool:
     return True
 
 
+def str_to_bool(
+    value: Optional[Union[str, bool]],
+    term: str,
+    coordinate: str,
+    sheet_title: str,
+    logger: "BoundLoggerLazyProxy",
+) -> bool:
+    """
+    Converts a string to a boolean value.
+
+    Args:
+        value: The string to convert.
+
+    Returns:
+        The boolean value.
+    """
+    # No `value` provided
+    if not value:
+        return False
+
+    val = str(value).strip().lower()
+    if val not in ["true", "false"]:
+        logger.error(
+            f"Invalid {term.lower()} value found in the {term} column at position {coordinate} in {sheet_title}. Accepted values: TRUE or FALSE."
+        )
+    return val == "true"
+
+
 def properties_to_dict(
     sheet: Worksheet, start_index_row: int, last_non_empty_row: int
 ) -> dict[str, dict[str, Any]]:
@@ -178,32 +209,26 @@ def properties_to_dict(
             # Check the cell below "Mandatory"
             elif term == "Mandatory":
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
-                    mandatory = str(cell.value)
-                    if mandatory is not None:
-                        mandatory = mandatory.strip().lower()
-                        if mandatory not in {"true", "false"}:
-                            logger.error(
-                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate} in {sheet.title}. Accepted values: TRUE or FALSE."
-                            )
-                        mandatory = mandatory == "true"
-                        mandatories.append(mandatory)
-                    else:
-                        mandatories.append(False)
+                    mandatory = str_to_bool(
+                        value=cell.value,
+                        term=term,
+                        coordinate=cell.coordinate,
+                        sheet_title=sheet.title,
+                        logger=logger,
+                    )
+                    mandatories.append(mandatory)
 
             # Check the cell below "Show in edit views"
             elif term == "Show in edit views":
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
-                    show = str(cell.value)
-                    if show is not None:
-                        show = show.strip().lower()
-                        if show not in {"true", "false"}:
-                            logger.error(
-                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate} in {sheet.title}. Accepted values: TRUE or FALSE."
-                            )
-                        show = show == "true"
-                        shows.append(show)
-                    else:
-                        shows.append(False)
+                    show = str_to_bool(
+                        value=cell.value,
+                        term=term,
+                        coordinate=cell.coordinate,
+                        sheet_title=sheet.title,
+                        logger=logger,
+                    )
+                    shows.append(show)
 
             # Check the cell below "Section"
             elif term == "Section":
@@ -367,17 +392,14 @@ def terms_to_dict(
             # Check the cell below "Officials"
             elif term == "Official":
                 for cell in sheet[term_letter][header_index:last_non_empty_row]:
-                    official = str(cell.value)
-                    official = official.strip().lower()
-                    if official is not None:
-                        if official not in {"true", "false"}:
-                            logger.error(
-                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate} in {sheet.title}. Accepted values: TRUE or FALSE."
-                            )
-                        official = official == "true"
-                        officials.append(official)
-                    else:
-                        officials.append(False)
+                    official = str_to_bool(
+                        value=cell.value,
+                        term=term,
+                        coordinate=cell.coordinate,
+                        sheet_title=sheet.title,
+                        logger=logger,
+                    )
+                    officials.append(official)
 
     for i in range(0, len(codes)):
         terms_dict[codes[i]] = {
@@ -409,7 +431,7 @@ def block_to_entity_dict(
     Returns:
         A dictionary containing the entity attributes.
     """
-    attributes_dict = {}
+    attributes_dict: dict = {}
 
     # Get the entity type from the specified cell
     entity_type_position = f"A{start_index_row}"
@@ -505,17 +527,23 @@ def block_to_entity_dict(
 
                     # Check the cell below "Auto generate codes"
                     elif term == "Auto generate codes":
-                        auto_generate_value = str(
-                            sheet.cell(
-                                row=start_index_row + 2, column=term_index + 1
-                            ).value
+                        cell = sheet.cell(
+                            row=start_index_row + 2, column=term_index + 1
                         )
-                        auto_generate_value = auto_generate_value.strip().lower()
-                        if auto_generate_value not in {"true", "false"}:
-                            logger.error(
-                                f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}"
-                            )
-                        auto_generate_value = auto_generate_value == "true"
+                        auto_generate_value = str_to_bool(
+                            value=cell.value,
+                            term=term,
+                            coordinate=cell.coordinate,
+                            sheet_title=sheet.title,
+                            logger=logger,
+                        )
+                        # auto_generate_value = ""
+                        # auto_generate_value = auto_generate_value.strip().lower()
+                        # if auto_generate_value not in {"true", "false"}:
+                        #     logger.error(
+                        #         f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}"
+                        #     )
+                        # auto_generate_value = auto_generate_value == "true"
                         attributes_dict["autoGeneratedCode"] = auto_generate_value
 
             # Assign the properties dictionary as a field for the entity dictionary
@@ -778,6 +806,7 @@ def block_to_entity_dict(
             return dict(
                 sorted(complete_dict.items(), key=lambda item: item[0].count("."))
             )
+        return attributes_dict
 
 
 def excel_to_entities(

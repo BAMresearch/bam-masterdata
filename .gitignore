@@ -175,3 +175,5 @@ pytest-coverage.txt
 
 # artifacts
 artifacts
+# and tmp files
+tmp/
