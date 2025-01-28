@@ -64,11 +64,8 @@ def is_reduced_version(generated_code_value: str, code: str) -> bool:
         bool: True if generated_code_value is a reduced version of code, False otherwise.
     """
     # Check if both are single words (no delimiters)
-    if (
-        "." not in code
-        and "_" not in code
-        and "." not in generated_code_value
-        and "_" not in generated_code_value
+    if not any(delimiter in code for delimiter in "._") and not any(
+        delimiter in generated_code_value for delimiter in "._"
     ):
         return True
 
@@ -87,15 +84,11 @@ def is_reduced_version(generated_code_value: str, code: str) -> bool:
         return False
 
     # Split both strings using the determined delimiter
-    if code_delimiter:  # Both have the same delimiter
-        generated_parts = generated_code_value.split(code_delimiter)
-        original_parts = code.split(code_delimiter)
+    generated_parts = generated_code_value.split(code_delimiter)
+    original_parts = code.split(code_delimiter)
 
-        # Ensure both have the same number of parts
-        if len(generated_parts) != len(original_parts):
-            return False
-
-    return True
+    # Ensure both have the same number of parts
+    return len(generated_parts) == len(original_parts)
 
 
 def str_to_bool(
@@ -126,6 +119,93 @@ def str_to_bool(
     return val == "true"
 
 
+def get_and_check_property(
+    value: Optional[Union[str, bool]],
+    term: str,
+    coordinate: str,
+    sheet_title: str,
+    logger: "BoundLoggerLazyProxy",
+    is_description: bool = False,
+    is_code: bool = False,
+    is_data: bool = False,
+    is_url: bool = False,
+) -> str:
+    """
+    Gets a property and checks its format.
+
+    Args:
+        value: The string to convert.
+
+    Returns:
+        The property.
+    """
+    data_types = [
+        "INTEGER",
+        "REAL",
+        "VARCHAR",
+        "MULTILINE_VARCHAR",
+        "HYPERLINK",
+        "BOOLEAN",
+        "CONTROLLEDVOCABULARY",
+        "XML",
+        "TIMESTAMP",
+        "DATE",
+        "SAMPLE",
+        "OBJECT",
+    ]
+
+    # No `value` provided
+    if not value:
+        return ""
+
+    val = str(value)
+    error_message = f"Invalid {term.lower()} value found in the {term} column at position {coordinate} in {sheet_title}."
+    if is_description:
+        if not re.match(r".*//.*", val):
+            logger.error(
+                error_message
+                + "Description should follow the schema: English Description + '//' + German Description. "
+            )
+    elif is_code:
+        if not re.match(r"^\$?[A-Z0-9_.]+$", val):
+            logger.error(error_message)
+    elif is_data:
+        if val not in data_types:
+            logger.error(
+                error_message
+                + "The Data Type should be one of the following: {data_types}"
+            )
+            val = val.upper()
+    elif is_url:
+        if not re.match(r"https?://(?:www\.)?[a-zA-Z0-9-._~:/?#@!$&'()*+,;=%]+", val):
+            logger.error(error_message)
+    else:
+        if not re.match(r".*", val):
+            logger.error(error_message)
+    return val
+
+
+# Helper function to process each term
+def process_term(term, cell_value, coordinate, sheet_title):
+    if term in ("Mandatory", "Show in edit views"):
+        return str_to_bool(
+            value=cell_value,
+            term=term,
+            coordinate=coordinate,
+            sheet_title=sheet_title,
+            logger=logger,
+        )
+    return get_and_check_property(
+        value=cell_value,
+        term=term,
+        coordinate=coordinate,
+        sheet_title=sheet_title,
+        logger=logger,
+        is_code=(term in ["Code", "Vocabulary code"]),
+        is_data=(term == "Data type"),
+    )
+
+
 def properties_to_dict(
     sheet: Worksheet, start_index_row: int, last_non_empty_row: int
 ) -> dict[str, dict[str, Any]]:
@@ -151,158 +231,48 @@ def properties_to_dict(
         "Property label",
         "Data type",
         "Vocabulary code",
-        # "Object code",
     ]
 
     # Determine the header row index
     header_index = start_index_row + 3
     row_headers = [cell.value for cell in sheet[header_index]]
 
-    # Initialize lists to store property attributes
-    (
-        codes,
-        descriptions,
-        sections,
-        labels,
-        data_types,
-        vocabulary_codes,
-    ) = [], [], [], [], [], []
+    # Initialize a dictionary to store extracted columns
+    extracted_columns = {term: [] for term in expected_terms}
 
-    mandatories: list[bool] = []
-    shows: list[bool] = []
-
-    # Iterate over expected terms and extract corresponding column values
+    # Extract columns for each expected term
     for term in expected_terms:
         if term not in row_headers:
-            if term in ("Mandatory", "Show in edit views", "Section"):
-                logger.warning(f"'{term}' not found in the properties headers.")
-            else:
-                logger.error(f"'{term}' not found in the properties headers.")
-        else:
-            # Find the index of the term in the row
-            term_index = row_headers.index(term) + 1
-            term_letter = index_to_excel_column(term_index)
+            log_func = (
+                logger.warning
+                if term in ("Mandatory", "Show in edit views", "Section")
+                else logger.error
+            )
+            log_func(f"'{term}' not found in the properties headers.")
+            continue
 
-            # Extract values based on the term
-            # Check the column below "Code"
-            if term == "Code":
-                for cell in sheet[term_letter][header_index:last_non_empty_row]:
-                    if not re.match(r"^\$?[A-Z0-9_.]+$", cell.value):
-                        logger.error(
-                            f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate} in {sheet.title}."
-                        )
-                    codes.append(cell.value)
+        # Get column index and Excel letter
+        term_index = row_headers.index(term) + 1
+        term_letter = index_to_excel_column(term_index)
 
-            # Check the cell below "Description"
-            elif term == "Description":
-                for cell in sheet[term_letter][header_index:last_non_empty_row]:
-                    if cell.value is not None:
-                        if not re.match(r".*", str(cell.value)):
-                            # if not re.match(r".*//.*", str(cell.value)):
-                            logger.error(
-                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate} in {sheet.title}. Description should follow the schema: English Description + '//' + German Description. "
-                            )
-                        descriptions.append(cell.value)
-                    else:
-                        descriptions.append("")
-
-            # Check the cell below "Mandatory"
-            elif term == "Mandatory":
-                for cell in sheet[term_letter][header_index:last_non_empty_row]:
-                    mandatory = str_to_bool(
-                        value=cell.value,
-                        term=term,
-                        coordinate=cell.coordinate,
-                        sheet_title=sheet.title,
-                        logger=logger,
-                    )
-                    mandatories.append(mandatory)
-
-            # Check the cell below "Show in edit views"
-            elif term == "Show in edit views":
-                for cell in sheet[term_letter][header_index:last_non_empty_row]:
-                    show = str_to_bool(
-                        value=cell.value,
-                        term=term,
-                        coordinate=cell.coordinate,
-                        sheet_title=sheet.title,
-                        logger=logger,
-                    )
-                    shows.append(show)
-
-            # Check the cell below "Section"
-            elif term == "Section":
-                for cell in sheet[term_letter][header_index:last_non_empty_row]:
-                    if not re.match(r".*", str(cell.value)):
-                        logger.error(
-                            f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate} in {sheet.title}."
-                        )
-                    if cell.value is not None:
-                        sections.append(cell.value)
-                    else:
-                        sections.append("")
-
-            # Check the cell below "Property label"
-            elif term == "Property label":
-                for cell in sheet[term_letter][header_index:last_non_empty_row]:
-                    if not re.match(r".*", str(cell.value)):
-                        logger.error(
-                            f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate} in {sheet.title}."
-                        )
-                    if cell.value is not None:
-                        labels.append(cell.value)
-                    else:
-                        labels.append("")
-
-            # Check the cell below "Data type"
-            elif term == "Data type":
-                data_types = [
-                    "INTEGER",
-                    "REAL",
-                    "VARCHAR",
-                    "MULTILINE_VARCHAR",
-                    "HYPERLINK",
-                    "BOOLEAN",
-                    "CONTROLLEDVOCABULARY",
-                    "XML",
-                    "TIMESTAMP",
-                    "DATE",
-                    "SAMPLE",
-                    "OBJECT",
-                ]
-                for cell in sheet[term_letter][header_index:last_non_empty_row]:
-                    if cell.value not in data_types:
-                        logger.error(
-                            f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate} in {sheet.title}. The Data Type should be one of the following: {data_types}"
-                        )
-                    if cell.value is not None:
-                        data_types.append(str(cell.value).upper())
-                    else:
-                        data_types.append("")
-
-            # Check the column below "Vocabulary code"
-            elif term == "Vocabulary code":
-                for cell in sheet[term_letter][header_index:last_non_empty_row]:
-                    if cell.value is not None:
-                        if not re.match(r"^\$?[A-Z0-9_.]+$", str(cell.value)):
-                            logger.error(
-                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate} in {sheet.title}."
-                            )
-                    else:
-                        vocabulary_codes.append("")
+        # Extract values from the column
+        for cell in sheet[term_letter][header_index:last_non_empty_row]:
+            extracted_columns[term].append(
+                process_term(term, cell.value, cell.coordinate, sheet.title)
+            )
 
     # Combine extracted values into a dictionary
-    for i in range(0, len(codes)):
-        property_dict[codes[i]] = {
-            "permId": codes[i],
-            "code": codes[i],
-            "description": descriptions[i],
-            "section": sections[i],
-            "mandatory": mandatories[i],
-            "show_in_edit_views": shows[i],
-            "label": labels[i],
-            "dataType": data_types[i],
-            "vocabularyCode": vocabulary_codes[i],
+    for i in range(len(extracted_columns["Code"])):
+        property_dict[extracted_columns["Code"][i]] = {
+            "permId": extracted_columns["Code"][i],
+            "code": extracted_columns["Code"][i],
+            "description": extracted_columns["Description"][i],
+            "section": extracted_columns["Section"][i],
+            "mandatory": extracted_columns["Mandatory"][i],
+            "show_in_edit_views": extracted_columns["Show in edit views"][i],
+            "label": extracted_columns["Property label"][i],
+            "dataType": extracted_columns["Data type"][i],
+            "vocabularyCode": extracted_columns["Vocabulary code"][i],
         }
 
     return property_dict
@@ -329,85 +299,54 @@ def terms_to_dict(
     header_index = start_index_row + 3
     row_headers = [cell.value for cell in sheet[header_index]]
 
-    (codes, descriptions, urls, labels) = [], [], [], []
-    officials: list[bool] = []
+    # Initialize a dictionary to store extracted columns
+    extracted_columns = {term: [] for term in expected_terms}
 
+    # Helper function to process each term
+    def process_term(term, cell_value, coordinate, sheet_title):
+        if term == "Official":
+            return str_to_bool(
+                value=cell_value,
+                term=term,
+                coordinate=coordinate,
+                sheet_title=sheet_title,
+                logger=logger,
+            )
+        return get_and_check_property(
+            value=cell_value,
+            term=term,
+            coordinate=coordinate,
+            sheet_title=sheet_title,
+            logger=logger,
+            is_code=(term == "Code"),
+            is_url=(term == "Url template"),
+        )
+
+    # Extract columns for each expected term
     for term in expected_terms:
         if term not in row_headers:
             logger.warning(f"{term} not found in the properties headers.")
-        else:
-            # Find the index of the term in the row
-            term_index = row_headers.index(term) + 1
-            term_letter = index_to_excel_column(term_index)
+            continue
 
-            # Check the column below "Code"
-            if term == "Code":
-                for cell in sheet[term_letter][header_index:last_non_empty_row]:
-                    if not cell.value or not re.match(r"^\$?[A-Z0-9_.-]+$", cell.value):
-                        logger.error(
-                            f"Invalid (or empty) {term.lower()} value found in the {term} column at position {cell.coordinate} in {sheet.title}."
-                        )
-                    codes.append(cell.value)
+        # Get column index and Excel letter
+        term_index = row_headers.index(term) + 1
+        term_letter = index_to_excel_column(term_index)
 
-            # Check the cell below "Description"
-            elif term == "Description":
-                for cell in sheet[term_letter][header_index:last_non_empty_row]:
-                    if cell.value is not None:
-                        if not re.match(r".*", str(cell.value)):
-                            # if not re.match(r".*//.*", str(cell.value)):
-                            logger.error(
-                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate} in {sheet.title}. Description should follow the schema: English Description + '//' + German Description. "
-                            )
-                        descriptions.append(cell.value)
-                    else:
-                        descriptions.append("")
+        # Extract values from the column
+        for cell in sheet[term_letter][header_index:last_non_empty_row]:
+            extracted_columns[term].append(
+                process_term(term, cell.value, cell.coordinate, sheet.title)
+            )
 
-            # Check the cell below "URL Template"
-            elif term == "Url template":
-                for cell in sheet[term_letter][header_index:last_non_empty_row]:
-                    if cell.value is not None:
-                        if not re.match(
-                            r"https?://(?:www\.)?[a-zA-Z0-9-._~:/?#@!$&'()*+,;=%]+",
-                            str(cell.value),
-                        ):
-                            logger.error(
-                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate} in {sheet.title}."
-                            )
-                        urls.append(cell.value)
-                    else:
-                        urls.append("")
-
-            # Check the cell below "Label"
-            elif term == "Label":
-                for cell in sheet[term_letter][header_index:last_non_empty_row]:
-                    if cell.value is not None:
-                        if not re.match(r".*", str(cell.value)):
-                            logger.error(
-                                f"Invalid {term.lower()} value found in the {term} column at position {cell.coordinate} in {sheet.title}."
-                            )
-                        labels.append(cell.value)
-                    else:
-                        labels.append("")
-
-            # Check the cell below "Officials"
-            elif term == "Official":
-                for cell in sheet[term_letter][header_index:last_non_empty_row]:
-                    official = str_to_bool(
-                        value=cell.value,
-                        term=term,
-                        coordinate=cell.coordinate,
-                        sheet_title=sheet.title,
-                        logger=logger,
-                    )
-                    officials.append(official)
-
-    for i in range(0, len(codes)):
-        terms_dict[codes[i]] = {
-            "permId": codes[i],
-            "code": codes[i],
-            "url_template": urls[i],
-            "label": labels[i],
-            "official": officials[i],
+    # Combine extracted values into a dictionary
+    for i in range(len(extracted_columns["Code"])):
+        terms_dict[extracted_columns["Code"][i]] = {
+            "permId": extracted_columns["Code"][i],
+            "code": extracted_columns["Code"][i],
+            "descriptions": extracted_columns["Description"][i],
+            "url_template": extracted_columns["Url template"][i],
+            "label": extracted_columns["Label"][i],
+            "official": extracted_columns["Official"][i],
         }
 
     return terms_dict
