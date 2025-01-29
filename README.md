@@ -1,4 +1,13 @@
-![test-and-build pipeline](https://github.com/BAMresearch/bam-masterdata/actions/workflows/actions.yml/badge.svg)
+<h1 align="center">
+  <picture>
+    <source srcset="https://github.com/BAMresearch/bam-masterdata/docs/assets/bammasterdata_blue_white_text.png">
+    <img alt="BAM Masterdata" text="BAM Masterdata">
+  </picture>
+</h1>
+
+<h4 align="center">
+  ![test-and-build pipeline](https://github.com/BAMresearch/bam-masterdata/actions/workflows/actions.yml/badge.svg)
+</h4>
 
 # BAM Masterdata
 

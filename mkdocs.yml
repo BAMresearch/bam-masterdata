@@ -42,8 +42,8 @@ theme:
       # toggle:
       #   icon: material/weather-night
       #   name: Switch to dark mode
-  logo: assets/datastore-logo.png
-  favicon: assets/datastore-logo-white.png
+  logo: assets/bammasterdata_blue_transparent.png
+  favicon: assets/bammasterdata_blue_transparent.png
   features:
     - navigation.path
     - navigation.footer
