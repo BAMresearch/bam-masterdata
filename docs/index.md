@@ -1,11 +1,10 @@
----
+<!-- ---
 hide: toc
----
+--- -->
 
-# Welcome to the BAM Data Store documentation page.
+# Welcome to the `bam-masterdata` documentation page.
 
-The BAM **Data Store** is a central system for digital Research Data Management at the Bundesanstalt für Materialforschung und -prüfung (BAM). It is a modified instance of [openBIS](https://openbis.ch/), so this documentation page does not intend to replace the openBIS documentation, but rather serve as an additional source of information for BAM employees who use the Data Store.
-
+The `bam-masterdata` is a Python package designed to define and handle the Masterdata used in the BAM Data Store project. The BAM Data Store is the central system for Research Data Management at the Bundesanstalt für Materialforschung und -prüfung (BAM). It is a customized instance of [openBIS](https://openbis.ch/).
 <!-- This documentation page is divided according to the [diataxis method](https://www.diataxis.fr/). -->
 
 
@@ -15,10 +14,7 @@ The BAM **Data Store** is a central system for digital Research Data Management 
 
 <h3>Tutorials</h3>
 
-The **Tutorials** are designed to guide you through the general and basic understanding of the functionalities of the Data Store. These are intended for learning the software in a first approach.
-
-- [Creating Masterdata](tutorials/create-masterdata.md)
-- [pyBIS tutorial](tutorials/pybis.md)
+The **Tutorials** are designed to guide you through the general and basic functionalities of the package. They are ideal for learning the software during your first interaction.
 
 </div>
 
@@ -26,7 +22,7 @@ The **Tutorials** are designed to guide you through the general and basic unders
 
 <h3>How-to guides</h3>
 
-The **How-to guides** provide step-by-step instructions for a wide range of tasks. These are oriented for a practical application so you can use them as a fast entry point when searching for specific information.
+The **How-to guides** provide step-by-step instructions for a variety of tasks. These serve as a quick reference for practical applications when you need specific information.
 
 
 </div>
@@ -35,7 +31,7 @@ The **How-to guides** provide step-by-step instructions for a wide range of task
 
 <h3>Explanations</h3>
 
-The **Explanations** give you a theoretical background about the main concepts used in the Data Store. These are overlapping with openBIS and pyBIS concepts, but also some specific Data Store ones, as well as on Research Data Management and Good Scientific Practices.
+The **Explanations** offer theoretical insights into the core concepts.
 
 </div>
 
@@ -43,7 +39,7 @@ The **Explanations** give you a theoretical background about the main concepts u
 
 <h3>References</h3>
 
-The **References** include the glossary of used terms and API documentation.
+The **References** include a glossary of terms and the automatically generated API documentation.
 
 </div>
 
@@ -51,5 +47,5 @@ The **References** include the glossary of used terms and API documentation.
 
 
 ## Contact
-Many parts of this documentation are currently under construction. If you have further questions that are not yet answered here, please contact [datastore@bam.de](mailto:datastore@bam.de).
+This documentation is a work in progress. If you have questions that are not yet addressed, please contact [datastore@bam.de](mailto:datastore@bam.de).
 

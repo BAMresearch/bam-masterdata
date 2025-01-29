@@ -46,16 +46,10 @@ dev = [
   "python-decouple",
   "structlog==24.4.0",
 ]
-jupy = [
-  "jupyterlab",
-  "notebook",
-  "ipywidgets",
-]
 docu = [
-  "mkdocs",
   "mkdocs-material",
-  "pymdown-extensions",
   "mkdocs-click",
+  "mkdocstrings-python",
 ]
 
 [project.scripts]
