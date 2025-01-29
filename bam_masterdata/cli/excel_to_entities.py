@@ -238,7 +238,7 @@ def properties_to_dict(
     row_headers = [cell.value for cell in sheet[header_index]]
 
     # Initialize a dictionary to store extracted columns
-    extracted_columns = {term: [] for term in expected_terms}
+    extracted_columns: dict[str, list] = {term: [] for term in expected_terms}
 
     # Extract columns for each expected term
     for term in expected_terms:
@@ -300,7 +300,7 @@ def terms_to_dict(
     row_headers = [cell.value for cell in sheet[header_index]]
 
     # Initialize a dictionary to store extracted columns
-    extracted_columns = {term: [] for term in expected_terms}
+    extracted_columns: dict[str, list] = {term: [] for term in expected_terms}
 
     # Helper function to process each term
     def process_term(term, cell_value, coordinate, sheet_title):
