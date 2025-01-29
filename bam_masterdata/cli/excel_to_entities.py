@@ -9,6 +9,21 @@ from openpyxl.worksheet.worksheet import Worksheet
 
 from bam_masterdata.logger import logger
 
+data_types = [
+    "INTEGER",
+    "REAL",
+    "VARCHAR",
+    "MULTILINE_VARCHAR",
+    "HYPERLINK",
+    "BOOLEAN",
+    "CONTROLLEDVOCABULARY",
+    "XML",
+    "TIMESTAMP",
+    "DATE",
+    "SAMPLE",
+    "OBJECT",
+]
+
 
 def index_to_excel_column(index: int) -> str:
     """
@@ -139,20 +154,6 @@ def get_and_check_property(
     Returns:
         The property.
     """
-    data_types = [
-        "INTEGER",
-        "REAL",
-        "VARCHAR",
-        "MULTILINE_VARCHAR",
-        "HYPERLINK",
-        "BOOLEAN",
-        "CONTROLLEDVOCABULARY",
-        "XML",
-        "TIMESTAMP",
-        "DATE",
-        "SAMPLE",
-        "OBJECT",
-    ]
 
     # No `value` provided
     if not value:
@@ -204,6 +205,58 @@ def process_term(term, cell_value, coordinate, sheet_title):
         is_code=(term in ["Code", "Vocabulary code"]),
         is_data=(term == "Data type"),
     )
+
+
+#!
+# Define los data_types aceptados
+data_types = {
+    "INTEGER",
+    "REAL",
+    "VARCHAR",
+    "MULTILINE_VARCHAR",
+    "HYPERLINK",
+    "BOOLEAN",
+    "CONTROLLEDVOCABULARY",
+    "XML",
+    "TIMESTAMP",
+    "DATE",
+    "SAMPLE",
+    "OBJECT",
+}
+
+
+def extract_value(
+    sheet: Worksheet,
+    row: int,
+    column: int,
+    validation_pattern: str = None,
+    is_description: bool = False,
+    is_data: bool = False,
+    is_url: bool = False,
+):
+    value = sheet.cell(row=row, column=column).value
+
+    # No `value` provided
+    if not value:
+        return ""
+
+    validated = (
+        bool(re.match(validation_pattern, str(value))) if validation_pattern else True
+    )
+    error_message = f"Invalid value '{value}' at row {row}, column {column}"
+
+    if is_description:
+        error_message += " Description should follow the schema: English Description + '//' + German Description."
+    elif is_data:
+        validated = str(value) in data_types
+        error_message += f" The Data Type should be one of the following: {data_types}"
+    elif is_url:
+        error_message += " It should be an URL or empty"
+
+    if not validated:
+        logger.error(error_message)
+
+    return value or ""
 
 
 def properties_to_dict(
@@ -415,26 +468,24 @@ def block_to_entity_dict(
 
                     # Check the cell below "Code"
                     if term == "Code":
-                        code_value = sheet.cell(
-                            row=start_index_row + 2, column=term_index + 1
-                        ).value
-                        if not re.match(r"^\$?[A-Z0-9_.]+$", str(code_value)):
-                            logger.error(
-                                f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}"
-                            )
+                        code_value = extract_value(
+                            sheet,
+                            start_index_row + 2,
+                            term_index + 1,
+                            r"^\$?[A-Z0-9_.]+$",
+                        )
                         attributes_dict["permId"] = code_value
                         attributes_dict["code"] = code_value
 
                     # Check the cell below "Description"
                     elif term == "Description":
-                        description_value = sheet.cell(
-                            row=start_index_row + 2, column=term_index + 1
-                        ).value
-                        if not re.match(r".*", str(description_value)):
-                            # if not re.match(r".*//.*", str(description_value)):
-                            logger.error(
-                                f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}. Description should follow the schema: English Description + '//' + German Description. "
-                            )
+                        description_value = extract_value(
+                            sheet,
+                            start_index_row + 2,
+                            term_index + 1,
+                            r".*",
+                            is_description=True,
+                        )
                         attributes_dict["description"] = description_value
 
                     # Check the cell below "Generated code prefix"
@@ -444,24 +495,18 @@ def block_to_entity_dict(
                         ).value
                         if not is_reduced_version(generated_code_value, code_value):
                             logger.error(
-                                f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}. The value of 'Generated code prefix' should be a part of the 'Code'."
+                                f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}. The value of 'Generated code prefix' should follow the same structure of the 'Code'."
                             )
                         attributes_dict["generatedCodePrefix"] = generated_code_value
 
                     # Check the cell below "Validation script"
                     elif term == "Validation script":
-                        validation_value = sheet.cell(
-                            row=start_index_row + 2, column=term_index + 1
-                        ).value
-                        if validation_value is not None:
-                            if not re.match(
-                                r"^[A-Za-z0-9_]+\.py$", str(validation_value)
-                            ):
-                                logger.error(
-                                    f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}"
-                                )
-                        else:
-                            validation_value = ""
+                        validation_value = extract_value(
+                            sheet,
+                            start_index_row + 2,
+                            term_index + 1,
+                            r"^\$?[A-Z0-9_.]+$",
+                        )
                         attributes_dict["validationPlugin"] = validation_value
 
                     # Check the cell below "Auto generate codes"
@@ -476,13 +521,6 @@ def block_to_entity_dict(
                             sheet_title=sheet.title,
                             logger=logger,
                         )
-                        # auto_generate_value = ""
-                        # auto_generate_value = auto_generate_value.strip().lower()
-                        # if auto_generate_value not in {"true", "false"}:
-                        #     logger.error(
-                        #         f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}"
-                        #     )
-                        # auto_generate_value = auto_generate_value == "true"
                         attributes_dict["autoGeneratedCode"] = auto_generate_value
 
             # Assign the properties dictionary as a field for the entity dictionary
@@ -508,42 +546,34 @@ def block_to_entity_dict(
 
                     # Check the cell below "Code"
                     if term == "Code":
-                        code_value = sheet.cell(
-                            row=start_index_row + 2, column=term_index + 1
-                        ).value
-                        if not re.match(r"^\$?[A-Z0-9_.]+$", str(code_value)):
-                            logger.error(
-                                f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}"
-                            )
+                        code_value = extract_value(
+                            sheet,
+                            start_index_row + 2,
+                            term_index + 1,
+                            r"^\$?[A-Z0-9_.]+$",
+                        )
                         attributes_dict["permId"] = code_value
                         attributes_dict["code"] = code_value
 
                     # Check the cell below "Description"
                     elif term == "Description":
-                        description_value = sheet.cell(
-                            row=start_index_row + 2, column=term_index + 1
-                        ).value
-                        if not re.match(r".*", str(description_value)):
-                            # if not re.match(r".*//.*", str(description_value)):
-                            logger.error(
-                                f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}. Description should follow the schema: English Description + '//' + German Description. "
-                            )
+                        description_value = extract_value(
+                            sheet,
+                            start_index_row + 2,
+                            term_index + 1,
+                            r".*",
+                            is_description=True,
+                        )
                         attributes_dict["description"] = description_value
 
                     # Check the cell below "Validation script"
                     elif term == "Validation script":
-                        validation_value = sheet.cell(
-                            row=start_index_row + 2, column=term_index + 1
-                        ).value
-                        if validation_value is not None:
-                            if not re.match(
-                                r"^[A-Za-z0-9_]+\.py$", str(validation_value)
-                            ):
-                                logger.error(
-                                    f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}"
-                                )
-                        else:
-                            validation_value = ""
+                        validation_value = extract_value(
+                            sheet,
+                            start_index_row + 2,
+                            term_index + 1,
+                            r"^\$?[A-Z0-9_.]+$",
+                        )
                         attributes_dict["validationPlugin"] = validation_value
 
             # Assign the properties dictionary as a field for the entity dictionary
@@ -577,104 +607,74 @@ def block_to_entity_dict(
 
                     # Check the cell below "Code"
                     if term == "Code":
-                        code_value = sheet.cell(
-                            row=start_index_row + 2, column=term_index + 1
-                        ).value
-                        if not re.match(r"^\$?[A-Z0-9_.]+$", str(code_value)):
-                            logger.error(
-                                f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}"
-                            )
+                        code_value = extract_value(
+                            sheet,
+                            start_index_row + 2,
+                            term_index + 1,
+                            r"^\$?[A-Z0-9_.]+$",
+                        )
                         attributes_dict["permId"] = code_value
                         attributes_dict["code"] = code_value
 
                     # Check the cell below "Description"
                     elif term == "Description":
-                        description_value = sheet.cell(
-                            row=start_index_row + 2, column=term_index + 1
-                        ).value
-                        if not re.match(r".*", str(description_value)):
-                            # if not re.match(r".*//.*", str(description_value)):
-                            logger.error(
-                                f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}. Description should follow the schema: English Description + '//' + German Description. "
-                            )
+                        description_value = extract_value(
+                            sheet,
+                            start_index_row + 2,
+                            term_index + 1,
+                            r".*",
+                            is_description=True,
+                        )
                         attributes_dict["description"] = description_value
 
                     # Check the cell below "Property label"
                     elif term == "Property label":
-                        property_value = sheet.cell(
-                            row=start_index_row + 2, column=term_index + 1
-                        ).value
-                        if not re.match(r".*", str(property_value)):
-                            logger.error(
-                                f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}"
-                            )
+                        property_value = extract_value(
+                            sheet,
+                            start_index_row + 2,
+                            term_index + 1,
+                            r".*",
+                        )
                         attributes_dict["label"] = property_value
 
                     # Check the cell below "Data type"
                     elif term == "Data type":
-                        data_types = [
-                            "INTEGER",
-                            "REAL",
-                            "VARCHAR",
-                            "MULTILINE_VARCHAR",
-                            "HYPERLINK",
-                            "BOOLEAN",
-                            "CONTROLLEDVOCABULARY",
-                            "XML",
-                            "TIMESTAMP",
-                            "DATE",
-                            "SAMPLE",
-                            "OBJECT",
-                        ]
-                        data_value = sheet.cell(
-                            row=start_index_row + 2, column=term_index + 1
-                        ).value
-                        if str(data_value) not in data_types:
-                            logger.error(
-                                f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}. The Data Type should be one of the following: {data_types}"
-                            )
+                        data_value = extract_value(
+                            sheet,
+                            start_index_row + 2,
+                            term_index + 1,
+                            is_data=True,
+                        )
                         attributes_dict["dataType"] = data_value
 
                     # Check the cell below "Vocabulary code"
                     elif term == "Vocabulary code":
-                        vocabulary_value = sheet.cell(
-                            row=start_index_row + 2, column=term_index + 1
-                        ).value
-                        if vocabulary_value is not None:
-                            if not re.match(r"^\$?[A-Z0-9_.]+$", str(vocabulary_value)):
-                                logger.error(
-                                    f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}"
-                                )
-                        else:
-                            vocabulary_value = ""
+                        vocabulary_value = extract_value(
+                            sheet,
+                            start_index_row + 2,
+                            term_index + 1,
+                            r"^\$?[A-Z0-9_.]+$",
+                        )
                         attributes_dict["vocabularyCode"] = vocabulary_value
 
                     # Check the cell below "Data type"
                     elif term == "Metadata":
-                        metadata_value = sheet.cell(
-                            row=start_index_row + 2, column=term_index + 1
-                        ).value
-                        if metadata_value is not None:
-                            if not re.match(r".*", str(metadata_value)):
-                                logger.error(
-                                    f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}"
-                                )
-                        else:
-                            metadata_value = ""
+                        metadata_value = extract_value(
+                            sheet,
+                            start_index_row + 2,
+                            term_index + 1,
+                            r".*",
+                        )
                         attributes_dict["metadata"] = metadata_value
 
                     # Check the cell below "Dynamic script"
                     elif term == "Dynamic script":
-                        plugin_value = sheet.cell(
-                            row=start_index_row + 2, column=term_index + 1
-                        ).value
-                        if plugin_value is not None:
-                            if not re.match(r"^[A-Za-z0-9_]+\.py$", str(plugin_value)):
-                                logger.error(
-                                    f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}"
-                                )
-                        else:
-                            plugin_value = ""
+                        plugin_value = extract_value(
+                            sheet,
+                            start_index_row + 2,
+                            term_index + 1,
+                            r"^[A-Za-z0-9_]+\.py$",
+                        )
                         attributes_dict["plugin"] = plugin_value
 
             complete_dict[code_value] = attributes_dict
@@ -695,43 +695,35 @@ def block_to_entity_dict(
 
                     # Check the cell below "Code"
                     if term == "Code":
-                        code_value = sheet.cell(
-                            row=start_index_row + 2, column=term_index + 1
-                        ).value
-                        if not re.match(r"^\$?[A-Z0-9_.]+$", str(code_value)):
-                            logger.error(
-                                f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}"
-                            )
+                        code_value = extract_value(
+                            sheet,
+                            start_index_row + 2,
+                            term_index + 1,
+                            r"^\$?[A-Z0-9_.]+$",
+                        )
                         attributes_dict["permId"] = code_value
                         attributes_dict["code"] = code_value
 
                     # Check the cell below "Description"
                     elif term == "Description":
-                        description_value = sheet.cell(
-                            row=start_index_row + 2, column=term_index + 1
-                        ).value
-                        if not re.match(r".*", str(description_value)):
-                            # if not re.match(r".*//.*", str(description_value)):
-                            logger.error(
-                                f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}. Description should follow the schema: English Description + '//' + German Description. "
-                            )
+                        description_value = extract_value(
+                            sheet,
+                            start_index_row + 2,
+                            term_index + 1,
+                            r".*",
+                            is_description=True,
+                        )
                         attributes_dict["description"] = description_value
 
                     # Check the cell below "URL Template"
                     elif term == "Url template":
-                        url_value = sheet.cell(
-                            row=start_index_row + 2, column=term_index + 1
-                        ).value
-                        if url_value is not None:
-                            if not re.match(
-                                r"https?://(?:www\.)?[a-zA-Z0-9-._~:/?#@!$&'()*+,;=%]+",
-                                str(url_value),
-                            ):
-                                logger.error(
-                                    f"Invalid {term.lower()} value found in the {term} value for entity {code_value} at row {start_index_row + 2}. It should be an URL or empty"
-                                )
-                        else:
-                            url_value = ""
+                        url_value = extract_value(
+                            sheet,
+                            start_index_row + 2,
+                            term_index + 1,
+                            r"https?://(?:www\.)?[a-zA-Z0-9-._~:/?#@!$&'()*+,;=%]+",
+                            is_url=True,
+                        )
                         attributes_dict["url_template"] = url_value
 
             # Assign the terms dictionary as a field for the vocabulary dictionary
