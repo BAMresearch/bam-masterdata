@@ -55,7 +55,7 @@ class MasterdataCodeGenerator:
             class_names (dict): A dictionary with the class names of the entities.
             default (str): The default parent class if the parent class does not exist.
             lines (list): A list of strings to be printed to the Python module.
-
+            logger (BoundLoggerLazyProxy): The logger to log messages.
         Returns:
             tuple: The parent code, parent class, and class name of the entity.
         """
@@ -138,6 +138,9 @@ class MasterdataCodeGenerator:
         Generate Python code for the property types in the Openbis datamodel. The code is generated
         as a string which is then printed out to the specific Python module in `bam_masterdata/datamodel/property_types.py`.
 
+        Args:
+            logger (BoundLoggerLazyProxy): The logger to log messages.
+
         Returns:
             str: Python code for the property types.
         """
@@ -154,7 +157,7 @@ class MasterdataCodeGenerator:
                 continue
 
             # Format class name
-            class_name = code_to_class_name(code, entity_type="property")
+            class_name = code_to_class_name(code=code, entity_type="property")
 
             # Add class definition
             lines.append(f"{class_name} = PropertyTypeDef(")
