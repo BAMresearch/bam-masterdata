@@ -92,7 +92,7 @@ class BaseEntity(BaseModel):
     # ? For OBJECT TYPES
     # ? `generated_code_prefix`, `auto_generated_codes`?
     @no_type_check
-    def to_rdf(self, namespace: "Namespace", graph: "Graph") -> None:
+    def model_to_rdf(self, namespace: "Namespace", graph: "Graph") -> None:
         entity_uri = namespace[self.defs.id]
 
         # Define the entity as an OWL class inheriting from the specific namespace type

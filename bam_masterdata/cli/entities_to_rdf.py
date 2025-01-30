@@ -202,12 +202,12 @@ def entities_to_rdf(
     # ? For OBJECT TYPES
     # ? `generated_code_prefix`, `auto_generated_codes`?
     for name, obj in inspect.getmembers(module, inspect.isclass):
-        # Ensure the class has the `to_json` method
-        if not hasattr(obj, "defs") or not callable(getattr(obj, "to_rdf")):
+        # Ensure the class has the `model_to_rdf` method
+        if not hasattr(obj, "defs") or not callable(getattr(obj, "model_to_rdf")):
             continue
         try:
             # Instantiate the class and call the method
             entity = obj()
-            entity.to_rdf(namespace=BAM, graph=graph)
+            entity.model_to_rdf(namespace=BAM, graph=graph)
         except Exception as err:
             click.echo(f"Failed to process class {name} in {module_path}: {err}")

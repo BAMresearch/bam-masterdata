@@ -277,7 +277,7 @@ def export_to_rdf(force_delete, python_path):
         module for module in py_modules if "vocabulary_types.py" not in module
     ]
 
-    # Process each module using the `to_json` method of each entity
+    # Process each module using the `model_to_rdf` method of each entity
     graph = Graph()
     for module_path in py_modules:
         entities_to_rdf(graph=graph, module_path=module_path, logger=logger)
