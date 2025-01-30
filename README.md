@@ -11,6 +11,7 @@
 <h4 align="center">
 
 [![CI Status](https://github.com/BAMresearch/bam-masterdata/actions/workflows/actions.yml/badge.svg)](https://github.com/BAMresearch/bam-masterdata/actions/workflows/actions.yml/badge.svg)
+[![Coverage](https://coveralls.io/repos/github/BAMresearch/bam-masterdata/badge.svg?branch=main)](https://coveralls.io/repos/github/BAMresearch/bam-masterdata/badge.svg?branch=main)
 
 </h4>
 
