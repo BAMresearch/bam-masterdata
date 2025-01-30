@@ -17,7 +17,7 @@ def entities_to_json(
     """
     Export entities to JSON files. The Python modules are imported using the function `import_module`,
     and their contents are inspected (using `inspect`) to find the classes in the datamodel containing
-    `defs` and with a `to_json` method defined.
+    `defs` and with a `model_to_json` method defined.
 
     Args:
         module_path (str): Path to the Python module file.
@@ -49,13 +49,13 @@ def entities_to_json(
 
     # All other datamodel modules
     for name, obj in inspect.getmembers(module, inspect.isclass):
-        # Ensure the class has the `to_json` method
-        if not hasattr(obj, "defs") or not callable(getattr(obj, "to_json")):
+        # Ensure the class has the `model_to_json` method
+        if not hasattr(obj, "defs") or not callable(getattr(obj, "model_to_json")):
             continue
 
         try:
             # Instantiate the class and call the method
-            json_data = obj().to_json(indent=2)
+            json_data = obj().model_to_json(indent=2)
 
             # Write JSON data to file
             output_file = os.path.join(module_export_dir, f"{obj.defs.code}.json")
