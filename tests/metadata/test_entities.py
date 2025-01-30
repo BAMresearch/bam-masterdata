@@ -7,18 +7,18 @@ from tests.conftest import (
 
 
 class TestBaseEntity:
-    def test_to_json(self):
-        """Test the method `to_json` from the class `BaseEntity`."""
+    def test_model_to_json(self):
+        """Test the method `model_to_json` from the class `BaseEntity`."""
         entity = generate_base_entity()
         assert (
-            entity.to_json()
+            entity.model_to_json()
             == '{"defs": {"code": "MOCKED_ENTITY", "description": "Mockup for an entity definition//Mockup f\\u00fcr eine Entit\\u00e4tsdefinition", "validation_script": null, "generated_code_prefix": "MOCKENT", "auto_generated_codes": true}}'
         )
 
-    def test_to_dict(self):
-        """Test the method `to_dict` from the class `BaseEntity`."""
+    def test_model_to_dict(self):
+        """Test the method `model_to_dict` from the class `BaseEntity`."""
         entity = generate_base_entity()
-        assert entity.to_dict() == {
+        assert entity.model_to_dict() == {
             "defs": {
                 "code": "MOCKED_ENTITY",
                 "description": "Mockup for an entity definition//Mockup für eine Entitätsdefinition",
