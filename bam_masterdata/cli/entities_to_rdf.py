@@ -180,7 +180,12 @@ def entities_to_rdf(
             if obj.data_type.value == "OBJECT":
                 # entity_ref_uri = BAM[code_to_class_name(obj.object_code)]
                 # graph.add((prop_uri, BAM.referenceTo, entity_ref_uri))
-                entity_ref_uri = BAM[code_to_class_name(obj.object_code)]
+                if not code_to_class_name(obj.object_code, logger):
+                    logger.error(
+                        f"Failed to identify the `object_code` for the property {obj.id}"
+                    )
+                    continue
+                entity_ref_uri = BAM[code_to_class_name(obj.object_code, logger)]
 
                 # Create a restriction with referenceTo
                 restriction = BNode()
