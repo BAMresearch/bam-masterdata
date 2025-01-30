@@ -15,7 +15,7 @@ def entities_to_excel(
     """
     Export entities to the Excel file. The Python modules are imported using the function `import_module`,
     and their contents are inspected (using `inspect`) to find the classes in the datamodel containing
-    `defs` and with a `to_json` method defined. Each row is then appended to the `worksheet`.
+    `defs` and with a `model_to_json` method defined. Each row is then appended to the `worksheet`.
 
     Args:
         worksheet (Worksheet): The worksheet to append the entities.
@@ -50,8 +50,8 @@ def entities_to_excel(
 
     # All other datamodel modules
     for _, obj in inspect.getmembers(module, inspect.isclass):
-        # Ensure the class has the `to_json` method
-        if not hasattr(obj, "defs") or not callable(getattr(obj, "to_json")):
+        # Ensure the class has the `model_to_json` method
+        if not hasattr(obj, "defs") or not callable(getattr(obj, "model_to_json")):
             continue
 
         obj_instance = obj()

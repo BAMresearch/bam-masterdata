@@ -19,7 +19,7 @@ class BaseEntity(BaseModel):
     adding new methods that are useful for interfacing with openBIS.
     """
 
-    def to_json(self, indent: Optional[int] = None) -> str:
+    def model_to_json(self, indent: Optional[int] = None) -> str:
         """
         Returns the model as a string in JSON format storing the data `defs` and the property or
         vocabulary term assignments.
@@ -41,7 +41,7 @@ class BaseEntity(BaseModel):
 
         return json.dumps(data, indent=indent)
 
-    def to_dict(self) -> dict:
+    def model_to_dict(self) -> dict:
         """
         Returns the model as a dictionary storing the data `defs` and the property or vocabulary term
         assignments.
@@ -49,7 +49,7 @@ class BaseEntity(BaseModel):
         Returns:
             dict: The dictionary representation of the model.
         """
-        dump_json = self.to_json()
+        dump_json = self.model_to_json()
         return json.loads(dump_json)
 
     @property

@@ -143,7 +143,7 @@ def export_to_json(force_delete, python_path):
     # Get the Python modules to process the datamodel
     py_modules = listdir_py_modules(directory_path=python_path, logger=logger)
 
-    # Process each module using the `to_json` method of each entity
+    # Process each module using the `model_to_json` method of each entity
     for module_path in py_modules:
         entities_to_json(module_path=module_path, export_dir=export_dir, logger=logger)
 
