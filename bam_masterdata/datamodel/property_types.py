@@ -3259,7 +3259,8 @@ ProductionDate = PropertyTypeDef(
 )
 
 
-ProductCategory = PropertyTypeDef(
+# ! Duplicated variable name for the property type definition (manually fixed)
+ProductCategory1 = PropertyTypeDef(
     code="PRODUCT_CATEGORY",
     description="""Product Category (corresponds to field `Product Category` in the Hazardous Materials Inventory (GSM) of BAM)//Produktkategorie (entspricht Feld `Verwendungstypen/Produktkategorie` aus dem Gefahrstoffmanagement (GSM) der BAM))""",
     data_type="CONTROLLEDVOCABULARY",
@@ -5897,7 +5898,8 @@ ParameterSetSpreadsheet = PropertyTypeDef(
 )
 
 
-ProductCategory = PropertyTypeDef(
+# ! Duplicated variable name for the property type definition (manually fixed)
+ProductCategory2 = PropertyTypeDef(
     code="PRODUCT.CATEGORY",
     description="""Category""",
     data_type="VARCHAR",
