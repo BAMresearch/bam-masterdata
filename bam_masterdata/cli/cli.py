@@ -6,9 +6,12 @@ from pathlib import Path
 import click
 from decouple import config as environ
 from openpyxl import Workbook
+from rdflib import Graph
 
+from bam_masterdata.cli.duplicated_property_types import duplicated_property_types
 from bam_masterdata.cli.entities_to_excel import entities_to_excel
 from bam_masterdata.cli.entities_to_json import entities_to_json
+from bam_masterdata.cli.entities_to_rdf import entities_to_rdf
 from bam_masterdata.cli.fill_masterdata import MasterdataCodeGenerator
 from bam_masterdata.logger import logger
 from bam_masterdata.utils import (
@@ -145,6 +148,12 @@ def export_to_json(force_delete, python_path):
 
     # Process each module using the `model_to_json` method of each entity
     for module_path in py_modules:
+        if module_path.endswith("property_types.py"):
+            if duplicated_property_types(module_path=module_path, logger=logger):
+                click.echo(
+                    "Please fix the duplicated property types before exporting to RDF/XML."
+                )
+                return
         entities_to_json(module_path=module_path, export_dir=export_dir, logger=logger)
 
     click.echo(f"All entity artifacts have been generated and saved to {export_dir}")
@@ -193,9 +202,15 @@ def export_to_excel(force_delete, python_path):
     )
 
     # Process the modules and save the entities to the openBIS masterdata Excel file
-    masterdata_file = os.path.join(".", "artifacts", "masterdata.xlsx")
+    masterdata_file = os.path.join(export_dir, "masterdata.xlsx")
     wb = Workbook()
     for i, module_path in enumerate(py_modules):
+        if module_path.endswith("property_types.py"):
+            if duplicated_property_types(module_path=module_path, logger=logger):
+                click.echo(
+                    "Please fix the duplicated property types before exporting to RDF/XML."
+                )
+                return
         if i == 0:
             ws = wb.active
         else:
@@ -214,6 +229,69 @@ def export_to_excel(force_delete, python_path):
     wb.save(masterdata_file)
 
     click.echo(f"All masterdata have been generated and saved to {masterdata_file}")
+
+
+@cli.command(
+    name="export_to_rdf",
+    help="Export entities to a RDF/XML file in the path `./artifacts/bam_masterdata.owl`.",
+)
+@click.option(
+    "--force-delete",
+    type=bool,
+    required=False,
+    default=False,
+    help="""
+    (Optional) If set to `True`, it will delete the current `./artifacts/` folder and create a new one. Default is `False`.
+    """,
+)
+@click.option(
+    "--python-path",
+    type=str,
+    required=False,
+    default=DATAMODEL_DIR,
+    help="""
+    (Optional) The path to the individual Python module or the directory containing the Python modules to process the datamodel.
+    Default is `./bam_masterdata/datamodel/`.
+    """,
+)
+def export_to_rdf(force_delete, python_path):
+    # Get the directories from the Python modules and the export directory for the static artifacts
+    export_dir = os.path.join(".", "artifacts")
+
+    # Delete and create the export directory
+    delete_and_create_dir(
+        directory_path=export_dir,
+        logger=logger,
+        force_delete=force_delete,
+    )
+
+    # Get the Python modules to process the datamodel
+    py_modules = listdir_py_modules(directory_path=python_path, logger=logger)
+    # ! Remove the module containing 'vocabulary_types.py'
+    py_modules = [
+        module for module in py_modules if "vocabulary_types.py" not in module
+    ]
+
+    # Process each module using the `model_to_rdf` method of each entity
+    graph = Graph()
+    for module_path in py_modules:
+        if module_path.endswith("property_types.py"):
+            if duplicated_property_types(module_path=module_path, logger=logger):
+                click.echo(
+                    "Please fix the duplicated property types before exporting to RDF/XML."
+                )
+                return
+        entities_to_rdf(graph=graph, module_path=module_path, logger=logger)
+
+    # Saving RDF/XML to file
+    rdf_output = graph.serialize(format="pretty-xml")
+    masterdata_file = os.path.join(export_dir, "masterdata.owl")
+    with open(masterdata_file, "w", encoding="utf-8") as f:
+        f.write(rdf_output)
+
+    click.echo(
+        f"All masterdata has been generated in RDF/XML format and saved to {masterdata_file}"
+    )
 
 
 if __name__ == "__main__":

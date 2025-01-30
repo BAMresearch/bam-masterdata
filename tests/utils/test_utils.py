@@ -112,6 +112,9 @@ def test_import_module():
 @pytest.mark.parametrize(
     "code, entity_type, result",
     [
+        # No code
+        (None, "object", ""),
+        ("", "object", ""),
         # for entities which are objects
         # normal code
         ("NORMAL", "object", "Normal"),
@@ -149,4 +152,4 @@ def test_import_module():
     ],
 )
 def test_code_to_class_name(code: str, entity_type: str, result: str):
-    assert code_to_class_name(code, entity_type) == result
+    assert code_to_class_name(code, logger, entity_type) == result

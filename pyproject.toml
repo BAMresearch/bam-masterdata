@@ -29,7 +29,8 @@ dependencies = [
   "pybis~=1.37.1rc4",
   "openpyxl",
   "click",
-  "pydantic",
+  "pydantic~=2.10.5",
+  "rdflib",
 ]
 
 [project.urls]

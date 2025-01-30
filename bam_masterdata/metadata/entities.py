@@ -1,7 +1,12 @@
 import json
-from typing import Any, Optional
+from typing import TYPE_CHECKING, Any, Optional, no_type_check
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
+from rdflib import BNode, Literal
+from rdflib.namespace import DC, OWL, RDF, RDFS
+
+if TYPE_CHECKING:
+    from rdflib import Graph, Namespace
 
 from bam_masterdata.metadata.definitions import (
     CollectionTypeDef,
@@ -18,6 +23,33 @@ class BaseEntity(BaseModel):
     Base class used to define `ObjectType` and `VocabularyType` classes. It extends the `BaseModel`
     adding new methods that are useful for interfacing with openBIS.
     """
+
+    @property
+    def cls_name(self) -> str:
+        """
+        Returns the entity name of the class as a string to speed up checks. This is a property
+        to be overwritten by each of the abstract entity types.
+        """
+        return self.__class__.__name__
+
+    @property
+    def _base_attrs(self) -> list:
+        """
+        List of base properties or terms assigned to an entity type. This are the direct properties or terms
+        assigned when defining a new entity type.
+        """
+        cls_attrs = self.__class__.__dict__
+        base_attrs = [
+            attr_name
+            for attr_name in cls_attrs
+            if not (
+                attr_name.startswith("_")
+                or callable(cls_attrs[attr_name])
+                or attr_name
+                in ["defs", "model_config", "model_fields", "model_computed_fields"]
+            )
+        ]
+        return [getattr(self, attr_name) for attr_name in base_attrs]
 
     def model_to_json(self, indent: Optional[int] = None) -> str:
         """
@@ -52,13 +84,63 @@ class BaseEntity(BaseModel):
         dump_json = self.model_to_json()
         return json.loads(dump_json)
 
-    @property
-    def cls_name(self) -> str:
-        """
-        Returns the entity name of the class as a string to speed up checks. This is a property
-        to be overwritten by each of the abstract entity types.
-        """
-        return self.__class__.__name__
+    # skos:prefLabel used for class names
+    # skos:definition used for `description` (en, de)
+    # dc:identifier used for `code`  # ! only defined for internal codes with $ symbol
+    # parents defined from `code`
+    # assigned properties can be Mandatory or Optional, can be PropertyType or ObjectType
+    # ? For OBJECT TYPES
+    # ? `generated_code_prefix`, `auto_generated_codes`?
+    @no_type_check
+    def model_to_rdf(self, namespace: "Namespace", graph: "Graph") -> None:
+        entity_uri = namespace[self.defs.id]
+
+        # Define the entity as an OWL class inheriting from the specific namespace type
+        graph.add((entity_uri, RDF.type, OWL.Thing))
+        parent_classes = self.__class__.__bases__
+        for parent_class in parent_classes:
+            if issubclass(parent_class, BaseEntity) and parent_class != BaseEntity:
+                # if parent_class.__name__ in [
+                #     "ObjectType",
+                #     "CollectionType",
+                #     "DatasetType",
+                # ]:
+                #     # ! add here logic of subClassOf connecting with PROV-O or BFO
+                #     # ! maybe via classes instead of ObjectType/CollectionType/DatasetType?
+                #     # ! Example:
+                #     # !     graph.add((entity_uri, RDFS.subClassOf, "http://www.w3.org/ns/prov#Entity"))
+                #     continue
+                parent_uri = namespace[parent_class.__name__]
+                graph.add((entity_uri, RDFS.subClassOf, parent_uri))
+
+        # Add attributes like id, code, description in English and Deutsch, property_label, data_type
+        graph.add((entity_uri, RDFS.label, Literal(self.defs.id, lang="en")))
+        graph.add((entity_uri, DC.identifier, Literal(self.defs.code)))
+        descriptions = self.defs.description.split("//")
+        if len(descriptions) > 1:
+            graph.add((entity_uri, RDFS.comment, Literal(descriptions[0], lang="en")))
+            graph.add((entity_uri, RDFS.comment, Literal(descriptions[1], lang="de")))
+        else:
+            graph.add(
+                (entity_uri, RDFS.comment, Literal(self.defs.description, lang="en"))
+            )
+        # Adding properties relationships to the entities
+        for assigned_prop in self._base_attrs:
+            prop_uri = namespace[assigned_prop.id]
+            restriction = BNode()
+            graph.add((restriction, RDF.type, OWL.Restriction))
+            if assigned_prop.mandatory:
+                graph.add(
+                    (restriction, OWL.onProperty, namespace["hasMandatoryProperty"])
+                )
+            else:
+                graph.add(
+                    (restriction, OWL.onProperty, namespace["hasOptionalProperty"])
+                )
+            graph.add((restriction, OWL.someValuesFrom, prop_uri))
+
+            # Add the restriction as a subclass of the entity
+            graph.add((entity_uri, RDFS.subClassOf, restriction))
 
 
 class ObjectType(BaseEntity):
@@ -89,6 +171,13 @@ class ObjectType(BaseEntity):
         """,
     )
 
+    @property
+    def cls_name(self) -> str:
+        """
+        Returns the entity name of the class as a string.
+        """
+        return "ObjectType"
+
     @model_validator(mode="after")
     @classmethod
     def model_validator_after_init(cls, data: Any) -> Any:
@@ -109,13 +198,6 @@ class ObjectType(BaseEntity):
 
         return data
 
-    @property
-    def cls_name(self) -> str:
-        """
-        Returns the entity name of the class as a string.
-        """
-        return "ObjectType"
-
 
 class VocabularyType(BaseEntity):
     """
@@ -134,6 +216,13 @@ class VocabularyType(BaseEntity):
         List of vocabulary terms. This is useful for internal representation of the model.
         """,
     )
+
+    @property
+    def cls_name(self) -> str:
+        """
+        Returns the entity name of the class as a string.
+        """
+        return "VocabularyType"
 
     @model_validator(mode="after")
     @classmethod
@@ -154,13 +243,6 @@ class VocabularyType(BaseEntity):
                 data.terms.append(attr)
 
         return data
-
-    @property
-    def cls_name(self) -> str:
-        """
-        Returns the entity name of the class as a string.
-        """
-        return "VocabularyType"
 
 
 class CollectionType(ObjectType):
