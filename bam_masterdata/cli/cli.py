@@ -8,6 +8,7 @@ from decouple import config as environ
 from openpyxl import Workbook
 from rdflib import Graph
 
+from bam_masterdata.cli.duplicated_property_types import duplicated_property_types
 from bam_masterdata.cli.entities_to_excel import entities_to_excel
 from bam_masterdata.cli.entities_to_json import entities_to_json
 from bam_masterdata.cli.entities_to_rdf import entities_to_rdf
@@ -166,6 +167,12 @@ def export_to_json(force_delete, python_path):
 
     # Process each module using the `model_to_json` method of each entity
     for module_path in py_modules:
+        if module_path.endswith("property_types.py"):
+            if duplicated_property_types(module_path=module_path, logger=logger):
+                click.echo(
+                    "Please fix the duplicated property types before exporting to RDF/XML."
+                )
+                return
         entities_to_json(module_path=module_path, export_dir=export_dir, logger=logger)
 
     click.echo(f"All entity artifacts have been generated and saved to {export_dir}")
@@ -216,6 +223,12 @@ def export_to_excel(force_delete, python_path):
     masterdata_file = os.path.join(export_dir, "masterdata.xlsx")
     wb = Workbook()
     for i, module_path in enumerate(py_modules):
+        if module_path.endswith("property_types.py"):
+            if duplicated_property_types(module_path=module_path, logger=logger):
+                click.echo(
+                    "Please fix the duplicated property types before exporting to RDF/XML."
+                )
+                return
         if i == 0:
             ws = wb.active
         else:
@@ -280,6 +293,12 @@ def export_to_rdf(force_delete, python_path):
     # Process each module using the `model_to_rdf` method of each entity
     graph = Graph()
     for module_path in py_modules:
+        if module_path.endswith("property_types.py"):
+            if duplicated_property_types(module_path=module_path, logger=logger):
+                click.echo(
+                    "Please fix the duplicated property types before exporting to RDF/XML."
+                )
+                return
         entities_to_rdf(graph=graph, module_path=module_path, logger=logger)
 
     # Saving RDF/XML to file

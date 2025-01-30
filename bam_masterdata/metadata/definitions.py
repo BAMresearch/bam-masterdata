@@ -143,7 +143,10 @@ class EntityDef(BaseModel):
         Returns:
             Any: The data with the validated fields.
         """
-        data.id = code_to_class_name(data.code)
+        if "PropertyType" in data.name:
+            data.id = code_to_class_name(code=data.code, entity_type="property")
+        else:
+            data.id = code_to_class_name(code=data.code, entity_type="object")
         return data
 
 
