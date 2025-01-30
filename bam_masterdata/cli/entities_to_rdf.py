@@ -16,6 +16,14 @@ PROV = Namespace("http://www.w3.org/ns/prov#")
 
 
 def rdf_graph_init(g: "Graph") -> None:
+    """
+    Initialize the RDF graph with base namespaces, annotation properties, and internal BAM properties. This
+    function also creates placeholders for PropertyType and other entity types. The graph is to be printed out
+    in RDF/XML format in the `entities_to_rdf` function.
+
+    Args:
+        g (Graph): The RDF graph to be initialized.
+    """
     # Adding base namespaces
     g.bind("dc", DC)
     g.bind("owl", OWL)
@@ -143,6 +151,16 @@ def rdf_graph_init(g: "Graph") -> None:
 def entities_to_rdf(
     graph: "Graph", module_path: str, logger: "BoundLoggerLazyProxy"
 ) -> None:
+    """
+    Convert the entities defined in the specified module to RDF triples and add them to the graph. The function
+    uses the `model_to_rdf` method defined in each class to convert the class attributes to RDF triples. The
+    function also adds the PropertyType and other entity types as placeholders in the graph.
+
+    Args:
+        graph (Graph): The RDF graph to which the entities are added.
+        module_path (str): The path to the module containing the entities to be converted.
+        logger (BoundLoggerLazyProxy): The logger to log messages.
+    """
     rdf_graph_init(graph)
 
     module = import_module(module_path=module_path)
