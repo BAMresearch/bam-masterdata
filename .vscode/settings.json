@@ -33,6 +33,7 @@
         "type": "debugpy",
         "request": "launch",
         "console": "integratedTerminal",
+        "justMyCode": false,
         "program": "${workspaceFolder}/bam_masterdata/metadata/entities.py",  // path to your entry point Python module
       },
       {
@@ -79,6 +80,18 @@
         "program": "${workspaceFolder}/.venv/bin/bam_masterdata",
         "justMyCode": false,
         "args": ["export_to_excel"]
+      },
+      {
+        "name": "BM export-to-rdf",
+        "type": "debugpy",
+        "request": "launch",
+        "cwd": "${workspaceFolder}",
+        "program": "${workspaceFolder}/.venv/bin/bam_masterdata",
+        "justMyCode": false,
+        "args": [
+          "export_to_rdf",
+          // "--python-path=${workspaceFolder}/bam_masterdata/datamodel/property_types.py"
+        ]
       },
     ]
   },

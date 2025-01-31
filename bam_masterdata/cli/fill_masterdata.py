@@ -2,7 +2,7 @@ import time
 
 import click
 
-from bam_masterdata.cli.excel_to_entities import excel_to_entities
+from bam_masterdata.excel import MasterdataExcelExtractor
 from bam_masterdata.openbis import OpenbisEntities
 from bam_masterdata.utils import code_to_class_name
 
@@ -27,7 +27,9 @@ class MasterdataCodeGenerator:
                 f"Loaded OpenBIS entities in `MasterdataCodeGenerator` initialization {elapsed_time:.2f} seconds\n"
             )
         else:
-            entities_dict = excel_to_entities(excel_path=path)
+            entities_dict = MasterdataExcelExtractor(
+                excel_path=path
+            ).excel_to_entities()
             self.properties = entities_dict["property_types"]
             self.collections = entities_dict["collection_types"]
             self.datasets = entities_dict["dataset_types"]
