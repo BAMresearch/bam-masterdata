@@ -1,29 +1,18 @@
 import re
 from typing import TYPE_CHECKING, Any, Optional, Union
 
+if TYPE_CHECKING:
+    from openpyxl.worksheet.worksheet import Worksheet
+
 import openpyxl
-from openpyxl.worksheet.worksheet import Worksheet
 
 from bam_masterdata.logger import logger
+from bam_masterdata.metadata.definitions import DataType
 
 
 class MasterdataExcelExtractor:
-    DATA_TYPES = [
-        "INTEGER",
-        "REAL",
-        "VARCHAR",
-        "MULTILINE_VARCHAR",
-        "HYPERLINK",
-        "BOOLEAN",
-        "CONTROLLEDVOCABULARY",
-        "XML",
-        "TIMESTAMP",
-        "DATE",
-        "SAMPLE",
-        "OBJECT",
-    ]
-
-    VALIDATION_RULES = {
+    # TODO move these validation rules to a separate json
+    VALIDATION_RULES: dict[str, dict[str, dict[str, Any]]] = {
         "SAMPLE_TYPE": {
             "Code": {"key": "code", "pattern": r"^\$?[A-Za-z0-9_.]+$"},
             "Description": {
@@ -159,7 +148,7 @@ class MasterdataExcelExtractor:
         return column
 
     def get_last_non_empty_row(
-        self, sheet: Worksheet, start_index: int
+        self, sheet: "Worksheet", start_index: int
     ) -> Optional[int]:
         """
         Finds the last non-empty row before encountering a completely empty row.
@@ -286,10 +275,10 @@ class MasterdataExcelExtractor:
             if not re.match(r"^\$?[A-Z0-9_.]+$", val):
                 self.logger.error(error_message)
         elif is_data:
-            if val not in self.DATA_TYPES:
+            if val not in [dt.value for dt in DataType]:
                 self.logger.error(
                     error_message
-                    + f"The Data Type should be one of the following: {self.DATA_TYPES}"
+                    + f"The Data Type should be one of the following: {[dt.value for dt in DataType]}"
                 )
                 val = val.upper()
         elif is_url:
@@ -303,7 +292,22 @@ class MasterdataExcelExtractor:
         return val
 
     # Helper function to process each term
-    def process_term(self, term, cell_value, coordinate, sheet_title):
+    def process_term(
+        self, term: str, cell_value: Any, coordinate: str, sheet_title: str
+    ) -> Any:
+        """
+        Processes a term by converting it to a boolean if necessary or checking its validity.
+
+        Args:
+            term: The term being processed.
+            cell_value: The value of the cell.
+            coordinate: The coordinate of the cell in the sheet.
+            sheet_title: The title of the sheet.
+
+        Returns:
+            The processed value, either as a boolean or the original value after validation.
+        """
+        # Check if the term is a boolean type
         if term in ("Mandatory", "Show in edit views"):
             return self.str_to_bool(
                 value=cell_value,
@@ -311,6 +315,7 @@ class MasterdataExcelExtractor:
                 coordinate=coordinate,
                 sheet_title=sheet_title,
             )
+        # Check and validate the property
         return self.get_and_check_property(
             value=cell_value,
             term=term,
@@ -322,14 +327,29 @@ class MasterdataExcelExtractor:
 
     def extract_value(
         self,
-        sheet: Worksheet,
+        sheet: "Worksheet",
         row: int,
         column: int,
         validation_pattern: str = None,
         is_description: bool = False,
         is_data: bool = False,
         is_url: bool = False,
-    ):
+    ) -> str:
+        """
+        Extracts and validates a value from a specified cell in the Excel sheet.
+
+        Args:
+            sheet: The worksheet object.
+            row: The row number of the cell (1-based index).
+            column: The column number of the cell (1-based index).
+            validation_pattern: Optional regex pattern to validate the cell value.
+            is_description: Flag indicating if the value is a description.
+            is_data: Flag indicating if the value is a data type.
+            is_url: Flag indicating if the value is a URL.
+
+        Returns:
+            The extracted and validated cell value as a string. Returns an empty string if the value is invalid or not provided.
+        """
         value = sheet.cell(row=row, column=column).value
 
         # No `value` provided
@@ -346,10 +366,8 @@ class MasterdataExcelExtractor:
         if is_description:
             error_message += " Description should follow the schema: English Description + '//' + German Description."
         elif is_data:
-            validated = str(value) in self.DATA_TYPES
-            error_message += (
-                f" The Data Type should be one of the following: {self.DATA_TYPES}"
-            )
+            validated = str(value) in [dt.value for dt in DataType]
+            error_message += f" The Data Type should be one of the following: {[dt.value for dt in DataType]}"
         elif is_url:
             error_message += " It should be an URL or empty"
 
@@ -359,9 +377,28 @@ class MasterdataExcelExtractor:
         return value or ""
 
     def process_entity(
-        self, sheet, start_index_row, header_terms, expected_terms, entity_type
-    ):
-        attributes = {}
+        self,
+        sheet: "Worksheet",
+        start_index_row: int,
+        header_terms: list[str],
+        expected_terms: list[str],
+        entity_type: str,
+    ) -> dict[str, Any]:
+        """
+        Process an entity type block in the Excel sheet and return its attributes as a dictionary.
+
+        Args:
+            sheet: The worksheet object.
+            start_index_row: The row where the current entity type begins (1-based index).
+            header_terms: List of header terms in the entity block.
+            expected_terms: List of expected terms to extract from the entity block.
+            entity_type: The type of the entity (e.g., SAMPLE_TYPE, OBJECT_TYPE).
+
+        Returns:
+            A dictionary containing the attributes of the entity.
+        """
+        attributes: dict = {}
+        cell_value: Any = ""
 
         for term in expected_terms:
             if term not in header_terms:
@@ -387,9 +424,9 @@ class MasterdataExcelExtractor:
 
                 # Handle data type validation
                 elif self.VALIDATION_RULES[entity_type][term].get("is_data"):
-                    if cell_value not in self.DATA_TYPES:
+                    if cell_value not in [dt.value for dt in DataType]:
                         self.logger.error(
-                            f"Invalid Data Type: {cell_value} in {cell.coordinate} (Sheet: {sheet.title})"
+                            f"Invalid Data Type: {cell_value} in {cell.coordinate} (Sheet: {sheet.title}). Should be one of the following: {[dt.value for dt in DataType]}"
                         )
 
                 # Handle additional validation for "Generated code prefix"
@@ -425,6 +462,7 @@ class MasterdataExcelExtractor:
                             f"Invalid URL format: {cell_value} in {cell.coordinate} (Sheet: {sheet.title})"
                         )
 
+                # Add the extracted value to the attributes dictionary
                 attributes[self.VALIDATION_RULES[entity_type][term].get("key")] = (
                     cell_value
                 )
@@ -432,7 +470,7 @@ class MasterdataExcelExtractor:
         return attributes
 
     def properties_to_dict(
-        self, sheet: Worksheet, start_index_row: int, last_non_empty_row: int
+        self, sheet: "Worksheet", start_index_row: int, last_non_empty_row: int
     ) -> dict[str, dict[str, Any]]:
         """
         Extracts properties from an Entity type block in the Excel sheet and returns them as a dictionary.
@@ -446,7 +484,7 @@ class MasterdataExcelExtractor:
             A dictionary where each key is a property code and the value is a dictionary
             containing the attributes of the property.
         """
-        property_dict = {}
+        property_dict: dict = {}
         expected_terms = [
             "Code",
             "Description",
@@ -503,7 +541,7 @@ class MasterdataExcelExtractor:
         return property_dict
 
     def terms_to_dict(
-        self, sheet: Worksheet, start_index_row: int, last_non_empty_row: int
+        self, sheet: "Worksheet", start_index_row: int, last_non_empty_row: int
     ) -> dict[str, dict[str, Any]]:
         """
         Extracts terms from a Vocabulary block in the Excel sheet and returns them as a dictionary.
@@ -575,7 +613,7 @@ class MasterdataExcelExtractor:
 
     def block_to_entity_dict(
         self,
-        sheet: Worksheet,
+        sheet: "Worksheet",
         start_index_row: int,
         last_non_empty_row: int,
         complete_dict: dict[str, Any],
