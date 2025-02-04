@@ -28,12 +28,6 @@ class MasterdataExcelExtractor:
         if not MasterdataExcelExtractor.VALIDATION_RULES:
             self.VALIDATION_RULES = load_validation_rules(self.logger)
 
-    def get_validation_rules(self):
-        """Returns validation rules, loading them if necessary."""
-        if not self.VALIDATION_RULES:
-            self.VALIDATION_RULES = load_validation_rules(self.logger)
-        return self.VALIDATION_RULES
-
     def index_to_excel_column(self, index: int) -> str:
         """
         Converts a 1-based index to an Excel column name.
