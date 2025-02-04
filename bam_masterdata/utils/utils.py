@@ -1,5 +1,6 @@
 import glob
 import importlib.util
+import json
 import os
 import shutil
 from itertools import chain
@@ -113,3 +114,34 @@ def code_to_class_name(code: str, entity_type: str = "object") -> str:
         )
         return "".join(c.capitalize() for c in code_names)
     return "".join(c.capitalize() for c in code.lstrip("$").rsplit(".")[-1].split("_"))
+
+
+def load_validation_rules(
+    logger: "BoundLoggerLazyProxy",
+    file_path: str = "./bam_masterdata/validation_rules/excel_validation_rules.json",
+):
+    """Loads validation rules from a JSON file."""
+    if file_path is None:
+        # Set the correct path relative to `masterdata/excel/`
+        base_dir = os.path.dirname(
+            os.path.abspath(__file__)
+        )  # Path of excel_to_entities.py
+        file_path = os.path.join(
+            base_dir, "../validation_rules/excel_validation_rules.json"
+        )
+
+    if not os.path.exists(file_path):
+        logger.error(f"Validation rules file not found: {file_path}")
+        raise FileNotFoundError(f"Validation rules file not found: {file_path}")
+
+    try:
+        with open(file_path, encoding="utf-8") as file:
+            validation_rules = json.load(file)
+
+        logger.info("Validation rules successfully loaded.")
+
+        return validation_rules
+
+    except json.JSONDecodeError as e:
+        logger.error(f"Error parsing validation rules JSON: {e}")
+        raise ValueError(f"Error parsing validation rules JSON: {e}")

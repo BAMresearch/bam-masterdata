@@ -3,6 +3,8 @@ import os
 import re
 from typing import TYPE_CHECKING, Any, Optional, Union
 
+from bam_masterdata.utils import load_validation_rules
+
 if TYPE_CHECKING:
     from openpyxl.worksheet.worksheet import Worksheet
 
@@ -24,45 +26,13 @@ class MasterdataExcelExtractor:
 
         # Load validation rules at initialization
         if not MasterdataExcelExtractor.VALIDATION_RULES:
-            self.load_validation_rules()
+            self.VALIDATION_RULES = load_validation_rules(self.logger)
 
-    @classmethod
-    def load_validation_rules(cls, file_path: str = None):
-        """Loads validation rules from a JSON file."""
-        if file_path is None:
-            # Set the correct path relative to `masterdata/excel/`
-            base_dir = os.path.dirname(
-                os.path.abspath(__file__)
-            )  # Path of excel_to_entities.py
-            file_path = os.path.join(base_dir, "../checker/excel_validation_rules.json")
-
-        if not os.path.exists(file_path):
-            logger.error(f"Validation rules file not found: {file_path}")
-            raise FileNotFoundError(f"Validation rules file not found: {file_path}")
-
-        try:
-            with open(file_path, encoding="utf-8") as file:
-                cls.VALIDATION_RULES = json.load(file)
-
-            # Validate JSON structure
-            if not isinstance(cls.VALIDATION_RULES, dict):
-                logger.error("Invalid validation rules format: Expected a dictionary.")
-                raise ValueError(
-                    "Invalid validation rules format: Expected a dictionary."
-                )
-
-            logger.info("Validation rules successfully loaded.")
-
-        except json.JSONDecodeError as e:
-            logger.error(f"Error parsing validation rules JSON: {e}")
-            raise ValueError(f"Error parsing validation rules JSON: {e}")
-
-    @classmethod
-    def get_validation_rules(cls):
+    def get_validation_rules(self):
         """Returns validation rules, loading them if necessary."""
-        if not cls.VALIDATION_RULES:
-            cls.load_validation_rules()
-        return cls.VALIDATION_RULES
+        if not self.VALIDATION_RULES:
+            self.VALIDATION_RULES = load_validation_rules(self.logger)
+        return self.VALIDATION_RULES
 
     def index_to_excel_column(self, index: int) -> str:
         """
