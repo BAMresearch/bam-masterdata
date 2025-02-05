@@ -38,6 +38,9 @@ class MasterdataExcelExtractor:
         Returns:
             The corresponding Excel column name.
         """
+        if not index >= 1:
+            raise ValueError("Index must be a positive integer starting from 1.")
+
         column = ""
         while index > 0:
             index, remainder = divmod(index - 1, 26)
@@ -58,6 +61,11 @@ class MasterdataExcelExtractor:
             The row number of the last non-empty row before an empty row is encountered,
             or None if no non-empty rows are found starting from the given index.
         """
+        if start_index < 1 or start_index > sheet.max_row:
+            raise ValueError(
+                f"Invalid start index: {start_index}. It must be between 1 and {sheet.max_row}."
+            )
+
         last_non_empty_row = None
         for row in range(start_index, sheet.max_row + 1):
             if all(
@@ -81,6 +89,9 @@ class MasterdataExcelExtractor:
         Returns:
             bool: True if generated_code_value is a reduced version of code, False otherwise.
         """
+        if code.startswith(generated_code_value):
+            return True
+
         # Check if both are single words (no delimiters)
         if not any(delimiter in code for delimiter in "._") and not any(
             delimiter in generated_code_value for delimiter in "._"
