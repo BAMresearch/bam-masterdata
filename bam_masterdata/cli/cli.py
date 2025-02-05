@@ -17,7 +17,26 @@ from bam_masterdata.utils import (
     listdir_py_modules,
 )
 
-DATAMODEL_DIR = os.path.join(".", "bam_masterdata", "datamodel")
+
+def find_datamodel_dir():
+    """Search for 'datamodel/' in possible locations and return its absolute path."""
+    possible_locations = [
+        # Case: Running from a project with `datamodel/`
+        Path.cwd() / "datamodel",
+        # Case: Running inside bam-masterdata
+        Path.cwd() / "bam_masterdata" / "datamodel",
+        # Case: Running inside installed package
+        Path(__file__).parent / "datamodel",
+    ]
+
+    for path in possible_locations:
+        if path.exists():
+            return str(path.resolve())
+
+    raise FileNotFoundError("Could not find a valid 'datamodel/' directory.")
+
+
+DATAMODEL_DIR = find_datamodel_dir()
 
 
 @click.group(help="Entry point to run `bam_masterdata` CLI commands.")
@@ -188,9 +207,8 @@ def export_to_excel(force_delete, python_path):
     py_modules = listdir_py_modules(directory_path=python_path, logger=logger)
 
     # Load the definitions module classes
-    definitions_module = import_module(
-        module_path="./bam_masterdata/metadata/definitions.py"
-    )
+    definitions_path = Path(__file__).parent / ".." / "metadata" / "definitions.py"
+    definitions_module = import_module(module_path=str(definitions_path.resolve()))
 
     # Process the modules and save the entities to the openBIS masterdata Excel file
     masterdata_file = os.path.join(".", "artifacts", "masterdata.xlsx")
