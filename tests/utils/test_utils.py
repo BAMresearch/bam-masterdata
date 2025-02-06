@@ -10,6 +10,7 @@ from bam_masterdata.logger import logger
 from bam_masterdata.utils import (
     code_to_class_name,
     delete_and_create_dir,
+    duplicated_property_types,
     import_module,
     listdir_py_modules,
     load_validation_rules,
@@ -62,7 +63,12 @@ def test_delete_and_create_dir(
             "warning",
         ),
         # No Python files found in the directory
-        ("./tests/data", [], "No Python files found in the directory.", "info"),
+        (
+            "./tests/data/empty",
+            [],
+            "No Python files found in the directory.",
+            "info",
+        ),
         # Python files found in the directory
         (
             "./tests/utils",
@@ -270,3 +276,19 @@ def test_load_validation_rules(
         assert result == expected_output
         assert cleared_log_storage[-1]["event"] == expected_log
         assert cleared_log_storage[-1]["level"] == "info"
+
+
+@pytest.mark.parametrize(
+    "path, result",
+    [
+        # PropA appears twice
+        ("tests/data/utils/example_prop_types_1.py", {"PropA": [3, 18]}),
+        # None duplicated
+        ("tests/data/utils/example_prop_types_2.py", {}),
+    ],
+)
+def test_duplicated_property_types(cleared_log_storage: list, path: str, result: dict):
+    assert result == duplicated_property_types(path, logger)
+    if result:
+        assert cleared_log_storage[0]["level"] == "critical"
+        assert "Found 1 duplicated property types" in cleared_log_storage[0]["event"]
