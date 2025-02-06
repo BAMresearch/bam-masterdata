@@ -8,7 +8,6 @@ from decouple import config as environ
 from openpyxl import Workbook
 from rdflib import Graph
 
-from bam_masterdata.cli.duplicated_property_types import duplicated_property_types
 from bam_masterdata.cli.entities_to_excel import entities_to_excel
 from bam_masterdata.cli.entities_to_json import entities_to_json
 from bam_masterdata.cli.entities_to_rdf import entities_to_rdf
@@ -16,6 +15,7 @@ from bam_masterdata.cli.fill_masterdata import MasterdataCodeGenerator
 from bam_masterdata.logger import logger
 from bam_masterdata.utils import (
     delete_and_create_dir,
+    duplicated_property_types,
     import_module,
     listdir_py_modules,
 )
