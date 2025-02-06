@@ -1,9 +1,6 @@
-import json
 import os
-import shutil
 
-import pytest
-from rdflib import BNode, Graph, Literal, Namespace, URIRef
+from rdflib import Graph, Literal
 from rdflib.namespace import DC, OWL, RDF, RDFS
 
 from bam_masterdata.cli.entities_to_rdf import BAM, entities_to_rdf, rdf_graph_init
