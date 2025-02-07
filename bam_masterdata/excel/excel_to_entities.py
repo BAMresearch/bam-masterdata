@@ -89,6 +89,9 @@ class MasterdataExcelExtractor:
         Returns:
             bool: True if generated_code_value is a reduced version of code, False otherwise.
         """
+        if generated_code_value == "" or code == "":
+            return False
+
         if code.startswith(generated_code_value):
             return True
 
