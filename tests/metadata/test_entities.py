@@ -1,3 +1,6 @@
+import pytest
+
+from bam_masterdata.metadata.definitions import PropertyTypeAssignment
 from tests.conftest import (
     generate_base_entity,
     generate_object_type,
@@ -7,6 +10,34 @@ from tests.conftest import (
 
 
 class TestBaseEntity:
+    def test_setattr(self):
+        """Test the method `__setattr__` from the class `BaseEntity`."""
+        entity = generate_base_entity()
+        assert "name" in entity._property_metadata
+        assert isinstance(entity._property_metadata["name"], PropertyTypeAssignment)
+        assert isinstance(entity.name, PropertyTypeAssignment)
+
+        # Valid type (VARCHAR is str in Python)
+        entity.name = "Test"
+        assert entity.name == "Test" and isinstance(entity.name, str)
+
+        # Invalid types
+        with pytest.raises(
+            TypeError, match="Invalid type for 'name': Expected str, got int"
+        ):
+            entity.name = 42
+        with pytest.raises(
+            TypeError, match="Invalid type for 'name': Expected str, got bool"
+        ):
+            entity.name = True
+
+    def test_repr(self):
+        """Test the method `__repr__` from the class `BaseEntity`."""
+        entity = generate_base_entity()
+        assert repr(entity) == "MockedEntity()"
+        entity.name = "Test"
+        assert repr(entity) == "MockedEntity(name='Test')"
+
     def test_model_to_json(self):
         """Test the method `model_to_json` from the class `BaseEntity`."""
         entity = generate_base_entity()

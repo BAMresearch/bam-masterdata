@@ -1,3 +1,4 @@
+import datetime
 from typing import Optional
 
 import pytest
@@ -25,14 +26,16 @@ class TestDataType:
                 DataType.CONTROLLEDVOCABULARY,
                 None,
             ),  # Update this once the mapping is implemented
-            (DataType.DATE, None),  # Update this once the mapping is implemented
+            (DataType.DATE, datetime.date),
             (DataType.HYPERLINK, str),
             (DataType.INTEGER, int),
-            (DataType.MATERIAL, None),  # Update this once the mapping is implemented
             (DataType.MULTILINE_VARCHAR, str),
             (DataType.OBJECT, None),  # Update this once the mapping is implemented
             (DataType.REAL, float),
-            (DataType.TIMESTAMP, None),  # Update this once the mapping is implemented
+            (
+                DataType.TIMESTAMP,
+                datetime.datetime,
+            ),  # Update this once the mapping is implemented
             (DataType.VARCHAR, str),
             (DataType.XML, None),  # Update this once the mapping is implemented
         ],
