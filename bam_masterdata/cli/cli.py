@@ -1,6 +1,5 @@
 import os
 import subprocess
-import sys
 import time
 from pathlib import Path
 
@@ -36,6 +35,7 @@ def find_datamodel_dir():
     for path in possible_locations:
         if path.exists():
             return str(path.resolve())
+
     raise FileNotFoundError("Could not find a valid 'datamodel/' directory.")
 
 
