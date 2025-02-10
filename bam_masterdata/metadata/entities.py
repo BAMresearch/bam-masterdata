@@ -24,6 +24,43 @@ class BaseEntity(BaseModel):
     adding new methods that are useful for interfacing with openBIS.
     """
 
+    def __init__(self, **kwargs):
+        super().__init__()
+
+        # We store the `_property_metadata` during instantiation of the class
+        self._property_metadata = self.set_property_metadata()
+
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+
+    def __setattr__(self, key, value):
+        if key == "_property_metadata":
+            super().__setattr__(key, value)
+            return
+
+        if key in self._property_metadata:
+            expected_type = self._property_metadata[key].data_type.pytype
+            if expected_type and not isinstance(value, expected_type):
+                raise TypeError(
+                    f"Invalid type for '{key}': Expected {expected_type.__name__}, got {type(value).__name__}"
+                )
+
+        object.__setattr__(self, key, value)
+
+    def __repr__(self):
+        # Filter for attributes that are `PropertyTypeAssignment` and set to a finite value
+        fields = []
+        for key, metadata in self._property_metadata.items():
+            if isinstance(metadata, PropertyTypeAssignment):
+                value = getattr(self, key, None)
+                # Only include set attributes
+                if value is not None and not isinstance(value, PropertyTypeAssignment):
+                    fields.append(f"{key}={repr(value)}")
+
+        # Format the output
+        class_name = self.__class__.__name__
+        return f"{class_name}({', '.join(fields)})"
+
     @property
     def cls_name(self) -> str:
         """
@@ -50,6 +87,37 @@ class BaseEntity(BaseModel):
             )
         ]
         return [getattr(self, attr_name) for attr_name in base_attrs]
+
+    def set_property_metadata(self) -> dict:
+        """
+        Dictionary containing the metadata of the properties assigned to the entity type.
+
+        Returns:
+            dict: A dictionary containing the keys of the `PropertyTypeAssignment` attribute names and the
+            values of the definitions of `PropertyTypeAssignment`. Example:
+            {
+                "name": PropertyTypeAssignment(
+                    code="$NAME",
+                    data_type=VARCHAR,
+                    mandatory=True,
+                    property_label="Name"
+                ),
+                "age": PropertyTypeAssignment(
+                    code="AGE",
+                    data_type=INTEGER,
+                    mandatory=False,
+                    property_label="Age"
+                ),
+            }
+        """
+        cls_attrs = self.__class__.__dict__
+
+        # Store property metadata at class level
+        prop_meta_dict: dict = {}
+        for attr_name, attr_value in cls_attrs.items():
+            if isinstance(attr_value, PropertyTypeAssignment):
+                prop_meta_dict[attr_name] = attr_value
+        return prop_meta_dict
 
     def model_to_json(self, indent: Optional[int] = None) -> str:
         """
