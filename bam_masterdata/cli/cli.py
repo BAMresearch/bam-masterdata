@@ -1,5 +1,6 @@
 import os
 import subprocess
+import sys
 import time
 from pathlib import Path
 
@@ -23,14 +24,37 @@ from bam_masterdata.utils import (
 
 def find_datamodel_dir():
     """Search for 'datamodel/' in possible locations and return its absolute path."""
-    possible_locations = [
-        # Case: Running from a project with `datamodel/`
-        Path.cwd() / "datamodel",
-        # Case: Running inside bam-masterdata
-        Path.cwd() / "bam_masterdata" / "datamodel",
-        # Case: Running inside installed package
-        Path(__file__).parent / "datamodel",
-    ]
+    # Get current working directory
+    cwd = Path.cwd()
+
+    # Get the script's directory (relevant for installed packages)
+    script_dir = Path(__file__).parent
+
+    # Get the root of the repository if running inside one
+    possible_roots = [cwd, script_dir]
+
+    # If running inside a package, check sys.path for possible project locations
+    for path in sys.path:
+        if "/usr/" in path:
+            continue
+        possible_roots.append(Path(path))
+
+    possible_locations = set()
+
+    for root in possible_roots:
+        possible_locations.update(
+            [
+                root / "datamodel",  # Directly in the project root
+                root / "bam_masterdata" / "datamodel",  # Inside bam_masterdata
+                root
+                / "src"
+                / "bam_masterdata"
+                / "datamodel",  # Inside src-based structure
+                *(
+                    p / "datamodel" for p in root.iterdir() if p.is_dir()
+                ),  # Any other package/datamodel structures
+            ]
+        )
 
     for path in possible_locations:
         if path.exists():
@@ -151,11 +175,20 @@ def fill_masterdata(url, excel_file):
     Default is `./bam_masterdata/datamodel/`.
     """,
 )
-def export_to_json(force_delete, python_path):
-    # Get the directories from the Python modules and the export directory for the static artifacts
-    export_dir = os.path.join(".", "artifacts")
-
+@click.option(
+    "--export-dir",
+    type=str,
+    required=False,
+    default="./artifacts",
+    help="The directory where the JSON files will be exported. Default is `./artifacts`.",
+)
+def export_to_json(force_delete, python_path, export_dir):
     # Delete and create the export directory
+    if force_delete:
+        click.confirm(
+            f"Are you sure you want to delete the directory {export_dir}?",
+            abort=True,
+        )
     delete_and_create_dir(
         directory_path=export_dir,
         logger=logger,
@@ -201,11 +234,20 @@ def export_to_json(force_delete, python_path):
     Default is `./bam_masterdata/datamodel/`.
     """,
 )
-def export_to_excel(force_delete, python_path):
-    # Get the directories from the Python modules and the export directory for the static artifacts
-    export_dir = os.path.join(".", "artifacts")
-
+@click.option(
+    "--export-dir",
+    type=str,
+    required=False,
+    default="./artifacts",
+    help="The directory where the Excel file will be exported. Default is `./artifacts`.",
+)
+def export_to_excel(force_delete, python_path, export_dir):
     # Delete and create the export directory
+    if force_delete:
+        click.confirm(
+            f"Are you sure you want to delete the directory {export_dir}?",
+            abort=True,
+        )
     delete_and_create_dir(
         directory_path=export_dir,
         logger=logger,
@@ -272,11 +314,20 @@ def export_to_excel(force_delete, python_path):
     Default is `./bam_masterdata/datamodel/`.
     """,
 )
-def export_to_rdf(force_delete, python_path):
-    # Get the directories from the Python modules and the export directory for the static artifacts
-    export_dir = os.path.join(".", "artifacts")
-
+@click.option(
+    "--export-dir",
+    type=str,
+    required=False,
+    default="./artifacts",
+    help="The directory where the RDF/XML file will be exported. Default is `./artifacts`.",
+)
+def export_to_rdf(force_delete, python_path, export_dir):
     # Delete and create the export directory
+    if force_delete:
+        click.confirm(
+            f"Are you sure you want to delete the directory {export_dir}?",
+            abort=True,
+        )
     delete_and_create_dir(
         directory_path=export_dir,
         logger=logger,
