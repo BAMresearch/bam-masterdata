@@ -1,3 +1,4 @@
+import datetime
 import re
 from enum import Enum
 from typing import Any, Optional
@@ -15,7 +16,7 @@ class DataType(str, Enum):
     DATE = "DATE"
     HYPERLINK = "HYPERLINK"
     INTEGER = "INTEGER"
-    MATERIAL = "MATERIAL"
+    # MATERIAL = "MATERIAL"  # ! deprecated
     MULTILINE_VARCHAR = "MULTILINE_VARCHAR"
     OBJECT = "OBJECT"
     REAL = "REAL"
@@ -35,14 +36,13 @@ class DataType(str, Enum):
         mapping = {
             "BOOLEAN": bool,
             # 'CONTROLLEDVOCABULARY': ,
-            # 'DATE': ,
+            "DATE": datetime.date,
             "HYPERLINK": str,
             "INTEGER": int,
-            # 'MATERIAL': ,
             "MULTILINE_VARCHAR": str,
             # 'OBJECT': ,
             "REAL": float,
-            # 'TIMESTAMP': ,
+            "TIMESTAMP": datetime.datetime,
             "VARCHAR": str,
             # 'XML': ,
         }

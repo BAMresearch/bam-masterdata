@@ -39,6 +39,7 @@ class BaseEntity(BaseModel):
             return
 
         if key in self._property_metadata:
+            # TODO add CONTROLLEDVOCABULARY and OBJECT cases
             expected_type = self._property_metadata[key].data_type.pytype
             if expected_type and not isinstance(value, expected_type):
                 raise TypeError(
