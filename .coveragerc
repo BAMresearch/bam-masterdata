@@ -3,3 +3,4 @@ omit =
     bam_masterdata/_version.py
     */__init__.py
     bam_masterdata/datamodel/*.py
+    bam_masterdata/openbis/*.py
