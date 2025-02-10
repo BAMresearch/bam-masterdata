@@ -24,42 +24,18 @@ from bam_masterdata.utils import (
 
 def find_datamodel_dir():
     """Search for 'datamodel/' in possible locations and return its absolute path."""
-    # Get current working directory
-    cwd = Path.cwd()
-
-    # Get the script's directory (relevant for installed packages)
-    script_dir = Path(__file__).parent
-
-    # Get the root of the repository if running inside one
-    possible_roots = [cwd, script_dir]
-
-    # If running inside a package, check sys.path for possible project locations
-    for path in sys.path:
-        if "/usr/" in path:
-            continue
-        possible_roots.append(Path(path))
-
-    possible_locations = set()
-
-    for root in possible_roots:
-        possible_locations.update(
-            [
-                root / "datamodel",  # Directly in the project root
-                root / "bam_masterdata" / "datamodel",  # Inside bam_masterdata
-                root
-                / "src"
-                / "bam_masterdata"
-                / "datamodel",  # Inside src-based structure
-                *(
-                    p / "datamodel" for p in root.iterdir() if p.is_dir()
-                ),  # Any other package/datamodel structures
-            ]
-        )
+    possible_locations = [
+        # Case: Running from a project with `datamodel/`
+        Path.cwd() / "datamodel",
+        # Case: Running inside bam-masterdata
+        Path.cwd() / "bam_masterdata" / "datamodel",
+        # Case: Running inside installed package
+        Path(__file__).parent / "datamodel",
+    ]
 
     for path in possible_locations:
         if path.exists():
             return str(path.resolve())
-
     raise FileNotFoundError("Could not find a valid 'datamodel/' directory.")
 
 
