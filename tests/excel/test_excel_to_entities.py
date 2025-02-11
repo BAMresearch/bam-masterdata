@@ -1,4 +1,5 @@
 import re
+from unittest.mock import MagicMock
 
 import openpyxl
 import pytest
@@ -334,20 +335,618 @@ def test_get_and_check_property(
         ]
         expected_cleaned_message = normalize_log_message(log_message)
 
-        # Print debug information for failed tests
+        # Generalized check (avoids strict spacing mismatches)
+        assert any(expected_cleaned_message in log for log in cleaned_logs)
+    else:
+        # Ensure no error messages are logged
+        assert not any(log["level"] == "error" for log in cleared_log_storage)
+
+
+@pytest.mark.parametrize(
+    "term, cell_value, coordinate, sheet_title, expected_result, log_message, log_message_level",
+    [
+        # Valid cases (No errors should be logged)
+        ("Mandatory", "true", "A1", "Sheet1", True, None, None),
+        ("Show in edit views", "False", "B2", "Sheet2", False, None, None),
+        ("Code", "VALID_CODE", "C3", "Sheet3", "VALID_CODE", None, None),
+        ("Data type", "INTEGER", "D4", "Sheet4", "INTEGER", None, None),
+        # Invalid cases (Errors should be logged)
+        (
+            "Mandatory",
+            "invalid_boolean",
+            "A7",
+            "Sheet7",
+            False,
+            "Invalid mandatory value found in the Mandatory column at position A7 in Sheet7. Accepted values: TRUE or FALSE.",
+            "error",
+        ),
+        (
+            "Show in edit views",
+            123,
+            "B8",
+            "Sheet8",
+            False,
+            "Invalid show in edit views value found in the Show in edit views column at position B8 in Sheet8. Accepted values: TRUE or FALSE.",
+            "error",
+        ),
+        (
+            "Code",
+            "Invalid Code!",
+            "C9",
+            "Sheet9",
+            "Invalid Code!",
+            "Invalid code value found in the Code column at position C9 in Sheet9.",
+            "error",
+        ),
+        (
+            "Data type",
+            "UNKNOWN_TYPE",
+            "D10",
+            "Sheet10",
+            "UNKNOWN_TYPE",
+            f"Invalid data type value found in the Data type column at position D10 in Sheet10. The Data Type should be one of the following: {list(dt.value for dt in DataType)}",
+            "error",
+        ),
+    ],
+)
+def test_process_term(
+    cleared_log_storage,
+    excel_extractor,
+    term,
+    cell_value,
+    coordinate,
+    sheet_title,
+    expected_result,
+    log_message,
+    log_message_level,
+):
+    """Tests `process_term` to validate and process terms correctly."""
+
+    result = excel_extractor.process_term(term, cell_value, coordinate, sheet_title)
+
+    assert result == expected_result
+
+    if log_message:
+        # Normalize log message formatting to avoid strict mismatches
+        def normalize_log_message(msg):
+            return re.sub(r"\s+", " ", msg.replace(". ", ".")).strip()
+
+        cleaned_logs = [
+            normalize_log_message(log["event"]) for log in cleared_log_storage
+        ]
+        expected_cleaned_message = normalize_log_message(log_message)
+
+        # Ensure log appears
+        assert any(
+            expected_cleaned_message in log for log in cleaned_logs
+        ), f"Expected log message was not found. Logs: {cleaned_logs}"
+    else:
+        # Ensure no error messages are logged
+        assert not any(log["level"] == "error" for log in cleared_log_storage)
+
+
+@pytest.mark.parametrize(
+    "cell_value, row, column, validation_pattern, is_description, is_data, is_url, expected_result, log_message, log_message_level",
+    [
+        # Valid cases (No errors should be logged)
+        (
+            "VALID_CODE",
+            1,
+            1,
+            r"^\$?[A-Z0-9_.]+$",
+            False,
+            False,
+            False,
+            "VALID_CODE",
+            None,
+            None,
+        ),
+        (
+            "Valid Description // Gültige Beschreibung",
+            2,
+            2,
+            r".*//.*",
+            True,
+            False,
+            False,
+            "Valid Description // Gültige Beschreibung",
+            None,
+            None,
+        ),
+        ("INTEGER", 3, 3, None, False, True, False, "INTEGER", None, None),
+        (
+            "https://valid-url.com",
+            4,
+            4,
+            r"https?://(?:www\.)?[a-zA-Z0-9-._~:/?#@!$&'()*+,;=%]+",
+            False,
+            False,
+            True,
+            "https://valid-url.com",
+            None,
+            None,
+        ),
+        # Invalid cases (Errors should be logged)
+        (
+            "Missing Separator",
+            6,
+            1,
+            r".*//.*",
+            True,
+            False,
+            False,
+            "Missing Separator",
+            "Invalid value 'Missing Separator' at row 6, column 1 in sheet TestSheet Description should follow the schema: English Description + '//' + German Description.",
+            "error",
+        ),
+        (
+            "unknown_data_type",
+            7,
+            2,
+            None,
+            False,
+            True,
+            False,
+            "unknown_data_type",
+            f"Invalid value 'unknown_data_type' at row 7, column 2 in sheet TestSheet The Data Type should be one of the following: {list(dt.value for dt in DataType)}",
+            "error",
+        ),
+        (
+            "invalid-url",
+            8,
+            3,
+            r"https?://(?:www\.)?[a-zA-Z0-9-._~:/?#@!$&'()*+,;=%]+",
+            False,
+            False,
+            True,
+            "invalid-url",
+            "Invalid value 'invalid-url' at row 8, column 3 in sheet TestSheet It should be an URL or empty",
+            "error",
+        ),
+        (
+            "123INVALID",
+            9,
+            4,
+            r"^[A-Z]+_\d+$",
+            False,
+            False,
+            False,
+            "123INVALID",
+            "Invalid value '123INVALID' at row 9, column 4 in sheet TestSheet",
+            "error",
+        ),
+        (
+            "invalid code",
+            9,
+            4,
+            r"^\$?[A-Z0-9_.]+$",
+            False,
+            False,
+            False,
+            "invalid code",
+            "Invalid value 'invalid code' at row 9, column 4 in sheet TestSheet",
+            "error",
+        ),
+        # Empty cell (should return empty string, no error)
+        (None, 10, 5, None, False, False, False, "", None, None),
+        ("", 11, 6, None, False, False, False, "", None, None),
+    ],
+)
+def test_extract_value(
+    cleared_log_storage,
+    excel_extractor,
+    cell_value,
+    row,
+    column,
+    validation_pattern,
+    is_description,
+    is_data,
+    is_url,
+    expected_result,
+    log_message,
+    log_message_level,
+):
+    """Tests `extract_value` function for extracting and validating cell values."""
+
+    # Create a dummy worksheet
+    wb = openpyxl.Workbook()
+    sheet = wb.active
+    sheet.title = "TestSheet"
+
+    # Set the cell value
+    sheet.cell(row=row, column=column, value=cell_value)
+
+    # Call function
+    result = excel_extractor.extract_value(
+        sheet, row, column, validation_pattern, is_description, is_data, is_url
+    )
+
+    # Assert value extraction result
+    assert result == expected_result
+
+    if log_message:
+        # Normalize log message formatting
+        def normalize_log_message(msg):
+            return re.sub(r"\s+", " ", msg.replace(". ", ".")).strip()
+
+        cleaned_logs = [
+            (normalize_log_message(log["event"]), log["level"])
+            for log in cleared_log_storage
+        ]
+        expected_cleaned_message = normalize_log_message(log_message)
+
+        # Ensure log appears with the correct level
+        assert any(
+            expected_cleaned_message in log_text and log_level == log_message_level
+            for log_text, log_level in cleaned_logs
+        ), f"Expected log message '{expected_cleaned_message}' with level '{log_message_level}' was not found. Logs: {cleaned_logs}"
+
+    else:
+        # Ensure no error messages are logged
+        assert not any(
+            log["level"] == "error" for log in cleared_log_storage
+        ), "Unexpected error log found!"
+
+
+@pytest.mark.parametrize(
+    "header_terms, expected_terms, entity_type, cell_values, expected_attributes, log_message, log_message_level",
+    [
+        # Valid Case: SAMPLE_TYPE (No errors expected)
+        (
+            ["Code", "Description", "Generated code prefix"],  # Header terms
+            [
+                "Code",
+                "Description",
+                "Generated code prefix",
+            ],  # Expected extracted terms
+            "SAMPLE_TYPE",
+            [
+                "ABC123",
+                "A valid description // Eine gültige Beschreibung",
+                "ABC",
+            ],  # Cell values
+            {
+                "code": "ABC123",
+                "description": "A valid description // Eine gültige Beschreibung",
+                "generatedCodePrefix": "ABC",
+            },  # Expected attributes
+            None,  # No error
+            None,
+        ),
+        # Invalid Case: Unknown Data Type (PROPERTY_TYPE)
+        (
+            ["Code", "Data type"],
+            ["Code", "Data type"],
+            "PROPERTY_TYPE",
+            ["ABC123", "UNKNOWN_TYPE"],
+            {"code": "ABC123", "dataType": "UNKNOWN_TYPE"},
+            "Invalid Data Type: UNKNOWN_TYPE in B3 (Sheet: TestSheet). Should be one of the following: "
+            f"{[dt.value for dt in DataType]}",
+            "error",
+        ),
+        # Invalid Case: Boolean Error (SAMPLE_TYPE)
+        (
+            ["Code", "Auto generated codes"],
+            ["Code", "Auto generated codes"],
+            "SAMPLE_TYPE",
+            ["ABC123", "maybe"],  # Invalid boolean
+            {"code": "ABC123", "autoGeneratedCode": False},  # Expected processed value
+            "Invalid auto generated codes value found in the Auto generated codes column at position B3 in TestSheet. Accepted values: TRUE or FALSE.",
+            "error",
+        ),
+        # Invalid URL Case (VOCABULARY_TYPE)
+        (
+            ["Code", "Url template"],
+            ["Code", "Url template"],
+            "VOCABULARY_TYPE",
+            ["ABC123", "invalid-url"],
+            {"code": "ABC123", "url_template": "invalid-url"},
+            "Invalid URL format: invalid-url in B3 (Sheet: TestSheet)",
+            "error",
+        ),
+        # Invalid Generated Code Prefix (SAMPLE_TYPE)
+        (
+            ["Code", "Generated code prefix"],
+            ["Code", "Generated code prefix"],
+            "SAMPLE_TYPE",
+            ["ABC123", "ABC_123"],
+            {"code": "ABC123", "generatedCodePrefix": "ABC_123"},
+            "Invalid Generated code prefix value 'ABC_123' in B3 (Sheet: TestSheet). Generated code prefix should be part of the 'Code'.",
+            "error",
+        ),
+    ],
+)
+def test_process_entity(
+    cleared_log_storage,
+    excel_extractor,
+    header_terms,
+    expected_terms,
+    entity_type,
+    cell_values,
+    expected_attributes,
+    log_message,
+    log_message_level,
+):
+    """Tests processing entity attributes and validation logging in `process_entity`."""
+
+    # Create dummy Excel sheet
+    wb = openpyxl.Workbook()
+    sheet = wb.active
+    sheet.title = "TestSheet"
+
+    # Insert headers in row 1
+    for col, header in enumerate(header_terms, start=1):
+        sheet.cell(row=1, column=col, value=header)
+
+    # Insert test values in row 3 (since `start_index_row + 2` is used)
+    for col, value in enumerate(cell_values, start=1):
+        sheet.cell(row=3, column=col, value=value)
+
+    # Call the function
+    result = excel_extractor.process_entity(
+        sheet,
+        start_index_row=1,
+        header_terms=header_terms,
+        expected_terms=expected_terms,
+        entity_type=entity_type,
+    )
+
+    # Assert entity attributes
+    assert (
+        result == expected_attributes
+    ), f"Expected: {expected_attributes}, but got: {result}"
+
+    # Log message checking
+    if log_message:
+        cleaned_logs = [
+            re.sub(r"\s+", " ", log["event"]).strip() for log in cleared_log_storage
+        ]
+        expected_cleaned_message = re.sub(r"\s+", " ", log_message).strip()
+
+        assert any(
+            expected_cleaned_message in log for log in cleaned_logs
+        ), "Expected log message was not found!"
+
+        # Ensure the correct log level is used
+        assert any(
+            log["level"] == log_message_level for log in cleared_log_storage
+        ), f"Expected log level '{log_message_level}' not found."
+    else:
+        assert not any(
+            log["level"] == "error" for log in cleared_log_storage
+        ), "Unexpected error logs found!"
+
+
+@pytest.mark.parametrize(
+    "header_terms, cell_values, last_non_empty_row, expected_properties, log_message, log_message_level",
+    [
+        # ✅ Valid Case: Extract properties correctly
+        (
+            [
+                "Code",
+                "Description",
+                "Mandatory",
+                "Show in edit views",
+                "Section",
+                "Property label",
+                "Data type",
+                "Vocabulary code",
+            ],
+            [
+                [
+                    "PROP_001",
+                    "Sample description",
+                    "True",
+                    "False",
+                    "General",
+                    "Property Label",
+                    "INTEGER",
+                    "VOCAB_ABC",
+                ],
+                [
+                    "PROP_002",
+                    "Another description",
+                    "False",
+                    "True",
+                    "Advanced",
+                    "Another Label",
+                    "BOOLEAN",
+                    "VOCAB_DEF",
+                ],
+            ],
+            6,
+            {
+                "PROP_001": {
+                    "permId": "PROP_001",
+                    "code": "PROP_001",
+                    "description": "Sample description",
+                    "mandatory": True,
+                    "show_in_edit_views": False,
+                    "section": "General",
+                    "label": "Property Label",
+                    "dataType": "INTEGER",
+                    "vocabularyCode": "VOCAB_ABC",
+                },
+                "PROP_002": {
+                    "permId": "PROP_002",
+                    "code": "PROP_002",
+                    "description": "Another description",
+                    "mandatory": False,
+                    "show_in_edit_views": True,
+                    "section": "Advanced",
+                    "label": "Another Label",
+                    "dataType": "BOOLEAN",
+                    "vocabularyCode": "VOCAB_DEF",
+                },
+            },
+            None,
+            None,
+        ),
+        # ❌ Missing Header: "Data type"
+        (
+            [
+                "Code",
+                "Description",
+                "Mandatory",
+                "Show in edit views",
+                "Section",
+                "Property label",
+                "Vocabulary code",
+            ],  # Missing "Data type"
+            [
+                [
+                    "PROP_001",
+                    "Sample description",
+                    "True",
+                    "False",
+                    "General",
+                    "Property Label",
+                    "VOCAB_ABC",
+                ]
+            ],
+            4,
+            {},
+            "'Data type' not found in the properties headers.",
+            "error",
+        ),
+        # ❌ Invalid Data Type
+        (
+            [
+                "Code",
+                "Description",
+                "Mandatory",
+                "Show in edit views",
+                "Section",
+                "Property label",
+                "Data type",
+                "Vocabulary code",
+            ],
+            [
+                [
+                    "PROP_003",
+                    "Description",
+                    "True",
+                    "False",
+                    "General",
+                    "Property Label",
+                    "INVALID_TYPE",
+                    "VOCAB_ABC",
+                ]
+            ],
+            5,
+            {
+                "PROP_003": {
+                    "permId": "PROP_003",
+                    "code": "PROP_003",
+                    "description": "Description",
+                    "section": "General",
+                    "mandatory": True,
+                    "show_in_edit_views": False,
+                    "label": "Property Label",
+                    "dataType": "INVALID_TYPE",
+                    "vocabularyCode": "VOCAB_ABC",
+                }
+            },
+            f"Invalid data type value found in the Data type column at position G5 in TestSheet.The Data Type should be one of the following: {[dt.value for dt in DataType]}",
+            "error",
+        ),
+        # ❌ Missing Code (Should be ignored)
+        (
+            [
+                "Description",
+                "Mandatory",
+                "Show in edit views",
+                "Section",
+                "Property label",
+                "Data type",
+                "Vocabulary code",
+            ],  # Missing "Code"
+            [
+                [
+                    "Description only",
+                    "True",
+                    "False",
+                    "General",
+                    "Label",
+                    "INTEGER",
+                    "VOCAB_ABC",
+                ]
+            ],
+            4,
+            {},
+            "'Code' not found in the properties headers.",
+            "error",
+        ),
+    ],
+)
+def test_properties_to_dict(
+    cleared_log_storage,
+    excel_extractor,
+    header_terms,
+    cell_values,
+    last_non_empty_row,
+    expected_properties,
+    log_message,
+    log_message_level,
+):
+    """Tests `properties_to_dict` function to validate properties extraction."""
+
+    # Create dummy Excel sheet
+    wb = openpyxl.Workbook()
+    sheet = wb.active
+    sheet.title = "TestSheet"
+
+    # Insert headers at row 4 (header_index = start_index_row + 3)
+    for col, header in enumerate(header_terms, start=1):
+        sheet.cell(row=4, column=col, value=header)
+
+    # Insert test values starting from row 5
+    for row_index, row_values in enumerate(cell_values, start=5):
+        for col_index, value in enumerate(row_values, start=1):
+            sheet.cell(row=row_index, column=col_index, value=value)
+
+    # Debug: Check headers before calling function
+    row_headers = [cell.value for cell in sheet[4]]
+    print(f"\nDEBUG: Row Headers Extracted = {row_headers}")
+
+    # Call function
+    result = excel_extractor.properties_to_dict(
+        sheet, start_index_row=1, last_non_empty_row=last_non_empty_row
+    )
+
+    # Debugging print
+    print("\n--- DEBUG PROPERTIES TO DICT ---")
+    print(f"Expected Properties: {expected_properties}")
+    print(f"Resulting Properties: {result}")
+
+    # Assert dictionary structure
+    assert (
+        result == expected_properties
+    ), f"Expected: {expected_properties}, but got: {result}"
+
+    # ✅ Log message checking
+    if log_message:
+        cleaned_logs = [
+            re.sub(r"\s+", " ", log["event"]).strip() for log in cleared_log_storage
+        ]
+        expected_cleaned_message = re.sub(r"\s+", " ", log_message).strip()
+
         print("\n--- DEBUG LOG CHECK ---")
         print(f"Expected Log Message:\n{expected_cleaned_message}")
         print("\nCaptured Log Messages:")
         for log in cleaned_logs:
             print(f"- {log}")
 
-        # Print raw cleared_log_storage to check log structure
-        print("\n--- RAW LOG STORAGE ---")
-        for log in cleared_log_storage:
-            print(log)
+        # Ensure the expected log message appears
+        assert any(
+            expected_cleaned_message in log for log in cleaned_logs
+        ), "Expected log message was not found!"
 
-        # Generalized check (avoids strict spacing mismatches)
-        assert any(expected_cleaned_message in log for log in cleaned_logs)
+        # ✅ Ensure the correct log level is used
+        assert any(
+            log["level"] == log_message_level for log in cleared_log_storage
+        ), f"Expected log level '{log_message_level}' not found."
     else:
-        # Ensure no error messages are logged
-        assert not any(log["level"] == "error" for log in cleared_log_storage)
+        assert not any(
+            log["level"] == "error" for log in cleared_log_storage
+        ), "Unexpected error logs found!"
