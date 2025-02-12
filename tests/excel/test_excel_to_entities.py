@@ -720,7 +720,7 @@ def test_process_entity(
 @pytest.mark.parametrize(
     "header_terms, cell_values, last_non_empty_row, expected_properties, log_message, log_message_level",
     [
-        # ✅ Valid Case: Extract properties correctly
+        # Valid Case: Extract properties correctly
         (
             [
                 "Code",
@@ -782,7 +782,7 @@ def test_process_entity(
             None,
             None,
         ),
-        # ❌ Missing Header: "Data type"
+        # Missing Header: "Data type"
         (
             [
                 "Code",
@@ -809,7 +809,7 @@ def test_process_entity(
             "'Data type' not found in the properties headers.",
             "error",
         ),
-        # ❌ Invalid Data Type
+        # Invalid Data Type
         (
             [
                 "Code",
@@ -850,7 +850,7 @@ def test_process_entity(
             f"Invalid data type value found in the Data type column at position G5 in TestSheet.The Data Type should be one of the following: {[dt.value for dt in DataType]}",
             "error",
         ),
-        # ❌ Missing Code (Should be ignored)
+        # Missing Code (Should be ignored)
         (
             [
                 "Description",
@@ -905,44 +905,29 @@ def test_properties_to_dict(
         for col_index, value in enumerate(row_values, start=1):
             sheet.cell(row=row_index, column=col_index, value=value)
 
-    # Debug: Check headers before calling function
-    row_headers = [cell.value for cell in sheet[4]]
-    print(f"\nDEBUG: Row Headers Extracted = {row_headers}")
-
     # Call function
     result = excel_extractor.properties_to_dict(
         sheet, start_index_row=1, last_non_empty_row=last_non_empty_row
     )
-
-    # Debugging print
-    print("\n--- DEBUG PROPERTIES TO DICT ---")
-    print(f"Expected Properties: {expected_properties}")
-    print(f"Resulting Properties: {result}")
 
     # Assert dictionary structure
     assert (
         result == expected_properties
     ), f"Expected: {expected_properties}, but got: {result}"
 
-    # ✅ Log message checking
+    # Log message checking
     if log_message:
         cleaned_logs = [
             re.sub(r"\s+", " ", log["event"]).strip() for log in cleared_log_storage
         ]
         expected_cleaned_message = re.sub(r"\s+", " ", log_message).strip()
 
-        print("\n--- DEBUG LOG CHECK ---")
-        print(f"Expected Log Message:\n{expected_cleaned_message}")
-        print("\nCaptured Log Messages:")
-        for log in cleaned_logs:
-            print(f"- {log}")
-
         # Ensure the expected log message appears
         assert any(
             expected_cleaned_message in log for log in cleaned_logs
         ), "Expected log message was not found!"
 
-        # ✅ Ensure the correct log level is used
+        # Ensure the correct log level is used
         assert any(
             log["level"] == log_message_level for log in cleared_log_storage
         ), f"Expected log level '{log_message_level}' not found."
@@ -950,3 +935,301 @@ def test_properties_to_dict(
         assert not any(
             log["level"] == "error" for log in cleared_log_storage
         ), "Unexpected error logs found!"
+
+
+@pytest.mark.parametrize(
+    "header_terms, cell_values, last_non_empty_row, expected_terms, log_message, log_message_level",
+    [
+        # Valid Case: Extract vocabulary terms correctly
+        (
+            ["Code", "Description", "Url template", "Label", "Official"],
+            [
+                [
+                    "TERM_001",
+                    "Sample description",
+                    "https://example.com",
+                    "Label1",
+                    "TRUE",
+                ],
+                [
+                    "TERM_002",
+                    "Another description",
+                    "https://another.com",
+                    "Label2",
+                    "FALSE",
+                ],
+            ],
+            6,
+            {
+                "TERM_001": {
+                    "permId": "TERM_001",
+                    "code": "TERM_001",
+                    "descriptions": "Sample description",
+                    "url_template": "https://example.com",
+                    "label": "Label1",
+                    "official": True,
+                },
+                "TERM_002": {
+                    "permId": "TERM_002",
+                    "code": "TERM_002",
+                    "descriptions": "Another description",
+                    "url_template": "https://another.com",
+                    "label": "Label2",
+                    "official": False,
+                },
+            },
+            None,
+            None,
+        ),
+        # Missing Header: "Url template"
+        (
+            ["Code", "Description", "Label", "Official"],  # Missing "Url template"
+            [["TERM_003", "Description", "Label3", "TRUE"]],
+            4,
+            {},
+            "Url template not found in the properties headers.",
+            "warning",
+        ),
+        # Invalid "Code" (should log an error)
+        (
+            ["Code", "Description", "Url template", "Label", "Official"],
+            [
+                [
+                    "Invalid Code!",
+                    "Description",
+                    "https://example.com",
+                    "Label4",
+                    "FALSE",
+                ]
+            ],
+            5,
+            {
+                "Invalid Code!": {
+                    "permId": "Invalid Code!",
+                    "code": "Invalid Code!",
+                    "descriptions": "Description",
+                    "url_template": "https://example.com",
+                    "label": "Label4",
+                    "official": False,
+                }
+            },
+            "Invalid code value found in the Code column",
+            "error",
+        ),
+        # Invalid "Url template" (should log an error)
+        (
+            ["Code", "Description", "Url template", "Label", "Official"],
+            [["TERM_004", "Description", "invalid-url", "Label5", "TRUE"]],
+            5,
+            {
+                "TERM_004": {
+                    "permId": "TERM_004",
+                    "code": "TERM_004",
+                    "descriptions": "Description",
+                    "url_template": "invalid-url",  # Still included even if invalid
+                    "label": "Label5",
+                    "official": True,
+                }
+            },
+            "Invalid url template value found in the Url template column at position C5 in TestSheet.",
+            "error",
+        ),
+        # Invalid "Official" value (should log an error)
+        (
+            ["Code", "Description", "Url template", "Label", "Official"],
+            [["TERM_005", "Description", "https://valid.com", "Label6", "INVALID"]],
+            5,
+            {
+                "TERM_005": {
+                    "permId": "TERM_005",
+                    "code": "TERM_005",
+                    "descriptions": "Description",
+                    "url_template": "https://valid.com",
+                    "label": "Label6",
+                    "official": False,  # Should be False because is default value when criteria not meet
+                }
+            },
+            "Invalid official value found in the Official column",
+            "error",
+        ),
+    ],
+)
+def test_terms_to_dict(
+    cleared_log_storage,
+    excel_extractor,
+    header_terms,
+    cell_values,
+    last_non_empty_row,
+    expected_terms,
+    log_message,
+    log_message_level,
+):
+    """Tests `terms_to_dict` function to validate vocabulary extraction."""
+
+    # Create a dummy Excel sheet
+    wb = openpyxl.Workbook()
+    sheet = wb.active
+    sheet.title = "TestSheet"
+
+    # Insert headers at row 4 (header_index = start_index_row + 3)
+    for col, header in enumerate(header_terms, start=1):
+        sheet.cell(row=4, column=col, value=header)
+
+    # Insert test values starting from row 5
+    for row_index, row_values in enumerate(cell_values, start=5):
+        for col_index, value in enumerate(row_values, start=1):
+            sheet.cell(row=row_index, column=col_index, value=value)
+
+    # Call function
+    result = excel_extractor.terms_to_dict(
+        sheet, start_index_row=1, last_non_empty_row=last_non_empty_row
+    )
+
+    # Assert dictionary structure
+    assert result == expected_terms, f"Expected: {expected_terms}, but got: {result}"
+
+    # Log message checking
+    if log_message:
+        cleaned_logs = [
+            re.sub(r"\s+", " ", log["event"]).strip() for log in cleared_log_storage
+        ]
+        expected_cleaned_message = re.sub(r"\s+", " ", log_message).strip()
+
+        # Ensure the expected log message appears
+        assert any(
+            expected_cleaned_message in log for log in cleaned_logs
+        ), "Expected log message was not found!"
+
+        # Ensure the correct log level is used
+        assert any(
+            log["level"] == log_message_level for log in cleared_log_storage
+        ), f"Expected log level '{log_message_level}' not found."
+    else:
+        assert not any(
+            log["level"] == "error" for log in cleared_log_storage
+        ), "Unexpected error logs found!"
+
+
+import pytest
+
+
+@pytest.mark.parametrize(
+    "entity_type, header_terms, cell_values, last_non_empty_row, expected_entities, expected_exception",
+    [
+        # Valid Case: Extract SAMPLE_TYPE
+        (
+            "SAMPLE_TYPE",
+            [
+                "Code",
+                "Description",
+                "Validation script",
+                "Generated code prefix",
+                "Auto generated codes",
+            ],
+            [
+                [
+                    "SAMPLE_001",
+                    "Sample Description",
+                    "val.py",
+                    "SAM_001",
+                    "True",
+                ],
+            ],
+            6,  # Last non-empty row index (including the blank row)
+            {
+                "SAMPLE_001": {
+                    "code": "SAMPLE_001",
+                    "description": "Sample Description",
+                    "validationPlugin": "val.py",  # Expected extracted field
+                    "generatedCodePrefix": "SAM_001",  # Extracted field
+                    "autoGeneratedCode": True,  # Boolean value converted
+                    "properties": {},  # Empty properties extracted
+                },
+            },
+            None,
+        ),
+        # Valid Case: Extract VOCABULARY_TYPE
+        (
+            "VOCABULARY_TYPE",
+            ["Code", "Description", "Url template"],
+            [
+                ["VOC_001", "Description 1", "https://example.com"],
+            ],
+            5,
+            {
+                "VOC_001": {
+                    "code": "VOC_001",
+                    "description": "Description 1",
+                    "url_template": "https://example.com",
+                    "terms": {},
+                },
+            },
+            None,
+        ),
+        # Invalid Entity Type
+        (
+            "INVALID_TYPE",
+            [
+                "Code",
+                "Description",
+                "Validation script",
+                "Generated code prefix",
+                "Auto generated codes",
+            ],
+            [["SAMPLE_003", "Invalid Sample", "True", "False"]],
+            4,
+            None,
+            pytest.raises(ValueError, match="Invalid entity type: INVALID_TYPE"),
+        ),
+    ],
+)
+def test_block_to_entity_dict(
+    excel_extractor,
+    entity_type,
+    header_terms,
+    cell_values,
+    last_non_empty_row,
+    expected_entities,
+    expected_exception,
+):
+    """Tests `block_to_entity_dict` function for extracting entities from Excel blocks."""
+
+    # Create a dummy Excel sheet
+    wb = openpyxl.Workbook()
+    sheet = wb.active
+    sheet.title = "TestSheet"
+
+    # Insert entity type in A1
+    sheet["A1"] = entity_type
+
+    # Insert headers at row 2 (header_index = start_index_row + 1)
+    for col, header in enumerate(header_terms, start=1):
+        sheet.cell(row=2, column=col, value=header)
+
+    # Insert test values starting from row 3
+    for row_index, row_values in enumerate(cell_values, start=3):
+        for col_index, value in enumerate(row_values, start=1):
+            sheet.cell(row=row_index, column=col_index, value=value)
+
+    # Call function
+    complete_dict = {}
+    if expected_exception:
+        with expected_exception:  # Properly assert the exception
+            result = excel_extractor.block_to_entity_dict(
+                sheet,
+                start_index_row=1,
+                last_non_empty_row=last_non_empty_row,
+                complete_dict=complete_dict,
+            )
+    else:
+        result = excel_extractor.block_to_entity_dict(
+            sheet,
+            start_index_row=1,
+            last_non_empty_row=last_non_empty_row,
+            complete_dict=complete_dict,
+        )
+
+        # Assert dictionary structure
+        assert (
+            result == expected_entities
+        ), f"Expected: {expected_entities}, but got: {result}"
