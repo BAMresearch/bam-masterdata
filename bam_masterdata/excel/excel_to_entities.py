@@ -585,18 +585,25 @@ class MasterdataExcelExtractor:
 
         Returns:
             A dictionary where each key is a normalized sheet name and the value is a dictionary
-            containing the extracted entities.
+            containing the extracted entities. Returns an empty dictionary if all sheets are empty.
         """
         sheets_dict: dict[str, dict[str, Any]] = {}
-
-        # Load the workbook and get the sheet names
         sheet_names = self.workbook.sheetnames
+        has_content = False  # Track if any sheet has valid content
 
         for i, sheet_name in enumerate(sheet_names):
             normalized_sheet_name = sheet_name.lower().replace(" ", "_")
-
             sheet = self.workbook[sheet_name]
             start_row = 1
+
+            # **Check if the sheet is empty**
+            if all(
+                sheet.cell(row=row, column=col).value in (None, "")
+                for row in range(1, sheet.max_row + 1)
+                for col in range(1, sheet.max_column + 1)
+            ):
+                self.logger.info(f"Skipping empty sheet: {sheet_name}")
+                continue  # Move to the next sheet
 
             sheets_dict[normalized_sheet_name] = {}
 
@@ -616,21 +623,55 @@ class MasterdataExcelExtractor:
                         )
                     break
 
-                # Process the block (from start_row to last_non_empty_row)
+                # **Process the block and mark that we found content**
                 sheets_dict[normalized_sheet_name] = self.block_to_entity_dict(
                     sheet,
                     start_row,
                     last_non_empty_row,
                     sheets_dict[normalized_sheet_name],
                 )
+                has_content = True  # Found at least one valid entity block
 
                 # Update start_row to the row after the empty row
+                consecutive_empty_rows = 0  # Track empty row count
                 start_row = last_non_empty_row + 1
-                while start_row <= sheet.max_row and all(
-                    sheet.cell(row=start_row, column=col).value in (None, "")
-                    for col in range(1, sheet.max_column + 1)
-                ):
-                    start_row += 1
+
+                while start_row <= sheet.max_row:
+                    is_row_empty = all(
+                        sheet.cell(row=start_row, column=col).value in (None, "")
+                        for col in range(1, sheet.max_column + 1)
+                    )
+
+                    if is_row_empty:
+                        consecutive_empty_rows += 1
+                        start_row += 1  # Move to the next row
+
+                        if consecutive_empty_rows >= 2:  # Stop processing the sheet
+                            self.logger.info(
+                                f"Two consecutive empty rows found in {sheet_name}. Stopping sheet processing."
+                            )
+                            return sheets_dict  # Ensure function exits immediately!
+                    else:
+                        consecutive_empty_rows = (
+                            0  # Reset counter if a non-empty row is found
+                        )
+                        self.logger.info(
+                            f"Next entity block detected at row {start_row}. Processing..."
+                        )
+
+                        last_non_empty_row = self.get_last_non_empty_row(
+                            sheet, start_row
+                        )
+                        sheets_dict[normalized_sheet_name] = self.block_to_entity_dict(
+                            sheet,
+                            start_row,
+                            last_non_empty_row,
+                            sheets_dict[normalized_sheet_name],
+                        )
+
+                        start_row = (
+                            last_non_empty_row + 1
+                        )  # Move to the next entity block
 
                 # Check if there are two consecutive empty rows
                 if start_row > sheet.max_row or all(
@@ -646,5 +687,12 @@ class MasterdataExcelExtractor:
                             f"End of the current sheet {sheet_name} reached. Switching to next sheet..."
                         )
                     break
+
+        # **If no sheets had content, return an empty dictionary**
+        if not has_content:
+            self.logger.warning(
+                "No valid data found in any sheets. Returning empty dictionary."
+            )
+            return {}
 
         return sheets_dict
