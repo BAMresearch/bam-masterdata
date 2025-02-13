@@ -647,16 +647,10 @@ class MasterdataExcelExtractor:
                         start_row += 1  # Move to the next row
 
                         if consecutive_empty_rows >= 2:  # Stop processing the sheet
-                            self.logger.info(
-                                f"Two consecutive empty rows found in {sheet_name}. Stopping sheet processing."
-                            )
                             return sheets_dict  # Ensure function exits immediately!
                     else:
                         consecutive_empty_rows = (
                             0  # Reset counter if a non-empty row is found
-                        )
-                        self.logger.info(
-                            f"Next entity block detected at row {start_row}. Processing..."
                         )
 
                         last_non_empty_row = self.get_last_non_empty_row(
