@@ -1272,8 +1272,7 @@ def test_block_to_entity_dict(
                 }
             },
         ),
-        # ✅ Case 2: Multiple sheets with multiple entity blocks (Object Types + Collection Types) - **Now includes additional entity types per sheet**
-        # ✅ Case 2: Multiple sheets with multiple entity blocks (Object Types + Collection Types) - **Now includes additional entity types per sheet**
+        # Case 2: Multiple sheets with multiple entity blocks (Object Types + Collection Types) - **Now includes additional entity types per sheet**
         (
             {
                 "Object Types": [
@@ -1378,7 +1377,7 @@ def test_block_to_entity_dict(
                 },
             },
         ),
-        # ✅ Case 4: Sheet with two consecutive empty rows (end detection, so second sample not readed)
+        # Case 4: Sheet with two consecutive empty rows (end detection, so second sample not readed)
         (
             {
                 "Object Types": [
@@ -1429,7 +1428,7 @@ def test_block_to_entity_dict(
                 }
             },
         ),
-        # ✅ Case 5: Fully empty sheet
+        # Case 5: Fully empty sheet
         (
             {
                 "EmptySheet": [
@@ -1463,10 +1462,5 @@ def test_excel_to_entities(excel_extractor, sheets_data, expected_result):
     # Call function
     result = excel_extractor.excel_to_entities()
 
-    # Debugging print
-    print("\n--- DEBUG EXCEL TO ENTITIES ---")
-    print(f"Expected Result: {expected_result}")
-    print(f"Actual Result: {result}")
-
-    # ✅ Assert the extracted entities match the expected structure
+    # Assert the extracted entities match the expected structure
     assert result == expected_result, f"Expected: {expected_result}, but got: {result}"
