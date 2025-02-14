@@ -60,7 +60,7 @@ class DataModelLoader:
             try:
                 entity_code = obj.defs.code  # Get the code from the class definition
 
-                # ✅ FIX: Convert JSON string to a dictionary
+                # Convert JSON string to a dictionary
                 json_data = json.loads(obj().model_to_json(indent=2))
 
                 module_data[entity_code] = json_data  # Store as dictionary
