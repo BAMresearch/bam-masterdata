@@ -1,14 +1,28 @@
+import os
+
 from bam_masterdata.checker.datamodel_loader import DataModelLoader
 from bam_masterdata.checker.masterdata_validator import MasterDataValidator
 from bam_masterdata.checker.source_loader import SourceLoader
 
 
 class MasterdataChecker:
-    def __init__(self, validation_rules_path: str):
+    def __init__(
+        self,
+        validation_rules_path: str,
+        datamodel_dir: str = "bam_masterdata/datamodel",
+    ):
         """
-        Initialize the comparator with validation rules.
+        Initialize the comparator with validation rules and set the datamodel directory.
+
+        Args:
+            validation_rules_path (str): Path to the validation rules JSON file.
+            datamodel_dir (str, optional): Directory where the Python datamodel files are located.
+                                           Defaults to "bam_masterdata/datamodel".
         """
         self.validation_rules = self._load_validation_rules(validation_rules_path)
+        self.datamodel_dir = (
+            datamodel_dir  # Allows overriding the default datamodel directory
+        )
         self.current_model = None
         self.new_entities = None
 
@@ -18,12 +32,29 @@ class MasterdataChecker:
         """
         pass
 
-    def load_current_model(self, source_path: str):
+    def load_current_model(self):
         """
         Load and transform the current data model (Pydantic classes) into JSON.
+
+        Uses the default datamodel directory unless overridden.
         """
-        # loader = DataModelLoader(source_path)
-        # self.current_model = loader.parse_pydantic_models()
+        export_dir = "bam_masterdata/checker/tmp/datamodel"
+        os.makedirs(export_dir, exist_ok=True)  # Ensure export directory exists
+
+        # List all Python files in the datamodel directory (same as CLI behavior)
+        source_files = [
+            os.path.join(self.datamodel_dir, f)
+            for f in os.listdir(self.datamodel_dir)
+            if f.endswith(".py")
+        ]
+
+        # Ensure we found Python files
+        if not source_files:
+            raise FileNotFoundError(f"No Python files found in {self.datamodel_dir}")
+
+        # Now call DataModelLoader with the list of files
+        loader = DataModelLoader(source_files, export_dir)
+        self.current_model = loader.parse_pydantic_models()
 
     def load_new_entities(self, source: str, source_type: str):
         """
