@@ -1398,7 +1398,9 @@ def test_block_to_entity_dict(
                     ],
                     [],
                     [],
-                    ["SAMPLE_TYPE"],  # Second entity block in the same sheet
+                    [
+                        "SAMPLE_TYPE"
+                    ],  # Second entity block in the same sheet that should be ignored
                     [
                         "Code",
                         "Description",
