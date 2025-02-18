@@ -1,6 +1,7 @@
 import json
 from typing import TYPE_CHECKING, Any, Optional, no_type_check
 
+import h5py
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 from rdflib import BNode, Literal
 from rdflib.namespace import DC, OWL, RDF, RDFS
@@ -28,7 +29,7 @@ class BaseEntity(BaseModel):
         super().__init__()
 
         # We store the `_property_metadata` during instantiation of the class
-        self._property_metadata = self.set_property_metadata()
+        self._property_metadata = self.get_property_metadata()
 
         for key, value in kwargs.items():
             setattr(self, key, value)
@@ -45,6 +46,8 @@ class BaseEntity(BaseModel):
                 raise TypeError(
                     f"Invalid type for '{key}': Expected {expected_type.__name__}, got {type(value).__name__}"
                 )
+
+        # TODO add check if someone tries to set up a definition instead of an assigned property
 
         object.__setattr__(self, key, value)
 
@@ -89,7 +92,7 @@ class BaseEntity(BaseModel):
         ]
         return [getattr(self, attr_name) for attr_name in base_attrs]
 
-    def set_property_metadata(self) -> dict:
+    def get_property_metadata(self) -> dict:
         """
         Dictionary containing the metadata of the properties assigned to the entity type.
 
@@ -119,6 +122,61 @@ class BaseEntity(BaseModel):
             if isinstance(attr_value, PropertyTypeAssignment):
                 prop_meta_dict[attr_name] = attr_value
         return prop_meta_dict
+
+    def to_json(self, indent: Optional[int] = None) -> str:
+        """
+        Returns the entity as a string in JSON format storing the value of the properties
+        assigned to the entity.
+
+        Args:
+            indent (Optional[int], optional): The indent to print in JSON. Defaults to None.
+
+        Returns:
+            str: The JSON representation of the entity.
+        """
+        data: dict = {}
+        for key in self._property_metadata.keys():
+            try:
+                data[key] = getattr(self, key)
+            except AttributeError:
+                continue
+        return json.dumps(data, indent=indent)
+
+    def to_dict(self) -> dict:
+        """
+        Returns the entity as a dictionary storing the value of the properties assigned to the entity.
+
+        Returns:
+            dict: The dictionary representation of the entity.
+        """
+        dump_json = self.to_json()
+        return json.loads(dump_json)
+
+    def to_hdf5(self, hdf_file: h5py.File, group_name: str = "") -> h5py.File:
+        """
+        Serialize the entity to a HDF5 file under the group specified in the input.
+
+        Args:
+            hdf_file (h5py.File): The HDF5 file to store the entity.
+            group_name (str, optional): The group name to serialize the data.
+        """
+        if not group_name:
+            group_name = self.cls_name
+        group = hdf_file.create_group(group_name)
+
+        for key in self._property_metadata.keys():
+            try:
+                value = getattr(self, key)
+                if not value:
+                    continue
+                if isinstance(value, (str, int, float, bool, list, tuple)):
+                    group.create_dataset(key, data=value)
+                else:
+                    raise TypeError(
+                        f"Unsupported type {type(value)} for key {key} for HDF5 serialization."
+                    )
+            except AttributeError:
+                continue
 
     def model_to_json(self, indent: Optional[int] = None) -> str:
         """

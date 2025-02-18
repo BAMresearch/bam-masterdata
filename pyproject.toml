@@ -31,6 +31,7 @@ dependencies = [
   "click",
   "pydantic~=2.10.5",
   "rdflib",
+  "h5py~=3.12.1"
 ]
 
 [project.urls]
