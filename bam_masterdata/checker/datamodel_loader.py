@@ -1,6 +1,5 @@
 import inspect
 import json
-import logging
 import os
 from typing import TYPE_CHECKING
 
@@ -9,6 +8,7 @@ if TYPE_CHECKING:
 
 import click
 
+from bam_masterdata.logger import logger
 from bam_masterdata.utils import import_module
 
 
@@ -24,13 +24,11 @@ class DataModelLoader:
             source_paths (list[str]): List of Python module paths containing the Pydantic models.
         """
         self.source_paths = source_paths
-        self.logger = logging.getLogger(__name__)  # Using standard logging
-        self.data = self.entities_to_single_dict(self.source_paths, self.logger)
+        self.logger = logger
+        self.data = self.entities_to_single_dict(self.source_paths)
 
     @staticmethod
-    def entities_to_single_dict(
-        module_paths: list[str], logger: "BoundLoggerLazyProxy"
-    ) -> dict[str, dict[str, dict]]:
+    def entities_to_single_dict(module_paths: list[str]) -> dict[str, dict[str, dict]]:
         """
         Process all entities from multiple Python modules and store them into a single dictionary.
 
