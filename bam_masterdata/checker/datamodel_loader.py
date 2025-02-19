@@ -25,6 +25,7 @@ class DataModelLoader:
         """
         self.source_paths = source_paths
         self.logger = logging.getLogger(__name__)  # Using standard logging
+        self.data = self.entities_to_single_dict(self.source_paths, self.logger)
 
     @staticmethod
     def entities_to_single_dict(
@@ -45,10 +46,24 @@ class DataModelLoader:
                             "properties": [...],
                             "defs": {...}
                         }
+                    },
+                    "property_types": {
+                        "property_code": {
+                            "code": "...",
+                            "description": "...",
+                            "id": "...",
+                            "property_label": "...",
+                            "data_type": "...",
+                            "vocabulary_code": "...",
+                            "object_code": "...",
+                            "metadata": null,
+                            "dynamic_script": null
+                        }
                     }
                 }
         """
         aggregated_data = {}
+        property_types = {}
 
         export_dir = "bam_masterdata/checker/tmp/datamodel"
 
@@ -60,6 +75,20 @@ class DataModelLoader:
 
             module = import_module(module_path=module_path)
             module_name = os.path.basename(module_path).replace(".py", "")
+
+            # ✅ Special case for property_types.py
+            if "property_types.py" in module_path:
+                for name, obj in inspect.getmembers(module):
+                    if name.startswith("_") or name == "PropertyTypeDef":
+                        continue
+                    try:
+                        property_data = obj.model_dump()
+                        property_types[property_data["code"]] = property_data
+                    except Exception as err:
+                        click.echo(
+                            f"Failed to process property {name} in {module_path}: {err}"
+                        )
+                continue  # ✅ Skip normal processing for this module
 
             # Dictionary to store data from this module
             module_data = {}
@@ -89,6 +118,10 @@ class DataModelLoader:
             if module_data:
                 aggregated_data[module_name] = module_data
 
+        # ✅ Add property types separately
+        if property_types:
+            aggregated_data["property_types"] = property_types
+
         # Save as one big JSON file
         os.makedirs(export_dir, exist_ok=True)  # Ensure the export directory exists
         output_file = os.path.join(export_dir, "full_datamodel.json")
@@ -99,39 +132,3 @@ class DataModelLoader:
         logger.info(f"Saved full aggregated JSON to {output_file}")
 
         return aggregated_data
-
-    def parse_pydantic_models(self) -> dict:
-        """
-        Reads Pydantic classes from the provided source paths, converts them to JSON format,
-        and aggregates them into a single dictionary.
-
-        Returns:
-            dict: A nested dictionary containing all Pydantic entities.
-        """
-        return self.entities_to_single_dict(self.source_paths, self.logger)
-
-    def _load_json_files(self) -> dict:
-        """
-        Reads the full_datamodel.json file from the export directory and loads it into a dictionary.
-
-        Returns:
-            dict: A dictionary containing all the aggregated data.
-        """
-        data_model_json = {}
-        json_file_path = os.path.join(self.export_dir, "full_datamodel.json")
-
-        if not os.path.exists(json_file_path):
-            self.logger.error(
-                f"Error: {json_file_path} not found. Run the extraction process first."
-            )
-            return (
-                data_model_json  # Return an empty dictionary if the file doesn't exist
-            )
-
-        try:
-            with open(json_file_path, encoding="utf-8") as f:
-                data_model_json = json.load(f)
-        except json.JSONDecodeError as err:
-            self.logger.error(f"Error loading JSON from {json_file_path}: {err}")
-
-        return data_model_json
