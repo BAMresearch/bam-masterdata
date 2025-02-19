@@ -9,110 +9,129 @@ if TYPE_CHECKING:
 
 import click
 
-from bam_masterdata.cli.entities_to_json import entities_to_json
-from bam_masterdata.utils import delete_and_create_dir, import_module
+from bam_masterdata.utils import import_module
 
 
 class DataModelLoader:
     def __init__(
         self,
         source_paths: list[str],
-        export_dir: str = "bam_masterdata/checker/tmp/datamodel",
     ):
         """
         Initialize the DataModelLoader.
 
         Args:
             source_paths (list[str]): List of Python module paths containing the Pydantic models.
-            export_dir (str): Directory where the JSON files will be saved.
         """
         self.source_paths = source_paths
-        self.export_dir = export_dir
         self.logger = logging.getLogger(__name__)  # Using standard logging
 
     @staticmethod
-    def entities_to_single_json(
-        module_path: str, export_dir: str, logger: "BoundLoggerLazyProxy"
-    ) -> None:
+    def entities_to_single_dict(
+        module_paths: list[str], logger: "BoundLoggerLazyProxy"
+    ) -> dict[str, dict[str, dict]]:
         """
-        Export all entities from a single Python module into ONE JSON file,
-        grouping all the entities under their corresponding category (defs.code).
+        Process all entities from multiple Python modules and store them into a single dictionary.
 
         Args:
-            module_path (str): Path to the Python module file.
-            export_dir (str): Path to the directory where the JSON file will be saved.
+            module_paths (list[str]): List of Python module file paths.
             logger (BoundLoggerLazyProxy): The logger to log messages.
+
+        Returns:
+            dict: A nested dictionary containing all entities, structured as:
+                {
+                    "module_name": {
+                        "entity_code": {
+                            "properties": [...],
+                            "defs": {...}
+                        }
+                    }
+                }
         """
-        module = import_module(module_path=module_path)
-        module_name = os.path.basename(module_path).replace(".py", "")
+        aggregated_data = {}
 
-        # Ensure export directory exists
-        os.makedirs(export_dir, exist_ok=True)
+        export_dir = "bam_masterdata/checker/tmp/datamodel"
 
-        # Dictionary to hold all class data in the module, grouped by defs.code
-        module_data = {}
-
-        # Process all datamodel classes
-        for name, obj in inspect.getmembers(module, inspect.isclass):
-            # Ensure the class has `defs` and a callable `model_to_json` method
-            if not hasattr(obj, "defs") or not callable(getattr(obj, "model_to_json")):
+        for module_path in module_paths:
+            # Skip __init__.py file
+            if os.path.basename(module_path) == "__init__.py":
+                logger.info(f"Skipping {module_path} (init file)")
                 continue
-            try:
-                entity_code = obj.defs.code  # Get the code from the class definition
 
-                # Convert JSON string to a dictionary
-                json_data = json.loads(obj().model_to_json(indent=2))
+            module = import_module(module_path=module_path)
+            module_name = os.path.basename(module_path).replace(".py", "")
 
-                module_data[entity_code] = json_data  # Store as dictionary
-            except Exception as err:
-                click.echo(f"Failed to process class {name} in {module_path}: {err}")
+            # Dictionary to store data from this module
+            module_data = {}
 
-        # Write everything to a single JSON file
-        output_file = os.path.join(export_dir, f"{module_name}.json")
+            # Process all datamodel classes
+            for name, obj in inspect.getmembers(module, inspect.isclass):
+                # Ensure the class has `defs` and a callable `model_to_json` method
+                if not hasattr(obj, "defs") or not callable(
+                    getattr(obj, "model_to_json")
+                ):
+                    continue
+                try:
+                    entity_code = (
+                        obj.defs.code
+                    )  # Get the code from the class definition
+
+                    # Convert JSON string to a dictionary
+                    json_data = json.loads(obj().model_to_json(indent=2))
+
+                    module_data[entity_code] = json_data  # Store as dictionary
+                except Exception as err:
+                    click.echo(
+                        f"Failed to process class {name} in {module_path}: {err}"
+                    )
+
+            # Add this module's data to the aggregated dictionary
+            if module_data:
+                aggregated_data[module_name] = module_data
+
+        # Save as one big JSON file
+        os.makedirs(export_dir, exist_ok=True)  # Ensure the export directory exists
+        output_file = os.path.join(export_dir, "full_datamodel.json")
+
         with open(output_file, "w", encoding="utf-8") as f:
-            json.dump(module_data, f, indent=2)
+            json.dump(aggregated_data, f, indent=2)
 
-        click.echo(f"Saved grouped JSON for {module_name} to {output_file}")
+        logger.info(f"Saved full aggregated JSON to {output_file}")
+
+        return aggregated_data
 
     def parse_pydantic_models(self) -> dict:
         """
         Reads Pydantic classes from the provided source paths, converts them to JSON format,
-        saves them, and returns a dictionary representation of all entities.
+        and aggregates them into a single dictionary.
 
         Returns:
-            dict: A dictionary containing JSON data of all Pydantic entities.
+            dict: A nested dictionary containing all Pydantic entities.
         """
-        # Ensure the export directory exists
-        os.makedirs(self.export_dir, exist_ok=True)
-
-        # Process each module and convert entities to JSON
-        for path in self.source_paths:
-            self.entities_to_single_json(
-                module_path=path, export_dir=self.export_dir, logger=self.logger
-            )
-
-        # Collect JSON files into a dictionary
-        data_model_json = self._load_json_files()
-
-        return data_model_json
+        return self.entities_to_single_dict(self.source_paths, self.logger)
 
     def _load_json_files(self) -> dict:
         """
-        Reads all JSON files from the export directory and loads them into a dictionary.
+        Reads the full_datamodel.json file from the export directory and loads it into a dictionary.
 
         Returns:
-            dict: A dictionary where keys are entity names, and values are the JSON data.
+            dict: A dictionary containing all the aggregated data.
         """
         data_model_json = {}
+        json_file_path = os.path.join(self.export_dir, "full_datamodel.json")
 
-        for root, _, files in os.walk(self.export_dir):
-            for file in files:
-                if file.endswith(".json"):
-                    file_path = os.path.join(root, file)
-                    with open(file_path, encoding="utf-8") as f:
-                        try:
-                            data_model_json[file] = json.load(f)
-                        except json.JSONDecodeError as err:
-                            self.logger.error(f"Error loading {file}: {err}")
+        if not os.path.exists(json_file_path):
+            self.logger.error(
+                f"Error: {json_file_path} not found. Run the extraction process first."
+            )
+            return (
+                data_model_json  # Return an empty dictionary if the file doesn't exist
+            )
+
+        try:
+            with open(json_file_path, encoding="utf-8") as f:
+                data_model_json = json.load(f)
+        except json.JSONDecodeError as err:
+            self.logger.error(f"Error loading JSON from {json_file_path}: {err}")
 
         return data_model_json
