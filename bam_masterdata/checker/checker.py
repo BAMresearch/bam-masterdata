@@ -3,6 +3,7 @@ import os
 from bam_masterdata.checker.datamodel_loader import DataModelLoader
 from bam_masterdata.checker.masterdata_validator import MasterDataValidator
 from bam_masterdata.checker.source_loader import SourceLoader
+from bam_masterdata.logger import logger
 
 
 class MasterdataChecker:
@@ -25,6 +26,7 @@ class MasterdataChecker:
         )
         self.current_model = None
         self.new_entities = None
+        self.logger = logger
 
     def _load_validation_rules(self, path: str) -> dict:
         """
@@ -53,8 +55,7 @@ class MasterdataChecker:
             raise FileNotFoundError(f"No Python files found in {self.datamodel_dir}")
 
         # Now call DataModelLoader with the list of files
-        loader = DataModelLoader(source_files)
-        self.current_model = loader.parse_pydantic_models()
+        self.current_model = DataModelLoader(source_files).data
 
     def load_new_entities(self, source: str, source_type: str):
         """
