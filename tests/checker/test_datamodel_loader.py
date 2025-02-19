@@ -44,7 +44,7 @@ def test_entities_to_single_dict(
     """Test that entities are correctly extracted and aggregated into a dictionary using real test files."""
 
     # Call function
-    result = DataModelLoader.entities_to_single_dict(sample_module_paths, logger)
+    result = DataModelLoader.entities_to_single_dict(sample_module_paths)
 
     # Expected output dictionary
     expected_output = {
@@ -233,4 +233,6 @@ def test_entities_to_single_dict(
     assert any(
         log_message in log["event"] and log["level"] == log_message_level
         for log in cleared_log_storage
-    ), f"Expected log containing '{log_message}' with level '{log_message_level}' not found in logs: {cleared_log_storage}"
+    ), (
+        f"Expected log containing '{log_message}' with level '{log_message_level}' not found in logs: {cleared_log_storage}"
+    )
