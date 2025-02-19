@@ -53,7 +53,7 @@ class MasterdataChecker:
             raise FileNotFoundError(f"No Python files found in {self.datamodel_dir}")
 
         # Now call DataModelLoader with the list of files
-        loader = DataModelLoader(source_files, export_dir)
+        loader = DataModelLoader(source_files)
         self.current_model = loader.parse_pydantic_models()
 
     def load_new_entities(self, source: str, source_type: str):
