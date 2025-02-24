@@ -369,7 +369,7 @@ def export_to_rdf(force_delete, python_path, export_dir):
 @click.option(
     "--from",
     "from_path",  # alias
-    type=click.Path(exists=True, dir_okay=False),
+    type=click.Path(exists=True, dir_okay=True),
     default="./artifacts/masterdata.xlsx",
     help="""
     The path to the directory containing the Python modules or the individual masterdata Excel file to be checked.
@@ -378,7 +378,7 @@ def export_to_rdf(force_delete, python_path, export_dir):
 @click.option(
     "--to",
     "to_path",  # alias
-    type=click.Path(exists=True, dir_okay=False),
+    type=click.Path(exists=True, dir_okay=True),
     default=DATAMODEL_DIR,
     help="""
     The path to the directory containing the Python modules the the path defined in `from` will be checked with respect to.
