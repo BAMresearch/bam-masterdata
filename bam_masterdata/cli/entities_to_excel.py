@@ -36,15 +36,17 @@ def entities_to_excel(
             worksheet.append([obj.excel_name])
 
             # Entity header definitions and values
-            worksheet.append(obj.excel_headers)
-            row = []
-            for f_set in obj.model_fields.keys():
-                if f_set == "data_type":
+            excel_headers = []
+            row_values = []
+            for field, excel_header in obj.excel_headers_map.items():
+                if field == "data_type":
                     val = obj.data_type.value
                 else:
-                    val = getattr(obj, f_set)
-                row.append(val)
-            worksheet.append(row)
+                    val = getattr(obj, field)
+                row_values.append(val)
+                excel_headers.append(excel_header)
+            worksheet.append(excel_headers)
+            worksheet.append(row_values)
             worksheet.append([""])  # empty row after entity definitions
         return None
 
@@ -64,34 +66,39 @@ def entities_to_excel(
         for def_name, def_cls in def_members:
             if def_name == obj_definitions.name:
                 break
-        worksheet.append(obj_definitions.excel_headers)
-        header_values = [
-            getattr(obj_definitions, f_set) for f_set in def_cls.model_fields.keys()
-        ]
+        # Appending headers and values in worksheet
+        excel_headers = []
+        header_values = []
+        for field, excel_header in obj_definitions.excel_headers_map.items():
+            header_values.append(getattr(obj_definitions, field))
+            excel_headers.append(excel_header)
+        worksheet.append(excel_headers)
         worksheet.append(header_values)
 
         # Properties assignment for ObjectType, DatasetType, and CollectionType
         if obj_instance.cls_name in ["ObjectType", "DatasetType", "CollectionType"]:
             if not obj_instance.properties:
                 continue
-            worksheet.append(obj_instance.properties[0].excel_headers)
+            worksheet.append(
+                list(obj_instance.properties[0].excel_headers_map.values())
+            )
             for prop in obj_instance.properties:
                 row = []
-                for f_set in prop.model_fields.keys():
-                    if f_set == "data_type":
+                for field in prop.excel_headers_map.keys():
+                    if field == "data_type":
                         val = prop.data_type.value
                     else:
-                        val = getattr(prop, f_set)
+                        val = getattr(prop, field)
                     row.append(val)
                 worksheet.append(row)
         # Terms assignment for VocabularyType
         elif obj_instance.cls_name == "VocabularyType":
             if not obj_instance.terms:
                 continue
-            worksheet.append(obj_instance.terms[0].excel_headers)
+            worksheet.append(list(obj_instance.terms[0].excel_headers_map.values()))
             for term in obj_instance.terms:
                 worksheet.append(
-                    getattr(term, f_set) for f_set in term.model_fields.keys()
+                    getattr(term, f_set) for f_set in term.excel_headers_map.keys()
                 )
 
         # ? do the PropertyTypeDef need to be exported to Excel?
