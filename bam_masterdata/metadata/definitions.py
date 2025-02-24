@@ -84,6 +84,15 @@ class EntityDef(BaseModel):
         """,
     )
 
+    row_location: Optional[str] = Field(
+        default=None,
+        description="""
+        Row in the Excel at which the entity type field is defined. It is a string with the format `"<row-letter><row_number>"`.
+        Example: "A1" ot "A107". This field is useful when checking the consistency of Excel files with multiple entity
+        types defined to quickly locate the specific Excel cell which logs a message when applying the `checker` CLI.
+        """,
+    )
+
     # TODO check ontology_id, ontology_version, ontology_annotation_id, internal (found in the openBIS docu)
 
     @field_validator("code")
@@ -125,7 +134,9 @@ class EntityDef(BaseModel):
         """
         Maps the field keys of the Pydantic model into the openBIS Excel style headers.
         """
-        fields = [k for k in self.model_fields.keys() if k != "id"]
+        fields = [
+            k for k in self.model_fields.keys() if k not in ["id", "row_location"]
+        ]
         headers: dict = {}
         for f in fields:
             headers[f] = f.replace("_", " ").capitalize()

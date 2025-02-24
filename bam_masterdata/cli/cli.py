@@ -74,7 +74,17 @@ def cli():
     required=False,
     help="The directory where the Masterdata will be exported to.",
 )
-def fill_masterdata(url, excel_file, export_dir):
+@click.option(
+    "--row-cell-info",
+    type=bool,
+    required=False,
+    default=False,
+    help="""
+    (Optional) If when exporting the masterdata from the Excel file, the information of which row in the Excel
+    each field is defined should be stored (useful for the `checker` CLI).
+    """,
+)
+def fill_masterdata(url, excel_file, export_dir, row_cell_info):
     start_time = time.time()
 
     # Define output directory
@@ -98,7 +108,11 @@ def fill_masterdata(url, excel_file, export_dir):
     # Use the URL if provided, otherwise fall back to defaults
     if excel_file:
         click.echo(f"Using the Masterdata Excel file path: {excel_file}\n")
-        generator = MasterdataCodeGenerator(path=excel_file)
+        if row_cell_info:
+            click.echo("Cell information will be stored in the Python fields.")
+        generator = MasterdataCodeGenerator(
+            path=excel_file, row_cell_info=row_cell_info
+        )
     else:
         if not url:
             url = environ("OPENBIS_URL")
