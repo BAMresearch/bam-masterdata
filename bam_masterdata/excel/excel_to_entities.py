@@ -1,5 +1,3 @@
-import json
-import os
 import re
 from typing import TYPE_CHECKING, Any, Optional, Union
 
@@ -18,11 +16,12 @@ class MasterdataExcelExtractor:
     # TODO move these validation rules to a separate json
     VALIDATION_RULES: dict[str, dict[str, dict[str, Any]]] = {}
 
-    def __init__(self, excel_path: str):
+    def __init__(self, excel_path: str, cell_info: bool, **kwargs):
         """Initialize the MasterdataExtractor."""
         self.excel_path = excel_path
+        self.cell_info = cell_info
         self.workbook = openpyxl.load_workbook(excel_path)
-        self.logger = logger
+        self.logger = kwargs.get("logger", logger)
 
         # Load validation rules at initialization
         if not MasterdataExcelExtractor.VALIDATION_RULES:
@@ -350,7 +349,7 @@ class MasterdataExcelExtractor:
                     ):
                         self.logger.error(
                             f"Invalid {term} value '{cell_value}' in {cell.coordinate} (Sheet: {sheet.title}). "
-                            f"Generated code prefix should be part of the 'Code'."
+                            f"Generated code prefix should be part of the 'Code' {attributes.get('code', '')}."
                         )
 
                 # Handle validation script (allows empty but must match pattern if provided)
@@ -378,6 +377,8 @@ class MasterdataExcelExtractor:
                     cell_value
                 )
 
+        if self.cell_info:
+            attributes["cell_location"] = f"A{start_index_row}"
         return attributes
 
     def properties_to_dict(
@@ -413,6 +414,8 @@ class MasterdataExcelExtractor:
 
         # Initialize a dictionary to store extracted columns
         extracted_columns: dict[str, list] = {term: [] for term in expected_terms}
+        if self.cell_info:
+            extracted_columns["Cell location"] = []
 
         # Extract columns for each expected term
         for term in expected_terms:
@@ -430,6 +433,14 @@ class MasterdataExcelExtractor:
             term_letter = self.index_to_excel_column(term_index)
 
             # Extract values from the column
+            for i in range(header_index + 1, last_non_empty_row + 1):
+                cell = sheet[term_letter + str(i)]
+                extracted_columns[term].append(
+                    self.process_term(term, cell.value, cell.coordinate, sheet.title)
+                )
+                if self.cell_info:
+                    extracted_columns["Cell location"].append(term_letter + str(i))
+
             for cell in sheet[term_letter][header_index:last_non_empty_row]:
                 extracted_columns[term].append(
                     self.process_term(term, cell.value, cell.coordinate, sheet.title)
@@ -448,6 +459,10 @@ class MasterdataExcelExtractor:
                 "dataType": extracted_columns["Data type"][i],
                 "vocabularyCode": extracted_columns["Vocabulary code"][i],
             }
+            if self.cell_info:
+                property_dict[extracted_columns["Code"][i]]["cell_location"] = (
+                    extracted_columns["Cell location"][i]
+                )
 
         return property_dict
 
@@ -574,9 +589,7 @@ class MasterdataExcelExtractor:
         # Return sorted dictionary
         return dict(sorted(complete_dict.items(), key=lambda item: item[0].count(".")))
 
-    def excel_to_entities(
-        self, output_directory: str = "./artifacts/tmp/"
-    ) -> dict[str, dict[str, Any]]:
+    def excel_to_entities(self) -> dict[str, dict[str, Any]]:
         """
         Extracts entities from an Excel file and returns them as a dictionary.
 

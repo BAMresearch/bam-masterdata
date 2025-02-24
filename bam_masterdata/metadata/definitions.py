@@ -84,6 +84,15 @@ class EntityDef(BaseModel):
         """,
     )
 
+    cell_location: Optional[str] = Field(
+        default=None,
+        description="""
+        Cell at which the entity type field is defined. It is a string with the format `"<row-letter><column-number>"`.
+        Example: "A1" ot "A107". This field is useful when checking the consistency of Excel files with multiple entity
+        types defined to quickly locate the specific Excel cell which logs a message when applying the `checker` CLI.
+        """,
+    )
+
     # TODO check ontology_id, ontology_version, ontology_annotation_id, internal (found in the openBIS docu)
 
     @field_validator("code")
@@ -128,7 +137,7 @@ class EntityDef(BaseModel):
         return [
             k.capitalize().replace("_", " ")
             for k in self.model_fields.keys()
-            if k != "id"
+            if k not in ["id", "cell_location"]
         ]
 
     @model_validator(mode="after")

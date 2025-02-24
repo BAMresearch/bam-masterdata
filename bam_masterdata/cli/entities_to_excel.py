@@ -80,6 +80,8 @@ def entities_to_excel(
                 for f_set in prop.model_fields.keys():
                     if f_set == "data_type":
                         val = prop.data_type.value
+                    elif f_set == "cell_location":
+                        continue
                     else:
                         val = getattr(prop, f_set)
                     row.append(val)
@@ -91,7 +93,9 @@ def entities_to_excel(
             worksheet.append(obj_instance.terms[0].excel_headers)
             for term in obj_instance.terms:
                 worksheet.append(
-                    getattr(term, f_set) for f_set in term.model_fields.keys()
+                    getattr(term, f_set)
+                    for f_set in term.model_fields.keys()
+                    if f_set != "cell_location"
                 )
 
         # ? do the PropertyTypeDef need to be exported to Excel?
