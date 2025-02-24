@@ -69,7 +69,29 @@ class EntitiesDict:
     def single_json(self) -> dict:
         """
         Returns a single dictionary containing all the entities in the datamodel defined in the Python files
-        in `python_path`.
+        in `python_path`. The format of this dictionary is:
+            {
+                "collection_type": {
+                    "COLLECTION": {
+                        "defs": {
+                            "code": "COLLECTION",
+                            "description": "",
+                            ...
+                        },
+                        "properties": [
+                            {
+                                "code": "$DEFAULT_COLLECTION_VIEW",
+                                "description": "Default view for experiments of the type collection",
+                                ...
+                            },
+                            {...},
+                            ...
+                        ]
+                    }
+                },
+                "object_type": {...},
+                ...
+            }
 
         Returns:
             dict: A dictionary containing all the entities in the datamodel.
