@@ -3,7 +3,7 @@ import os
 
 import pytest
 
-from bam_masterdata.cli.entities_dict import EntitiesDict
+from bam_masterdata.metadata.entities_dict import EntitiesDict
 
 
 class TestEntitiesDict:
