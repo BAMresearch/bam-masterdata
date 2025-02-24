@@ -20,7 +20,7 @@ class EntitiesDict:
     def __init__(self, python_path: str = "", **kwargs):
         self.python_path = python_path
         self.logger = kwargs.get("logger", logger)
-        self.data = {}
+        self.data: dict = {}
 
     def to_dict(self, module_path: str) -> dict:
         """
@@ -89,7 +89,7 @@ class EntitiesDict:
                     click.echo(
                         "Please fix the duplicated property types before exporting to JSON."
                     )
-                    return
+                    return {}
 
             data = self.to_dict(module_path=module_path)
             # name can be collection_type, object_type, dataset_type, vocabulary_type, or property_type
