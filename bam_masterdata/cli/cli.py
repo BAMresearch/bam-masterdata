@@ -68,13 +68,32 @@ def cli():
     (Optional) The path to the Masterdata Excel file.
     """,
 )
-def fill_masterdata(url, excel_file):
+@click.option(
+    "--cell-info",
+    type=bool,
+    required=False,
+    default=False,
+    help="""
+    (Optional) If when exporting the masterdata from the Excel file, the information of which cell is defined
+    each field should be stored (useful for the `checker` CLI).
+    """,
+)
+@click.option(
+    "--export-dir",
+    type=str,
+    required=False,
+    help="The directory where the Masterdata will be exported to.",
+)
+def fill_masterdata(url, excel_file, cell_info, export_dir):
     start_time = time.time()
 
     # Define output directory
-    output_directory = (
-        os.path.join(DATAMODEL_DIR, "tmp") if excel_file else DATAMODEL_DIR
-    )
+    if export_dir is not None:
+        output_directory = export_dir
+    else:
+        output_directory = (
+            os.path.join(DATAMODEL_DIR, "tmp") if excel_file else DATAMODEL_DIR
+        )
 
     # Ensure the output directory exists
     os.makedirs(output_directory, exist_ok=True)
@@ -89,7 +108,9 @@ def fill_masterdata(url, excel_file):
     # Use the URL if provided, otherwise fall back to defaults
     if excel_file:
         click.echo(f"Using the Masterdata Excel file path: {excel_file}\n")
-        generator = MasterdataCodeGenerator(path=excel_file)
+        if cell_info:
+            click.echo("Cell information will be stored in the Python fields.")
+        generator = MasterdataCodeGenerator(path=excel_file, cell_info=cell_info)
     else:
         if not url:
             url = environ("OPENBIS_URL")
@@ -97,7 +118,8 @@ def fill_masterdata(url, excel_file):
         generator = MasterdataCodeGenerator(url=url)
 
     # Add each module to the `bam_masterdata/datamodel` directory
-    for module_name in ["property", "collection", "dataset", "object", "vocabulary"]:
+    # for module_name in ["property", "collection", "dataset", "object", "vocabulary"]:
+    for module_name in ["property", "object"]:
         module_start_time = time.perf_counter()  # more precise time measurement
         output_file = Path(os.path.join(output_directory, f"{module_name}_types.py"))
 
@@ -337,6 +359,32 @@ def export_to_rdf(force_delete, python_path, export_dir):
     click.echo(
         f"All masterdata has been generated in RDF/XML format and saved to {masterdata_file}"
     )
+
+
+@cli.command(
+    name="checker",
+    help="Checks the files specified in the tag `--from` with respect to the ones specified in `--to`.",
+)
+@click.option(
+    "--from",
+    "from_path",  # alias
+    type=click.Path(exists=True, dir_okay=False),
+    default="./artifacts/masterdata.xlsx",
+    help="""
+    The path to the directory containing the Python modules or the individual masterdata Excel file to be checked.
+    """,
+)
+@click.option(
+    "--to",
+    "to_path",  # alias
+    type=click.Path(exists=True, dir_okay=False),
+    default=DATAMODEL_DIR,
+    help="""
+    The path to the directory containing the Python modules the the path defined in `from` will be checked with respect to.
+    """,
+)
+def checker(from_path, to_path):
+    print(f"From: {from_path}, To: {to_path}")
 
 
 if __name__ == "__main__":

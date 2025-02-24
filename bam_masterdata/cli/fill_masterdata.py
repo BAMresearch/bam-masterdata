@@ -13,8 +13,9 @@ class MasterdataCodeGenerator:
     openBIS instance.
     """
 
-    def __init__(self, url: str = "", path: str = ""):
+    def __init__(self, url: str = "", path: str = "", **kwargs):
         start_time = time.time()
+        self.cell_info = kwargs.get("cell_info", False)
         # * This part takes some time due to the loading of all entities from Openbis
         if url:
             self.properties = OpenbisEntities(url=url).get_property_dict()
@@ -28,7 +29,7 @@ class MasterdataCodeGenerator:
             )
         else:
             entities_dict = MasterdataExcelExtractor(
-                excel_path=path
+                excel_path=path, cell_info=self.cell_info
             ).excel_to_entities()
             self.properties = entities_dict["property_types"]
             self.collections = entities_dict["collection_types"]
@@ -130,6 +131,10 @@ class MasterdataCodeGenerator:
                 .replace("'", "\\'")
             )
             lines.append(f'        section="{section}",')
+            if self.cell_info:
+                lines.append(
+                    f'        cell_location="{prop_data.get("cell_location", "Unknown")}",'
+                )
             lines.append("    )")
             lines.append("")
 
@@ -184,6 +189,10 @@ class MasterdataCodeGenerator:
             if vocabulary_code:
                 lines.append(f'    vocabulary_code="{vocabulary_code}",')
             lines.append(f'    property_label="{property_label}",')
+            if self.cell_info:
+                lines.append(
+                    f'    cell_location="{data.get("cell_location", "Unknown")}",'
+                )
             lines.append(")")
             lines.append("")
 
@@ -240,6 +249,10 @@ class MasterdataCodeGenerator:
                 lines.append(
                     f'        validation_script="{data.get("validationPlugin")}",'
                 )
+            if self.cell_info:
+                lines.append(
+                    f'        cell_location="{data.get("cell_location", "Unknown")}",'
+                )
             lines.append("    )")
             lines.append("")
 
@@ -291,6 +304,10 @@ class MasterdataCodeGenerator:
                 .replace("'", "`")
             )
             lines.append(f'        description="""{description}""",')
+            if self.cell_info:
+                lines.append(
+                    f'        cell_location="{data.get("cell_location", "Unknown")}",'
+                )
             lines.append("    )")
             lines.append("")
 
@@ -345,6 +362,10 @@ class MasterdataCodeGenerator:
             lines.append(
                 f'        generated_code_prefix="{data.get("generatedCodePrefix", "")}",'
             )
+            if self.cell_info:
+                lines.append(
+                    f'        cell_location="{data.get("cell_location", "Unknown")}",'
+                )
             lines.append("    )")
             lines.append("")
 
@@ -399,6 +420,10 @@ class MasterdataCodeGenerator:
                 .replace("'", "`")
             )
             lines.append(f'        description="""{description}""",')
+            if self.cell_info:
+                lines.append(
+                    f'        cell_location="{data.get("cell_location", "Unknown")}",'
+                )
             lines.append("    )")
             lines.append("")
 
@@ -435,6 +460,10 @@ class MasterdataCodeGenerator:
                     .replace("'", "`")
                 )
                 lines.append(f'        description="""{description}""",')
+                if self.cell_info:
+                    lines.append(
+                        f'        cell_location="{term_data.get("cell_location", "Unknown")}",'
+                    )
                 lines.append("    )")
                 lines.append("")
 
