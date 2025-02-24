@@ -653,8 +653,8 @@ def test_extract_value(
             "SAMPLE_TYPE",
             ["ABC123", "ABC_123"],
             {"code": "ABC123", "generatedCodePrefix": "ABC_123"},
-            "Invalid Generated code prefix value 'ABC_123' in B3 (Sheet: TestSheet). Generated code prefix should be part of the 'Code'.",
-            "error",
+            "Invalid Generated code prefix value 'ABC_123' in B3 (Sheet: TestSheet). Generated code prefix should be part of the 'Code' ABC123.",
+            "warning",
         ),
     ],
 )
