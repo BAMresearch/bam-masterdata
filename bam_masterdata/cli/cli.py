@@ -339,5 +339,31 @@ def export_to_rdf(force_delete, python_path, export_dir):
     )
 
 
+@cli.command(
+    name="checker",
+    help="Checks the files specified in the tag `--from` with respect to the ones specified in `--to`.",
+)
+@click.option(
+    "--from",
+    "from_path",  # alias
+    type=click.Path(exists=True, dir_okay=False),
+    default="./artifacts/masterdata.xlsx",
+    help="""
+    The path to the directory containing the Python modules or the individual masterdata Excel file to be checked.
+    """,
+)
+@click.option(
+    "--to",
+    "to_path",  # alias
+    type=click.Path(exists=True, dir_okay=False),
+    default=DATAMODEL_DIR,
+    help="""
+    The path to the directory containing the Python modules the the path defined in `from` will be checked with respect to.
+    """,
+)
+def checker(from_path, to_path):
+    print(f"From: {from_path}, To: {to_path}")
+
+
 if __name__ == "__main__":
     cli()
