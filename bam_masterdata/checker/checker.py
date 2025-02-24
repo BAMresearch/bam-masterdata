@@ -1,4 +1,3 @@
-from bam_masterdata.checker.datamodel_loader import DataModelLoader
 from bam_masterdata.checker.masterdata_validator import MasterDataValidator
 from bam_masterdata.checker.source_loader import SourceLoader
 
