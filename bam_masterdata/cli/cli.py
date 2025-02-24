@@ -1,3 +1,4 @@
+import json
 import os
 import subprocess
 import time
@@ -181,7 +182,13 @@ def fill_masterdata(url, excel_file, export_dir, row_cell_info):
     default="./artifacts",
     help="The directory where the JSON files will be exported. Default is `./artifacts`.",
 )
-def export_to_json(force_delete, python_path, export_dir):
+@click.option(
+    "--single-json",
+    type=bool,
+    default=False,
+    help="Whether the export to JSON is done to a single JSON file. Default is False.",
+)
+def export_to_json(force_delete, python_path, export_dir, single_json):
     # Delete and create the export directory
     if force_delete:
         click.confirm(
@@ -205,7 +212,29 @@ def export_to_json(force_delete, python_path, export_dir):
                     "Please fix the duplicated property types before exporting to JSON."
                 )
                 return
-        entities_to_json(module_path=module_path, export_dir=export_dir, logger=logger)
+
+        # get the data
+        json_data = entities_to_json(module_path=module_path)
+        if single_json:
+            # loading to store everything under keys which are the `code` of the entity and the values the serialized json data
+            # data: dict = {}
+            # for key, val in json_data.items():
+            #     data[key] = json.loads(val)
+            # name can be COLLECTION_TYPE, OBJECT_TYPE, DATASET_TYPE, VOCABULARY_TYPE, or PROPERTY_TYPE
+            name = os.path.basename(module_path).replace(".py", "").upper()
+            output_file = os.path.join(export_dir, f"{name}.json")
+            with open(output_file, "w", encoding="utf-8") as f:
+                json.dump(json_data, f, indent=2)
+        else:
+            # export to specific subfolders for each type of entity (each module)
+            module_export_dir = os.path.join(
+                export_dir, os.path.basename(module_path).replace(".py", "")
+            )
+            delete_and_create_dir(directory_path=module_export_dir, logger=logger)
+            for name, data in json_data.items():
+                output_file = os.path.join(module_export_dir, f"{name}.json")
+                with open(output_file, "w", encoding="utf-8") as f:
+                    json.dump(data, f, indent=2)
 
     click.echo(f"All entity artifacts have been generated and saved to {export_dir}")
 

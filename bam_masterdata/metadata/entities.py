@@ -178,6 +178,23 @@ class BaseEntity(BaseModel):
             except AttributeError:
                 continue
 
+    def model_to_dict(self) -> dict:
+        """
+        Returns the model as a dictionary storing the data `defs` and the property or vocabulary term
+        assignments.
+
+        Returns:
+            dict: The dictionary representation of the model.
+        """
+        data = self.model_dump()
+
+        attr_value = getattr(self, "defs")
+        if isinstance(attr_value, BaseModel):
+            data["defs"] = attr_value.model_dump()
+        else:
+            data["defs"] = attr_value
+        return data
+
     def model_to_json(self, indent: Optional[int] = None) -> str:
         """
         Returns the model as a string in JSON format storing the data `defs` and the property or
@@ -190,26 +207,8 @@ class BaseEntity(BaseModel):
             str: The JSON representation of the model.
         """
         # * `model_dump_json()` from pydantic does not store the `defs` section of each entity.
-        data = self.model_dump()
-
-        attr_value = getattr(self, "defs")
-        if isinstance(attr_value, BaseModel):
-            data["defs"] = attr_value.model_dump()
-        else:
-            data["defs"] = attr_value
-
+        data = self.model_to_dict()
         return json.dumps(data, indent=indent)
-
-    def model_to_dict(self) -> dict:
-        """
-        Returns the model as a dictionary storing the data `defs` and the property or vocabulary term
-        assignments.
-
-        Returns:
-            dict: The dictionary representation of the model.
-        """
-        dump_json = self.model_to_json()
-        return json.loads(dump_json)
 
     # skos:prefLabel used for class names
     # skos:definition used for `description` (en, de)
