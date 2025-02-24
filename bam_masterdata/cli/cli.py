@@ -68,13 +68,22 @@ def cli():
     (Optional) The path to the Masterdata Excel file.
     """,
 )
-def fill_masterdata(url, excel_file):
+@click.option(
+    "--export-dir",
+    type=str,
+    required=False,
+    help="The directory where the Masterdata will be exported to.",
+)
+def fill_masterdata(url, excel_file, export_dir):
     start_time = time.time()
 
     # Define output directory
-    output_directory = (
-        os.path.join(DATAMODEL_DIR, "tmp") if excel_file else DATAMODEL_DIR
-    )
+    if export_dir is not None:
+        output_directory = export_dir
+    else:
+        output_directory = (
+            os.path.join(DATAMODEL_DIR, "tmp") if excel_file else DATAMODEL_DIR
+        )
 
     # Ensure the output directory exists
     os.makedirs(output_directory, exist_ok=True)
@@ -148,7 +157,7 @@ def fill_masterdata(url, excel_file):
     default=DATAMODEL_DIR,
     help="""
     (Optional) The path to the individual Python module or the directory containing the Python modules to process the datamodel.
-    Default is `./bam_masterdata/datamodel/`.
+    Default is the `/datamodel/` directory.
     """,
 )
 @click.option(
@@ -179,7 +188,7 @@ def export_to_json(force_delete, python_path, export_dir):
         if module_path.endswith("property_types.py"):
             if duplicated_property_types(module_path=module_path, logger=logger):
                 click.echo(
-                    "Please fix the duplicated property types before exporting to RDF/XML."
+                    "Please fix the duplicated property types before exporting to JSON."
                 )
                 return
         entities_to_json(module_path=module_path, export_dir=export_dir, logger=logger)
@@ -207,7 +216,7 @@ def export_to_json(force_delete, python_path, export_dir):
     default=DATAMODEL_DIR,
     help="""
     (Optional) The path to the individual Python module or the directory containing the Python modules to process the datamodel.
-    Default is `./bam_masterdata/datamodel/`.
+    Default is the `/datamodel/` directory.
     """,
 )
 @click.option(
@@ -244,7 +253,7 @@ def export_to_excel(force_delete, python_path, export_dir):
         if module_path.endswith("property_types.py"):
             if duplicated_property_types(module_path=module_path, logger=logger):
                 click.echo(
-                    "Please fix the duplicated property types before exporting to RDF/XML."
+                    "Please fix the duplicated property types before exporting to Excel."
                 )
                 return
         if i == 0:

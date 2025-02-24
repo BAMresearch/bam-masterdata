@@ -121,15 +121,15 @@ class EntityDef(BaseModel):
         return name_map.get(self.name)
 
     @property
-    def excel_headers(self) -> list[str]:
+    def excel_headers_map(self) -> dict:
         """
-        Returns the headers for the entity in a format suitable for the openBIS Excel file.
+        Maps the field keys of the Pydantic model into the openBIS Excel style headers.
         """
-        return [
-            k.capitalize().replace("_", " ")
-            for k in self.model_fields.keys()
-            if k != "id"
-        ]
+        fields = [k for k in self.model_fields.keys() if k != "id"]
+        headers: dict = {}
+        for f in fields:
+            headers[f] = f.replace("_", " ").capitalize()
+        return headers
 
     @model_validator(mode="after")
     @classmethod
