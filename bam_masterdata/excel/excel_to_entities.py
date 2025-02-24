@@ -18,11 +18,12 @@ class MasterdataExcelExtractor:
     # TODO move these validation rules to a separate json
     VALIDATION_RULES: dict[str, dict[str, dict[str, Any]]] = {}
 
-    def __init__(self, excel_path: str):
+    def __init__(self, excel_path: str, **kwargs):
         """Initialize the MasterdataExtractor."""
         self.excel_path = excel_path
+        self.row_cell_info = kwargs.get("row_cell_info", False)
         self.workbook = openpyxl.load_workbook(excel_path)
-        self.logger = logger
+        self.logger = kwargs.get("logger", logger)
 
         # Load validation rules at initialization
         if not MasterdataExcelExtractor.VALIDATION_RULES:
@@ -145,7 +146,11 @@ class MasterdataExcelExtractor:
         val = str(value).strip().lower()
         if val not in ["true", "false"]:
             self.logger.error(
-                f"Invalid {term.lower()} value found in the {term} column at position {coordinate} in {sheet_title}. Accepted values: TRUE or FALSE."
+                f"Invalid {term.lower()} value found in the {term} column at position {coordinate} in {sheet_title}. Accepted values: TRUE or FALSE.",
+                term=term,
+                cell_value=val,
+                cell_coordinate=coordinate,
+                sheet_title=sheet_title,
             )
         return val == "true"
 
@@ -180,26 +185,52 @@ class MasterdataExcelExtractor:
             if not re.match(r".*//.*", val):
                 self.logger.error(
                     error_message
-                    + "Description should follow the schema: English Description + '//' + German Description. "
+                    + "Description should follow the schema: English Description + '//' + German Description. ",
+                    term=term,
+                    cell_value=val,
+                    cell_coordinate=coordinate,
+                    sheet_title=sheet_title,
                 )
         elif is_code:
             if not re.match(r"^\$?[A-Z0-9_.]+$", val):
-                self.logger.error(error_message)
+                self.logger.error(
+                    error_message,
+                    term=term,
+                    cell_value=val,
+                    cell_coordinate=coordinate,
+                    sheet_title=sheet_title,
+                )
         elif is_data:
             if val not in [dt.value for dt in DataType]:
                 self.logger.error(
                     error_message
-                    + f"The Data Type should be one of the following: {[dt.value for dt in DataType]}"
+                    + f"The Data Type should be one of the following: {[dt.value for dt in DataType]}",
+                    term=term,
+                    cell_value=val,
+                    cell_coordinate=coordinate,
+                    sheet_title=sheet_title,
                 )
                 val = val.upper()
         elif is_url:
             if not re.match(
                 r"https?://(?:www\.)?[a-zA-Z0-9-._~:/?#@!$&'()*+,;=%]+", val
             ):
-                self.logger.error(error_message)
+                self.logger.error(
+                    error_message,
+                    term=term,
+                    cell_value=val,
+                    cell_coordinate=coordinate,
+                    sheet_title=sheet_title,
+                )
         else:
             if not re.match(r".*", val):
-                self.logger.error(error_message)
+                self.logger.error(
+                    error_message,
+                    term=term,
+                    cell_value=val,
+                    cell_coordinate=coordinate,
+                    sheet_title=sheet_title,
+                )
         return val
 
     # Helper function to process each term
@@ -283,7 +314,13 @@ class MasterdataExcelExtractor:
             error_message += " It should be an URL or empty"
 
         if not validated:
-            self.logger.error(error_message)
+            self.logger.error(
+                error_message,
+                cell_value=value,
+                sheet_title=sheet.title,
+                row=row,
+                column=column,
+            )
 
         return value or ""
 
@@ -313,7 +350,7 @@ class MasterdataExcelExtractor:
 
         for term in expected_terms:
             if term not in header_terms:
-                self.logger.error(f"{term} not found in the headers.")
+                self.logger.error(f"{term} not found in the headers.", term=term)
             else:
                 term_index = header_terms.index(term)
                 cell = sheet.cell(row=start_index_row + 2, column=term_index + 1)
@@ -337,7 +374,11 @@ class MasterdataExcelExtractor:
                 elif self.VALIDATION_RULES[entity_type][term].get("is_data"):
                     if cell_value not in [dt.value for dt in DataType]:
                         self.logger.error(
-                            f"Invalid Data Type: {cell_value} in {cell.coordinate} (Sheet: {sheet.title}). Should be one of the following: {[dt.value for dt in DataType]}"
+                            f"Invalid Data Type: {cell_value} in {cell.coordinate} (Sheet: {sheet.title}). Should be one of the following: {[dt.value for dt in DataType]}",
+                            term=term,
+                            cell_value=cell_value,
+                            cell_coordinate=cell.coordinate,
+                            sheet_title=sheet.title,
                         )
 
                 # Handle additional validation for "Generated code prefix"
@@ -348,9 +389,13 @@ class MasterdataExcelExtractor:
                     if not self.is_reduced_version(
                         cell_value, attributes.get("code", "")
                     ):
-                        self.logger.error(
+                        self.logger.warning(
                             f"Invalid {term} value '{cell_value}' in {cell.coordinate} (Sheet: {sheet.title}). "
-                            f"Generated code prefix should be part of the 'Code'."
+                            f"Generated code prefix should be part of the 'Code' {attributes.get('code', '')}.",
+                            term=term,
+                            cell_value=cell_value,
+                            cell_coordinate=cell.coordinate,
+                            sheet_title=sheet.title,
                         )
 
                 # Handle validation script (allows empty but must match pattern if provided)
@@ -370,7 +415,10 @@ class MasterdataExcelExtractor:
                     )
                     if not re.match(url_pattern, str(cell_value)):
                         self.logger.error(
-                            f"Invalid URL format: {cell_value} in {cell.coordinate} (Sheet: {sheet.title})"
+                            f"Invalid URL format: {cell_value} in {cell.coordinate} (Sheet: {sheet.title})",
+                            cell_value=cell_value,
+                            cell_coordinate=cell.coordinate,
+                            sheet_title=sheet.title,
                         )
 
                 # Add the extracted value to the attributes dictionary
@@ -378,6 +426,8 @@ class MasterdataExcelExtractor:
                     cell_value
                 )
 
+        if self.row_cell_info:
+            attributes["row_location"] = f"A{start_index_row}"
         return attributes
 
     def properties_to_dict(
@@ -413,6 +463,8 @@ class MasterdataExcelExtractor:
 
         # Initialize a dictionary to store extracted columns
         extracted_columns: dict[str, list] = {term: [] for term in expected_terms}
+        if self.row_cell_info:
+            extracted_columns["Row location"] = []
 
         # Extract columns for each expected term
         for term in expected_terms:
@@ -422,7 +474,7 @@ class MasterdataExcelExtractor:
                     if term in ("Mandatory", "Show in edit views", "Section")
                     else self.logger.error
                 )
-                log_func(f"'{term}' not found in the properties headers.")
+                log_func(f"'{term}' not found in the properties headers.", term=term)
                 continue
 
             # Get column index and Excel letter
@@ -430,10 +482,17 @@ class MasterdataExcelExtractor:
             term_letter = self.index_to_excel_column(term_index)
 
             # Extract values from the column
-            for cell in sheet[term_letter][header_index:last_non_empty_row]:
+            for i in range(header_index + 1, last_non_empty_row + 1):
+                cell = sheet[term_letter + str(i)]
                 extracted_columns[term].append(
                     self.process_term(term, cell.value, cell.coordinate, sheet.title)
                 )
+                if self.row_cell_info:
+                    extracted_columns["Row location"].append(term_letter + str(i))
+            # for cell in sheet[term_letter][header_index:last_non_empty_row]:
+            #     extracted_columns[term].append(
+            #         self.process_term(term, cell.value, cell.coordinate, sheet.title)
+            #     )
 
         # Combine extracted values into a dictionary
         for i in range(len(extracted_columns["Code"])):
@@ -448,6 +507,10 @@ class MasterdataExcelExtractor:
                 "dataType": extracted_columns["Data type"][i],
                 "vocabularyCode": extracted_columns["Vocabulary code"][i],
             }
+            if self.row_cell_info:
+                property_dict[extracted_columns["Code"][i]]["row_location"] = (
+                    extracted_columns["Row location"][i]
+                )
 
         return property_dict
 
@@ -496,7 +559,9 @@ class MasterdataExcelExtractor:
         # Extract columns for each expected term
         for term in expected_terms:
             if term not in row_headers:
-                self.logger.warning(f"{term} not found in the properties headers.")
+                self.logger.warning(
+                    f"{term} not found in the properties headers.", term=term
+                )
                 continue
 
             # Get column index and Excel letter
@@ -574,9 +639,7 @@ class MasterdataExcelExtractor:
         # Return sorted dictionary
         return dict(sorted(complete_dict.items(), key=lambda item: item[0].count(".")))
 
-    def excel_to_entities(
-        self, output_directory: str = "./artifacts/tmp/"
-    ) -> dict[str, dict[str, Any]]:
+    def excel_to_entities(self) -> dict[str, dict[str, Any]]:
         """
         Extracts entities from an Excel file and returns them as a dictionary.
 

@@ -13,8 +13,9 @@ class MasterdataCodeGenerator:
     openBIS instance.
     """
 
-    def __init__(self, url: str = "", path: str = ""):
+    def __init__(self, url: str = "", path: str = "", **kwargs):
         start_time = time.time()
+        self.row_cell_info = kwargs.get("row_cell_info", False)
         # * This part takes some time due to the loading of all entities from Openbis
         if url:
             self.properties = OpenbisEntities(url=url).get_property_dict()
@@ -28,13 +29,13 @@ class MasterdataCodeGenerator:
             )
         else:
             entities_dict = MasterdataExcelExtractor(
-                excel_path=path
+                excel_path=path, row_cell_info=self.row_cell_info
             ).excel_to_entities()
-            self.properties = entities_dict["property_types"]
-            self.collections = entities_dict["collection_types"]
-            self.datasets = entities_dict["dataset_types"]
-            self.objects = entities_dict["object_types"]
-            self.vocabularies = entities_dict["vocabulary_types"]
+            self.properties = entities_dict.get("property_types", {})
+            self.collections = entities_dict.get("collection_types", {})
+            self.datasets = entities_dict.get("dataset_types", {})
+            self.objects = entities_dict.get("object_types", {})
+            self.vocabularies = entities_dict.get("vocabulary_types", {})
             elapsed_time = time.time() - start_time
             click.echo(
                 f"Loaded Masterdata excel entities in `MasterdataCodeGenerator` initialization {elapsed_time:.2f} seconds\n"
