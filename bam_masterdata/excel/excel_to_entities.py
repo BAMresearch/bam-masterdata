@@ -670,80 +670,48 @@ class MasterdataExcelExtractor:
 
             sheets_dict[normalized_sheet_name] = {}
 
+            consecutive_empty_rows = 0  # Track consecutive empty rows
             while start_row <= sheet.max_row:
-                # Find the last non-empty row of the current block
-                last_non_empty_row = self.get_last_non_empty_row(sheet, start_row)
-
-                # Check if we've reached the end of the sheet or found two consecutive empty rows
-                if last_non_empty_row is None:
-                    if i == len(sheet_names) - 1:  # Check if it's the last sheet
-                        self.logger.info(
-                            f"Last sheet {sheet_name} processed. End of the file reached."
-                        )
-                    else:
-                        self.logger.info(
-                            f"End of the current sheet {sheet_name} reached. Switching to next sheet..."
-                        )
-                    break
-
-                # **Process the block and mark that we found content**
-                sheets_dict[normalized_sheet_name] = self.block_to_entity_dict(
-                    sheet,
-                    start_row,
-                    last_non_empty_row,
-                    sheets_dict[normalized_sheet_name],
-                )
-                has_content = True  # Found at least one valid entity block
-
-                # Update start_row to the row after the empty row
-                consecutive_empty_rows = 0  # Track empty row count
-                start_row = last_non_empty_row + 1
-
-                while start_row <= sheet.max_row:
-                    is_row_empty = all(
-                        sheet.cell(row=start_row, column=col).value in (None, "")
-                        for col in range(1, sheet.max_column + 1)
-                    )
-
-                    if is_row_empty:
-                        consecutive_empty_rows += 1
-                        start_row += 1  # Move to the next row
-
-                        if consecutive_empty_rows >= 2:  # Stop processing the sheet
-                            return sheets_dict  # Ensure function exits immediately!
-                    else:
-                        consecutive_empty_rows = (
-                            0  # Reset counter if a non-empty row is found
-                        )
-
-                        last_non_empty_row = self.get_last_non_empty_row(
-                            sheet, start_row
-                        )
-                        sheets_dict[normalized_sheet_name] = self.block_to_entity_dict(
-                            sheet,
-                            start_row,
-                            last_non_empty_row,
-                            sheets_dict[normalized_sheet_name],
-                        )
-
-                        start_row = (
-                            last_non_empty_row + 1
-                        )  # Move to the next entity block
-
-                # Check if there are two consecutive empty rows
-                if start_row > sheet.max_row or all(
+                # **Check for two consecutive empty rows**
+                is_row_empty = all(
                     sheet.cell(row=start_row, column=col).value in (None, "")
                     for col in range(1, sheet.max_column + 1)
-                ):
-                    if i == len(sheet_names) - 1:  # Check if it's the last sheet
-                        self.logger.info(
-                            f"Last sheet {sheet_name} processed. End of the file reached."
-                        )
-                    else:
-                        self.logger.info(
-                            f"End of the current sheet {sheet_name} reached. Switching to next sheet..."
-                        )
-                    break
+                )
+
+                if is_row_empty:
+                    consecutive_empty_rows += 1
+                    if consecutive_empty_rows >= 2:
+                        # **Reached the end of the sheet, move to the next**
+                        if i == len(sheet_names) - 1:
+                            self.logger.info(
+                                f"Last sheet {sheet_name} processed. End of the file reached."
+                            )
+                        else:
+                            self.logger.info(
+                                f"End of the current sheet {sheet_name} reached. Switching to next sheet..."
+                            )
+                        break  # Stop processing this sheet
+                else:
+                    consecutive_empty_rows = 0  # Reset if we find a non-empty row
+
+                    # **Process the entity block**
+                    last_non_empty_row = self.get_last_non_empty_row(sheet, start_row)
+                    if last_non_empty_row is None:
+                        break  # No more valid blocks
+
+                    sheets_dict[normalized_sheet_name] = self.block_to_entity_dict(
+                        sheet,
+                        start_row,
+                        last_non_empty_row,
+                        sheets_dict[normalized_sheet_name],
+                    )
+                    has_content = True  # Found valid content
+
+                    # Move to the next entity block
+                    start_row = last_non_empty_row + 1
+                    continue  # Continue loop without increasing consecutive_empty_rows
+
+                start_row += 1  # Move to the next row
 
         # **If no sheets had content, return an empty dictionary**
         if not has_content:

@@ -74,7 +74,7 @@ class DataModelLoader:
             module = import_module(module_path=module_path)
             module_name = os.path.basename(module_path).replace(".py", "")
 
-            # ✅ Special case for property_types.py
+            # Special case for property_types.py
             if "property_types.py" in module_path:
                 for name, obj in inspect.getmembers(module):
                     if name.startswith("_") or name == "PropertyTypeDef":
