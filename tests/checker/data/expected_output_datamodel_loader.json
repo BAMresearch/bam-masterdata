@@ -1,0 +1,190 @@
+{
+  "collection_types": {
+    "COLLECTION": {
+      "properties": [
+        {
+          "code": "$DEFAULT_OBJECT_TYPE",
+          "description": "Enter the code of the object type for which the collection is used",
+          "id": "DefaultObjectType",
+          "row_location": null,
+          "property_label": "Default object type",
+          "data_type": "VARCHAR",
+          "vocabulary_code": null,
+          "object_code": null,
+          "metadata": null,
+          "dynamic_script": null,
+          "mandatory": false,
+          "show_in_edit_views": false,
+          "section": "General info",
+          "unique": null,
+          "internal_assignment": null
+        },
+        {
+          "code": "$NAME",
+          "description": "Name",
+          "id": "Name",
+          "row_location": null,
+          "property_label": "Name",
+          "data_type": "VARCHAR",
+          "vocabulary_code": null,
+          "object_code": null,
+          "metadata": null,
+          "dynamic_script": null,
+          "mandatory": false,
+          "show_in_edit_views": false,
+          "section": "General info",
+          "unique": null,
+          "internal_assignment": null
+        }
+      ],
+      "defs": {
+        "code": "COLLECTION",
+        "description": "",
+        "id": "Collection",
+        "row_location": null,
+        "validation_script": null
+      }
+    },
+    "DEFAULT_EXPERIMENT": {
+      "properties": [
+        {
+          "code": "DEFAULT_EXPERIMENT.EXPERIMENTAL_DESCRIPTION",
+          "description": "Description of the experiment",
+          "id": "DefaultExperimentExperimentalDescription",
+          "row_location": null,
+          "property_label": "Description",
+          "data_type": "MULTILINE_VARCHAR",
+          "vocabulary_code": null,
+          "object_code": null,
+          "metadata": null,
+          "dynamic_script": null,
+          "mandatory": false,
+          "show_in_edit_views": false,
+          "section": "Experimental details",
+          "unique": null,
+          "internal_assignment": null
+        },
+        {
+          "code": "DEFAULT_EXPERIMENT.EXPERIMENTAL_GOALS",
+          "description": "Goals of the experiment",
+          "id": "DefaultExperimentExperimentalGoals",
+          "row_location": null,
+          "property_label": "Goals",
+          "data_type": "MULTILINE_VARCHAR",
+          "vocabulary_code": null,
+          "object_code": null,
+          "metadata": null,
+          "dynamic_script": null,
+          "mandatory": false,
+          "show_in_edit_views": false,
+          "section": "Experimental details",
+          "unique": null,
+          "internal_assignment": null
+        }
+      ],
+      "defs": {
+        "code": "DEFAULT_EXPERIMENT",
+        "description": "",
+        "id": "DefaultExperiment",
+        "row_location": null,
+        "validation_script": "DEFAULT_EXPERIMENT.date_range_validation"
+      }
+    }
+  },
+  "object_types": {
+    "ACTION": {
+      "properties": [
+        {
+          "code": "$NAME",
+          "description": "Name",
+          "id": "Name",
+          "row_location": null,
+          "property_label": "Name",
+          "data_type": "MULTILINE_VARCHAR",
+          "vocabulary_code": null,
+          "object_code": null,
+          "metadata": null,
+          "dynamic_script": null,
+          "mandatory": false,
+          "show_in_edit_views": false,
+          "section": "Device ID",
+          "unique": null,
+          "internal_assignment": null
+        },
+        {
+          "code": "$XMLCOMMENTS",
+          "description": "Comments log",
+          "id": "Xmlcomments",
+          "row_location": null,
+          "property_label": "Comments",
+          "data_type": "HYPERLINK",
+          "vocabulary_code": null,
+          "object_code": null,
+          "metadata": null,
+          "dynamic_script": null,
+          "mandatory": false,
+          "show_in_edit_views": false,
+          "section": "Additional Information",
+          "unique": null,
+          "internal_assignment": null
+        }
+      ],
+      "defs": {
+        "code": "ACTION",
+        "description": "This Object allows to store information on an action by a user.//Dieses Objekt erlaubt eine Nutzer-Aktion zu beschreiben.",
+        "id": "Action",
+        "row_location": null,
+        "validation_script": null,
+        "generated_code_prefix": "ACT",
+        "auto_generated_codes": true
+      }
+    },
+    "AUXILIARY_MATERIAL": {
+      "properties": [
+        {
+          "code": "ALIAS",
+          "description": "e.g. abbreviation or nickname//z.B. Abk\u00fcrzung oder Spitzname",
+          "id": "Alias",
+          "row_location": null,
+          "property_label": "Alternative Name",
+          "data_type": "INTEGER",
+          "vocabulary_code": null,
+          "object_code": null,
+          "metadata": null,
+          "dynamic_script": null,
+          "mandatory": false,
+          "show_in_edit_views": false,
+          "section": "General Information",
+          "unique": null,
+          "internal_assignment": null
+        },
+        {
+          "code": "$ANNOTATIONS_STATE",
+          "description": "Annotations State",
+          "id": "AnnotationsState",
+          "row_location": null,
+          "property_label": "Annotations State",
+          "data_type": "REAL",
+          "vocabulary_code": null,
+          "object_code": null,
+          "metadata": null,
+          "dynamic_script": null,
+          "mandatory": false,
+          "show_in_edit_views": false,
+          "section": "Comments",
+          "unique": null,
+          "internal_assignment": null
+        }
+      ],
+      "defs": {
+        "code": "AUXILIARY_MATERIAL",
+        "description": "Auxiliary Material//Hilfsstoff",
+        "id": "AuxiliaryMaterial",
+        "row_location": null,
+        "validation_script": null,
+        "generated_code_prefix": "AUX_MAT",
+        "auto_generated_codes": true
+      }
+    }
+  }
+}

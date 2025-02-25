@@ -40,37 +40,47 @@ class MasterdataChecker:
 
         Uses the default datamodel directory unless overridden.
         """
-        export_dir = "bam_masterdata/checker/tmp/datamodel"
-        os.makedirs(export_dir, exist_ok=True)  # Ensure export directory exists
-
-        # List all Python files in the datamodel directory (same as CLI behavior)
-        source_files = [
-            os.path.join(self.datamodel_dir, f)
-            for f in os.listdir(self.datamodel_dir)
-            if f.endswith(".py")
-        ]
-
-        # Ensure we found Python files
-        if not source_files:
-            raise FileNotFoundError(f"No Python files found in {self.datamodel_dir}")
-
-        # Now call DataModelLoader with the list of files
-        self.current_model = DataModelLoader(source_files).data
+        self.logger.info(f"Loading current data model from: {self.datamodel_dir}")
+        self.current_model = DataModelLoader(self.datamodel_dir).data
 
     def load_new_entities(self, source: str, source_type: str):
         """
         Load new entities from various sources (Python classes, Excel, etc.).
         """
-        # loader = SourceLoader(source, source_type)
-        # self.new_entities = loader.load()
+        self.logger.info(f"Loading new entities from: {source} (Type: {source_type})")
+        loader = SourceLoader(source, source_type)
+        self.new_entities = loader.load()
 
     def validate(self, mode: str = "all") -> dict:
         """
-        Run validations. Mode can be:
-        - "self" -> Validate only the new entity structure.
-        - "compare" -> Validate new entities against current model.
+        Run validations.
+
+        Modes:
+        - "self" -> Validate only the current data model.
+        - "incoming" -> Validate only the new entity structure.
+        - "compare" -> Validate new entities against the current model.
         - "all" -> Run both validation types.
+
+        Before running, ensure that required models are loaded based on the mode.
+
+        Returns:
+            dict: Validation results.
         """
+        # Validate mode selection
+        valid_modes = {"self", "incoming", "compare", "all"}
+        if mode not in valid_modes:
+            raise ValueError(f"Invalid mode: {mode}. Choose from {valid_modes}.")
+
+        # Load required models based on the selected mode
+        if mode in {"self", "compare", "all"} and self.current_model is None:
+            self.logger.info("Current model is missing. Loading now...")
+            self.load_current_model()
+
+        if mode in {"incoming", "compare", "all"} and self.new_entities is None:
+            raise ValueError(
+                "New entities must be loaded before validation in 'incoming', 'compare', or 'all' modes."
+            )
+
         validator = MasterDataValidator(
             self.new_entities, self.current_model, self.validation_rules
         )

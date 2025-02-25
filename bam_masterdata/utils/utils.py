@@ -82,7 +82,13 @@ def listdir_py_modules(
 
     # Filter out files that start with '_'
     # ! sorted in order to avoid using with OS sorting differently
-    return sorted([f for f in files if not os.path.basename(f).startswith("_")])
+    return sorted(
+        [
+            f
+            for f in files
+            if not os.path.basename(f).startswith("_") and "tmp" not in f.split(os.sep)
+        ]
+    )
 
 
 def import_module(module_path: str) -> Any:
