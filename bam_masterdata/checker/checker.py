@@ -47,9 +47,9 @@ class MasterdataChecker:
         """
         Load new entities from various sources (Python classes, Excel, etc.).
         """
-        self.logger.info(f"Loading new entities from: {source} (Type: {source_type})")
-        loader = SourceLoader(source, source_type)
-        self.new_entities = loader.load()
+        # self.logger.info(f"Loading new entities from: {source} (Type: {source_type})")
+        # loader = SourceLoader(source, source_type)
+        # self.new_entities = loader.load()
 
     def validate(self, mode: str = "all") -> dict:
         """
