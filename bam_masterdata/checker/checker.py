@@ -40,8 +40,27 @@ class MasterdataChecker:
 
         Uses the default datamodel directory unless overridden.
         """
+<<<<<<< HEAD
         self.logger.info(f"Loading current data model from: {self.datamodel_dir}")
         self.current_model = DataModelLoader(self.datamodel_dir).data
+=======
+        export_dir = "bam_masterdata/checker/tmp/datamodel"
+        os.makedirs(export_dir, exist_ok=True)  # Ensure export directory exists
+
+        # List all Python files in the datamodel directory (same as CLI behavior)
+        source_files = [
+            os.path.join(self.datamodel_dir, f)
+            for f in os.listdir(self.datamodel_dir)
+            if f.endswith(".py")
+        ]
+
+        # Ensure we found Python files
+        if not source_files:
+            raise FileNotFoundError(f"No Python files found in {self.datamodel_dir}")
+
+        # Now call DataModelLoader with the list of files
+        self.current_model = DataModelLoader(source_files).data
+>>>>>>> 3e1c0f647499112e50bf6118aad054efc1816c03
 
     def load_new_entities(self, source: str, source_type: str):
         """
