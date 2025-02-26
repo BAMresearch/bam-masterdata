@@ -41,7 +41,7 @@ class MasterdataChecker:
         Uses the default datamodel directory unless overridden.
         """
         self.logger.info(f"Loading current data model from: {self.datamodel_dir}")
-        entities_dict = EntitiesDict(python_path=self.source_dir, logger=self.logger)
+        entities_dict = EntitiesDict(python_path=self.datamodel_dir, logger=self.logger)
         self.current_model = entities_dict.single_json()
 
     def load_new_entities(self, source: str, source_type: str):
