@@ -1,8 +1,8 @@
 import os
 
-from bam_masterdata.checker.datamodel_loader import DataModelLoader
 from bam_masterdata.checker.masterdata_validator import MasterDataValidator
 from bam_masterdata.checker.source_loader import SourceLoader
+from bam_masterdata.cli.entities_dict import EntitiesDict
 from bam_masterdata.logger import logger
 
 
@@ -41,7 +41,8 @@ class MasterdataChecker:
         Uses the default datamodel directory unless overridden.
         """
         self.logger.info(f"Loading current data model from: {self.datamodel_dir}")
-        self.current_model = DataModelLoader(self.datamodel_dir).data
+        entities_dict = EntitiesDict(python_path=self.source_dir, logger=self.logger)
+        self.current_model = entities_dict.single_json()
 
     def load_new_entities(self, source: str, source_type: str):
         """
