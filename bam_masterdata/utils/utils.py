@@ -199,3 +199,13 @@ def duplicated_property_types(module_path: str, logger: "BoundLoggerLazyProxy") 
             f"where the keys are the names of the variables in property_types.py and the values are the lines in the module: {duplicated_props}"
         )
     return duplicated_props
+
+
+def format_json_id(value):
+    """Converts snake_case or UPPER_CASE to PascalCase while keeping special cases like '$NAME' untouched."""
+    if value.startswith("$"):
+        # Remove "$" and apply PascalCase transformation
+        value = value[1:]
+    return "".join(
+        word.capitalize() for word in re.split(r"[\._]", value)
+    )  # PascalCase
