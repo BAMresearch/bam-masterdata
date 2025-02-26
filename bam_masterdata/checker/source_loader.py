@@ -29,6 +29,10 @@ class SourceLoader:
 
         Returns:
             dict: A dictionary containing the entities.
+        Load entities from the source path into a dictionary.
+
+        Returns:
+            dict: A dictionary containing the entities.
         """
         if self.source_type == "python":
             return EntitiesDict(python_path=self.source_path).single_json()
