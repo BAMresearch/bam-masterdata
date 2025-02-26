@@ -2,8 +2,8 @@ import os
 
 from bam_masterdata.checker.masterdata_validator import MasterDataValidator
 from bam_masterdata.checker.source_loader import SourceLoader
-from bam_masterdata.cli.entities_dict import EntitiesDict
 from bam_masterdata.logger import logger
+from bam_masterdata.metadata.entities_dict import EntitiesDict
 
 
 class MasterdataChecker:
