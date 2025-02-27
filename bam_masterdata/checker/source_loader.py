@@ -1,7 +1,6 @@
-import json
-import re
+import glob
+import os
 
-from bam_masterdata.cli.fill_masterdata import MasterdataCodeGenerator
 from bam_masterdata.excel.excel_to_entities import MasterdataExcelExtractor
 from bam_masterdata.logger import logger
 from bam_masterdata.metadata.entities_dict import EntitiesDict
@@ -16,12 +15,19 @@ class SourceLoader:
 
     def __init__(self, source_path: str, **kwargs):
         self.source_path = source_path
-        if self.source_path.endswith(".py"):
+        self.logger = kwargs.get("logger", logger)
+        self.row_cell_info = kwargs.get("row_cell_info", True)
+        # Check if the path is a single .py file OR a directory containing .py files
+        if self.source_path.endswith(".py") or (
+            os.path.isdir(self.source_path)
+            and any(glob.glob(os.path.join(self.source_path, "*.py")))
+        ):
             self.source_type = "python"
         elif self.source_path.endswith(".xlsx"):
             self.source_type = "excel"
-        self.logger = kwargs.get("logger", logger)
-        self.row_cell_info = kwargs.get("row_cell_info", True)
+        else:
+            self.source_type = None
+            self.logger.warning(f"Unsupported source type for path: {source_path}")
 
     def load(self) -> dict:
         """
@@ -29,11 +35,8 @@ class SourceLoader:
 
         Returns:
             dict: A dictionary containing the entities.
-        Load entities from the source path into a dictionary.
-
-        Returns:
-            dict: A dictionary containing the entities.
         """
+        logger.info(f"Source type: {self.source_type}")
         if self.source_type == "python":
             return EntitiesDict(python_path=self.source_path).single_json()
         elif self.source_type == "excel":
@@ -43,11 +46,10 @@ class SourceLoader:
 
     def entities_to_json(self):
         """
-        Transforms the JSON generated from the SourceLoader into the desired format.
+        Transforms the dictionary of entities returned by the Excel extractor into a dictionary in JSON format for later check.
 
-        Args:
-            input_json_path (str): Path to the input JSON file.
-            output_json_path (str): Path to save the transformed JSON file.
+        Returns:
+            dict: A dictionary containing the transformed entities.
         """
 
         excel_entities = MasterdataExcelExtractor(
@@ -125,4 +127,4 @@ class SourceLoader:
         # with open(output_json_path, "w", encoding="utf-8") as json_file:
         #     json.dump(transformed_data, json_file, indent=2, ensure_ascii=False)
 
-        # print(f"✅ Transformed JSON saved at: {output_json_path}")
+        # print(f"Transformed JSON saved at: {output_json_path}")
