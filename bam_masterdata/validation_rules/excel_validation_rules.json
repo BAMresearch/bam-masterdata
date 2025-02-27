@@ -34,7 +34,7 @@
     "Description": {"key": "description", "pattern": ".*", "is_description": true},
     "Validation script": {
       "key": "validationPlugin",
-      "pattern": "^[A-Za-z0-9_]+\\.py$",
+      "pattern": "^[A-Za-z0-9_\\.]+$",
       "allow_empty": true
     }
   },
