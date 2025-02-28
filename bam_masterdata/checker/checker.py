@@ -2,8 +2,8 @@ import os
 
 from bam_masterdata.checker.masterdata_validator import MasterDataValidator
 from bam_masterdata.checker.source_loader import SourceLoader
-from bam_masterdata.cli.entities_dict import EntitiesDict
 from bam_masterdata.logger import logger
+from bam_masterdata.metadata.entities_dict import EntitiesDict
 
 
 class MasterdataChecker:
@@ -24,8 +24,8 @@ class MasterdataChecker:
         self.datamodel_dir = (
             datamodel_dir  # Allows overriding the default datamodel directory
         )
-        self.current_model = None
-        self.new_entities = None
+        self.current_model: dict = None
+        self.new_entities: dict = None
         self.logger = logger
 
     def _load_validation_rules(self, path: str) -> dict:
@@ -44,13 +44,13 @@ class MasterdataChecker:
         entities_dict = EntitiesDict(python_path=self.datamodel_dir, logger=self.logger)
         self.current_model = entities_dict.single_json()
 
-    def load_new_entities(self, source: str, source_type: str):
+    def load_new_entities(self, source: str):
         """
         Load new entities from various sources (Python classes, Excel, etc.).
         """
-        # self.logger.info(f"Loading new entities from: {source} (Type: {source_type})")
-        # loader = SourceLoader(source, source_type)
-        # self.new_entities = loader.load()
+        self.logger.info(f"Loading new entities from: {source}")
+        loader = SourceLoader(source)
+        self.new_entities = loader.load()
 
     def validate(self, mode: str = "all") -> dict:
         """

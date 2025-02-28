@@ -9,11 +9,11 @@ from decouple import config as environ
 from openpyxl import Workbook
 from rdflib import Graph
 
-from bam_masterdata.cli.entities_dict import EntitiesDict
 from bam_masterdata.cli.entities_to_excel import entities_to_excel
 from bam_masterdata.cli.entities_to_rdf import entities_to_rdf
 from bam_masterdata.cli.fill_masterdata import MasterdataCodeGenerator
 from bam_masterdata.logger import logger
+from bam_masterdata.metadata.entities_dict import EntitiesDict
 from bam_masterdata.utils import (
     delete_and_create_dir,
     duplicated_property_types,
