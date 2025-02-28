@@ -4,7 +4,7 @@ import os
 from bam_masterdata.excel.excel_to_entities import MasterdataExcelExtractor
 from bam_masterdata.logger import logger
 from bam_masterdata.metadata.entities_dict import EntitiesDict
-from bam_masterdata.utils import format_json_id
+from bam_masterdata.utils import convert_enums, format_json_id
 
 
 class SourceLoader:
@@ -36,9 +36,11 @@ class SourceLoader:
         Returns:
             dict: A dictionary containing the entities.
         """
-        logger.info(f"Source type: {self.source_type}")
+        self.logger.info(f"Source type: {self.source_type}")
         if self.source_type == "python":
-            return EntitiesDict(python_path=self.source_path).single_json()
+            return convert_enums(
+                EntitiesDict(python_path=self.source_path).single_json()
+            )
         elif self.source_type == "excel":
             return self.entities_to_json()
         else:
