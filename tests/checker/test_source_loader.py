@@ -204,7 +204,13 @@ def test_source_loader_load_excel(expected_transformed_data):
         result_dict = source_loader.load()
 
         assert remove_row_location(result_dict) == expected_transformed_data
-        mock_logger.assert_called_with("Source type: excel")
+
+        # Extract all logged messages
+        log_messages = [call.args[0] for call in mock_logger.call_args_list]
+
+        # Ensure both messages are present
+        assert "Source type: excel" in log_messages
+        assert "Validation rules successfully loaded." in log_messages
 
 
 def test_source_loader_load_python(expected_transformed_data):
