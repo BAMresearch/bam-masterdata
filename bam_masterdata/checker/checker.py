@@ -24,8 +24,8 @@ class MasterdataChecker:
         self.datamodel_dir = (
             datamodel_dir  # Allows overriding the default datamodel directory
         )
-        self.current_model: dict = {}
-        self.new_entities: dict = {}
+        self.current_model: dict = None
+        self.new_entities: dict = None
         self.logger = logger
 
     def _load_validation_rules(self, path: str) -> dict:

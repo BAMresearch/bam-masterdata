@@ -5,6 +5,7 @@ import json
 import os
 import re
 import shutil
+from enum import Enum
 from itertools import chain
 from typing import TYPE_CHECKING, Any, Optional
 
@@ -151,7 +152,7 @@ def load_validation_rules(
         with open(file_path, encoding="utf-8") as file:
             validation_rules = json.load(file)
 
-        logger.info("Validation rules successfully loaded.")
+        # logger.info("Validation rules successfully loaded.")
 
         return validation_rules
 
@@ -209,3 +210,13 @@ def format_json_id(value):
     return "".join(
         word.capitalize() for word in re.split(r"[\._]", value)
     )  # PascalCase
+
+
+def convert_enums(obj):
+    if isinstance(obj, dict):
+        return {k: convert_enums(v) for k, v in obj.items()}
+    elif isinstance(obj, list):
+        return [convert_enums(i) for i in obj]
+    elif isinstance(obj, Enum):  # Convert Enum to string
+        return obj.value
+    return obj
