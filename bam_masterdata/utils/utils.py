@@ -152,7 +152,7 @@ def load_validation_rules(
         with open(file_path, encoding="utf-8") as file:
             validation_rules = json.load(file)
 
-        # logger.info("Validation rules successfully loaded.")
+        logger.info("Validation rules successfully loaded.")
 
         return validation_rules
 
