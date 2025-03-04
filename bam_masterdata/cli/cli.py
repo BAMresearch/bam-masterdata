@@ -126,13 +126,19 @@ def fill_masterdata(url, excel_file, export_dir, row_cell_info):
         output_file = Path(os.path.join(output_directory, f"{module_name}_types.py"))
 
         # Get the method from `MasterdataCodeGenerator`
-        code = getattr(generator, f"generate_{module_name}_types")()
-        code = code.rstrip("\n") + "\n"
-        output_file.write_text(code, encoding="utf-8")
-        module_elapsed_time = time.perf_counter() - module_start_time
-        click.echo(
-            f"Generated {module_name} types in {module_elapsed_time:.2f} seconds in {output_file}\n"
-        )
+        code = getattr(generator, f"generate_{module_name}_types")().rstrip()
+        # code = code.rstrip("\n")
+
+        logger.warning(f"Code for {module_name} types: {code} of type {type(code)}")
+
+        if code != "":
+            output_file.write_text(code + "\n", encoding="utf-8")
+            module_elapsed_time = time.perf_counter() - module_start_time
+            click.echo(
+                f"Generated {module_name} types in {module_elapsed_time:.2f} seconds in {output_file}\n"
+            )
+        else:
+            click.echo(f"Skipping {module_name}_types.py (empty entity data)")
 
     elapsed_time = time.time() - start_time
     click.echo(f"Generated all types in {elapsed_time:.2f} seconds\n\n")
