@@ -45,7 +45,9 @@
       "key": "validationPlugin",
       "pattern": "^[A-Za-z0-9_]+\\.py$",
       "allow_empty": true
-    }
+    },
+    "Main dataset pattern": {"key": "main_dataset_pattern", "pattern": ".*", "allow_empty": true},
+    "Main dataset path": {"key": "main_dataset_path", "pattern": ".*", "allow_empty": true}
   },
   "PROPERTY_TYPE": {
     "Code": {"key": "code", "pattern": "^\\$?[A-Za-z0-9_.]+$"},

@@ -127,9 +127,6 @@ def fill_masterdata(url, excel_file, export_dir, row_cell_info):
 
         # Get the method from `MasterdataCodeGenerator`
         code = getattr(generator, f"generate_{module_name}_types")().rstrip()
-        # code = code.rstrip("\n")
-
-        logger.warning(f"Code for {module_name} types: {code} of type {type(code)}")
 
         if code != "":
             output_file.write_text(code + "\n", encoding="utf-8")
