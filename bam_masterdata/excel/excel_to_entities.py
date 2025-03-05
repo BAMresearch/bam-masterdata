@@ -403,7 +403,7 @@ class MasterdataExcelExtractor:
                     self.VALIDATION_RULES[entity_type][term].get("allow_empty")
                     and not cell_value
                 ):
-                    cell_value = ""
+                    cell_value = None
 
                 # Handle URL template validation (allows empty but must be a valid URL)
                 elif (
