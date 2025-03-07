@@ -1,5 +1,6 @@
 import inspect
 import os
+import re
 
 import click
 
@@ -39,28 +40,90 @@ class EntitiesDict:
         # initializing the dictionary with keys as the `code` of the entity and values the json dumped data
         data: dict = {}
 
-        # Special case of `PropertyTypeDef` in `property_types.py`
+        # Read the module source code and store line numbers
+        with open(module_path, encoding="utf-8") as f:
+            module_source = f.readlines()
+
+        # Detect class definitions (entity types)
+        class_locations = {
+            match.group(1): i + 1  # Store line number (1-based index)
+            for i, line in enumerate(module_source)
+            if (match := re.match(r"^\s*class\s+(\w+)\s*\(.*\):", line))
+        }
+
+        # Detect property assignments (`PropertyTypeAssignment(...)`)
+        property_locations = {
+            match.group(1): i + 1
+            for i, line in enumerate(module_source)
+            if (match := re.search(r"^\s*(\w+)\s*=\s*PropertyTypeAssignment\(", line))
+        }
+
+        # Detect vocabulary terms (`VocabularyTerm(...)`)
+        vocabulary_term_locations = {
+            match.group(1): i + 1
+            for i, line in enumerate(module_source)
+            if (match := re.search(r"^\s*(\w+)\s*=\s*VocabularyTerm\(", line))
+        }
+
+        # Special case for property types
         if "property_types.py" in module_path:
+            property_type_locations = {
+                match.group(1): i + 1
+                for i, line in enumerate(module_source)
+                if (match := re.match(r"^\s*(\w+)\s*=\s*PropertyTypeDef\(", line))
+            }
+
             for name, obj in inspect.getmembers(module):
                 if name.startswith("_") or name == "PropertyTypeDef":
                     continue
                 try:
-                    data[obj.code] = obj.model_dump()
+                    obj_data = obj.model_dump()
+                    obj_data["row_location"] = property_type_locations.get(
+                        name, None
+                    )  # Assign correct row number
+                    data[obj.code] = obj_data
                 except Exception as err:
-                    click.echo(
-                        f"Failed to process class {name} in {module_path}: {err}"
-                    )
+                    print(f"Failed to process property {name} in {module_path}: {err}")
             return data
-
-        # All other datamodel modules
+        # Process all classes in the module
         for name, obj in inspect.getmembers(module, inspect.isclass):
-            # Ensure the class has the `model_to_json` method
             if not hasattr(obj, "defs") or not callable(getattr(obj, "model_to_dict")):
                 continue
-
             try:
-                # Instantiate the class and call the method
-                data[obj.defs.code] = obj().model_to_dict()
+                obj_data = obj().model_to_dict()
+
+                # Assign row_location to class (defs)
+                obj_data["defs"]["row_location"] = class_locations.get(name, None)
+
+                if "properties" in obj_data:
+                    # Processing standard properties (PropertyTypeAssignment)
+                    for prop in obj_data["properties"]:
+                        prop_id = (
+                            prop["code"].lower().replace(".", "_").replace("$", "")
+                        )
+                        matched_key = next(
+                            (key for key in property_locations if key == prop_id),
+                            None,
+                        )
+                        prop["row_location"] = property_locations.get(matched_key, None)
+
+                elif "terms" in obj_data:
+                    # Processing vocabulary terms (VocabularyTerm)
+                    for term in obj_data["terms"]:
+                        term_id = term["code"].lower().replace(".", "_")
+                        matched_key = next(
+                            (
+                                key
+                                for key in vocabulary_term_locations
+                                if key == term_id
+                            ),
+                            None,
+                        )
+                        term["row_location"] = vocabulary_term_locations.get(
+                            matched_key, None
+                        )
+
+                data[obj.defs.code] = obj_data
             except Exception as err:
                 click.echo(f"Failed to process class {name} in {module_path}: {err}")
 
