@@ -733,6 +733,10 @@ def test_process_entity(
                 "Property label",
                 "Data type",
                 "Vocabulary code",
+                "Metadata",
+                "Dynamic script",
+                "Unique",
+                "Internal assignment",
             ],
             [
                 [
@@ -744,6 +748,10 @@ def test_process_entity(
                     "Property Label",
                     "INTEGER",
                     "VOCAB_ABC",
+                    "Meta info",
+                    "Script example",
+                    "True",
+                    "Internal logic",
                 ],
                 [
                     "PROP_002",
@@ -754,6 +762,10 @@ def test_process_entity(
                     "Another Label",
                     "BOOLEAN",
                     "VOCAB_DEF",
+                    None,  # Metadata not provided
+                    None,  # Dynamic script not provided
+                    None,  # Unique
+                    None,  # Internal assignment not provided
                 ],
             ],
             6,
@@ -768,6 +780,10 @@ def test_process_entity(
                     "label": "Property Label",
                     "dataType": "INTEGER",
                     "vocabularyCode": "VOCAB_ABC",
+                    "metadata": "Meta info",
+                    "dynamic_script": "Script example",
+                    "unique": "True",
+                    "internal_assignment": "Internal logic",
                 },
                 "PROP_002": {
                     "permId": "PROP_002",
@@ -779,6 +795,10 @@ def test_process_entity(
                     "label": "Another Label",
                     "dataType": "BOOLEAN",
                     "vocabularyCode": "VOCAB_DEF",
+                    "metadata": None,
+                    "dynamic_script": None,
+                    "unique": None,
+                    "internal_assignment": None,
                 },
             },
             None,
@@ -794,6 +814,10 @@ def test_process_entity(
                 "Section",
                 "Property label",
                 "Vocabulary code",
+                "Metadata",
+                "Dynamic script",
+                "Unique",
+                "Internal assignment",
             ],  # Missing "Data type"
             [
                 [
@@ -804,6 +828,10 @@ def test_process_entity(
                     "General",
                     "Property Label",
                     "VOCAB_ABC",
+                    "Meta info",
+                    "Script example",
+                    "True",
+                    "Internal logic",
                 ]
             ],
             4,
@@ -822,6 +850,10 @@ def test_process_entity(
                 "Property label",
                 "Data type",
                 "Vocabulary code",
+                "Metadata",
+                "Dynamic script",
+                "Unique",
+                "Internal assignment",
             ],
             [
                 [
@@ -833,6 +865,10 @@ def test_process_entity(
                     "Property Label",
                     "INVALID_TYPE",
                     "VOCAB_ABC",
+                    "Meta info",
+                    "Script example",
+                    "True",
+                    "Internal logic",
                 ]
             ],
             5,
@@ -847,6 +883,10 @@ def test_process_entity(
                     "label": "Property Label",
                     "dataType": "INVALID_TYPE",
                     "vocabularyCode": "VOCAB_ABC",
+                    "metadata": "Meta info",
+                    "dynamic_script": "Script example",
+                    "unique": "True",
+                    "internal_assignment": "Internal logic",
                 }
             },
             f"Invalid data type value found in the Data type column at position G5 in TestSheet.The Data Type should be one of the following: {[dt.value for dt in DataType]}",
@@ -862,6 +902,10 @@ def test_process_entity(
                 "Property label",
                 "Data type",
                 "Vocabulary code",
+                "Metadata",
+                "Dynamic script",
+                "Unique",
+                "Internal assignment",
             ],  # Missing "Code"
             [
                 [
@@ -872,6 +916,10 @@ def test_process_entity(
                     "Label",
                     "INTEGER",
                     "VOCAB_ABC",
+                    "Meta info",
+                    "Script example",
+                    "True",
+                    "Internal logic",
                 ]
             ],
             4,
@@ -1357,7 +1405,7 @@ def test_block_to_entity_dict(
                     "SAMPLE_002": {
                         "code": "SAMPLE_002",
                         "description": "Another Sample",
-                        "validationPlugin": "",
+                        "validationPlugin": None,
                         "generatedCodePrefix": "SAM_002",
                         "autoGeneratedCode": False,
                         "properties": {},
@@ -1373,7 +1421,7 @@ def test_block_to_entity_dict(
                     "COLL_002": {
                         "code": "COLL_002",
                         "description": "Another Collection",
-                        "validationPlugin": "",
+                        "validationPlugin": None,
                         "properties": {},
                     },
                 },
