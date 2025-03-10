@@ -147,9 +147,12 @@ class MasterdataCodeGenerator:
         """
         lines = []
 
-        # Add imports at the top
-        lines.append("from bam_masterdata.metadata.definitions import PropertyTypeDef")
-        lines.append("")
+        if self.properties != {}:
+            # Add imports at the top
+            lines.append(
+                "from bam_masterdata.metadata.definitions import PropertyTypeDef"
+            )
+            lines.append("")
 
         # Process each property type
         for code, data in self.properties.items():
@@ -204,13 +207,14 @@ class MasterdataCodeGenerator:
         lines = []
         class_names: dict = {}
 
-        # Add imports at the top
-        lines.append(
-            "from bam_masterdata.metadata.definitions import CollectionTypeDef, PropertyTypeAssignment"
-        )
-        lines.append("from bam_masterdata.metadata.entities import CollectionType")
-        lines.append("")
-        lines.append("")
+        if self.collections != {}:
+            # Add imports at the top
+            lines.append(
+                "from bam_masterdata.metadata.definitions import CollectionTypeDef, PropertyTypeAssignment"
+            )
+            lines.append("from bam_masterdata.metadata.entities import CollectionType")
+            lines.append("")
+            lines.append("")
 
         # Process each collection type
         for code, data in self.collections.items():
@@ -262,13 +266,14 @@ class MasterdataCodeGenerator:
         lines = []
         class_names: dict = {}
 
-        # Add imports at the top
-        lines.append(
-            "from bam_masterdata.metadata.definitions import DatasetTypeDef, PropertyTypeAssignment"
-        )
-        lines.append("from bam_masterdata.metadata.entities import DatasetType")
-        lines.append("")
-        lines.append("")
+        if self.datasets != {}:
+            # Add imports at the top
+            lines.append(
+                "from bam_masterdata.metadata.definitions import DatasetTypeDef, PropertyTypeAssignment"
+            )
+            lines.append("from bam_masterdata.metadata.entities import DatasetType")
+            lines.append("")
+            lines.append("")
 
         # Process each dataset type
         for code, data in self.datasets.items():
@@ -313,13 +318,14 @@ class MasterdataCodeGenerator:
         lines = []
         class_names: dict = {}
 
-        # Add imports at the top
-        lines.append(
-            "from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment"
-        )
-        lines.append("from bam_masterdata.metadata.entities import ObjectType")
-        lines.append("")
-        lines.append("")
+        if self.objects != {}:
+            # Add imports at the top
+            lines.append(
+                "from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment"
+            )
+            lines.append("from bam_masterdata.metadata.entities import ObjectType")
+            lines.append("")
+            lines.append("")
 
         # Process each object type
         for code, data in self.objects.items():
@@ -367,13 +373,14 @@ class MasterdataCodeGenerator:
         lines = []
         class_names: dict = {}
 
-        # Add imports at the top
-        lines.append(
-            "from bam_masterdata.metadata.definitions import VocabularyTerm, VocabularyTypeDef"
-        )
-        lines.append("from bam_masterdata.metadata.entities import VocabularyType")
-        lines.append("")
-        lines.append("")
+        if self.vocabularies != {}:
+            # Add imports at the top
+            lines.append(
+                "from bam_masterdata.metadata.definitions import VocabularyTerm, VocabularyTypeDef"
+            )
+            lines.append("from bam_masterdata.metadata.entities import VocabularyType")
+            lines.append("")
+            lines.append("")
 
         # Process each object type
         for code, data in self.vocabularies.items():

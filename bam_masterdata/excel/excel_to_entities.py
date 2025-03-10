@@ -403,7 +403,7 @@ class MasterdataExcelExtractor:
                     self.VALIDATION_RULES[entity_type][term].get("allow_empty")
                     and not cell_value
                 ):
-                    cell_value = ""
+                    cell_value = None
 
                 # Handle URL template validation (allows empty but must be a valid URL)
                 elif (
@@ -455,6 +455,10 @@ class MasterdataExcelExtractor:
             "Property label",
             "Data type",
             "Vocabulary code",
+            "Metadata",
+            "Dynamic script",
+            "Unique",
+            "Internal assignment",
         ]
 
         # Determine the header row index
@@ -471,7 +475,17 @@ class MasterdataExcelExtractor:
             if term not in row_headers:
                 log_func = (
                     self.logger.warning
-                    if term in ("Mandatory", "Show in edit views", "Section")
+                    if term
+                    in (
+                        "Mandatory",
+                        "Show in edit views",
+                        "Section",
+                        "Metadata",
+                        "Dynamic script",
+                        "Unique",
+                        "Internal assignment",
+                        "Vocabulary code",
+                    )
                     else self.logger.error
                 )
                 log_func(f"'{term}' not found in the properties headers.", term=term)
@@ -511,6 +525,22 @@ class MasterdataExcelExtractor:
                 property_dict[extracted_columns["Code"][i]]["row_location"] = (
                     extracted_columns["Row location"][i]
                 )
+            # Only add optional fields if they exist in extracted_columns
+            optional_fields = [
+                "Metadata",
+                "Dynamic script",
+                "Unique",
+                "Internal assignment",
+            ]
+            for field in optional_fields:
+                if (
+                    field in extracted_columns
+                ):  # Check if the field exists in the extracted columns
+                    if extracted_columns[field][i] == "":
+                        extracted_columns[field][i] = None
+                    property_dict[extracted_columns["Code"][i]][
+                        field.lower().replace(" ", "_")
+                    ] = extracted_columns[field][i]
 
         return property_dict
 
