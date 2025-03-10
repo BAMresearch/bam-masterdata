@@ -52,7 +52,7 @@ class EntitiesDict:
         }
 
         # Detect property assignments (`PropertyTypeAssignment(...)`) with class context
-        property_locations = {}
+        property_locations: dict = {}
         current_class = None
 
         for i, line in enumerate(module_source):
@@ -68,7 +68,7 @@ class EntitiesDict:
                 property_locations[current_class][property_name] = i + 1
 
         # Detect vocabulary terms (`VocabularyTerm(...)`) with class context
-        vocabulary_term_locations = {}
+        vocabulary_term_locations: dict = {}
         current_vocab_class = None
 
         for i, line in enumerate(module_source):
