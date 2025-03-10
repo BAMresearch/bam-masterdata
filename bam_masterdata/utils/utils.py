@@ -142,7 +142,7 @@ def code_to_class_name(
 
 def load_validation_rules(
     logger: "BoundLoggerLazyProxy",
-    file_path: str = "./bam_masterdata/validation_rules/excel_validation_rules.json",
+    file_path: str = "./bam_masterdata/checker/validation_rules/validation_rules.json",
 ):
     if not os.path.exists(file_path):
         logger.error(f"Validation rules file not found: {file_path}")
@@ -159,9 +159,6 @@ def load_validation_rules(
     except json.JSONDecodeError as e:
         logger.error(f"Error parsing validation rules JSON: {e}")
         raise ValueError(f"Error parsing validation rules JSON: {e}")
-
-
-from pathlib import Path
 
 
 def duplicated_property_types(module_path: str, logger: "BoundLoggerLazyProxy") -> dict:

@@ -4,6 +4,7 @@ from bam_masterdata.checker.masterdata_validator import MasterDataValidator
 from bam_masterdata.checker.source_loader import SourceLoader
 from bam_masterdata.logger import logger
 from bam_masterdata.metadata.entities_dict import EntitiesDict
+from bam_masterdata.utils import load_validation_rules
 
 
 class MasterdataChecker:
@@ -20,19 +21,43 @@ class MasterdataChecker:
             datamodel_dir (str, optional): Directory where the Python datamodel files are located.
                                            Defaults to "bam_masterdata/datamodel".
         """
-        self.validation_rules = self._load_validation_rules(validation_rules_path)
+        self.validation_rules_path = (
+            validation_rules_path  # Store the base directory path
+        )
         self.datamodel_dir = (
             datamodel_dir  # Allows overriding the default datamodel directory
         )
         self.current_model: dict = None
         self.new_entities: dict = None
         self.logger = logger
+        self.validation_rules = {}  # Initialize empty validation rules
 
-    def _load_validation_rules(self, path: str) -> dict:
+    def _load_validation_rules(self, mode: str) -> dict:
         """
-        Load validation rules from a JSON file.
+        Load validation rules dynamically based on the validation mode using utils.load_validation_rules.
+
+        Args:
+            mode (str): The validation mode ("self", "incoming", "compare", "all").
+
+        Returns:
+            dict: The validation rules loaded from the corresponding JSON file.
         """
-        pass
+        rule_file_map = {
+            "self": "self_validation_rules.json",
+            "incoming": "incoming_validation_rules.json",
+            "compare": "compare_validation_rules.json",
+            "all": "all_validation_rules.json",
+        }
+
+        rule_file = rule_file_map.get(mode)
+        if not rule_file:
+            raise ValueError(f"No rule file found for mode: {mode}")
+
+        rule_path = os.path.join(self.validation_rules_dir, rule_file)
+
+        return load_validation_rules(
+            self.logger, rule_path
+        )  # Use the existing function
 
     def load_current_model(self):
         """
@@ -81,6 +106,9 @@ class MasterdataChecker:
             raise ValueError(
                 "New entities must be loaded before validation in 'incoming', 'compare', or 'all' modes."
             )
+
+        # Load the appropriate validation rules based on the mode
+        self.validation_rules = self._load_validation_rules(mode)
 
         validator = MasterDataValidator(
             self.new_entities, self.current_model, self.validation_rules

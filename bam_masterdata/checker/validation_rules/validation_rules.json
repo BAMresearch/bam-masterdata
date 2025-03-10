@@ -1,0 +1,80 @@
+{
+  "code": {
+    "pattern": "^\\$?[A-Za-z0-9_.]+$"
+  },
+  "description": {
+    "pattern": ".*",
+    "is_description": true
+  },
+  "validation_script": {
+    "pattern": "^[A-Za-z0-9_\\.]+$",
+    "allow_empty": true
+  },
+  "auto_generated_codes": {
+    "is_bool": true
+  },
+  "main_dataset_pattern": {
+    "pattern": ".*",
+    "allow_empty": true
+  },
+  "main_dataset_path": {
+    "pattern": ".*",
+    "allow_empty": true
+  },
+  "property_label": {
+    "pattern": ".*"
+  },
+  "data_type": {
+    "is_data": true
+  },
+  "vocabulary_code": {
+    "pattern": "^\\$?[A-Za-z0-9_.]+$",
+    "allow_empty": true
+  },
+  "object_code": {
+    "pattern": "^\\$?[A-Za-z0-9_.]+$",
+    "allow_empty": true
+  },
+  "metadata": {
+    "pattern": ".*",
+    "allow_empty": true
+  },
+  "url_template": {
+    "pattern": "https?://(?:www\\.)?[a-zA-Z0-9-._~:/?#@!$&'()*+,;=%]+",
+    "is_url": true,
+    "allow_empty": true
+  },
+  "row_location": {
+    "pattern": "^[A-Za-z]+\\d+$|^\\d+$",
+    "description": "Excel cell location (letters + numbers) or Python line number (only numbers)."
+  },
+  "dynamic_script": {
+    "pattern": "^[A-Za-z0-9_\\.]+$",
+    "allow_empty": true
+  },
+  "mandatory": {
+    "is_bool": true
+  },
+  "show_in_edit_views": {
+    "is_bool": true
+  },
+  "section": {
+    "pattern": ".*"
+  },
+  "unique": {
+    "is_bool": true,
+    "allow_empty": true
+  },
+  "internal_assignment": {
+    "pattern": ".*",
+    "allow_empty": true
+  },
+  "generated_code_prefix": {
+    "pattern": ".*",
+    "extra_validation": "is_reduced_version"
+  },
+  "official": {
+    "is_bool": true,
+    "allow_empty": true
+  }
+}
