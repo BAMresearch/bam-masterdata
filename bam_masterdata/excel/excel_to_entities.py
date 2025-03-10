@@ -27,7 +27,10 @@ class MasterdataExcelExtractor:
 
         # Load validation rules at initialization
         if not MasterdataExcelExtractor.VALIDATION_RULES:
-            self.VALIDATION_RULES = load_validation_rules(self.logger)
+            self.VALIDATION_RULES = load_validation_rules(
+                self.logger,
+                file_path="./bam_masterdata/checker/validation_rules/excel_validation_rules.json",
+            )
 
     def index_to_excel_column(self, index: int) -> str:
         """
