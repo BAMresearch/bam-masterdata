@@ -84,7 +84,8 @@ class MasterdataChecker:
         Modes:
         - "self" -> Validate only the current data model.
         - "incoming" -> Validate only the new entity structure.
-        - "compare" -> Validate new entities against the current model.
+        - "validate" -> Validate both the current model and new entities.
+        - "compare" -> Compare new entities against the current model.
         - "all" -> Run both validation types.
 
         Before running, ensure that required models are loaded based on the mode.
@@ -93,18 +94,24 @@ class MasterdataChecker:
             dict: Validation results.
         """
         # Validate mode selection
-        valid_modes = {"self", "incoming", "compare", "all"}
+        valid_modes = {"self", "incoming", "validate", "compare", "all"}
         if mode not in valid_modes:
             raise ValueError(f"Invalid mode: {mode}. Choose from {valid_modes}.")
 
         # Load required models based on the selected mode
-        if mode in {"self", "compare", "all"} and self.current_model is None:
+        if (
+            mode in {"self", "validate", "compare", "all"}
+            and self.current_model is None
+        ):
             self.logger.info("Current model is missing. Loading now...")
             self.load_current_model()
 
-        if mode in {"incoming", "compare", "all"} and self.new_entities is None:
+        if (
+            mode in {"incoming", "validate", "compare", "all"}
+            and self.new_entities is None
+        ):
             raise ValueError(
-                "New entities must be loaded before validation in 'incoming', 'compare', or 'all' modes."
+                "New entities must be loaded before validation in 'incoming', 'validate', 'compare', or 'all' modes."
             )
 
         # Load the appropriate validation rules based on the mode

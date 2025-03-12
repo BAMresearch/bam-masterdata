@@ -5,6 +5,7 @@ from .utils import (
     duplicated_property_types,
     format_json_id,
     import_module,
+    is_reduced_version,
     listdir_py_modules,
     load_validation_rules,
 )

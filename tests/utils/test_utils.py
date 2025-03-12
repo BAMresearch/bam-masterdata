@@ -12,6 +12,7 @@ from bam_masterdata.utils import (
     delete_and_create_dir,
     duplicated_property_types,
     import_module,
+    is_reduced_version,
     listdir_py_modules,
     load_validation_rules,
 )
@@ -292,3 +293,25 @@ def test_duplicated_property_types(cleared_log_storage: list, path: str, result:
     if result:
         assert cleared_log_storage[0]["level"] == "critical"
         assert "Found 1 duplicated property types" in cleared_log_storage[0]["event"]
+
+
+# Tests for `is_reduced_version`
+@pytest.mark.parametrize(
+    "generated_code, full_code, expected_result",
+    [
+        ("ABC", "ABC", True),  # Identical codes
+        ("ABC", "ABC_DEF", True),  # Not a reduced version
+        ("ABC.DEF", "ABC.DEF.GHI", True),  # Matching delimiter (.)
+        ("ABC_DEF", "ABC_DEF_GHI", True),  # Matching delimiter (_)
+        ("ABC.DEF", "ABC_DEF_GHI", False),  # Mismatched delimiters
+        ("", "AAA", False),  # Not a reduced version, but function returns True
+        ("INS_ANS", "INSTRUMENT", False),  # Contains INS, but no reduced version
+        ("ABC.DEF", "ABC_DEF", False),  # Error: the symbol is not the same
+        ("ABC_DEF", "ABC.DEF.GHI", False),  # Matching delimiter (_)
+        ("ABC.DEF.GHI", "ABC.DEF", False),  # Longer than original code
+    ],
+)
+def test_is_reduced_version(generated_code, full_code, expected_result):
+    """Tests whether generated_code_value is a reduced version of code."""
+    result = is_reduced_version(generated_code, full_code)
+    assert result == expected_result
