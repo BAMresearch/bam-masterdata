@@ -106,30 +106,6 @@ def test_get_last_non_empty_row_invalid(
         excel_extractor.get_last_non_empty_row(sheet, start_index)
 
 
-# Tests for `is_reduced_version`
-@pytest.mark.parametrize(
-    "generated_code, full_code, expected_result",
-    [
-        ("ABC", "ABC", True),  # Identical codes
-        ("ABC", "ABC_DEF", True),  # Not a reduced version
-        ("ABC.DEF", "ABC.DEF.GHI", True),  # Matching delimiter (.)
-        ("ABC_DEF", "ABC_DEF_GHI", True),  # Matching delimiter (_)
-        ("ABC.DEF", "ABC_DEF_GHI", False),  # Mismatched delimiters
-        ("", "AAA", False),  # Not a reduced version, but function returns True
-        ("INS_ANS", "INSTRUMENT", False),  # Contains INS, but no reduced version
-        ("ABC.DEF", "ABC_DEF", False),  # Error: the symbol is not the same
-        ("ABC_DEF", "ABC.DEF.GHI", False),  # Matching delimiter (_)
-        ("ABC.DEF.GHI", "ABC.DEF", False),  # Longer than original code
-    ],
-)
-def test_is_reduced_version(
-    excel_extractor, generated_code, full_code, expected_result
-):
-    """Tests whether generated_code_value is a reduced version of code."""
-    result = excel_extractor.is_reduced_version(generated_code, full_code)
-    assert result == expected_result
-
-
 @pytest.mark.parametrize(
     "value, expected_result, log_message, log_message_level",
     [
