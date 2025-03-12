@@ -19,10 +19,10 @@ class MasterDataValidator:
         self.current_model = current_model
         self.validation_rules = validation_rules
         self.logger = logger
-        self.log_msgs = []
-        self.validation_results = {}
+        self.log_msgs: list = []
+        self.validation_results: dict = {}
 
-    def checker(self, mode: str = "all") -> dict:
+    def validate(self, mode: str = "all") -> dict:
         """
         Run validations based on mode:
         - "self": Validate current model structure and format.
@@ -204,6 +204,14 @@ class MasterDataValidator:
                         "The generated code should be a part of the code.",
                     )
 
+    def _compare_with_current_model(
+        self, current_model: dict, incoming_model: dict
+    ) -> dict:
+        """
+        Compare new entities against the current model using validation rules.
+        """
+        pass
+
     def _store_log(
         self,
         entity_ref,
@@ -247,12 +255,6 @@ class MasterDataValidator:
 
         self.log_msgs.append(log_message)
 
-    def _compare_with_current_model(self) -> dict:
-        """
-        Compare new entities against the current model using validation rules.
-        """
-        pass
-
     def _extract_log_messages(self, model: dict) -> dict:
         """
         Extracts and structures the _log_msgs from the validated entities.
@@ -263,7 +265,7 @@ class MasterDataValidator:
         Returns:
             dict: A dictionary containing only the _log_msgs structured by entity type and entity name.
         """
-        simplified_logs = {}
+        simplified_logs: dict = {}
 
         for entity_type, entities in model.items():
             for entity_name, entity_data in entities.items():
