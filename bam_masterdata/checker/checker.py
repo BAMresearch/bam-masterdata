@@ -10,7 +10,7 @@ from bam_masterdata.utils import load_validation_rules
 class MasterdataChecker:
     def __init__(
         self,
-        validation_rules_path: str,
+        validation_rules_path: str = "bam_masterdata/checker/validation_rules",
         datamodel_dir: str = "bam_masterdata/datamodel",
     ):
         """
@@ -30,21 +30,22 @@ class MasterdataChecker:
         self.current_model: dict = None
         self.new_entities: dict = None
         self.logger = logger
-        self.validation_rules = {}  # Initialize empty validation rules
+        self.validation_rules: dict = {}  # Initialize empty validation rules
 
     def _load_validation_rules(self, mode: str) -> dict:
         """
         Load validation rules dynamically based on the validation mode using utils.load_validation_rules.
 
         Args:
-            mode (str): The validation mode ("self", "incoming", "compare", "all").
+            mode (str): The validation mode ("self", "incoming", "validate", "compare", "all").
 
         Returns:
             dict: The validation rules loaded from the corresponding JSON file.
         """
         rule_file_map = {
-            "self": "self_validation_rules.json",
-            "incoming": "incoming_validation_rules.json",
+            "self": "validation_rules.json",
+            "incoming": "validation_rules.json",
+            "validate": "validation_rules.json",
             "compare": "compare_validation_rules.json",
             "all": "all_validation_rules.json",
         }
@@ -53,7 +54,7 @@ class MasterdataChecker:
         if not rule_file:
             raise ValueError(f"No rule file found for mode: {mode}")
 
-        rule_path = os.path.join(self.validation_rules_dir, rule_file)
+        rule_path = os.path.join(self.validation_rules_path, rule_file)
 
         return load_validation_rules(
             self.logger, rule_path
