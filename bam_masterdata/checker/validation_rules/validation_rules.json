@@ -87,7 +87,7 @@
   },
   "terms_validation": {
     "code": {
-      "pattern": "^\\$?[A-Za-z0-9_.]+$"
+      "pattern": "^\\$?[A-Za-z0-9_.-]+$"
     },
     "description": {
       "pattern": ".*"

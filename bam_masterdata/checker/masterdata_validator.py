@@ -150,6 +150,12 @@ class MasterDataValidator:
         for field, value in data.items():
             rule = self.validation_rules.get(rule_type, {}).get(field)
 
+            log_message = (
+                f"Invalid '{value}' value found in the '{field}' field at line {row_location} "
+                f"in entity '{entity_name}' of '{entity_type}'"
+                + (f" {extra_location} " if extra_location else " ")
+            )
+
             if not rule:
                 continue  # Skip fields with no validation rules
 
@@ -160,15 +166,8 @@ class MasterDataValidator:
             # Validate pattern (regex)
             if "pattern" in rule and value is not None:
                 if not re.match(rule["pattern"], str(value)):
-                    self._store_log_validation(
-                        parent_entity,
-                        entity_type,
-                        entity_name,
-                        field,
-                        value,
-                        row_location,
-                        extra_location,
-                        "Invalid format.",
+                    self._store_log_message(
+                        parent_entity, log_message + "Invalid format.", level="error"
                     )
 
             # Validate boolean fields
@@ -176,15 +175,8 @@ class MasterDataValidator:
                 "true",
                 "false",
             ]:
-                self._store_log_validation(
-                    parent_entity,
-                    entity_type,
-                    entity_name,
-                    field,
-                    value,
-                    row_location,
-                    extra_location,
-                    "Expected a boolean.",
+                self._store_log_message(
+                    parent_entity, log_message + "Expected a boolean.", level="error"
                 )
 
             # Validate special cases (e.g., extra validation functions)
@@ -193,15 +185,11 @@ class MasterDataValidator:
                 if validation_func == "is_reduced_version" and not is_reduced_version(
                     value, entity_name
                 ):
-                    self._store_log_validation(
+                    self._store_log_message(
                         parent_entity,
-                        entity_type,
-                        entity_name,
-                        field,
-                        value,
-                        row_location,
-                        extra_location,
-                        "The generated code should be a part of the code.",
+                        log_message
+                        + "The generated code should be a part of the code.",
+                        level="error",
                     )
 
     def _compare_with_current_model(self) -> dict:
@@ -238,7 +226,7 @@ class MasterDataValidator:
                                 f"Entity type {entity_code} has changed its attribute {key} "
                                 f"from '{old_value}' to '{new_value}'."
                             )
-                            self._store_log_comparison(
+                            self._store_log_message(
                                 incoming_entity, log_message, level="warning"
                             )
 
@@ -257,7 +245,7 @@ class MasterDataValidator:
                                 "which means that data using a type that is not compatible with the new type will probably break openBIS. "
                                 "You need to define a new property with the new data type or revise your data model."
                             )
-                            self._store_log_comparison(
+                            self._store_log_message(
                                 incoming_entity, log_message, level="critical"
                             )
 
@@ -273,7 +261,7 @@ class MasterDataValidator:
                                 "which means that data using a type that is not compatible with the new type will probably break openBIS. "
                                 "You need to define a new property with the new data type or revise your data model."
                             )
-                            self._store_log_comparison(
+                            self._store_log_message(
                                 incoming_entity, log_message, level="critical"
                             )
 
@@ -341,9 +329,7 @@ class MasterDataValidator:
                         f"The assigned property {prop_code} to the entity {entity_code} does not exist in openBIS. "
                         "Please, define it in your PropertyType section."
                     )
-                    self._store_log_comparison(
-                        incoming_entity, log_message, level="error"
-                    )
+                    self._store_log_message(incoming_entity, log_message, level="error")
 
             # Check for existing changes in assigned properties
             missing_properties = incoming_prop_codes - current_prop_codes
@@ -351,21 +337,17 @@ class MasterDataValidator:
 
             if missing_properties or deleted_properties:
                 log_message = f"The assigned properties to {entity_code} have changed:"
-                self._store_log_comparison(
-                    incoming_entity, log_message, level="warning"
-                )
+                self._store_log_message(incoming_entity, log_message, level="warning")
 
             # Check for missing properties
             for missing in missing_properties:
                 log_message = f"{missing} has been added as a new property."
-                self._store_log_comparison(incoming_entity, log_message, level="info")
+                self._store_log_message(incoming_entity, log_message, level="info")
 
             # Check for deleted properties
             for deleted in deleted_properties:
                 log_message = f"{deleted} has been deleted."
-                self._store_log_comparison(
-                    incoming_entity, log_message, level="warning"
-                )
+                self._store_log_message(incoming_entity, log_message, level="warning")
 
             # Check for property modifications
             common_props = incoming_prop_codes & current_prop_codes
@@ -384,7 +366,7 @@ class MasterDataValidator:
                             f"Assigned property {prop_code} to entity type {entity_code} has changed its attribute {key} "
                             f"from {old_value} to {new_value}."
                         )
-                        self._store_log_comparison(
+                        self._store_log_message(
                             incoming_entity, log_message, level="warning"
                         )
 
@@ -402,54 +384,9 @@ class MasterDataValidator:
 
                 if incoming_prop_codes == other_entity_props:
                     log_message = f"The entity {entity_code} has the same properties defined as {other_entity_code}. Maybe they are representing the same entity?"
-                    self._store_log_comparison(
-                        incoming_entity, log_message, level="info"
-                    )
+                    self._store_log_message(incoming_entity, log_message, level="info")
 
-    def _store_log_validation(
-        self,
-        entity_ref,
-        entity_type,
-        entity_name,
-        field,
-        value,
-        row_location,
-        extra_location,
-        message,
-    ):
-        """
-        Logs an error and stores it inside the parent entity's _log_msgs list.
-
-        Args:
-            entity_ref (dict): The entity dictionary where _log_msgs should be stored.
-            entity_type (str): The entity type being validated.
-            entity_name (str): The specific entity name (ID if available).
-            field (str): The field that is being validated.
-            value (str): The actual value of the field.
-            row_location (str): The row where the issue occurred.
-            extra_location (str): Whether the error is in properties, terms, or main fields.
-            message (str): The error message to log.
-        """
-        log_message = (
-            f"Invalid '{value}' value found in the '{field}' field at line {row_location} "
-            f"in entity '{entity_name}' of '{entity_type}'"
-            + (f" {extra_location}" if extra_location else "")
-            + f" {message}"
-        )
-
-        # Log the message using structlog (for debugging purposes)
-        logger.error(log_message)
-
-        # Ensure _log_msgs exists in parent entity (NOT in properties/terms)
-        if "_log_msgs" not in entity_ref:
-            entity_ref["_log_msgs"] = []
-
-        # Append log message to the parent entity
-        entity_ref["_log_msgs"].append(log_message)
-
-        self.log_msgs.append(log_message)
-
-    def _store_log_comparison(self, entity_ref, message, level="error"):
+    def _store_log_message(self, entity_ref, message, level="error"):
         """
         Logs a message and stores it inside the entity's _log_msgs list.
 
