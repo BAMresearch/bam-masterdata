@@ -55,7 +55,7 @@ class MasterDataValidator:
 
         if mode in ["compare", "all"]:
             self.logger.info("Comparing new entities with current model...")
-            self._compare_with_current_model(self.current_model, self.new_entities)
+            self._compare_with_current_model()
             self.validation_results["comparisons"] = self._extract_log_messages(
                 self.new_entities
             )
@@ -160,7 +160,7 @@ class MasterDataValidator:
             # Validate pattern (regex)
             if "pattern" in rule and value is not None:
                 if not re.match(rule["pattern"], str(value)):
-                    self._store_log(
+                    self._store_log_validation(
                         parent_entity,
                         entity_type,
                         entity_name,
@@ -176,7 +176,7 @@ class MasterDataValidator:
                 "true",
                 "false",
             ]:
-                self._store_log(
+                self._store_log_validation(
                     parent_entity,
                     entity_type,
                     entity_name,
@@ -193,7 +193,7 @@ class MasterDataValidator:
                 if validation_func == "is_reduced_version" and not is_reduced_version(
                     value, entity_name
                 ):
-                    self._store_log(
+                    self._store_log_validation(
                         parent_entity,
                         entity_type,
                         entity_name,
@@ -204,15 +204,209 @@ class MasterDataValidator:
                         "The generated code should be a part of the code.",
                     )
 
-    def _compare_with_current_model(
-        self, current_model: dict, incoming_model: dict
-    ) -> dict:
+    def _compare_with_current_model(self) -> dict:
         """
         Compare new entities against the current model using validation rules.
         """
-        pass
+        self.logger.info("Starting comparison with the current model...")
 
-    def _store_log(
+        new_entity = False
+
+        for entity_type, incoming_entities in self.new_entities.items():
+            if entity_type not in self.current_model:
+                continue  # Skip if entity type does not exist in the current model
+
+            current_entities = self.current_model[entity_type]
+
+            for entity_code, incoming_entity in incoming_entities.items():
+                current_entity = current_entities.get(entity_code)
+
+                # Ensure _log_msgs exists
+                if "_log_msgs" not in incoming_entity:
+                    incoming_entity["_log_msgs"] = []
+
+                if current_entity:
+                    # Compare general attributes for all entities
+                    for key, new_value in incoming_entity.get("defs", {}).items():
+                        old_value = current_entity.get("defs", {}).get(key)
+                        if (
+                            key != "code"
+                            and old_value is not None
+                            and new_value != old_value
+                        ):
+                            log_message = (
+                                f"Entity type {entity_code} has changed its attribute {key} "
+                                f"from '{old_value}' to '{new_value}'."
+                            )
+                            self._store_log_comparison(
+                                incoming_entity, log_message, level="warning"
+                            )
+
+                    # Special case for `property_types`
+                    if entity_type == "property_types":
+                        new_data_type = incoming_entity.get("data_type")
+                        old_data_type = current_entity.get("data_type")
+
+                        if (
+                            new_data_type
+                            and old_data_type
+                            and new_data_type != old_data_type
+                        ):
+                            log_message = (
+                                f"Property type {entity_code} has changed its `data_type` value from {old_data_type} to {new_data_type}, "
+                                "which means that data using a type that is not compatible with the new type will probably break openBIS. "
+                                "You need to define a new property with the new data type or revise your data model."
+                            )
+                            self._store_log_comparison(
+                                incoming_entity, log_message, level="critical"
+                            )
+
+                        if (
+                            new_data_type == "CONTROLLEDVOCABULARY"
+                            and incoming_entity.get("vocabulary_code")
+                            != current_entity.get("vocabulary_code")
+                        ):
+                            old_vocabulary = current_entity.get("vocabulary_code")
+                            new_vocabulary = incoming_entity.get("vocabulary_code")
+                            log_message = (
+                                f"Property type {entity_code} using controlled vocabulary has changed its `vocabulary_code` value from {old_vocabulary} to {new_vocabulary}, "
+                                "which means that data using a type that is not compatible with the new type will probably break openBIS. "
+                                "You need to define a new property with the new data type or revise your data model."
+                            )
+                            self._store_log_comparison(
+                                incoming_entity, log_message, level="critical"
+                            )
+
+                else:
+                    new_entity = True
+
+                # Compare assigned properties or terms
+                if "properties" in incoming_entity:
+                    self._compare_assigned_properties(
+                        entity_code,
+                        incoming_entity,
+                        current_entity,
+                        entity_type,
+                        new_entity,
+                    )
+                elif "terms" in incoming_entity:
+                    self._compare_assigned_properties(
+                        entity_code,
+                        incoming_entity,
+                        current_entity,
+                        entity_type,
+                        new_entity,
+                        is_terms=True,
+                    )
+
+        return self.validation_results
+
+    def _compare_assigned_properties(
+        self,
+        entity_code,
+        incoming_entity,
+        current_entity,
+        entity_type,
+        new_entity,
+        is_terms=False,
+    ):
+        """
+        Compares assigned properties (for ObjectType, CollectionType, etc.) or terms (for VocabularyType).
+        """
+        incoming_props = {
+            prop["code"]: prop
+            for prop in incoming_entity.get(
+                "properties" if not is_terms else "terms", []
+            )
+        }
+
+        incoming_prop_codes = set(incoming_props.keys())
+
+        if not new_entity:
+            current_props = {
+                prop["code"]: prop
+                for prop in current_entity.get(
+                    "properties" if not is_terms else "terms", []
+                )
+            }
+
+            # Check for non-existing assigned properties
+            all_props = self.current_model["property_types"]
+
+            current_prop_codes = set(current_props.keys())
+
+            for prop_code in incoming_prop_codes:
+                if prop_code not in all_props and is_terms is False:
+                    log_message = (
+                        f"The assigned property {prop_code} to the entity {entity_code} does not exist in openBIS. "
+                        "Please, define it in your PropertyType section."
+                    )
+                    self._store_log_comparison(
+                        incoming_entity, log_message, level="error"
+                    )
+
+            # Check for existing changes in assigned properties
+            missing_properties = incoming_prop_codes - current_prop_codes
+            deleted_properties = current_prop_codes - incoming_prop_codes
+
+            if missing_properties or deleted_properties:
+                log_message = f"The assigned properties to {entity_code} have changed:"
+                self._store_log_comparison(
+                    incoming_entity, log_message, level="warning"
+                )
+
+            # Check for missing properties
+            for missing in missing_properties:
+                log_message = f"{missing} has been added as a new property."
+                self._store_log_comparison(incoming_entity, log_message, level="info")
+
+            # Check for deleted properties
+            for deleted in deleted_properties:
+                log_message = f"{deleted} has been deleted."
+                self._store_log_comparison(
+                    incoming_entity, log_message, level="warning"
+                )
+
+            # Check for property modifications
+            common_props = incoming_prop_codes & current_prop_codes
+            for prop_code in common_props:
+                new_prop = incoming_props[prop_code]
+                old_prop = current_props[prop_code]
+
+                for key, new_value in new_prop.items():
+                    old_value = old_prop.get(key)
+                    if (
+                        key != "code"
+                        and old_value is not None
+                        and new_value != old_value
+                    ):
+                        log_message = (
+                            f"Assigned property {prop_code} to entity type {entity_code} has changed its attribute {key} "
+                            f"from {old_value} to {new_value}."
+                        )
+                        self._store_log_comparison(
+                            incoming_entity, log_message, level="warning"
+                        )
+
+        # Check if assigned properties match another entity's properties
+        for other_entity_code, other_entity in self.current_model.get(
+            entity_type, {}
+        ).items():
+            if other_entity_code != entity_code:
+                other_entity_properties = (
+                    other_entity.get("properties", [])
+                    if not is_terms
+                    else other_entity.get("terms", [])
+                )
+                other_entity_props = {prop["code"] for prop in other_entity_properties}
+
+                if incoming_prop_codes == other_entity_props:
+                    log_message = f"The entity {entity_code} has the same properties defined as {other_entity_code}. Maybe they are representing the same entity?"
+                    self._store_log_comparison(
+                        incoming_entity, log_message, level="info"
+                    )
+
+    def _store_log_validation(
         self,
         entity_ref,
         entity_type,
@@ -254,6 +448,32 @@ class MasterDataValidator:
         entity_ref["_log_msgs"].append(log_message)
 
         self.log_msgs.append(log_message)
+
+    def _store_log_comparison(self, entity_ref, message, level="error"):
+        """
+        Logs a message and stores it inside the entity's _log_msgs list.
+
+        Args:
+            entity_ref (dict): The entity dictionary where _log_msgs should be stored.
+            message (str): The log message.
+            level (str): Log level ('error', 'warning', 'critical', 'info').
+        """
+        log_function = {
+            "error": self.logger.error,
+            "warning": self.logger.warning,
+            "critical": self.logger.critical,
+            "info": self.logger.info,
+        }.get(level, self.logger.error)
+
+        # Log the message
+        log_function(message)
+
+        # Ensure _log_msgs exists
+        if "_log_msgs" not in entity_ref:
+            entity_ref["_log_msgs"] = []
+
+        # Append log message
+        entity_ref["_log_msgs"].append(message)
 
     def _extract_log_messages(self, model: dict) -> dict:
         """
