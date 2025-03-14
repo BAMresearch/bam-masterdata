@@ -2,6 +2,7 @@ import json
 import re
 
 from bam_masterdata.logger import logger
+from bam_masterdata.metadata.definitions import DataType
 from bam_masterdata.utils import is_reduced_version
 
 
@@ -103,6 +104,20 @@ class MasterDataValidator:
                 if entity_type != "vocabulary_types" and "properties" in entity_data:
                     for prop in entity_data["properties"]:
                         row_location = prop.get("row_location", "Unknown")
+
+                        # Check for deprecated `$ANNOTATIONS_STATE`
+                        if (
+                            prop["code"] == "$ANNOTATIONS_STATE"
+                            and model == self.new_entities
+                        ):
+                            log_message = (
+                                f"Property $ANNOTATIONS_STATE is deprecated from openBIS 20.10.7.3. "
+                                f"Assigned to entity '{entity_id}' at row {row_location}."
+                            )
+                            self._store_log_message(
+                                entity_data, log_message, level="warning"
+                            )
+
                         self._validate_fields(
                             prop,
                             "properties_validation",
@@ -173,9 +188,12 @@ class MasterDataValidator:
             # Validate pattern (regex)
             if "pattern" in rule and value is not None:
                 if not re.match(rule["pattern"], str(value)):
-                    self._store_log_message(
-                        parent_entity, log_message + "Invalid format.", level="error"
-                    )
+                    log_message = log_message + "Invalid format."
+                    if "is_section" in rule:
+                        log_message = (
+                            log_message + " Section name must be in PascalCase format."
+                        )
+                    self._store_log_message(parent_entity, log_message, level="error")
 
             # Validate boolean fields
             if "is_bool" in rule and str(value).strip().lower() not in [
@@ -184,6 +202,15 @@ class MasterDataValidator:
             ]:
                 self._store_log_message(
                     parent_entity, log_message + "Expected a boolean.", level="error"
+                )
+
+            # Validate boolean fields
+            if "is_data" in rule and str(value) not in [dt.value for dt in DataType]:
+                self._store_log_message(
+                    parent_entity,
+                    log_message
+                    + f"The Data Type should be one of the following: {[dt.value for dt in DataType]}",
+                    level="error",
                 )
 
             # Validate special cases (e.g., extra validation functions)
@@ -248,8 +275,8 @@ class MasterDataValidator:
                             and new_data_type != old_data_type
                         ):
                             log_message = (
-                                f"Property type {entity_code} has changed its `data_type` value from {old_data_type} to {new_data_type}, "
-                                "which means that data using a type that is not compatible with the new type will probably break openBIS. "
+                                f"Property type {entity_code} has changed its `data_type` value from {old_data_type} to {new_data_type}. "
+                                "This will cause that data using the Property with inconsistent versions of data type will probably break openBIS. "
                                 "You need to define a new property with the new data type or revise your data model."
                             )
                             self._store_log_message(
@@ -390,8 +417,14 @@ class MasterDataValidator:
                 other_entity_props = {prop["code"] for prop in other_entity_properties}
 
                 if incoming_prop_codes == other_entity_props:
-                    log_message = f"The entity {entity_code} has the same properties defined as {other_entity_code}. Maybe they are representing the same entity?"
-                    self._store_log_message(incoming_entity, log_message, level="info")
+                    log_message = (
+                        "Entity will not be imported in openBIS. "
+                        f"The entity {entity_code} has the same properties defined as {other_entity_code}. "
+                        "Maybe they are representing the same entity?"
+                    )
+                    self._store_log_message(
+                        incoming_entity, log_message, level="warning"
+                    )
 
     def _store_log_message(self, entity_ref, message, level="error"):
         """
