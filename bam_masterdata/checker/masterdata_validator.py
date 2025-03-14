@@ -37,27 +37,31 @@ class MasterDataValidator:
         self.logger.info("Starting validation process...", mode=mode)
 
         # Reset validation results before running checks
-        self.validation_results = {}
+        self.validation_results = {
+            "current_model": {},
+            "incoming_model": {},
+            "comparisons": {},
+        }
 
         if mode in ["self", "all", "validate"]:
             self.logger.info("Validating current model...")
             self._validate_model(self.current_model)
-            self.validation_results["current_model"] = self._extract_log_messages(
-                self.current_model
+            self._extract_log_messages(
+                self.current_model, self.validation_results["current_model"]
             )
 
         if mode in ["incoming", "all", "validate"]:
             self.logger.info("Validating new entities...")
             self._validate_model(self.new_entities)
-            self.validation_results["incoming_model"] = self._extract_log_messages(
-                self.new_entities
+            self._extract_log_messages(
+                self.new_entities, self.validation_results["incoming_model"]
             )
 
         if mode in ["compare", "all"]:
             self.logger.info("Comparing new entities with current model...")
             self._compare_with_current_model()
-            self.validation_results["comparisons"] = self._extract_log_messages(
-                self.new_entities
+            self._extract_log_messages(
+                self.new_entities, self.validation_results["comparisons"]
             )
 
         return self.validation_results
@@ -68,7 +72,9 @@ class MasterDataValidator:
 
         Args:
             model (dict): The datamodel to validate.
-            results (dict): Dictionary storing validation errors and warnings.
+
+        Returns:
+            dict: A dictionary containing ...
         """
         for entity_type, entities in model.items():
             for entity_name, entity_data in entities.items():
@@ -78,7 +84,8 @@ class MasterDataValidator:
                 if "_log_msgs" not in entity_data:
                     entity_data["_log_msgs"] = []
 
-                logger.info(f"Validating {entity_type} -> {entity_id}")
+                if model == self.new_entities:
+                    self.logger.info(f"Validating {entity_type} -> {entity_id}")
 
                 # Validate 'defs'
                 if "defs" in entity_data:
@@ -412,25 +419,24 @@ class MasterDataValidator:
         # Append log message
         entity_ref["_log_msgs"].append(message)
 
-    def _extract_log_messages(self, model: dict) -> dict:
+    def _extract_log_messages(self, model: dict, target_dict: dict) -> None:
         """
-        Extracts and structures the _log_msgs from the validated entities.
+        Extracts and appends _log_msgs from the validated entities into an existing dictionary.
 
         Args:
             model (dict): The validated entity model.
-
-        Returns:
-            dict: A dictionary containing only the _log_msgs structured by entity type and entity name.
+            target_dict (dict): The dictionary where logs should be appended.
         """
-        simplified_logs: dict = {}
-
         for entity_type, entities in model.items():
+            if entity_type not in target_dict:
+                target_dict[entity_type] = {}
+
             for entity_name, entity_data in entities.items():
                 if "_log_msgs" in entity_data and entity_data["_log_msgs"]:
-                    if entity_type not in simplified_logs:
-                        simplified_logs[entity_type] = {}
-                    simplified_logs[entity_type][entity_name] = {
-                        "_log_msgs": entity_data["_log_msgs"]
-                    }
+                    if entity_name not in target_dict[entity_type]:
+                        target_dict[entity_type][entity_name] = {"_log_msgs": []}
 
-        return simplified_logs
+                    # Append new messages to the existing ones
+                    target_dict[entity_type][entity_name]["_log_msgs"].extend(
+                        entity_data["_log_msgs"]
+                    )
