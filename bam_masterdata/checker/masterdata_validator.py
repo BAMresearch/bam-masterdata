@@ -102,8 +102,22 @@ class MasterDataValidator:
 
                 # Validate 'properties' (except for vocabulary_types, which uses 'terms')
                 if entity_type != "vocabulary_types" and "properties" in entity_data:
+                    # Collect ordered sections for each entity
+                    entity_sections = []
+
                     for prop in entity_data["properties"]:
                         row_location = prop.get("row_location", "Unknown")
+
+                        # Collect section names in order
+                        section = prop.get("section", "").strip()
+                        if section:  # Avoid empty sections
+                            entity_sections.append(
+                                {
+                                    "code": prop["code"],
+                                    "section": section,
+                                    "row_location": row_location,
+                                }
+                            )
 
                         # Check for deprecated `$ANNOTATIONS_STATE`
                         if (
@@ -126,6 +140,48 @@ class MasterDataValidator:
                             row_location,
                             entity_data,
                         )
+
+                # Check if "Additional Information" is followed only by "Additional Information" or "Comments"
+                for i in range(len(entity_sections) - 1):
+                    current_section = entity_sections[i]["section"]
+                    next_section = entity_sections[i + 1]["section"]
+                    row_location = entity_sections[i + 1]["row_location"]
+
+                    if (
+                        current_section == "Additional Information"
+                        and next_section not in {"Additional Information", "Comments"}
+                    ):
+                        log_message = (
+                            f"Invalid section order: 'Additional Information' at row {entity_sections[i]['row_location']} "
+                            f"must be followed by 'Comments', but found '{next_section}' at row {row_location}."
+                        )
+                        self._store_log_message(entity_data, log_message, level="error")
+
+                # Check if required properties exist in specific sections
+                required_properties = {
+                    "Additional Information": "NOTES",
+                    "Comments": "COMMENTS",
+                }
+
+                # Track found properties
+                found_properties = {section: False for section in required_properties}
+
+                for entry in entity_sections:
+                    section = entry["section"]
+                    property_code = entry["code"]
+                    row_location = entry["row_location"]
+
+                    if (
+                        section in required_properties
+                        and property_code == required_properties[section]
+                    ):
+                        found_properties[section] = True
+
+                # Log errors for missing required properties
+                for section, prop in required_properties.items():
+                    if not found_properties[section]:
+                        log_message = f"Missing required property '{prop}' in section '{section}'."
+                        self._store_log_message(entity_data, log_message, level="error")
 
                 # Validate 'terms' (only for vocabulary_types)
                 if entity_type == "vocabulary_types" and "terms" in entity_data:
