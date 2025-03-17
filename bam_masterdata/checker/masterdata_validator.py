@@ -221,8 +221,8 @@ class MasterDataValidator:
 
         # Determine where the issue is occurring (in properties, terms, or main entity fields)
         extra_location = {
-            "properties_validation": " in 'properties'.",
-            "terms_validation": " in 'terms'.",
+            "properties_validation": "in 'properties'.",
+            "terms_validation": "in 'terms'.",
         }.get(rule_type, ".")
 
         for field, value in data.items():
@@ -297,6 +297,7 @@ class MasterDataValidator:
             current_entities = self.current_model[entity_type]
 
             for entity_code, incoming_entity in incoming_entities.items():
+                incoming_row_location = "Unknown"
                 current_entity = current_entities.get(entity_code)
 
                 # Ensure _log_msgs exists
@@ -306,6 +307,9 @@ class MasterDataValidator:
                 if current_entity:
                     # Compare general attributes for all entities
                     for key, new_value in incoming_entity.get("defs", {}).items():
+                        incoming_row_location = incoming_entity.get("defs", {}).get(
+                            "row_location", "Unknown"
+                        )
                         old_value = current_entity.get("defs", {}).get(key)
                         if (
                             key != "code"
@@ -314,7 +318,7 @@ class MasterDataValidator:
                         ):
                             log_message = (
                                 f"Entity type {entity_code} has changed its attribute {key} "
-                                f"from '{old_value}' to '{new_value}'."
+                                f"from '{old_value}' to '{new_value}' at row {incoming_row_location}."
                             )
                             self._store_log_message(
                                 incoming_entity, log_message, level="warning"
@@ -322,6 +326,9 @@ class MasterDataValidator:
 
                     # Special case for `property_types`
                     if entity_type == "property_types":
+                        incoming_row_location = incoming_entity.get(
+                            "row_location", "Unknown"
+                        )
                         new_data_type = incoming_entity.get("data_type")
                         old_data_type = current_entity.get("data_type")
 
@@ -331,7 +338,7 @@ class MasterDataValidator:
                             and new_data_type != old_data_type
                         ):
                             log_message = (
-                                f"Property type {entity_code} has changed its `data_type` value from {old_data_type} to {new_data_type}. "
+                                f"Property type {entity_code} has changed its `data_type` value from {old_data_type} to {new_data_type} at row {incoming_row_location}. "
                                 "This will cause that data using the Property with inconsistent versions of data type will probably break openBIS. "
                                 "You need to define a new property with the new data type or revise your data model."
                             )
@@ -348,7 +355,7 @@ class MasterDataValidator:
                             new_vocabulary = incoming_entity.get("vocabulary_code")
                             log_message = (
                                 f"Property type {entity_code} using controlled vocabulary has changed its `vocabulary_code` value from {old_vocabulary} to {new_vocabulary}, "
-                                "which means that data using a type that is not compatible with the new type will probably break openBIS. "
+                                f"at row {incoming_row_location} which means that data using a type that is not compatible with the new type will probably break openBIS. "
                                 "You need to define a new property with the new data type or revise your data model."
                             )
                             self._store_log_message(
@@ -366,6 +373,7 @@ class MasterDataValidator:
                         current_entity,
                         entity_type,
                         new_entity,
+                        incoming_row_location,
                     )
                 elif "terms" in incoming_entity:
                     self._compare_assigned_properties(
@@ -374,6 +382,7 @@ class MasterDataValidator:
                         current_entity,
                         entity_type,
                         new_entity,
+                        incoming_row_location,
                         is_terms=True,
                     )
 
@@ -386,6 +395,7 @@ class MasterDataValidator:
         current_entity,
         entity_type,
         new_entity,
+        incoming_row_location,
         is_terms=False,
     ):
         """
@@ -416,7 +426,7 @@ class MasterDataValidator:
             for prop_code in incoming_prop_codes:
                 if prop_code not in all_props and is_terms is False:
                     log_message = (
-                        f"The assigned property {prop_code} to the entity {entity_code} does not exist in openBIS. "
+                        f"The assigned property {prop_code} to the entity {entity_code} at row {incoming_props[prop_code].get('row_location')} does not exist in openBIS. "
                         "Please, define it in your PropertyType section."
                     )
                     self._store_log_message(incoming_entity, log_message, level="error")
@@ -426,12 +436,12 @@ class MasterDataValidator:
             deleted_properties = current_prop_codes - incoming_prop_codes
 
             if missing_properties or deleted_properties:
-                log_message = f"The assigned properties to {entity_code} have changed:"
+                log_message = f"The assigned properties to {entity_code} at row {incoming_row_location} have changed:"
                 self._store_log_message(incoming_entity, log_message, level="warning")
 
             # Check for missing properties
             for missing in missing_properties:
-                log_message = f"{missing} has been added as a new property."
+                log_message = f"{missing} has been added as a new property at row {incoming_props[missing].get('row_location')}."
                 self._store_log_message(incoming_entity, log_message, level="info")
 
             # Check for deleted properties
@@ -454,7 +464,7 @@ class MasterDataValidator:
                     ):
                         log_message = (
                             f"Assigned property {prop_code} to entity type {entity_code} has changed its attribute {key} "
-                            f"from {old_value} to {new_value}."
+                            f"from {old_value} to {new_value} at row {incoming_props[prop_code].get('row_location')}."
                         )
                         self._store_log_message(
                             incoming_entity, log_message, level="warning"
@@ -475,7 +485,7 @@ class MasterDataValidator:
                 if incoming_prop_codes == other_entity_props:
                     log_message = (
                         "Entity will not be imported in openBIS. "
-                        f"The entity {entity_code} has the same properties defined as {other_entity_code}. "
+                        f"The entity {entity_code} at row {incoming_entity['defs'].get('row_location')} has the same properties defined as {other_entity_code}. "
                         "Maybe they are representing the same entity?"
                     )
                     self._store_log_message(
