@@ -8,66 +8,26 @@ from bam_masterdata.utils import load_validation_rules
 
 
 class MasterdataChecker:
-    def __init__(
-        self,
-        validation_rules_path: str = "bam_masterdata/checker/validation_rules",
-        datamodel_dir: str = "bam_masterdata/datamodel",
-    ):
+    def __init__(self):
         """
         Initialize the comparator with validation rules and set the datamodel directory.
 
         Args:
-            validation_rules_path (str): Path to the validation rules JSON file.
-            datamodel_dir (str, optional): Directory where the Python datamodel files are located.
-                                           Defaults to "bam_masterdata/datamodel".
+            mode (str): The validation mode ("self", "incoming", "validate", "compare", "all").
         """
-        self.validation_rules_path = (
-            validation_rules_path  # Store the base directory path
-        )
-        self.datamodel_dir = (
-            datamodel_dir  # Allows overriding the default datamodel directory
-        )
         self.current_model: dict = None
         self.new_entities: dict = None
         self.logger = logger
-        self.validation_rules: dict = {}  # Initialize empty validation rules
+        self.validation_rules: dict = {}
 
-    def _load_validation_rules(self, mode: str) -> dict:
-        """
-        Load validation rules dynamically based on the validation mode using utils.load_validation_rules.
-
-        Args:
-            mode (str): The validation mode ("self", "incoming", "validate", "compare", "all").
-
-        Returns:
-            dict: The validation rules loaded from the corresponding JSON file.
-        """
-        rule_file_map = {
-            "self": "validation_rules.json",
-            "incoming": "validation_rules.json",
-            "validate": "validation_rules.json",
-            "compare": "compare_validation_rules.json",
-            "all": "all_validation_rules.json",
-        }
-
-        rule_file = rule_file_map.get(mode)
-        if not rule_file:
-            raise ValueError(f"No rule file found for mode: {mode}")
-
-        rule_path = os.path.join(self.validation_rules_path, rule_file)
-
-        return load_validation_rules(
-            self.logger, rule_path
-        )  # Use the existing function
-
-    def load_current_model(self):
+    def load_current_model(self, datamodel_dir: str = "./bam_masterdata/datamodel/"):
         """
         Load and transform the current data model (Pydantic classes) into JSON.
 
         Uses the default datamodel directory unless overridden.
         """
-        self.logger.info(f"Loading current data model from: {self.datamodel_dir}")
-        entities_dict = EntitiesDict(python_path=self.datamodel_dir, logger=self.logger)
+        self.logger.info(f"Loading current data model from: {datamodel_dir}")
+        entities_dict = EntitiesDict(python_path=datamodel_dir, logger=self.logger)
         self.current_model = entities_dict.single_json()
 
     def load_new_entities(self, source: str):
@@ -78,7 +38,7 @@ class MasterdataChecker:
         loader = SourceLoader(source)
         self.new_entities = loader.load()
 
-    def validate(self, mode: str = "all") -> dict:
+    def check(self, mode: str = "all") -> dict:
         """
         Run validations.
 
@@ -115,8 +75,12 @@ class MasterdataChecker:
                 "New entities must be loaded before validation in 'incoming', 'validate', 'compare', or 'all' modes."
             )
 
-        # Load the appropriate validation rules based on the mode
-        self.validation_rules = self._load_validation_rules(mode)
+        # Load the validation rules
+        if (
+            mode in {"self", "incoming", "validate", "all"}
+            and self.validation_rules == {}
+        ):
+            self.validation_rules = load_validation_rules(self.logger)
 
         validator = MasterDataValidator(
             self.new_entities, self.current_model, self.validation_rules

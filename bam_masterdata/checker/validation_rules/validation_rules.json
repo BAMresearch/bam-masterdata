@@ -4,7 +4,8 @@
       "pattern": "^\\$?[A-Za-z0-9_.]+$"
     },
     "description": {
-      "pattern": ".*",
+      "pattern": "^[^/]+//[^/]+$",
+      "allow_empty": true,
       "is_description": true
     },
     "validation_script": {
@@ -40,7 +41,9 @@
       "pattern": "^\\$?[A-Za-z0-9_.]+$"
     },
     "description": {
-      "pattern": ".*"
+      "pattern": "^[^/]+//[^/]+$",
+      "allow_empty": true,
+      "is_description": true
     },
     "row_location": {
       "pattern": "^[A-Za-z]+\\d+$|^\\d+$"
@@ -74,7 +77,9 @@
       "is_bool": true
     },
     "section": {
-      "pattern": ".*"
+      "pattern": "^([A-Z][a-z]*|[A-Z]+)( ([A-Z][a-z]*|[A-Z]+))*$",
+      "is_section": true,
+      "allow_empty": true
     },
     "unique": {
       "is_bool": true,
@@ -87,10 +92,12 @@
   },
   "terms_validation": {
     "code": {
-      "pattern": "^\\$?[A-Za-z0-9_.]+$"
+      "pattern": "^\\$?[A-Za-z0-9_.-]+$"
     },
     "description": {
-      "pattern": ".*"
+      "pattern": "^[^/]+//[^/]+$",
+      "is_description": true,
+      "allow_empty": true
     },
     "row_location": {
       "pattern": "^[A-Za-z]+\\d+$|^\\d+$",
