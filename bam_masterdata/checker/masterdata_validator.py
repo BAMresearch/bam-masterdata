@@ -1,4 +1,3 @@
-import json
 import re
 
 from bam_masterdata.logger import logger
@@ -179,7 +178,10 @@ class MasterDataValidator:
 
                 # Log errors for missing required properties
                 for section, prop in required_properties.items():
-                    if not found_properties[section]:
+                    if (
+                        any(entry["section"] == section for entry in entity_sections)
+                        and not found_properties[section]
+                    ):
                         log_message = f"Missing required property '{prop}' in section '{section}'."
                         self._store_log_message(entity_data, log_message, level="error")
 
@@ -245,9 +247,15 @@ class MasterDataValidator:
             if "pattern" in rule and value is not None:
                 if not re.match(rule["pattern"], str(value)):
                     log_message = log_message + "Invalid format."
+                    if "is_description" in rule:
+                        log_message = (
+                            log_message
+                            + "Description should follow the schema: English Description + '//' + German Description. "
+                        )
                     if "is_section" in rule:
                         log_message = (
-                            log_message + " Section name must be in PascalCase format."
+                            log_message
+                            + " First letter of every word starts with capitalized lettter."
                         )
                     self._store_log_message(parent_entity, log_message, level="error")
 
@@ -312,7 +320,7 @@ class MasterDataValidator:
                         )
                         old_value = current_entity.get("defs", {}).get(key)
                         if (
-                            key != "code"
+                            (key != "code" and key != "row_location")
                             and old_value is not None
                             and new_value != old_value
                         ):
@@ -458,13 +466,13 @@ class MasterDataValidator:
                 for key, new_value in new_prop.items():
                     old_value = old_prop.get(key)
                     if (
-                        key != "code"
+                        (key != "code" and key != "row_location")
                         and old_value is not None
                         and new_value != old_value
                     ):
                         log_message = (
                             f"Assigned property {prop_code} to entity type {entity_code} has changed its attribute {key} "
-                            f"from {old_value} to {new_value} at row {incoming_props[prop_code].get('row_location')}."
+                            f"from '{old_value}' to '{new_value}' at row {incoming_props[prop_code].get('row_location')}."
                         )
                         self._store_log_message(
                             incoming_entity, log_message, level="warning"
@@ -516,7 +524,7 @@ class MasterDataValidator:
             entity_ref["_log_msgs"] = []
 
         # Append log message
-        entity_ref["_log_msgs"].append(message)
+        entity_ref["_log_msgs"].append((level, message))
 
     def _extract_log_messages(self, model: dict, target_dict: dict) -> None:
         """
