@@ -59,7 +59,24 @@ class MasterDataValidator:
 
         if mode in ["compare", "all"]:
             self.logger.info("Comparing new entities with current model...")
-            self._compare_with_current_model()
+            self._compare_with_current_model(mode=mode)
+            self._extract_log_messages(
+                self.new_entities, self.validation_results["comparisons"]
+            )
+
+        if mode == "individual":
+            self.logger.info(
+                "Validating new DSST entities and comparing them with current model..."
+            )
+            self.validation_results = {
+                "incoming_model": {},
+                "comparisons": {},
+            }
+            self._validate_model(self.new_entities)
+            self._extract_log_messages(
+                self.new_entities, self.validation_results["incoming_model"]
+            )
+            self._compare_with_current_model(mode="individual")
             self._extract_log_messages(
                 self.new_entities, self.validation_results["comparisons"]
             )
@@ -290,7 +307,7 @@ class MasterDataValidator:
                         level="error",
                     )
 
-    def _compare_with_current_model(self) -> dict:
+    def _compare_with_current_model(self, mode) -> dict:
         """
         Compare new entities against the current model using validation rules.
         """
@@ -313,6 +330,11 @@ class MasterDataValidator:
                     incoming_entity["_log_msgs"] = []
 
                 if current_entity:
+                    if mode == "individual":
+                        log_message = f"The entity {entity_code} already exists in `bam-masterdata`. Please, check your classes. "
+                        self._store_log_message(
+                            incoming_entity, log_message, level="critical"
+                        )
                     # Compare general attributes for all entities
                     for key, new_value in incoming_entity.get("defs", {}).items():
                         incoming_row_location = incoming_entity.get("defs", {}).get(
