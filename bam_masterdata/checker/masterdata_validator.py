@@ -59,7 +59,7 @@ class MasterDataValidator:
 
         if mode in ["compare", "all"]:
             self.logger.info("Comparing new entities with current model...")
-            self._compare_with_current_model()
+            self._compare_with_current_model(mode=mode)
             self._extract_log_messages(
                 self.new_entities, self.validation_results["comparisons"]
             )
