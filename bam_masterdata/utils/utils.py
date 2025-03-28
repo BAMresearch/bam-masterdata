@@ -262,3 +262,30 @@ def is_reduced_version(generated_code_value: str, code: str) -> bool:
 
     # Ensure both have the same number of parts
     return len(generated_parts) == len(original_parts)
+
+
+def store_log_message(logger, entity_ref, message, level="error"):
+    """
+    Logs a message and stores it inside the entity's _log_msgs list.
+
+    Args:
+        entity_ref (dict): The entity dictionary where _log_msgs should be stored.
+        message (str): The log message.
+        level (str): Log level ('error', 'warning', 'critical', 'info').
+    """
+    log_function = {
+        "error": logger.error,
+        "warning": logger.warning,
+        "critical": logger.critical,
+        "info": logger.info,
+    }.get(level, logger.error)
+
+    # Log the message
+    log_function(message)
+
+    # Ensure _log_msgs exists
+    if "_log_msgs" not in entity_ref:
+        entity_ref["_log_msgs"] = []
+
+    # Append log message
+    entity_ref["_log_msgs"].append((level, message))

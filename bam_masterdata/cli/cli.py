@@ -9,6 +9,7 @@ from decouple import config as environ
 from openpyxl import Workbook
 from rdflib import Graph
 
+from bam_masterdata.checker import MasterdataChecker
 from bam_masterdata.cli.entities_to_excel import entities_to_excel
 from bam_masterdata.cli.entities_to_rdf import entities_to_rdf
 from bam_masterdata.cli.fill_masterdata import MasterdataCodeGenerator
@@ -380,28 +381,72 @@ def export_to_rdf(force_delete, python_path, export_dir):
 
 @cli.command(
     name="checker",
-    help="Checks the files specified in the tag `--from` with respect to the ones specified in `--to`.",
+    help="Checks the files specified in the tag `--file-path` with respect to the ones specified in `--datamodel-path`.",
 )
 @click.option(
-    "--from",
-    "from_path",  # alias
-    type=click.Path(exists=True, dir_okay=True),
-    default="./artifacts/masterdata.xlsx",
-    help="""
-    The path to the directory containing the Python modules or the individual masterdata Excel file to be checked.
-    """,
+    "--file-path",
+    "file_path",  # alias
+    type=click.Path(exists=True),
+    required=True,
+    help="""The path to the file or directory containing Python modules or the Excel file to be checked.""",
 )
 @click.option(
-    "--to",
-    "to_path",  # alias
+    "--mode",
+    "mode",  # alias
+    type=click.Choice(
+        ["self", "incoming", "validate", "compare", "all"], case_sensitive=False
+    ),
+    default="all",
+    help="""Specify the mode for the checker. Options are:
+    "self" -> Validate only the current data model.
+    "incoming" -> Validate only the new entity structure.
+    "validate" -> Validate both the current model and new entities.
+    "compare" -> Compare new entities against the current model.
+    "all" -> Run all validations and comparison. (Default)""",
+)
+@click.option(
+    "--datamodel-path",
+    "datamodel_path",  # alias
     type=click.Path(exists=True, dir_okay=True),
     default=DATAMODEL_DIR,
-    help="""
-    The path to the directory containing the Python modules the the path defined in `from` will be checked with respect to.
-    """,
+    help="""Path to the directory containing the Python modules defining the datamodel (defaults to './bam_masterdata/datamodel/').""",
 )
-def checker(from_path, to_path):
-    print(f"From: {from_path}, To: {to_path}")
+def checker(file_path, mode, datamodel_path):
+    # Instantiate the checker class and run validation
+    checker = MasterdataChecker()
+
+    # Load current model from datamodel path
+    checker.load_current_model(datamodel_dir=datamodel_path)
+
+    # Load new entities from the specified file path (could be a Python file, directory, or Excel)
+    checker.load_new_entities(source=file_path)
+
+    # Run the checker in the specified mode
+    validation_results = checker.check(mode=mode)
+
+    # Check if there are problems with the current model
+    if mode in ["self", "all", "validate"] and validation_results.get("current_model"):
+        click.echo(
+            "There are problems in the current model that need to be solved"  #: {validation_results['current_model']}"
+        )
+
+    # Check if there are problems with the incoming model
+    if mode in ["incoming", "all", "validate"] and validation_results.get(
+        "incoming_model"
+    ):
+        click.echo(
+            f"There are problems in the incoming model located in {file_path} that need to be solved"  #: {validation_results['incoming_model']}"
+        )
+
+    # Check if there are comparison problems
+    if mode in ["compare", "all"] and validation_results.get("comparisons"):
+        click.echo(
+            f"There are problems when checking the incoming model located in {file_path} against the current data model that need to be solved"  #: {validation_results['comparisons']}"
+        )
+
+    # Check if no problems were found
+    if all(value == {} for value in validation_results.values()):
+        click.echo("No problems found in the datamodel and incoming model.")
 
 
 if __name__ == "__main__":
