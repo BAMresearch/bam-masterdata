@@ -19,6 +19,7 @@ class TestEntitiesDict:
                         {
                         "code": "$DEFAULT_COLLECTION_VIEW",
                         "description": "Default view for experiments of the type collection",
+                        "iri": null,
                         "id": "DefaultCollectionView",
                         "row_location": 34,
                         "property_label": "Default collection view",
@@ -36,6 +37,7 @@ class TestEntitiesDict:
                         {
                         "code": "$DEFAULT_OBJECT_TYPE",
                         "description": "Enter the code of the object type for which the collection is used",
+                        "iri": null,
                         "id": "DefaultObjectType",
                         "row_location": 24,
                         "property_label": "Default object type",
@@ -53,6 +55,7 @@ class TestEntitiesDict:
                         {
                         "code": "$NAME",
                         "description": "Name",
+                        "iri": null,
                         "id": "Name",
                         "row_location": 14,
                         "property_label": "Name",
@@ -71,6 +74,7 @@ class TestEntitiesDict:
                     "defs": {
                         "code": "COLLECTION",
                         "description": "",
+                        "iri": null,
                         "id": "Collection",
                         "row_location": 8,
                         "validation_script": null
@@ -87,6 +91,7 @@ class TestEntitiesDict:
                         {
                         "code": "ACTING_PERSON",
                         "description": "Acting Person//Handelnde Person",
+                        "iri": null,
                         "id": "ActingPerson",
                         "row_location": 4140,
                         "property_label": "Acting Person",
@@ -104,6 +109,7 @@ class TestEntitiesDict:
                         {
                         "code": "ACTION_DATE",
                         "description": "Action Date//Datum der Handlung",
+                        "iri": null,
                         "id": "ActionDate",
                         "row_location": 4130,
                         "property_label": "Monitoring Date",
@@ -121,6 +127,7 @@ class TestEntitiesDict:
                         {
                         "code": "$ANNOTATIONS_STATE",
                         "description": "Annotations State",
+                        "iri": null,
                         "id": "AnnotationsState",
                         "row_location": 4160,
                         "property_label": "Annotations State",
@@ -138,6 +145,7 @@ class TestEntitiesDict:
                         {
                         "code": "$NAME",
                         "description": "Name",
+                        "iri": null,
                         "id": "Name",
                         "row_location": 4120,
                         "property_label": "Name",
@@ -155,6 +163,7 @@ class TestEntitiesDict:
                         {
                         "code": "$XMLCOMMENTS",
                         "description": "Comments log",
+                        "iri": null,
                         "id": "Xmlcomments",
                         "row_location": 4150,
                         "property_label": "Comments",
@@ -173,6 +182,7 @@ class TestEntitiesDict:
                     "defs": {
                         "code": "ACTION",
                         "description": "This Object allows to store information on an action by a user.//Dieses Objekt erlaubt eine Nutzer-Aktion zu beschreiben.",
+                        "iri": null,
                         "id": "Action",
                         "row_location": 4113,
                         "validation_script": null,
@@ -188,6 +198,7 @@ class TestEntitiesDict:
                 """{
                     "code": "$NAME",
                     "description": "Name",
+                    "iri": null,
                     "id": "Name",
                     "row_location": 60,
                     "property_label": "Name",
@@ -207,6 +218,7 @@ class TestEntitiesDict:
                         {
                         "code": "BDS_DIRECTORY",
                         "description": "",
+                        "iri": null,
                         "id": "BdsDirectory",
                         "row_location": 30,
                         "url_template": null,
@@ -216,6 +228,7 @@ class TestEntitiesDict:
                         {
                         "code": "PROPRIETARY",
                         "description": "",
+                        "iri": null,
                         "id": "Proprietary",
                         "row_location": 36,
                         "url_template": null,
@@ -226,6 +239,7 @@ class TestEntitiesDict:
                     "defs": {
                         "code": "$STORAGE_FORMAT",
                         "description": "The on-disk storage format of a data set",
+                        "iri": null,
                         "id": "StorageFormat",
                         "row_location": 24,
                         "url_template": null
