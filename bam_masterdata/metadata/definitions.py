@@ -300,19 +300,10 @@ class PropertyTypeDef(EntityDef):
     """
     Definition class for a property type. It adds the fields of `property_label`, `data_type`,
     `vocabulary_code`, `metadata`, `dynamic_script`, and `multivalued` to the common attributes of
-    an entity definition. E.g.:
+    an entity definition.
 
-    ```python
-    class Alias(PropertyTypeDef):
-        defs = PropertyTypeDef(
-            code='ALIAS',
-            description='
-            e.g. abbreviation or nickname//z.B. Abkürzung oder Spitzname
-            ',
-            data_type='VARCHAR',
-            property_label='Alternative name',
-        )
-    ```
+    This class is used as an abstract layer for `PropertyTypeAssignment`, as in openBIS a PropertyType
+    definition has less fields than when it is actually assigned to an entity type.
     """
 
     property_label: str = Field(
