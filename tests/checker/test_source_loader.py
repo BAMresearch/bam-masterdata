@@ -1,5 +1,4 @@
-import json
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 import pytest
 
@@ -37,6 +36,7 @@ def expected_transformed_data():
                     {
                         "code": "$NAME",
                         "description": "Name",
+                        "iri": None,
                         "id": "Name",
                         "property_label": "Name",
                         "data_type": "VARCHAR",
@@ -54,6 +54,7 @@ def expected_transformed_data():
                 "defs": {
                     "code": "COLLECTION",
                     "description": "",
+                    "iri": None,
                     "id": "Collection",
                     "validation_script": None,
                 },
@@ -63,6 +64,7 @@ def expected_transformed_data():
                     {
                         "code": "DEFAULT_EXPERIMENT.EXPERIMENTAL_DESCRIPTION",
                         "description": "Description of the experiment",
+                        "iri": None,
                         "id": "DefaultExperimentExperimentalDescription",
                         "property_label": "Description",
                         "data_type": "MULTILINE_VARCHAR",
@@ -80,6 +82,7 @@ def expected_transformed_data():
                 "defs": {
                     "code": "DEFAULT_EXPERIMENT",
                     "description": "",
+                    "iri": None,
                     "id": "DefaultExperiment",
                     "validation_script": "DEFAULT_EXPERIMENT.date_range_validation",
                 },
@@ -91,6 +94,7 @@ def expected_transformed_data():
                     {
                         "code": "$HISTORY_ID",
                         "description": "History ID",
+                        "iri": None,
                         "id": "HistoryId",
                         "property_label": "History ID",
                         "data_type": "VARCHAR",
@@ -108,6 +112,7 @@ def expected_transformed_data():
                 "defs": {
                     "code": "ANALYSIS_NOTEBOOK",
                     "description": "",
+                    "iri": None,
                     "id": "AnalysisNotebook",
                     "validation_script": None,
                     "main_dataset_pattern": None,
@@ -119,6 +124,7 @@ def expected_transformed_data():
                     {
                         "code": "NOTES",
                         "description": "Notes//Notizen",
+                        "iri": None,
                         "id": "Notes",
                         "property_label": "Notes",
                         "data_type": "MULTILINE_VARCHAR",
@@ -136,6 +142,7 @@ def expected_transformed_data():
                 "defs": {
                     "code": "ANALYZED_DATA",
                     "description": "",
+                    "iri": None,
                     "id": "AnalyzedData",
                     "validation_script": None,
                     "main_dataset_pattern": None,
@@ -149,6 +156,7 @@ def expected_transformed_data():
                     {
                         "code": "ACTING_PERSON",
                         "description": "Acting Person//Handelnde Person",
+                        "iri": None,
                         "id": "ActingPerson",
                         "property_label": "Acting Person",
                         "data_type": "OBJECT",
@@ -166,6 +174,7 @@ def expected_transformed_data():
                 "defs": {
                     "code": "ACTION",
                     "description": "This Object allows to store information on an action by a user.//Dieses Objekt erlaubt eine Nutzer-Aktion zu beschreiben.",
+                    "iri": None,
                     "id": "Action",
                     "validation_script": None,
                     "generated_code_prefix": "ACT",

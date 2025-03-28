@@ -73,6 +73,7 @@ class SourceLoader:
                         "row_location": entity_data.get("row_location"),
                         "validation_script": entity_data.get("validationPlugin")
                         or None,  # Convert "" to None
+                        "iri": entity_data.get("iri") or None,  # Convert "" to None
                     },
                 }
 
@@ -104,6 +105,7 @@ class SourceLoader:
                                 prop_name
                             ),  # Now correctly formatted to PascalCase
                             "row_location": prop_data.get("row_location"),
+                            "iri": prop_data.get("iri") or None,  # Convert "" to None
                             "property_label": prop_data.get("label"),
                             "data_type": prop_data.get("dataType"),
                             "vocabulary_code": prop_data.get("vocabularyCode")

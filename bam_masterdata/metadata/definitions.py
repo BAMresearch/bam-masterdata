@@ -76,6 +76,16 @@ class EntityDef(BaseModel):
         """,
     )
 
+    # TODO: check if it is necessary to add something like `ontology_annotation_id` in the future
+    iri: Optional[str] = Field(
+        default=None,
+        description="""
+        IRI (Internationalized Resource Identifier) of the entity. This is a unique identifier for the entity
+        and is used to link the entity to an ontology. It is a string with the format `"<ontology_id>:<ontology_version>"`.
+        Example: "http://purl.obolibrary.org/bam-masterdata/Instrument:1.0.0".
+        """,
+    )
+
     id: Optional[str] = Field(
         default=None,
         description="""
@@ -103,6 +113,19 @@ class EntityDef(BaseModel):
                 "`code` must follow the rules specified in the description: 1) Must be uppercase, "
                 "2) separated by underscores, 3) start with a dollar sign if native to openBIS, "
                 "4) separated by dots if there is inheritance."
+            )
+        return value
+
+    @field_validator("iri")
+    @classmethod
+    def validate_iri(cls, value: str) -> str:
+        if not value or not re.match(
+            r"^http://purl.obolibrary.org/bam-masterdata/[\w_]+:[\d.]+$", value
+        ):
+            raise ValueError(
+                "`iri` must follow the rules specified in the description: 1) Must start with 'http://purl.obolibrary.org/bam-masterdata/', "
+                "2) followed by the entity name, 3) separated by a colon, 4) followed by the semantic versioning number. "
+                "Example: 'http://purl.obolibrary.org/bam-masterdata/Instrument:1.0.0'."
             )
         return value
 
@@ -135,7 +158,9 @@ class EntityDef(BaseModel):
         Maps the field keys of the Pydantic model into the openBIS Excel style headers.
         """
         fields = [
-            k for k in self.model_fields.keys() if k not in ["id", "row_location"]
+            k
+            for k in self.model_fields.keys()
+            if k not in ["iri", "id", "row_location"]
         ]
         headers: dict = {}
         for f in fields:

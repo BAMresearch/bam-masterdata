@@ -50,8 +50,8 @@ class TestEntityDef:
         """Test the existing defined fields of the `EntityDef` class."""
         names = list(EntityDef.model_fields.keys())
         field_types = [val.annotation for val in list(EntityDef.model_fields.values())]
-        assert names == ["code", "description", "id", "row_location"]
-        assert field_types == [str, str, Optional[str], Optional[str]]
+        assert names == ["code", "description", "iri", "id", "row_location"]
+        assert field_types == [str, str, Optional[str], Optional[str], Optional[str]]
 
     @pytest.mark.parametrize(
         "code, description, id, is_valid",
@@ -123,11 +123,19 @@ class TestBaseObjectTypeDef:
         assert names == [
             "code",
             "description",
+            "iri",
             "id",
             "row_location",
             "validation_script",
         ]
-        assert field_types == [str, str, Optional[str], Optional[str], Optional[str]]
+        assert field_types == [
+            str,
+            str,
+            Optional[str],
+            Optional[str],
+            Optional[str],
+            Optional[str],
+        ]
 
 
 class TestCollectionTypeDef:
@@ -140,11 +148,19 @@ class TestCollectionTypeDef:
         assert names == [
             "code",
             "description",
+            "iri",
             "id",
             "row_location",
             "validation_script",
         ]
-        assert field_types == [str, str, Optional[str], Optional[str], Optional[str]]
+        assert field_types == [
+            str,
+            str,
+            Optional[str],
+            Optional[str],
+            Optional[str],
+            Optional[str],
+        ]
 
 
 class TestDatasetTypeDef:
@@ -157,6 +173,7 @@ class TestDatasetTypeDef:
         assert names == [
             "code",
             "description",
+            "iri",
             "id",
             "row_location",
             "validation_script",
@@ -166,6 +183,7 @@ class TestDatasetTypeDef:
         assert field_types == [
             str,
             str,
+            Optional[str],
             Optional[str],
             Optional[str],
             Optional[str],
@@ -184,6 +202,7 @@ class TestObjectTypeDef:
         assert names == [
             "code",
             "description",
+            "iri",
             "id",
             "row_location",
             "validation_script",
@@ -193,6 +212,7 @@ class TestObjectTypeDef:
         assert field_types == [
             str,
             str,
+            Optional[str],
             Optional[str],
             Optional[str],
             Optional[str],
@@ -232,6 +252,7 @@ class TestPropertyTypeDef:
         assert names == [
             "code",
             "description",
+            "iri",
             "id",
             "row_location",
             "property_label",
@@ -244,6 +265,7 @@ class TestPropertyTypeDef:
         assert field_types == [
             str,
             str,
+            Optional[str],
             Optional[str],
             Optional[str],
             str,
@@ -265,6 +287,7 @@ class TestPropertyTypeAssignment:
         assert names == [
             "code",
             "description",
+            "iri",
             "id",
             "row_location",
             "property_label",
@@ -282,6 +305,7 @@ class TestPropertyTypeAssignment:
         assert field_types == [
             str,
             str,
+            Optional[str],
             Optional[str],
             Optional[str],
             str,
@@ -305,8 +329,22 @@ class TestVocabularyTypeDef:
         field_types = [
             val.annotation for val in list(VocabularyTypeDef.model_fields.values())
         ]
-        assert names == ["code", "description", "id", "row_location", "url_template"]
-        assert field_types == [str, str, Optional[str], Optional[str], Optional[str]]
+        assert names == [
+            "code",
+            "description",
+            "iri",
+            "id",
+            "row_location",
+            "url_template",
+        ]
+        assert field_types == [
+            str,
+            str,
+            Optional[str],
+            Optional[str],
+            Optional[str],
+            Optional[str],
+        ]
 
 
 class TestVocabularyTerm:
@@ -319,6 +357,7 @@ class TestVocabularyTerm:
         assert names == [
             "code",
             "description",
+            "iri",
             "id",
             "row_location",
             "url_template",
@@ -328,6 +367,7 @@ class TestVocabularyTerm:
         assert field_types == [
             str,
             str,
+            Optional[str],
             Optional[str],
             Optional[str],
             Optional[str],
