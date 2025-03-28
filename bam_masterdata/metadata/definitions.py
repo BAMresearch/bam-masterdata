@@ -118,8 +118,10 @@ class EntityDef(BaseModel):
 
     @field_validator("iri")
     @classmethod
-    def validate_iri(cls, value: str) -> str:
-        if not value or not re.match(
+    def validate_iri(cls, value: Optional[str]) -> Optional[str]:
+        if not value:
+            return value
+        if not re.match(
             r"^http://purl.obolibrary.org/bam-masterdata/[\w_]+:[\d.]+$", value
         ):
             raise ValueError(
