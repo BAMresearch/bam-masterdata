@@ -157,6 +157,7 @@ class MasterDataValidator:
                             entity_data,
                         )
 
+                # TODO: revise if these checks about ordering of sections are truly necessary
                 # Check if "Additional Information" is followed only by "Additional Information" or "Comments"
                 for i in range(len(entity_sections) - 1):
                     current_section = entity_sections[i]["section"]
@@ -268,14 +269,15 @@ class MasterDataValidator:
             # Validate pattern (regex)
             if "pattern" in rule and value is not None:
                 if not re.match(rule["pattern"], str(value)):
-                    log_message = f"{log_message} Invalid format."
+                    log_message = f"{log_message}Invalid format."
+                    level = "error"
                     if "is_description" in rule:
                         log_message = f"{log_message} Description should follow the schema: English Description + '//' + German Description. "
+                        level = "warning"
                     if "is_section" in rule:
                         log_message = f"{log_message} First letter of every word starts with capitalized lettter."
-                    store_log_message(
-                        logger, parent_entity, log_message, level="warning"
-                    )
+                        level = "warning"
+                    store_log_message(logger, parent_entity, log_message, level=level)
 
             # Validate boolean fields
             if "is_bool" in rule and str(value).strip().lower() not in [
@@ -285,16 +287,16 @@ class MasterDataValidator:
                 store_log_message(
                     logger,
                     parent_entity,
-                    f"{log_message} Expected a boolean.",
+                    f"{log_message}Expected a boolean.",
                     level="error",
                 )
 
-            # Validate boolean fields
+            # Validate data types
             if "is_data" in rule and str(value) not in [dt.value for dt in DataType]:
                 store_log_message(
                     logger,
                     parent_entity,
-                    f"{log_message} The Data Type should be one of the following: {[dt.value for dt in DataType]}",
+                    f"{log_message}The Data Type should be one of the following: {[dt.value for dt in DataType]}",
                     level="error",
                 )
 
@@ -307,7 +309,7 @@ class MasterDataValidator:
                     store_log_message(
                         logger,
                         parent_entity,
-                        f"{log_message} The generated code should be a part of the code.",
+                        f"{log_message}The generated code should be a part of the code.",
                         level="warning",
                     )
 
