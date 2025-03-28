@@ -8,12 +8,11 @@ from bam_masterdata.utils import load_validation_rules
 
 
 class MasterdataChecker:
+    VALID_MODES = {"self", "incoming", "validate", "compare", "all", "individual"}
+
     def __init__(self):
         """
         Initialize the comparator with validation rules and set the datamodel directory.
-
-        Args:
-            mode (str): The validation mode ("self", "incoming", "validate", "compare", "all").
         """
         self.current_model: dict = None
         self.new_entities: dict = None
@@ -55,20 +54,19 @@ class MasterdataChecker:
             dict: Validation results.
         """
         # Validate mode selection
-        valid_modes = {"self", "incoming", "validate", "compare", "all"}
-        if mode not in valid_modes:
-            raise ValueError(f"Invalid mode: {mode}. Choose from {valid_modes}.")
+        if mode not in self.VALID_MODES:
+            raise ValueError(f"Invalid mode: {mode}. Choose from {self.VALID_MODES}.")
 
         # Load required models based on the selected mode
         if (
-            mode in {"self", "validate", "compare", "all"}
+            mode in ["self", "validate", "compare", "all"]
             and self.current_model is None
         ):
             self.logger.info("Current model is missing. Loading now...")
             self.load_current_model()
 
         if (
-            mode in {"incoming", "validate", "compare", "all"}
+            mode in ["incoming", "validate", "compare", "all"]
             and self.new_entities is None
         ):
             raise ValueError(
@@ -77,7 +75,7 @@ class MasterdataChecker:
 
         # Load the validation rules
         if (
-            mode in {"self", "incoming", "validate", "all"}
+            mode in ["self", "incoming", "validate", "all"]
             and self.validation_rules == {}
         ):
             self.validation_rules = load_validation_rules(self.logger)
