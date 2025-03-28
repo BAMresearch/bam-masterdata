@@ -30,7 +30,7 @@ def find_datamodel_dir():
         # Case: Running inside bam-masterdata
         Path.cwd() / "bam_masterdata" / "datamodel",
         # Case: Running inside installed package
-        Path(__file__).parent / "datamodel",
+        Path(__file__).parent.parent / "datamodel",
     ]
 
     for path in possible_locations:
