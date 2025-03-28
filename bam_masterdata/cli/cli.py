@@ -408,7 +408,7 @@ def export_to_rdf(force_delete, python_path, export_dir):
     "--datamodel-path",
     "datamodel_path",  # alias
     type=click.Path(exists=True, dir_okay=True),
-    default="./bam_masterdata/datamodel/",
+    default=DATAMODEL_DIR,
     help="""Path to the directory containing the Python modules defining the datamodel (defaults to './bam_masterdata/datamodel/').""",
 )
 def checker(file_path, mode, datamodel_path):
