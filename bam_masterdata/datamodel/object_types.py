@@ -130,7 +130,7 @@ class GeneralProtocol(ObjectType):
         description="""Name""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General info",
     )
 
     for_what = PropertyTypeAssignment(
@@ -207,7 +207,7 @@ class GeneralProtocol(ObjectType):
         code="REFERENCE",
         data_type="MULTILINE_VARCHAR",
         property_label="References",
-        description="""Useful refences//Nützliche Referenzen""",
+        description="""Useful refences""",
         mandatory=False,
         show_in_edit_views=False,
         section="References",
@@ -217,7 +217,7 @@ class GeneralProtocol(ObjectType):
         code="PUBLICATION",
         data_type="MULTILINE_VARCHAR",
         property_label="Publication",
-        description="""Own publication where this entity is referenced//Eigene Publikation, in dem dieses Experiment beschrieben wird""",
+        description="""Own publication where this entity is referenced""",
         mandatory=False,
         show_in_edit_views=False,
         section="References",
@@ -227,10 +227,10 @@ class GeneralProtocol(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
-        section="Additional Information",
+        section="Comments",
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -240,7 +240,7 @@ class GeneralProtocol(ObjectType):
         description="""Comments log""",
         mandatory=False,
         show_in_edit_views=False,
-        section="Comments",
+        section="",
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -355,7 +355,7 @@ class ExperimentalStep(ObjectType):
         code="REFERENCE",
         data_type="MULTILINE_VARCHAR",
         property_label="References",
-        description="""Useful refences//Nützliche Referenzen""",
+        description="""Useful refences""",
         mandatory=False,
         show_in_edit_views=False,
         section="References",
@@ -365,7 +365,7 @@ class ExperimentalStep(ObjectType):
         code="PUBLICATION",
         data_type="MULTILINE_VARCHAR",
         property_label="Publication",
-        description="""Own publication where this entity is referenced//Eigene Publikation, in dem dieses Experiment beschrieben wird""",
+        description="""Own publication where this entity is referenced""",
         mandatory=False,
         show_in_edit_views=False,
         section="References",
@@ -375,7 +375,7 @@ class ExperimentalStep(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -416,7 +416,7 @@ class Storage(ObjectType):
         description="""Name""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General info",
     )
 
     storage_row_num = PropertyTypeAssignment(
@@ -426,7 +426,7 @@ class Storage(ObjectType):
         description="""Number of Rows""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General info",
     )
 
     storage_column_num = PropertyTypeAssignment(
@@ -436,7 +436,7 @@ class Storage(ObjectType):
         description="""Number of Columns""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General info",
     )
 
     storage_box_num = PropertyTypeAssignment(
@@ -446,7 +446,7 @@ class Storage(ObjectType):
         description="""Allowed number of Boxes in a rack""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General info",
     )
 
     storage_storage_space_warning = PropertyTypeAssignment(
@@ -456,7 +456,7 @@ class Storage(ObjectType):
         description="""Number between 0 and 99, represents a percentage""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General info",
     )
 
     storage_box_space_warning = PropertyTypeAssignment(
@@ -466,17 +466,18 @@ class Storage(ObjectType):
         description="""Number between 0 and 99, represents a percentage""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General info",
     )
 
     storage_storage_validation_level = PropertyTypeAssignment(
         code="$STORAGE.STORAGE_VALIDATION_LEVEL",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="$STORAGE.STORAGE_VALIDATION_LEVEL",
         property_label="Validation level",
         description="""Validation level""",
         mandatory=True,
         show_in_edit_views=False,
-        section="General Information",
+        section="General info",
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -486,7 +487,7 @@ class Storage(ObjectType):
         description="""Comments log""",
         mandatory=False,
         show_in_edit_views=False,
-        section="Comments",
+        section="",
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -550,6 +551,7 @@ class StoragePosition(ObjectType):
     storage_position_storage_box_size = PropertyTypeAssignment(
         code="$STORAGE_POSITION.STORAGE_BOX_SIZE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="$STORAGE_POSITION.STORAGE_BOX_SIZE",
         property_label="Storage Box Size",
         description="""Box Size""",
         mandatory=False,
@@ -584,7 +586,7 @@ class StoragePosition(ObjectType):
         description="""Comments log""",
         mandatory=False,
         show_in_edit_views=False,
-        section="Comments",
+        section="",
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -612,7 +614,7 @@ class Supplier(ObjectType):
         description="""Name""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General",
     )
 
     supplier_company_address_line_1 = PropertyTypeAssignment(
@@ -622,7 +624,7 @@ class Supplier(ObjectType):
         description="""Company address""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General",
     )
 
     supplier_company_address_line_2 = PropertyTypeAssignment(
@@ -632,7 +634,7 @@ class Supplier(ObjectType):
         description="""Company address, line 2""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General",
     )
 
     supplier_company_fax = PropertyTypeAssignment(
@@ -642,7 +644,7 @@ class Supplier(ObjectType):
         description="""Company fax""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General",
     )
 
     supplier_company_phone = PropertyTypeAssignment(
@@ -652,7 +654,7 @@ class Supplier(ObjectType):
         description="""Company phone""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General",
     )
 
     supplier_company_email = PropertyTypeAssignment(
@@ -662,17 +664,18 @@ class Supplier(ObjectType):
         description="""Company email""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General",
     )
 
     supplier_company_language = PropertyTypeAssignment(
         code="$SUPPLIER.COMPANY_LANGUAGE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="$SUPPLIER.LANGUAGE",
         property_label="Company language",
         description="""Company language""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General",
     )
 
     supplier_customer_number = PropertyTypeAssignment(
@@ -682,7 +685,7 @@ class Supplier(ObjectType):
         description="""Customer number""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General",
     )
 
     supplier_company_contact_name = PropertyTypeAssignment(
@@ -692,7 +695,7 @@ class Supplier(ObjectType):
         description="""Company contact name""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General",
     )
 
     supplier_company_contact_email = PropertyTypeAssignment(
@@ -702,17 +705,18 @@ class Supplier(ObjectType):
         description="""Company contact email""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General",
     )
 
     supplier_preferred_order_method = PropertyTypeAssignment(
         code="SUPPLIER.PREFERRED_ORDER_METHOD",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="$SUPPLIER.PREFERRED_ORDER_METHOD",
         property_label="Preferred order method",
         description="""Preferred order method""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General",
     )
 
     supplier_url = PropertyTypeAssignment(
@@ -722,7 +726,7 @@ class Supplier(ObjectType):
         description="""URL""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General",
     )
 
     supplier_additional_information = PropertyTypeAssignment(
@@ -732,7 +736,7 @@ class Supplier(ObjectType):
         description="""Additional Information""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General",
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -742,7 +746,7 @@ class Supplier(ObjectType):
         description="""Comments log""",
         mandatory=False,
         show_in_edit_views=False,
-        section="Comments",
+        section="",
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -770,7 +774,7 @@ class Product(ObjectType):
         description="""Name""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General",
     )
 
     product_product_secondary_names = PropertyTypeAssignment(
@@ -780,7 +784,7 @@ class Product(ObjectType):
         description="""Product Secondary Names""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General",
     )
 
     product_description = PropertyTypeAssignment(
@@ -790,7 +794,7 @@ class Product(ObjectType):
         description="""Description""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General",
     )
 
     product_company = PropertyTypeAssignment(
@@ -800,7 +804,7 @@ class Product(ObjectType):
         description="""Company""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General",
     )
 
     product_catalog_num = PropertyTypeAssignment(
@@ -810,7 +814,7 @@ class Product(ObjectType):
         description="""Catalog Number""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General",
     )
 
     product_category = PropertyTypeAssignment(
@@ -820,7 +824,7 @@ class Product(ObjectType):
         description="""Category""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General",
     )
 
     product_hazard_statement = PropertyTypeAssignment(
@@ -830,7 +834,7 @@ class Product(ObjectType):
         description="""Hazard Statement""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General",
     )
 
     product_price_per_unit = PropertyTypeAssignment(
@@ -840,17 +844,18 @@ class Product(ObjectType):
         description="""Estimated Price""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General",
     )
 
     product_currency = PropertyTypeAssignment(
         code="$PRODUCT.CURRENCY",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="$PRODUCT.CURRENCY",
         property_label="Currency",
         description="""Currency""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General",
     )
 
     product_size_of_item = PropertyTypeAssignment(
@@ -860,7 +865,7 @@ class Product(ObjectType):
         description="""Size of Item""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General",
     )
 
     xmlcomments = PropertyTypeAssignment(
@@ -870,7 +875,7 @@ class Product(ObjectType):
         description="""Comments log""",
         mandatory=False,
         show_in_edit_views=False,
-        section="Comments",
+        section="",
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -898,17 +903,18 @@ class Request(ObjectType):
         description="""Name""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General",
     )
 
     ordering_order_status = PropertyTypeAssignment(
         code="$ORDERING.ORDER_STATUS",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="$ORDER.ORDER_STATUS",
         property_label="Order Status",
         description="""Order Status""",
         mandatory=True,
         show_in_edit_views=False,
-        section="General Information",
+        section="General",
     )
 
     request_project = PropertyTypeAssignment(
@@ -918,7 +924,7 @@ class Request(ObjectType):
         description="""Project""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General",
     )
 
     request_department = PropertyTypeAssignment(
@@ -928,7 +934,7 @@ class Request(ObjectType):
         description="""Department""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General",
     )
 
     request_buyer = PropertyTypeAssignment(
@@ -938,7 +944,7 @@ class Request(ObjectType):
         description="""Buyer""",
         mandatory=False,
         show_in_edit_views=False,
-        section="General Information",
+        section="General",
     )
 
     annotations_state = PropertyTypeAssignment(
@@ -1022,6 +1028,7 @@ class Order(ObjectType):
     ordering_order_status = PropertyTypeAssignment(
         code="$ORDERING.ORDER_STATUS",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="$ORDER.ORDER_STATUS",
         property_label="Order Status",
         description="""Order Status""",
         mandatory=True,
@@ -1188,6 +1195,7 @@ class Calibration(ObjectType):
     instrument = PropertyTypeAssignment(
         code="INSTRUMENT",
         data_type="OBJECT",
+        object_code="(ALL)",
         property_label="Testing Machine or Measurement Device",
         description="""Testing machine or measurement device//Prüfmaschine oder Messgerät""",
         mandatory=True,
@@ -1208,6 +1216,7 @@ class Calibration(ObjectType):
     calibration_provider = PropertyTypeAssignment(
         code="CALIBRATION_PROVIDER",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="CALIBRATION_PROVIDER",
         property_label="Calibration provider",
         description="""Calibration provider//Kalibrierdienstleister""",
         mandatory=True,
@@ -1249,7 +1258,7 @@ class Calibration(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -1326,6 +1335,7 @@ class AuxiliaryMaterial(ObjectType):
     auxiliary_material_type = PropertyTypeAssignment(
         code="AUXILIARY_MATERIAL_TYPE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="AUXILIARY_MATERIAL_TYPE",
         property_label="Auxiliary Material Type",
         description="""Auxiliary Material Type//Hilfsstofftyp""",
         mandatory=False,
@@ -1337,7 +1347,7 @@ class AuxiliaryMaterial(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -1444,6 +1454,7 @@ class Instrument(ObjectType):
     dfg_device_code = PropertyTypeAssignment(
         code="DFG_DEVICE_CODE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="DFG_DEVICE_CODE",
         property_label="DFG Device Code",
         description="""DFG Device Code//DFG Gerätegruppenschlüssel (GGS)""",
         mandatory=False,
@@ -1474,6 +1485,7 @@ class Instrument(ObjectType):
     bam_oe = PropertyTypeAssignment(
         code="BAM_OE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_OE",
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=True,
@@ -1484,6 +1496,7 @@ class Instrument(ObjectType):
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
@@ -1494,6 +1507,7 @@ class Instrument(ObjectType):
     co_responsible_person = PropertyTypeAssignment(
         code="CO_RESPONSIBLE_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
@@ -1504,6 +1518,7 @@ class Instrument(ObjectType):
     bam_room = PropertyTypeAssignment(
         code="BAM_ROOM",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_ROOM",
         property_label="BAM Room",
         description="""BAM Room//BAM Raum""",
         mandatory=False,
@@ -1514,6 +1529,7 @@ class Instrument(ObjectType):
     bam_floor = PropertyTypeAssignment(
         code="BAM_FLOOR",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_FLOOR",
         property_label="BAM Floor",
         description="""BAM Floor//BAM Etage""",
         mandatory=False,
@@ -1524,6 +1540,7 @@ class Instrument(ObjectType):
     bam_location = PropertyTypeAssignment(
         code="BAM_LOCATION",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_LOCATION",
         property_label="BAM Location",
         description="""BAM Location//BAM Liegenschaft""",
         mandatory=False,
@@ -1534,6 +1551,7 @@ class Instrument(ObjectType):
     bam_house = PropertyTypeAssignment(
         code="BAM_HOUSE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_HOUSE",
         property_label="BAM House",
         description="""BAM House//BAM Haus""",
         mandatory=False,
@@ -1544,6 +1562,7 @@ class Instrument(ObjectType):
     bam_location_complete = PropertyTypeAssignment(
         code="BAM_LOCATION_COMPLETE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_LOCATION_COMPLETE",
         property_label="Complete BAM Location",
         description="""Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)""",
         mandatory=True,
@@ -1554,6 +1573,7 @@ class Instrument(ObjectType):
     instrument_status = PropertyTypeAssignment(
         code="INSTRUMENT_STATUS",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="INSTRUMENT_STATUS",
         property_label="Instrument Status",
         description="""Instrument status//Instrumentenstatus""",
         mandatory=False,
@@ -1575,7 +1595,7 @@ class Instrument(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -1672,6 +1692,7 @@ class TestingMachine(ObjectType):
     dfg_device_code = PropertyTypeAssignment(
         code="DFG_DEVICE_CODE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="DFG_DEVICE_CODE",
         property_label="DFG Device Code",
         description="""DFG Device Code//DFG Gerätegruppenschlüssel (GGS)""",
         mandatory=False,
@@ -1702,6 +1723,7 @@ class TestingMachine(ObjectType):
     bam_oe = PropertyTypeAssignment(
         code="BAM_OE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_OE",
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=True,
@@ -1712,6 +1734,7 @@ class TestingMachine(ObjectType):
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
@@ -1722,6 +1745,7 @@ class TestingMachine(ObjectType):
     co_responsible_person = PropertyTypeAssignment(
         code="CO_RESPONSIBLE_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
@@ -1732,6 +1756,7 @@ class TestingMachine(ObjectType):
     bam_room = PropertyTypeAssignment(
         code="BAM_ROOM",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_ROOM",
         property_label="BAM Room",
         description="""BAM Room//BAM Raum""",
         mandatory=False,
@@ -1742,6 +1767,7 @@ class TestingMachine(ObjectType):
     bam_floor = PropertyTypeAssignment(
         code="BAM_FLOOR",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_FLOOR",
         property_label="BAM Floor",
         description="""BAM Floor//BAM Etage""",
         mandatory=False,
@@ -1752,6 +1778,7 @@ class TestingMachine(ObjectType):
     bam_house = PropertyTypeAssignment(
         code="BAM_HOUSE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_HOUSE",
         property_label="BAM House",
         description="""BAM House//BAM Haus""",
         mandatory=False,
@@ -1762,6 +1789,7 @@ class TestingMachine(ObjectType):
     bam_location = PropertyTypeAssignment(
         code="BAM_LOCATION",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_LOCATION",
         property_label="BAM Location",
         description="""BAM Location//BAM Liegenschaft""",
         mandatory=False,
@@ -1772,6 +1800,7 @@ class TestingMachine(ObjectType):
     bam_location_complete = PropertyTypeAssignment(
         code="BAM_LOCATION_COMPLETE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_LOCATION_COMPLETE",
         property_label="Complete BAM Location",
         description="""Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)""",
         mandatory=True,
@@ -1782,6 +1811,7 @@ class TestingMachine(ObjectType):
     testing_machine_drive_type = PropertyTypeAssignment(
         code="TESTING_MACHINE_DRIVE_TYPE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="TESTING_MACHINE_DRIVE_TYPE",
         property_label="Drive Type",
         description="""Drive Type//Antriebsart""",
         mandatory=True,
@@ -1792,6 +1822,7 @@ class TestingMachine(ObjectType):
     testing_machine_load_type = PropertyTypeAssignment(
         code="TESTING_MACHINE_LOAD_TYPE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="TESTING_MACHINE_LOAD_TYPE",
         property_label="Load Type",
         description="""Load type//Belastungsart""",
         mandatory=True,
@@ -1852,6 +1883,7 @@ class TestingMachine(ObjectType):
     instrument_status = PropertyTypeAssignment(
         code="INSTRUMENT_STATUS",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="INSTRUMENT_STATUS",
         property_label="Instrument Status",
         description="""Instrument status//Instrumentenstatus""",
         mandatory=False,
@@ -1873,7 +1905,7 @@ class TestingMachine(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -1920,6 +1952,7 @@ class Document(ObjectType):
     document_type = PropertyTypeAssignment(
         code="DOCUMENT_TYPE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="DOCUMENT_TYPE",
         property_label="Document type",
         description="""Document Type//Dokumenten Typ""",
         mandatory=False,
@@ -1961,7 +1994,7 @@ class Document(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -2118,6 +2151,7 @@ class GasBottle(ObjectType):
     bam_oe = PropertyTypeAssignment(
         code="BAM_OE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_OE",
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=True,
@@ -2128,6 +2162,7 @@ class GasBottle(ObjectType):
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
@@ -2138,6 +2173,7 @@ class GasBottle(ObjectType):
     co_responsible_person = PropertyTypeAssignment(
         code="CO_RESPONSIBLE_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
@@ -2148,6 +2184,7 @@ class GasBottle(ObjectType):
     bam_room = PropertyTypeAssignment(
         code="BAM_ROOM",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_ROOM",
         property_label="BAM Room",
         description="""BAM Room//BAM Raum""",
         mandatory=False,
@@ -2158,6 +2195,7 @@ class GasBottle(ObjectType):
     bam_floor = PropertyTypeAssignment(
         code="BAM_FLOOR",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_FLOOR",
         property_label="BAM Floor",
         description="""BAM Floor//BAM Etage""",
         mandatory=False,
@@ -2168,6 +2206,7 @@ class GasBottle(ObjectType):
     bam_house = PropertyTypeAssignment(
         code="BAM_HOUSE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_HOUSE",
         property_label="BAM House",
         description="""BAM House//BAM Haus""",
         mandatory=False,
@@ -2178,6 +2217,7 @@ class GasBottle(ObjectType):
     bam_location = PropertyTypeAssignment(
         code="BAM_LOCATION",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_LOCATION",
         property_label="BAM Location",
         description="""BAM Location//BAM Liegenschaft""",
         mandatory=False,
@@ -2188,6 +2228,7 @@ class GasBottle(ObjectType):
     bam_location_complete = PropertyTypeAssignment(
         code="BAM_LOCATION_COMPLETE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_LOCATION_COMPLETE",
         property_label="Complete BAM Location",
         description="""Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)""",
         mandatory=False,
@@ -2199,7 +2240,7 @@ class GasBottle(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -2286,6 +2327,7 @@ class TestObject(ObjectType):
     test_obj_status = PropertyTypeAssignment(
         code="TEST_OBJ_STATUS",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="TEST_OBJECT_STATUS",
         property_label="Test Object Status",
         description="""Test Object Status//Prüfkörperstatus""",
         mandatory=True,
@@ -2296,6 +2338,7 @@ class TestObject(ObjectType):
     bam_oe = PropertyTypeAssignment(
         code="BAM_OE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_OE",
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=True,
@@ -2306,6 +2349,7 @@ class TestObject(ObjectType):
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
@@ -2316,6 +2360,7 @@ class TestObject(ObjectType):
     bam_room = PropertyTypeAssignment(
         code="BAM_ROOM",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_ROOM",
         property_label="BAM Room",
         description="""BAM Room//BAM Raum""",
         mandatory=False,
@@ -2326,6 +2371,7 @@ class TestObject(ObjectType):
     bam_floor = PropertyTypeAssignment(
         code="BAM_FLOOR",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_FLOOR",
         property_label="BAM Floor",
         description="""BAM Floor//BAM Etage""",
         mandatory=False,
@@ -2336,6 +2382,7 @@ class TestObject(ObjectType):
     bam_house = PropertyTypeAssignment(
         code="BAM_HOUSE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_HOUSE",
         property_label="BAM House",
         description="""BAM House//BAM Haus""",
         mandatory=False,
@@ -2346,6 +2393,7 @@ class TestObject(ObjectType):
     bam_location = PropertyTypeAssignment(
         code="BAM_LOCATION",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_LOCATION",
         property_label="BAM Location",
         description="""BAM Location//BAM Liegenschaft""",
         mandatory=False,
@@ -2356,6 +2404,7 @@ class TestObject(ObjectType):
     bam_location_complete = PropertyTypeAssignment(
         code="BAM_LOCATION_COMPLETE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_LOCATION_COMPLETE",
         property_label="Complete BAM Location",
         description="""Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)""",
         mandatory=False,
@@ -2366,6 +2415,7 @@ class TestObject(ObjectType):
     test_obj_material = PropertyTypeAssignment(
         code="TEST_OBJ_MATERIAL",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BUILDING_MATERIAL_TYPE",
         property_label="Building Material",
         description="""Building Material//Werkstoff""",
         mandatory=True,
@@ -2407,7 +2457,7 @@ class TestObject(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -2494,6 +2544,7 @@ class Project(ObjectType):
     project_status = PropertyTypeAssignment(
         code="PROJECT_STATUS",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="PROJECT_STATUS",
         property_label="Project Status",
         description="""Project Status//Projektstatus""",
         mandatory=True,
@@ -2534,6 +2585,7 @@ class Project(ObjectType):
     project_leader_bam = PropertyTypeAssignment(
         code="PROJECT_LEADER_BAM",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Project Leader",
         description="""Project Leader at BAM//Projektleitung an der BAM""",
         mandatory=False,
@@ -2544,6 +2596,7 @@ class Project(ObjectType):
     bam_oe = PropertyTypeAssignment(
         code="BAM_OE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_OE",
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=True,
@@ -2554,6 +2607,7 @@ class Project(ObjectType):
     bam_focus_area = PropertyTypeAssignment(
         code="BAM_FOCUS_AREA",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_FOCUS_AREA",
         property_label="BAM Focus Area",
         description="""BAM Focus Area//BAM Themenfeld""",
         mandatory=False,
@@ -2564,6 +2618,7 @@ class Project(ObjectType):
     bam_field_of_activity = PropertyTypeAssignment(
         code="BAM_FIELD_OF_ACTIVITY",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_FIELD_OF_ACTIVITY",
         property_label="BAM Field of Activity",
         description="""BAM Field of Activity//BAM Aktivitätsfeld""",
         mandatory=False,
@@ -2615,7 +2670,7 @@ class Project(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -2780,6 +2835,7 @@ class Control(ObjectType):
     acting_person = PropertyTypeAssignment(
         code="ACTING_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Acting Person",
         description="""Acting Person//Handelnde Person""",
         mandatory=False,
@@ -2838,6 +2894,7 @@ class Task(ObjectType):
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=True,
@@ -2848,6 +2905,7 @@ class Task(ObjectType):
     co_responsible_person = PropertyTypeAssignment(
         code="CO_RESPONSIBLE_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
@@ -2926,6 +2984,7 @@ class SpecificPersonInfo(ObjectType):
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=True,
@@ -2946,6 +3005,7 @@ class SpecificPersonInfo(ObjectType):
     person_status = PropertyTypeAssignment(
         code="PERSON_STATUS",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="PERSON_STATUS",
         property_label="Person status",
         description="""Person status//Anwesenheitsstatus einer Person""",
         mandatory=True,
@@ -3014,6 +3074,7 @@ class Sop(ObjectType):
     bam_oe = PropertyTypeAssignment(
         code="BAM_OE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_OE",
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=True,
@@ -3024,6 +3085,7 @@ class Sop(ObjectType):
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=True,
@@ -3034,6 +3096,7 @@ class Sop(ObjectType):
     co_responsible_person = PropertyTypeAssignment(
         code="CO_RESPONSIBLE_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=True,
@@ -3095,7 +3158,7 @@ class Sop(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -3192,6 +3255,7 @@ class Sample(ObjectType):
     physical_state = PropertyTypeAssignment(
         code="PHYSICAL_STATE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="PHYSICAL_STATE",
         property_label="Physical State",
         description="""Physical state of a material // Physikalischer Zustand eines Materials""",
         mandatory=False,
@@ -3202,6 +3266,7 @@ class Sample(ObjectType):
     bam_oe = PropertyTypeAssignment(
         code="BAM_OE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_OE",
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=True,
@@ -3212,6 +3277,7 @@ class Sample(ObjectType):
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
@@ -3222,6 +3288,7 @@ class Sample(ObjectType):
     co_responsible_person = PropertyTypeAssignment(
         code="CO_RESPONSIBLE_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
@@ -3232,6 +3299,7 @@ class Sample(ObjectType):
     bam_room = PropertyTypeAssignment(
         code="BAM_ROOM",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_ROOM",
         property_label="BAM Room",
         description="""BAM Room//BAM Raum""",
         mandatory=False,
@@ -3242,6 +3310,7 @@ class Sample(ObjectType):
     bam_floor = PropertyTypeAssignment(
         code="BAM_FLOOR",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_FLOOR",
         property_label="BAM Floor",
         description="""BAM Floor//BAM Etage""",
         mandatory=False,
@@ -3252,6 +3321,7 @@ class Sample(ObjectType):
     bam_house = PropertyTypeAssignment(
         code="BAM_HOUSE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_HOUSE",
         property_label="BAM House",
         description="""BAM House//BAM Haus""",
         mandatory=False,
@@ -3262,6 +3332,7 @@ class Sample(ObjectType):
     bam_location = PropertyTypeAssignment(
         code="BAM_LOCATION",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_LOCATION",
         property_label="BAM Location",
         description="""BAM Location//BAM Liegenschaft""",
         mandatory=False,
@@ -3272,6 +3343,7 @@ class Sample(ObjectType):
     bam_location_complete = PropertyTypeAssignment(
         code="BAM_LOCATION_COMPLETE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_LOCATION_COMPLETE",
         property_label="Complete BAM Location",
         description="""Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)""",
         mandatory=False,
@@ -3283,7 +3355,7 @@ class Sample(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -3410,6 +3482,7 @@ class Chemical(ObjectType):
     product_category = PropertyTypeAssignment(
         code="PRODUCT_CATEGORY",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="CHEMICAL_PRODUCT_CATEGORY",
         property_label="Product Category",
         description="""Product Category (corresponds to field `Product Category` in the Hazardous Materials Inventory (GSM) of BAM)//Produktkategorie (entspricht Feld `Verwendungstypen/Produktkategorie` aus dem Gefahrstoffmanagement (GSM) der BAM))""",
         mandatory=False,
@@ -3430,6 +3503,7 @@ class Chemical(ObjectType):
     bam_oe = PropertyTypeAssignment(
         code="BAM_OE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_OE",
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=True,
@@ -3440,6 +3514,7 @@ class Chemical(ObjectType):
     bam_room = PropertyTypeAssignment(
         code="BAM_ROOM",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_ROOM",
         property_label="BAM Room",
         description="""BAM Room//BAM Raum""",
         mandatory=False,
@@ -3450,6 +3525,7 @@ class Chemical(ObjectType):
     bam_floor = PropertyTypeAssignment(
         code="BAM_FLOOR",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_FLOOR",
         property_label="BAM Floor",
         description="""BAM Floor//BAM Etage""",
         mandatory=False,
@@ -3460,6 +3536,7 @@ class Chemical(ObjectType):
     bam_house = PropertyTypeAssignment(
         code="BAM_HOUSE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_HOUSE",
         property_label="BAM House",
         description="""BAM House//BAM Haus""",
         mandatory=False,
@@ -3470,6 +3547,7 @@ class Chemical(ObjectType):
     bam_location = PropertyTypeAssignment(
         code="BAM_LOCATION",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_LOCATION",
         property_label="BAM Location",
         description="""BAM Location//BAM Liegenschaft""",
         mandatory=False,
@@ -3480,6 +3558,7 @@ class Chemical(ObjectType):
     bam_location_complete = PropertyTypeAssignment(
         code="BAM_LOCATION_COMPLETE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_LOCATION_COMPLETE",
         property_label="Complete BAM Location",
         description="""Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)""",
         mandatory=True,
@@ -3490,6 +3569,7 @@ class Chemical(ObjectType):
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
@@ -3571,7 +3651,7 @@ class Chemical(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -3648,6 +3728,7 @@ class Organism(ObjectType):
     organism_risk_group = PropertyTypeAssignment(
         code="ORGANISM_RISK_GROUP",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="ORGANISM_RISK_GROUP",
         property_label="Organism Risk Group Assignement",
         description="""Organism Risk Group Assignment//Risikogruppenzuordnung des Organismus""",
         mandatory=True,
@@ -3658,6 +3739,7 @@ class Organism(ObjectType):
     organism_group = PropertyTypeAssignment(
         code="ORGANISM_GROUP",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="ORGANISM_GROUP",
         property_label="Organism Group Assignment",
         description="""Organism group assignment according to the central comission of biological safety or category in the BAM-Biomicrosearch//Organismen Gruppenzuordnung anhand ZKBS bzw. die Kategorie in der BAM-Microsearch Datenbank database//Organismen Gruppenzuordnung anhand ZKBS bzw. die Kategorie in der BAM-Microsearch Datenbank""",
         mandatory=True,
@@ -3678,6 +3760,7 @@ class Organism(ObjectType):
     organism_footnote = PropertyTypeAssignment(
         code="ORGANISM_FOOTNOTE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="ORGANISM_FOOTNOTE_ZKBS",
         property_label="ZKBS Footnote",
         description="""Central commission for biological safety Footnotes//Zentral Komission für Biologische Sicherheit ZKBS Fußnote""",
         mandatory=False,
@@ -3699,7 +3782,7 @@ class Organism(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -3766,6 +3849,7 @@ class BamGentechFacility(ObjectType):
     gentech_safety_level = PropertyTypeAssignment(
         code="GENTECH_SAFETY_LEVEL",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="GENTECH_SAFETY_LEVEL",
         property_label="Genetic Engineering Facility Safety Level",
         description="""BAM genetic engineering facility//BAM gentechnische Anlage""",
         mandatory=True,
@@ -3776,6 +3860,7 @@ class BamGentechFacility(ObjectType):
     gentech_project_lead = PropertyTypeAssignment(
         code="GENTECH_PROJECT_LEAD",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Genetic Engineering Facility Project Leader",
         description="""BAM Project Leader according to GenTSV//BAM Project Leiter nach GenTSV""",
         mandatory=True,
@@ -3786,6 +3871,7 @@ class BamGentechFacility(ObjectType):
     gentech_biosafety_officer = PropertyTypeAssignment(
         code="GENTECH_BIOSAFETY_OFFICER",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Genetic Engineering Facility Biosafety Officer",
         description="""BAM Biosafety Officer according to GenTSV//BAM Beauftragte für biologische Sicherheit nach GenTSV""",
         mandatory=True,
@@ -3796,6 +3882,7 @@ class BamGentechFacility(ObjectType):
     bam_oe = PropertyTypeAssignment(
         code="BAM_OE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_OE",
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=True,
@@ -3806,6 +3893,7 @@ class BamGentechFacility(ObjectType):
     bam_room = PropertyTypeAssignment(
         code="BAM_ROOM",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_ROOM",
         property_label="BAM Room",
         description="""BAM Room//BAM Raum""",
         mandatory=False,
@@ -3816,6 +3904,7 @@ class BamGentechFacility(ObjectType):
     bam_floor = PropertyTypeAssignment(
         code="BAM_FLOOR",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_FLOOR",
         property_label="BAM Floor",
         description="""BAM Floor//BAM Etage""",
         mandatory=False,
@@ -3826,6 +3915,7 @@ class BamGentechFacility(ObjectType):
     bam_house = PropertyTypeAssignment(
         code="BAM_HOUSE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_HOUSE",
         property_label="BAM House",
         description="""BAM House//BAM Haus""",
         mandatory=False,
@@ -3836,6 +3926,7 @@ class BamGentechFacility(ObjectType):
     bam_location = PropertyTypeAssignment(
         code="BAM_LOCATION",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_LOCATION",
         property_label="BAM Location",
         description="""BAM Location//BAM Liegenschaft""",
         mandatory=False,
@@ -3846,6 +3937,7 @@ class BamGentechFacility(ObjectType):
     bam_location_complete = PropertyTypeAssignment(
         code="BAM_LOCATION_COMPLETE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_LOCATION_COMPLETE",
         property_label="Complete BAM Location",
         description="""Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)""",
         mandatory=False,
@@ -3857,7 +3949,7 @@ class BamGentechFacility(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -3974,6 +4066,7 @@ class GlassWare(ObjectType):
     bam_oe = PropertyTypeAssignment(
         code="BAM_OE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_OE",
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=True,
@@ -3984,6 +4077,7 @@ class GlassWare(ObjectType):
     bam_room = PropertyTypeAssignment(
         code="BAM_ROOM",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_ROOM",
         property_label="BAM Room",
         description="""BAM Room//BAM Raum""",
         mandatory=False,
@@ -3994,6 +4088,7 @@ class GlassWare(ObjectType):
     bam_floor = PropertyTypeAssignment(
         code="BAM_FLOOR",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_FLOOR",
         property_label="BAM Floor",
         description="""BAM Floor//BAM Etage""",
         mandatory=False,
@@ -4004,6 +4099,7 @@ class GlassWare(ObjectType):
     bam_house = PropertyTypeAssignment(
         code="BAM_HOUSE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_HOUSE",
         property_label="BAM House",
         description="""BAM House//BAM Haus""",
         mandatory=False,
@@ -4014,6 +4110,7 @@ class GlassWare(ObjectType):
     bam_location = PropertyTypeAssignment(
         code="BAM_LOCATION",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_LOCATION",
         property_label="BAM Location",
         description="""BAM Location//BAM Liegenschaft""",
         mandatory=False,
@@ -4024,6 +4121,7 @@ class GlassWare(ObjectType):
     bam_location_complete = PropertyTypeAssignment(
         code="BAM_LOCATION_COMPLETE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_LOCATION_COMPLETE",
         property_label="Complete BAM Location",
         description="""Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)""",
         mandatory=False,
@@ -4035,7 +4133,7 @@ class GlassWare(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -4140,6 +4238,7 @@ class Action(ObjectType):
     acting_person = PropertyTypeAssignment(
         code="ACTING_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Acting Person",
         description="""Acting Person//Handelnde Person""",
         mandatory=False,
@@ -4239,7 +4338,7 @@ class RawMaterialCode(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -4307,7 +4406,7 @@ class ParameterSet(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -4375,7 +4474,7 @@ class EnvironmentalConditions(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -4453,7 +4552,7 @@ class SampleNdt(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -4520,6 +4619,7 @@ class SampleHolder(ObjectType):
     sample_holder_material = PropertyTypeAssignment(
         code="SAMPLE_HOLDER_MATERIAL",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="SAMPLE_HOLDER_MATERIAL",
         property_label="Holder Material",
         description="""Material of the sample holder//Material des Probenbehälters""",
         mandatory=True,
@@ -4541,7 +4641,7 @@ class SampleHolder(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -4715,7 +4815,7 @@ class ComputationalAnalysis(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -4793,7 +4893,7 @@ class CondaEnvironment(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -4880,6 +4980,7 @@ class Hpc(ObjectType):
     operating_system = PropertyTypeAssignment(
         code="OPERATING_SYSTEM",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="OPERATING_SYSTEM",
         property_label="Operating System",
         description="""Operating System (OS)//Betriebssystem""",
         mandatory=False,
@@ -4890,6 +4991,7 @@ class Hpc(ObjectType):
     queuing_system = PropertyTypeAssignment(
         code="QUEUING_SYSTEM",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="QUEUING_SYSTEM",
         property_label="Queuing System",
         description="""Queuing System used by HPC//Warteschlangensystem des HPCs""",
         mandatory=False,
@@ -4931,7 +5033,7 @@ class Hpc(ObjectType):
         code="REFERENCE",
         data_type="MULTILINE_VARCHAR",
         property_label="References",
-        description="""Useful refences//Nützliche Referenzen""",
+        description="""Useful refences""",
         mandatory=False,
         show_in_edit_views=False,
         section="External Documentation",
@@ -4940,6 +5042,7 @@ class Hpc(ObjectType):
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
@@ -4950,6 +5053,7 @@ class Hpc(ObjectType):
     co_responsible_person = PropertyTypeAssignment(
         code="CO_RESPONSIBLE_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
@@ -4961,7 +5065,7 @@ class Hpc(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -5028,6 +5132,7 @@ class InteratomicPotential(ObjectType):
     atom_potential_style = PropertyTypeAssignment(
         code="ATOM_POTENTIAL_STYLE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="ATOM_POTENTIAL_STYLE",
         property_label="Interatomic Potential Style",
         description="""Interatomic Potential Style//Interatomarer Potential Stil""",
         mandatory=False,
@@ -5059,7 +5164,7 @@ class InteratomicPotential(ObjectType):
         code="REFERENCE",
         data_type="MULTILINE_VARCHAR",
         property_label="References",
-        description="""Useful refences//Nützliche Referenzen""",
+        description="""Useful refences""",
         mandatory=False,
         show_in_edit_views=False,
         section="External Documentation",
@@ -5069,7 +5174,7 @@ class InteratomicPotential(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -5157,7 +5262,7 @@ class JupyterNotebook(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -5244,6 +5349,7 @@ class Pseudopotential(ObjectType):
     pseudopot_func = PropertyTypeAssignment(
         code="PSEUDOPOT_FUNC",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="PSEUDOPOT_FUNCTIONAL",
         property_label="Functional Compatibility",
         description="""Functional compatibility//Funktional-Kompatibilität""",
         mandatory=False,
@@ -5254,6 +5360,7 @@ class Pseudopotential(ObjectType):
     pseudopot_type = PropertyTypeAssignment(
         code="PSEUDOPOT_TYPE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="PSEUDOPOT_TYPE",
         property_label="Type of Pseudopotenial",
         description="""Type of pseudopotenial//Art des Pseudopotenials""",
         mandatory=False,
@@ -5285,7 +5392,7 @@ class Pseudopotential(ObjectType):
         code="REFERENCE",
         data_type="MULTILINE_VARCHAR",
         property_label="References",
-        description="""Useful refences//Nützliche Referenzen""",
+        description="""Useful refences""",
         mandatory=False,
         show_in_edit_views=False,
         section="External Documetation",
@@ -5295,7 +5402,7 @@ class Pseudopotential(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -5463,7 +5570,7 @@ class PyironJob(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -5571,7 +5678,7 @@ class SoftwareCode(ObjectType):
         code="REFERENCE",
         data_type="MULTILINE_VARCHAR",
         property_label="References",
-        description="""Useful refences//Nützliche Referenzen""",
+        description="""Useful refences""",
         mandatory=False,
         show_in_edit_views=False,
         section="External Documentation",
@@ -5581,7 +5688,7 @@ class SoftwareCode(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -5639,7 +5746,7 @@ class WorkflowReference(ObjectType):
         code="REFERENCE",
         data_type="MULTILINE_VARCHAR",
         property_label="References",
-        description="""Useful refences//Nützliche Referenzen""",
+        description="""Useful refences""",
         mandatory=False,
         show_in_edit_views=False,
         section="External Documetation",
@@ -5649,7 +5756,7 @@ class WorkflowReference(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -5716,6 +5823,7 @@ class MaterialV1(ObjectType):
     mat_structure = PropertyTypeAssignment(
         code="MAT_STRUCTURE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="MAT_STRUCTURE",
         property_label="Material Structure",
         description="""Material Structure//Materialstruktur""",
         mandatory=False,
@@ -5747,7 +5855,7 @@ class MaterialV1(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -5865,7 +5973,7 @@ class MatSimStructure(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -5912,6 +6020,7 @@ class Dcpd(ExperimentalStep):
     dcpd_pot_drop_cal = PropertyTypeAssignment(
         code="DCPD_POT_DROP_CAL",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="DCPD_POT_CAL",
         property_label="Potential Drop Calibration",
         description="""Potential Drop Calibration//Kalibrierung des Potentialabfalls""",
         mandatory=False,
@@ -6196,6 +6305,7 @@ class FcgStep(ExperimentalStep):
     fcg_step_type = PropertyTypeAssignment(
         code="FCG_STEP_TYPE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="FCG_STEP_TYPE",
         property_label="Step Type",
         description="""Step Type//Versuchsschritt-Typ""",
         mandatory=False,
@@ -6602,6 +6712,7 @@ class MicroscopyFcgFractureSurfaceCracklength(ExperimentalStep):
     mic_fcg_fracsurf_cracklength_type = PropertyTypeAssignment(
         code="MIC_FCG_FRACSURF_CRACKLENGTH_TYPE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="MICROSCOPY_FCG_CRACKLENGTH_TYPE",
         property_label="Type of Cracklength measured on Fracture Surface",
         description="""Type of Cracklength measured on Fracture Surface//Art der auf der Bruchfläche gemessenen Risslänge""",
         mandatory=False,
@@ -6640,6 +6751,7 @@ class FcgEvaluation(ExperimentalStep):
     test_type = PropertyTypeAssignment(
         code="TEST_TYPE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="TEST_PROGRAM_TYPE",
         property_label="Test Type",
         description="""Test Type//Art des Versuchs""",
         mandatory=False,
@@ -6669,6 +6781,7 @@ class Fcg(ObjectType):
     spec_status = PropertyTypeAssignment(
         code="SPEC_STATUS",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="SPECIMEN_STATUS",
         property_label="Specimen Status",
         description="""Specimen Status//Probenstatus""",
         mandatory=False,
@@ -6679,6 +6792,7 @@ class Fcg(ObjectType):
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
@@ -6689,6 +6803,7 @@ class Fcg(ObjectType):
     spec_fcg_type = PropertyTypeAssignment(
         code="SPEC_FCG_TYPE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="SPECIMEN_TYPE_FCG_TEST",
         property_label="Fatigue Crack Growth Specimen Type",
         description="""Fatigue Crack Growth Specimen Type//Ermüdungsrisswachstums-Probentyp""",
         mandatory=False,
@@ -6729,6 +6844,7 @@ class Fcg(ObjectType):
     spec_fcg_notchtype = PropertyTypeAssignment(
         code="SPEC_FCG_NOTCHTYPE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="NOTCH_TYPE_FCG",
         property_label="Notch Type",
         description="""Notch Type//Kerbtyp""",
         mandatory=True,
@@ -6770,7 +6886,7 @@ class Fcg(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -6828,6 +6944,7 @@ class Steel(ObjectType):
     mat_code = PropertyTypeAssignment(
         code="MAT_CODE",
         data_type="OBJECT",
+        object_code="RAW_MATERIAL_CODE",
         property_label="Material Number",
         description="""Material Number//Werkstoffnummer""",
         mandatory=False,
@@ -6868,6 +6985,7 @@ class Steel(ObjectType):
     steel_treatment_first = PropertyTypeAssignment(
         code="STEEL_TREATMENT_FIRST",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="RAW_MAT_TREATMENT_STEEL",
         property_label="First Treatment",
         description="""First Treatment//Erste Behandlung""",
         mandatory=False,
@@ -6878,6 +6996,7 @@ class Steel(ObjectType):
     steel_treatment_second = PropertyTypeAssignment(
         code="STEEL_TREATMENT_SECOND",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="RAW_MAT_TREATMENT_STEEL",
         property_label="Second Treatment",
         description="""Second Treatment//Zweite Behandlung""",
         mandatory=False,
@@ -6888,6 +7007,7 @@ class Steel(ObjectType):
     steel_treatment_third = PropertyTypeAssignment(
         code="STEEL_TREATMENT_THIRD",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="RAW_MAT_TREATMENT_STEEL",
         property_label="Third Treatment",
         description="""Third Treatment//Dritte Behandlung""",
         mandatory=False,
@@ -6898,6 +7018,7 @@ class Steel(ObjectType):
     steel_treatment_fourth = PropertyTypeAssignment(
         code="STEEL_TREATMENT_FOURTH",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="RAW_MAT_TREATMENT_STEEL",
         property_label="Fourth Treatment",
         description="""Fourth Treatment//Vierte Behandlung""",
         mandatory=False,
@@ -6908,6 +7029,7 @@ class Steel(ObjectType):
     raw_mat_form = PropertyTypeAssignment(
         code="RAW_MAT_FORM",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="RAW_MAT_FORM",
         property_label="Raw Material Form",
         description="""Raw Material Form//Halbzeugart""",
         mandatory=False,
@@ -7139,7 +7261,7 @@ class Steel(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -7197,6 +7319,7 @@ class Aluminium(ObjectType):
     mat_code = PropertyTypeAssignment(
         code="MAT_CODE",
         data_type="OBJECT",
+        object_code="RAW_MATERIAL_CODE",
         property_label="Material Number",
         description="""Material Number//Werkstoffnummer""",
         mandatory=False,
@@ -7237,6 +7360,7 @@ class Aluminium(ObjectType):
     alu_treatment_first = PropertyTypeAssignment(
         code="ALU_TREATMENT_FIRST",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="RAW_MAT_TREATMENT_ALU",
         property_label="First Treatment",
         description="""First Treatment//Erste Behandlung""",
         mandatory=False,
@@ -7247,6 +7371,7 @@ class Aluminium(ObjectType):
     alu_treatment_second = PropertyTypeAssignment(
         code="ALU_TREATMENT_SECOND",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="RAW_MAT_TREATMENT_ALU",
         property_label="Second Treatment",
         description="""Second Treatment//Zweite Behandlung""",
         mandatory=False,
@@ -7257,6 +7382,7 @@ class Aluminium(ObjectType):
     alu_treatment_third = PropertyTypeAssignment(
         code="ALU_TREATMENT_THIRD",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="RAW_MAT_TREATMENT_ALU",
         property_label="Third Treatment",
         description="""Third Treatment//Dritte Behandlung""",
         mandatory=False,
@@ -7267,6 +7393,7 @@ class Aluminium(ObjectType):
     alu_treatment_fourth = PropertyTypeAssignment(
         code="ALU_TREATMENT_FOURTH",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="RAW_MAT_TREATMENT_ALU",
         property_label="Fourth Treatment",
         description="""Fourth Treatment//Vierte Behandlung""",
         mandatory=False,
@@ -7277,6 +7404,7 @@ class Aluminium(ObjectType):
     raw_mat_form = PropertyTypeAssignment(
         code="RAW_MAT_FORM",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="RAW_MAT_FORM",
         property_label="Raw Material Form",
         description="""Raw Material Form//Halbzeugart""",
         mandatory=False,
@@ -7508,7 +7636,7 @@ class Aluminium(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -7719,6 +7847,7 @@ class LoadFrame(Instrument):
     load_frame_orientation = PropertyTypeAssignment(
         code="LOAD_FRAME_ORIENTATION",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="LOAD_FRAME_ORIENTATION",
         property_label="Load Frame Orientation",
         description="""Load Frame Orientation//Orientierung des Lastrahmens""",
         mandatory=False,
@@ -7785,6 +7914,7 @@ class Thermocouple(Instrument):
     tc_type = PropertyTypeAssignment(
         code="TC_TYPE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="THERMOCOUPLE_TYPE",
         property_label="Thermocouple Type",
         description="""Thermocouple Type//Thermoelement Typ""",
         mandatory=True,
@@ -7853,6 +7983,7 @@ class Rtd(Instrument):
     rtd_type = PropertyTypeAssignment(
         code="RTD_TYPE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="RTD_TYPE",
         property_label="RTD Type",
         description="""RTD Type//Widerstandsthermometer Typ""",
         mandatory=False,
@@ -7883,6 +8014,7 @@ class Rtd(Instrument):
     rtd_accuracy_class = PropertyTypeAssignment(
         code="RTD_ACCURACY_CLASS",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="RTD_ACCURACY_CLASS",
         property_label="RTD Accuracy Class",
         description="""RTD Accuracy Class//Widerstandsthermometer Genauigkeitsklasse""",
         mandatory=False,
@@ -7893,6 +8025,7 @@ class Rtd(Instrument):
     rtd_insulation_material = PropertyTypeAssignment(
         code="RTD_INSULATION_MATERIAL",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="RTD_INSULATION_MATERIAL",
         property_label="RTD Insulation Material",
         description="""RTD Insulation Material//Widerstandsthermometer Isolationsmaterial""",
         mandatory=False,
@@ -7933,6 +8066,7 @@ class Rtd(Instrument):
     rtd_connection = PropertyTypeAssignment(
         code="RTD_CONNECTION",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="RTD_CONNECTION_TYPE",
         property_label="RTD Connection",
         description="""RTD Connection//Widerstandsthermometer Anschlussart""",
         mandatory=False,
@@ -8178,6 +8312,7 @@ class Test(ObjectType):
     test_setup_type = PropertyTypeAssignment(
         code="TEST_SETUP_TYPE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="TEST_SETUP_TYPE",
         property_label="Test Setup Type",
         description="""Test Setup Type//Test Setup Typ""",
         mandatory=False,
@@ -8219,7 +8354,7 @@ class Test(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -8266,6 +8401,7 @@ class MeasuringAmplifier(Instrument):
     accuracy_class_vde0410 = PropertyTypeAssignment(
         code="ACCURACY_CLASS_VDE0410",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="ACCURACY_CLASS_VDE0410",
         property_label="Accuracy Class according to VDE 0410",
         description="""Accuracy Class according to VDE 0410//Genauigkeitsklasse anch VDE 0410""",
         mandatory=False,
@@ -8550,6 +8686,7 @@ class VideoRecording(ExperimentalStep):
     camera_shutter_mode = PropertyTypeAssignment(
         code="CAMERA_SHUTTER_MODE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="CAMERA_SHUTTER_MODE",
         property_label="Shutter mode",
         description="""The shutter mode used for video recording//Belichtungsprinzip des Bildsensors""",
         mandatory=False,
@@ -8578,6 +8715,7 @@ class Weldment(ExperimentalStep):
     experimental_step_weldment_type = PropertyTypeAssignment(
         code="EXPERIMENTAL_STEP.WELDMENT_TYPE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="WELDING.WELD_TYPE",
         property_label="Type of weld",
         description="""Type of weldment made//Art der Schweißverbindung""",
         mandatory=False,
@@ -8667,6 +8805,7 @@ class Welding(ObjectType):
     bam_oe = PropertyTypeAssignment(
         code="BAM_OE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_OE",
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=True,
@@ -8677,6 +8816,7 @@ class Welding(ObjectType):
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
@@ -8687,6 +8827,7 @@ class Welding(ObjectType):
     co_responsible_person = PropertyTypeAssignment(
         code="CO_RESPONSIBLE_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
@@ -8698,7 +8839,7 @@ class Welding(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
@@ -9145,6 +9286,7 @@ class Ftir(ExperimentalStep):
     ftir_accessory = PropertyTypeAssignment(
         code="FTIR.ACCESSORY",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="FTIR_ACCESSORIES",
         property_label="Accessory",
         description="""FTIR Accessory//FTIR Zubehör""",
         mandatory=False,
@@ -9301,6 +9443,7 @@ class Nmr(ExperimentalStep):
     nmr_nucleus_direct = PropertyTypeAssignment(
         code="NMR.NUCLEUS_DIRECT",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="NMR_NUCLEI",
         property_label="Nucleus (direct)",
         description="""Nucleus (direct)//Kern (direct)""",
         mandatory=False,
@@ -9311,6 +9454,7 @@ class Nmr(ExperimentalStep):
     nmr_nucleus_indirect = PropertyTypeAssignment(
         code="NMR.NUCLEUS_INDIRECT",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="NMR_NUCLEI",
         property_label="Nucleus (indirect, 2D only)",
         description="""Nucleus (indirect, 2D only)//Kern (indirekt, nur 2D)""",
         mandatory=False,
@@ -9321,6 +9465,7 @@ class Nmr(ExperimentalStep):
     nmr_solvent = PropertyTypeAssignment(
         code="NMR.SOLVENT",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="NMR_SOLVENTS",
         property_label="Solvent",
         description="""NMR Solvent//NMR Lösungsmittel""",
         mandatory=False,
@@ -9341,6 +9486,7 @@ class Nmr(ExperimentalStep):
     nmr_experiment = PropertyTypeAssignment(
         code="NMR.EXPERIMENT",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="NMR_EXPERIMENT_TYPES",
         property_label="Experiment",
         description="""NMR Experiment//NMR Experiment""",
         mandatory=False,
@@ -10143,6 +10289,7 @@ class Bam(Person):
     bam_oe = PropertyTypeAssignment(
         code="BAM_OE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_OE",
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=True,
@@ -10249,6 +10396,7 @@ class MassSpec(Instrument):
     mass_spec_type = PropertyTypeAssignment(
         code="MASS_SPEC_TYPE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="MASS_SPEC_TYPE",
         property_label="MS Type",
         description="""Mass Spectrometer Type//Massenspektrometer-Typ""",
         mandatory=False,
@@ -10297,6 +10445,7 @@ class Scale(Instrument):
     unit_mass = PropertyTypeAssignment(
         code="UNIT_MASS",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="UNIT_MASS",
         property_label="Mass unit//Masseeinheit",
         description="""Mass unit//Masseeinheit""",
         mandatory=True,
@@ -10315,6 +10464,7 @@ class MsCenter(Project):
     acting_person = PropertyTypeAssignment(
         code="ACTING_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Acting Person",
         description="""Acting Person//Handelnde Person""",
         mandatory=True,
@@ -10423,6 +10573,7 @@ class SpectrometerOptical(Instrument):
     spectrometer_type = PropertyTypeAssignment(
         code="SPECTROMETER_TYPE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="OPTICAL_SPECTROMETER_TYPE",
         property_label="Spectrometer Type",
         description="""Type of spectrometer//Spektrometertyp""",
         mandatory=False,
@@ -10491,6 +10642,7 @@ class LaserGeneral(Instrument):
     laser_type = PropertyTypeAssignment(
         code="LASER_TYPE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="LASER_TYPE",
         property_label="Laser Type",
         description="""Type of the laser//Lasertyp""",
         mandatory=False,
@@ -10529,6 +10681,7 @@ class Technikum(Sample):
     technikum_material_usage = PropertyTypeAssignment(
         code="TECHNIKUM_MATERIAL_USAGE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="MATERIAL_USAGE_TECHNIKUM",
         property_label="Material usage",
         description="""Potential material usage//Möglicher Verwendungszweck des Materials""",
         mandatory=False,
@@ -10547,6 +10700,7 @@ class GmoDonor(Sample):
     donor = PropertyTypeAssignment(
         code="DONOR",
         data_type="OBJECT",
+        object_code="ORGANISM",
         property_label="Donor Organism",
         description="""Name of the donor organism of which the genetic information is used for generating a GMO//Name des Spenderorganismus, dessen genetische Information für die Erzeugung eines GVO verwendet wird""",
         mandatory=False,
@@ -10557,6 +10711,7 @@ class GmoDonor(Sample):
     donor_risk_group = PropertyTypeAssignment(
         code="DONOR_RISK_GROUP",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="ORGANISM_RISK_GROUP",
         property_label="Donor Organism Risk Group",
         description="""Organism Risk Group Assignment//Risikogruppenzuordnung des Organismus""",
         mandatory=True,
@@ -10567,6 +10722,7 @@ class GmoDonor(Sample):
     gentech_facility = PropertyTypeAssignment(
         code="GENTECH_FACILITY",
         data_type="OBJECT",
+        object_code="BAM_GENTECH_FACILITY",
         property_label="BAM genetic engineering installation",
         description="""BAM genetic engineering facility//BAM gentechnische Anlage""",
         mandatory=True,
@@ -10585,6 +10741,7 @@ class GmoRecipient(Sample):
     recipient = PropertyTypeAssignment(
         code="RECIPIENT",
         data_type="OBJECT",
+        object_code="ORGANISM",
         property_label="Recipient Organism",
         description="""Name of the recipient organism in which the genetic information is used to generate a GMO//Name des Empfängerorganismus, in dem die genetische Information für die Erzeugung eines GVO verwendet wird""",
         mandatory=False,
@@ -10595,6 +10752,7 @@ class GmoRecipient(Sample):
     recipient_risk_group = PropertyTypeAssignment(
         code="RECIPIENT_RISK_GROUP",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="ORGANISM_RISK_GROUP",
         property_label="Recipient Organism Risk Group Assignment",
         description="""Organism Risk Group Assignment//Risikogruppenzuordnung des Organismus""",
         mandatory=True,
@@ -10605,6 +10763,7 @@ class GmoRecipient(Sample):
     plasmid_bacterial_antibiotic_resistance = PropertyTypeAssignment(
         code="PLASMID_BACTERIAL_ANTIBIOTIC_RESISTANCE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="PLASMID_BACTERIAL_ANTIBIOTIC_RESISTANCE",
         property_label="Bacterial Antibiotic Resistance",
         description="""Bacterial antibiotic resistance//Bakterielle Antibiotikaresistenz zur Selektion""",
         mandatory=False,
@@ -10615,6 +10774,7 @@ class GmoRecipient(Sample):
     gentech_facility = PropertyTypeAssignment(
         code="GENTECH_FACILITY",
         data_type="OBJECT",
+        object_code="BAM_GENTECH_FACILITY",
         property_label="BAM genetic engineering installation",
         description="""BAM genetic engineering facility//BAM gentechnische Anlage""",
         mandatory=True,
@@ -10633,6 +10793,7 @@ class Plasmid(Sample):
     plasmid_ori = PropertyTypeAssignment(
         code="PLASMID_ORI",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="PLASMID_ORI",
         property_label="Origin of Replication",
         description="""Bacterial Origin of Replication (plasmid copy number)//Bakterieller Replikationsursprung""",
         mandatory=True,
@@ -10643,6 +10804,7 @@ class Plasmid(Sample):
     plasmid_bacterial_antibiotic_resistance = PropertyTypeAssignment(
         code="PLASMID_BACTERIAL_ANTIBIOTIC_RESISTANCE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="PLASMID_BACTERIAL_ANTIBIOTIC_RESISTANCE",
         property_label="Bacterial Antibiotic Resistance",
         description="""Bacterial antibiotic resistance//Bakterielle Antibiotikaresistenz zur Selektion""",
         mandatory=True,
@@ -10673,6 +10835,7 @@ class Plasmid(Sample):
     gentech_facility = PropertyTypeAssignment(
         code="GENTECH_FACILITY",
         data_type="OBJECT",
+        object_code="BAM_GENTECH_FACILITY",
         property_label="BAM genetic engineering installation",
         description="""BAM genetic engineering facility//BAM gentechnische Anlage""",
         mandatory=True,
@@ -10691,6 +10854,7 @@ class Gmo(Sample):
     vector = PropertyTypeAssignment(
         code="VECTOR",
         data_type="OBJECT",
+        object_code="SAMPLE.PLASMID",
         property_label="Vector name",
         description="""A plasmid used as a biological carrier to introduce nucleic acid segments into a new cell//Ein Plasmid, das als biologischer Träger verwendet wird, um Nukleinsäuresegmente in eine neue Zelle einzubringen""",
         mandatory=True,
@@ -10701,6 +10865,7 @@ class Gmo(Sample):
     gmo_recipient = PropertyTypeAssignment(
         code="GMO_RECIPIENT",
         data_type="OBJECT",
+        object_code="SAMPLE.GMO_RECIPIENT",
         property_label="Recipient Organism",
         description="""Recipient organism in which the genetic information is used for generating a GMO//Empfängerorganismus, in dem die genetische Information für die Erzeugung eines GVO verwendet wird""",
         mandatory=True,
@@ -10711,6 +10876,7 @@ class Gmo(Sample):
     gmo_donor = PropertyTypeAssignment(
         code="GMO_DONOR",
         data_type="OBJECT",
+        object_code="SAMPLE.GMO_DONOR",
         property_label="Donor Organism",
         description="""Donor organism of which the genetic information is used for generating a GMO//Spenderorganismus, dessen genetische Information für die Erzeugung eines GVO verwendet wird""",
         mandatory=True,
@@ -10751,6 +10917,7 @@ class Gmo(Sample):
     gmo_risk_group = PropertyTypeAssignment(
         code="GMO_RISK_GROUP",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="ORGANISM_RISK_GROUP",
         property_label="GMO Risk Group",
         description="""Organism Risk Group Assignment of GMO according own Risk Assessment//Risikogruppenzuordnung des GVO anhand eigener Risikobewertung""",
         mandatory=True,
@@ -10781,6 +10948,7 @@ class Gmo(Sample):
     gentech_facility = PropertyTypeAssignment(
         code="GENTECH_FACILITY",
         data_type="OBJECT",
+        object_code="BAM_GENTECH_FACILITY",
         property_label="BAM genetic engineering installation",
         description="""BAM genetic engineering facility//BAM gentechnische Anlage""",
         mandatory=True,
@@ -10827,6 +10995,7 @@ class DeviceTraining(Action):
     trained_person = PropertyTypeAssignment(
         code="TRAINED_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Trained Person",
         description="""Trained Person//Eingewiesene Person""",
         mandatory=False,
@@ -10913,6 +11082,7 @@ class IrCameraAcquisition(ParameterSet):
     subframe = PropertyTypeAssignment(
         code="SUBFRAME",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="SUBFRAME_TYPE",
         property_label="Subframe type",
         description="""Subframe setting//Einstellung Subframe""",
         mandatory=True,
@@ -10963,6 +11133,7 @@ class IrCameraAcquisition(ParameterSet):
     ir_camera_trigger_setting = PropertyTypeAssignment(
         code="IR_CAMERA.TRIGGER_SETTING",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="IR_CAMERA.TRIGGER_SETTING",
         property_label="Trigger setting",
         description="""Trigger setting//Einstellung Kameratrigger""",
         mandatory=True,
@@ -11003,6 +11174,7 @@ class IrCameraAcquisition(ParameterSet):
     nuc_performed = PropertyTypeAssignment(
         code="NUC_PERFORMED",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="NUC_PERFORMED",
         property_label="NUC-performed",
         description="""NUC-performed//NUC-durchgeführt""",
         mandatory=True,
@@ -11071,6 +11243,7 @@ class ThermographySetup(ParameterSet):
     setup_configuration = PropertyTypeAssignment(
         code="SETUP_CONFIGURATION",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="THERMOGRAPHIC_SETUP_CONFIG",
         property_label="Setup configuration",
         description="""Setup configuration//Messanordnung""",
         mandatory=True,
@@ -11081,6 +11254,7 @@ class ThermographySetup(ParameterSet):
     heat_source_orientation = PropertyTypeAssignment(
         code="HEAT_SOURCE_ORIENTATION",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="THERMOGRAPHIC_SETUP_HS_ORIENT",
         property_label="Orientation of the heat source w.r.t. the camera",
         description="""Orientation of the heat source w.r.t. the camera//Ausrichtung der Wärmequelle zur Kamera""",
         mandatory=False,
@@ -11099,6 +11273,7 @@ class ThermographyHeating(ParameterSet):
     temporal_heating_structure = PropertyTypeAssignment(
         code="TEMPORAL_HEATING_STRUCTURE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="TEMPORAL_HEATING_STRUCTURE",
         property_label="Temporal Structure of the heating",
         description="""Temporal Structure of the heating//Zeitliche Struktur der Erwärmung""",
         mandatory=True,
@@ -11109,6 +11284,7 @@ class ThermographyHeating(ParameterSet):
     heating_principle = PropertyTypeAssignment(
         code="HEATING_PRINCIPLE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="HEATING_PRINCIPLE",
         property_label="Heating Principle",
         description="""Heating Principle//Prinzip der Erwärmung""",
         mandatory=True,
@@ -11169,6 +11345,7 @@ class ThermographyHeating(ParameterSet):
     heating_area_desc = PropertyTypeAssignment(
         code="HEATING_AREA_DESC",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="HEATING_AREA_DESC",
         property_label="Area of effect of the heating",
         description="""Area of effect of the heating//Effektive Erwärmungsfläche""",
         mandatory=True,
@@ -11207,6 +11384,7 @@ class BamLaboratory(EnvironmentalConditions):
     bam_room = PropertyTypeAssignment(
         code="BAM_ROOM",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_ROOM",
         property_label="BAM Room",
         description="""BAM Room//BAM Raum""",
         mandatory=False,
@@ -11217,6 +11395,7 @@ class BamLaboratory(EnvironmentalConditions):
     bam_floor = PropertyTypeAssignment(
         code="BAM_FLOOR",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_FLOOR",
         property_label="BAM Floor",
         description="""BAM Floor//BAM Etage""",
         mandatory=False,
@@ -11227,6 +11406,7 @@ class BamLaboratory(EnvironmentalConditions):
     bam_house = PropertyTypeAssignment(
         code="BAM_HOUSE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_HOUSE",
         property_label="BAM House",
         description="""BAM House//BAM Haus""",
         mandatory=False,
@@ -11237,6 +11417,7 @@ class BamLaboratory(EnvironmentalConditions):
     bam_location = PropertyTypeAssignment(
         code="BAM_LOCATION",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_LOCATION",
         property_label="BAM Location",
         description="""BAM Location//BAM Liegenschaft""",
         mandatory=False,
@@ -11247,6 +11428,7 @@ class BamLaboratory(EnvironmentalConditions):
     bam_location_complete = PropertyTypeAssignment(
         code="BAM_LOCATION_COMPLETE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_LOCATION_COMPLETE",
         property_label="Complete BAM Location",
         description="""Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)""",
         mandatory=True,
@@ -11275,6 +11457,7 @@ class Outdoor(EnvironmentalConditions):
     wind_direction = PropertyTypeAssignment(
         code="WIND_DIRECTION",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="WIND_DIRECTION",
         property_label="Wind direction",
         description="""Wind direction//Windrichtung""",
         mandatory=False,
@@ -11295,6 +11478,7 @@ class Outdoor(EnvironmentalConditions):
     weather_condition = PropertyTypeAssignment(
         code="WEATHER_CONDITION",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="WEATHER_CONDITION",
         property_label="Weather",
         description="""Weather//Wetter""",
         mandatory=False,
@@ -11353,6 +11537,7 @@ class FlashLamp(Instrument):
     flash_lamp_shape = PropertyTypeAssignment(
         code="FLASH_LAMP_SHAPE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="FLASH_LAMP_SHAPE",
         property_label="Lamp shape",
         description="""Lamp shape//Lampenform""",
         mandatory=True,
@@ -11389,6 +11574,7 @@ class ThermographicMeasurement(ExperimentalStep):
     associated_project = PropertyTypeAssignment(
         code="ASSOCIATED_PROJECT",
         data_type="OBJECT",
+        object_code="PROJECT",
         property_label="Associated project",
         description="""Associated project//Assoziiertes Projekt""",
         mandatory=False,
@@ -11467,6 +11653,7 @@ class Named(SampleNdt):
     associated_project = PropertyTypeAssignment(
         code="ASSOCIATED_PROJECT",
         data_type="OBJECT",
+        object_code="PROJECT",
         property_label="Associated project",
         description="""Associated project//Assoziiertes Projekt""",
         mandatory=False,
@@ -11477,6 +11664,7 @@ class Named(SampleNdt):
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
@@ -11487,6 +11675,7 @@ class Named(SampleNdt):
     co_responsible_person = PropertyTypeAssignment(
         code="CO_RESPONSIBLE_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
@@ -11563,6 +11752,7 @@ class LocalWorkstation(Instrument):
     operating_system = PropertyTypeAssignment(
         code="OPERATING_SYSTEM",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="OPERATING_SYSTEM",
         property_label="Operating System",
         description="""Operating System (OS)//Betriebssystem""",
         mandatory=False,
@@ -11581,6 +11771,7 @@ class Lammps(PyironJob):
     atomistic_calc_type = PropertyTypeAssignment(
         code="ATOMISTIC_CALC_TYPE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="ATOMISTIC_CALC_TYPE",
         property_label="Atomistic Calculation Type",
         description="""Type of atomistic calculation//Art der atomistischen Berechnung""",
         mandatory=False,
@@ -11651,6 +11842,7 @@ class Lammps(PyironJob):
     atom_md_ensemble = PropertyTypeAssignment(
         code="ATOM_MD_ENSEMBLE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="THERMODYN_ENSEMBLE",
         property_label="Statistical Ensemble",
         description="""Statistical ensemble set in the simulation//Statistisches Ensemble in der Simulation""",
         mandatory=False,
@@ -11661,6 +11853,7 @@ class Lammps(PyironJob):
     atom_ionic_min_algo = PropertyTypeAssignment(
         code="ATOM_IONIC_MIN_ALGO",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="MINIMIZATION_ALGO",
         property_label="Minimization Algorithm for Ionic Steps",
         description="""Minimization algorithm for ionic steps//Minimalisierungsalgorithmus zur ionischen Schritten""",
         mandatory=False,
@@ -11899,6 +12092,7 @@ class Murnaghan(PyironJob):
     murn_eqn_of_state = PropertyTypeAssignment(
         code="MURN_EQN_OF_STATE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="MURN_EQN_OF_STATE",
         property_label="Equation of State",
         description="""Equation of state used for fit//Für das Fitting verwendete Zustandsgleichung""",
         mandatory=False,
@@ -11987,6 +12181,7 @@ class Vasp(PyironJob):
     atomistic_calc_type = PropertyTypeAssignment(
         code="ATOMISTIC_CALC_TYPE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="ATOMISTIC_CALC_TYPE",
         property_label="Atomistic Calculation Type",
         description="""Type of atomistic calculation//Art der atomistischen Berechnung""",
         mandatory=False,
@@ -12047,6 +12242,7 @@ class Vasp(PyironJob):
     atom_xc_functional = PropertyTypeAssignment(
         code="ATOM_XC_FUNCTIONAL",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="ATOM_XC_FUNCTIONAL",
         property_label="XC functional",
         description="""Exchange-correlation functional//Austausch-Korrelations-Funktional""",
         mandatory=False,
@@ -12067,6 +12263,7 @@ class Vasp(PyironJob):
     electronic_smearing = PropertyTypeAssignment(
         code="ELECTRONIC_SMEARING",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="ELECTRONIC_SMEARING",
         property_label="Partial Occupancies",
         description="""Partial occupancies//Teilbesetzungen""",
         mandatory=False,
@@ -12077,6 +12274,7 @@ class Vasp(PyironJob):
     atom_ionic_min_algo = PropertyTypeAssignment(
         code="ATOM_IONIC_MIN_ALGO",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="MINIMIZATION_ALGO",
         property_label="Minimization Algorithm for Ionic Steps",
         description="""Minimization algorithm for ionic steps//Minimalisierungsalgorithmus zur ionischen Schritten""",
         mandatory=False,
@@ -12087,6 +12285,7 @@ class Vasp(PyironJob):
     atom_elec_min_algo = PropertyTypeAssignment(
         code="ATOM_ELEC_MIN_ALGO",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="MINIMIZATION_ALGO",
         property_label="Minimization Algorithm for Electronic Steps",
         description="""Minimization algorithm for electronic steps//Minimalisierungsalgorithmus zur elektronischen Schritten""",
         mandatory=False,
@@ -12117,6 +12316,7 @@ class Vasp(PyironJob):
     atom_kpoint_type = PropertyTypeAssignment(
         code="ATOM_KPOINT_TYPE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="ATOM_KPOINT_TYPE",
         property_label="K-points Specification Type",
         description="""K-points specification type//K-Punkte-Spezifikation Typ""",
         mandatory=False,
@@ -12315,6 +12515,7 @@ class Amorphous(MatSimStructure):
     atom_short_rng_ord = PropertyTypeAssignment(
         code="ATOM_SHORT_RNG_ORD",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="SHORT_RNG_ORD",
         property_label="Short-range Ordering",
         description="""Chains, rings, tetrahedra etc.//Ketten, Ringe, Tetraeder usw.""",
         mandatory=False,
@@ -12443,6 +12644,7 @@ class Crystal(MatSimStructure):
     space_group = PropertyTypeAssignment(
         code="SPACE_GROUP",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="SPACE_GROUP",
         property_label="Space Group",
         description="""Space group//Raumgruppe""",
         mandatory=False,
@@ -12453,6 +12655,7 @@ class Crystal(MatSimStructure):
     bravais_lattice = PropertyTypeAssignment(
         code="BRAVAIS_LATTICE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BRAVAIS_LATTICE",
         property_label="Bravais Lattice",
         description="""Bravais lattice//Bravais-Gitter""",
         mandatory=False,
@@ -12491,6 +12694,7 @@ class MeasurementSession(ExperimentalStep):
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
@@ -12911,6 +13115,7 @@ class GmawTorch(WeldingEquipment):
     welding_torch_type = PropertyTypeAssignment(
         code="WELDING.TORCH_TYPE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="WELDING.GMAW_TORCH_TYPE",
         property_label="Type",
         description="""type of welding torch//Art des Schweißbrenners""",
         mandatory=True,
@@ -12977,6 +13182,7 @@ class Positioner(WeldingEquipment):
     positioner_type = PropertyTypeAssignment(
         code="POSITIONER_TYPE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="POSITIONER_TYPE",
         property_label="Positioner type",
         description="""Positioner type//Art des Positionierers""",
         mandatory=False,
@@ -13053,6 +13259,7 @@ class Robot(WeldingEquipment):
     robot_type = PropertyTypeAssignment(
         code="ROBOT_TYPE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="ROBOT_TYPE",
         property_label="Type of Robot",
         description="""Type of Robot//Roboterart""",
         mandatory=True,
@@ -13173,6 +13380,7 @@ class StationLayout1(ObjectType):
     dfg_device_code = PropertyTypeAssignment(
         code="DFG_DEVICE_CODE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="DFG_DEVICE_CODE",
         property_label="DFG Device Code",
         description="""DFG Device Code//DFG Gerätegruppenschlüssel (GGS)""",
         mandatory=False,
@@ -13203,6 +13411,7 @@ class StationLayout1(ObjectType):
     bam_oe = PropertyTypeAssignment(
         code="BAM_OE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_OE",
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=True,
@@ -13213,6 +13422,7 @@ class StationLayout1(ObjectType):
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
@@ -13223,6 +13433,7 @@ class StationLayout1(ObjectType):
     co_responsible_person = PropertyTypeAssignment(
         code="CO_RESPONSIBLE_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
@@ -13233,6 +13444,7 @@ class StationLayout1(ObjectType):
     bam_room = PropertyTypeAssignment(
         code="BAM_ROOM",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_ROOM",
         property_label="BAM Room",
         description="""BAM Room//BAM Raum""",
         mandatory=False,
@@ -13243,6 +13455,7 @@ class StationLayout1(ObjectType):
     bam_floor = PropertyTypeAssignment(
         code="BAM_FLOOR",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_FLOOR",
         property_label="BAM Floor",
         description="""BAM Floor//BAM Etage""",
         mandatory=False,
@@ -13253,6 +13466,7 @@ class StationLayout1(ObjectType):
     bam_house = PropertyTypeAssignment(
         code="BAM_HOUSE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_HOUSE",
         property_label="BAM House",
         description="""BAM House//BAM Haus""",
         mandatory=False,
@@ -13263,6 +13477,7 @@ class StationLayout1(ObjectType):
     bam_location = PropertyTypeAssignment(
         code="BAM_LOCATION",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_LOCATION",
         property_label="BAM Location",
         description="""BAM Location//BAM Liegenschaft""",
         mandatory=False,
@@ -13273,6 +13488,7 @@ class StationLayout1(ObjectType):
     bam_location_complete = PropertyTypeAssignment(
         code="BAM_LOCATION_COMPLETE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_LOCATION_COMPLETE",
         property_label="Complete BAM Location",
         description="""Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)""",
         mandatory=False,
@@ -13284,7 +13500,7 @@ class StationLayout1(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Details",
@@ -13412,6 +13628,7 @@ class StationLayout3(ObjectType):
     dfg_device_code = PropertyTypeAssignment(
         code="DFG_DEVICE_CODE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="DFG_DEVICE_CODE",
         property_label="DFG Device Code",
         description="""DFG Device Code//DFG Gerätegruppenschlüssel (GGS)""",
         mandatory=False,
@@ -13442,6 +13659,7 @@ class StationLayout3(ObjectType):
     bam_oe = PropertyTypeAssignment(
         code="BAM_OE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_OE",
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=True,
@@ -13452,6 +13670,7 @@ class StationLayout3(ObjectType):
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
@@ -13462,6 +13681,7 @@ class StationLayout3(ObjectType):
     co_responsible_person = PropertyTypeAssignment(
         code="CO_RESPONSIBLE_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
@@ -13472,6 +13692,7 @@ class StationLayout3(ObjectType):
     bam_room = PropertyTypeAssignment(
         code="BAM_ROOM",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_ROOM",
         property_label="BAM Room",
         description="""BAM Room//BAM Raum""",
         mandatory=False,
@@ -13482,6 +13703,7 @@ class StationLayout3(ObjectType):
     bam_floor = PropertyTypeAssignment(
         code="BAM_FLOOR",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_FLOOR",
         property_label="BAM Floor",
         description="""BAM Floor//BAM Etage""",
         mandatory=False,
@@ -13492,6 +13714,7 @@ class StationLayout3(ObjectType):
     bam_house = PropertyTypeAssignment(
         code="BAM_HOUSE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_HOUSE",
         property_label="BAM House",
         description="""BAM House//BAM Haus""",
         mandatory=False,
@@ -13502,6 +13725,7 @@ class StationLayout3(ObjectType):
     bam_location = PropertyTypeAssignment(
         code="BAM_LOCATION",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_LOCATION",
         property_label="BAM Location",
         description="""BAM Location//BAM Liegenschaft""",
         mandatory=False,
@@ -13512,6 +13736,7 @@ class StationLayout3(ObjectType):
     bam_location_complete = PropertyTypeAssignment(
         code="BAM_LOCATION_COMPLETE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_LOCATION_COMPLETE",
         property_label="Complete BAM Location",
         description="""Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)""",
         mandatory=False,
@@ -13533,7 +13758,7 @@ class StationLayout3(ObjectType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",

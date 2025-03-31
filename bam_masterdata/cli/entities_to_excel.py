@@ -26,31 +26,7 @@ def entities_to_excel(
     def_members = inspect.getmembers(definitions_module, inspect.isclass)
     module = import_module(module_path=module_path)
 
-    # Special case of `PropertyTypeDef` in `property_types.py`
-    if "property_types.py" in module_path:
-        for name, obj in inspect.getmembers(module):
-            if name.startswith("_") or name == "PropertyTypeDef":
-                continue
-
-            # Entity title
-            worksheet.append([obj.excel_name])
-
-            # Entity header definitions and values
-            excel_headers = []
-            row_values = []
-            for field, excel_header in obj.excel_headers_map.items():
-                if field == "data_type":
-                    val = obj.data_type.value
-                else:
-                    val = getattr(obj, field)
-                row_values.append(val)
-                excel_headers.append(excel_header)
-            worksheet.append(excel_headers)
-            worksheet.append(row_values)
-            worksheet.append([""])  # empty row after entity definitions
-        return None
-
-    # All other datamodel modules
+    # Inspect Python modules and their objects and print them to Excel
     for _, obj in inspect.getmembers(module, inspect.isclass):
         # Ensure the class has the `model_to_json` method
         if not hasattr(obj, "defs") or not callable(getattr(obj, "model_to_json")):
@@ -100,7 +76,4 @@ def entities_to_excel(
                 worksheet.append(
                     getattr(term, f_set) for f_set in term.excel_headers_map.keys()
                 )
-
-        # ? do the PropertyTypeDef need to be exported to Excel?
-
         worksheet.append([""])  # empty row after entity definitions

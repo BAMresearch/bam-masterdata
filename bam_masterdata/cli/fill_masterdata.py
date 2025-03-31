@@ -31,7 +31,8 @@ class MasterdataCodeGenerator:
             entities_dict = MasterdataExcelExtractor(
                 excel_path=path, row_cell_info=self.row_cell_info
             ).excel_to_entities()
-            self.properties = entities_dict.get("property_types", {})
+            # self.properties = entities_dict.get("property_types", {})
+            self.properties: dict = {}
             self.collections = entities_dict.get("collection_types", {})
             self.datasets = entities_dict.get("dataset_types", {})
             self.objects = entities_dict.get("object_types", {})
@@ -77,6 +78,20 @@ class MasterdataCodeGenerator:
 
         return parent_code, parent_class, class_name
 
+    def get_property_object_code(self, prop_code: str) -> str:
+        data = self.properties.get(prop_code, {})
+        if not data:
+            return ""
+
+        object_code = data.get("sampleType", "")
+        if object_code:
+            return object_code
+        vocabulary_code = data.get("vocabulary", "")
+        if vocabulary_code:
+            return vocabulary_code
+
+        return ""
+
     def add_properties(
         self, entities: dict, parent_code: str, data: dict, lines: list
     ) -> None:
@@ -111,6 +126,15 @@ class MasterdataCodeGenerator:
             if data_type == "SAMPLE":
                 data_type = "OBJECT"
             lines.append(f'        data_type="{data_type}",')
+            if data_type == "OBJECT":
+                object_code = self.get_property_object_code(prop_code=prop_code)
+                if object_code:
+                    lines.append(f'        object_code="{object_code}",')
+            elif data_type == "CONTROLLEDVOCABULARY":
+                vocabulary_code = self.get_property_object_code(prop_code=prop_code)
+                if vocabulary_code:
+                    lines.append(f'        vocabulary_code="{vocabulary_code}",')
+
             property_label = (prop_data.get("label") or "").replace("\n", "\\n")
             lines.append(f'        property_label="{property_label}",')
             description = (

@@ -6,10 +6,10 @@ if TYPE_CHECKING:
     from structlog._config import BoundLoggerLazyProxy
 
 import click
-from rdflib import BNode, Literal, Namespace
+from rdflib import Literal, Namespace
 from rdflib.namespace import DC, OWL, RDF, RDFS
 
-from bam_masterdata.utils import code_to_class_name, import_module
+from bam_masterdata.utils import import_module
 
 BAM = Namespace("https://bamresearch.github.io/bam-masterdata/")
 PROV = Namespace("http://www.w3.org/ns/prov#")
@@ -165,57 +165,7 @@ def entities_to_rdf(
 
     module = import_module(module_path=module_path)
 
-    # Special case of `PropertyTypeDef` in `property_types.py`
-    # PROPERTY TYPES
-    # skos:prefLabel used for class names
-    # skos:definition used for `description` (en, de)
-    # skos:altLabel used for `property_label`
-    # dc:identifier used for `code`  # ! only defined for internal codes with $ symbol
-    # dc:type used for `data_type`
-    if "property_types.py" in module_path:
-        for name, obj in inspect.getmembers(module):
-            if name.startswith("_") or name == "PropertyTypeDef":
-                continue
-            prop_uri = BAM[obj.id]
-
-            # Define the property as an OWL class inheriting from PropertyType
-            graph.add((prop_uri, RDF.type, OWL.Thing))
-            graph.add((prop_uri, RDFS.subClassOf, BAM.PropertyType))
-
-            # Add attributes like id, code, description in English and Deutsch, property_label, data_type
-            graph.add((prop_uri, RDFS.label, Literal(obj.id, lang="en")))
-            graph.add((prop_uri, DC.identifier, Literal(obj.code)))
-            descriptions = obj.description.split("//")
-            if len(descriptions) > 1:
-                graph.add((prop_uri, RDFS.comment, Literal(descriptions[0], lang="en")))
-                graph.add((prop_uri, RDFS.comment, Literal(descriptions[1], lang="de")))
-            else:
-                graph.add((prop_uri, RDFS.comment, Literal(obj.description, lang="en")))
-            graph.add(
-                (prop_uri, BAM.propertyLabel, Literal(obj.property_label, lang="en"))
-            )
-            graph.add((prop_uri, BAM.dataType, Literal(obj.data_type.value)))
-            if obj.data_type.value == "OBJECT":
-                # entity_ref_uri = BAM[code_to_class_name(obj.object_code)]
-                # graph.add((prop_uri, BAM.referenceTo, entity_ref_uri))
-                if not code_to_class_name(obj.object_code, logger):
-                    logger.error(
-                        f"Failed to identify the `object_code` for the property {obj.id}"
-                    )
-                    continue
-                entity_ref_uri = BAM[code_to_class_name(obj.object_code, logger)]
-
-                # Create a restriction with referenceTo
-                restriction = BNode()
-                graph.add((restriction, RDF.type, OWL.Restriction))
-                graph.add((restriction, OWL.onProperty, BAM["referenceTo"]))
-                graph.add((restriction, OWL.someValuesFrom, entity_ref_uri))
-
-                # Add the restriction as a subclass of the property
-                graph.add((prop_uri, RDFS.subClassOf, restriction))
-        return None
-
-    # All other datamodel modules
+    # All datamodel modules
     # OBJECT/DATASET/COLLECTION TYPES
     # skos:prefLabel used for class names
     # skos:definition used for `description` (en, de)
@@ -231,6 +181,6 @@ def entities_to_rdf(
         try:
             # Instantiate the class and call the method
             entity = obj()
-            entity.model_to_rdf(namespace=BAM, graph=graph)
+            entity.model_to_rdf(namespace=BAM, graph=graph, logger=logger)
         except Exception as err:
             click.echo(f"Failed to process class {name} in {module_path}: {err}")

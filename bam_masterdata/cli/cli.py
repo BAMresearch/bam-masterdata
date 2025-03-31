@@ -122,7 +122,8 @@ def fill_masterdata(url, excel_file, export_dir, row_cell_info):
         generator = MasterdataCodeGenerator(url=url)
 
     # Add each module to the `bam_masterdata/datamodel` directory
-    for module_name in ["property", "collection", "dataset", "object", "vocabulary"]:
+    # for module_name in ["property", "collection", "dataset", "object", "vocabulary"]:
+    for module_name in ["collection", "dataset", "object", "vocabulary"]:
         module_start_time = time.perf_counter()  # more precise time measurement
         output_file = Path(os.path.join(output_directory, f"{module_name}_types.py"))
 
@@ -360,12 +361,6 @@ def export_to_rdf(force_delete, python_path, export_dir):
     # Process each module using the `model_to_rdf` method of each entity
     graph = Graph()
     for module_path in py_modules:
-        if module_path.endswith("property_types.py"):
-            if duplicated_property_types(module_path=module_path, logger=logger):
-                click.echo(
-                    "Please fix the duplicated property types before exporting to RDF/XML."
-                )
-                return
         entities_to_rdf(graph=graph, module_path=module_path, logger=logger)
 
     # Saving RDF/XML to file

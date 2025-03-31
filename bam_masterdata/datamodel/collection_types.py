@@ -1,7 +1,4 @@
-from bam_masterdata.metadata.definitions import (
-    CollectionTypeDef,
-    PropertyTypeAssignment,
-)
+from bam_masterdata.metadata.definitions import CollectionTypeDef, PropertyTypeAssignment
 from bam_masterdata.metadata.entities import CollectionType
 
 
@@ -34,6 +31,7 @@ class Collection(CollectionType):
     default_collection_view = PropertyTypeAssignment(
         code="$DEFAULT_COLLECTION_VIEW",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="$DEFAULT_COLLECTION_VIEWS",
         property_label="Default collection view",
         description="""Default view for experiments of the type collection""",
         mandatory=False,
@@ -153,7 +151,7 @@ class DefaultExperiment(CollectionType):
         code="REFERENCE",
         data_type="MULTILINE_VARCHAR",
         property_label="References",
-        description="""Useful refences//Nützliche Referenzen""",
+        description="""Useful refences""",
         mandatory=False,
         show_in_edit_views=False,
         section="References",
@@ -163,7 +161,7 @@ class DefaultExperiment(CollectionType):
         code="PUBLICATION",
         data_type="MULTILINE_VARCHAR",
         property_label="Publication",
-        description="""Own publication where this entity is referenced//Eigene Publikation, in dem dieses Experiment beschrieben wird""",
+        description="""Own publication where this entity is referenced""",
         mandatory=False,
         show_in_edit_views=False,
         section="References",
@@ -173,7 +171,7 @@ class DefaultExperiment(CollectionType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="",
@@ -219,6 +217,7 @@ class MeasurementsCollection(CollectionType):
     default_collection_view = PropertyTypeAssignment(
         code="$DEFAULT_COLLECTION_VIEW",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="$DEFAULT_COLLECTION_VIEWS",
         property_label="Default collection view",
         description="""Default view for experiments of the type collection""",
         mandatory=False,
@@ -259,6 +258,7 @@ class MeasurementsCollection(CollectionType):
     bam_oe = PropertyTypeAssignment(
         code="BAM_OE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_OE",
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=True,
@@ -269,6 +269,7 @@ class MeasurementsCollection(CollectionType):
     responsible_person = PropertyTypeAssignment(
         code="RESPONSIBLE_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
@@ -279,6 +280,7 @@ class MeasurementsCollection(CollectionType):
     co_responsible_person = PropertyTypeAssignment(
         code="CO_RESPONSIBLE_PERSON",
         data_type="OBJECT",
+        object_code="PERSON.BAM",
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
@@ -290,7 +292,7 @@ class MeasurementsCollection(CollectionType):
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
         property_label="Notes",
-        description="""Notes//Notizen""",
+        description="""Notes""",
         mandatory=False,
         show_in_edit_views=False,
         section="Additional Information",
