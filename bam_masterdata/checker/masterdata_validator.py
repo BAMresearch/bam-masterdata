@@ -5,7 +5,7 @@ from bam_masterdata.metadata.definitions import DataType
 from bam_masterdata.utils import is_reduced_version, store_log_message
 
 
-class MasterDataValidator:
+class MasterdataValidator:
     def __init__(self, new_entities: dict, current_model: dict, validation_rules: dict):
         """
         Initialize the validator with new and current entity data.
