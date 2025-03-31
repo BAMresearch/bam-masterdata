@@ -1,6 +1,6 @@
 import os
 
-from bam_masterdata.checker.masterdata_validator import MasterDataValidator
+from bam_masterdata.checker.masterdata_validator import MasterdataValidator
 from bam_masterdata.checker.source_loader import SourceLoader
 from bam_masterdata.logger import logger
 from bam_masterdata.metadata.entities_dict import EntitiesDict
@@ -80,7 +80,7 @@ class MasterdataChecker:
         ):
             self.validation_rules = load_validation_rules(self.logger)
 
-        validator = MasterDataValidator(
+        validator = MasterdataValidator(
             self.new_entities, self.current_model, self.validation_rules
         )
         return validator.validate(mode)
