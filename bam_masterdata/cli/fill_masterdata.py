@@ -175,12 +175,16 @@ class MasterdataCodeGenerator:
         """
         lines = []
         class_names: dict = {}
-
+        # from bam_masterdata.metadata.definitions import (
+        #     CollectionTypeDef,
+        #     PropertyTypeAssignment,
+        # )
         if self.collections != {}:
             # Add imports at the top
-            lines.append(
-                "from bam_masterdata.metadata.definitions import CollectionTypeDef, PropertyTypeAssignment"
-            )
+            lines.append("from bam_masterdata.metadata.definitions import (")
+            lines.append("    CollectionTypeDef,")
+            lines.append("    PropertyTypeAssignment,")
+            lines.append(")")
             lines.append("from bam_masterdata.metadata.entities import CollectionType")
             lines.append("")
             lines.append("")
