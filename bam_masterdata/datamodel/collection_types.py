@@ -1,4 +1,7 @@
-from bam_masterdata.metadata.definitions import CollectionTypeDef, PropertyTypeAssignment
+from bam_masterdata.metadata.definitions import (
+    CollectionTypeDef,
+    PropertyTypeAssignment,
+)
 from bam_masterdata.metadata.entities import CollectionType
 
 
