@@ -556,7 +556,7 @@ class MasterdataValidator:
                     )
 
     def extract_property_codes(self, data):
-        codes = []
+        codes = set()
 
         # Check if the data contains 'properties' and extract 'code'
         if isinstance(data, dict):
@@ -565,7 +565,7 @@ class MasterdataValidator:
                 if key == "properties" and isinstance(value, list):
                     for property_item in value:
                         if "code" in property_item:
-                            codes.append(property_item["code"])
+                            codes.add(property_item["code"])
                 # Recursively check for more nested structures
                 elif isinstance(value, (dict, list)):
                     codes.extend(self.extract_property_codes(value))
