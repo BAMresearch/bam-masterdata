@@ -321,7 +321,7 @@ class MasterdataValidator:
 
         new_entity = False
 
-        all_props = extract_property_codes(self.current_model)
+        all_props = self.extract_property_codes(self.current_model)
 
         for entity_type, incoming_entities in self.new_entities.items():
             if entity_type not in self.current_model:
@@ -555,24 +555,23 @@ class MasterdataValidator:
                         entity_data["_log_msgs"]
                     )
 
+    def extract_property_codes(self, data):
+        codes = []
 
-def extract_property_codes(data):
-    codes = []
+        # Check if the data contains 'properties' and extract 'code'
+        if isinstance(data, dict):
+            for key, value in data.items():
+                # If the key is 'properties', collect all the 'code' values
+                if key == "properties" and isinstance(value, list):
+                    for property_item in value:
+                        if "code" in property_item:
+                            codes.append(property_item["code"])
+                # Recursively check for more nested structures
+                elif isinstance(value, (dict, list)):
+                    codes.extend(self.extract_property_codes(value))
 
-    # Check if the data contains 'properties' and extract 'code'
-    if isinstance(data, dict):
-        for key, value in data.items():
-            # If the key is 'properties', collect all the 'code' values
-            if key == "properties" and isinstance(value, list):
-                for property_item in value:
-                    if "code" in property_item:
-                        codes.append(property_item["code"])
-            # Recursively check for more nested structures
-            elif isinstance(value, (dict, list)):
-                codes.extend(extract_property_codes(value))
+        elif isinstance(data, list):
+            for item in data:
+                codes.extend(self.extract_property_codes(item))
 
-    elif isinstance(data, list):
-        for item in data:
-            codes.extend(extract_property_codes(item))
-
-    return codes
+        return codes
