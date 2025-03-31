@@ -254,12 +254,13 @@ class BaseEntity(BaseModel):
         if prop.data_type.value == "OBJECT":
             # entity_ref_uri = BAM[code_to_class_name(obj.object_code)]
             # graph.add((prop_uri, BAM.referenceTo, entity_ref_uri))
-            if not code_to_class_name(prop.object_code, logger):
+            object_code = code_to_class_name(prop.object_code, logger)
+            if not object_code:
                 logger.error(
                     f"Failed to identify the `object_code` for the property {prop.id}"
                 )
                 return prop_uri
-            entity_ref_uri = namespace[code_to_class_name(prop.object_code, logger)]
+            entity_ref_uri = namespace[object_code]
 
             # Create a restriction with referenceTo
             restriction = BNode()
