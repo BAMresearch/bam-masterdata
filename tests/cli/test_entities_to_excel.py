@@ -28,20 +28,6 @@ from bam_masterdata.utils import import_module
             ],
         ),
         (
-            "property_types",
-            "PROPERTY_TYPE",
-            [
-                "Code",
-                "Description",
-                "Property label",
-                "Data type",
-                "Vocabulary code",
-                "Object code",
-                "Metadata",
-                "Dynamic script",
-            ],
-        ),
-        (
             "vocabulary_types",
             "VOCABULARY_TYPE",
             ["Code", "Description", "Url template"],
