@@ -149,7 +149,6 @@ class EntityDef(BaseModel):
             "CollectionTypeDef": "EXPERIMENT_TYPE",
             "DatasetTypeDef": "DATASET_TYPE",
             "ObjectTypeDef": "SAMPLE_TYPE",
-            "PropertyTypeDef": "PROPERTY_TYPE",
             "VocabularyTypeDef": "VOCABULARY_TYPE",
         }
         return name_map.get(self.name)

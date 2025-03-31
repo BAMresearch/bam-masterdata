@@ -6,7 +6,6 @@ import click
 
 from bam_masterdata.logger import logger
 from bam_masterdata.utils import (
-    duplicated_property_types,
     import_module,
     listdir_py_modules,
 )
@@ -83,26 +82,6 @@ class EntitiesDict:
                     vocabulary_term_locations[current_vocab_class] = {}
                 vocabulary_term_locations[current_vocab_class][term_name] = i + 1
 
-        # Special case for property types
-        if "property_types.py" in module_path:
-            property_type_locations = {
-                match.group(1): i + 1
-                for i, line in enumerate(module_source)
-                if (match := re.match(r"^\s*(\w+)\s*=\s*PropertyTypeDef\(", line))
-            }
-
-            for name, obj in inspect.getmembers(module):
-                if name.startswith("_") or name == "PropertyTypeDef":
-                    continue
-                try:
-                    obj_data = obj.model_dump()
-                    obj_data["row_location"] = property_type_locations.get(
-                        name, None
-                    )  # Assign correct row number
-                    data[obj.code] = obj_data
-                except Exception as err:
-                    print(f"Failed to process property {name} in {module_path}: {err}")
-            return data
         # Process all classes in the module
         for name, obj in inspect.getmembers(module, inspect.isclass):
             if not hasattr(obj, "defs") or not callable(getattr(obj, "model_to_dict")):
@@ -189,15 +168,6 @@ class EntitiesDict:
         # Process each module using the `model_to_dict` method of each entity and store them in a single dictionary
         full_data: dict = {}
         for module_path in py_modules:
-            if module_path.endswith("property_types.py"):
-                if duplicated_property_types(
-                    module_path=module_path, logger=self.logger
-                ):
-                    click.echo(
-                        "Please fix the duplicated property types before exporting to JSON."
-                    )
-                    return {}
-
             data = self.to_dict(module_path=module_path)
             # name can be collection_type, object_type, dataset_type, vocabulary_type, or property_type
             name = os.path.basename(module_path).replace(".py", "")
