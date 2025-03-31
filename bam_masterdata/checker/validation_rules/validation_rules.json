@@ -1,10 +1,10 @@
 {
   "defs_validation": {
     "code": {
-      "pattern": "^\\$?[A-Za-z0-9_.]+$"
+      "pattern": "^\\$?[A-Za-z0-9_.-]+$"
     },
     "description": {
-      "pattern": "^[^/]+//[^/]+$",
+      "pattern": ".*",
       "allow_empty": true,
       "is_description": true
     },
@@ -38,10 +38,10 @@
   },
   "properties_validation": {
     "code": {
-      "pattern": "^\\$?[A-Za-z0-9_.]+$"
+      "pattern": "^\\$?[A-Za-z0-9_.-]+$"
     },
     "description": {
-      "pattern": "^[^/]+//[^/]+$",
+      "pattern": ".*",
       "allow_empty": true,
       "is_description": true
     },
@@ -95,7 +95,7 @@
       "pattern": "^\\$?[A-Za-z0-9_.-]+$"
     },
     "description": {
-      "pattern": "^[^/]+//[^/]+$",
+      "pattern": ".*",
       "is_description": true,
       "allow_empty": true
     },

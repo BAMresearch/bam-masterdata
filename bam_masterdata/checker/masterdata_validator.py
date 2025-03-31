@@ -321,6 +321,8 @@ class MasterdataValidator:
 
         new_entity = False
 
+        all_props = extract_property_codes(self.current_model)
+
         for entity_type, incoming_entities in self.new_entities.items():
             if entity_type not in self.current_model:
                 continue  # Skip if entity type does not exist in the current model
@@ -410,6 +412,7 @@ class MasterdataValidator:
                         entity_type,
                         new_entity,
                         incoming_row_location,
+                        all_props,
                     )
                 elif "terms" in incoming_entity:
                     self._compare_assigned_properties(
@@ -419,6 +422,7 @@ class MasterdataValidator:
                         entity_type,
                         new_entity,
                         incoming_row_location,
+                        all_props,
                         is_terms=True,
                     )
 
@@ -432,6 +436,7 @@ class MasterdataValidator:
         entity_type,
         new_entity,
         incoming_row_location,
+        all_props,
         is_terms=False,
     ):
         """
@@ -455,8 +460,6 @@ class MasterdataValidator:
             }
 
             # Check for non-existing assigned properties
-            all_props = self.current_model["property_types"]
-
             current_prop_codes = set(current_props.keys())
 
             for prop_code in incoming_prop_codes:
@@ -551,3 +554,25 @@ class MasterdataValidator:
                     target_dict[entity_type][entity_name]["_log_msgs"].extend(
                         entity_data["_log_msgs"]
                     )
+
+
+def extract_property_codes(data):
+    codes = []
+
+    # Check if the data contains 'properties' and extract 'code'
+    if isinstance(data, dict):
+        for key, value in data.items():
+            # If the key is 'properties', collect all the 'code' values
+            if key == "properties" and isinstance(value, list):
+                for property_item in value:
+                    if "code" in property_item:
+                        codes.append(property_item["code"])
+            # Recursively check for more nested structures
+            elif isinstance(value, (dict, list)):
+                codes.extend(extract_property_codes(value))
+
+    elif isinstance(data, list):
+        for item in data:
+            codes.extend(extract_property_codes(item))
+
+    return codes
