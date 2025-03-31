@@ -31,8 +31,6 @@ class MasterdataCodeGenerator:
             entities_dict = MasterdataExcelExtractor(
                 excel_path=path, row_cell_info=self.row_cell_info
             ).excel_to_entities()
-            # self.properties = entities_dict.get("property_types", {})
-            self.properties: dict = {}
             self.collections = entities_dict.get("collection_types", {})
             self.datasets = entities_dict.get("dataset_types", {})
             self.objects = entities_dict.get("object_types", {})
@@ -79,6 +77,15 @@ class MasterdataCodeGenerator:
         return parent_code, parent_class, class_name
 
     def get_property_object_code(self, prop_code: str) -> str:
+        """
+        Get the object code (or vocabulary code) used for reference for the assigned property with `prop_code`.
+
+        Args:
+            prop_code (str): The code of the assigned property.
+
+        Returns:
+            str: The object/vocabulary code used for reference for the assigned property.
+        """
         data = self.properties.get(prop_code, {})
         if not data:
             return ""
@@ -157,68 +164,6 @@ class MasterdataCodeGenerator:
             lines.append(f'        section="{section}",')
             lines.append("    )")
             lines.append("")
-
-    def generate_property_types(self) -> str:
-        """
-        Generate Python code for the property types in the Openbis datamodel. The code is generated
-        as a string which is then printed out to the specific Python module in `bam_masterdata/datamodel/property_types.py`.
-
-        Args:
-            logger (BoundLoggerLazyProxy): The logger to log messages.
-
-        Returns:
-            str: Python code for the property types.
-        """
-        lines = []
-
-        if self.properties != {}:
-            # Add imports at the top
-            lines.append(
-                "from bam_masterdata.metadata.definitions import PropertyTypeDef"
-            )
-            lines.append("")
-
-        # Process each property type
-        for code, data in self.properties.items():
-            # Skip the "UNKNOWN" object type
-            if code == "UNKNOWN":
-                continue
-
-            # Format class name
-            class_name = code_to_class_name(code=code, entity_type="property")
-
-            # Add class definition
-            lines.append(f"{class_name} = PropertyTypeDef(")
-            lines.append(f'    code="{code}",')
-            description = (
-                (data.get("description") or "")
-                .replace('"', "`")
-                .replace("\n", "\\n")
-                .replace("'", "`")
-            )
-            lines.append(f'    description="""{description}""",')
-            # ! patching dataType=SAMPLE instead of OBJECT
-            data_type = data.get("dataType", "")
-            if data_type == "SAMPLE":
-                data_type = "OBJECT"
-            lines.append(f'    data_type="{data_type}",')
-            object_code = data.get("sampleType", "")
-            if object_code:
-                lines.append(f'    object_code="{object_code}",')
-            property_label = (
-                (data.get("label") or "").replace('"', '\\"').replace("\n", "\\n")
-            )
-            vocabulary_code = data.get("vocabulary", "")
-            if vocabulary_code:
-                lines.append(f'    vocabulary_code="{vocabulary_code}",')
-            lines.append(f'    property_label="{property_label}",')
-            lines.append(")")
-            lines.append("")
-
-            # Add newline between classes
-            lines.append("")
-
-        return "\n".join(lines)
 
     def generate_collection_types(self) -> str:
         """

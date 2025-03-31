@@ -7,7 +7,7 @@ from rdflib import BNode, Literal
 from rdflib.namespace import DC, OWL, RDF, RDFS
 
 if TYPE_CHECKING:
-    from rdflib import Graph, Namespace
+    from rdflib import Graph, Namespace, URIRef
     from structlog._config import BoundLoggerLazyProxy
 
 from bam_masterdata.metadata.definitions import (
@@ -216,9 +216,22 @@ class BaseEntity(BaseModel):
         self,
         namespace: "Namespace",
         graph: "Graph",
-        prop: BaseModel,
+        prop: "PropertyTypeAssignment",
         logger: "BoundLoggerLazyProxy",
-    ) -> None:
+    ) -> "URIRef":
+        """
+        Add the properties assigned to the entity to the RDF graph extracting the information from
+        OpenBIS for the `object_code` or `vocabulary_code`.
+
+        Args:
+            namespace (Namespace): The namespace to use for the RDF graph.
+            graph (Graph): The RDF graph to which the properties are added.
+            prop (PropertyTypeAssignment): The property assigned to the entity.
+            logger (BoundLoggerLazyProxy): The logger to log messages.
+
+        Returns:
+            URIRef: The URI reference of the property added to the RDF graph.
+        """
         prop_uri = namespace[prop.id]
 
         # Define the property as an OWL class inheriting from PropertyType
@@ -269,6 +282,15 @@ class BaseEntity(BaseModel):
     def model_to_rdf(
         self, namespace: "Namespace", graph: "Graph", logger: "BoundLoggerLazyProxy"
     ) -> None:
+        """
+        Convert the entity to RDF triples and add them to the graph. The function uses the
+        `_add_properties_rdf` method to convert the properties assigned to the entity to RDF triples.
+
+        Args:
+            namespace (Namespace): The namespace to use for the RDF graph.
+            graph (Graph): The RDF graph to which the entity is added.
+            logger (BoundLoggerLazyProxy): The logger to log messages.
+        """
         entity_uri = namespace[self.defs.id]
 
         # Define the entity as an OWL class inheriting from the specific namespace type
