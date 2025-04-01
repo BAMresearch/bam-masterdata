@@ -1,5 +1,3 @@
-import os
-
 from bam_masterdata.checker.masterdata_validator import MasterdataValidator
 from bam_masterdata.checker.source_loader import SourceLoader
 from bam_masterdata.logger import logger
@@ -47,6 +45,7 @@ class MasterdataChecker:
         - "validate" -> Validate both the current model and new entities.
         - "compare" -> Compare new entities against the current model.
         - "all" -> Run both validation types.
+        - "individual" -> Run individual repositories validations.
 
         Before running, ensure that required models are loaded based on the mode.
 
