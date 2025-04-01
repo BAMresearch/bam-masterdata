@@ -369,7 +369,8 @@ def export_to_rdf(force_delete, python_path, export_dir):
     "--mode",
     "mode",  # alias
     type=click.Choice(
-        ["self", "incoming", "validate", "compare", "all"], case_sensitive=False
+        ["self", "incoming", "validate", "compare", "all", "individual"],
+        case_sensitive=False,
     ),
     default="all",
     help="""Specify the mode for the checker. Options are:
@@ -377,7 +378,8 @@ def export_to_rdf(force_delete, python_path, export_dir):
     "incoming" -> Validate only the new entity structure.
     "validate" -> Validate both the current model and new entities.
     "compare" -> Compare new entities against the current model.
-    "all" -> Run all validations and comparison. (Default)""",
+    "all" -> Run all validations and comparison. (Default).
+    "individual" -> Run individual repositories validations.""",
 )
 @click.option(
     "--datamodel-path",
@@ -427,6 +429,25 @@ def checker(file_path, mode, datamodel_path):
             if errors:
                 click.echo(
                     f"There are problems when checking the incoming model in {file_path} against the current model {datamodel_path} for entity {entity} that need to be solved"
+                )
+                click.echo(f"Errors: {errors}")
+
+    # Check if there are individual repository problems
+    if (
+        mode in ["individual"]
+        and validation_results.get("incoming_model", {})
+        and validation_results.get("comparisons", {})
+    ):
+        for entity, errors in validation_results.get("individual", {}).items():
+            if errors:
+                click.echo(
+                    f"There are problems in the individual repositories when validating them for entity {entity} that need to be solved"
+                )
+                click.echo(f"Errors: {errors}")
+        for entity, errors in validation_results.get("comparisons", {}).items():
+            if errors:
+                click.echo(
+                    f"There are problems in the individual repositories when comparing them with respect to bam-masterdata for entity {entity} that need to be solved"
                 )
                 click.echo(f"Errors: {errors}")
 
