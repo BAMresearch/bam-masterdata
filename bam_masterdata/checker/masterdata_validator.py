@@ -568,10 +568,10 @@ class MasterdataValidator:
                             codes.add(property_item["code"])
                 # Recursively check for more nested structures
                 elif isinstance(value, (dict, list)):
-                    codes.extend(self.extract_property_codes(value))
+                    codes.update(self.extract_property_codes(value))
 
         elif isinstance(data, list):
             for item in data:
-                codes.extend(self.extract_property_codes(item))
+                codes.update(self.extract_property_codes(item))
 
         return codes
