@@ -1,7 +1,7 @@
 from pathlib import Path
 
 
-def find_dir(possible_locations: list[str]) -> str:
+def find_dir(possible_locations: list[Path]) -> str:
     """
     Search for a valid directory in a list of possible locations.
 
