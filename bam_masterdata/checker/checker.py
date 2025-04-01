@@ -83,3 +83,19 @@ class MasterdataChecker:
             self.new_entities, self.current_model, self.validation_rules
         )
         return validator.validate(mode)
+
+
+def no_validation_errors(validation_results: dict) -> bool:
+    """
+    Check if there are no validation errors in the results.
+
+    Args:
+        validation_results (dict): The dictionary containing the specific validation results.
+
+    Returns:
+        bool: True if there are no validation errors, False otherwise.
+    """
+
+    if not isinstance(validation_results, dict):
+        return False
+    return all(no_validation_errors(v) for v in validation_results.values())

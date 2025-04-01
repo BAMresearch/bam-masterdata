@@ -9,7 +9,7 @@ from decouple import config as environ
 from openpyxl import Workbook
 from rdflib import Graph
 
-from bam_masterdata.checker import MasterdataChecker
+from bam_masterdata.checker import MasterdataChecker, no_validation_errors
 from bam_masterdata.cli.entities_to_excel import entities_to_excel
 from bam_masterdata.cli.entities_to_rdf import entities_to_rdf
 from bam_masterdata.cli.fill_masterdata import MasterdataCodeGenerator
@@ -451,9 +451,8 @@ def checker(file_path, mode, datamodel_path):
                 )
                 click.echo(f"Errors: {errors}")
 
-    # ! fix this with recursion
     # Check if no problems were found
-    if all(value == {} for value in validation_results.values()):
+    if no_validation_errors(validation_results):
         click.echo("No problems found in the datamodel and incoming model.")
 
 
