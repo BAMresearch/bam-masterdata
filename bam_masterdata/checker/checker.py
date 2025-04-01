@@ -74,7 +74,7 @@ class MasterdataChecker:
 
         # Load the validation rules
         if (
-            mode in ["self", "incoming", "validate", "all"]
+            mode in ["self", "incoming", "validate", "all", "individual"]
             and self.validation_rules == {}
         ):
             self.validation_rules = load_validation_rules(self.logger)
