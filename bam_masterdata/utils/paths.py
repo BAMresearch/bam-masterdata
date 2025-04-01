@@ -6,7 +6,7 @@ def find_dir(possible_locations: list[Path]) -> str:
     Search for a valid directory in a list of possible locations.
 
     Args:
-        possible_locations (list[str]): A list of possible locations to search for a directory.
+        possible_locations (list[Path]): A list of possible locations to search for a directory.
 
     Raises:
         FileNotFoundError: If no valid directory is found.
