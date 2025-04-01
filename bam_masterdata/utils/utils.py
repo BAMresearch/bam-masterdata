@@ -10,6 +10,7 @@ from itertools import chain
 from typing import TYPE_CHECKING, Any, Optional
 
 from bam_masterdata.logger import logger
+from bam_masterdata.utils import VALIDATION_RULES_DIR
 
 if TYPE_CHECKING:
     from structlog._config import BoundLoggerLazyProxy
@@ -142,7 +143,7 @@ def code_to_class_name(
 
 def load_validation_rules(
     logger: "BoundLoggerLazyProxy",
-    file_path: str = "./bam_masterdata/checker/validation_rules/validation_rules.json",
+    file_path: str = os.path.join(VALIDATION_RULES_DIR, "validation_rules.json"),
 ):
     if not os.path.exists(file_path):
         logger.error(f"Validation rules file not found: {file_path}")

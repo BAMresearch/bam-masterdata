@@ -16,32 +16,12 @@ from bam_masterdata.cli.fill_masterdata import MasterdataCodeGenerator
 from bam_masterdata.logger import logger
 from bam_masterdata.metadata.entities_dict import EntitiesDict
 from bam_masterdata.utils import (
+    DATAMODEL_DIR,
     delete_and_create_dir,
     duplicated_property_types,
     import_module,
     listdir_py_modules,
 )
-
-
-def find_datamodel_dir():
-    """Search for 'datamodel/' in possible locations and return its absolute path."""
-    possible_locations = [
-        # Case: Running from a project with `datamodel/`
-        Path.cwd() / "datamodel",
-        # Case: Running inside bam-masterdata
-        Path.cwd() / "bam_masterdata" / "datamodel",
-        # Case: Running inside installed package
-        Path(__file__).parent.parent / "datamodel",
-    ]
-
-    for path in possible_locations:
-        if path.exists():
-            return str(path.resolve())
-
-    raise FileNotFoundError("Could not find a valid 'datamodel/' directory.")
-
-
-DATAMODEL_DIR = find_datamodel_dir()
 
 
 @click.group(help="Entry point to run `bam_masterdata` CLI commands.")
@@ -420,25 +400,37 @@ def checker(file_path, mode, datamodel_path):
     validation_results = checker.check(mode=mode)
 
     # Check if there are problems with the current model
-    if mode in ["self", "all", "validate"] and validation_results.get("current_model"):
-        click.echo(
-            "There are problems in the current model that need to be solved"  #: {validation_results['current_model']}"
-        )
+    if mode in ["self", "all", "validate"] and validation_results.get(
+        "current_model", {}
+    ):
+        for entity, errors in validation_results.get("current_model", {}).items():
+            if errors:
+                click.echo(
+                    f"There are problems in the current model for entity {entity} that need to be solved"
+                )
+                click.echo(f"Errors: {errors}")
 
     # Check if there are problems with the incoming model
     if mode in ["incoming", "all", "validate"] and validation_results.get(
-        "incoming_model"
+        "incoming_model", {}
     ):
-        click.echo(
-            f"There are problems in the incoming model located in {file_path} that need to be solved"  #: {validation_results['incoming_model']}"
-        )
+        for entity, errors in validation_results.get("incoming_model", {}).items():
+            if errors:
+                click.echo(
+                    f"There are problems in the incoming model in {file_path} for entity {entity} that need to be solved"
+                )
+                click.echo(f"Errors: {errors}")
 
     # Check if there are comparison problems
-    if mode in ["compare", "all"] and validation_results.get("comparisons"):
-        click.echo(
-            f"There are problems when checking the incoming model located in {file_path} against the current data model that need to be solved"  #: {validation_results['comparisons']}"
-        )
+    if mode in ["compare", "all"] and validation_results.get("comparisons", {}):
+        for entity, errors in validation_results.get("comparisons", {}).items():
+            if errors:
+                click.echo(
+                    f"There are problems when checking the incoming model in {file_path} against the current model {datamodel_path} for entity {entity} that need to be solved"
+                )
+                click.echo(f"Errors: {errors}")
 
+    # ! fix this with recursion
     # Check if no problems were found
     if all(value == {} for value in validation_results.values()):
         click.echo("No problems found in the datamodel and incoming model.")
