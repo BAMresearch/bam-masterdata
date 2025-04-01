@@ -11,7 +11,7 @@ from rdflib.namespace import DC, OWL, RDF, RDFS
 
 from bam_masterdata.utils import import_module
 
-BAM = Namespace("https://bamresearch.github.io/bam-masterdata/")
+BAM = Namespace("https://bamresearch.github.io/bam-masterdata/#")
 PROV = Namespace("http://www.w3.org/ns/prov#")
 
 
