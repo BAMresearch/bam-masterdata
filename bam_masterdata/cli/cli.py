@@ -410,7 +410,6 @@ def checker(file_path, mode, datamodel_path):
                 click.echo(
                     f"There are problems in the current model for entity {entity} that need to be solved"
                 )
-                click.echo(f"Errors: {errors}")
 
     # Check if there are problems with the incoming model
     if mode in ["incoming", "all", "validate"] and validation_results.get(
@@ -421,7 +420,6 @@ def checker(file_path, mode, datamodel_path):
                 click.echo(
                     f"There are problems in the incoming model in {file_path} for entity {entity} that need to be solved"
                 )
-                click.echo(f"Errors: {errors}")
 
     # Check if there are comparison problems
     if mode in ["compare", "all"] and validation_results.get("comparisons", {}):
@@ -430,7 +428,6 @@ def checker(file_path, mode, datamodel_path):
                 click.echo(
                     f"There are problems when checking the incoming model in {file_path} against the current model {datamodel_path} for entity {entity} that need to be solved"
                 )
-                click.echo(f"Errors: {errors}")
 
     # Check if there are individual repository problems
     if (
@@ -443,17 +440,19 @@ def checker(file_path, mode, datamodel_path):
                 click.echo(
                     f"There are problems in the individual repositories when validating them for entity {entity} that need to be solved"
                 )
-                click.echo(f"Errors: {errors}")
         for entity, errors in validation_results.get("comparisons", {}).items():
             if errors:
                 click.echo(
                     f"There are problems in the individual repositories when comparing them with respect to bam-masterdata for entity {entity} that need to be solved"
                 )
-                click.echo(f"Errors: {errors}")
 
     # Check if no problems were found
     if no_validation_errors(validation_results):
         click.echo("No problems found in the datamodel and incoming model.")
+    else:
+        raise click.ClickException(
+            "Problems found in the datamodel. Please, check the logs."
+        )
 
 
 if __name__ == "__main__":
