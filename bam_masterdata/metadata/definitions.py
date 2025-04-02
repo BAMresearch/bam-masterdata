@@ -1,10 +1,15 @@
 import datetime
 import re
 from enum import Enum
-from typing import Any, Optional
+from typing import TYPE_CHECKING, Any, Optional
+
+if TYPE_CHECKING:
+    from pybis import Openbis
+    from structlog._config import BoundLoggerLazyProxy
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
+from bam_masterdata.openbis import OpenbisEntities
 from bam_masterdata.utils import code_to_class_name
 
 
