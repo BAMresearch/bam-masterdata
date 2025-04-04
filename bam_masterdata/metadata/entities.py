@@ -271,6 +271,8 @@ class BaseEntity(BaseModel):
         )()
         defs = getattr(self, "defs")
 
+        is_vocab = isinstance(self, VocabularyType)
+
         # Check if the entity already exists
         if defs.code in openbis_entities:
             logger.info(f"Entity '{defs.code}' already exists in openBIS.")
@@ -279,59 +281,108 @@ class BaseEntity(BaseModel):
             # entity = openbis_entities[defs.code]
 
             # Get properties from self and openBIS
-            self_properties = getattr(self, "properties", [])
-            obis_properties = entity.get_property_assignments()
-            obis_property_codes = [prop.code for prop in obis_properties]
+            self_properties = getattr(self, "terms" if is_vocab else "properties", [])
+            obis_properties = (
+                entity.get_terms().df.code
+                if is_vocab
+                else entity.get_property_assignments()
+            )
+            obis_property_codes = [
+                prop.code if not is_vocab else prop for prop in obis_properties
+            ]
 
             # Check for properties in self that are not in openBIS
             new_properties_added = False
             for prop in self_properties:
                 if prop.code not in obis_property_codes:
                     logger.info(
-                        f"Adding new property '{prop.code}' to entity '{defs.code}'."
+                        f"Adding new '{'term' if is_vocab else 'property'}' {prop.code}' to entity '{defs.code}'."
                     )
+                    new_properties_added = True
+
                     # Handle special case for OBJECT or SAMPLE data types
-                    if prop.data_type == "OBJECT" or prop.data_type == "SAMPLE":
+                    if not is_vocab and (
+                        prop.data_type == "OBJECT" or prop.data_type == "SAMPLE"
+                    ):
                         prop.data_type = "SAMPLE"
 
-                    # Assign the property to the entity
-                    entity.assign_property(
-                        prop=prop.code,
-                        section=prop.section,
-                        mandatory=prop.mandatory,
-                        showInEditView=prop.show_in_edit_views,
-                    )
+                    # Assign the term or property to the entity
+                    if is_vocab:
+                        term = openbis.new_term(
+                            code=prop.code,
+                            vocabularyCode=defs.code,
+                            label=prop.label,
+                            description=prop.description,
+                        )
+                        if prop.official:
+                            term.official = prop.official
+                        term.save()
+                    else:
+                        if prop.vocabulary_code:
+                            entity.assign_property(
+                                prop=prop.code,
+                                section=prop.section,
+                                mandatory=prop.mandatory,
+                                showInEditView=prop.show_in_edit_views,
+                                vocabulary=prop.vocabulary_code,
+                            )
+                        else:
+                            entity.assign_property(
+                                prop=prop.code,
+                                section=prop.section,
+                                mandatory=prop.mandatory,
+                                showInEditView=prop.show_in_edit_views,
+                            )
 
             if not new_properties_added:
-                logger.info(f"No new properties added to entity '{defs.code}'.")
+                logger.info(
+                    f"No new '{'terms' if is_vocab else 'properties'}' added to entity '{defs.code}'."
+                )
 
             # Save the entity after adding new properties
-            entity.save()
+            if not is_vocab:
+                entity.save()
             return entity
 
         # If the entity is new, create it
         logger.info(f"Creating new entity '{defs.code}' in openBIS.")
-        entity = create_type(openbis, defs)
-        entity.save()
+        if not is_vocab:
+            entity = create_type(openbis, defs)
+            entity.save()
 
-        # Assign properties to the new entity
-        properties = getattr(self, "properties", [])
-        for prop in properties:
-            logger.info(f"Adding new property {prop.code} to {defs.code}.")
-            # Handle special case for OBJECT or SAMPLE data types
-            if prop.data_type == "OBJECT" or prop.data_type == "SAMPLE":
-                prop.data_type = "SAMPLE"
+            # Assign properties to the new entity
+            properties = getattr(self, "properties", [])
+            for prop in properties:
+                logger.info(f"Adding new property {prop.code} to {defs.code}.")
+                # Handle special case for OBJECT or SAMPLE data types
+                if prop.data_type == "OBJECT" or prop.data_type == "SAMPLE":
+                    prop.data_type = "SAMPLE"
 
-            # Assign the property to the entity
-            entity.assign_property(
-                prop=prop.code,
-                section=prop.section,
-                mandatory=prop.mandatory,
-                showInEditView=prop.show_in_edit_views,
-            )
+                # Assign the property to the entity
+                entity.assign_property(
+                    prop=prop.code,
+                    section=prop.section,
+                    mandatory=prop.mandatory,
+                    showInEditView=prop.show_in_edit_views,
+                )
+        else:
+            # Transform the list of VocabularyTerm objects into the desired format
+            terms = [
+                {
+                    "code": term.code,
+                    "label": term.label,
+                    "description": term.description,
+                }
+                for term in getattr(self, "terms", [])
+            ]
+            term_codes = ", ".join([term.code for term in getattr(self, "terms", [])])
+            logger.info(f"Adding new terms {term_codes} to {defs.code}.")
+            entity = create_type(openbis, defs, terms)
+            entity.save()
 
         # Save the entity after assigning properties
-        entity.save()
+        if not is_vocab:
+            entity.save()
         return entity
 
     def get_property_metadata(self) -> dict:
@@ -719,14 +770,14 @@ class VocabularyType(BaseEntity):
         type_map: dict = VOCABULARY_TYPE_MAP,
     ) -> None:
         def get_type(openbis: "Openbis", code: str):
-            return openbis.get_vocabulary_type(code)
+            return openbis.get_vocabulary(code)
 
-        def create_type(openbis: "Openbis", defs: VocabularyTypeDef):
-            return openbis.new_vocabulary_type(
-                code=defs.code, description=defs.description
+        def create_type(openbis: "Openbis", defs: VocabularyTypeDef, terms: list):
+            return openbis.new_vocabulary(
+                code=defs.code, description=defs.description, terms=terms
             )
 
-        super()._to_openbis(
+        super()._to_openbis2(
             logger=logger,
             openbis=openbis,
             type=type,
@@ -761,7 +812,7 @@ class CollectionType(ObjectType):
                 validationPlugin=defs.validation_script,
             )
 
-        super()._to_openbis(
+        super()._to_openbis2(
             logger=logger,
             openbis=openbis,
             type=type,
@@ -798,7 +849,7 @@ class DatasetType(ObjectType):
                 mainDatasetPath=defs.main_dataset_path,
             )
 
-        super()._to_openbis(
+        super()._to_openbis2(
             logger=logger,
             openbis=openbis,
             type=type,
