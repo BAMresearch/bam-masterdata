@@ -1,6 +1,8 @@
+import glob
+import inspect
 import json
 import os
-import subprocess
+import shutil
 import time
 from pathlib import Path
 
@@ -442,6 +444,92 @@ def checker(file_path, mode, datamodel_path):
     # Check if no problems were found
     if all(value == {} for value in validation_results.values()):
         click.echo("No problems found in the datamodel and incoming model.")
+
+
+@cli.command(
+    name="push_to_openbis",
+    help="Uploads to openBIS the entities contained in the file specified in the tag `--file-path` after passing correctly all the checks from the `checker`.",
+)
+@click.option(
+    "--file-path",
+    "file_path",  # alias
+    type=click.Path(exists=True),
+    required=True,
+    help="""The path to the file or directory containing Python modules or the Excel file to be checked.""",
+)
+@click.option(
+    "--datamodel-path",
+    "datamodel_path",  # alias
+    type=click.Path(exists=True, dir_okay=True),
+    default=DATAMODEL_DIR,
+    help="""Path to the directory containing the Python modules defining the datamodel (defaults to './bam_masterdata/datamodel/').""",
+)
+def push_to_openbis(file_path, datamodel_path):
+    # Check if the path is a single .py file OR a directory containing .py files
+    if file_path.endswith(".py") or (
+        os.path.isdir(file_path) and any(glob.glob(os.path.join(file_path, "*.py")))
+    ):
+        source_type = "python"
+    elif file_path.endswith(".xlsx"):
+        source_type = "excel"
+    else:
+        source_type = None
+        logger.warning(f"Unsupported source type for path: {file_path}")
+
+    # Handle source_type
+    tmp_dir = "./bam_masterdata/tmp"
+    os.makedirs(tmp_dir, exist_ok=True)
+
+    if source_type == "python":
+        # Copy all .py files to the tmp directory
+        if os.path.isdir(file_path):
+            for py_file in glob.glob(os.path.join(file_path, "*.py")):
+                shutil.copy(py_file, tmp_dir)
+        else:
+            shutil.copy(file_path, tmp_dir)
+        logger.info(f"Copied Python files to {tmp_dir}")
+
+    elif source_type == "excel":
+        # Call fill_masterdata with the Excel file
+        fill_masterdata(
+            url=None,
+            excel_file=file_path,
+            export_dir=tmp_dir,
+            row_cell_info=False,
+        )
+        logger.info(f"Processed Excel file and exported to {tmp_dir}")
+
+    # Instantiate the checker class and run validation
+    checker = MasterdataChecker()
+
+    # Load current model from datamodel path
+    checker.load_current_model(datamodel_dir=datamodel_path)
+
+    # Load new entities from the specified file path (could be a Python file, directory, or Excel)
+    checker.load_new_entities(source=file_path)
+
+    # Run the checker in the specified mode
+    validation_results = checker.check(mode="individual")
+
+    if all(value == {} for value in validation_results.values()):
+        click.echo("No problems found in the datamodel and incoming model.")
+
+    # If there are no problems, push to openBIS
+    if all(value == {} for value in validation_results.values()):
+        # Push to openBIS
+        from bam_masterdata.openbis.login import ologin
+
+        url = environ("OPENBIS_URL")
+        openbis = ologin(url=url)
+        click.echo(f"Using the openBIS instance: {url}\n")
+
+        # Push each entity type
+        for module_path in listdir_py_modules(tmp_dir):
+            module = import_module(module_path=module_path)
+            for _, obj in inspect.getmembers(module, inspect.isclass):
+                if hasattr(obj, "defs") and callable(getattr(obj, "model_to_json")):
+                    obj_instance = obj()
+                    obj_instance.push_to_openbis(openbis=openbis)
 
 
 if __name__ == "__main__":
