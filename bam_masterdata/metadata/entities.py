@@ -114,155 +114,6 @@ class BaseEntity(BaseModel):
         create_type: Callable[..., Any],
     ) -> None:
         """
-        Add the entity type (object, collection, dataset, or vocabulary) to openBIS if it does not
-        exist. If it exists, it checks if the values have changed and logs criticals if `code` has
-        been modified while only warnings for the other attributes.
-        This function is used in `ObjectType`, `CollectionType`, `DatasetType`, and `VocabularyType` classes.
-        Each of these classes' method `to_openbis()` calls their internal functions (they must be explictly
-        defined in those classes) `get_type` and `create_type` using PyBIS utilities.
-        Args:
-            logger (BoundLoggerLazyProxy): The logger to log messages.
-            openbis (Openbis): The openBIS instance.
-            type (str): The type of entity to add to openBIS.
-            type_map (dict): The mapping of the attributes between the model and openBIS. Defined in `bam_masterdata/metadata/_maps.py`.
-            get_type (Callable[..., Any]): The function to get the entity type from openBIS using PyBIS.
-            create_type (Callable[..., Any]): The function to create the entity type in openBIS using PyBIS.
-        """
-        # Initialize entity to None
-        entity = None
-        new_entity = True
-
-        openbis_entities = getattr(
-            OpenbisEntities(url=openbis.url), f"get_{type}_dict"
-        )()
-        defs = getattr(self, "defs")
-        print(f"This is defs {defs}")
-        # Entity_type already exists in openBIS
-        if defs.code in openbis_entities.keys():  # addlog with creation indication
-            logger.info(f"Updating existing entity in openBIS:{defs.code}")
-            # entity = get_type(openbis, defs.code)
-            obis_entity = openbis_entities.get(defs.code)
-            # print("This is 'entity'", entity, "\n", "This is obis", obis_entity)
-            new_entity = False
-            for key in defs.model_fields.keys():
-                obis_attr = type_map.get(key)
-                value = obis_entity.get(obis_attr)
-
-                # Skip if the value is empty and the attribute is not set
-                if not value and not getattr(defs, key):
-                    continue
-
-                # Check if the value has changed
-                if value != getattr(defs, key):
-                    # `code` are immutable if they exist already in openBIS
-                    if key == "code" or key == "id":
-                        logger.critical(
-                            f"`code` cannot be changed once it is set (old {value}, new {getattr(defs, key)}). "
-                            "You need to define a new property."
-                        )
-                        return None
-                    # Otherwise, the attribute can be changed
-                    else:
-                        logger.warning(
-                            f"{defs.code} has changed the value for `{key}` from ``{value}`` to ``{getattr(defs, key)}``, <<{datetime.now()}>>\n"
-                            "We will update its value in openBIS."
-                        )
-                        setattr(entity, obis_attr, getattr(self, key))
-                        entity.save()
-
-            # Need to assign `entity` to check on the `properties` later
-            if entity is None:
-                entity = get_type(openbis, defs.code)
-                new_entity = False
-        else:
-            new_entity = True
-            # Adding it to openBIS
-            entity = create_type(openbis, defs)
-            entity.save()
-
-        # Properties/Terms assignment
-        properties = getattr(self, "properties", [])
-        [print(prop.code) for prop in properties]
-        obis_properties = entity.get_property_assignments() if not new_entity else []
-        if obis_properties:
-            obis_properties_codes = [ob_prop.code for ob_prop in obis_properties]
-        else:
-            obis_properties_codes = []
-        for prop in properties:
-            print(prop.code, prop.description)
-            # If property is not assigned, assign it
-            if prop.code not in obis_properties_codes:
-                logger.info(f"Adding new property {prop.code} to {defs.code}.")
-                try:
-                    openbis.get_property_type(prop.code)
-                except ValueError:
-                    logger.info(
-                        f"Property {prop.code} does not exist in openBIS. Creating it..."
-                    )
-                    if prop.data_type == "CONTROLLEDVOCABULARY":
-                        try:
-                            # Check if the vocabulary exists in OpenBIS
-                            openbis.get_vocabulary(prop.vocabulary_code)
-                            vocabulary_exists = (
-                                True  # Set a flag if no exception is raised
-                            )
-                        except ValueError:
-                            logger.error(
-                                f"Vocabulary {prop.vocabulary_code} does not exist in openBIS. Define it first."
-                            )
-                            vocabulary_exists = (
-                                False  # Set the flag to False if an exception is raised
-                            )
-                            entity.delete(
-                                "Error"
-                            )  # Delete the entity if the vocabulary does not exist
-                            break
-
-                        # Only add the vocabulary property if the vocabulary exists
-                        if vocabulary_exists:
-                            new_prop = openbis.new_property_type(
-                                code=prop.code,
-                                label=prop.property_label,
-                                description=prop.description,
-                                dataType=prop.data_type,
-                                vocabulary=prop.vocabulary_code,  # Add the vocabulary only if it exists
-                            )
-                            new_prop.save()
-                        else:
-                            continue
-
-                    else:
-                        if prop.data_type == "OBJECT" or prop.data_type == "SAMPLE":
-                            prop.data_type = "SAMPLE"
-                        # For other data types, create the property without the vocabulary
-                        new_prop = openbis.new_property_type(
-                            code=prop.code,
-                            label=prop.property_label,
-                            description=prop.description,
-                            dataType=prop.data_type,
-                        )
-                        new_prop.save()
-
-                entity.assign_property(
-                    prop=prop.code,
-                    section=prop.section,
-                    mandatory=prop.mandatory,
-                    showInEditView=prop.show_in_edit_views,
-                )
-            # If property is assigned...
-            else:
-                continue  # These checks will be already performed using the checker
-
-    def _to_openbis2(
-        self,
-        logger: "BoundLoggerLazyProxy",
-        openbis: "Openbis",
-        type: str,
-        type_map: dict,
-        get_type: Callable[..., Any],
-        create_type: Callable[..., Any],
-    ) -> None:
-        """
         Simplified function to add or update the entity type in openBIS.
         """
         # Get all existing entities from openBIS
@@ -707,7 +558,7 @@ class ObjectType(BaseEntity):
                 autoGeneratedCode=defs.auto_generated_codes,
             )
 
-        super()._to_openbis2(
+        super()._to_openbis(
             logger=logger,
             openbis=openbis,
             type=type,
@@ -777,7 +628,7 @@ class VocabularyType(BaseEntity):
                 code=defs.code, description=defs.description, terms=terms
             )
 
-        super()._to_openbis2(
+        super()._to_openbis(
             logger=logger,
             openbis=openbis,
             type=type,
@@ -812,7 +663,7 @@ class CollectionType(ObjectType):
                 validationPlugin=defs.validation_script,
             )
 
-        super()._to_openbis2(
+        super()._to_openbis(
             logger=logger,
             openbis=openbis,
             type=type,
@@ -849,7 +700,7 @@ class DatasetType(ObjectType):
                 mainDatasetPath=defs.main_dataset_path,
             )
 
-        super()._to_openbis2(
+        super()._to_openbis(
             logger=logger,
             openbis=openbis,
             type=type,
