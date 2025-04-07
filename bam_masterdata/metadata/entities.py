@@ -609,7 +609,7 @@ class VocabularyType(BaseEntity):
         for base in cls.__mro__:
             for attr_name, attr_val in base.__dict__.items():
                 if isinstance(attr_val, VocabularyTerm):
-                    data.properties.append(attr_val)
+                    data.terms.append(attr_val)
 
         return data
 
