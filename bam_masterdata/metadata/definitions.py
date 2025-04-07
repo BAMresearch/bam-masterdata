@@ -24,6 +24,7 @@ class DataType(str, Enum):
     # MATERIAL = "MATERIAL"  # ! deprecated
     MULTILINE_VARCHAR = "MULTILINE_VARCHAR"
     OBJECT = "OBJECT"
+    SAMPLE = "SAMPLE"
     REAL = "REAL"
     TIMESTAMP = "TIMESTAMP"
     VARCHAR = "VARCHAR"
@@ -332,6 +333,7 @@ class PropertyTypeDef(EntityDef):
             - `MATERIAL`
             - `MULTILINE_VARCHAR`
             - `OBJECT`
+            - `SAMPLE`
             - `REAL`
             - `TIMESTAMP`
             - `VARCHAR`
