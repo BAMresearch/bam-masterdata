@@ -532,10 +532,10 @@ class ObjectType(BaseEntity):
             Any: The data with the validated fields.
         """
         # Add all the properties assigned to the object type to the `properties` list.
-        for attr_name in cls.__dict__.keys():
-            attr = getattr(cls, attr_name)
-            if isinstance(attr, PropertyTypeAssignment):
-                data.properties.append(attr)
+        for base in cls.__mro__:
+            for attr_name, attr_val in base.__dict__.items():
+                if isinstance(attr_val, PropertyTypeAssignment):
+                    data.properties.append(attr_val)
 
         return data
 
@@ -606,10 +606,10 @@ class VocabularyType(BaseEntity):
             Any: The data with the validated fields.
         """
         # Add all the vocabulary terms defined in the vocabulary type to the `terms` list.
-        for attr_name in cls.__dict__.keys():
-            attr = getattr(cls, attr_name)
-            if isinstance(attr, VocabularyTerm):
-                data.terms.append(attr)
+        for base in cls.__mro__:
+            for attr_name, attr_val in base.__dict__.items():
+                if isinstance(attr_val, VocabularyTerm):
+                    data.properties.append(attr_val)
 
         return data
 
