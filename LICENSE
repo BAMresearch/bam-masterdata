@@ -1,4 +1,4 @@
-MIT License
+MIT License - MODIFIED
 
 Copyright (c) 2025 Bundesanstalt für Materialforschung und -prüfung
 
@@ -19,3 +19,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+**MODIFICATION**: the datamodel files are excluded from this license agreement and
+we reserve all rights on them for developments. Appropriate recognition has to be
+done if you use parts of this datamodel in your own modelling.
