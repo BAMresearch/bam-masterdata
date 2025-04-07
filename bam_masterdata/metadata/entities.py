@@ -696,8 +696,9 @@ class DatasetType(ObjectType):
                 code=defs.code,
                 description=defs.description,
                 validationPlugin=defs.validation_script,
-                mainDatasetPattern=defs.main_dataset_pattern,
-                mainDatasetPath=defs.main_dataset_path,
+                # This is not accepted by openBIS when creating dataset types
+                # mainDatasetPattern=defs.main_dataset_pattern,
+                # mainDatasetPath=defs.main_dataset_path,
             )
 
         super()._to_openbis(

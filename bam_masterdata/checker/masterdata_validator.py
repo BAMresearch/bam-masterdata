@@ -66,7 +66,7 @@ class MasterdataValidator:
 
         if mode == "individual":
             self.logger.info(
-                "Validating new DSST entities and comparing them with current model..."
+                "Validating new entities and comparing them with current model..."
             )
             self.validation_results = {
                 "incoming_model": {},
@@ -425,6 +425,11 @@ class MasterdataValidator:
                         all_props,
                         is_terms=True,
                     )
+
+        if not self.validation_results.get("comparisons"):
+            logger.info(
+                "No conflicts found between new entities compared to the current model."
+            )
 
         return self.validation_results
 

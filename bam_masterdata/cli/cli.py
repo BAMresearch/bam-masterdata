@@ -17,6 +17,7 @@ from bam_masterdata.cli.entities_to_rdf import entities_to_rdf
 from bam_masterdata.cli.fill_masterdata import MasterdataCodeGenerator
 from bam_masterdata.logger import logger
 from bam_masterdata.metadata.entities_dict import EntitiesDict
+from bam_masterdata.openbis.login import ologin
 from bam_masterdata.utils import (
     delete_and_create_dir,
     duplicated_property_types,
@@ -511,13 +512,16 @@ def push_to_openbis(file_path, datamodel_path):
     # Run the checker in the specified mode
     validation_results = checker.check(mode="individual")
 
-    if all(value == {} for value in validation_results.values()):
-        click.echo("No problems found in the datamodel and incoming model.")
+    if not validation_results.get("incoming_model"):
+        logger.info("No problems found in the new entities definition.")
 
     # If there are no problems, push to openBIS
-    if all(value == {} for value in validation_results.values()):
+    if all(
+        isinstance(value, dict) and all(not sub_value for sub_value in value.values())
+        for value in validation_results.values()
+    ):
+        click.echo("No problems found in the datamodel and incoming model.")
         # Push to openBIS
-        from bam_masterdata.openbis.login import ologin
 
         url = environ("OPENBIS_URL")
         openbis = ologin(url=url)
@@ -527,9 +531,20 @@ def push_to_openbis(file_path, datamodel_path):
         for module_path in listdir_py_modules(tmp_dir):
             module = import_module(module_path=module_path)
             for _, obj in inspect.getmembers(module, inspect.isclass):
-                if hasattr(obj, "defs") and callable(getattr(obj, "model_to_json")):
+                if hasattr(obj, "defs") and callable(getattr(obj, "to_openbis")):
                     obj_instance = obj()
-                    obj_instance.push_to_openbis(openbis=openbis)
+                    obj_instance.to_openbis(openbis=openbis, logger=logger)
+
+    else:
+        logger.error(
+            f"The checking of the new entities definition located in {file_path} did not pass. Please, check your entity definitions."
+        )
+        click.echo(
+            f"There are problems in the incoming model located in {file_path} that need to be solved"
+        )
+    # Clean up the tmp directory
+    shutil.rmtree(tmp_dir)
+    click.echo(f"Temporary files in {tmp_dir} have been deleted.")
 
 
 if __name__ == "__main__":
