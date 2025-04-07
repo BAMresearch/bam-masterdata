@@ -163,7 +163,7 @@ The main datamodel developers are:
 - Angela Ariza de Schellenberger
 - Ingo Bressler
 - Rukeia El-Athman
-- Cagtay Fabry
+- Çağtay Fabry
 - Tobias Fritsch
 - Ralf Herrmann
 - Zoltán Konthur
