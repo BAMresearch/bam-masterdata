@@ -423,31 +423,48 @@ def checker(file_path, mode, datamodel_path):
     validation_results = checker.check(mode=mode)
 
     # Check if there are problems with the current model
-    if mode in ["self", "all", "validate"] and any(
-        bool(sub_dict)
-        for sub_dict in validation_results.get("current_model", {}).values()
+    if mode in ["self", "all", "validate"] and validation_results.get(
+        "current_model", {}
     ):
-        click.echo(
-            "There are problems in the current model that need to be solved"  #: {validation_results['current_model']}"
-        )
+        for entity, errors in validation_results.get("current_model", {}).items():
+            if errors:
+                click.echo(
+                    f"There are problems in the current model for entity {entity} that need to be solved"
+                )
 
     # Check if there are problems with the incoming model
-    if mode in ["incoming", "all", "validate"] and any(
-        bool(sub_dict)
-        for sub_dict in validation_results.get("incoming_model", {}).values()
+    if mode in ["incoming", "all", "validate"] and validation_results.get(
+        "incoming_model", {}
     ):
-        click.echo(
-            f"There are problems in the incoming model located in {file_path} that need to be solved"  #: {validation_results['incoming_model']}"
-        )
+        for entity, errors in validation_results.get("incoming_model", {}).items():
+            if errors:
+                click.echo(
+                    f"There are problems in the incoming model in {file_path} for entity {entity} that need to be solved"
+                )
 
     # Check if there are comparison problems
-    if mode in ["compare", "all"] and any(
-        bool(sub_dict)
-        for sub_dict in validation_results.get("comparisons", {}).values()
+    if mode in ["compare", "all"] and validation_results.get("comparisons", {}):
+        for entity, errors in validation_results.get("comparisons", {}).items():
+            if errors:
+                click.echo(
+                    f"There are problems when checking the incoming model in {file_path} against the current model {datamodel_path} for entity {entity} that need to be solved"
+                )
+    # Check if there are individual repository problems
+    if (
+        mode in ["individual"]
+        and validation_results.get("incoming_model", {})
+        and validation_results.get("comparisons", {})
     ):
-        click.echo(
-            f"There are problems when checking the incoming model located in {file_path} against the current data model that need to be solved"  #: {validation_results['comparisons']}"
-        )
+        for entity, errors in validation_results.get("individual", {}).items():
+            if errors:
+                click.echo(
+                    f"There are problems in the individual repositories when validating them for entity {entity} that need to be solved"
+                )
+        for entity, errors in validation_results.get("comparisons", {}).items():
+            if errors:
+                click.echo(
+                    f"There are problems in the individual repositories when comparing them with respect to bam-masterdata for entity {entity} that need to be solved"
+                )
 
     # Check if no problems were found
     if all(value == {} for value in validation_results.values()):
@@ -555,6 +572,7 @@ def push_to_openbis(file_path, datamodel_path):
             f"There are problems in the incoming model located in {file_path} that need to be solved"
         )
         return
+
     if source_type == "excel":
         # Clean up the tmp directory
         shutil.rmtree(tmp_dir)
