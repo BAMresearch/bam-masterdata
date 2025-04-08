@@ -18,7 +18,7 @@ class MasterdataCodeGenerator:
         self.row_cell_info = kwargs.get("row_cell_info", False)
         # * This part takes some time due to the loading of all entities from Openbis
         if url:
-            self.generator_type + "openbis"
+            self.generator_type = "openbis"
             self.properties = OpenbisEntities(url=url).get_property_dict()
             self.collections = OpenbisEntities(url=url).get_collection_dict()
             self.datasets = OpenbisEntities(url=url).get_dataset_dict()
@@ -143,7 +143,7 @@ class MasterdataCodeGenerator:
                 if object_code:
                     lines.append(f'        object_code="{object_code}",')
             elif data_type == "CONTROLLEDVOCABULARY":
-                vocabulary_code = self.get_property_object_code(prop_code=prop_code)
+                vocabulary_code = self.get_property_object_code(prop_data=prop_data)
                 if vocabulary_code:
                     lines.append(f'        vocabulary_code="{vocabulary_code}",')
 
