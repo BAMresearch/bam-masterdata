@@ -423,21 +423,28 @@ def checker(file_path, mode, datamodel_path):
     validation_results = checker.check(mode=mode)
 
     # Check if there are problems with the current model
-    if mode in ["self", "all", "validate"] and validation_results.get("current_model"):
+    if mode in ["self", "all", "validate"] and any(
+        bool(sub_dict)
+        for sub_dict in validation_results.get("current_model", {}).values()
+    ):
         click.echo(
             "There are problems in the current model that need to be solved"  #: {validation_results['current_model']}"
         )
 
     # Check if there are problems with the incoming model
-    if mode in ["incoming", "all", "validate"] and validation_results.get(
-        "incoming_model"
+    if mode in ["incoming", "all", "validate"] and any(
+        bool(sub_dict)
+        for sub_dict in validation_results.get("incoming_model", {}).values()
     ):
         click.echo(
             f"There are problems in the incoming model located in {file_path} that need to be solved"  #: {validation_results['incoming_model']}"
         )
 
     # Check if there are comparison problems
-    if mode in ["compare", "all"] and validation_results.get("comparisons"):
+    if mode in ["compare", "all"] and any(
+        bool(sub_dict)
+        for sub_dict in validation_results.get("comparisons", {}).values()
+    ):
         click.echo(
             f"There are problems when checking the incoming model located in {file_path} against the current data model that need to be solved"  #: {validation_results['comparisons']}"
         )
@@ -478,26 +485,31 @@ def push_to_openbis(file_path, datamodel_path):
         logger.warning(f"Unsupported source type for path: {file_path}")
 
     # Handle source_type
-    tmp_dir = "./bam_masterdata/tmp"
-    os.makedirs(tmp_dir, exist_ok=True)
-
     if source_type == "python":
         # Copy all .py files to the tmp directory
         if os.path.isdir(file_path):
-            for py_file in glob.glob(os.path.join(file_path, "*.py")):
-                shutil.copy(py_file, tmp_dir)
+            tmp_dir = file_path
         else:
-            shutil.copy(file_path, tmp_dir)
+            tmp_dir = os.path.dirname(file_path)
         logger.info(f"Copied Python files to {tmp_dir}")
 
     elif source_type == "excel":
-        # Call fill_masterdata with the Excel file
-        fill_masterdata(
-            url=None,
-            excel_file=file_path,
-            export_dir=tmp_dir,
-            row_cell_info=False,
-        )
+        tmp_dir = "./bam_masterdata/tmp"
+        os.makedirs(tmp_dir, exist_ok=True)
+
+        generator = MasterdataCodeGenerator(path=file_path, row_cell_info=True)
+
+        for module_name in ["collection", "dataset", "object", "vocabulary"]:
+            output_file = Path(os.path.join(tmp_dir, f"{module_name}_types.py"))
+
+            # Get the method from `MasterdataCodeGenerator`
+            code = getattr(generator, f"generate_{module_name}_types")().rstrip()
+
+            if code != "":
+                output_file.write_text(code + "\n", encoding="utf-8")
+                click.echo(f"Generated {module_name} types in {output_file}\n")
+            else:
+                click.echo(f"Skipping {module_name}_types.py (empty entity data)")
         logger.info(f"Processed Excel file and exported to {tmp_dir}")
 
     # Instantiate the checker class and run validation
@@ -542,9 +554,15 @@ def push_to_openbis(file_path, datamodel_path):
         click.echo(
             f"There are problems in the incoming model located in {file_path} that need to be solved"
         )
-    # Clean up the tmp directory
-    shutil.rmtree(tmp_dir)
-    click.echo(f"Temporary files in {tmp_dir} have been deleted.")
+        return
+    if source_type == "excel":
+        # Clean up the tmp directory
+        shutil.rmtree(tmp_dir)
+        click.echo(f"Temporary files in {tmp_dir} have been deleted.")
+
+    logger.info(
+        f"Push to openBIS of the new entities located in {file_path} completed."
+    )
 
 
 if __name__ == "__main__":

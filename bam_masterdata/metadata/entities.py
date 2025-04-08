@@ -532,6 +532,7 @@ class ObjectType(BaseEntity):
             Any: The data with the validated fields.
         """
         # Add all the properties assigned to the object type to the `properties` list.
+        # TODO check if the order is properly assigned
         for base in cls.__mro__:
             for attr_name, attr_val in base.__dict__.items():
                 if isinstance(attr_val, PropertyTypeAssignment):
@@ -606,6 +607,7 @@ class VocabularyType(BaseEntity):
             Any: The data with the validated fields.
         """
         # Add all the vocabulary terms defined in the vocabulary type to the `terms` list.
+        # TODO check if the order is properly assigned
         for base in cls.__mro__:
             for attr_name, attr_val in base.__dict__.items():
                 if isinstance(attr_val, VocabularyTerm):
@@ -657,11 +659,20 @@ class CollectionType(ObjectType):
             return openbis.get_collection_type(code)
 
         def create_type(openbis: "Openbis", defs: CollectionTypeDef):
-            return openbis.new_collection_type(
-                code=defs.code,
-                description=defs.description,
-                validationPlugin=defs.validation_script,
-            )
+            if defs.validation_script == "None":
+                defs.validation_script = None
+            if defs.validation_script:
+                return openbis.new_collection_type(
+                    code=defs.code,
+                    description=defs.description,
+                    validationPlugin=defs.validation_script,
+                )
+            else:
+                return openbis.new_collection_type(
+                    code=defs.code,
+                    description=defs.description,
+                    validationPlugin="",
+                )
 
         super()._to_openbis(
             logger=logger,
