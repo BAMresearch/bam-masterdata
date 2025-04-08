@@ -1,5 +1,3 @@
-import os
-
 from bam_masterdata.checker.masterdata_validator import MasterdataValidator
 from bam_masterdata.checker.source_loader import SourceLoader
 from bam_masterdata.logger import logger
@@ -47,6 +45,7 @@ class MasterdataChecker:
         - "validate" -> Validate both the current model and new entities.
         - "compare" -> Compare new entities against the current model.
         - "all" -> Run both validation types.
+        - "individual" -> Run individual repositories validations.
 
         Before running, ensure that required models are loaded based on the mode.
 
@@ -84,3 +83,19 @@ class MasterdataChecker:
             self.new_entities, self.current_model, self.validation_rules
         )
         return validator.validate(mode)
+
+
+def no_validation_errors(validation_results: dict) -> bool:
+    """
+    Check if there are no validation errors in the results.
+
+    Args:
+        validation_results (dict): The dictionary containing the specific validation results.
+
+    Returns:
+        bool: True if there are no validation errors, False otherwise.
+    """
+
+    if not isinstance(validation_results, dict):
+        return False
+    return all(no_validation_errors(v) for v in validation_results.values())

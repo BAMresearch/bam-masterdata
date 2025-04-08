@@ -11,7 +11,7 @@ from decouple import config as environ
 from openpyxl import Workbook
 from rdflib import Graph
 
-from bam_masterdata.checker import MasterdataChecker
+from bam_masterdata.checker import MasterdataChecker, no_validation_errors
 from bam_masterdata.cli.entities_to_excel import entities_to_excel
 from bam_masterdata.cli.entities_to_rdf import entities_to_rdf
 from bam_masterdata.cli.fill_masterdata import MasterdataCodeGenerator
@@ -19,32 +19,12 @@ from bam_masterdata.logger import logger
 from bam_masterdata.metadata.entities_dict import EntitiesDict
 from bam_masterdata.openbis.login import ologin
 from bam_masterdata.utils import (
+    DATAMODEL_DIR,
     delete_and_create_dir,
     duplicated_property_types,
     import_module,
     listdir_py_modules,
 )
-
-
-def find_datamodel_dir():
-    """Search for 'datamodel/' in possible locations and return its absolute path."""
-    possible_locations = [
-        # Case: Running from a project with `datamodel/`
-        Path.cwd() / "datamodel",
-        # Case: Running inside bam-masterdata
-        Path.cwd() / "bam_masterdata" / "datamodel",
-        # Case: Running inside installed package
-        Path(__file__).parent.parent / "datamodel",
-    ]
-
-    for path in possible_locations:
-        if path.exists():
-            return str(path.resolve())
-
-    raise FileNotFoundError("Could not find a valid 'datamodel/' directory.")
-
-
-DATAMODEL_DIR = find_datamodel_dir()
 
 
 @click.group(help="Entry point to run `bam_masterdata` CLI commands.")
@@ -392,7 +372,8 @@ def export_to_rdf(force_delete, python_path, export_dir):
     "--mode",
     "mode",  # alias
     type=click.Choice(
-        ["self", "incoming", "validate", "compare", "all"], case_sensitive=False
+        ["self", "incoming", "validate", "compare", "all", "individual"],
+        case_sensitive=False,
     ),
     default="all",
     help="""Specify the mode for the checker. Options are:
@@ -400,7 +381,8 @@ def export_to_rdf(force_delete, python_path, export_dir):
     "incoming" -> Validate only the new entity structure.
     "validate" -> Validate both the current model and new entities.
     "compare" -> Compare new entities against the current model.
-    "all" -> Run all validations and comparison. (Default)""",
+    "all" -> Run all validations and comparison. (Default).
+    "individual" -> Run individual repositories validations.""",
 )
 @click.option(
     "--datamodel-path",
@@ -449,6 +431,10 @@ def checker(file_path, mode, datamodel_path):
                 click.echo(
                     f"There are problems when checking the incoming model in {file_path} against the current model {datamodel_path} for entity {entity} that need to be solved"
                 )
+
+
+
+
     # Check if there are individual repository problems
     if (
         mode in ["individual"]
@@ -467,8 +453,12 @@ def checker(file_path, mode, datamodel_path):
                 )
 
     # Check if no problems were found
-    if all(value == {} for value in validation_results.values()):
+    if no_validation_errors(validation_results):
         click.echo("No problems found in the datamodel and incoming model.")
+    else:
+        raise click.ClickException(
+            "Problems found in the datamodel. Please, check the logs."
+        )
 
 
 @cli.command(

@@ -146,11 +146,31 @@ INFO    -  [14:07:47] Watching paths for changes: 'docs', 'mkdocs.yml'
 INFO    -  [14:07:47] Serving on http://127.0.0.1:8000/
 ```
 
-Simply click on `http://127.0.0.1:8000/`. The changes in the `md` files of the documentation are inmediately reflected when the files are saved (the local web will automatically refresh).
+Simply click on `http://127.0.0.1:8000/`. The changes in the `md` files of the documentation are immediately reflected when the files are saved (the local web will automatically refresh).
 
 ## Main contributors
+
+The main code developers are:
 
 | Name                | E-mail                                                       |
 | ------------------- | ------------------------------------------------------------ |
 | Carlos Madariaga    | [carlos.madariaga@bam.de](mailto:carlos.madariaga@bam.de)       |
 | Dr. Jose M. Pizarro | [jose.pizarro-blanco@bam.de](mailto:jose.pizarro-blanco@bam.de) |
+
+
+The main datamodel developers are:
+
+- Angela Ariza de Schellenberger
+- Ingo Bressler
+- Rukeia El-Athman
+- Çağtay Fabry
+- Tobias Fritsch
+- Ralf Herrmann
+- Zoltán Konthur
+- Julius Kruse
+- Pavlina Kruzikova
+- Tarakeshwar Lakshmipathy
+- Julien Lecompagnon
+- Jan Lisec
+- Mathias Röllig
+- Bastian Rühle

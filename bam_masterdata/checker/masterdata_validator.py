@@ -30,6 +30,7 @@ class MasterdataValidator:
         - "validate": Validate both current and incoming models but do not compare.
         - "compare": Validate new entities against the current model.
         - "all": Run both.
+        - "individual": Validate new entities and compare them with the current model.
 
          Returns:
             dict: Validation results.

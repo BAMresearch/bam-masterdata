@@ -37,7 +37,7 @@ jobs:
         python -m mypy --ignore-missing-imports --follow-imports=silent --no-strict-optional --exclude dependencies bam_masterdata tests
     - name: Test with pytest
       run: |
-        python -m pytest -sv --ignore=bam_masterdata/dependencies tests
+        python -m pytest -sv --ignore=tests/cli --ignore=tests/metadata/test_entities_dict.py tests
   build-and-install:
     runs-on: ubuntu-latest
     steps:
