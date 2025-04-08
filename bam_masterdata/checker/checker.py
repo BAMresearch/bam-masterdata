@@ -59,23 +59,23 @@ class MasterdataChecker:
 
         # Load required models based on the selected mode
         if (
-            mode in ["self", "validate", "compare", "all"]
+            mode in ["self", "validate", "compare", "all", "individual"]
             and self.current_model is None
         ):
             self.logger.info("Current model is missing. Loading now...")
             self.load_current_model()
 
         if (
-            mode in ["incoming", "validate", "compare", "all"]
+            mode in ["incoming", "validate", "compare", "all", "individual"]
             and self.new_entities is None
         ):
             raise ValueError(
-                "New entities must be loaded before validation in 'incoming', 'validate', 'compare', or 'all' modes."
+                "New entities must be loaded before validation in 'incoming', 'validate', 'individual', 'compare', or 'all' modes."
             )
 
         # Load the validation rules
         if (
-            mode in ["self", "incoming", "validate", "all"]
+            mode in ["self", "incoming", "validate", "all", "individual"]
             and self.validation_rules == {}
         ):
             self.validation_rules = load_validation_rules(self.logger)

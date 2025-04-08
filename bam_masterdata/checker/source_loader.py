@@ -64,18 +64,34 @@ class SourceLoader:
             transformed_data[entity_type] = {}
 
             for entity_name, entity_data in entities.items():
-                transformed_entity = {
-                    "properties": [],  # Now placed before "defs"
-                    "defs": {  # Metadata moved to the end
-                        "code": entity_data.get("code"),
-                        "description": entity_data.get("description", ""),
-                        "id": format_json_id(entity_name),  # PascalCase for entity ID
-                        "row_location": entity_data.get("row_location"),
-                        "validation_script": entity_data.get("validationPlugin")
-                        or None,  # Convert "" to None
-                        "iri": entity_data.get("iri") or None,  # Convert "" to None
-                    },
-                }
+                if entity_type == "vocabulary_types":
+                    transformed_entity = {
+                        "terms": [],  # Now placed before "defs"
+                        "defs": {  # Metadata moved to the end
+                            "code": entity_data.get("code"),
+                            "description": entity_data.get("description", ""),
+                            "id": format_json_id(
+                                entity_name
+                            ),  # PascalCase for entity ID
+                            "row_location": entity_data.get("row_location"),
+                            "url_template": entity_data.get("url_template") or None,
+                        },
+                    }
+                else:
+                    transformed_entity = {
+                        "properties": [],  # Now placed before "defs"
+                        "defs": {  # Metadata moved to the end
+                            "code": entity_data.get("code"),
+                            "description": entity_data.get("description", ""),
+                            "id": format_json_id(
+                                entity_name
+                            ),  # PascalCase for entity ID
+                            "row_location": entity_data.get("row_location"),
+                            "validation_script": entity_data.get("validationPlugin")
+                            or None,  # Convert "" to None
+                            "iri": entity_data.get("iri") or None,  # Convert "" to None
+                        },
+                    }
 
                 # Handle additional fields specific to dataset_types
                 if entity_type == "dataset_types":
@@ -122,6 +138,22 @@ class SourceLoader:
                             "internal_assignment": None,
                         }
                         transformed_entity["properties"].append(transformed_property)
+
+                if "terms" in entity_data:
+                    for term_name, term_data in entity_data["terms"].items():
+                        transformed_term = {
+                            "code": term_data.get("code"),
+                            "description": term_data.get("description", ""),
+                            "id": format_json_id(
+                                term_name
+                            ),  # Now correctly formatted to PascalCase
+                            "row_location": term_data.get("row_location"),
+                            "url_template": term_data.get("url_template")
+                            or None,  # Convert "" to None
+                            "label": term_data.get("label"),
+                            "official": term_data.get("official"),
+                        }
+                        transformed_entity["terms"].append(transformed_term)
 
                 transformed_data[entity_type][entity_name] = transformed_entity
 

@@ -425,7 +425,7 @@ class MasterdataExcelExtractor:
         # Initialize a dictionary to store extracted columns
         extracted_columns: dict[str, list] = {term: [] for term in expected_terms}
         if self.row_cell_info:
-            extracted_columns["Row location"] = []
+            extracted_columns["row_location"] = []
 
         # Extract columns for each expected term
         for term in expected_terms:
@@ -459,7 +459,7 @@ class MasterdataExcelExtractor:
                     self.process_term(term, cell.value, cell.coordinate, sheet.title)
                 )
                 if self.row_cell_info:
-                    extracted_columns["Row location"].append(term_letter + str(i))
+                    extracted_columns["row_location"].append(term_letter + str(i))
             # for cell in sheet[term_letter][header_index:last_non_empty_row]:
             #     extracted_columns[term].append(
             #         self.process_term(term, cell.value, cell.coordinate, sheet.title)
@@ -480,7 +480,7 @@ class MasterdataExcelExtractor:
             }
             if self.row_cell_info:
                 property_dict[extracted_columns["Code"][i]]["row_location"] = (
-                    extracted_columns["Row location"][i]
+                    extracted_columns["row_location"][i]
                 )
             # Only add optional fields if they exist in extracted_columns
             optional_fields = [

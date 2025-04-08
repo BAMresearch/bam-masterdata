@@ -18,6 +18,7 @@ class MasterdataCodeGenerator:
         self.row_cell_info = kwargs.get("row_cell_info", False)
         # * This part takes some time due to the loading of all entities from Openbis
         if url:
+            self.generator_type + "openbis"
             self.properties = OpenbisEntities(url=url).get_property_dict()
             self.collections = OpenbisEntities(url=url).get_collection_dict()
             self.datasets = OpenbisEntities(url=url).get_dataset_dict()
@@ -28,9 +29,11 @@ class MasterdataCodeGenerator:
                 f"Loaded OpenBIS entities in `MasterdataCodeGenerator` initialization {elapsed_time:.2f} seconds\n"
             )
         else:
+            self.generator_type = "excel"
             entities_dict = MasterdataExcelExtractor(
                 excel_path=path, row_cell_info=self.row_cell_info
             ).excel_to_entities()
+            self.properties = entities_dict.get("property_types", {})
             self.collections = entities_dict.get("collection_types", {})
             self.datasets = entities_dict.get("dataset_types", {})
             self.objects = entities_dict.get("object_types", {})
@@ -76,7 +79,7 @@ class MasterdataCodeGenerator:
 
         return parent_code, parent_class, class_name
 
-    def get_property_object_code(self, prop_code: str) -> str:
+    def get_property_object_code(self, prop_data: dict) -> str:
         """
         Get the object code (or vocabulary code) used for reference for the assigned property with `prop_code`.
 
@@ -86,18 +89,21 @@ class MasterdataCodeGenerator:
         Returns:
             str: The object/vocabulary code used for reference for the assigned property.
         """
-        data = self.properties.get(prop_code, {})
-        if not data:
+        if not prop_data:
             return ""
 
-        object_code = data.get("sampleType", "")
+        # TODO check excel extractor to add sampleType column
+        object_code = prop_data.get("sampleType", "")
         if object_code:
             return object_code
-        vocabulary_code = data.get("vocabulary", "")
-        if vocabulary_code:
-            return vocabulary_code
 
-        return ""
+        # TODO fix this patch and avoid using generator type
+        vocabulary_code = ""
+        if self.generator_type == "openbis":
+            vocabulary_code = prop_data.get("vocabulary", "")
+        elif self.generator_type == "excel":
+            vocabulary_code = prop_data.get("vocabularyType", "")
+        return vocabulary_code
 
     def add_properties(
         self, entities: dict, parent_code: str, data: dict, lines: list
@@ -115,14 +121,13 @@ class MasterdataCodeGenerator:
             data (dict): The data information for the entity as obtained from openBIS.
             lines (list): A list of strings to be printed to the Python module.
         """
-        parent_properties = entities.get(parent_code, {}).get("properties", {}).keys()
+        parent_properties_code = (
+            entities.get(parent_code, {}).get("properties", {}).keys()
+        )
         for prop_code, prop_data in data.get("properties", {}).items():
             # Skip "UNKNOWN" properties
-            if prop_code == "UNKNOWN":
-                continue
-
             # We check if the property is inherited from the parent class
-            if prop_code in parent_properties:
+            if prop_code == "UNKNOWN" or prop_code in parent_properties_code:
                 continue
 
             prop_name = prop_code.lstrip("$").replace(".", "_").lower()
@@ -134,7 +139,7 @@ class MasterdataCodeGenerator:
                 data_type = "OBJECT"
             lines.append(f'        data_type="{data_type}",')
             if data_type == "OBJECT":
-                object_code = self.get_property_object_code(prop_code=prop_code)
+                object_code = self.get_property_object_code(prop_data=prop_data)
                 if object_code:
                     lines.append(f'        object_code="{object_code}",')
             elif data_type == "CONTROLLEDVOCABULARY":
