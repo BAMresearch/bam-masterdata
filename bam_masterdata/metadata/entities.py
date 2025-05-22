@@ -209,6 +209,17 @@ class BaseEntity(BaseModel):
                 if prop.data_type == "OBJECT" or prop.data_type == "SAMPLE":
                     prop.data_type = "SAMPLE"
 
+                try:
+                    obis_prop = openbis.get_property_type(code=prop.code)
+                except:
+                    new_prop = openbis.new_property_type(
+                        code=prop.code,
+                        description=prop.description,
+                        dataType=prop.data_type,
+                        label=prop.property_label,
+                    )
+                    new_prop.save()
+
                 # Assign the property to the entity
                 entity.assign_property(
                     prop=prop.code,

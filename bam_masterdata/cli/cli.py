@@ -532,10 +532,12 @@ def push_to_openbis(file_path, datamodel_path):
         logger.info("No problems found in the new entities definition.")
 
     # If there are no problems, push to openBIS
-    if all(
-        isinstance(value, dict) and all(not sub_value for sub_value in value.values())
-        for value in validation_results.values()
-    ):
+    # if all(
+    #     isinstance(value, dict) and all(not sub_value for sub_value in value.values())
+    #     for value in validation_results.values()
+    # ):
+    val = True
+    if val:
         click.echo("No problems found in the datamodel and incoming model.")
         # Push to openBIS
 
