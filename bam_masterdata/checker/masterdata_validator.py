@@ -35,7 +35,7 @@ class MasterdataValidator:
          Returns:
             dict: Validation results.
         """
-        self.logger.info("Starting validation process...", mode=mode)
+        self.logger.debug("Starting validation process...", mode=mode)
 
         # Reset validation results before running checks
         self.validation_results = {
@@ -45,28 +45,28 @@ class MasterdataValidator:
         }
 
         if mode in ["self", "all", "validate"]:
-            self.logger.info("Validating current model...")
+            self.logger.debug("Validating current model...")
             self._validate_model(self.current_model)
             self._extract_log_messages(
                 self.current_model, self.validation_results["current_model"]
             )
 
         if mode in ["incoming", "all", "validate"]:
-            self.logger.info("Validating new entities...")
+            self.logger.debug("Validating new entities...")
             self._validate_model(self.new_entities)
             self._extract_log_messages(
                 self.new_entities, self.validation_results["incoming_model"]
             )
 
         if mode in ["compare", "all"]:
-            self.logger.info("Comparing new entities with current model...")
+            self.logger.debug("Comparing new entities with current model...")
             self._compare_with_current_model(mode=mode)
             self._extract_log_messages(
                 self.new_entities, self.validation_results["comparisons"]
             )
 
         if mode == "individual":
-            self.logger.info(
+            self.logger.debug(
                 "Validating new entities and comparing them with current model..."
             )
             self.validation_results = {
@@ -318,7 +318,7 @@ class MasterdataValidator:
         """
         Compare new entities against the current model using validation rules.
         """
-        self.logger.info("Starting comparison with the current model...")
+        self.logger.debug("Starting comparison with the current model...")
 
         new_entity = False
 

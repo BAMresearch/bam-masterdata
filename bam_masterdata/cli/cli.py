@@ -11,7 +11,7 @@ from decouple import config as environ
 from openpyxl import Workbook
 from rdflib import Graph
 
-from bam_masterdata.checker import MasterdataChecker, no_validation_errors
+from bam_masterdata.checker import MasterdataChecker
 from bam_masterdata.cli.entities_to_excel import entities_to_excel
 from bam_masterdata.cli.entities_to_rdf import entities_to_rdf
 from bam_masterdata.cli.fill_masterdata import MasterdataCodeGenerator
@@ -357,41 +357,24 @@ def export_to_rdf(force_delete, python_path, export_dir):
     )
 
 
-@cli.command(
-    name="checker",
-    help="Checks the files specified in the tag `--file-path` with respect to the ones specified in `--datamodel-path`.",
-)
-@click.option(
-    "--file-path",
-    "file_path",  # alias
-    type=click.Path(exists=True),
-    required=True,
-    help="""The path to the file or directory containing Python modules or the Excel file to be checked.""",
-)
-@click.option(
-    "--mode",
-    "mode",  # alias
-    type=click.Choice(
-        ["self", "incoming", "validate", "compare", "all", "individual"],
-        case_sensitive=False,
-    ),
-    default="all",
-    help="""Specify the mode for the checker. Options are:
-    "self" -> Validate only the current data model.
-    "incoming" -> Validate only the new entity structure.
-    "validate" -> Validate both the current model and new entities.
-    "compare" -> Compare new entities against the current model.
-    "all" -> Run all validations and comparison. (Default).
-    "individual" -> Run individual repositories validations.""",
-)
-@click.option(
-    "--datamodel-path",
-    "datamodel_path",  # alias
-    type=click.Path(exists=True, dir_okay=True),
-    default=DATAMODEL_DIR,
-    help="""Path to the directory containing the Python modules defining the datamodel (defaults to './bam_masterdata/datamodel/').""",
-)
-def checker(file_path, mode, datamodel_path):
+def run_checker(
+    file_path: Path, mode: str = "all", datamodel_path: Path = DATAMODEL_DIR
+):
+    """
+
+    Run the masterdata checker on the specified file path and mode.
+
+    Args:
+        file_path (Path): The path to the file or directory containing Python modules or the Excel file to be checked.
+        mode (str, optional): The mode for the checker. Defaults to "all". Options are:
+            "self" -> Validate only the current data model.
+            "incoming" -> Validate only the new entity structure.
+            "validate" -> Validate both the current model and new entities.
+            "compare" -> Compare new entities against the current model.
+            "all" -> Run all validations and comparison. (Default).
+            "individual" -> Run individual repositories validations.
+        datamodel_path (Path, optional): Path to the directory containing the Python modules defining the datamodel. Defaults to DATAMODEL_DIR.
+    """
     # Instantiate the checker class and run validation
     checker = MasterdataChecker()
 
@@ -449,13 +432,43 @@ def checker(file_path, mode, datamodel_path):
                     f"There are problems in the individual repositories when comparing them with respect to bam-masterdata for entity {entity} that need to be solved"
                 )
 
-    # Check if no problems were found
-    if no_validation_errors(validation_results):
-        click.echo("No problems found in the datamodel and incoming model.")
-    else:
-        raise click.ClickException(
-            "Problems found in the datamodel. Please, check the logs."
-        )
+
+@cli.command(
+    name="checker",
+    help="Checks the files specified in the tag `--file-path` with respect to the ones specified in `--datamodel-path`.",
+)
+@click.option(
+    "--file-path",
+    "file_path",  # alias
+    type=click.Path(exists=True),
+    required=True,
+    help="""The path to the file or directory containing Python modules or the Excel file to be checked.""",
+)
+@click.option(
+    "--mode",
+    "mode",  # alias
+    type=click.Choice(
+        ["self", "incoming", "validate", "compare", "all", "individual"],
+        case_sensitive=False,
+    ),
+    default="all",
+    help="""Specify the mode for the checker. Options are:
+    "self" -> Validate only the current data model.
+    "incoming" -> Validate only the new entity structure.
+    "validate" -> Validate both the current model and new entities.
+    "compare" -> Compare new entities against the current model.
+    "all" -> Run all validations and comparison. (Default).
+    "individual" -> Run individual repositories validations.""",
+)
+@click.option(
+    "--datamodel-path",
+    "datamodel_path",  # alias
+    type=click.Path(exists=True, dir_okay=True),
+    default=DATAMODEL_DIR,
+    help="""Path to the directory containing the Python modules defining the datamodel (defaults to './bam_masterdata/datamodel/').""",
+)
+def checker(file_path, mode, datamodel_path):
+    run_checker(file_path=file_path, mode=mode, datamodel_path=datamodel_path)
 
 
 @cli.command(
