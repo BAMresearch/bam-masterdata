@@ -711,8 +711,6 @@ def test_process_entity(
                 "Vocabulary code",
                 "Metadata",
                 "Dynamic script",
-                "Unique",
-                "Internal assignment",
             ],
             [
                 [
@@ -726,8 +724,6 @@ def test_process_entity(
                     "VOCAB_ABC",
                     "Meta info",
                     "Script example",
-                    "True",
-                    "Internal logic",
                 ],
                 [
                     "PROP_002",
@@ -740,8 +736,6 @@ def test_process_entity(
                     "VOCAB_DEF",
                     None,  # Metadata not provided
                     None,  # Dynamic script not provided
-                    None,  # Unique
-                    None,  # Internal assignment not provided
                 ],
             ],
             6,
@@ -758,8 +752,6 @@ def test_process_entity(
                     "vocabularyCode": "VOCAB_ABC",
                     "metadata": "Meta info",
                     "dynamic_script": "Script example",
-                    "unique": "True",
-                    "internal_assignment": "Internal logic",
                 },
                 "PROP_002": {
                     "permId": "PROP_002",
@@ -773,100 +765,10 @@ def test_process_entity(
                     "vocabularyCode": "VOCAB_DEF",
                     "metadata": None,
                     "dynamic_script": None,
-                    "unique": None,
-                    "internal_assignment": None,
                 },
             },
             None,
             None,
-        ),
-        # Missing Header: "Data type"
-        (
-            [
-                "Code",
-                "Description",
-                "Mandatory",
-                "Show in edit views",
-                "Section",
-                "Property label",
-                "Vocabulary code",
-                "Metadata",
-                "Dynamic script",
-                "Unique",
-                "Internal assignment",
-            ],  # Missing "Data type"
-            [
-                [
-                    "PROP_001",
-                    "Sample description",
-                    "True",
-                    "False",
-                    "General",
-                    "Property Label",
-                    "VOCAB_ABC",
-                    "Meta info",
-                    "Script example",
-                    "True",
-                    "Internal logic",
-                ]
-            ],
-            4,
-            {},
-            "'Data type' not found in the properties headers.",
-            "error",
-        ),
-        # Invalid Data Type
-        (
-            [
-                "Code",
-                "Description",
-                "Mandatory",
-                "Show in edit views",
-                "Section",
-                "Property label",
-                "Data type",
-                "Vocabulary code",
-                "Metadata",
-                "Dynamic script",
-                "Unique",
-                "Internal assignment",
-            ],
-            [
-                [
-                    "PROP_003",
-                    "Description",
-                    "True",
-                    "False",
-                    "General",
-                    "Property Label",
-                    "INVALID_TYPE",
-                    "VOCAB_ABC",
-                    "Meta info",
-                    "Script example",
-                    "True",
-                    "Internal logic",
-                ]
-            ],
-            5,
-            {
-                "PROP_003": {
-                    "permId": "PROP_003",
-                    "code": "PROP_003",
-                    "description": "Description",
-                    "section": "General",
-                    "mandatory": True,
-                    "show_in_edit_views": False,
-                    "label": "Property Label",
-                    "dataType": "INVALID_TYPE",
-                    "vocabularyCode": "VOCAB_ABC",
-                    "metadata": "Meta info",
-                    "dynamic_script": "Script example",
-                    "unique": "True",
-                    "internal_assignment": "Internal logic",
-                }
-            },
-            f"Invalid data type value found in the Data type column at position G5 in TestSheet.The Data Type should be one of the following: {[dt.value for dt in DataType]}",
-            "error",
         ),
         # Missing Code (Should be ignored)
         (
@@ -880,8 +782,6 @@ def test_process_entity(
                 "Vocabulary code",
                 "Metadata",
                 "Dynamic script",
-                "Unique",
-                "Internal assignment",
             ],  # Missing "Code"
             [
                 [
@@ -894,13 +794,11 @@ def test_process_entity(
                     "VOCAB_ABC",
                     "Meta info",
                     "Script example",
-                    "True",
-                    "Internal logic",
                 ]
             ],
-            4,
+            5,
             {},
-            "'Code' not found in the properties headers.",
+            "'Code' not found in the properties headers for sheet TestSheet.",
             "error",
         ),
     ],
