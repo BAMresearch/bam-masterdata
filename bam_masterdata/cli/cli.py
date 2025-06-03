@@ -357,15 +357,13 @@ def export_to_rdf(force_delete, python_path, export_dir):
     )
 
 
-def run_checker(
-    file_path: Path, mode: str = "all", datamodel_path: Path = DATAMODEL_DIR
-):
+def run_checker(file_path: str, mode: str = "all", datamodel_path: str = DATAMODEL_DIR):
     """
 
     Run the masterdata checker on the specified file path and mode.
 
     Args:
-        file_path (Path): The path to the file or directory containing Python modules or the Excel file to be checked.
+        file_path (str): The path to the file or directory containing Python modules or the Excel file to be checked.
         mode (str, optional): The mode for the checker. Defaults to "all". Options are:
             "self" -> Validate only the current data model.
             "incoming" -> Validate only the new entity structure.
@@ -373,7 +371,7 @@ def run_checker(
             "compare" -> Compare new entities against the current model.
             "all" -> Run all validations and comparison. (Default).
             "individual" -> Run individual repositories validations.
-        datamodel_path (Path, optional): Path to the directory containing the Python modules defining the datamodel. Defaults to DATAMODEL_DIR.
+        datamodel_path (str, optional): Path to the directory containing the Python modules defining the datamodel. Defaults to DATAMODEL_DIR.
     """
     # Instantiate the checker class and run validation
     checker = MasterdataChecker()
