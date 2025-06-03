@@ -1,5 +1,5 @@
 {
-  "python.defaultInterpreterPath": "~/Miniconda3/python.exe",
+  "python.defaultInterpreterPath": ".venv/bin/python",
   "python.terminal.activateEnvInCurrentTerminal": true,
   "editor.rulers": [90],
   "editor.renderWhitespace": "all",

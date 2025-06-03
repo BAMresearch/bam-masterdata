@@ -61,7 +61,7 @@ class MasterdataChecker:
             mode in ["self", "validate", "compare", "all", "individual"]
             and self.current_model is None
         ):
-            self.logger.info("Current model is missing. Loading now...")
+            self.logger.info("Current model is missing. Loading it from local files.")
             self.load_current_model()
 
         if (
