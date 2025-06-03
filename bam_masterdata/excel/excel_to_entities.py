@@ -424,7 +424,7 @@ class MasterdataExcelExtractor:
         row_headers = [(cell.value, cell.coordinate) for cell in sheet[header_index]]
         # And store how many properties are for the entity
         n_properties = last_non_empty_row - header_index
-        if n_properties < 1:
+        if n_properties < 0:
             self.logger.error(
                 f"No properties found for the entity in sheet {sheet.title} starting at row {start_index_row}."
             )
@@ -472,20 +472,30 @@ class MasterdataExcelExtractor:
 
         # Combine extracted values into a dictionary
         for i in range(n_properties):
-            property_dict[extracted_columns["Code"][i]] = {
-                "permId": extracted_columns["Code"][i],
-                "code": extracted_columns["Code"][i],
-                "description": extracted_columns["Description"][i],
-                "section": extracted_columns["Section"][i],
-                "mandatory": extracted_columns["Mandatory"][i],
-                "show_in_edit_views": extracted_columns["Show in edit views"][i],
-                "label": extracted_columns["Property label"][i],
-                "dataType": extracted_columns["Data type"][i],
-                "vocabularyCode": extracted_columns["Vocabulary code"][i],
-            }
+            code = extracted_columns.get("Code", [])
+            if not code:
+                self.logger.error(
+                    f"'Code' not found in the properties headers for sheet {sheet.title}."
+                )
+                return property_dict
+            code = code[i]
+            property_dict[code] = {"permId": code, "code": code}
+            for key, pybis_val in {
+                "Description": "description",
+                "Section": "section",
+                "Mandatory": "mandatory",
+                "Show in edit views": "show_in_edit_views",
+                "Property label": "label",
+                "Data type": "dataType",
+                "Vocabulary code": "vocabularyCode",
+            }.items():
+                data_column = extracted_columns.get(key, [])
+                if not data_column:
+                    continue
+                property_dict[code][pybis_val] = data_column[i]
             if self.row_cell_info:
-                property_dict[extracted_columns["Code"][i]]["row_location"] = (
-                    extracted_columns["row_location"][i]
+                property_dict[code]["row_location"] = (
+                    extracted_columns.get("row_location")[i],
                 )
             # Only add optional fields if they exist in extracted_columns
             optional_fields = [
