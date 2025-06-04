@@ -12,9 +12,6 @@
       "pattern": "^[A-Za-z0-9_\\.]+$",
       "allow_empty": true
     },
-    "row_location": {
-      "pattern": "^[A-Za-z]+\\d+$|^\\d+$"
-    },
     "generated_code_prefix": {
       "pattern": ".*",
       "extra_validation": "is_reduced_version"
@@ -44,9 +41,6 @@
       "pattern": ".*",
       "allow_empty": true,
       "is_description": true
-    },
-    "row_location": {
-      "pattern": "^[A-Za-z]+\\d+$|^\\d+$"
     },
     "property_label": {
       "pattern": ".*"
@@ -98,10 +92,6 @@
       "pattern": ".*",
       "is_description": true,
       "allow_empty": true
-    },
-    "row_location": {
-      "pattern": "^[A-Za-z]+\\d+$|^\\d+$",
-      "description": "Excel cell location (letters + numbers) or Python line number (only numbers)."
     },
     "url_template": {
       "pattern": "https?://(?:www\\.)?[a-zA-Z0-9-._~:/?#@!$&'()*+,;=%]+",
