@@ -1,5 +1,6 @@
 import json
-from typing import TYPE_CHECKING, Any, Callable, Optional, no_type_check
+from collections.abc import Callable
+from typing import TYPE_CHECKING, Any, no_type_check
 
 import h5py
 from pydantic import BaseModel, ConfigDict, Field, model_validator
@@ -267,7 +268,7 @@ class BaseEntity(BaseModel):
                 prop_meta_dict[attr_name] = attr_value
         return prop_meta_dict
 
-    def to_json(self, indent: Optional[int] = None) -> str:
+    def to_json(self, indent: int | None = None) -> str:
         """
         Returns the entity as a string in JSON format storing the value of the properties
         assigned to the entity.
@@ -313,7 +314,7 @@ class BaseEntity(BaseModel):
                 value = getattr(self, key)
                 if not value:
                     continue
-                if isinstance(value, (str, int, float, bool, list, tuple)):
+                if isinstance(value, str | int | float | bool | list | tuple):
                     group.create_dataset(key, data=value)
                 else:
                     raise TypeError(
@@ -339,7 +340,7 @@ class BaseEntity(BaseModel):
             data["defs"] = attr_value
         return data
 
-    def model_to_json(self, indent: Optional[int] = None) -> str:
+    def model_to_json(self, indent: int | None = None) -> str:
         """
         Returns the model as a string in JSON format storing the data `defs` and the property or
         vocabulary term assignments.
