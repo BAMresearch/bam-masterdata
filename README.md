@@ -48,7 +48,7 @@ source .venv/bin/activate
 Run the following script:
 
 ```sh
-./scripts/install_python_dependencies
+./scripts/install_python_dependencies.sh
 ```
 
 ### Run the tests
