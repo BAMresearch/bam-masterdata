@@ -68,7 +68,7 @@
     --code-color-dark: var(--bam-grun);
     --code-background-dark: rgb(27, 72, 83, 0.3);
 
-    --grid-background-light: rgb(238, 229, 174, 0.5);
+    --grid-background-light: rgba(210, 0, 30, 0.2);
 
     --md-primary-fg-color: var(--bam-blau-darker);  /* for hrefs */
     --md-accent-fg-color: var(--bam-blau-dark);  /* when hovering hrefs */
