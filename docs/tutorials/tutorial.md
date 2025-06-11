@@ -12,7 +12,7 @@ We recommend you to create first a virtual environment, either with [`conda`](ht
 **Conda**
 
 Run:
-```sh
+```bash
 conda create --name .venv pip python=3.12
 conda activate .venv
 ```
@@ -20,35 +20,42 @@ conda activate .venv
 **Venv**
 
 Run:
-```sh
+```bash
 python3.12 -m venv .venv
 source .venv/bin/activate
 ```
 
 After creating and activating your environment, make sure you have `pip` upgraded, and install the package:
-```sh
+```bash
 pip install --upgrade pip
 pip install bam-masterdata
 ```
 
+!!! hint Faster installation
+    In order to install faster the package, you can use [`uv`](https://docs.astral.sh/uv/) for pip installing Python packages:
+    ```bash
+    pip install uv
+    uv pip install bam-masterdata
+    ```
+
 ### Development
 
 In order to develop the package, first you have to clone the repository:
-```sh
+```bash
 git clone https://git.bam.de/bam-data-store/bam-masterdata.git
 cd bam-masterdata
 ```
 
 Same as before, create a virtual environment (in this example, we use `venv`) and activate it:
 
-```sh
+```bash
 python3 -m venv .venv
 source .venv/bin/activate
 ```
 
 Run the following script:
 
-```sh
+```bash
 ./scripts/install_python_dependencies.sh
 ```
 
