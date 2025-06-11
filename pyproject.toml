@@ -31,7 +31,9 @@ dependencies = [
   "click",
   "pydantic~=2.10.5",
   "rdflib",
-  "h5py~=3.12.1"
+  "h5py~=3.12.1",
+  "python-decouple",
+  "structlog==24.4.0",
 ]
 
 [project.urls]
@@ -45,8 +47,6 @@ dev = [
   "pytest",
   "pytest-timeout",
   "pytest-cov",
-  "python-decouple",
-  "structlog==24.4.0",
 ]
 docu = [
   "mkdocs-material",

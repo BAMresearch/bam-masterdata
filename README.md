@@ -24,11 +24,6 @@ If you want to install it, do:
 pip install bam-masterdata
 ```
 
-In order to include the CLI functionalities, you have to add the optional `[dev]` dependencies when pip installing the package:
-```sh
-pip install bam-masterdata[dev]
-```
-
 ## Development
 
 If you want to develop locally this package, clone the project and enter in the workspace folder:
