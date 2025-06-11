@@ -1,6 +1,6 @@
 import os
 import re
-from typing import TYPE_CHECKING, Any, Optional, Union
+from typing import TYPE_CHECKING, Any
 
 from bam_masterdata.utils import is_reduced_version, load_validation_rules
 
@@ -53,7 +53,7 @@ class MasterdataExcelExtractor:
 
     def get_last_non_empty_row(
         self, sheet: "Worksheet", start_index: int
-    ) -> Optional[int]:
+    ) -> int | None:
         """
         Finds the last non-empty row before encountering a completely empty row.
 
@@ -84,7 +84,7 @@ class MasterdataExcelExtractor:
 
     def str_to_bool(
         self,
-        value: Optional[Union[str, bool]],
+        value: str | bool | None,
         term: str,
         coordinate: str,
         sheet_title: str,
@@ -115,7 +115,7 @@ class MasterdataExcelExtractor:
 
     def get_and_check_property(
         self,
-        value: Optional[Union[str, bool]],
+        value: str | bool | None,
         term: str,
         coordinate: str,
         sheet_title: str,

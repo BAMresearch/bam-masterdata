@@ -1,7 +1,7 @@
 import datetime
 import re
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
@@ -78,7 +78,7 @@ class EntityDef(BaseModel):
     )
 
     # TODO: check if it is necessary to add something like `ontology_annotation_id` in the future
-    iri: Optional[str] = Field(
+    iri: str | None = Field(
         default=None,
         description="""
         IRI (Internationalized Resource Identifier) of the entity. This is a unique identifier for the entity
@@ -87,7 +87,7 @@ class EntityDef(BaseModel):
         """,
     )
 
-    id: Optional[str] = Field(
+    id: str | None = Field(
         default=None,
         description="""
         Identifier of the entity defined as the class name and used to serialize the entity definitions
@@ -95,7 +95,7 @@ class EntityDef(BaseModel):
         """,
     )
 
-    row_location: Optional[str] = Field(
+    row_location: str | None = Field(
         default=None,
         description="""
         Row in the Excel at which the entity type field is defined. It is a string with the format `"<row-letter><row_number>"`.
@@ -119,7 +119,7 @@ class EntityDef(BaseModel):
 
     @field_validator("iri")
     @classmethod
-    def validate_iri(cls, value: Optional[str]) -> Optional[str]:
+    def validate_iri(cls, value: str | None) -> str | None:
         if not value:
             return value
         if not re.match(
@@ -194,7 +194,7 @@ class BaseObjectTypeDef(EntityDef):
     It adds the fields of `validation_script`.
     """
 
-    validation_script: Optional[str] = Field(
+    validation_script: str | None = Field(
         default=None,
         description="""
         Script written in Jython used to validate the object type.
@@ -233,12 +233,12 @@ class DatasetTypeDef(BaseObjectTypeDef):
 
     # TODO add descriptions for `main_dataset_pattern` and `main_dataset_path`
 
-    main_dataset_pattern: Optional[str] = Field(
+    main_dataset_pattern: str | None = Field(
         default=None,
         description="""""",
     )
 
-    main_dataset_path: Optional[str] = Field(
+    main_dataset_path: str | None = Field(
         default=None,
         description="""""",
     )
@@ -261,7 +261,7 @@ class ObjectTypeDef(BaseObjectTypeDef):
     ```
     """
 
-    generated_code_prefix: Optional[str] = Field(
+    generated_code_prefix: str | None = Field(
         default=None,
         description="""
         A short prefix for the defined object type, e.g. 'CHEM'. If not specified, it is defined
@@ -340,7 +340,7 @@ class PropertyTypeDef(EntityDef):
         """,
     )
 
-    vocabulary_code: Optional[str] = Field(
+    vocabulary_code: str | None = Field(
         default=None,
         description="""
         String identifying the controlled vocabulary used for the data type of the property. This is
@@ -348,7 +348,7 @@ class PropertyTypeDef(EntityDef):
         """,
     )
 
-    object_code: Optional[str] = Field(
+    object_code: str | None = Field(
         default=None,
         description="""
         String identifying the object type used for the data type of the property. This is only
@@ -358,7 +358,7 @@ class PropertyTypeDef(EntityDef):
 
     # TODO add descriptions for `dynamic_script`
 
-    metadata: Optional[dict] = Field(
+    metadata: dict | None = Field(
         default=None,
         description="""
         General metadata written in a dictionary format. This is used to store additional information
@@ -366,7 +366,7 @@ class PropertyTypeDef(EntityDef):
         """,
     )
 
-    dynamic_script: Optional[str] = Field(
+    dynamic_script: str | None = Field(
         default=None,
         description="""""",
     )
@@ -430,12 +430,12 @@ class PropertyTypeAssignment(PropertyTypeDef):
 
     # TODO add descriptions for `unique` and `internal_assignment`
 
-    unique: Optional[str] = Field(
+    unique: str | None = Field(
         default=None,
         description="""""",
     )
 
-    internal_assignment: Optional[str] = Field(
+    internal_assignment: str | None = Field(
         default=None,
         description="""""",
     )
@@ -457,7 +457,7 @@ class VocabularyTypeDef(EntityDef):
 
     # TODO add descriptions for `url_template`
 
-    url_template: Optional[str] = Field(
+    url_template: str | None = Field(
         default=None,
         description="""""",
     )

@@ -7,7 +7,7 @@ import re
 import shutil
 from enum import Enum
 from itertools import chain
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any
 
 from bam_masterdata.logger import logger
 from bam_masterdata.utils import VALIDATION_RULES_DIR
@@ -111,7 +111,7 @@ def import_module(module_path: str) -> Any:
 
 
 def code_to_class_name(
-    code: Optional[str],
+    code: str | None,
     logger: "BoundLoggerLazyProxy" = logger,
     entity_type: str = "object",
 ) -> str:
