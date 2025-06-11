@@ -1,5 +1,4 @@
 import datetime
-from typing import Optional
 
 import pytest
 
@@ -51,7 +50,7 @@ class TestEntityDef:
         names = list(EntityDef.model_fields.keys())
         field_types = [val.annotation for val in list(EntityDef.model_fields.values())]
         assert names == ["code", "description", "iri", "id", "row_location"]
-        assert field_types == [str, str, Optional[str], Optional[str], Optional[str]]
+        assert field_types == [str, str, str | None, str | None, str | None]
 
     @pytest.mark.parametrize(
         "code, description, id, is_valid",
@@ -131,10 +130,10 @@ class TestBaseObjectTypeDef:
         assert field_types == [
             str,
             str,
-            Optional[str],
-            Optional[str],
-            Optional[str],
-            Optional[str],
+            str | None,
+            str | None,
+            str | None,
+            str | None,
         ]
 
 
@@ -156,10 +155,10 @@ class TestCollectionTypeDef:
         assert field_types == [
             str,
             str,
-            Optional[str],
-            Optional[str],
-            Optional[str],
-            Optional[str],
+            str | None,
+            str | None,
+            str | None,
+            str | None,
         ]
 
 
@@ -183,12 +182,12 @@ class TestDatasetTypeDef:
         assert field_types == [
             str,
             str,
-            Optional[str],
-            Optional[str],
-            Optional[str],
-            Optional[str],
-            Optional[str],
-            Optional[str],
+            str | None,
+            str | None,
+            str | None,
+            str | None,
+            str | None,
+            str | None,
         ]
 
 
@@ -212,11 +211,11 @@ class TestObjectTypeDef:
         assert field_types == [
             str,
             str,
-            Optional[str],
-            Optional[str],
-            Optional[str],
-            Optional[str],
-            Optional[str],
+            str | None,
+            str | None,
+            str | None,
+            str | None,
+            str | None,
             bool,
         ]
 
@@ -231,7 +230,7 @@ class TestObjectTypeDef:
         ],
     )
     def test_model_validator_after_init(
-        self, code: str, generated_code_prefix: Optional[str], result: str
+        self, code: str, generated_code_prefix: str | None, result: str
     ):
         """Test the after-init model validator for `ObjectTypeDef`."""
         entity = ObjectTypeDef(
@@ -265,15 +264,15 @@ class TestPropertyTypeDef:
         assert field_types == [
             str,
             str,
-            Optional[str],
-            Optional[str],
-            Optional[str],
+            str | None,
+            str | None,
+            str | None,
             str,
             DataType,
-            Optional[str],
-            Optional[str],
-            Optional[dict],
-            Optional[str],
+            str | None,
+            str | None,
+            dict | None,
+            str | None,
         ]
 
 
@@ -305,20 +304,20 @@ class TestPropertyTypeAssignment:
         assert field_types == [
             str,
             str,
-            Optional[str],
-            Optional[str],
-            Optional[str],
+            str | None,
+            str | None,
+            str | None,
             str,
             DataType,
-            Optional[str],
-            Optional[str],
-            Optional[dict],
-            Optional[str],
+            str | None,
+            str | None,
+            dict | None,
+            str | None,
             bool,
             bool,
             str,
-            Optional[str],
-            Optional[str],
+            str | None,
+            str | None,
         ]
 
 
@@ -340,10 +339,10 @@ class TestVocabularyTypeDef:
         assert field_types == [
             str,
             str,
-            Optional[str],
-            Optional[str],
-            Optional[str],
-            Optional[str],
+            str | None,
+            str | None,
+            str | None,
+            str | None,
         ]
 
 
@@ -367,10 +366,10 @@ class TestVocabularyTerm:
         assert field_types == [
             str,
             str,
-            Optional[str],
-            Optional[str],
-            Optional[str],
-            Optional[str],
+            str | None,
+            str | None,
+            str | None,
+            str | None,
             str,
             bool,
         ]
