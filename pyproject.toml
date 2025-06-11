@@ -38,6 +38,7 @@ dependencies = [
 [project.urls]
 "Homepage" = "https://github.com/BAMresearch/bam-masterdata"
 "Bug Tracker" = "https://github.com/BAMresearch/bam-masterdata/issues"
+"Documentation" = "https://bamresearch.github.io/bam-masterdata/"
 
 [project.optional-dependencies]
 dev = [
