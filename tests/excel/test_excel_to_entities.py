@@ -1,11 +1,9 @@
 import re
-from unittest.mock import MagicMock
 
 import openpyxl
 import pytest
 
 from bam_masterdata.excel import MasterdataExcelExtractor
-from bam_masterdata.logger import logger
 from bam_masterdata.metadata.definitions import DataType
 
 
