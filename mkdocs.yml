@@ -4,21 +4,9 @@ site_author: BAM Data Store
 repo_url: https://github.com/BAMresearch/bam-masterdata
 nav:
   - Home: index.md
-  - Tutorial:
-    - Create Masterdata: tutorials/create-masterdata.md
-    - Basic pyBIS usage: tutorials/pybis.md
+  - Tutorial: tutorials/tutorial.md
   - How-to guides:
     - Overview: howtos/overview.md
-    - pyBIS:
-      - Initial setup: howtos/pybis/setup.md
-      - Create spaces: howtos/pybis/spaces.md
-      - Create projects: howtos/pybis/projects.md
-      - Create collections: howtos/pybis/collections.md
-      - Create objects: howtos/pybis/objects.md
-      - Modify objects properties: howtos/pybis/objects_props.md
-      - Define parent-child relationships: howtos/pybis/parent_child.md
-      - Create datasets: howtos/pybis/datasets.md
-      - Searches and filters: howtos/pybis/searches.md
   - Explanations:
     - Data Store: explanations/data-store.md
     - OpenBIS : explanations/openbis.md
@@ -53,6 +41,17 @@ theme:
     repo: fontawesome/brands/github
 plugins:
   - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          options:
+            show_bases: true  # show inheritance from classes
+            show_source: true  # show source code
+            show_if_no_docstring: true  # show methods if they don't have docstrings
+            show_labels: false  # not showing labels in class attrs
+            docstring_section_style: spacy  # different style for input parameters of methods
+            members_order: source  # order of definitions according to source code
 markdown_extensions:
   - attr_list
   - md_in_html
@@ -76,3 +75,4 @@ extra_css:
 extra_javascript:
   - 'https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js'
   - 'https://unpkg.com/cytoscape@3.19.1/dist/cytoscape.min.js'
+  - 'https://unpkg.com/mermaid@10.9.0/dist/mermaid.min.js'
