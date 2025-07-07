@@ -45,7 +45,10 @@ Run the following script:
 ```sh
 ./scripts/install_python_dependencies
 ```
-
+or for Windows:
+```sh
+scripts/install_python_dependencies.bat
+```
 ### Run the tests
 
 You can locally run the tests by doing:
