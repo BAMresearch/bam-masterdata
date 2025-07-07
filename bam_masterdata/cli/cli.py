@@ -12,7 +12,10 @@ from openpyxl import Workbook
 from rdflib import Graph
 
 from bam_masterdata.checker import MasterdataChecker
-from bam_masterdata.parsing import AbstractParser
+from bam_masterdata.parsing.parsing import AbstractParser
+
+from bam_masterdata.parsing.example_parser import MyParser1
+
 from bam_masterdata.cli.entities_to_excel import entities_to_excel
 from bam_masterdata.cli.entities_to_rdf import entities_to_rdf
 from bam_masterdata.cli.fill_masterdata import MasterdataCodeGenerator
@@ -485,50 +488,46 @@ def run_parser(files_parser: dict[AbstractParser, list[str]],
     """
     # Ensure the space, project, and collection are set
     if not space or not (project or collection):
-        raise click.echo(
+        click.echo(
             "Space, project, and collection must be specified for the parser to run."
         )
     # Ensure the files_parser is not empty
     if not files_parser:
-        raise click.echo("No files to parse. Please provide valid file paths.")
+        click.echo("No files to parse. Please provide valid file paths.")
     
     # Iterate over each parser and its associated files
     for parser, files in files_parser.items():
         parser.parse(files, collection)
 
-    # ....
-"""
+    
 @cli.command(
     name="parser",
     help="parses a list of files using the specified parsers and stores the results in openBIS.",
 )
 @click.option(
     "--file-path",
-    "file_path",  # alias
+    "file_path",
     type=click.Path(exists=True),
     required=True,
-    help=,
+    help="The path to the file folder containing the files to be parsed.",
 )
 @click.option(
-    "--mode",
-    "mode",  # alias
-    type=click.Choice(
-        ["self", "incoming", "validate", "compare", "all", "individual"],
-        case_sensitive=False,
-    ),
-    default="all",
-    help=,
+    "--parser",
+    "parser",
+    type=click.Choice(["MyParser1"]),
+    required=True,
+    help="The parser to use for parsing the files."
 )
-@click.option(
-    "--datamodel-path",
-    "datamodel_path",  # alias
-    type=click.Path(exists=True, dir_okay=True),
-    default=DATAMODEL_DIR,
-    help=,
-)
-"""
-def parser(file_parser, space, project, collection):
-    run_parser(files_parser=file_parser, space=space, project=project, collection=collection)
+@click.option("--space", required=True, help="openBIS space")
+@click.option("--project", required=True, help="openBIS project")
+@click.option("--collection", required=True, help="openBIS collection")
+def parser(file_path, parser, space, project, collection):
+    parser_map = {
+        "MyParser1": MyParser1(),
+    } # could be an import of a dictionary with parsers
+    parser_used = parser_map[parser]
+    files_parser = {parser_used: file_path}
+    run_parser(files_parser=files_parser, space=space, project=project, collection=collection)
 
 
 
