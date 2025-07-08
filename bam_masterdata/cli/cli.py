@@ -12,16 +12,14 @@ from openpyxl import Workbook
 from rdflib import Graph
 
 from bam_masterdata.checker import MasterdataChecker
-from bam_masterdata.parsing.parsing import AbstractParser
-
-from bam_masterdata.parsing.example_parser import MyParser1
-
 from bam_masterdata.cli.entities_to_excel import entities_to_excel
 from bam_masterdata.cli.entities_to_rdf import entities_to_rdf
 from bam_masterdata.cli.fill_masterdata import MasterdataCodeGenerator
 from bam_masterdata.logger import logger
 from bam_masterdata.metadata.entities_dict import EntitiesDict
 from bam_masterdata.openbis.login import ologin
+from bam_masterdata.parsing.example_parser import MyParser1
+from bam_masterdata.parsing.parsing import AbstractParser
 from bam_masterdata.utils import (
     DATAMODEL_DIR,
     delete_and_create_dir,
@@ -473,10 +471,8 @@ def checker(file_path, mode, datamodel_path):
     run_checker(file_path=file_path, mode=mode, datamodel_path=datamodel_path)
 
 
-def run_parser(files_parser: dict[AbstractParser, list[str]],
-    space, 
-    project,
-    collection
+def run_parser(
+    files_parser: dict[AbstractParser, list[str]], space, project, collection
 ):
     """
     Run the parsers on the specified files and collect the results.
@@ -494,12 +490,12 @@ def run_parser(files_parser: dict[AbstractParser, list[str]],
     # Ensure the files_parser is not empty
     if not files_parser:
         click.echo("No files to parse. Please provide valid file paths.")
-    
+
     # Iterate over each parser and its associated files
     for parser, files in files_parser.items():
         parser.parse(files, collection)
 
-    
+
 @cli.command(
     name="parser",
     help="parses a list of files using the specified parsers and stores the results in openBIS.",
@@ -516,7 +512,7 @@ def run_parser(files_parser: dict[AbstractParser, list[str]],
     "parser",
     type=click.Choice(["MyParser1"]),
     required=True,
-    help="The parser to use for parsing the files."
+    help="The parser to use for parsing the files.",
 )
 @click.option("--space", required=True, help="openBIS space")
 @click.option("--project", required=True, help="openBIS project")
@@ -524,13 +520,15 @@ def run_parser(files_parser: dict[AbstractParser, list[str]],
 def parser(file_path, parser, space, project, collection):
     parser_map = {
         "MyParser1": MyParser1(),
-    } # could be an import of a dictionary with parsers
+    }  # could be an import of a dictionary with parsers
     parser_used = parser_map[parser]
     files_parser = {parser_used: file_path}
-    run_parser(files_parser=files_parser, space=space, project=project, collection=collection)
-
-
-
+    run_parser(
+        files_parser=files_parser,
+        space=space,
+        project=project,
+        collection=collection,
+    )
 
 
 @cli.command(
