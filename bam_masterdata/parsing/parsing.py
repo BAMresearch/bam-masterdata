@@ -5,8 +5,8 @@ class AbstractParser(ABC):
     """
     Example Abstract base class for parsers.
     Each parser should implement the `parse` method.
-    Will be in the parsing.py file. 
     """
+
     @abstractmethod
     def parse(self, files: list[str], collection: str):
         """
