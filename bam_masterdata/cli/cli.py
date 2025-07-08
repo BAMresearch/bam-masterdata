@@ -16,10 +16,10 @@ from bam_masterdata.cli.entities_to_excel import entities_to_excel
 from bam_masterdata.cli.entities_to_rdf import entities_to_rdf
 from bam_masterdata.cli.fill_masterdata import MasterdataCodeGenerator
 from bam_masterdata.logger import logger
+from bam_masterdata.metadata.entities import CollectionType
 from bam_masterdata.metadata.entities_dict import EntitiesDict
 from bam_masterdata.openbis.login import ologin
-from bam_masterdata.parsing.example_parser import MyParser1
-from bam_masterdata.parsing.parsing import AbstractParser
+from bam_masterdata.parsing import AbstractParser, MyParser1
 from bam_masterdata.utils import (
     DATAMODEL_DIR,
     delete_and_create_dir,
@@ -472,7 +472,7 @@ def checker(file_path, mode, datamodel_path):
 
 
 def run_parser(
-    files_parser: dict[AbstractParser, list[str]], space, project, collection
+    files_parser: dict[AbstractParser, list[str]], project_name, collection_name
 ):
     """
     Run the parsers on the specified files and collect the results.
@@ -482,18 +482,31 @@ def run_parser(
         project (str): The project in openBIS where the entities will be stored.
         collection (str): The collection in openBIS where the entities will be stored.
     """
+
     # Ensure the space, project, and collection are set
-    if not space or not (project or collection):
-        click.echo(
-            "Space, project, and collection must be specified for the parser to run."
-        )
+    if not (project_name or collection_name):
+        click.echo("project, and collection must be specified for the parser to run.")
     # Ensure the files_parser is not empty
     if not files_parser:
-        click.echo("No files to parse. Please provide valid file paths.")
+        click.echo("""No files or parsers to parse. Please provide valid file paths or
+        contact an Admin to add missing parser.""")
+
+    # Create a collection type instance for storing parsed results
+    collection = CollectionType()
 
     # Iterate over each parser and its associated files
     for parser, files in files_parser.items():
         parser.parse(files, collection)
+
+    # Store the parsed results in openBIS
+    # url = environ("OPENBIS_URL")
+    # openbis = ologin(url=url)
+    # click.echo(f"Using the openBIS instance: {url}\n")
+
+    # Store the objects in the collection in openBIS
+    for object in collection:
+        # object.to_openbis(openbis=openbis, logger=logger)
+        click.echo(f"Object {object} stored in openBIS collection {collection_name}.")
 
 
 @cli.command(
@@ -501,11 +514,12 @@ def run_parser(
     help="parses a list of files using the specified parsers and stores the results in openBIS.",
 )
 @click.option(
-    "--file-path",
-    "file_path",
+    "--file-paths",
+    "file_paths",  # Alias für Variable
     type=click.Path(exists=True),
+    multiple=True,  # Allows multiple file paths to be passed
     required=True,
-    help="The path to the file folder containing the files to be parsed.",
+    help="One or more file paths to process.",
 )
 @click.option(
     "--parser",
@@ -514,20 +528,30 @@ def run_parser(
     required=True,
     help="The parser to use for parsing the files.",
 )
-@click.option("--space", required=True, help="openBIS space")
-@click.option("--project", required=True, help="openBIS project")
-@click.option("--collection", required=True, help="openBIS collection")
-def parser(file_path, parser, space, project, collection):
+@click.option(
+    "--project_name",
+    "project-name",  # alias
+    type=str,
+    required=True,
+    help="openBIS project name",
+)
+@click.option(
+    "--collection-name",
+    "collection_name",  # alias
+    type=str,
+    required=True,
+    help="openBIS collection name",
+)
+def parser(file_paths, parser, project_name, collection_name):
     parser_map = {
         "MyParser1": MyParser1(),
     }  # could be an import of a dictionary with parsers
     parser_used = parser_map[parser]
-    files_parser = {parser_used: file_path}
+    files_parser = {parser_used: file_paths}
     run_parser(
         files_parser=files_parser,
-        space=space,
-        project=project,
-        collection=collection,
+        project_name=project_name,
+        collection_name=collection_name,
     )
 
 

@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 
+from bam_masterdata.metadata.entities import CollectionType
+
 
 class AbstractParser(ABC):
     """
@@ -8,7 +10,7 @@ class AbstractParser(ABC):
     """
 
     @abstractmethod
-    def parse(self, files: list[str], collection: str):
+    def parse(self, files: list[str], collection: CollectionType):
         """
         Parse the given files and store the results in the specified collection.
         Args:
