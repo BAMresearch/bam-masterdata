@@ -515,9 +515,9 @@ def run_parser(
 )
 @click.option(
     "--file-paths",
-    "file_paths",  # Alias für Variable
+    "file_paths",  # alias
     type=click.Path(exists=True),
-    multiple=True,  # Allows multiple file paths to be passed
+    multiple=True,  # allows multiple file paths
     required=True,
     help="One or more file paths to process.",
 )
