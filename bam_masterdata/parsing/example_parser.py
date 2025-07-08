@@ -1,4 +1,5 @@
-from bam_masterdata.parsing.parsing import AbstractParser
+from bam_masterdata.parsing import AbstractParser
+
 
 class MyParser1(AbstractParser):
     def parse(self, files: list[str], collection):
