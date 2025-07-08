@@ -547,7 +547,7 @@ def parser(file_paths, parser, project_name, collection_name):
         "MyParser1": MyParser1(),
     }  # could be an import of a dictionary with parsers
     parser_used = parser_map[parser]
-    files_parser = {parser_used: file_paths}
+    files_parser = {parser_used: list(file_paths)}
     run_parser(
         files_parser=files_parser,
         project_name=project_name,
