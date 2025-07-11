@@ -524,7 +524,7 @@ def run_parser(
     # Store the objects in the collection in openBIS
     for object in collection:  # .list_of_objects:
         object_openbis = o.new_object(
-            type=object.type,
+            type=object[0],  # type of the object, has to be changed later
             space=space,
             project=project,
         )
