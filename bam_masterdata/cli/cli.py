@@ -9,6 +9,7 @@ from pathlib import Path
 import click
 from decouple import config as environ
 from openpyxl import Workbook
+from pybis import Openbis
 from rdflib import Graph
 
 from bam_masterdata.checker import MasterdataChecker
@@ -472,7 +473,12 @@ def checker(file_path, mode, datamodel_path):
 
 
 def run_parser(
-    files_parser: dict[AbstractParser, list[str]], project_name, collection_name
+    url: str = "devel.datastore.bam.de",
+    username: str = "",
+    password: str = "",
+    files_parser: dict[AbstractParser, list[str]] = {},
+    project_name: str = "",
+    collection_name: str = "",
 ):
     """
     Run the parsers on the specified files and collect the results.
@@ -482,7 +488,6 @@ def run_parser(
         project (str): The project in openBIS where the entities will be stored.
         collection (str): The collection in openBIS where the entities will be stored.
     """
-
     # Ensure the space, project, and collection are set
     if not (project_name or collection_name):
         click.echo("project, and collection must be specified for the parser to run.")
@@ -491,6 +496,24 @@ def run_parser(
         click.echo("""No files or parsers to parse. Please provide valid file paths or
         contact an Admin to add missing parser.""")
 
+    # Connection to openBIS / create a new project and collection
+    o = Openbis(url)
+    o.login(username, password, save_token=True)
+
+    # Specify the space and project for the data
+    space = o.get_space(f"{username}")
+    project = space.new_project(
+        code=project_name,
+        description="Project created by bam_masterdata CLI",
+    )
+    project.save()
+
+    collection_openbis = o.new_collection(
+        code=collection_name,
+        type="COLLECTION",
+        project=project,
+    )
+    collection_openbis.save()
     # Create a collection type instance for storing parsed results
     collection = CollectionType()
 
@@ -498,15 +521,17 @@ def run_parser(
     for parser, files in files_parser.items():
         parser.parse(files, collection)
 
-    # Store the parsed results in openBIS
-    # url = environ("OPENBIS_URL")
-    # openbis = ologin(url=url)
-    # click.echo(f"Using the openBIS instance: {url}\n")
-
     # Store the objects in the collection in openBIS
-    for object in collection:
-        # object.to_openbis(openbis=openbis, logger=logger)
-        click.echo(f"Object {object} stored in openBIS collection {collection_name}.")
+    for object in collection:  # .list_of_objects:
+        object_openbis = o.new_object(
+            type=object.type,
+            space=space,
+            project=project,
+        )
+        object_openbis.save()
+        click.echo(
+            f"Object {object_openbis.props('$name')} stored in openBIS collection {collection_name}."
+        )
 
 
 @cli.command(
@@ -514,19 +539,13 @@ def run_parser(
     help="parses a list of files using the specified parsers and stores the results in openBIS.",
 )
 @click.option(
-    "--file-paths",
-    "file_paths",  # alias
-    type=click.Path(exists=True),
-    multiple=True,  # allows multiple file paths
-    required=True,
-    help="One or more file paths to process.",
-)
-@click.option(
-    "--parser",
-    "parser",
-    type=click.Choice(["MyParser1"]),
-    required=True,
-    help="The parser to use for parsing the files.",
+    "--files-parser",
+    "files_parser",  # alias
+    multiple=True,
+    type=click.Tuple(
+        [str, click.Path()],
+    ),
+    help="Parser name and file path tuple: 'MyParser file1.txt'",
 )
 @click.option(
     "--project_name",
@@ -542,14 +561,16 @@ def run_parser(
     required=True,
     help="openBIS collection name",
 )
-def parser(file_paths, parser, project_name, collection_name):
+def parser(files_parser, project_name, collection_name):
     parser_map = {
         "MyParser1": MyParser1(),
     }  # could be an import of a dictionary with parsers
-    parser_used = parser_map[parser]
-    files_parser = {parser_used: list(file_paths)}
+    parse_file_dict = {}
+    for parser_key, filepath in files_parser:
+        parser_cls = parser_map[parser_key]
+        parse_file_dict[parser_cls].append(filepath)
     run_parser(
-        files_parser=files_parser,
+        files_parser=parse_file_dict,
         project_name=project_name,
         collection_name=collection_name,
     )
