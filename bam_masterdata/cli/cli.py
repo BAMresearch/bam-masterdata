@@ -525,19 +525,21 @@ def run_parser(
         parser.parse(files, collection)
 
     # Store the objects in the collection in openBIS
-    ids = ()
-    for object_id, object in collection.attached_objects.items():  # .list_of_objects:
+    ids = []
+
+    for object_id, object in collection.attached_objects.items():
         object_openbis = o.new_object(
-            type=object.defs.code,  # type of the object, has to be changed later
+            type=object.defs.code,
             space=space,
             project=project,
             props=object.properties.dict(),
         )
         object_openbis.save()
-        ids.add((object_id, object_openbis.identifier))
+        ids.append((object_id, object_openbis.identifier))
         click.echo(
-            f"Object {object_openbis.props('$name')} stored in openBIS collection {collection_name}."
+            f"Object {object_openbis.props().get('$NAME')} stored in openBIS collection {collection_name}."
         )
+
     openbis_id_map = dict(ids)
 
     for parent_id, child_id in collection.relationships:
@@ -545,15 +547,12 @@ def run_parser(
             parent_db_id = openbis_id_map[parent_id]
             child_db_id = openbis_id_map[child_id]
 
-            parent_openbis = o.get_object(parent_db_id)
-            parent_openbis.add_children(child_db_id)
-            parent_openbis.save()
-
             child_openbis = o.get_object(child_db_id)
             child_openbis.add_parents(parent_db_id)
             child_openbis.save()
+
             click.echo(
-                f"Object {parent_openbis.props('$name')} stored in openBIS collection {collection_name}."
+                f"Linked parent {parent_db_id} to child {child_db_id} in collection {collection_name}."
             )
 
 
