@@ -38,6 +38,10 @@ class BaseEntity(BaseModel):
     adding new methods that are useful for interfacing with openBIS.
     """
 
+    defs: (
+        ObjectTypeDef | CollectionTypeDef | DatasetTypeDef | VocabularyTypeDef | None
+    ) = None
+
     def __init__(self, **kwargs):
         super().__init__()
 
@@ -505,6 +509,8 @@ class ObjectType(BaseEntity):
             PropertyTypeAssignment,
         )
     )
+
+    defs: ObjectTypeDef | None = None
 
     properties: list[PropertyTypeAssignment] = Field(
         default=[],
