@@ -570,6 +570,9 @@ class ObjectType(BaseEntity):
         )
 
 
+UUID_SUFFIX_LENGTH = 8
+
+
 def generate_object_id(object_type: ObjectType) -> str:
     """
     Generate a unique identifier for an object type based on its definition.
@@ -583,7 +586,8 @@ def generate_object_id(object_type: ObjectType) -> str:
     """
     try:
         prefix = object_type.defs.generated_code_prefix  # string prefix
-        suffix = uuid.uuid4().hex[:8]  # 8-char hex UUID suffix
+        # UUID suffix with a defined length
+        suffix = uuid.uuid4().hex[:UUID_SUFFIX_LENGTH]
     except AttributeError:
         # fallback if the object type does not have a generated_code_prefix
         prefix = ""
