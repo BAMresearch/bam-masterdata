@@ -4,6 +4,11 @@ import h5py
 import pytest
 
 from bam_masterdata.metadata.definitions import PropertyTypeAssignment
+from bam_masterdata.metadata.entities import (
+    CollectionType,
+    generate_object_id,
+    generate_object_relationship_id,
+)
 from tests.conftest import (
     generate_base_entity,
     generate_object_type,
@@ -122,3 +127,88 @@ class TestVocabularyType:
         assert len(vocabulary_type.terms) == 2
         term_names = [term.code for term in vocabulary_type.terms]
         assert term_names == ["OPTION_A", "OPTION_B"]
+
+
+def test_generate_object_id():
+    """Test the function `generate_object_id`."""
+    object_type = generate_object_type()
+    object_id = generate_object_id(object_type=object_type)
+    assert object_id.startswith("MOCKOBJTYPE")
+    assert len(object_id) == 19  # 11 characters for prefix + 8 uuid digits
+
+
+def test_generate_object_relationship_id():
+    object_1 = generate_object_type()
+    object_2 = generate_object_type()
+    relationship_id = generate_object_relationship_id(
+        parent_id=generate_object_id(object_type=object_1),
+        child_id=generate_object_id(object_type=object_2),
+    )
+    ids = relationship_id.split(">>")
+    assert len(ids) == 2
+    for id in ids:
+        assert id.startswith("MOCKOBJTYPE")
+        assert len(id) == 19
+
+
+class TestCollectionType:
+    def test_add(self):
+        """Test the method `add` from the class `CollectionType`."""
+        collection = CollectionType()
+        with pytest.raises(
+            TypeError,
+            match="Expected an ObjectType instance, got `MockedVocabularyType`",
+        ):
+            entity_id = collection.add(generate_vocabulary_type())
+
+        entity_id = collection.add(generate_object_type())
+        assert entity_id.startswith("MOCKOBJTYPE")
+        assert entity_id in collection.attached_objects.keys()
+
+    def test_remove(self):
+        """Test the method `remove` from the class `CollectionType`."""
+        collection = CollectionType()
+        entity_type = generate_object_type()
+        entity_id = collection.add(entity_type)
+
+        with pytest.raises(
+            ValueError,
+            match="You must provide an `object_id` to remove the object type from the collection.",
+        ):
+            collection.remove("")
+
+        with pytest.raises(
+            ValueError,
+            match="Object with ID 'NOT_AN_ENTITY_ID' does not exist in the collection.",
+        ):
+            collection.remove("NOT_AN_ENTITY_ID")
+
+        collection.remove(entity_id)
+        assert entity_id not in collection.attached_objects
+
+    def test_add_relationship(self):
+        collection = CollectionType()
+        parent = generate_object_type()
+        child = generate_object_type()
+
+        with pytest.raises(
+            ValueError,
+            match="Both `parent_id` and `child_id` must be provided to add a relationship.",
+        ):
+            collection.add_relationship("", "")
+
+        parent_id = collection.add(parent)
+        child_id = collection.add(child)
+
+        with pytest.raises(
+            ValueError,
+            match="Both `parent_id` and `child_id` must be assigned to objects attached to the collection.",
+        ):
+            collection.add_relationship(parent_id, "NOT_A_CHILD_ID")
+
+        relationship_id = collection.add_relationship(parent_id, child_id)
+        assert relationship_id.startswith("MOCKOBJTYPE")
+        ids = relationship_id.split(">>")
+        assert len(ids) == 2
+        assert ids[0] == parent_id
+        assert ids[1] == child_id
