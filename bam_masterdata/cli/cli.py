@@ -502,6 +502,9 @@ def run_parser(
 
     # Specify the space and project for the data
     space = o.get_space(f"{username}")
+    if space is None:
+        click.echo(f"{username} has no space.")
+        return
     project = space.new_project(
         code=project_name,
         description="Project created by bam_masterdata CLI",
@@ -522,16 +525,36 @@ def run_parser(
         parser.parse(files, collection)
 
     # Store the objects in the collection in openBIS
-    for object in collection:  # .list_of_objects:
+    ids = ()
+    for object_id, object in collection.attached_objects.items():  # .list_of_objects:
         object_openbis = o.new_object(
             type=object.defs.code,  # type of the object, has to be changed later
             space=space,
             project=project,
+            props=object.properties.dict(),
         )
         object_openbis.save()
+        ids.add((object_id, object_openbis.identifier))
         click.echo(
             f"Object {object_openbis.props('$name')} stored in openBIS collection {collection_name}."
         )
+    openbis_id_map = dict(ids)
+
+    for parent_id, child_id in collection.relationships:
+        if parent_id in openbis_id_map and child_id in openbis_id_map:
+            parent_db_id = openbis_id_map[parent_id]
+            child_db_id = openbis_id_map[child_id]
+
+            parent_openbis = o.get_object(parent_db_id)
+            parent_openbis.add_children(child_db_id)
+            parent_openbis.save()
+
+            child_openbis = o.get_object(child_db_id)
+            child_openbis.add_parents(parent_db_id)
+            child_openbis.save()
+            click.echo(
+                f"Object {parent_openbis.props('$name')} stored in openBIS collection {collection_name}."
+            )
 
 
 @cli.command(
