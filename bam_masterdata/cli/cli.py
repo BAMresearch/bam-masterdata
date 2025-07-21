@@ -542,7 +542,7 @@ def run_parser(
 
     openbis_id_map = dict(ids)
 
-    for parent_id, child_id in collection.relationships:
+    for parent_id, child_id in collection.relationships.values():
         if parent_id in openbis_id_map and child_id in openbis_id_map:
             parent_db_id = openbis_id_map[parent_id]
             child_db_id = openbis_id_map[child_id]
