@@ -38,8 +38,6 @@ class BaseEntity(BaseModel):
     adding new methods that are useful for interfacing with openBIS.
     """
 
-    defs: Any
-
     def __init__(self, **kwargs):
         super().__init__()
 
@@ -683,12 +681,14 @@ class CollectionType(ObjectType):
         ignored_types=(
             ObjectTypeDef,
             ObjectType,
+            CollectionTypeDef,
             PropertyTypeAssignment,
         )
     )
 
     attached_objects: dict[str, ObjectType] = Field(
         default={},
+        exclude=True,
         description="""
         Dictionary containing the object types attached to the collection type.
         The keys are object unique identifiers and the values are the ObjectType instances.
@@ -697,6 +697,7 @@ class CollectionType(ObjectType):
 
     relationships: dict[str, tuple[str, str]] = Field(
         default={},
+        exclude=True,
         description="""
         Dictionary containing the relationships between the objects attached to the collection type.
         The keys are relationships unique identifiers, the values are the object unique identifiers as a
