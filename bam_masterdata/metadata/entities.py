@@ -12,7 +12,7 @@ if TYPE_CHECKING:
     from rdflib import Graph, Namespace, URIRef
     from structlog._config import BoundLoggerLazyProxy
 
-from datetime import datetime
+import uuid
 
 from bam_masterdata.metadata._maps import (
     COLLECTION_TYPE_MAP,
@@ -570,6 +570,41 @@ class ObjectType(BaseEntity):
         )
 
 
+def generate_object_id(object_type: ObjectType) -> str:
+    """
+    Generate a unique identifier for an object type based on its definition.
+
+    Args:
+        object_type (ObjectType): The object type for which to generate the identifier.
+
+    Returns:
+        str: A unique identifier string for the object type, combining a prefix from the definition
+        and a random 8-characters-long UUID suffix.
+    """
+    try:
+        prefix = object_type.defs.generated_code_prefix  # string prefix
+        suffix = uuid.uuid4().hex[:8]  # 8-char hex UUID suffix
+    except AttributeError:
+        # fallback if the object type does not have a generated_code_prefix
+        prefix = ""
+        suffix = str(uuid.uuid4())
+    return f"{prefix}{suffix}"
+
+
+def generate_object_relationship_id(parent_id: str, child_id: str) -> str:
+    """
+    Generate a unique identifier for a relationship between two object types as their IDs concatenated.
+
+    Args:
+        parent_id (str): The unique identifier of the parent object type.
+        child_id (str): The unique identifier of the child object type.
+
+    Returns:
+        str: A unique identifier string for the relationship, combining the parent and child IDs.
+    """
+    return f"{parent_id}>>{child_id}"
+
+
 class VocabularyType(BaseEntity):
     """
     Base class used to define vocabulary types. All vocabulary types must inherit from this class. The
@@ -642,6 +677,31 @@ class VocabularyType(BaseEntity):
 
 
 class CollectionType(ObjectType):
+    model_config = ConfigDict(
+        ignored_types=(
+            ObjectTypeDef,
+            ObjectType,
+            PropertyTypeAssignment,
+        )
+    )
+
+    attached_objects: dict[str, ObjectType] = Field(
+        default={},
+        description="""
+        Dictionary containing the object types attached to the collection type.
+        The keys are object unique identifiers and the values are the ObjectType instances.
+        """,
+    )
+
+    relationships: dict[str, tuple[str, str]] = Field(
+        default={},
+        description="""
+        Dictionary containing the relationships between the objects attached to the collection type.
+        The keys are relationships unique identifiers, the values are the object unique identifiers as a
+        tuple, and the order is always (parent_id, child_id).
+        """,
+    )
+
     @property
     def cls_name(self) -> str:
         """
@@ -683,6 +743,85 @@ class CollectionType(ObjectType):
             get_type=get_type,
             create_type=create_type,
         )
+
+    def add(self, object_type: ObjectType) -> str:
+        """
+        Add an object type to the collection type.
+
+        Args:
+            object_type (ObjectType): The object type to add to the collection type.
+
+        Returns:
+            str: The unique identifier of the object type assigned in openBIS.
+        """
+        if not isinstance(object_type, ObjectType):
+            raise TypeError(
+                f"Expected an ObjectType instance, got `{type(object_type).__name__}`"
+            )
+        object_id = generate_object_id(object_type)
+        self.attached_objects[object_id] = object_type
+        return object_id
+
+    def remove(self, object_id: str = "") -> None:
+        """
+        Remove an object type from the collection type by its unique identifier.
+
+        Args:
+            object_id (str, optional): The ID of the object type to be removed from the collection.
+        """
+        if not object_id:
+            raise ValueError(
+                "You must provide an `object_id` to remove the object type from the collection."
+            )
+        if object_id not in self.attached_objects.keys():
+            raise ValueError(
+                f"Object with ID '{object_id}' does not exist in the collection."
+            )
+        del self.attached_objects[object_id]
+
+    def add_relationship(self, parent_id: str, child_id: str) -> str:
+        """
+        Add a relationship between two object types in the collection type.
+
+        Args:
+            parent_id (str): The unique identifier of the parent object type.
+            child_id (str): The unique identifier of the child object type.
+
+        Returns:
+            str: The unique identifier of the relationship created, which is a concatenation of the parent
+            and child IDs.
+        """
+        if not parent_id or not child_id:
+            raise ValueError(
+                "Both `parent_id` and `child_id` must be provided to add a relationship."
+            )
+        if (
+            parent_id not in self.attached_objects.keys()
+            or child_id not in self.attached_objects.keys()
+        ):
+            raise ValueError(
+                "Both `parent_id` and `child_id` must be assigned to objects attached to the collection."
+            )
+        relationship_id = generate_object_relationship_id(parent_id, child_id)
+        self.relationships[relationship_id] = (parent_id, child_id)
+        return relationship_id
+
+    def remove_relationship(self, relationship_id: str) -> None:
+        """
+        Remove a relationship from the collection type.
+
+        Args:
+            relationship_id (str): The unique identifier of the relationship to remove.
+        """
+        if not relationship_id:
+            raise ValueError(
+                "You must provide a `relationship_id` to remove the relationship from the collection type."
+            )
+        if relationship_id not in self.relationships.keys():
+            raise ValueError(
+                f"Relationship with ID '{relationship_id}' does not exist in the collection type."
+            )
+        del self.relationships[relationship_id]
 
 
 class DatasetType(ObjectType):
