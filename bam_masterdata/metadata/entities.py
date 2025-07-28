@@ -508,25 +508,6 @@ class ObjectType(BaseEntity):
         for key, prop in self._property_metadata.items():
             self._properties[key] = prop.data_type
 
-    def __setattr__(self, key, value):
-        """
-        Set the attribute value for the ObjectType instance. If the attribute is a property defined in
-        the metadata, it will be set to the value provided.
-        """
-        if key == "_property_metadata":
-            super().__setattr__(key, value)
-            return
-
-        if key in self._property_metadata:
-            # Check if the value is of the expected type
-            expected_type = self._property_metadata[key].data_type.pytype
-            if expected_type and not isinstance(value, expected_type):
-                raise TypeError(
-                    f"Invalid type for '{key}': Expected {expected_type.__name__}, got {type(value).__name__}"
-                )
-
-        super().__setattr__(key, value)
-
     model_config = ConfigDict(
         ignored_types=(
             ObjectTypeDef,

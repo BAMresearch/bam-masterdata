@@ -17,10 +17,11 @@ from bam_masterdata.cli.entities_to_excel import entities_to_excel
 from bam_masterdata.cli.entities_to_rdf import entities_to_rdf
 from bam_masterdata.cli.fill_masterdata import MasterdataCodeGenerator
 from bam_masterdata.logger import logger
+from bam_masterdata.metadata.definitions import PropertyTypeAssignment
 from bam_masterdata.metadata.entities import CollectionType
 from bam_masterdata.metadata.entities_dict import EntitiesDict
 from bam_masterdata.openbis.login import ologin
-from bam_masterdata.parsing import AbstractParser, MyParser1
+from bam_masterdata.parsing import AbstractParser
 from bam_masterdata.utils import (
     DATAMODEL_DIR,
     delete_and_create_dir,
@@ -524,20 +525,42 @@ def run_parser(
     for parser, files in files_parser.items():
         parser.parse(files, collection)
 
-    # Store the objects in the collection in openBIS
     ids = []
 
+    # Store the objects in the collection in openBIS
+
     for object_id, object in collection.attached_objects.items():
+        obj_props = {}
+        special_keys = {
+            "name",
+            "show_in_project_overview",
+            "xmlcomments",
+            "annotations_state",
+        }
+        for key in object._properties.keys():
+            value = getattr(object, key, None)
+            if value is None or isinstance(value, PropertyTypeAssignment):
+                continue
+            # check for nested keys and special keys and unused keys
+            if key in special_keys:
+                obj_props[f"${key}"] = value
+            elif key.count("_") > 1:
+                parts = key.split("_", 1)
+                key = parts[0] + "." + parts[1].replace("_", ".")
+            else:
+                obj_props[key] = value
+
         object_openbis = o.new_object(
             type=object.defs.code,
             space=space,
             project=project,
-            props=object.properties.dict(),
+            collection=collection_openbis,
+            props=obj_props,
         )
         object_openbis.save()
         ids.append((object_id, object_openbis.identifier))
         click.echo(
-            f"Object {object_openbis.props().get('$NAME')} stored in openBIS collection {collection_name}."
+            f"Object {object_openbis.props().get('$name')} stored in openBIS collection {collection_name}."
         )
 
     openbis_id_map = dict(ids)
