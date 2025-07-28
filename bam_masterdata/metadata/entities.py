@@ -500,6 +500,7 @@ class ObjectType(BaseEntity):
     properties.
     """
 
+<<<<<<< HEAD
     def __setattr__(self, key, value):
         if key == "_property_metadata":
             super().__setattr__(key, value)
@@ -563,6 +564,18 @@ class ObjectType(BaseEntity):
                 break
 
         return vocabulary_class if vocabulary_class else None
+=======
+    def __init__(self, **kwargs):
+        """
+        Initialize the ObjectType with the given keyword arguments and set up the properties.
+        """
+        super().__init__(**kwargs)
+
+        # Initialize the properties list to store PropertyTypeAssignment instances
+        self._properties = {}
+        for key, prop in self._property_metadata.items():
+            self._properties[key] = prop.data_type
+>>>>>>> 2aa9e8a (working run_parser)
 
     model_config = ConfigDict(
         ignored_types=(
