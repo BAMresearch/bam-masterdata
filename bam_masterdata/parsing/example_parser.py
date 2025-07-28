@@ -6,3 +6,4 @@ class MyParser1(AbstractParser):
         for file in files:
             # Logic to parse the file and add data to the collection
             print(f"Parsing {file} and adding to {collection}")
+        return collection
