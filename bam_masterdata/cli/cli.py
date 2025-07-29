@@ -531,24 +531,13 @@ def run_parser(
 
     for object_id, object in collection.attached_objects.items():
         obj_props = {}
-        special_keys = {
-            "name",
-            "show_in_project_overview",
-            "xmlcomments",
-            "annotations_state",
-        }
+
         for key in object._properties.keys():
             value = getattr(object, key, None)
             if value is None or isinstance(value, PropertyTypeAssignment):
                 continue
             # check for nested keys and special keys and unused keys
-            if key in special_keys:
-                obj_props[f"${key}"] = value
-            elif key.count("_") > 1:
-                parts = key.split("_", 1)
-                key = parts[0] + "." + parts[1].replace("_", ".")
-            else:
-                obj_props[key] = value
+            obj_props[object._property_metadata[key].code.lower()] = value
 
         object_openbis = o.new_object(
             type=object.defs.code,
