@@ -109,15 +109,20 @@ class TestObjectType:
             f"MockedObjectTypeLonger properties: {[prop.code for prop in generate_object_type_longer().properties]}"
         )
         object_type = generate_object_type()
-        assert len(object_type.properties) == 2
+        assert len(object_type.properties) == 3
         prop_names = [prop.code for prop in object_type.properties]
-        assert prop_names == ["$NAME", "ALIAS"]
+        assert prop_names == ["$NAME", "ALIAS", "$STORAGE.STORAGE_VALIDATION_LEVEL"]
 
         # 3 properties in this `ObjectType`
         object_type = generate_object_type_longer()
-        assert len(object_type.properties) == 3
+        assert len(object_type.properties) == 4
         prop_names = [prop.code for prop in object_type.properties]
-        assert prop_names == ["SETTINGS", "$NAME", "ALIAS"]
+        assert prop_names == [
+            "SETTINGS",
+            "$NAME",
+            "ALIAS",
+            "$STORAGE.STORAGE_VALIDATION_LEVEL",
+        ]
 
     def test_setattr(self):
         """Test the method `__setattr__` from the class `ObjectType`."""
