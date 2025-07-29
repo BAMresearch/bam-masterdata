@@ -212,3 +212,44 @@ class TestCollectionType:
         assert len(ids) == 2
         assert ids[0] == parent_id
         assert ids[1] == child_id
+
+
+class TestObjectType:
+    def test_setattr(self):
+        """Test the method `__setattr__` from the class `ObjectType`."""
+        object_type = generate_object_type()
+        assert "name" in object_type._property_metadata
+        assert isinstance(
+            object_type._property_metadata["name"], PropertyTypeAssignment
+        )
+        assert isinstance(object_type.name, PropertyTypeAssignment)
+
+        # Valid type
+        object_type.name = "Test Object"
+        assert object_type.name == "Test Object" and isinstance(object_type.name, str)
+
+        object_type.storage_storage_validation_level = "BOX"
+        assert object_type.storage_storage_validation_level == "BOX" and isinstance(
+            object_type.name, str
+        )
+
+        # Invalid types
+        with pytest.raises(
+            TypeError, match="Invalid type for 'name': Expected str, got int"
+        ):
+            object_type.name = 42
+        with pytest.raises(
+            TypeError, match="Invalid type for 'name': Expected str, got bool"
+        ):
+            object_type.name = True
+
+        with pytest.raises(
+            ValueError,
+            match="42 for storage_storage_validation_level is not in the list of allowed terms for vocabulary.",
+        ):
+            object_type.storage_storage_validation_level = 42
+        with pytest.raises(
+            ValueError,
+            match="Test Storage for storage_storage_validation_level is not in the list of allowed terms for vocabulary.",
+        ):
+            object_type.storage_storage_validation_level = "Test Storage"

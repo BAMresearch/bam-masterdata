@@ -85,6 +85,16 @@ class MockedObjectType(ObjectType):
         show_in_edit_views=True,
         section="General information",
     )
+    storage_storage_validation_level = PropertyTypeAssignment(
+        code="$STORAGE.STORAGE_VALIDATION_LEVEL",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="$STORAGE.STORAGE_VALIDATION_LEVEL",
+        property_label="Validation level",
+        description="""Validation level""",
+        mandatory=False,
+        show_in_edit_views=False,
+        section="General info",
+    )
 
 
 class MockedObjectTypeLonger(MockedObjectType):
