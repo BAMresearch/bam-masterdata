@@ -1,3 +1,4 @@
+import inspect
 import json
 from collections.abc import Callable
 from typing import TYPE_CHECKING, Any, no_type_check
@@ -6,6 +7,8 @@ import h5py
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 from rdflib import BNode, Literal
 from rdflib.namespace import DC, OWL, RDF, RDFS
+
+from bam_masterdata.utils import DATAMODEL_DIR, import_module, listdir_py_modules
 
 if TYPE_CHECKING:
     from pybis import Openbis
@@ -496,6 +499,50 @@ class ObjectType(BaseEntity):
     Note this is also used for `CollectionType` and `DatasetType`, as they also contain a list of
     properties.
     """
+
+    def __setattr__(self, key, value):
+        if key == "_property_metadata":
+            super().__setattr__(key, value)
+            return
+        if not isinstance(self._property_metadata[key], PropertyTypeAssignment):
+            return super().__setattr__(key, value)
+
+        data_type = self._property_metadata[key].data_type
+        if data_type == "CONTROLLEDVOCABULARY":
+            vocabulary_code = self._property_metadata[key].vocabulary_code
+            if not vocabulary_code:
+                raise ValueError(
+                    f"Property '{key}' of type CONTROLLEDVOCABULARY must have a vocabulary_code defined."
+                )
+
+            # get the class of the vocabulary type
+            for file in listdir_py_modules(DATAMODEL_DIR):
+                if "vocabulary_types.py" in file:
+                    vocab_path = file
+                    break
+
+            module = import_module(vocab_path)
+
+            for name, obj in inspect.getmembers(module, inspect.isclass):
+                if issubclass(obj, VocabularyType) and obj is not VocabularyType:
+                    if hasattr(obj, "defs") and obj.defs.code == vocabulary_code:
+                        vocabulary_class = obj()
+
+            codes = []
+            for attr_name in dir(vocabulary_class):
+                if not attr_name.startswith("__"):
+                    attr = getattr(vocabulary_class, attr_name, None)
+                    if attr is not None and isinstance(attr, VocabularyTerm):
+                        codes.append(attr.code)
+
+            if value in codes:
+                return object.__setattr__(self, key, value)
+            else:
+                raise ValueError(
+                    f"{value} for {key} is not in the list of allowed terms for vocabulary."
+                )
+        # TODO add check for OBJECT data type
+        super().__setattr__(key, value)
 
     model_config = ConfigDict(
         ignored_types=(
