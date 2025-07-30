@@ -555,7 +555,7 @@
         "row_location": null,
         "validation_script": null,
         "generated_code_prefix": "ACT",
-        "auto_generated_codes": true
+        "auto_generate_codes": true
       }
     }
   }

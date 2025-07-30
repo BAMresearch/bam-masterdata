@@ -24,7 +24,7 @@ from bam_masterdata.utils import import_module
                 "Description",
                 "Validation script",
                 "Generated code prefix",
-                "Auto generated codes",
+                "Auto generate codes",
             ],
         ),
         (

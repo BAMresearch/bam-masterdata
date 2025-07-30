@@ -24,7 +24,7 @@
       "pattern": ".*",
       "allow_empty": true
     },
-      "auto_generated_codes": {
+      "auto_generate_codes": {
       "is_bool": true
     },
     "url_template": {

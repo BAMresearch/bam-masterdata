@@ -206,7 +206,7 @@ class TestObjectTypeDef:
             "row_location",
             "validation_script",
             "generated_code_prefix",
-            "auto_generated_codes",
+            "auto_generate_codes",
         ]
         assert field_types == [
             str,
