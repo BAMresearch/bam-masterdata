@@ -178,7 +178,7 @@ def expected_transformed_data():
                     "id": "Action",
                     "validation_script": None,
                     "generated_code_prefix": "ACT",
-                    "auto_generated_codes": True,
+                    "auto_generate_codes": True,
                 },
             }
         },

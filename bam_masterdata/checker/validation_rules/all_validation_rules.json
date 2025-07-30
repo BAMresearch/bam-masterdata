@@ -10,7 +10,7 @@
     "pattern": "^[A-Za-z0-9_\\.]+$",
     "allow_empty": true
   },
-  "auto_generated_codes": {
+  "auto_generate_codes": {
     "is_bool": true
   },
   "main_dataset_pattern": {

@@ -78,7 +78,7 @@ class TestBaseEntity:
         entity = generate_base_entity()
         assert (
             entity.model_to_json()
-            == '{"defs": {"code": "MOCKED_ENTITY", "description": "Mockup for an entity definition//Mockup f\\u00fcr eine Entit\\u00e4tsdefinition", "iri": null, "id": "MockedEntity", "row_location": null, "validation_script": null, "generated_code_prefix": "MOCKENT", "auto_generated_codes": true}}'
+            == '{"defs": {"code": "MOCKED_ENTITY", "description": "Mockup for an entity definition//Mockup f\\u00fcr eine Entit\\u00e4tsdefinition", "iri": null, "id": "MockedEntity", "row_location": null, "validation_script": null, "generated_code_prefix": "MOCKENT", "auto_generate_codes": true}}'
         )
 
     def test_model_to_dict(self):
@@ -93,7 +93,7 @@ class TestBaseEntity:
                 "row_location": None,
                 "validation_script": None,
                 "generated_code_prefix": "MOCKENT",
-                "auto_generated_codes": True,
+                "auto_generate_codes": True,
             }
         }
 

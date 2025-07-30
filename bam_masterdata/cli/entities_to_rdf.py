@@ -173,7 +173,7 @@ def entities_to_rdf(
     # parents defined from `code`
     # assigned properties can be Mandatory or Optional, can be PropertyType or ObjectType
     # ? For OBJECT TYPES
-    # ? `generated_code_prefix`, `auto_generated_codes`?
+    # ? `generated_code_prefix`, `auto_generate_codes`?
     for name, obj in inspect.getmembers(module, inspect.isclass):
         # Ensure the class has the `model_to_rdf` method
         if not hasattr(obj, "defs") or not callable(getattr(obj, "model_to_rdf")):

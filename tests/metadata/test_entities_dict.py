@@ -187,7 +187,7 @@ class TestEntitiesDict:
                         "row_location": 4211,
                         "validation_script": null,
                         "generated_code_prefix": "ACT",
-                        "auto_generated_codes": true
+                        "auto_generate_codes": true
                     }
                 }""",
             ),

@@ -246,7 +246,7 @@ class DatasetTypeDef(BaseObjectTypeDef):
 
 class ObjectTypeDef(BaseObjectTypeDef):
     """
-    Definition class for an object type. It adds the fields of `generated_code_prefix`, `auto_generated_codes`,
+    Definition class for an object type. It adds the fields of `generated_code_prefix`, `auto_generate_codes`,
     and `validation_script` to the common attributes of a base object type definition. E.g.:
 
     ```python
@@ -269,7 +269,7 @@ class ObjectTypeDef(BaseObjectTypeDef):
         """,
     )
 
-    auto_generated_codes: bool = Field(
+    auto_generate_codes: bool = Field(
         True,
         description="""
         Boolean used to generate codes using `generated_code_prefix` plus a unique number. Set to
