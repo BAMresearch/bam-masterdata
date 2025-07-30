@@ -180,7 +180,7 @@ class MasterdataValidator:
                 # Check if required properties exist in specific sections
                 required_properties = {
                     "Additional Information": "NOTES",
-                    "Comments": "COMMENTS",
+                    "Comments": "$XMLCOMMENTS",
                 }
 
                 # Track found properties
