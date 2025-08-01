@@ -504,6 +504,8 @@ class ObjectType(BaseEntity):
         if key == "_property_metadata":
             super().__setattr__(key, value)
             return
+        if key not in self._property_metadata:
+            raise KeyError(f"Key '{key}' not found in _property_metadata.")
         if not isinstance(self._property_metadata[key], PropertyTypeAssignment):
             return super().__setattr__(key, value)
 
@@ -516,24 +518,28 @@ class ObjectType(BaseEntity):
                 )
 
             # get the class of the vocabulary type
+            vocab_path = None
             for file in listdir_py_modules(DATAMODEL_DIR):
                 if "vocabulary_types.py" in file:
                     vocab_path = file
                     break
+            if vocab_path is None:
+                raise FileNotFoundError(
+                    "The file 'vocabulary_types.py' was not found in the directory specified by DATAMODEL_DIR."
+                )
 
             module = import_module(vocab_path)
 
             for name, obj in inspect.getmembers(module, inspect.isclass):
-                if issubclass(obj, VocabularyType) and obj is not VocabularyType:
-                    if hasattr(obj, "defs") and obj.defs.code == vocabulary_code:
-                        vocabulary_class = obj()
+                if name == code_to_class_name(vocabulary_code):
+                    vocabulary_class = obj()
+                    break
 
-            codes = []
-            for attr_name in dir(vocabulary_class):
-                if not attr_name.startswith("__"):
-                    attr = getattr(vocabulary_class, attr_name, None)
-                    if attr is not None and isinstance(attr, VocabularyTerm):
-                        codes.append(attr.code)
+            if vocabulary_class is None:  # Error handling if no matching class is found
+                raise ValueError(
+                    f"No matching vocabulary class found for vocabulary_code '{vocabulary_code}'."
+                )
+            codes = [term.code for term in vocabulary_class.terms]
 
             if value in codes:
                 return object.__setattr__(self, key, value)

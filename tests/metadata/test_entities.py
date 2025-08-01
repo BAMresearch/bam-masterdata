@@ -139,7 +139,7 @@ class TestObjectType:
 
         object_type.storage_storage_validation_level = "BOX"
         assert object_type.storage_storage_validation_level == "BOX" and isinstance(
-            object_type.name, str
+            object_type.storage_storage_validation_level, str
         )
 
         # Invalid types
