@@ -501,9 +501,10 @@ class ObjectType(BaseEntity):
     """
 
     def __setattr__(self, key, value):
-        if key == "_property_metadata":
+        if key == "_property_metadata" or key == "_properties":
             super().__setattr__(key, value)
             return
+
         if key not in self._property_metadata:
             raise KeyError(f"Key '{key}' not found in _property_metadata.")
         if not isinstance(self._property_metadata[key], PropertyTypeAssignment):
@@ -563,6 +564,17 @@ class ObjectType(BaseEntity):
                 break
 
         return vocabulary_class if vocabulary_class else None
+
+    def __init__(self, **kwargs):
+        """
+        Initialize the ObjectType with the given keyword arguments and set up the properties.
+        """
+        super().__init__(**kwargs)
+
+        # Initialize the properties list to store PropertyTypeAssignment instances
+        self._properties = {}
+        for key, prop in self._property_metadata.items():
+            self._properties[key] = prop.data_type
 
     model_config = ConfigDict(
         ignored_types=(
