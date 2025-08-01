@@ -593,11 +593,14 @@ def run_parser(
     help="openBIS collection name",
 )
 def parser(files_parser, project_name, collection_name):
-    parser_map = {
-        "MyParser1": MyParser1(),
-    }  # could be an import of a dictionary with parsers
+    parser_map = {}  # could be an import of a dictionary with parsers
     parse_file_dict = {}
     for parser_key, filepath in files_parser:
+        if parser_key not in parser_map:
+            logger.warning(
+                f"Parser {parser_key} not found. Available parsers: {', '.join(parser_map.keys())}"
+            )
+            continue
         parser_cls = parser_map[parser_key]
         parse_file_dict[parser_cls].append(filepath)
     run_parser(
