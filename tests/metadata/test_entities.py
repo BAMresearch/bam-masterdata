@@ -163,6 +163,21 @@ class TestObjectType:
         ):
             object_type.storage_storage_validation_level = "Test Storage"
 
+    @pytest.mark.parametrize(
+        "code, result",
+        [
+            ("$DEFAULT_COLLECTION_VIEWS", True),
+            ("VOCABULARY_NOT_FOUND", False),
+        ],
+    )
+    def test_get_vocabulary_class(self, code, result):
+        """Test the name conversion for `VocabularyType`."""
+        vocab_path = "tests/data/metadata/example_vocabulary.py"
+        object_type = generate_object_type()
+
+        vocabulary_class = object_type.get_vocabulary_class(code, vocab_path)
+        assert (vocabulary_class is not None) is result
+
 
 class TestVocabularyType:
     def test_model_validator_after_init(self):
