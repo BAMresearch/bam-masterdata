@@ -474,12 +474,10 @@ def checker(file_path, mode, datamodel_path):
 
 
 def run_parser(
-    url: str = "devel.datastore.bam.de",
-    username: str = "",
-    password: str = "",
     files_parser: dict[AbstractParser, list[str]] = {},
     project_name: str = "",
     collection_name: str = "",
+    login: Openbis = None,
 ):
     """
     Run the parsers on the specified files and collect the results.
@@ -498,13 +496,12 @@ def run_parser(
         contact an Admin to add missing parser.""")
 
     # Connection to openBIS / create a new project and collection
-    o = Openbis(url)
-    o.login(username, password, save_token=True)
+    o = login
 
     # Specify the space and project for the data
-    space = o.get_space(f"{username}")
+    space = o.get_space(f"{o.get_current_user().get('userId')}")
     if space is None:
-        click.echo(f"{username} has no space.")
+        click.echo(f"{o.get_current_user().get('userId')} has no space.")
         return
     project = space.new_project(
         code=project_name,
@@ -523,7 +520,7 @@ def run_parser(
 
     # Iterate over each parser and its associated files
     for parser, files in files_parser.items():
-        parser.parse(files, collection)
+        parser.parse(files, collection, logger=logger)
 
     ids = []
 

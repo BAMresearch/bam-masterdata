@@ -10,7 +10,7 @@ class AbstractParser(ABC):
     """
 
     @abstractmethod
-    def parse(self, files: list[str], collection: CollectionType):
+    def parse(self, files: list[str], collection: CollectionType, logger=None):
         """
         Parse the given files and store the results in the specified collection.
         Args:
