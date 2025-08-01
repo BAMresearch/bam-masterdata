@@ -117,11 +117,10 @@ class MasterdataValidator:
                         entity_data,
                     )
 
+                # Collect ordered sections for each entity
+                entity_sections = []
                 # Validate 'properties' (except for vocabulary_types, which uses 'terms')
                 if entity_type != "vocabulary_types" and "properties" in entity_data:
-                    # Collect ordered sections for each entity
-                    entity_sections = []
-
                     for prop in entity_data["properties"]:
                         row_location = prop.get("row_location", "Unknown")
 
