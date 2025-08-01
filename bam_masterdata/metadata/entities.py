@@ -528,13 +528,7 @@ class ObjectType(BaseEntity):
                     "The file 'vocabulary_types.py' was not found in the directory specified by DATAMODEL_DIR."
                 )
 
-            module = import_module(vocab_path)
-
-            for name, obj in inspect.getmembers(module, inspect.isclass):
-                if name == code_to_class_name(vocabulary_code):
-                    vocabulary_class = obj()
-                    break
-
+            vocabulary_class = self.get_vocabulary_class(vocabulary_code, vocab_path)
             if vocabulary_class is None:  # Error handling if no matching class is found
                 raise ValueError(
                     f"No matching vocabulary class found for vocabulary_code '{vocabulary_code}'."
@@ -549,6 +543,26 @@ class ObjectType(BaseEntity):
                 )
         # TODO add check for OBJECT data type
         super().__setattr__(key, value)
+
+    def get_vocabulary_class(self, vocabulary_code, vocab_path: str):
+        """Get the class of the vocabulary type defined in the module `vocab_path`.
+
+        Args:
+            vocabulary_code (str): Name of the vocabulary type to get the class for.
+            vocab_path (str): Path to the module containing the vocabulary types.
+
+        Returns:
+            Vocabulary_Class: The class of the vocabulary type if found, otherwise None.
+        """
+
+        module = import_module(vocab_path)
+        vocabulary_class = None
+        for name, obj in inspect.getmembers(module, inspect.isclass):
+            if name == code_to_class_name(vocabulary_code):
+                vocabulary_class = obj()
+                break
+
+        return vocabulary_class if vocabulary_class else None
 
     model_config = ConfigDict(
         ignored_types=(
