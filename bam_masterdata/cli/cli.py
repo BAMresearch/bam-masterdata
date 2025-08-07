@@ -619,18 +619,24 @@ def run_parser(
             f"Space {openbis.username} does not exist in openBIS. Please create it first."
         )
         return
-    project = space.new_project(
-        code=project_name,
-        description="New project created via automated parsing with `bam_masterdata`.",
-    )
+    if project_name not in [p.code for p in space.get_projects()]:
+        project = space.get_project(project_name)
+    else:
+        project = space.new_project(
+            code=project_name,
+            description="New project created via automated parsing with `bam_masterdata`.",
+        )
     project.save()
 
     # Create a new pybis `COLLECTION` to store the generated objects
-    collection_openbis = openbis.new_collection(
-        code=collection_name,
-        type="COLLECTION",
-        project=project,
-    )
+    if collection_name in [c.code for c in project.get_collections()]:
+        collection_openbis = project.get_collection(collection_name)
+    else:
+        collection_openbis = openbis.new_collection(
+            code=collection_name,
+            type="COLLECTION",
+            project=project,
+        )
     collection_openbis.save()
 
     # Create a bam_masterdata CollectionType instance for storing parsed results
