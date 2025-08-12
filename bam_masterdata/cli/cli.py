@@ -619,7 +619,7 @@ def run_parser(
             f"Space {openbis.username} does not exist in openBIS. Please create it first."
         )
         return
-    if project_name not in [p.code for p in space.get_projects()]:
+    if project_name.upper() in [p.code for p in space.get_projects()]:
         project = space.get_project(project_name)
     else:
         project = space.new_project(
@@ -629,8 +629,10 @@ def run_parser(
     project.save()
 
     # Create a new pybis `COLLECTION` to store the generated objects
-    if collection_name in [c.code for c in project.get_collections()]:
-        collection_openbis = project.get_collection(collection_name)
+    if collection_name.upper() in [c.code for c in project.get_collections()]:
+        collection_openbis = space.get_collection(
+            f"/{openbis.username}/{project_name}/{collection_name}".upper()
+        )
     else:
         collection_openbis = openbis.new_collection(
             code=collection_name,
@@ -672,9 +674,10 @@ def run_parser(
         )
     for _, files in files_parser.items():
         # Upload the file to openBIS
-        dataset = collection_openbis.new_dataset(
+        dataset = o.new_dataset(
             type="RAW_DATA",
             files=files,
+            collection=collection_openbis,
         )
         dataset.save()
         click.echo(f"Files uploaded to openBIS collection {collection_name}.")
