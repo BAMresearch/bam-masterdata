@@ -674,7 +674,7 @@ def run_parser(
         )
     for _, files in files_parser.items():
         # Upload the file to openBIS
-        dataset = o.new_dataset(
+        dataset = openbis.new_dataset(
             type="RAW_DATA",
             files=files,
             collection=collection_openbis,
