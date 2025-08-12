@@ -664,11 +664,20 @@ def run_parser(
             props=obj_props,
         )
         object_openbis.save()
+
         # save local and openbis IDs to map parent-child relationships
         openbis_id_map[object_id] = object_openbis.identifier
         click.echo(
             f"Object {obj_props.get('$name')} stored in openBIS collection {collection_name}."
         )
+    for _, files in files_parser.items():
+        # Upload the file to openBIS
+        dataset = collection_openbis.new_dataset(
+            type="RAW_DATA",
+            files=files,
+        )
+        dataset.save()
+        click.echo(f"Files uploaded to openBIS collection {collection_name}.")
 
     # Map parent-child relationships
     for parent_id, child_id in collection.relationships.values():
