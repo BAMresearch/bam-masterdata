@@ -52,7 +52,7 @@ def entities_to_excel(
         worksheet.append(header_values)
 
         # Properties assignment for ObjectType, DatasetType, and CollectionType
-        if obj_instance.cls_name in ["ObjectType", "DatasetType", "CollectionType"]:
+        if obj_instance.base_name in ["ObjectType", "DatasetType", "CollectionType"]:
             if not obj_instance.properties:
                 continue
             worksheet.append(
@@ -68,7 +68,7 @@ def entities_to_excel(
                     row.append(val)
                 worksheet.append(row)
         # Terms assignment for VocabularyType
-        elif obj_instance.cls_name == "VocabularyType":
+        elif obj_instance.base_name == "VocabularyType":
             if not obj_instance.terms:
                 continue
             worksheet.append(list(obj_instance.terms[0].excel_headers_map.values()))

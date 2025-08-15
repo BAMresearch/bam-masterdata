@@ -13,6 +13,7 @@ from tests.conftest import (
     generate_base_entity,
     generate_object_type,
     generate_object_type_longer,
+    generate_object_type_miss_mandatory,
     generate_vocabulary_type,
 )
 
@@ -131,7 +132,7 @@ class TestObjectType:
         assert isinstance(
             object_type._property_metadata["name"], PropertyTypeAssignment
         )
-        assert isinstance(object_type.name, PropertyTypeAssignment)
+        assert object_type.name == "Mandatory name"
 
         # Valid type
         object_type.name = "Test Object"
@@ -214,11 +215,18 @@ class TestCollectionType:
     def test_add(self):
         """Test the method `add` from the class `CollectionType`."""
         collection = CollectionType()
+
         with pytest.raises(
             TypeError,
             match="Expected an ObjectType instance, got `MockedVocabularyType`",
         ):
             entity_id = collection.add(generate_vocabulary_type())
+
+        with pytest.raises(
+            ValueError,
+            match="The following mandatory fields are missing for ObjectType 'MockedObjectType': name",
+        ):
+            entity_id = collection.add(generate_object_type_miss_mandatory())
 
         entity_id = collection.add(generate_object_type())
         assert entity_id.startswith("MOCKOBJTYPE")

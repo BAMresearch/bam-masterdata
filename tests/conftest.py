@@ -144,8 +144,12 @@ def generate_base_entity():
     return MockedEntity()
 
 
-def generate_object_type():
+def generate_object_type_miss_mandatory():
     return MockedObjectType()
+
+
+def generate_object_type():
+    return MockedObjectType(name="Mandatory name")
 
 
 def generate_object_type_longer():
