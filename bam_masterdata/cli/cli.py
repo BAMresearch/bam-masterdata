@@ -623,8 +623,9 @@ def run_parser(
     if project_name.upper() in [p.code for p in space.get_projects()]:
         project = space.get_project(project_name)
     else:
+        logger.info("Replacing project code with uppercase and underscores.")
         project = space.new_project(
-            code=project_name,
+            code=project_name.replace(" ", "_").upper(),
             description="New project created via automated parsing with `bam_masterdata`.",
         )
     project.save()
@@ -635,8 +636,9 @@ def run_parser(
             f"/{openbis.username}/{project_name}/{collection_name}".upper()
         )
     else:
+        logger.info("Replacing collection code with uppercase and underscores.")
         collection_openbis = openbis.new_collection(
-            code=collection_name,
+            code=collection_name.replace(" ", "_").upper(),
             type="COLLECTION",
             project=project,
         )
