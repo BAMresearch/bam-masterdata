@@ -59,6 +59,7 @@ def cli():
 @click.option(
     "--export-dir",
     type=str,
+    default="./bam_masterdata/datamodel",
     required=False,
     help="The directory where the Masterdata will be exported to.",
 )
