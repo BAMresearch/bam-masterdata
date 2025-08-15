@@ -593,7 +593,7 @@ class ObjectType(BaseEntity):
         return vocabulary_class
 
     @property
-    def cls_name(self) -> str:
+    def base_name(self) -> str:
         """
         Returns the entity name of the class as a string.
         """
@@ -614,7 +614,7 @@ class ObjectType(BaseEntity):
         # Add all the properties assigned to the object type to the `properties` list.
         # TODO check if the order is properly assigned
         for base in cls.__mro__:
-            for attr_name, attr_val in base.__dict__.items():
+            for _, attr_val in base.__dict__.items():
                 if isinstance(attr_val, PropertyTypeAssignment):
                     data.properties.append(attr_val)
 
@@ -707,7 +707,7 @@ class VocabularyType(BaseEntity):
     )
 
     @property
-    def cls_name(self) -> str:
+    def base_name(self) -> str:
         """
         Returns the entity name of the class as a string.
         """
@@ -789,7 +789,7 @@ class CollectionType(ObjectType):
     )
 
     @property
-    def cls_name(self) -> str:
+    def base_name(self) -> str:
         """
         Returns the entity name of the class as a string.
         """
@@ -844,6 +844,19 @@ class CollectionType(ObjectType):
             raise TypeError(
                 f"Expected an ObjectType instance, got `{type(object_type).__name__}`"
             )
+
+        # Check mandatory properties are filled
+        missing_fields = []
+        for attr_name, prop in object_type._property_metadata.items():
+            assigned_prop = getattr(object_type, attr_name, None)
+            if prop.mandatory and isinstance(assigned_prop, PropertyTypeAssignment):
+                missing_fields.append(attr_name)
+
+        if missing_fields:
+            raise ValueError(
+                f"The following mandatory fields are missing for ObjectType '{object_type.cls_name}': {', '.join(missing_fields)}"
+            )
+
         object_id = generate_object_id(object_type)
         self.attached_objects[object_id] = object_type
         return object_id
@@ -912,7 +925,7 @@ class CollectionType(ObjectType):
 
 class DatasetType(ObjectType):
     @property
-    def cls_name(self) -> str:
+    def base_name(self) -> str:
         """
         Returns the entity name of the class as a string.
         """
