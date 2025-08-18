@@ -23,8 +23,7 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install .[docu]
-      - name: Deploy docs
-        uses: mhausenblas/mkdocs-deploy-gh-pages@master
+      - name: Deploy documentation
+        run: mkdocs gh-deploy --force
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CONFIG_FILE: mkdocs.yml
