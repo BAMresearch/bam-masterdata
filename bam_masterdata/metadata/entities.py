@@ -788,6 +788,9 @@ class CollectionType(ObjectType):
         """,
     )
 
+    def __repr__(self):
+        return f"{self.base_name}(attached_objects={self.attached_objects}, relationships={self.relationships})"
+
     @property
     def base_name(self) -> str:
         """

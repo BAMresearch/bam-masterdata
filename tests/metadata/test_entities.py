@@ -212,6 +212,27 @@ def test_generate_object_relationship_id():
 
 
 class TestCollectionType:
+    def test_repr(self):
+        """Test the method `__repr__` from the class `CollectionType`."""
+        collection = CollectionType()
+        assert (
+            repr(collection) == "CollectionType(attached_objects={}, relationships={})"
+        )
+
+        obj_id = collection.add(generate_object_type())
+        assert (
+            repr(collection)
+            == f"CollectionType(attached_objects={{'{obj_id}': MockedObjectType(name='Mandatory name')}}, relationships={{}})"
+        )
+
+        obj_id_2 = collection.add(generate_object_type())
+        relation_id = collection.add_relationship(obj_id, obj_id_2)
+        assert (
+            repr(collection)
+            == f"CollectionType(attached_objects={{'{obj_id}': MockedObjectType(name='Mandatory name'), "
+            f"'{obj_id_2}': MockedObjectType(name='Mandatory name')}}, relationships={{'{relation_id}': ('{obj_id}', '{obj_id_2}')}})"
+        )
+
     def test_add(self):
         """Test the method `add` from the class `CollectionType`."""
         collection = CollectionType()
