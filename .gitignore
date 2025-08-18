@@ -177,3 +177,6 @@ pytest-coverage.txt
 artifacts
 # and tmp files
 tmp/
+
+# testing python file
+bam_masterdata/test.py
