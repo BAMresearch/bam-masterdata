@@ -3,7 +3,8 @@ name: Deploy MkDocs Site
 on:
   push:
     branches:
-      - main # Triggers deployment on push to the main branch
+      # - main # Triggers deployment on push to the main branch
+      - fix-docs-pipeline
 
 permissions:
   contents: write
