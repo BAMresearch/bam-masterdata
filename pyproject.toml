@@ -51,6 +51,7 @@ dev = [
 docu = [
   "mkdocs-material",
   "mkdocs-click",
+  "mkdocstrings",
   "mkdocstrings-python",
 ]
 
