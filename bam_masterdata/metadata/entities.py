@@ -266,9 +266,11 @@ class BaseEntity(BaseModel):
 
         # Store property metadata at class level
         prop_meta_dict: dict = {}
-        for attr_name, attr_value in cls_attrs.items():
-            if isinstance(attr_value, PropertyTypeAssignment):
-                prop_meta_dict[attr_name] = attr_value
+        for base in type(self).__mro__:
+            cls_attrs = getattr(base, "__dict__", {})
+            for attr_name, attr_value in cls_attrs.items():
+                if isinstance(attr_value, PropertyTypeAssignment):
+                    prop_meta_dict[attr_name] = attr_value
         return prop_meta_dict
 
     def to_json(self, indent: int | None = None) -> str:
@@ -528,48 +530,58 @@ class ObjectType(BaseEntity):
         if key in ["_property_metadata", "_properties"]:
             super().__setattr__(key, value)
             return
-        if key not in self._property_metadata:
-            raise KeyError(f"Key '{key}' not found in _property_metadata.")
-        if not isinstance(self._property_metadata[key], PropertyTypeAssignment):
-            return super().__setattr__(key, value)
 
-        data_type = self._property_metadata[key].data_type
-        if data_type == "CONTROLLEDVOCABULARY":
-            vocabulary_code = self._property_metadata[key].vocabulary_code
-            if not vocabulary_code:
-                raise ValueError(
-                    f"Property '{key}' of type CONTROLLEDVOCABULARY must have a vocabulary_code defined."
+        # key search in every nested class
+        for base in type(self).__mro__:
+            prop_meta = getattr(base, "get_property_metadata", None)
+            if callable(prop_meta):
+                meta = (
+                    prop_meta(self)
+                    if base is not type(self)
+                    else self._property_metadata
                 )
+                if key in meta:
+                    # Typcheck
+                    expected_type = meta[key].data_type.pytype
+                    if expected_type and not isinstance(value, expected_type):
+                        raise TypeError(
+                            f"Invalid type for '{key}': Expected {expected_type.__name__}, got {type(value).__name__}"
+                        )
+                    #  CONTROLLEDVOCABULARY-Check
+                    data_type = meta[key].data_type
+                    if data_type == "CONTROLLEDVOCABULARY":
+                        vocabulary_code = meta[key].vocabulary_code
+                        if not vocabulary_code:
+                            raise ValueError(
+                                f"Property '{key}' of type CONTROLLEDVOCABULARY must have a vocabulary_code defined."
+                            )
+                        vocab_path = None
+                        for file in listdir_py_modules(DATAMODEL_DIR):
+                            if "vocabulary_types.py" in file:
+                                vocab_path = file
+                                break
+                        if vocab_path is None:
+                            raise FileNotFoundError(
+                                f"The file 'vocabulary_types.py' was not found in the directory specified by {DATAMODEL_DIR}."
+                            )
+                        vocabulary_class = self.get_vocabulary_class(
+                            vocabulary_code, vocab_path
+                        )
+                        if vocabulary_class is None:
+                            raise ValueError(
+                                f"No matching vocabulary class found for vocabulary_code '{vocabulary_code}'."
+                            )
+                        codes = [term.code for term in vocabulary_class.terms]
+                        if value not in codes:
+                            raise ValueError(
+                                f"{value} for {key} is not in the list of allowed terms for vocabulary."
+                            )
+                    # set attribute
+                    return object.__setattr__(self, key, value)
 
-            # get the class instantiation of the associated vocabulary type
-            vocab_path = None
-            for file in listdir_py_modules(DATAMODEL_DIR):
-                if "vocabulary_types.py" in file:
-                    vocab_path = file
-                    break
-            if vocab_path is None:
-                raise FileNotFoundError(
-                    f"The file 'vocabulary_types.py' was not found in the directory specified by {DATAMODEL_DIR}."
-                )
-
-            vocabulary_class = self.get_vocabulary_class(vocabulary_code, vocab_path)
-            if vocabulary_class is None:
-                raise ValueError(
-                    f"No matching vocabulary class found for vocabulary_code '{vocabulary_code}'."
-                )
-            codes = [term.code for term in vocabulary_class.terms]
-
-            if value in codes:
-                return object.__setattr__(self, key, value)
-            else:
-                raise ValueError(
-                    f"{value} for {key} is not in the list of allowed terms for vocabulary."
-                )
-
-        # TODO add check for OBJECT data type
-
-        # if the key is not CONTROLLEDVOCABULARY or OBJECT, we can set the value directly
-        super().__setattr__(key, value)
+        raise KeyError(
+            f"Key '{key}' not found in any property_metadata of {type(self).__name__} or its bases."
+        )
 
     def get_vocabulary_class(self, vocabulary_code: str, vocab_path: str):
         """
