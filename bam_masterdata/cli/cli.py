@@ -590,6 +590,7 @@ def run_parser(
     files_parser: dict[AbstractParser, list[str]] = {},
     project_name: str = "PROJECT",
     collection_name: str = "COLLECTION",
+    space_name: str = None,
 ) -> None:
     """
     Run the parsers on the specified files and collect the results.
@@ -614,7 +615,7 @@ def run_parser(
         return
 
     # Specify the space and project for the data
-    space = openbis.get_space(openbis.username)
+    space = openbis.get_space(space_name)
     if space is None:
         logger.error(
             f"Space {openbis.username} does not exist in openBIS. Please create it first."
@@ -727,7 +728,14 @@ def run_parser(
     required=True,
     help="OpenBIS collection name",
 )
-def parser(files_parser, project_name, collection_name):
+@click.option(
+    "--space_name",
+    "space_name-name",  # alias
+    type=str,
+    required=True,
+    help="OpenBIS space name",
+)
+def parser(files_parser, project_name, collection_name, space_name):
     parser_map = {}  # TODO load from configuration from yaml file
     parse_file_dict = {}
     for parser_key, filepath in files_parser:
@@ -744,6 +752,7 @@ def parser(files_parser, project_name, collection_name):
         files_parser=parse_file_dict,
         project_name=project_name,
         collection_name=collection_name,
+        space_name=space_name,
     )
 
 
