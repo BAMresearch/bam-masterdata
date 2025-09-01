@@ -616,11 +616,25 @@ def run_parser(
 
     # Specify the space and project for the data
     space = openbis.get_space(space_name)
+
     if space is None:
-        logger.error(
-            f"Space {openbis.username} does not exist in openBIS. Please create it first."
-        )
-        return
+        # user name as default space
+        for s in openbis.get_spaces():
+            if s.code.endswith(openbis.username.upper()):
+                space = s
+                logger.warning(
+                    f"Space {space_name} does not exist in openBIS. "
+                    f"Loading data in {openbis.username}."
+                )
+                break
+
+        # no space found
+        if space is None:
+            logger.error(
+                f"Space {openbis.username} does not exist in openBIS. Please create it first."
+            )
+            return
+
     if project_name.upper() in [p.code for p in space.get_projects()]:
         project = space.get_project(project_name)
     else:
@@ -715,8 +729,8 @@ def run_parser(
     help="Parser name and file path tuple: 'ExampleParser file1.txt'",
 )
 @click.option(
-    "--project_name",
-    "project-name",  # alias
+    "--project-name",
+    "project_name",  # alias
     type=str,
     required=True,
     help="OpenBIS project name",
@@ -729,10 +743,10 @@ def run_parser(
     help="OpenBIS collection name",
 )
 @click.option(
-    "--space_name",
-    "space_name-name",  # alias
+    "--space-name",
+    "space_name",  # alias
     type=str,
-    required=True,
+    required=False,
     help="OpenBIS space name",
 )
 def parser(files_parser, project_name, collection_name, space_name):
