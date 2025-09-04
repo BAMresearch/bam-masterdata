@@ -7,6 +7,7 @@ nav:
   - Tutorial: tutorials/tutorial.md
   - How-to guides:
     - Overview: howtos/overview.md
+    - Parsing: howtos/parsing.md
   - Explanations:
     - Data Store: explanations/data-store.md
     - OpenBIS : explanations/openbis.md
