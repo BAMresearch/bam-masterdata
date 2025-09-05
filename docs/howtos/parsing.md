@@ -38,5 +38,5 @@ By the end of this guide, you will be able to:
 1. Look at Logs to see sucsessfull parsing.
 
 ## Tips & Troubleshooting
-- Make sure the file format is supported (e.g., CSV, JSON, or TXT).
-- If parsing fails, check that the file is not corrupt
+- Make sure the file format is supported by the parser
+- If parsing fails, check the logs and that the file is not corrupt
