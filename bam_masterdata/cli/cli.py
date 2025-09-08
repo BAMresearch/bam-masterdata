@@ -615,7 +615,10 @@ def run_parser(
         return
 
     # Specify the space and project for the data
-    space = openbis.get_space(space_name)
+    try:
+        space = openbis.get_space(space_name)
+    except Exception:
+        space = None
 
     if space is None:
         # user name as default space
@@ -631,7 +634,7 @@ def run_parser(
         # no space found
         if space is None:
             logger.error(
-                f"Space {openbis.username} does not exist in openBIS. Please create it first."
+                f"No usable Space for {openbis.username}  in openBIS. Please create it first or notify an Admin."
             )
             return
 
