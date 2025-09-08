@@ -20,18 +20,36 @@ To follow this guide, you will need:
 ```
 - (Optional) knowledge using `pytest` to validate your parser implementation
 
-
 ## 1. Getting the Structure
 
-1. Go to [masterdata-parser-example](https://github.com/BAMresearch/masterdata-parser-example) and either **fork** (if you want to keep your own version on GitHub) or simply **clone** the repository to your local machine.
-   *(Tip: Use the README of that repo, Step 1, as a guide if you’re unsure.)*
+1. Go to [masterdata-parser-example](https://github.com/BAMresearch/masterdata-parser-example) and either **fork** (to keep your own version on GitHub) or **use this repository as a template** (to start a new project from it).
+
+   **Option A: Fork**
+
+   * Click on the **Fork** button in the top right.
+   * Choose where to host the fork (your profile or an organization).
+   * (Optional) Give it a new name and description.
+   * Confirm with **Create fork**.
+   * 👉 More details in the GitHub docs: [Fork a repo](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo)
+
+   **Option B: Use as Template**
+
+   * Click on the button **Use this template** and select **Create a new repository**.
+   * In the dialog, choose:
+
+     * **Owner** (your profile or an organization, e.g. *BAMResearch*)
+     * **Repository name** (e.g. `masterdata-parser-instrumentA`)
+     * **Short description**
+     * **Visibility**: *Public*
+   * 👉 More details in the GitHub docs: [Creating a repository from a template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template)
 
 2. Create a new folder where you want your parser project to live.
    *(Example: `mkdir ~/projects/my-parser`)*
 
-3. Inside that folder, clone your forked or the original repository:
+3. Inside that folder, clone your forked or newly created repository:
+
 ```sh
-   git clone [your repository link]
+git clone [your repository link]
 ```
 
 4. After cloning, you should see a folder structure like this:
