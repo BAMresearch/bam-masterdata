@@ -544,21 +544,28 @@ class ObjectType(BaseEntity):
                 if key in meta:
                     # Typcheck
                     expected_type = meta[key].data_type.pytype
-                    if expected_type is datetime.datetime and isinstance(value, str):
-                        # Try validate datetime from string
+                    if expected_type is datetime.datetime:
                         if isinstance(value, datetime.datetime):
                             try:
-                                value = value.strftime("%Y-%m-%d %H:%M:%S")
+                                value = value.strftime(
+                                    "%Y-%m-%d %H:%M:%S"
+                                )  # create string
+                                expected_type = str
                             except ValueError:
                                 raise ValueError(
                                     f"Invalid datetime format for '{key}': Expected ISO format string, got '{value}'"
                                 )
-                        try:
-                            datetime.datetime.fromisoformat(value)
-                            expected_type = str
-                        except ValueError:
-                            raise ValueError(
-                                f"Invalid datetime format for '{key}': Expected ISO format string, got '{value}'"
+                        elif isinstance(value, str):
+                            try:
+                                datetime.datetime.fromisoformat(value)
+                                expected_type = str
+                            except ValueError:
+                                raise ValueError(
+                                    f"Invalid datetime format for '{key}': Expected ISO format string, got '{value}'"
+                                )
+                        else:
+                            raise TypeError(
+                                f"Invalid type for '{key}': Expected datetime or ISO format string, got {type(value).__name__}"
                             )
                     if expected_type and not isinstance(value, expected_type):
                         raise TypeError(
