@@ -695,12 +695,16 @@ def run_parser(
         )
     for _, files in files_parser.items():
         # Upload the file to openBIS
-        dataset = openbis.new_dataset(
-            type="RAW_DATA",
-            files=files,
-            collection=collection_openbis,
-        )
-        dataset.save()
+        try:
+            dataset = openbis.new_dataset(
+                type="RAW_DATA",
+                files=files,
+                collection=collection_openbis,
+            )
+            dataset.save()
+        except Exception as e:
+            logger.warning(f"Error uploading files {files} to openBIS: {e}")
+            continue
         click.echo(f"Files uploaded to openBIS collection {collection_name}.")
 
     # Map parent-child relationships
