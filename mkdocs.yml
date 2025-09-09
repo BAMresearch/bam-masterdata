@@ -8,7 +8,8 @@ nav:
   - How-to guides:
     - Overview: howtos/overview.md
     - Parsing: howtos/parsing.md
-    - NewParser: howtos/newparsers.md
+    - Create New Parser: howtos/newparsers.md
+    - Use Object Types: howtos/useobjecttypes.md
   - Explanations:
     - Data Store: explanations/data-store.md
     - OpenBIS : explanations/openbis.md
