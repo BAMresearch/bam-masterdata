@@ -14,6 +14,7 @@ nav:
     - Data Store: explanations/data-store.md
     - OpenBIS : explanations/openbis.md
     - pyBIS : explanations/pybis.md
+    - Parsing Structure: explanations/parsing-structure.md
   - References:
     - Collection: references/collection.md
     - Controlled Vocabulary: references/controlled-vocabulary.md
