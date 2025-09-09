@@ -1,30 +1,40 @@
-# How To: Creating instances of object types and populate them with metadata
+## How To: Creating instances of object types and populating them with metadata
 
-### Goal:
+### Goal
 
-By the end of this guide, you will know how to create instances of object types defined in **bam-masterdata** and populate them with metadata.
-You will learn how to use the available object types, assign values to their properties, and understand how these objects fit into the masterdata workflow.
+By the end of this guide, you will know how to create and work with instances of object types defined in **bam-masterdata**.
+You will learn how to:
+
+* Import and use the available object types
+* Populate them with metadata by assigning values to their properties
+* Understand how these objects fit into the masterdata workflow (e.g., later being collected, stored, and queried)
+
+Object types in **bam-masterdata** represent structured domain concepts (e.g., `Sem`, `ExperimentalStep`, `Sample`).
+Each type comes with a set of predefined fields that describe metadata consistently across datasets.
+
+---
 
 ### Requirements
 
 To follow this guide, you will need:
 
-- **Python ≥ 3.10** installed
-- Access to the **bam-masterdata** repository or package
-- Basic Python knowledge (functions, classes, error handling)
-- A working development environment (e.g., VS Code, PyCharm, or terminal + editor)
+* **Python ≥ 3.10** installed
+* Access to the **bam-masterdata** repository or package
+* Basic Python knowledge (functions, classes, error handling)
+* A working development environment (e.g., VS Code, PyCharm, or terminal + editor)
+* (Optional) A virtual environment (`.venv` or conda environment) to keep dependencies isolated
 
 ---
 
 ## 1. Installation & Setup
 
-Install the package with:
+Install the package from PyPI:
 
 ```bash
 pip install bam-masterdata
 ```
 
-If you work from a local clone of the repo:
+Or, if you are working from a local clone of the repository:
 
 ```bash
 # from the repository root
@@ -41,163 +51,235 @@ print("Import OK")
 ```
 
 ---
-
 ## 2. Overview of Object Types
 
-All accessable Object Types are in bam_masterdata.datamodel.object_types with their
-attributes.
-
-
-UMl Diagramm?
-
-> Tip: Keep a short table in your docs listing key properties and which are required.
+All accessible object types are defined as Python classes in
+`bam_masterdata.datamodel.object_types`.
+Each object type has a set of attributes (metadata fields), some of which are required.
 
 ---
+
+### Examples of Object Types
+
+| Object Type       | Key Attributes (examples)           | Required Fields                    |
+|-------------------|-------------------------------------|------------------------------------|
+| `ExperimentalStep`| `name`,  `start_date`               |                                    |
+| `Sem`             | `name`, `sem_instrument`            |                                    |
+| `Storage`         | `name`, `storage_box_num`           | `storage_storage_validation_level` |
+
+---
+
+### Where to Find All Object Types
+The full list of available object types and their attributes can be found in:
+[bam_masterdata/datamodel/object_types.py](https://github.com/BAMresearch/bam-masterdata/blob/main/bam_masterdata/datamodel/object_types.py)
+
+---
+
+> 💡 **Tip:** Keep a small table like the one above in your own docs for quick reference to the object types and their required attributes.
+
 
 ## 3. Creating Instances
 
-Minimal example creating an `ExperimentalStep`:
+To use an object type, you create an instance of its class. At minimum, you must provide the required fields.
+Here is a minimal example creating an `ExperimentalStep`:
 
 ```python
 from bam_masterdata.datamodel.object_types import ExperimentalStep
 
-object_type = ExperimentalStep()
-
-```
-
-If your objects require specific fields, provide them at construction time to avoid validation errors. This can be checked using:
-
-```python
-test_type = Storage() # has mandatory value
-print([key for key, value in test_type._property_metadata.items() if value.mandatory])
-# Out: ['storage_storage_validation_level']
+step = ExperimentalStep(name="Step 1")
+print(step) # prints propertie fields
 ```
 
 ---
 
-## 4 Assigning Metadata
+### Explanation
 
-Add descriptive fields and a metadata dictionary:
+* `ExperimentalStep` is imported from the `object_types` module.
+* An instance is created by calling the class with its attributes (here: `name`).
+* Optional attributes (such as `start_date`, etc.) can be added when needed.
+
+---
+
+### Example with more metadata
 
 ```python
 from bam_masterdata.datamodel.object_types import ExperimentalStep
 
-object_type = ExperimentalStep()
-print(list(object_type._property_metadata.keys()))  # List of populable Attributes
-# -> Out: ['name', 'show_in_project_overview', 'finished_flag', 'start_date', ..... ]
-setattr(object_type, "name", "My Experimental Step") # Sets property
-print(object_type.name)  # Out: My Experimental Step
+step = ExperimentalStep(
+    name="Sample Preparation",
+    start_date="2025 09 09",
+)
+
+print(step)
 ```
 
-Dates (ISO 8601) and structured values work well:
+This creates a fully populated object that can later be added to a collection or used in workflows.
+
+
+## 4. Assigning Metadata
+
+Object types come with predefined attributes (metadata fields).
+You can assign values to the object types directly or by using `setattr`.
+To explore which attributes are available for a given type, check its `_property_metadata`.
+
+### Listing available attributes
+
+```python
+from bam_masterdata.datamodel.object_types import ExperimentalStep
+
+step = ExperimentalStep()
+print(list(step._property_metadata.keys()))
+# Example output:
+# ['name', 'show_in_project_overview', 'finished_flag', 'start_date', ...]
+```
+
+### Setting values
+
+```python
+setattr(step, "name", "My Experimental Step")  # using setattr
+print(step.name)  # -> My Experimental Step
+
+# Or assign directly
+step.finished_flag = True
+```
+
+### Working with dates and structured values
+
+Dates should be provided in ISO 8601 format.
+For example, to set today's date:
 
 ```python
 from datetime import date
 
-object_type.start_date = date.today().isoformat()
+step.start_date = date.today().isoformat()
+```
+
+### Working with controlled vocabularies
+
+Many object types have fields that only accept certain values (controlled vocabularies). Use the value codes found in [bam_masterdata/datamodel/vocabulary_types.py](https://github.com/BAMresearch/bam-masterdata/blob/main/bam_masterdata/datamodel/vocabulary_types.py) or check the class directly:
+```python
+from bam_masterdata.datamodel.vocabulary_types import StorageValidationLevel
+
+print([term.code for term in StorageValidationLevel().terms])
+# Out: ['BOX', 'BOX_POSITION', 'RACK']
+```
+
+```python
+store = Storage()
+store.storage_storage_validation_level = "BOX"  # CONTROLLEDVOCABULARY
+
+print(store.storage_storage_validation_level)
+```
+
+### Checking mandatory fields
+
+Some object types have required attributes that must be set to avoid validation errors.
+You can inspect which fields are mandatory as follows:
+
+```python
+from bam_masterdata.datamodel.object_types import Storage
+
+test_type = Storage()
+mandatory = [key for key, value in test_type._property_metadata.items() if value.mandatory]
+print(mandatory)
+# Example output: ['storage_storage_validation_level']
 ```
 
 ---
 
-## 5) Validation & Error Handling
 
-Validate object integrity before saving or exporting:
+## 5. Validation & Error Handling
+
+It is important to validate object integrity before saving or exporting any object type instances.
+There are two main types of validation:
+
+### 1. Check valid attributes
 
 ```python
+from bam_masterdata.datamodel.object_types import ExperimentalStep
+from datetime import date
+
+validate = ExperimentalStep()
 try:
-    customer.validate()  # may raise ValueError/ValidationError depending on your lib
+    setattr(validate, "start-date", date.today().isoformat())
 except Exception as e:
     print(f"Validation error: {e}")
+# Example output:
+# Validation error: "Key 'start-date' not found in ..."
 ```
 
-> Tip: Validate early and often, especially before persisting or sending data across services.
-
----
-
-## 6) Serialization & I/O
-
-Convert to plain Python structures for storage or transport:
+### 2. Check valid values
 
 ```python
-import json
-
-as_dict = customer.to_dict()      # or: dataclasses.asdict(), model_dump(), etc.
-print(json.dumps(as_dict, indent=2))
-```
-
-Save to a JSON file:
-
-```python
-with open("customer.json", "w", encoding="utf-8") as f:
-    json.dump(as_dict, f, ensure_ascii=False, indent=2)
-```
-
-Batch processing a list of objects:
-
-```python
-customers = [
-    Customer(id="CUST-001", name="Example Corp"),
-    Customer(id="CUST-002", name="Another Co")
-]
-
-payload = [c.to_dict() for c in customers]
-with open("customers.json", "w", encoding="utf-8") as f:
-    json.dump(payload, f, ensure_ascii=False, indent=2)
+validate = ExperimentalStep()
+try:
+    setattr(validate, "start_date", 2000)
+except Exception as e:
+    print(f"Validation error: {e}")
+# Example output:
+# Validation error: Invalid type for 'start_date': Expected datetime or ISO format string, got int
 ```
 
 ---
 
-## 7) Linking Objects (Optional)
+> 💡 **Tip:** Validate early and often to catch errors before they propagate.
 
-If objects reference each other, store IDs or dedicated link objects:
-
+## 6. Automation of Object Creation
+To automate the process of creatin an Object use self defined python functions e.g.:
 ```python
-from bam_masterdata.objects import Asset
+def metadata_to_instance(metadata: dict, instance: object):
+    """sets metadata in the object class
 
-asset = Asset(id="ASSET-100", name="Edge Gateway")
-asset.owner_id = customer.id  # reference by foreign key / ID
+    Args:
+        metadata (dict): Metadata of Object
+        instance (object): Object-Class-Instance
+
+    Returns:
+        Object-Instance
+    """
+    props = metadata_to_masterdata(metadata, instance) # validate values and keys
+    for k, v in props.items():
+        setattr(instance, k, v) # set keys
+    return instance
+
+
+def metadata_to_masterdata(metadata: dict, object_instance: object):
+    """checks if avaliable metadata is in Object-Attributes
+
+    Args:
+        metadata (dict): Metadata of Object
+        object_instance (object): Object-Class-Instance
+
+    Returns:
+         List with verified Object-Attributes
+    """
+    avaliable_values = object_instance._property_metadata # call valid keys
+    data = metadata
+    object_prop_list = {
+        prop_name: data_value
+        for prop_name, prop_obj in avaliable_values.items()
+        if (data_value := data.get(prop_name)) is not None
+    } # validate data
+    return object_prop_list
+```
+Then only use a dict and function call to create your objects
+```python
+metadata = {
+    "name": "My Experimental Step",
+    "start_date": "2023-10-10",
+}
+
+instance = metadata_to_instance(metadata, ExperimentalStep())
 ```
 
-Or use a relationship object if your library provides one.
-
----
-
-## 8) Putting It Into the Masterdata Workflow
-
-Typical steps:
-1. Create/collect objects (possibly from CSVs or APIs).
-2. Enrich with metadata (standardized keys, types, and formats).
-3. Validate.
-4. Serialize to JSON or call your masterdata service API.
-5. Log results and handle errors/retries.
-
-Example stub for an API call (pseudo-code):
-
+## 7. Saving your Objects in a collection
+Most usecases end with saving their objects in a colletion for further use.
+This can be done with:
 ```python
-import requests, json
+from bam_masterdata.metadata.entities import CollectionType
 
-payload = customer.to_dict()
-resp = requests.post("https://masterdata.example/api/v1/customers", json=payload, timeout=10)
-resp.raise_for_status()
+collection = CollectionType()
+objectid = collection.add(instance)
+
+print(collection.attached_objects) #see attached objects
 ```
-
----
-
-## 9) Troubleshooting
-
-- **ImportError / ModuleNotFoundError**: Check your virtualenv and installation path (`pip show bam-masterdata`).
-- **Validation errors**: Ensure required fields are present and types/values match expectations.
-- **Serialization issues**: Convert non-JSON types (dates, Decimals) to strings or numbers first.
-- **Version mismatches**: Pin compatible versions in `requirements.txt` or `pyproject.toml`.
-
----
-
-## 10) Summary & Next Steps
-
-You created objects, added metadata, validated them, serialized to JSON, and saw how to link objects within a masterdata workflow.
-
-**Next steps:**
-- Define a shared metadata schema and enumerations (regions, sectors, tags).
-- Implement relationship modeling and referential checks.
-- Add automated validation in CI (unit tests + sample fixtures).
-- Provide CLI/Notebooks for batch imports and audits.
