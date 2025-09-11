@@ -13,9 +13,9 @@ By the end of this guide, you will be able to:
 ## Steps
 
 ### 1. Open the App
-- 1.1 Open your web browser.
-- 1.2 Go to the provided URL of the Parser App (e.g., `https://parser.example.com`).
-- 1.3 The login page of the app will appear.
+1. Open your web browser.
+2. Go to the provided URL of the Parser App (e.g., `https://parser.example.com`).
+3. The login page of the app will appear.
 
 ### 2. Login to the App
 1. Enter your Username

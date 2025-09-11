@@ -243,7 +243,16 @@ This section will guide you through creating your own parser class for your spec
     * Use the `collection.add()` method to register each object instance, e.g.:
 
      ```python
-     collection.add(Sem("$name"="SemExampleName", ...))
+     object_id = collection.add(Sem("$name"="SemExampleName", ...))
+     ```
+
+    * This returns an unique object id, which is used to create relationships between objects.
+     ```python
+     object_id1 = collection.add(Sem("$name"="SemExampleName1", ...))
+     object_id2 = collection.add(Sem("$name"="SemExampleName2", ...))
+     # Establish a parent-child relationship
+     collection.add_relationship(object_id1, object_id2)
+     # object_id1 is the parent of object_id2
      ```
 
 ---
@@ -300,7 +309,7 @@ This section explains how to register your parser so that it can be discovered a
 
 4. **Update the tests folder**
     * In the `conftest.py` change the example class in the import and in the  parser() function to your [ParserClassName]
-    * In the `test_parser.py` change the
+    * In the `test_parser.py` from the first `assert` statement onward, you should write your own tests to verify the expected behavior of your parser. Customize these assertions to check that the objects created by your parser have the correct attributes, relationships, and data according to your specific requirements and input files.  Feel free to add more assertions or test cases to cover edge cases, error handling, and any special logic
 
 
 ---
