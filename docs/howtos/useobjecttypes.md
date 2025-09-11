@@ -279,7 +279,12 @@ This can be done with:
 from bam_masterdata.metadata.entities import CollectionType
 
 collection = CollectionType()
-objectid = collection.add(instance)
-
+objectid1 = collection.add(instance1)
+objectid2 = collection.add(instance2)
 print(collection.attached_objects) #see attached objects
+
+# Establish a parent-child relationship
+collection.add_relationship(objectid1, objectid2)
+# objectid1 is the parent of objectid2
+
 ```
