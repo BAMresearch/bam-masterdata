@@ -20,7 +20,7 @@ To follow this guide, you will need:
 ```
 - (Optional) knowledge using `pytest` to validate your parser implementation
 
-## 1. Getting the Structure
+## Getting the Structure
 
 1. Go to [masterdata-parser-example](https://github.com/BAMresearch/masterdata-parser-example) and either **fork** (to keep your own version on GitHub) or **use this repository as a template** (to start a new project from it).
 
@@ -105,7 +105,7 @@ pytest
 
 You should see all tests passing before you start customizing.
 
-## 2. Choosing a Name
+## Choosing a Name
 
 Since everything in the template project is named `masterdata_parser_example`, you will need to replace that with your own parser name.
 This ensures that your parser has a unique and consistent package name.
@@ -188,7 +188,7 @@ This ensures that your parser has a unique and consistent package name.
   All tests should still pass — if not, double-check for missed occurrences of `masterdata_parser_example`.
 
 
-## 3. Creating the Parser Class
+## Creating the Parser Class
 
 This section will guide you through creating your own parser class for your specific data type.
 
@@ -206,7 +206,7 @@ This section will guide you through creating your own parser class for your spec
 ```
 2. **Modify imports**
 
-   * Ignore `from bam_masterdata.parsing import AbstractParser` if not needed for your setup.
+   * Keep `from bam_masterdata.parsing import AbstractParser` unchanged.
    * Change the object type import to the one relevant for your parser. For example:
 
    ```python
@@ -237,6 +237,7 @@ This section will guide you through creating your own parser class for your spec
      ```
 
     * The accepted values for each object type are listed in [bam-masterdata](https://github.com/BAMresearch/bam-masterdata/blob/main/bam_masterdata/datamodel/object_types.py)
+    * If you want to read more details about using Object Types, go to [Use Object Types](useobjecttypes.md)
 
 5. **Add objects to the collection**
 
@@ -268,7 +269,7 @@ This section will guide you through creating your own parser class for your spec
 
 * Test your parser incrementally by adding one object at a time to the collection and verifying results.
 
-## 4. Updating the entry\_points
+## Updating the entry\_points
 
 This section explains how to register your parser so that it can be discovered and used by bam-masterdata.
 
@@ -344,11 +345,18 @@ You now have all the core components of your custom parser in place:
     - Document how to install it and how to run it.
     - Optionally, add usage examples for clarity.
 
+3. **Create a new Release in GitHub**
+    - Go to your repository on GitHub.
+    - Click on the **Releases** tab (or navigate to `https://github.com/[your-username]/[your-repo]/releases`).
+    - Click **Create a new release**.
+    - Choose a tag version (e.g., `v1.0.0`) and add a release title.
+    - Optionally, add release notes describing changes or new features.
+    - Click **Publish release** to make it available.
 ---
 
 ✅ At this point, your parser should be ready to test and integrate into the bam-masterdata workflow.
 
-## 5. Updating the Parser
+## Updating the Parser
 
 Once your parser is implemented and tested, future updates are usually minimal and follow a clear process.
 
