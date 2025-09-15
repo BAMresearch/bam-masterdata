@@ -12,7 +12,7 @@ By the end of this guide, you will be able to:
 
 ## Steps
 
-### 1. Open the App
+### Open the App
 1. Open your web browser.
 2. Go to the provided URL of the Parser App (e.g., `https://parser.example.com`).
 3. The login page of the app will appear.
@@ -21,12 +21,12 @@ By the end of this guide, you will be able to:
 
 
 
-### 2. Login to the App
+### Login to the App
 1. Enter your Username
 2. Enter your Password
 3. Press Login
 
-### 3. Select and Upload Files
+### Select and Upload Files
 1. Select the Space where Data will be saved.
 2. Enter Project and Collection Name.
 3. Drag and Drop or Click to Select Files.
@@ -37,14 +37,15 @@ By the end of this guide, you will be able to:
 ![Login Parser App](../assets/parsing_pictures/Card1ParserApp.jpg){ width=400 }
 
 
-### 4. Select Parsers
-1. Chose a Parser b clicking Select Parser for each uploaded file.
+### Select Parsers
+1. Chose a Parser by clicking Select Parser for each uploaded file.
     - Avaliable Parsers are listed in the Corner.
-2. Press Parse to Parse the Metadata from each file and upload to Data Store.
+    - Check [Creating new Parsers](newparsers.md) for creating your own parsers.
+2. Press Parse to Parse the Metadata from each file and upload it to the Data Store.
 
 ![Login Parser App](../assets/parsing_pictures/Card2.jpg){ width=400 }
 
-### 5. Review Logs
+### Review Logs
 1. Look at Logs to see sucsessfull parsing.
 
 ![Login Parser App](../assets/parsing_pictures/Card3Logs.jpg){ width=400 }

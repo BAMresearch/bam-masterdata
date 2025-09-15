@@ -26,7 +26,7 @@ To follow this guide, you will need:
 
 ---
 
-## 1. Installation & Setup
+## Installation & Setup
 
 Install the package from PyPI:
 
@@ -51,7 +51,7 @@ print("Import OK")
 ```
 
 ---
-## 2. Overview of Object Types
+## Overview of Object Types
 
 All accessible object types are defined as Python classes in
 `bam_masterdata.datamodel.object_types`.
@@ -78,7 +78,7 @@ The full list of available object types and their attributes can be found in:
 > 💡 **Tip:** Keep a small table like the one above in your own docs for quick reference to the object types and their required attributes.
 
 
-## 3. Creating Instances
+## Creating Instances
 
 To use an object type, you create an instance of its class. At minimum, you must provide the required fields.
 Here is a minimal example creating an `ExperimentalStep`:
@@ -116,7 +116,7 @@ print(step)
 This creates a fully populated object that can later be added to a collection or used in workflows.
 
 
-## 4. Assigning Metadata
+## Assigning Metadata
 
 Object types come with predefined attributes (metadata fields).
 You can assign values to the object types directly or by using `setattr`.
@@ -188,7 +188,7 @@ print(mandatory)
 ---
 
 
-## 5. Validation & Error Handling
+## Validation & Error Handling
 
 It is important to validate object integrity before saving or exporting any object type instances.
 There are two main types of validation:
@@ -224,7 +224,7 @@ except Exception as e:
 
 > 💡 **Tip:** Validate early and often to catch errors before they propagate.
 
-## 6. Automation of Object Creation
+## Automation of Object Creation
 To automate the process of creatin an Object use self defined python functions e.g.:
 ```python
 def metadata_to_instance(metadata: dict, instance: object):
@@ -272,7 +272,7 @@ metadata = {
 instance = metadata_to_instance(metadata, ExperimentalStep())
 ```
 
-## 7. Saving your Objects in a collection
+## Saving your Objects in a collection
 Most usecases end with saving their objects in a colletion for further use.
 This can be done with:
 ```python

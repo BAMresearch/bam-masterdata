@@ -1,21 +1,23 @@
-# 🧩 Explanation: Parsing and ETL Structure in the Parser App
+# Explanation: Parsing and ETL Structure in the Parser App
 
-## 1. Concept
+## Concept
 
 The parser app implements a simplified **ETL pipeline** – Extract, Transform, and Load – with a strong focus on the parsing step. At its core, the app allows users to upload files from laboratory experiments or field measurements, apply custom parsers to interpret the content, and then transform the parsed results into structured database entities that can be stored reliably for later analysis.
 
 The idea behind this architecture is the **separation of concerns**. Instead of treating file upload, parsing, transformation, and database loading as one monolithic process, the app breaks them into clear stages. Each stage has its own responsibility:
 
 - **Extract**: Handling files as raw input.
-- **Parse**: Turning raw input into structured domain objects.
-- **Transform**: Converting those domain objects into database-ready models.
+- **Transform**
+    - **Parsing**: Turning raw input into structured domain objects.
+    - **Mapping**: Converting those domain objects into database-ready models.
 - **Load**: Persisting the final models into the database.
 
 This design provides clarity, maintainability, and flexibility. It allows the app to support many different test formats and research workflows without constantly rewriting the underlying logic.
 
+![ETL Structure](../assets/parsing_pictures/ETLParsingNewColors.drawio.svg){ width=600 }
 ---
 
-## 2. How it works
+## How it works
 
 The workflow of the app can be understood in four main steps, which follow the ETL principle.
 
@@ -29,7 +31,7 @@ For example, consider a CSV file containing test results from material samples. 
 
 By allowing user-defined parsers, the app avoids being tied to one specific format. Instead, it becomes a flexible framework where parsing is pluggable.
 
-### 3. Transformation step (Transform – semantic mapping)
+### 3. Mapping step (Transform – semantic mapping)
 Once the parser has produced domain objects, the app transforms these into **database entities**. This involves mapping the structure of the domain objects to the database schema. Data types are normalized, units are converted, relations between samples and tests are established, and constraints (like uniqueness or non-null fields) are applied.
 
 For instance, the `Material` domain object created by the parser might be transformed into a `Material` database object that matches the schema of the database table `Material`. The transformation ensures consistency between user-defined logic (parsing) and the technical requirements of the storage system.
@@ -41,7 +43,7 @@ By the end of this step, the raw test file uploaded by the researcher has been f
 
 ---
 
-## 3. Why this structure?
+## Why this structure?
 
 The app could, in theory, skip some of these steps. One might ask: why not simply load raw files directly into the database? The answer lies in the **advantages of separating parsing, transformation, and loading**.
 
@@ -62,7 +64,7 @@ The app could, in theory, skip some of these steps. One might ask: why not simpl
 
 ---
 
-## 4. Design considerations
+## Design considerations
 
 Designing the parsing and ETL pipeline involves several important decisions.
 
@@ -80,9 +82,7 @@ Designing the parsing and ETL pipeline involves several important decisions.
 
 ---
 
-## 5. Example explanatory question
-
-**“Why do we separate parsing from the rest of the transformation process, instead of doing it all in one step?”**
+## **“Why do we separate parsing from the rest of the transformation process, instead of doing it all in one step?”**
 
 **Answer:**
 Parsing deals with *syntax and structure*. Its job is to make sense of raw test files and produce objects that represent data in a clear way. Transformation, on the other hand, deals with *semantics and business logic*. It maps domain objects such as samples and test results into database entities according to rules, constraints, and relationships.
@@ -91,7 +91,7 @@ By keeping parsing and transformation separate, the system becomes more maintain
 
 ---
 
-## 6. Conclusion
+## Conclusion
 
 The parsing app demonstrates how a simple ETL pipeline can be applied in research practice. By breaking down the process into four stages – extract, parse, transform, and load – the system achieves clarity and robustness.
 
