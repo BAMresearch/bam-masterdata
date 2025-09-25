@@ -4,17 +4,20 @@ site_author: BAM Data Store
 repo_url: https://github.com/BAMresearch/bam-masterdata
 nav:
   - Home: index.md
-  - Tutorial: tutorials/tutorial.md
-  - How-to guides:
+  - Tutorials:
+    - Getting Started: tutorials/tutorial.md
+  - How-to Guides:
     - Overview: howtos/overview.md
   - Explanations:
     - Data Store: explanations/data-store.md
-    - OpenBIS : explanations/openbis.md
-    - pyBIS : explanations/pybis.md
+    - OpenBIS: explanations/openbis.md
+    - pyBIS: explanations/pybis.md
   - References:
-    - Collection: references/collection.md
-    - Controlled Vocabulary: references/controlled-vocabulary.md
-    - Dataset: references/dataset.md
+    - API Reference: references/api.md
+    - Object Types: references/object-types.md
+    - Dataset Types: references/dataset.md
+    - Collection Types: references/collection.md
+    - Controlled Vocabularies: references/controlled-vocabulary.md
 theme:
   name: material
   palette:
