@@ -4,7 +4,7 @@ hide: toc
 
 # Welcome to the `bam-masterdata` documentation page.
 
-The `bam-masterdata` is a Python package designed to define and handle the Masterdata used in the BAM Data Store project. The BAM Data Store is the central system for Research Data Management at the Bundesanstalt für Materialforschung und -prüfung (BAM). It is a customized instance of [openBIS](https://openbis.ch/).
+The `bam-masterdata` is a Python package designed to define and handle the [Masterdata](references/glossary.md#masterdata) used in the BAM Data Store project. The BAM Data Store is the central system for Research Data Management at the Bundesanstalt für Materialforschung und -prüfung (BAM). It is a customized instance of [openBIS](https://openbis.ch/).
 <!-- This documentation page is divided according to the [diataxis method](https://www.diataxis.fr/). -->
 
 
