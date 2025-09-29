@@ -18,7 +18,7 @@ This guide explains how to use the Parser app in your browser to upload files, r
     <div class="click-zoom">
         <label>
             <input type="checkbox">
-            <img src="/assets/parsing/LoginParserApp.jpg" alt="Login in the Parser app." width="50%" title="Click to zoom in">
+            <img src="../../assets/parsing/LoginParserApp.jpg" alt="Login in the Parser app." width="50%" title="Click to zoom in">
         </label>
     </div>
 
@@ -38,7 +38,7 @@ This guide explains how to use the Parser app in your browser to upload files, r
 <div class="click-zoom">
     <label>
         <input type="checkbox">
-        <img src="/assets/parsing/Card1ParserApp.jpg" alt="Card 1 in the Parser app." width="50%" title="Click to zoom in">
+        <img src="../../assets/parsing/Card1ParserApp.jpg" alt="Card 1 in the Parser app." width="50%" title="Click to zoom in">
     </label>
 </div>
 
@@ -52,7 +52,7 @@ This guide explains how to use the Parser app in your browser to upload files, r
 <div class="click-zoom">
     <label>
         <input type="checkbox">
-        <img src="/assets/parsing/Card2.jpg" alt="Card 2 in the Parser app." width="50%" title="Click to zoom in">
+        <img src="../../assets/parsing/Card2.jpg" alt="Card 2 in the Parser app." width="50%" title="Click to zoom in">
     </label>
 </div>
 
@@ -63,6 +63,6 @@ This guide explains how to use the Parser app in your browser to upload files, r
 <div class="click-zoom">
     <label>
         <input type="checkbox">
-        <img src="/assets/parsing/Card3Logs.jpg" alt="Card 3 in the Parser app." width="50%" title="Click to zoom in">
+        <img src="../../assets/parsing/Card3Logs.jpg" alt="Card 3 in the Parser app." width="50%" title="Click to zoom in">
     </label>
 </div>
