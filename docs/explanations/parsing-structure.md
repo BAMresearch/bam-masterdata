@@ -17,11 +17,10 @@ This design provides clarity, maintainability, and flexibility. It allows the ap
 <div class="click-zoom">
     <label>
         <input type="checkbox">
-        <img src="/assets/parsing/ETLParsingNewColors.drawio.svg" alt="ETL parsing process." width="50%" title="Click to zoom in">
+        <img src="/assets/parsing/ETLParsingNewColors.drawio.svg" alt="ETL parsing process." width="70%" title="Click to zoom in">
     </label>
 </div>
 
----
 
 ## How it works
 
@@ -47,7 +46,6 @@ Finally, the database entities are persisted into the target system. At this sta
 
 By the end of this step, the raw test file uploaded by the researcher has been fully integrated into the database in a safe and consistent way.
 
----
 
 ## Why this structure?
 
@@ -68,7 +66,6 @@ The app could, in theory, skip some of these steps. One might ask: why not simpl
 5. **Performance**
    By isolating parsing and transformation, the system can optimize specific parts of the pipeline. For example, parsing can be parallelized across large sets of test data, while loading can be tuned for batch inserts.
 
----
 
 ## Design considerations
 
@@ -85,22 +82,3 @@ Designing the parsing and ETL pipeline involves several important decisions.
 
 - **Trade-offs**
   Modularity adds complexity. Developers must define and manage parsers carefully. There is also a performance cost when data passes through multiple transformations. However, the long-term benefits of reliability and flexibility outweigh these costs.
-
----
-
-## **“Why do we separate parsing from the rest of the transformation process, instead of doing it all in one step?”**
-
-**Answer:**
-Parsing deals with *syntax and structure*. Its job is to make sense of raw test files and produce objects that represent data in a clear way. Transformation, on the other hand, deals with *semantics and business logic*. It maps domain objects such as samples and test results into database entities according to rules, constraints, and relationships.
-
-By keeping parsing and transformation separate, the system becomes more maintainable, flexible, and reusable. Parsing logic can evolve independently of database logic. This separation ensures that the app can handle many different test formats while keeping the database layer consistent and reliable.
-
----
-
-## Conclusion
-
-The parsing app demonstrates how a simple ETL pipeline can be applied in research practice. By breaking down the process into four stages – extract, parse, transform, and load – the system achieves clarity and robustness.
-
-Custom parsers make the app flexible, reusable, and extensible. Transformation ensures that test data fits the schema of the target system. Finally, the loading step safely integrates structured data into the database.
-
-This architecture is not just a technical choice but a deliberate design decision: separating concerns leads to better maintainability, higher data quality, and the ability to adapt to new instruments and changing research requirements over time.
