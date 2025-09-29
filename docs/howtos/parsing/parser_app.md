@@ -6,6 +6,7 @@ This guide explains how to use the Parser app in your browser to upload files, r
     <!-- List here any prerequisites needed to deploy or understand the app (e.g., login credentials, access to Spaces, supported file formats). -->
     **WIP**
 
+---
 
 ## Open and login in the app
 

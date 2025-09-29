@@ -1,379 +1,298 @@
 # How-to: Create new parsers
 
-### Goal:
-
-By the end of this guide, you will be able to implement your own parser that integrates seamlessly with **bam-masterdata**.
-A parser is responsible for reading raw files (e.g., CSV, Excel, JSON, XML) and transforming them into the masterdata format defined in **bam-masterdata**.
+This guide explains how to create a custom parser that reads raw files (CSV, Excel, JSON, XML, etc) and transforms them into the `bam-masterdata` format. By following these steps, your parser can be integrated into the Data Store workflow and used in the [Parser app](parser_app.md).
 This allows you to bring custom or third-party data sources into the existing masterdata workflows without manual conversion.
 
-### Requirements
-
-To follow this guide, you will need:
-
-- **Python ≥ 3.10** installed
-- Access to the **bam-masterdata** repository or package
-- Basic Python knowledge (functions, classes, error handling)
-- A working development environment (e.g., VS Code, PyCharm, or terminal + editor)
-- Installed dependencies via:
-```bash
-  pip install .
-```
-- (Optional) knowledge using `pytest` to validate your parser implementation
-
-## Getting the Structure
-
-1. Go to [masterdata-parser-example](https://github.com/BAMresearch/masterdata-parser-example) and either **fork** (to keep your own version on GitHub) or **use this repository as a template** (to start a new project from it).
-
-    **Option A: Fork**
-
-    * Click on the **Fork** button in the top right.
-    * Choose where to host the fork (your profile or an organization).
-    * (Optional) Give it a new name and description.
-    * Confirm with **Create fork**.
-    * 👉 More details in the GitHub docs: [Fork a repo](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo)
-
-    **Option B: Use as Template**
-
-    * Click on the button **Use this template** and select **Create a new repository**.
-    * In the dialog, choose:
-        * **Owner** (your profile or an organization, e.g. *BAMResearch*)
-        * **Repository name** (e.g. `masterdata-parser-instrumentA`)
-        * **Short description**
-        * **Visibility**: *Public*
-        * 👉 More details in the GitHub docs: [Creating a repository from a template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template)
-
-2. Create a new folder where you want your parser project to live.
-   *(Example: `mkdir ~/projects/my-parser`)*
-
-3. Inside that folder, clone your forked or newly created repository:
-```sh
-git clone [your repository link]
-```
-
-4. After cloning, you should see a folder structure like this:
-
-```sh
-[your repo name]
-├── LICENSE
-├── pyproject.toml
-├── README.md
-├── src
-│   └── masterdata_parser_example
-│       ├── __init__.py
-│       ├── parser.py
-│       └── _version.py
-└── tests
-    ├── __init__.py
-    ├── conftest.py
-    └── test_parser.py
-```
-
-* `src/` → contains the parser package code
-* `tests/` → contains test files to check your parser works correctly
-* `pyproject.toml` → defines dependencies and project configuration
-* `README.md` → instructions and documentation
+!!! note "Prerequisites"
+    - **Python ≥ 3.10** installed
+    - Knowledge of the **bam-masterdata** schema definitions in [`bam_masterdata/datamodel/`](https://github.com/BAMresearch/bam-masterdata/tree/main/bam_masterdata/datamodel)
 
 ---
 
-### Setting up a Virtual Environment
 
-It is recommended to create a virtual environment named `.venv` (already included in `.gitignore`) to manage dependencies.
+## Use the GitHub parser example
+1. Go to [masterdata-parser-example](https://github.com/BAMresearch/masterdata-parser-example).
+2. Either **fork** it (keep your own version) or **use it as a template** to start a new repository.
+3. Clone your fork/template locally:
+    ```sh
+    git clone [your repository link]
+    ```
+4. Verify the folder structure includes `src/`, `tests/`, `pyproject.toml`, and `README.md`:
+    ```sh
+    [your repo name]
+    ├── LICENSE
+    ├── pyproject.toml
+    ├── README.md
+    ├── src
+    │   └── masterdata_parser_example
+    │       ├── __init__.py
+    │       ├── parser.py
+    │       └── _version.py
+    └── tests
+        ├── __init__.py
+        ├── conftest.py
+        └── test_parser.py
+    ```
 
-`cd [your repo name]`
+    * `src/` → contains the parser package code
+    * `tests/` → contains test files to check your parser works correctly
+    * `pyproject.toml` → defines dependencies and project configuration
+    * `README.md` → instructions and documentation
 
-* **Using venv:**
 
+??? tip "Forking or using the template"
+    You can read more details in the GitHub docs on [forking a repository](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) and on [creating a repository from a template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
+
+    Either way, you should end up with your own repository in which you can work on the definition and logic behind the parser.
+
+## Set up a Virtual Environment
+
+It is recommended to create a virtual environment named `.venv` (already included in `.gitignore`) to manage dependencies. In the terminal, do:
 ```sh
-python -m venv .venv
-source .venv/bin/activate  # on Linux/macOS
-.\.venv\Scripts\activate  # on Windows
+cd [your repo name]
 ```
 
-* **Using conda:**
+You have two options to create a virtual environment:
 
-```sh
-conda create --prefix .venv python=3.10
-conda activate .venv
-```
+1. Using venv
+    ```sh
+    python -m venv .venv
+    source .venv/bin/activate  # on Linux/macOS
+    .\.venv\Scripts\activate  # on Windows
+    ```
+2. Using conda
+    ```sh
+    conda create --prefix .venv python=3.10
+    conda activate .venv
+    ```
 
 Verify that everything is set up correctly by running inside the repo:
 
 ```sh
+pip install --upgrade pip
 pip install -e .
-pytest
+pytest tests
 ```
 
 You should see all tests passing before you start customizing.
 
-## Choosing a Name
+??? tip "Faster pip installation"
+    We recommend installing `uv` before installing the package by doing:
+    ```sh
+    pip install --upgrade pip
+    pip install uv
+    uv pip install -e .
+    ```
 
-Since everything in the template project is named `masterdata_parser_example`, you will need to replace that with your own parser name.
+
+## Modify the project structure and files
+
+Since everything in the template project is named `masterdata_parser_example` and derivates, you will need to replace that with your own parser name.
 This ensures that your parser has a unique and consistent package name.
 
----
+For the purpose of this guide, we will rename everything using a ficticious code name _SupercodeX_.
 
-1. **In the cloned project folder**
+??? tip "Python naming conventions"
+    - **Packages / modules:** lowercase, underscores allowed (e.g., `my_parser`)
+    - **Classes:** CapWords / PascalCase (e.g., `MyParser`)
+    - **Variables / functions:** lowercase with underscores (e.g., `file_name`, `parse_file`)
 
-    Locate and open the pyproject.toml
+    See the official Python style guide: [PEP 8 – Naming Conventions](https://peps.python.org/pep-0008/#naming-conventions)
 
-2. **Update the `pyproject.toml`**
+### Rename project folder and parser class
 
-    * Search for all occurrences of `masterdata_parser_example`.
-    * Replace them with your chosen name, preferably in the format:
+1. Modify the `src` package name from `masterdata_parser_example` to your package name (e.g., `supercode_x`). This will affect on how your users install the package later on by doing `pip install` (e.g., `pip install supercode_x`).
+2. Update in the `pyproject.toml` all occurrences of `masterdata_parser_example` to the new package name (e.g., `supercode_x`).
+3. Update the `[project]` section in `pyproject.toml` with your specific information.
+4. Go to `src/supercode_x/parser.py` and change the class name from `MasterdataParserExample` to your case (`SupercodeXParser`).
+5. Update importing this class in `src/supercode_x/__init__.py` and `tests/conftest.py`.
+6. Update the entry point dictionary in `src/supercode_x/__init__.py`.
+7. Verify that the project is still working by running `pytest tests`. If everything is good, the testing should pass.
 
-     ```
-     [yourparsername_parser]
-     ```
+### Rename entry point
 
-    * As of *05.09*, there are **5 occurrences** in total.
-    * ⚠️ **Important**: 2 of them are concatenated with `_entry_point`.
-     Keep the `_entry_point` part, e.g.:
-
-     ```
-     [yourparsername_parser]_entry_point
-     ```
-
-3. **Rename the source folder**
-   In the structure below:
-   ```sh
-   [your repo name]
-   ├── src
-   │   └── masterdata_parser_example
-   ```
-   Rename `masterdata_parser_example` to [yourparsername_parser], for example:
-   ```sh
-   [your repo name]
-   ├── src
-   │   └── yourparsername_parser
-   ```
-   ✅ Use **lowercase** names with underscores if needed (e.g., `csv_parser`, `supplierdata_parser`).
-
-4. **Update the `__init__.py`**
-   Inside your renamed folder, open `__init__.py` and replace:
-   ```python
-   masterdata_parser_example_entry_point
-   ```
-    with:
-   ```python
-   [yourparsername_parser]_entry_point
-   ```
-
-5. **Update the `conftest.py`**
-   Find the conftest file in the test folder
-   ```sh
-   [your repo name]
-   ├── tests
-   │   └── conftest.py
-   ```
-   And change the folder name in the import to:
-     ```python
-     from [yourparsername_parser].parser import MasterdataParserExample
-     ```
----
-
-### Tips
-
-* Stick to Python package naming conventions:
-
-  * lowercase only
-  * use `_` instead of `-`
-  * avoid spaces or special characters
-
-* After renaming, run the following to check everything still works:
-  ```sh
-  pip install -e .
-  pytest
-  ```
-
-  All tests should still pass — if not, double-check for missed occurrences of `masterdata_parser_example`.
+1. Go to `src/supercode_x/__init__.py`.
+2. Modify `masterdata_parser_example_entry_point` for your new entry point variable name (e.g., `supercode_x_entry_point`).
+3. Update in the `pyproject.toml` all occurrences of `masterdata_parser_example_entry_point` to the new entry point name  (e.g., `supercode_x_entry_point`).
 
 
-## Creating the Parser Class
+## Add parser logic
 
-This section will guide you through creating your own parser class for your specific data type.
+Open the `src/.../parser.py` file. After renaming your parser class to `SupercodeXParser`, you should have:
+```python
+from bam_masterdata.datamodel.object_types import ExperimentalStep
+from bam_masterdata.parsing import AbstractParser
 
----
 
-### Steps
-
-1. **Open the `parser.py` file** under:
-
-```sh
-[your repo name]
-└── src
-    └── '[yourparsername]'
-        └── parser.py
+class SupercodeXParser(AbstractParser):
+    def parse(self, files, collection, logger):
+        synthesis = ExperimentalStep(name="Synthesis")
+        synthesis_id = collection.add(synthesis)
+        measurement = ExperimentalStep(name="Measurement")
+        measurement_id = collection.add(measurement)
+        _ = collection.add_relationship(synthesis_id, measurement_id)
+        logger.info(
+            "Parsing finished: Added examples synthesis and measurement experimental steps."
+        )
 ```
-2. **Modify imports**
 
-   * Keep `from bam_masterdata.parsing import AbstractParser` unchanged.
-   * Change the object type import to the one relevant for your parser. For example:
+Writing a parser logic is composed of a series of steps:
+1. The object type classes imported from `bam_masterdata` (in the example above, `ExperimentalStep`).
+2. Open the `files` with Python and read metainformation from them.
+3. Instantiate object types and add the metainformation to the corresponding fields.
+4. Add those object types and their relationships to `collection`.
 
-   ```python
-   from bam_masterdata.datamodel.object_types import Sem
-   ```
+Optionally, you can add log messages (`info`, `warning`, `error`, or `critical`) to debug the logic of your parser.
 
-   **Note:** Available data types can be found [here](https://github.com/BAMresearch/bam-masterdata/blob/main/bam_masterdata/datamodel/object_types.py)
 
-3. **Define the parser class**
+### Example
 
-    * The class should inherit from `AbstractParser` and implement the `parse` method:
+As an example, imagine we are expecting to pass a `super.json` file to our `SupercodeXParser` to read certain metadata. The file contents are:
+```json
+{
+    "program_name": "SupercodeX",
+    "program_version": "1.1.0",
+}
+```
 
-     ```python
-     class [ParserClassName](AbstractParser):
-         def parse(self, files, collection, logger):
-             ...  # parse data from file
-             ...  # create object type instances
-             ...  # add object type instances to collection
-	     ...  # log successful parsing in the logger
-     ```
+We recommend moving files in which you are testing the parser to a `tests/data/` folder.
 
-4. **Working with Object Types**
 
-    * Create instances of the object type you imported. For example:
+#### Step 1: Import necessary classes
 
-     ```python
-     Sem(name="SemExampleName", ...)
-     ```
+At the top of `parser.py`, ensure you import:
+```python
+# Step 1: import necessary classes
+import json
+from bam_masterdata.datamodel.object_types import SoftwareCode
+from bam_masterdata.parsing import AbstractParser
+```
 
-    * The accepted values for each object type are listed in [bam-masterdata](https://github.com/BAMresearch/bam-masterdata/blob/main/bam_masterdata/datamodel/object_types.py)
-    * If you want to read more details about using Object Types, go to [Use Object Types](useobjecttypes.md)
+#### Step 2: Modify the parse() method
 
-5. **Add objects to the collection**
+1. Iterate over the `files` argument.
+2. Open each file and read the JSON content.
+3. Optionally, log progress using `logger.info()`.
 
-    * Use the `collection.add()` method to register each object instance, e.g.:
+```python
+# Step 1: import necessary classes
+import json
+from bam_masterdata.datamodel.object_types import SoftwareCode
+from bam_masterdata.parsing import AbstractParser
 
-     ```python
-     object_id = collection.add(Sem("$name"="SemExampleName", ...))
-     ```
 
-    * This returns an unique object id, which is used to create relationships between objects.
-     ```python
-     object_id1 = collection.add(Sem("$name"="SemExampleName1", ...))
-     object_id2 = collection.add(Sem("$name"="SemExampleName2", ...))
-     # Establish a parent-child relationship
-     collection.add_relationship(object_id1, object_id2)
-     # object_id1 is the parent of object_id2
-     ```
+class SupercodeXParser(AbstractParser):
+    def parse(self, files, collection, logger):
+        for file_path in files:
+            # Step 2: read files metainformation
+            logger.info(f"Parsing file: {file_path}")
+            with open(file_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+```
 
----
+
+#### Step 3: Instantiate objects and add metadata
+
+1. Instantiate `SoftwareCode` objects and fill in the fields with the JSON data.
+2. Optionally, log progress using `logger.info()`.
+
+```python
+# Step 1: import necessary classes
+import json
+from bam_masterdata.datamodel.object_types import SoftwareCode
+from bam_masterdata.parsing import AbstractParser
+
+
+class SupercodeXParser(AbstractParser):
+    def parse(self, files, collection, logger):
+        for file_path in files:
+            # Step 2: read files metainformation
+            logger.info(f"Parsing file: {file_path}")
+            with open(file_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+
+            # Step 3: Instantiate and populate classes metadata
+            software = SoftwareCode(
+                name=data.get("program_name"),
+                version=data.get("program_version")
+            )
+```
+
+#### Step 4: Add objects and relationships to the collection
+
+1. Add the object to the collection using `collection.add(object)`.
+2. You can also add relationships between objects using `collection.relationships(parent_id, child_id)`.
+
+```python
+# Step 1: import necessary classes
+import json
+from bam_masterdata.datamodel.object_types import SoftwareCode
+from bam_masterdata.parsing import AbstractParser
+
+
+class SupercodeXParser(AbstractParser):
+    def parse(self, files, collection, logger):
+        for file_path in files:
+            # Step 2: read files metainformation
+            logger.info(f"Parsing file: {file_path}")
+            with open(file_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+
+            # Step 3: Instantiate and populate classes metadata
+            software = SoftwareCode(
+                name=data.get("program_name"),
+                version=data.get("program_version")
+            )
+
+            # Step 4: Add to collection
+            software_id = collection.add(software)
+            logger.info(f"Added SoftwareCode with ID {software_id}")
+```
+
 
 ### Tips
 
-* Keep your parser class focused on a single file type or data source for clarity.
-* Use the logger to provide useful messages during parsing:
-
+* Use the logger to provide useful messages during parsing, but bear in mind this can clutter the app if you plan to parse hundreds or more files.
   ```python
   logger.info("Parsing file XYZ")
   ```
-
-* Test your parser incrementally by adding one object at a time to the collection and verifying results.
-
-## Updating the entry\_points
-
-This section explains how to register your parser so that it can be discovered and used by bam-masterdata.
-
----
-
-### Steps
-
-1. **Open `__init__.py`** in:
-   ```sh
-   [your repo name]
-   └── src
-       └── '[yourparsername]'
-            └── __init__.py
-   ```
-
-2. **Update the parser import**
-    * Change the import line from:
-     ```python
-     from .parser import MasterdataParserExample
-     ```
-     to:
-     ```python
-     from .parser import [ParserClassName]
-     ```
-
-3. **Update the entry\_points dictionary**
-    * Update the dictionary values to reflect your parser:
-      ```python
-      entry_points = {
-          "name": "[YourParserName]",
-          "description": "[Your parser's description]",
-          "parser_class": [ParserClassName]
-      }
-      ```
-    * `"name"` → the display name of your parser
-    * `"description"` → a short description of what your parser does
-    * `"parser_class"` → the class you just implemented in `parser.py`
-
-4. **Update the tests folder**
-    * In the `conftest.py` change the example class in the import and in the  parser() function to your [ParserClassName]
-    * In the `test_parser.py` from the first `assert` statement onward, you should write your own tests to verify the expected behavior of your parser. Customize these assertions to check that the objects created by your parser have the correct attributes, relationships, and data according to your specific requirements and input files.  Feel free to add more assertions or test cases to cover edge cases, error handling, and any special logic
+* Test your parser incrementally by adding one object at a time to the collection and verifying results. You can test this by modifying the `tests/test_parser.py` testing file.
 
 
----
-
-### Tips
-
-* Keep the description concise but informative.
-* Ensure the parser class name matches exactly with the class in `parser.py` to avoid import errors.
-* After updating, run `pip install -e .` and any relevant tests to confirm the parser is correctly registered.
-
-
-
----
-
-## Final Steps
+## Final steps
 
 You now have all the core components of your custom parser in place:
 
-- Project structure set up
-- Package renamed to your parser name
-- Parser class created
-- Entry points updated
+- Project structure set up.
+- Package renamed to your parser name.
+- Parser class created and logic accepting the metainformation of the specific files.
+- Entry points updated.
 
 ### What’s left?
 
 1. **Update `pyproject.toml`**
     - Make sure the package name, version, and entry points match your parser.
     - Adjust dependencies if your parser requires additional libraries (e.g., `pandas`).
-
 2. **Update the `README.md`**
-    - Replace the template content with a description of your parser.
+    - Replace the `README.md` content with a description of your parser.
     - Document how to install it and how to run it.
-    - Optionally, add usage examples for clarity.
-
-3. **Create a new Release in GitHub**
+3. **Create a new release in GitHub**
     - Go to your repository on GitHub.
     - Click on the **Releases** tab (or navigate to `https://github.com/[your-username]/[your-repo]/releases`).
     - Click **Create a new release**.
     - Choose a tag version (e.g., `v1.0.0`) and add a release title.
     - Optionally, add release notes describing changes or new features.
     - Click **Publish release** to make it available.
----
 
-✅ At this point, your parser should be ready to test and integrate into the bam-masterdata workflow.
 
 ## Updating the Parser
 
 Once your parser is implemented and tested, future updates are usually minimal and follow a clear process.
 
-### Steps for Updating
-
 1. **Modify only `parser.py`**
     - All changes should be contained within your parser class and helper functions.
     - Avoid renaming packages or changing the project structure unless absolutely necessary.
 
-2. **Notify the Admin for a New Release**
+2. **Notify the Admin for a new release**
     - After updates, inform the administrator or the person responsible for releases.
     - Provide details of the changes and any new dependencies.
-
----
-
-### Tips
-
-* Keep your parser backward-compatible if possible, so existing workflows continue to work.
-* Use version control effectively: commit changes with clear messages like `Updated parser.py: fixed SEM object parsing`.
-* Test your updated parser locally before requesting a new release.
