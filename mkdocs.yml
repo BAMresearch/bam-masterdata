@@ -7,18 +7,14 @@ nav:
   - Tutorial: tutorials/tutorial.md
   - How-to guides:
     - Overview: howtos/overview.md
-    - Parsing: howtos/parsing.md
-    - Create New Parser: howtos/newparsers.md
-    - Use Object Types: howtos/useobjecttypes.md
+    - Parsing:
+      - Use the Parser app: howtos/parsing/parser_app.md
+      - Create new parsers: howtos/parsing/create_new_parsers.md
+      - Use Object Types: howtos/parsing/useobjecttypes.md
   - Explanations:
-    - Data Store: explanations/data-store.md
-    - OpenBIS : explanations/openbis.md
-    - pyBIS : explanations/pybis.md
     - Parsing Structure: explanations/parsing-structure.md
   - References:
-    - Collection: references/collection.md
-    - Controlled Vocabulary: references/controlled-vocabulary.md
-    - Dataset: references/dataset.md
+    - Glossary: references/glossary.md
 theme:
   name: material
   palette:

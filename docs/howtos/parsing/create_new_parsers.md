@@ -1,4 +1,4 @@
-# How-To: Creating a new Parser for bam-masterdata
+# How-to: Create new parsers
 
 ### Goal:
 
