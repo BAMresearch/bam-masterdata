@@ -17,7 +17,7 @@ This design provides clarity, maintainability, and flexibility. It allows the ap
 <div class="click-zoom">
     <label>
         <input type="checkbox">
-        <img src="/assets/parsing/ETLParsingNewColors.drawio.svg" alt="ETL parsing process." width="70%" title="Click to zoom in">
+        <img src="../../assets/parsing/ETLParsingNewColors.drawio.svg" alt="ETL parsing process." width="70%" title="Click to zoom in">
     </label>
 </div>
 
