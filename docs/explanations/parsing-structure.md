@@ -14,7 +14,13 @@ The idea behind this architecture is the **separation of concerns**. Instead of 
 
 This design provides clarity, maintainability, and flexibility. It allows the app to support many different test formats and research workflows without constantly rewriting the underlying logic.
 
-![ETL Structure](../assets/parsing_pictures/ETLParsingNewColors.drawio.svg){ width=600 }
+<div class="click-zoom">
+    <label>
+        <input type="checkbox">
+        <img src="/assets/parsing/ETLParsingNewColors.drawio.svg" alt="ETL parsing process." width="50%" title="Click to zoom in">
+    </label>
+</div>
+
 ---
 
 ## How it works
