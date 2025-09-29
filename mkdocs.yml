@@ -12,7 +12,7 @@ nav:
       - Create new parsers: howtos/parsing/create_new_parsers.md
       - Work wik Object Types: howtos/parsing/use_object_types.md
   - Explanations:
-    - Parsing Structure: explanations/parsing-structure.md
+    - Parsing Structure: explanations/parsing_structure.md
     - Schema Definitions: explanations/schema_defs.md
   - References:
     - Glossary: references/glossary.md
