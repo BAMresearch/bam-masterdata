@@ -4,8 +4,9 @@ site_author: BAM Data Store
 repo_url: https://github.com/BAMresearch/bam-masterdata
 nav:
   - Home: index.md
-  - Tutorial: tutorials/tutorial.md
-  - How-to guides:
+  - Tutorials:
+    - Getting Started: tutorials/tutorial.md
+  - How-to Guides:
     - Overview: howtos/overview.md
     - Parsing:
       - Use the Parser app: howtos/parsing/parser_app.md
@@ -16,6 +17,11 @@ nav:
     - Schema Definitions: explanations/schema_defs.md
   - References:
     - Glossary: references/glossary.md
+    - API Reference: references/api.md
+    - Object Types: references/object-types.md
+    - Dataset Types: references/dataset.md
+    - Collection Types: references/collection.md
+    - Controlled Vocabularies: references/controlled-vocabulary.md
 theme:
   name: material
   palette:
