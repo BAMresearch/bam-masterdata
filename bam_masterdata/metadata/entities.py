@@ -70,17 +70,25 @@ class BaseEntity(BaseModel):
 
     def __repr__(self):
         # Filter for attributes that are `PropertyTypeAssignment` and set to a finite value
+        class_prop_name = None
         fields = []
         for key, metadata in self._property_metadata.items():
             if isinstance(metadata, PropertyTypeAssignment):
                 value = getattr(self, key, None)
                 # Only include set attributes
                 if value is not None and not isinstance(value, PropertyTypeAssignment):
+                    if key == "name":
+                        class_prop_name = value
                     fields.append(f"{key}={repr(value)}")
 
         # Format the output
-        class_name = self.__class__.__name__
+        class_name = self.cls_name
+        if class_prop_name:  # adding `name` if available
+            class_name = f"{class_prop_name}:{class_name}"
         return f"{class_name}({', '.join(fields)})"
+
+    # Overwritting the __str__ method to use the same representation as __repr__
+    __str__ = __repr__
 
     @property
     def cls_name(self) -> str:
