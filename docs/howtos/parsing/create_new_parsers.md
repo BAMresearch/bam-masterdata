@@ -5,7 +5,7 @@ This allows you to bring custom or third-party data sources into the existing ma
 
 !!! note "Prerequisites"
     - **Python ≥ 3.10** installed
-    - Knowledge of the **bam-masterdata** schema definitions in [`bam_masterdata/datamodel/`](https://github.com/BAMresearch/bam-masterdata/tree/main/bam_masterdata/datamodel). Learn more in [Work with Object Types](use_object_types.md).
+    - Knowledge of the **bam-masterdata** schema definitions in [`bam_masterdata/datamodel/`](https://github.com/BAMresearch/bam-masterdata/tree/main/bam_masterdata/datamodel). Learn more in [Schema Definitions](../../explanations/schema_defs.md).
 
 ---
 

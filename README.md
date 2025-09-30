@@ -125,4 +125,5 @@ The main code developers are:
 | Name                | E-mail                                                       |
 | ------------------- | ------------------------------------------------------------ |
 | Carlos Madariaga    | [carlos.madariaga@bam.de](mailto:carlos.madariaga@bam.de)       |
+| Lucas Zimmermann    | [lucas.zimmermann@bam.de](mailto:lucas.zimmermann@bam.de)       |
 | Dr. Jose M. Pizarro | [jose.pizarro-blanco@bam.de](mailto:jose.pizarro-blanco@bam.de) |
