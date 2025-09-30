@@ -87,7 +87,7 @@ class BaseEntity(BaseModel):
             class_name = f"{class_prop_name}:{class_name}"
         return f"{class_name}({', '.join(fields)})"
 
-    # Overwritting the __str__ method to use the same representation as __repr__
+    # Overwriting the __str__ method to use the same representation as __repr__
     __str__ = __repr__
 
     @property
