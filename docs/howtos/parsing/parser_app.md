@@ -1,6 +1,6 @@
 # How-to: Use the Parser app
 
-This guide explains how to use the Parser app in your browser to upload files, run the parser, and transfer parsed metadata to the Data Store. It is intended for users who want a step-by-step walkthrough of the main app functions.
+This how-to guide explains how to use the Parser app in your browser to upload files, run the parser, and transfer parsed metadata to the Data Store. It is intended for users who want a step-by-step walkthrough of the main app functions.
 
 !!! note "Prerequisites"
     <!-- List here any prerequisites needed to deploy or understand the app (e.g., login credentials, access to Spaces, supported file formats). -->
