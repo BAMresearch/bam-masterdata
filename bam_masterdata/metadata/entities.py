@@ -288,9 +288,12 @@ class BaseEntity(BaseModel):
         data: dict = {}
         for key in self._property_metadata.keys():
             try:
-                data[key] = getattr(self, key)
+                value = getattr(self, key)
             except AttributeError:
                 continue
+            if isinstance(value, PropertyTypeAssignment):
+                continue
+            data[key] = value
         return json.dumps(data, indent=indent)
 
     def to_dict(self) -> dict:
