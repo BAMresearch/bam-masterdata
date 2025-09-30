@@ -18,10 +18,6 @@ nav:
   - References:
     - Glossary: references/glossary.md
     - API Reference: references/api.md
-    - Object Types: references/object-types.md
-    - Dataset Types: references/dataset.md
-    - Collection Types: references/collection.md
-    - Controlled Vocabularies: references/controlled-vocabulary.md
 theme:
   name: material
   palette:
