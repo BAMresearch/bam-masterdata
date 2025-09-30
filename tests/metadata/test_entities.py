@@ -45,7 +45,7 @@ class TestBaseEntity:
         entity = generate_base_entity()
         assert repr(entity) == "MockedEntity()"
         entity.name = "Test"
-        assert repr(entity) == "MockedEntity(name='Test')"
+        assert repr(entity) == "Test:MockedEntity(name='Test')"
 
     def test_to_json(self):
         """Test the method `to_json` from the class `BaseEntity`."""
@@ -222,15 +222,15 @@ class TestCollectionType:
         obj_id = collection.add(generate_object_type())
         assert (
             repr(collection)
-            == f"CollectionType(attached_objects={{'{obj_id}': MockedObjectType(name='Mandatory name')}}, relationships={{}})"
+            == f"CollectionType(attached_objects={{'{obj_id}': Mandatory name:MockedObjectType(name='Mandatory name')}}, relationships={{}})"
         )
 
         obj_id_2 = collection.add(generate_object_type())
         relation_id = collection.add_relationship(obj_id, obj_id_2)
         assert (
             repr(collection)
-            == f"CollectionType(attached_objects={{'{obj_id}': MockedObjectType(name='Mandatory name'), "
-            f"'{obj_id_2}': MockedObjectType(name='Mandatory name')}}, relationships={{'{relation_id}': ('{obj_id}', '{obj_id_2}')}})"
+            == f"CollectionType(attached_objects={{'{obj_id}': Mandatory name:MockedObjectType(name='Mandatory name'), "
+            f"'{obj_id_2}': Mandatory name:MockedObjectType(name='Mandatory name')}}, relationships={{'{relation_id}': ('{obj_id}', '{obj_id_2}')}})"
         )
 
     def test_add(self):
