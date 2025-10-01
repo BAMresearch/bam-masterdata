@@ -7,7 +7,6 @@ nav:
   - Tutorials:
     - Getting Started: tutorials/tutorial.md
   - How-to Guides:
-    # - Overview: howtos/overview.md
     - Parsing:
       - Use the Parser app: howtos/parsing/parser_app.md
       - Create new parsers: howtos/parsing/create_new_parsers.md
@@ -22,16 +21,6 @@ theme:
   palette:
     primary: custom
     accent: custom
-    # - scheme: default
-    # - media: "(prefers-color-scheme: light)"
-    #   toggle:
-    #     icon: material/weather-sunny
-    #     name: Switch to light mode
-    # - scheme: slate
-    # - media: "(prefers-color-scheme: dark)"
-      # toggle:
-      #   icon: material/weather-night
-      #   name: Switch to dark mode
   logo: assets/bammasterdata_blue_transparent.png
   favicon: assets/bammasterdata_blue_transparent.png
   features:

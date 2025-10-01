@@ -47,7 +47,7 @@ source .venv/bin/activate
 
 **Using conda:**
 ```bash
-conda create --name .venv python=3.12
+conda create --name .venv python=3.10  # or any version 3.10 <= python <= 3.12
 conda activate .venv
 ```
 
