@@ -46,7 +46,7 @@ class SourceLoader:
         else:
             raise NotImplementedError(f"Source type {self.source_type} not supported.")
 
-    def entities_to_json(self):
+    def entities_to_json(self) -> dict:
         """
         Transforms the dictionary of entities returned by the Excel extractor into a dictionary in JSON format for later check.
 
@@ -158,9 +158,3 @@ class SourceLoader:
                 transformed_data[entity_type][entity_name] = transformed_entity
 
         return transformed_data
-
-        # # Save the transformed JSON
-        # with open(output_json_path, "w", encoding="utf-8") as json_file:
-        #     json.dump(transformed_data, json_file, indent=2, ensure_ascii=False)
-
-        # print(f"Transformed JSON saved at: {output_json_path}")
