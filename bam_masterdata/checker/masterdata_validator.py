@@ -13,7 +13,7 @@ class MasterdataValidator:
         Args:
             new_entities (dict): The incoming datamodel.
             current_model (dict): The existing datamodel.
-            rules_path (str): Path to the validation rules JSON file.
+            validation_rules (dict): The validation rules to apply.
         """
         self.new_entities = new_entities
         self.current_model = current_model

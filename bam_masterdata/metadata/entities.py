@@ -491,6 +491,77 @@ class BaseEntity(BaseModel):
             graph.add((entity_uri, RDFS.subClassOf, restriction))
 
 
+class VocabularyType(BaseEntity):
+    """
+    Base class used to define vocabulary types. All vocabulary types must inherit from this class. The
+    vocabulary types are defined in the module `bam_masterdata/vocabulary_types.py`.
+
+    The `VocabularyType` class contains a list of all `terms` defined for a `VocabularyType`, for
+    internally represent the model in other formats (e.g., JSON or Excel).
+    """
+
+    model_config = ConfigDict(ignored_types=(VocabularyTypeDef, VocabularyTerm))
+
+    terms: list[VocabularyTerm] = Field(
+        default=[],
+        description="""
+        List of vocabulary terms. This is useful for internal representation of the model.
+        """,
+    )
+
+    @property
+    def base_name(self) -> str:
+        """
+        Returns the entity name of the class as a string.
+        """
+        return "VocabularyType"
+
+    @model_validator(mode="after")
+    @classmethod
+    def model_validator_after_init(cls, data: Any) -> Any:
+        """
+        Validate the model after instantiation of the class.
+
+        Args:
+            data (Any): The data containing the fields values to validate.
+
+        Returns:
+            Any: The data with the validated fields.
+        """
+        # Add all the vocabulary terms defined in the vocabulary type to the `terms` list.
+        # TODO check if the order is properly assigned
+        for base in cls.__mro__:
+            for attr_name, attr_val in base.__dict__.items():
+                if isinstance(attr_val, VocabularyTerm):
+                    data.terms.append(attr_val)
+
+        return data
+
+    def to_openbis(
+        self,
+        logger: "BoundLoggerLazyProxy",
+        openbis: "Openbis",
+        type: str = "vocabulary",
+        type_map: dict = VOCABULARY_TYPE_MAP,
+    ) -> None:
+        def get_type(openbis: "Openbis", code: str):
+            return openbis.get_vocabulary(code)
+
+        def create_type(openbis: "Openbis", defs: VocabularyTypeDef, terms: list):
+            return openbis.new_vocabulary(
+                code=defs.code, description=defs.description, terms=terms
+            )
+
+        super()._to_openbis(
+            logger=logger,
+            openbis=openbis,
+            type=type,
+            type_map=type_map,
+            get_type=get_type,
+            create_type=create_type,
+        )
+
+
 class ObjectType(BaseEntity):
     """
     Base class used to define object types. All object types must inherit from this class. The
@@ -607,7 +678,9 @@ class ObjectType(BaseEntity):
             f"Key '{key}' not found in any property_metadata of {type(self).__name__} or its bases."
         )
 
-    def get_vocabulary_class(self, vocabulary_code: str, vocab_path: str):
+    def get_vocabulary_class(
+        self, vocabulary_code: str, vocab_path: str
+    ) -> VocabularyType | None:
         """
         Get the class instance of the vocabulary type defined by `vocabulary_code` in the Python module
         specified by `vocab_path`.
@@ -617,7 +690,7 @@ class ObjectType(BaseEntity):
             vocab_path (str): Path to the module containing the vocabulary type definitions.
 
         Returns:
-            The class of the vocabulary type if found, otherwise None.
+            VocabularyType | None: The class of the vocabulary type if found, otherwise None.
         """
         module = import_module(vocab_path)
         vocabulary_class = None
@@ -722,77 +795,6 @@ def generate_object_relationship_id(parent_id: str, child_id: str) -> str:
         str: A unique identifier string for the relationship, combining the parent and child IDs.
     """
     return f"{parent_id}>>{child_id}"
-
-
-class VocabularyType(BaseEntity):
-    """
-    Base class used to define vocabulary types. All vocabulary types must inherit from this class. The
-    vocabulary types are defined in the module `bam_masterdata/vocabulary_types.py`.
-
-    The `VocabularyType` class contains a list of all `terms` defined for a `VocabularyType`, for
-    internally represent the model in other formats (e.g., JSON or Excel).
-    """
-
-    model_config = ConfigDict(ignored_types=(VocabularyTypeDef, VocabularyTerm))
-
-    terms: list[VocabularyTerm] = Field(
-        default=[],
-        description="""
-        List of vocabulary terms. This is useful for internal representation of the model.
-        """,
-    )
-
-    @property
-    def base_name(self) -> str:
-        """
-        Returns the entity name of the class as a string.
-        """
-        return "VocabularyType"
-
-    @model_validator(mode="after")
-    @classmethod
-    def model_validator_after_init(cls, data: Any) -> Any:
-        """
-        Validate the model after instantiation of the class.
-
-        Args:
-            data (Any): The data containing the fields values to validate.
-
-        Returns:
-            Any: The data with the validated fields.
-        """
-        # Add all the vocabulary terms defined in the vocabulary type to the `terms` list.
-        # TODO check if the order is properly assigned
-        for base in cls.__mro__:
-            for attr_name, attr_val in base.__dict__.items():
-                if isinstance(attr_val, VocabularyTerm):
-                    data.terms.append(attr_val)
-
-        return data
-
-    def to_openbis(
-        self,
-        logger: "BoundLoggerLazyProxy",
-        openbis: "Openbis",
-        type: str = "vocabulary",
-        type_map: dict = VOCABULARY_TYPE_MAP,
-    ) -> None:
-        def get_type(openbis: "Openbis", code: str):
-            return openbis.get_vocabulary(code)
-
-        def create_type(openbis: "Openbis", defs: VocabularyTypeDef, terms: list):
-            return openbis.new_vocabulary(
-                code=defs.code, description=defs.description, terms=terms
-            )
-
-        super()._to_openbis(
-            logger=logger,
-            openbis=openbis,
-            type=type,
-            type_map=type_map,
-            get_type=get_type,
-            create_type=create_type,
-        )
 
 
 class CollectionType(ObjectType):

@@ -644,11 +644,8 @@ class MasterdataExcelExtractor:
         """
         Extracts entities from an Excel file and returns them as a dictionary.
 
-        Args:
-            output_directory: The directory to store the output files.
-
         Returns:
-            A dictionary where each key is a normalized sheet name and the value is a dictionary
+            dict[str, dict[str, Any]]: A dictionary where each key is a normalized sheet name and the value is a dictionary
             containing the extracted entities. Returns an empty dictionary if all sheets are empty.
         """
         sheets_dict: dict[str, dict[str, Any]] = {}

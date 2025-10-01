@@ -58,7 +58,6 @@ class MasterdataCodeGenerator:
             class_names (dict): A dictionary with the class names of the entities.
             default (str): The default parent class if the parent class does not exist.
             lines (list): A list of strings to be printed to the Python module.
-            logger (BoundLoggerLazyProxy): The logger to log messages.
         Returns:
             tuple: The parent code, parent class, and class name of the entity.
         """
@@ -84,7 +83,7 @@ class MasterdataCodeGenerator:
         Get the object code (or vocabulary code) used for reference for the assigned property with `prop_code`.
 
         Args:
-            prop_code (str): The code of the assigned property.
+            prop_data (dict): The data information for the property as obtained from openBIS.
 
         Returns:
             str: The object/vocabulary code used for reference for the assigned property.
