@@ -75,6 +75,7 @@ def test_delete_and_create_dir(
             "./tests/utils",
             [
                 "./tests/utils/test_paths.py",
+                "./tests/utils/test_users.py",
                 "./tests/utils/test_utils.py",
             ],
             None,
