@@ -42,6 +42,13 @@ class BaseEntity(BaseModel):
     adding new methods that are useful for interfacing with openBIS.
     """
 
+    code: str | None = Field(
+        default=None,
+        description="""
+        Code of the entity to assign as permanent identifier in openBIS.
+        """,
+    )
+
     def __init__(self, **kwargs):
         super().__init__()
 
