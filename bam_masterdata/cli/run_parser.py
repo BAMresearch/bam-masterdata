@@ -56,10 +56,11 @@ def run_parser(
                 )
                 break
         # no space found
-        logger.error(
-            f"No usable Space for {openbis.username} in openBIS. Please create it first or notify an Admin."
-        )
-        return
+        if space is None:
+            logger.error(
+                f"No usable Space for {openbis.username} in openBIS. Please create it first or notify an Admin."
+            )
+            return
 
     # Get project is `project_name` already exists under the space or create a new one if it does not
     if project_name.upper() in [p.code for p in space.get_projects()]:
@@ -111,13 +112,21 @@ def run_parser(
 
         # Check if object already exists in openBIS, and if so, notify and get for updating properties
         if not object_instance.code:
-            object_openbis = openbis.new_object(
-                type=object_instance.defs.code,
-                space=space,
-                project=project,
-                collection=collection_openbis,
-                props=obj_props,
-            )
+            if not collection_name:
+                object_openbis = openbis.new_object(
+                    type=object_instance.defs.code,
+                    space=space,
+                    project=project,
+                    props=obj_props,
+                )
+            else:
+                object_openbis = openbis.new_object(
+                    type=object_instance.defs.code,
+                    space=space,
+                    project=project,
+                    collection=collection_openbis,
+                    props=obj_props,
+                )
             object_openbis.save()
         else:
             object_openbis = space.get_object(object_instance.code)
@@ -133,13 +142,20 @@ def run_parser(
             f"Object {obj_props.get('$name')} stored in openBIS collection {collection_name}."
         )
     for _, files in files_parser.items():
-        # Upload the file to openBIS
+        # Upload the files to openBIS
         try:
-            dataset = openbis.new_dataset(
-                type="RAW_DATA",
-                files=files,
-                collection=collection_openbis,
-            )
+            if not collection_name:
+                dataset = openbis.new_dataset(
+                    type="RAW_DATA",
+                    files=files,
+                    project=project,
+                )
+            else:
+                dataset = openbis.new_dataset(
+                    type="RAW_DATA",
+                    files=files,
+                    collection=collection_openbis,
+                )
             dataset.save()
         except Exception as e:
             logger.warning(f"Error uploading files {files} to openBIS: {e}")
