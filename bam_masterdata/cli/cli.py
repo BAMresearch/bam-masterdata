@@ -679,14 +679,21 @@ def run_parser(
                 continue
             obj_props[object_instance._property_metadata[key].code.lower()] = value
 
-        object_openbis = openbis.new_object(
-            type=object_instance.defs.code,
-            space=space,
-            project=project,
-            collection=collection_openbis,
-            props=obj_props,
-        )
-        object_openbis.save()
+        # Check if object already exists in openBIS, and if so, notify and get for updating properties
+        if not object_instance.code:
+            object_openbis = openbis.new_object(
+                type=object_instance.defs.code,
+                space=space,
+                project=project,
+                collection=collection_openbis,
+                props=obj_props,
+            )
+            object_openbis.save()
+        else:
+            object_openbis = space.get_object(object_instance.code)
+            click.echo(
+                f"Object {object_instance.code} already exists in openBIS, updating properties."
+            )
 
         # save local and openbis IDs to map parent-child relationships
         openbis_id_map[object_id] = object_openbis.identifier
