@@ -9,18 +9,16 @@ from pathlib import Path
 import click
 from decouple import config as environ
 from openpyxl import Workbook
-from pybis import Openbis
 from rdflib import Graph
 
 from bam_masterdata.checker import MasterdataChecker
 from bam_masterdata.cli.entities_to_excel import entities_to_excel
 from bam_masterdata.cli.entities_to_rdf import entities_to_rdf
 from bam_masterdata.cli.fill_masterdata import MasterdataCodeGenerator
+from bam_masterdata.cli.run_parser import run_parser
 from bam_masterdata.logger import logger
-from bam_masterdata.metadata.entities import CollectionType, PropertyTypeAssignment
 from bam_masterdata.metadata.entities_dict import EntitiesDict
 from bam_masterdata.openbis.login import ologin
-from bam_masterdata.parsing import AbstractParser
 from bam_masterdata.utils import (
     DATAMODEL_DIR,
     delete_and_create_dir,
@@ -585,150 +583,6 @@ def push_to_openbis(file_path, datamodel_path):
     )
 
 
-def run_parser(
-    openbis: Openbis = None,
-    files_parser: dict[AbstractParser, list[str]] = {},
-    project_name: str = "PROJECT",
-    collection_name: str = "COLLECTION",
-    space_name: str = None,
-) -> None:
-    """
-    Run the parsers on the specified files and collect the results.
-    Args:
-    login with save_token=True dont forget!!
-        files_parser (dict): A dictionary where keys are parser instances and values are lists of file paths to be parsed.
-        space (str): The space in openBIS where the entities will be stored.
-        project (str): The project in openBIS where the entities will be stored.
-        collection (str): The collection in openBIS where the entities will be stored.
-    """
-    # Ensure the space, project, and collection are set
-    if not (project_name or collection_name):
-        logger.error(
-            "The name of the project and collection must be specified for the parser to run."
-        )
-        return
-    # Ensure the files_parser is not empty
-    if not files_parser:
-        logger.error(
-            "No files or parsers to parse. Please provide valid file paths or contact an Admin to add missing parser."
-        )
-        return
-
-    # Specify the space and project for the data
-    try:
-        space = openbis.get_space(space_name)
-    except Exception:
-        space = None
-
-    if space is None:
-        # user name as default space
-        for s in openbis.get_spaces():
-            if s.code.endswith(openbis.username.upper()):
-                space = s
-                logger.warning(
-                    f"Space {space_name} does not exist in openBIS. "
-                    f"Loading data in {openbis.username}."
-                )
-                break
-
-        # no space found
-        if space is None:
-            logger.error(
-                f"No usable Space for {openbis.username}  in openBIS. Please create it first or notify an Admin."
-            )
-            return
-
-    if project_name.upper() in [p.code for p in space.get_projects()]:
-        project = space.get_project(project_name)
-    else:
-        logger.info("Replacing project code with uppercase and underscores.")
-        project = space.new_project(
-            code=project_name.replace(" ", "_").upper(),
-            description="New project created via automated parsing with `bam_masterdata`.",
-        )
-    project.save()
-
-    # Create a new pybis `COLLECTION` to store the generated objects
-    if collection_name.upper() in [c.code for c in project.get_collections()]:
-        collection_openbis = space.get_collection(
-            f"/{openbis.username}/{project_name}/{collection_name}".upper()
-        )
-    else:
-        logger.info("Replacing collection code with uppercase and underscores.")
-        collection_openbis = openbis.new_collection(
-            code=collection_name.replace(" ", "_").upper(),
-            type="COLLECTION",
-            project=project,
-        )
-    collection_openbis.save()
-
-    # Create a bam_masterdata CollectionType instance for storing parsed results
-    collection = CollectionType()
-    # Iterate over each parser and its associated files and store them in `collection`
-    for parser, files in files_parser.items():
-        parser.parse(files, collection, logger=logger)
-
-    # Map the objects added to CollectionType to objects in openBIS using pyBIS
-    openbis_id_map = {}
-    for object_id, object_instance in collection.attached_objects.items():
-        # Map PropertyTypeAssignment to pybis props dictionary
-        obj_props = {}
-        for key in object_instance._properties.keys():
-            value = getattr(object_instance, key, None)
-            if value is None or isinstance(value, PropertyTypeAssignment):
-                continue
-            obj_props[object_instance._property_metadata[key].code.lower()] = value
-
-        # Check if object already exists in openBIS, and if so, notify and get for updating properties
-        if not object_instance.code:
-            object_openbis = openbis.new_object(
-                type=object_instance.defs.code,
-                space=space,
-                project=project,
-                collection=collection_openbis,
-                props=obj_props,
-            )
-            object_openbis.save()
-        else:
-            object_openbis = space.get_object(object_instance.code)
-            click.echo(
-                f"Object {object_instance.code} already exists in openBIS, updating properties."
-            )
-
-        # save local and openbis IDs to map parent-child relationships
-        openbis_id_map[object_id] = object_openbis.identifier
-        click.echo(
-            f"Object {obj_props.get('$name')} stored in openBIS collection {collection_name}."
-        )
-    for _, files in files_parser.items():
-        # Upload the file to openBIS
-        try:
-            dataset = openbis.new_dataset(
-                type="RAW_DATA",
-                files=files,
-                collection=collection_openbis,
-            )
-            dataset.save()
-        except Exception as e:
-            logger.warning(f"Error uploading files {files} to openBIS: {e}")
-            continue
-        click.echo(f"Files uploaded to openBIS collection {collection_name}.")
-
-    # Map parent-child relationships
-    for parent_id, child_id in collection.relationships.values():
-        if parent_id in openbis_id_map and child_id in openbis_id_map:
-            parent_openbis_id = openbis_id_map[parent_id]
-            child_openbis_id = openbis_id_map[child_id]
-
-            child_openbis = openbis.get_object(child_openbis_id)
-            child_openbis.add_parents(parent_openbis_id)
-            child_openbis.save()
-
-            click.echo(
-                f"Linked child {child_openbis_id} to parent {parent_openbis_id} in collection {collection_name}."
-            )
-
-
 @cli.command(
     name="parser",
     help="Parses a list of files using the specified parsers and stores the results in openBIS.",
@@ -753,7 +607,7 @@ def run_parser(
     "--collection-name",
     "collection_name",  # alias
     type=str,
-    required=True,
+    required=False,
     help="OpenBIS collection name",
 )
 @click.option(
@@ -777,10 +631,10 @@ def parser(files_parser, project_name, collection_name, space_name):
         parse_file_dict[parser_cls].append(filepath)
 
     run_parser(
-        files_parser=parse_file_dict,
+        space_name=space_name,
         project_name=project_name,
         collection_name=collection_name,
-        space_name=space_name,
+        files_parser=parse_file_dict,
     )
 
 
