@@ -121,6 +121,8 @@ def run_parser(
             object_openbis.save()
         else:
             object_openbis = space.get_object(object_instance.code)
+            object_openbis.props = obj_props
+            object_openbis.save()
             logger.info(
                 f"Object {object_instance.code} already exists in openBIS, updating properties."
             )
