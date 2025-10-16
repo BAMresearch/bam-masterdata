@@ -185,6 +185,170 @@ def expected_transformed_data():
     }
 
 
+@pytest.fixture
+def expected_transformed_data_python():
+    """Expected JSON structure after transformation."""
+    return {
+        "collection_types": {
+            "COLLECTION": {
+                "code": None,
+                "properties": [
+                    {
+                        "code": "$NAME",
+                        "description": "Name",
+                        "iri": None,
+                        "id": "Name",
+                        "property_label": "Name",
+                        "data_type": "VARCHAR",
+                        "vocabulary_code": None,
+                        "object_code": None,
+                        "metadata": None,
+                        "dynamic_script": None,
+                        "mandatory": False,
+                        "show_in_edit_views": False,
+                        "section": "General info",
+                        "unique": None,
+                        "internal_assignment": None,
+                    }
+                ],
+                "defs": {
+                    "code": "COLLECTION",
+                    "description": "",
+                    "iri": None,
+                    "id": "Collection",
+                    "validation_script": None,
+                },
+            },
+            "DEFAULT_EXPERIMENT": {
+                "code": None,
+                "properties": [
+                    {
+                        "code": "DEFAULT_EXPERIMENT.EXPERIMENTAL_DESCRIPTION",
+                        "description": "Description of the experiment",
+                        "iri": None,
+                        "id": "DefaultExperimentExperimentalDescription",
+                        "property_label": "Description",
+                        "data_type": "MULTILINE_VARCHAR",
+                        "vocabulary_code": None,
+                        "object_code": None,
+                        "metadata": None,
+                        "dynamic_script": None,
+                        "mandatory": False,
+                        "show_in_edit_views": False,
+                        "section": "Experimental details",
+                        "unique": None,
+                        "internal_assignment": None,
+                    }
+                ],
+                "defs": {
+                    "code": "DEFAULT_EXPERIMENT",
+                    "description": "",
+                    "iri": None,
+                    "id": "DefaultExperiment",
+                    "validation_script": "DEFAULT_EXPERIMENT.date_range_validation",
+                },
+            },
+        },
+        "dataset_types": {
+            "ANALYSIS_NOTEBOOK": {
+                "code": None,
+                "properties": [
+                    {
+                        "code": "$HISTORY_ID",
+                        "description": "History ID",
+                        "iri": None,
+                        "id": "HistoryId",
+                        "property_label": "History ID",
+                        "data_type": "VARCHAR",
+                        "vocabulary_code": None,
+                        "object_code": None,
+                        "metadata": None,
+                        "dynamic_script": None,
+                        "mandatory": False,
+                        "show_in_edit_views": False,
+                        "section": "",
+                        "unique": None,
+                        "internal_assignment": None,
+                    }
+                ],
+                "defs": {
+                    "code": "ANALYSIS_NOTEBOOK",
+                    "description": "",
+                    "iri": None,
+                    "id": "AnalysisNotebook",
+                    "validation_script": None,
+                    "main_dataset_pattern": None,
+                    "main_dataset_path": None,
+                },
+            },
+            "ANALYZED_DATA": {
+                "code": None,
+                "properties": [
+                    {
+                        "code": "NOTES",
+                        "description": "Notes//Notizen",
+                        "iri": None,
+                        "id": "Notes",
+                        "property_label": "Notes",
+                        "data_type": "MULTILINE_VARCHAR",
+                        "vocabulary_code": None,
+                        "object_code": None,
+                        "metadata": None,
+                        "dynamic_script": None,
+                        "mandatory": False,
+                        "show_in_edit_views": False,
+                        "section": "Comments",
+                        "unique": None,
+                        "internal_assignment": None,
+                    }
+                ],
+                "defs": {
+                    "code": "ANALYZED_DATA",
+                    "description": "",
+                    "iri": None,
+                    "id": "AnalyzedData",
+                    "validation_script": None,
+                    "main_dataset_pattern": None,
+                    "main_dataset_path": None,
+                },
+            },
+        },
+        "object_types": {
+            "ACTION": {
+                "code": None,
+                "properties": [
+                    {
+                        "code": "ACTING_PERSON",
+                        "description": "Acting Person//Handelnde Person",
+                        "iri": None,
+                        "id": "ActingPerson",
+                        "property_label": "Acting Person",
+                        "data_type": "OBJECT",
+                        "vocabulary_code": None,
+                        "object_code": None,
+                        "metadata": None,
+                        "dynamic_script": None,
+                        "mandatory": False,
+                        "show_in_edit_views": False,
+                        "section": "Action Data",
+                        "unique": None,
+                        "internal_assignment": None,
+                    }
+                ],
+                "defs": {
+                    "code": "ACTION",
+                    "description": "This Object allows to store information on an action by a user.//Dieses Objekt erlaubt eine Nutzer-Aktion zu beschreiben.",
+                    "iri": None,
+                    "id": "Action",
+                    "validation_script": None,
+                    "generated_code_prefix": "ACT",
+                    "auto_generate_codes": True,
+                },
+            }
+        },
+    }
+
+
 @pytest.mark.parametrize(
     "source_path, expected_source_type",
     [
@@ -222,13 +386,13 @@ def test_source_loader_load_excel(expected_transformed_data):
         assert "Validation rules successfully loaded." in log_messages
 
 
-def test_source_loader_load_python(expected_transformed_data):
+def test_source_loader_load_python(expected_transformed_data_python):
     """Test if the SourceLoader correctly loads a Python file and returns the expected JSON structure."""
     with patch("bam_masterdata.logger.logger.info") as mock_logger:
         source_loader = SourceLoader("tests/data/checker/example_incoming_python/")
         result_dict = source_loader.load()
 
-        assert remove_row_location(result_dict) == expected_transformed_data
+        assert remove_row_location(result_dict) == expected_transformed_data_python
         mock_logger.assert_called_with("Source type: python")
 
 
