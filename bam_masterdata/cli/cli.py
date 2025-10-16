@@ -631,6 +631,7 @@ def parser(files_parser, project_name, collection_name, space_name):
         parse_file_dict[parser_cls].append(filepath)
 
     run_parser(
+        openbis=ologin(url=environ("OPENBIS_URL")),
         space_name=space_name,
         project_name=project_name,
         collection_name=collection_name,
