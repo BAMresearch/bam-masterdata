@@ -82,6 +82,12 @@ cli/
 
 ---
 
+::: bam_masterdata.cli.run_parser
+    options:
+      show_root_heading: true
+
+---
+
 
 <!--
 -------------------------------------------------------------

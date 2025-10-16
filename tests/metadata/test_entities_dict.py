@@ -13,8 +13,9 @@ class TestEntitiesDict:
             (
                 "collection_types",
                 "COLLECTION",
-                ["properties", "defs"],
+                ["properties", "defs", "code"],
                 """{
+                    "code": null,
                     "properties": [
                         {
                         "code": "$NAME",
@@ -85,8 +86,9 @@ class TestEntitiesDict:
             (
                 "object_types",
                 "ACTION",
-                ["properties", "defs"],
+                ["properties", "defs", "code"],
                 """{
+                    "code": null,
                     "properties": [
                     {
                         "code": "$NAME",
@@ -194,8 +196,9 @@ class TestEntitiesDict:
             (
                 "vocabulary_types",
                 "$STORAGE_FORMAT",
-                ["terms", "defs"],
+                ["terms", "defs", "code"],
                 """{
+                    "code": null,
                     "terms": [
                         {
                         "code": "BDS_DIRECTORY",
