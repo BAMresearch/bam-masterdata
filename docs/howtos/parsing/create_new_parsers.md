@@ -257,6 +257,8 @@ When parsing data, you may want to update an existing object in OpenBIS rather t
 To reference an existing object, set the `code` attribute on your object instance before adding it to the collection:
 
 ```python
+# Step 1
+import json
 from bam_masterdata.datamodel.object_types import SoftwareCode
 from bam_masterdata.parsing import AbstractParser
 
@@ -264,39 +266,34 @@ from bam_masterdata.parsing import AbstractParser
 class SupercodeXParser(AbstractParser):
     def parse(self, files, collection, logger):
         for file_path in files:
-            # Parse file data
+            # Step 2
             logger.info(f"Parsing file: {file_path}")
             with open(file_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
-            
-            # Create object instance
+
+            # Step 3
             software = SoftwareCode(
                 name=data.get("program_name"),
                 version=data.get("program_version")
             )
-            
-            # Reference an existing object by setting its code
+
+            # Reference an existing object by setting its `code`
             # This code should match the object's code in OpenBIS
-            if data.get("existing_code"):
-                software.code = data.get("existing_code")
+            if data.get("existing_identifier"):
+                software.code = data.get("existing_identifier")
                 logger.info(f"Referencing existing object: {software.code}")
-            
-            # Add to collection
+
+            # Step 4
             software_id = collection.add(software)
 ```
 
-**How it works:**
+* Without `code` set (default): A new object is created in OpenBIS with an automatically generated code based on the object type's `generated_code_prefix`.
+* With `code` set: The parser looks for an existing object with that code in OpenBIS. If found, it updates the object's properties with the new values from your parser. If not found, the behavior depends on the OpenBIS configuration.
 
-1. **Without `code` set (default)**: A new object is created in OpenBIS with an automatically generated code based on the object type's `generated_code_prefix`.
-
-2. **With `code` set**: The parser looks for an existing object with that code in OpenBIS. If found, it updates the object's properties with the new values from your parser. If not found, the behavior depends on the OpenBIS configuration.
-
-**Example scenarios:**
+You can have multiple scenarios when deciding if setting up `code` or not:
 
 - **Creating new objects**: Leave the `code` attribute unset. The system will generate unique codes automatically.
-  
-- **Updating existing objects**: Set the `code` attribute to match the code of an existing object in OpenBIS. For example, if you have a sample with code `SAMPLE_001` in OpenBIS, set `sample.code = "SAMPLE_001"` in your parser to update it.
-
+- **Updating existing objects**: Set the `code` attribute to match the code of an existing object in OpenBIS. For example, if you have a sample with code `SAMPLE_001` in OpenBIS, set `sample.code = "SAMPLE_001"` in your parser to update it. Note that this is a static assignment.
 - **Mixed workflow**: You can create some new objects while updating others in the same parsing operation by setting `code` only where needed.
 
 !!! warning "Code Format"
@@ -304,9 +301,10 @@ class SupercodeXParser(AbstractParser):
 
 !!! tip "Identifier Construction"
     When referencing an existing object, the full identifier is constructed as:
-    - With collection: `/{space}/{project}/{collection}/{code}`
-    - Without collection: `/{space}/{project}/{code}`
-    
+
+    - With collection: `/{space_name}/{project_name}/{collection_name}/{code}`
+    - Without collection: `/{space_name}/{project_name}/{code}`
+
     Make sure the object exists at the expected location in the OpenBIS hierarchy.
 
 
