@@ -184,3 +184,9 @@ utils/
       show_root_heading: true
 
 ---
+
+::: bam_masterdata.utils.users
+    options:
+      show_root_heading: true
+
+---
