@@ -233,3 +233,80 @@ class TestParserWithExistingCode(AbstractParser):
         test_obj = generate_object_type(code="EXISTING_OBJ_0001")
         _ = collection.add(test_obj)
         logger.info(f"Added object with existing code: {test_obj.code}")
+
+
+# Test fixtures for OBJECT data type testing
+class PersonObjectType(ObjectType):
+    """Mock Person object type for testing OBJECT references."""
+
+    defs = ObjectTypeDef(
+        code="PERSON",
+        description="A person entity for testing",
+        generated_code_prefix="PER",
+    )
+
+    name = PropertyTypeAssignment(
+        code="$NAME",
+        data_type="VARCHAR",
+        property_label="Name",
+        description="Person's name",
+        mandatory=True,
+        show_in_edit_views=True,
+        section="General",
+    )
+
+
+class InstrumentObjectType(ObjectType):
+    """Mock Instrument object type with OBJECT property for testing."""
+
+    defs = ObjectTypeDef(
+        code="INSTRUMENT",
+        description="An instrument entity for testing",
+        generated_code_prefix="INS",
+    )
+
+    name = PropertyTypeAssignment(
+        code="$NAME",
+        data_type="VARCHAR",
+        property_label="Name",
+        description="Instrument name",
+        mandatory=True,
+        show_in_edit_views=True,
+        section="General",
+    )
+
+    responsible_person = PropertyTypeAssignment(
+        code="RESPONSIBLE_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON",
+        property_label="Responsible Person",
+        description="Person responsible for the instrument",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="General",
+    )
+
+
+class TestParserWithObjectReference(AbstractParser):
+    """Test parser that creates objects with OBJECT property references"""
+
+    def parse(self, files, collection, logger):
+        """Parse files and create objects with OBJECT references"""
+        # Create a person object first
+        person = PersonObjectType(name="John Doe", code="PERSON_001")
+        person_id = collection.add(person)
+        logger.info(f"Added person object with ID {person_id}")
+
+        # Create an instrument that references the person by object instance
+        instrument1 = InstrumentObjectType(name="Instrument 1")
+        instrument1.responsible_person = person
+        instrument1_id = collection.add(instrument1)
+        logger.info(f"Added instrument1 with object reference, ID {instrument1_id}")
+
+        # Create another instrument that references by path string
+        instrument2 = InstrumentObjectType(name="Instrument 2")
+        instrument2.responsible_person = (
+            "/TEST_SPACE/TEST_PROJECT/TEST_COLLECTION/PERSON_001"
+        )
+        instrument2_id = collection.add(instrument2)
+        logger.info(f"Added instrument2 with path reference, ID {instrument2_id}")
