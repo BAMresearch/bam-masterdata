@@ -82,13 +82,13 @@ def run_parser(
     else:
         if collection_name.upper() in [c.code for c in project.get_collections()]:
             collection_openbis = space.get_collection(
-                f"/{openbis.username}/{project_name}/{collection_name}".upper()
+                f"/{space_name}/{project_name}/{collection_name}".upper()
             )
         else:
             logger.info("Replacing collection code with uppercase and underscores.")
             collection_openbis = openbis.new_collection(
                 code=collection_name.replace(" ", "_").upper(),
-                type="COLLECTION",
+                type="DEFAULT_EXPERIMENT",
                 project=project,
             )
         collection_openbis.save()
@@ -129,22 +129,26 @@ def run_parser(
                 )
             object_openbis.save()
         else:
-            object_openbis = space.get_object(object_instance.code)
+            identifier = (
+                f"/{space_name}/{project_name}/{object_instance.code}"
+                if not collection_name
+                else f"/{space_name}/{project_name}/{collection_name}/{object_instance.code}"
+            )
+            object_openbis = space.get_object(identifier)
             object_openbis.set_props(obj_props)
             object_openbis.save()
             logger.info(
-                f"Object {object_instance.code} already exists in openBIS, updating properties."
+                f"Object {identifier} already exists in openBIS, updating properties."
             )
 
         # save local and openbis IDs to map parent-child relationships
         openbis_id_map[object_id] = object_openbis.identifier
-        logger.info(
-            f"Object {obj_props.get('$name')} stored in openBIS collection {collection_name}."
-        )
-    for _, files in files_parser.items():
-        # Upload the files to openBIS
+
+    # Storing files as datasets in openBIS
+    for files in files_parser.values():
         try:
             if not collection_name:
+                # ! This won't work on a project -> datasets only attached to collections in pyBIS
                 dataset = openbis.new_dataset(
                     type="RAW_DATA",
                     files=files,
