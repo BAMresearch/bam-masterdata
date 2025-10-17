@@ -51,7 +51,7 @@ class SimpleTestParser(AbstractParser):
         for file_path in files:
             # Read a simple test file
             if os.path.exists(file_path):
-                with open(file_path) as f:
+                with open(file_path, encoding="utf-8") as f:
                     content = f.read().strip()
                     name = content or "Test Object"
             else:
