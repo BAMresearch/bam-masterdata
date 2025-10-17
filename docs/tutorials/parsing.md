@@ -38,7 +38,7 @@ The `run_parser()` function automates this ETL (Extract-Transform-Load) pipeline
 - Uploads the raw files as datasets
 - Establishes relationships between objects
 
-<div class="mermaid">
+```mermaid
 graph LR
     A[Raw Files] --> B[Parser]
     B --> C[CollectionType]
@@ -46,7 +46,7 @@ graph LR
     D --> E[openBIS Objects]
     D --> F[openBIS Datasets]
     D --> G[Relationships]
-</div>
+```
 
 ## Creating Your First Parser
 
@@ -530,7 +530,7 @@ logger.critical("Database connection lost") # Critical failures
 Now that you understand how to automate metadata injection with parsers, you can:
 
 1. **Learn more about parsers**: Read [How-to: Create new parsers](../howtos/parsing/create_new_parsers.md) for advanced parser development
-2. **Understand the architecture**: Study [Parsing Structure](../explanations/parsing_structure.md) to learn about the ETL pipeline design
+2. **Understand the architecture**: Study [Explanation: Parsing and ETL Structure in the Parser App](../explanations/parsing_structure.md) to learn about the ETL pipeline design
 3. **Explore the Parser App**: Check out [Use the Parser app](../howtos/parsing/parser_app.md) for a web-based interface to parsing
 4. **Review Object Types**: See the [Getting Started](tutorial.md) tutorial for more details on Object Types and properties
 5. **API Reference**: Browse the [API Reference](../references/api.md) for detailed function documentation
