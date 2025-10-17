@@ -6,6 +6,7 @@ nav:
   - Home: index.md
   - Tutorials:
     - Getting Started: tutorials/tutorial.md
+    - Automating Metadata with Parsers: tutorials/parsing.md
   - How-to Guides:
     - Parsing:
       - Use the Parser app: howtos/parsing/parser_app.md
