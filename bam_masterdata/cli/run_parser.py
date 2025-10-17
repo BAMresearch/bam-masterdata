@@ -21,8 +21,7 @@ def run_parser(
         space_name (str): The space in openBIS where the entities will be stored.
         project_name (str): The project in openBIS where the entities will be stored.
         collection_name (str): The collection in openBIS where the entities will be stored.
-        files_parser (dict): A dictionary where keys are parser instances and values are lists of file paths to be parsed.
-           E.g., {MasterdataParserExample(): ["path/to/file.json", "path/to/another_file.json"]}
+        files_parser (dict): A dictionary where keys are parser instances and values are lists of file paths to be parsed. E.g., {MasterdataParserExample(): ["path/to/file.json", "path/to/another_file.json"]}
     """
     # Ensure openbis is provided
     if openbis is None:
