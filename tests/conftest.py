@@ -1,6 +1,7 @@
 import os
 
 import pytest
+from pybis import Openbis
 from pydantic import ConfigDict
 
 from bam_masterdata.logger import log_storage
@@ -158,3 +159,28 @@ def generate_object_type_longer():
 
 def generate_vocabulary_type():
     return MockedVocabularyType()
+
+
+@pytest.fixture
+def mock_openbis():
+    """Fixture to provide a mock OpenBIS instance for testing.
+    
+    This mock includes:
+    - A user space (USER_TESTUSER)
+    - Ability to create projects, collections, objects, and datasets
+    - Mock methods for all operations used by run_parser()
+    
+    Returns:
+        Openbis: A mock OpenBIS instance configured for testing
+    """
+    from pybis import MockSpace
+    
+    # Create the mock openbis instance
+    openbis = Openbis(url="https://test.openbis.ch")
+    openbis.username = "testuser"
+    
+    # Create a default user space and add it to the openbis spaces
+    user_space = MockSpace("USER_TESTUSER")
+    openbis._spaces.append(user_space)
+    
+    return openbis
