@@ -173,7 +173,8 @@ def mock_openbis():
     Returns:
         Openbis: A mock OpenBIS instance configured for testing
     """
-    from pybis import MockSpace
+    # Import MockSpace from pybis package
+    from pybis import MockSpace  # noqa: PLC0415
     
     # Create the mock openbis instance
     openbis = Openbis(url="https://test.openbis.ch")
