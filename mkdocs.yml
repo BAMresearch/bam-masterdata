@@ -5,7 +5,8 @@ repo_url: https://github.com/BAMresearch/bam-masterdata
 nav:
   - Home: index.md
   - Tutorials:
-    - Getting Started: tutorials/tutorial.md
+    - Getting Started: tutorials/getting_started.md
+    - Automating Metadata with Parsers: tutorials/parsing.md
   - How-to Guides:
     - Parsing:
       - Use the Parser app: howtos/parsing/parser_app.md
@@ -55,7 +56,11 @@ markdown_extensions:
       pygments_lang_class: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - toc:
       permalink: True
       toc_depth: 3
