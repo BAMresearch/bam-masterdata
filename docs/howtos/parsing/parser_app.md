@@ -59,6 +59,7 @@ This how-to guide explains how to use the Parser app in your browser to upload f
 ## Review Logs
 1. Check logs to verify successful parsing. If parsing fails, check the logs and debug the parsing process.
 2. If parsing works, only INFO messages will appear in the logs card.
+3. The logs will show whether objects were created new or updated if they already existed in the Data Store.
 
 <div class="click-zoom">
     <label>
@@ -66,3 +67,36 @@ This how-to guide explains how to use the Parser app in your browser to upload f
         <img src="../../../assets/parsing/Card3Logs.jpg" alt="Card 3 in the Parser app." width="50%" title="Click to zoom in">
     </label>
 </div>
+
+---
+
+## Advanced: Updating Existing Objects
+
+The Parser app can update existing objects in the Data Store rather than always creating new ones. This is useful when you want to:
+
+- Update metadata for samples or experiments that already exist
+- Correct or enrich existing data
+- Maintain consistent object codes across multiple parsing operations
+
+### How to Update Existing Objects
+
+To update an existing object, your parser must set the `code` attribute on the object instance. When the `code` is set:
+
+1. The Parser app looks for an existing object with that code in your Space/Project/Collection
+2. If found, the object's properties are updated with the new values
+3. A log message confirms that the existing object was updated
+
+### Example
+
+If you have a sample with code `SAMPLE_001` in the Data Store, and your parser includes:
+
+```python
+sample = SampleType(name="Updated Sample Name")
+sample.code = "SAMPLE_001"  # Reference the existing object
+collection.add(sample)
+```
+
+The Parser app will update the properties of `SAMPLE_001` instead of creating a new sample.
+
+!!! note "Parser Support Required"
+    Not all parsers support updating existing objects. Check with your parser documentation or administrator to confirm this feature is available for your use case. See [How-to: Create new parsers](create_new_parsers.md#referencing-existing-objects-in-openbis) for details on implementing this in custom parsers.
