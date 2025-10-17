@@ -660,20 +660,20 @@ class ObjectType(BaseEntity):
                         raise TypeError(
                             f"Invalid type for '{key}': Expected {expected_type.__name__}, got {type(value).__name__}"
                         )
-                    
+
                     # Get data type for additional checks
                     data_type = meta[key].data_type
-                    
+
                     # OBJECT check
                     if data_type == "OBJECT":
                         # Accept either a string path or an ObjectType instance
                         if isinstance(value, str):
                             # Validate the path format: /{space}/{project}/{collection}/{object} or /{space}/{project}/{object}
-                            if not value.startswith('/'):
+                            if not value.startswith("/"):
                                 raise ValueError(
                                     f"Invalid OBJECT path format for '{key}': Path must start with '/', got '{value}'"
                                 )
-                            path_parts = value.strip('/').split('/')
+                            path_parts = value.strip("/").split("/")
                             if len(path_parts) not in [3, 4]:
                                 raise ValueError(
                                     f"Invalid OBJECT path format for '{key}': Expected '/<space>/<project>/<collection>/<object>' "
@@ -684,7 +684,7 @@ class ObjectType(BaseEntity):
                             # That validation should be done when saving to openBIS
                         elif isinstance(value, ObjectType):
                             # Check if the object instance has a code
-                            if not hasattr(value, 'code') or value.code is None:
+                            if not hasattr(value, "code") or value.code is None:
                                 raise ValueError(
                                     f"Object instance for '{key}' must have a 'code' attribute set to be used as a reference"
                                 )
@@ -696,7 +696,7 @@ class ObjectType(BaseEntity):
                             )
                         # Value is valid, set it
                         return object.__setattr__(self, key, value)
-                    
+
                     # CONTROLLEDVOCABULARY check
                     if data_type == "CONTROLLEDVOCABULARY":
                         vocabulary_code = meta[key].vocabulary_code
