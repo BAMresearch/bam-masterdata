@@ -1,7 +1,7 @@
 import os
 
 import pytest
-from pybis import Openbis
+from pybis import MockSpace, Openbis
 from pydantic import ConfigDict
 
 from bam_masterdata.logger import log_storage
@@ -173,9 +173,6 @@ def mock_openbis():
     Returns:
         Openbis: A mock OpenBIS instance configured for testing
     """
-    # Import MockSpace from pybis package
-    from pybis import MockSpace  # noqa: PLC0415
-    
     # Create the mock openbis instance
     openbis = Openbis(url="https://test.openbis.ch")
     openbis.username = "testuser"
