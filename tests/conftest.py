@@ -235,12 +235,13 @@ class TestParserWithExistingCode(AbstractParser):
         logger.info(f"Added object with existing code: {test_obj.code}")
 
 
+# Test fixtures for OBJECT data type testing
 class PersonObjectType(ObjectType):
-    """Mock Person object type for testing OBJECT references"""
+    """Mock Person object type for testing OBJECT references."""
 
     defs = ObjectTypeDef(
         code="PERSON",
-        description="A person entity for testing OBJECT references",
+        description="A person entity for testing",
         generated_code_prefix="PER",
     )
 
@@ -256,11 +257,11 @@ class PersonObjectType(ObjectType):
 
 
 class InstrumentObjectType(ObjectType):
-    """Mock Instrument object type with OBJECT property for testing"""
+    """Mock Instrument object type with OBJECT property for testing."""
 
     defs = ObjectTypeDef(
         code="INSTRUMENT",
-        description="An instrument entity for testing OBJECT references",
+        description="An instrument entity for testing",
         generated_code_prefix="INS",
     )
 

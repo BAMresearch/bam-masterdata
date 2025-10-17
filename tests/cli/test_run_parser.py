@@ -81,6 +81,15 @@ def test_run_parser_with_object_reference(cleared_log_storage, mock_openbis):
 
     # Mock the get_object method to return a mock object for path references
     def get_object_mock(path):
+        # Validate that the path follows OpenBIS identifier format
+        if not path.startswith("/"):
+            raise ValueError(f"Invalid path format: must start with '/', got '{path}'")
+        parts = path.strip("/").split("/")
+        if len(parts) not in [3, 4]:
+            raise ValueError(
+                f"Invalid path format: must have 3 or 4 parts, got {len(parts)}"
+            )
+
         mock_obj = MagicMock()
         mock_obj.identifier = path
         return mock_obj
