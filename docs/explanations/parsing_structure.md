@@ -44,6 +44,8 @@ For instance, the `Material` domain object created by the parser might be transf
 ### 4. Loading step (Load)
 Finally, the database entities are persisted into the target system. At this stage, the app handles all the technical details of saving objects: inserting records, maintaining referential integrity, and reporting any errors that occur during the load process.
 
+The loading step is intelligent about whether to create new objects or update existing ones. If a parser sets the `code` attribute to be the one of an object instance, the system recognizes this as a reference to an existing object and updates its properties rather than creating a duplicate. This allows parsers to handle both initial data import and subsequent updates with the same workflow.
+
 By the end of this step, the raw test file uploaded by the researcher has been fully integrated into the database in a safe and consistent way.
 
 
