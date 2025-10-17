@@ -8,8 +8,8 @@ import pytest
 
 from bam_masterdata.cli.run_parser import run_parser
 from bam_masterdata.logger import log_storage
-from bam_masterdata.metadata.entities import CollectionType, ObjectType
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
+from bam_masterdata.metadata.entities import CollectionType, ObjectType
 from bam_masterdata.parsing import AbstractParser
 
 
@@ -51,7 +51,7 @@ class SimpleTestParser(AbstractParser):
         for file_path in files:
             # Read a simple test file
             if os.path.exists(file_path):
-                with open(file_path, "r") as f:
+                with open(file_path) as f:
                     content = f.read().strip()
                     name = content or "Test Object"
             else:
@@ -78,7 +78,7 @@ class ParserWithRelationships(AbstractParser):
             child_id = collection.add(child)
             collection.add_relationship(parent_id, child_id)
         
-        logger.info(f"Added parent and 2 child objects with relationships")
+        logger.info("Added parent and 2 child objects with relationships")
 
 
 class ParserWithExistingCode(AbstractParser):
@@ -89,7 +89,7 @@ class ParserWithExistingCode(AbstractParser):
         # Create an object with a specific code (to reference existing object)
         test_obj = SampleObjectType(name="Existing Object", value=999)
         test_obj.code = "EXISTING_OBJ_001"
-        obj_id = collection.add(test_obj)
+        collection.add(test_obj)
         logger.info(f"Added object with existing code: {test_obj.code}")
 
 
