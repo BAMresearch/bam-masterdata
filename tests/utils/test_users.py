@@ -1,19 +1,8 @@
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 import pytest
 
 from bam_masterdata.utils.users import UserID
-
-
-@pytest.fixture
-def mock_openbis():
-    """Mock openBIS connection and its users list."""
-    mock_user1 = MagicMock(firstName="John", lastName="Doe", userId="jdoe")
-    mock_user2 = MagicMock(firstName="Jane", lastName="Smith", userId="jsmith")
-
-    mock_openbis = MagicMock()
-    mock_openbis.get_users.return_value = [mock_user1, mock_user2]
-    return mock_openbis
 
 
 class TestUserID:
