@@ -2,55 +2,67 @@
 
 This tutorial teaches you how to automate metadata injection from multiple files into openBIS using the `run_parser()` function and custom parsers. This is useful when you have many files (e.g., experimental data, instrument outputs, logs) and want to systematically extract metadata and push it to your openBIS instance.
 
-## What You'll Learn
-
 By the end of this tutorial, you will be able to:
 
-- Understand the purpose and workflow of `run_parser()`
-- Create a custom parser that extracts metadata from files
-- Use the parser to inject metadata into openBIS automatically
-- Handle relationships between objects
-- Update existing objects in openBIS
+- Understand the purpose and workflow of `run_parser()`.
+- Create a custom parser that extracts metadata from files.
+- Use the parser to inject metadata into openBIS automatically.
+- Handle relationships between objects.
+- Update existing objects in openBIS.
 
 !!! note "Prerequisites"
     - **Python ≥ 3.10** installed
     - **bam-masterdata** package installed (`pip install bam-masterdata`)
-    - **pyBIS** package installed (included as a dependency)
-    - Basic understanding of [Object Types](tutorial.md#understanding-entity-types) in bam-masterdata
-    - An openBIS instance with login credentials (optional for testing locally)
+    - Basic understanding of Object Types, as explained in [Tutorial - Getting started: Your first `bam-masterdata` experience](getting_started.md#your-first-bam-masterdata-experience)
+    - An openBIS instance with login credentials (for local testing)
 
-!!! warning "Working with openBIS"
+??? warning "Working with openBIS"
     This tutorial includes examples that connect to openBIS. If you don't have access to an openBIS instance, you can still follow along and understand the concepts by focusing on the parser creation and testing sections.
 
-## Understanding the Workflow
+    We recommend contacting your openBIS admin team to get access credentials.
 
-When working with laboratory data, you often need to:
+## Understanding the ETL Workflow
 
-1. **Extract** metadata from raw files (CSV, JSON, XML, etc.)
-2. **Transform** the metadata into structured objects
-3. **Load** the structured objects into a database system like openBIS
+When working with research data, you often need to:
 
-The `run_parser()` function automates this ETL (Extract-Transform-Load) pipeline. It:
+1. **Extract** metadata from raw files (CSV, JSON, XML, etc.).
+2. **Transform** the metadata into structured objects and define their relations.
+3. **Load** the structured objects into a database system like openBIS.
 
-- Accepts one or more parsers and their associated files
-- Executes each parser to extract and structure metadata
-- Creates or updates objects in openBIS
-- Uploads the raw files as datasets
-- Establishes relationships between objects
+The `run_parser()` function automates this ETL (Extract-Transform-Load) pipeline. The process can be summarized in the following diagram:
 
 ```mermaid
 graph LR
-    A[Raw Files] --> B[Parser]
-    B --> C[CollectionType]
-    C --> D[run_parser]
-    D --> E[openBIS Objects]
-    D --> F[openBIS Datasets]
-    D --> G[Relationships]
+    A[openBIS login] --> B[Specify Space/Project/Collection]
+    B --> C[Raw Files upload]
+    C --> D[Custom Parser]
+    D --> E[run_parser]
 ```
+
+The `run_parser()` then maps the `bam-masterdata` objects and their relationships into openBIS native objects, relationships, and datasets:
+
+```mermaid
+graph LR
+    A[run_parser] --> B[openBIS Objects]
+    A --> C[openBIS Datasets]
+    A --> D[openBIS Relationships]
+```
+
+The whole process then depends on the inputs and output `run_parser()`:
+
+- **Inputs**
+    - `space_name`: _string_, this coincides with the space name you have associated in your openBIS instance
+    - `project_name`: _string_, the name of the project where you want to store the parsed objects
+    - `collection_name`: _string_, optional, the name of the collection you want to store the parsed objects
+    - `files_parser`: _dict_, a dictionary where the keys are the parser class instances (see below) and the values are the files you want to pass to the specific parser class
+- **Output**: the metadata objects and relationships mapped to your space/project/collection in openBIS
+
 
 ## Creating Your First Parser
 
-Let's start by creating a simple parser that reads metadata from JSON files. Imagine you have experimental setup files that look like this:
+Let's start by creating a simple parser that reads metadata from JSON files. You can read more in [How-to - Create new parsers](../howtos/parsing/create_new_parsers.md).
+
+Imagine you have experimental setup JSON files that look like this:
 
 ```json
 {
@@ -66,19 +78,19 @@ Let's start by creating a simple parser that reads metadata from JSON files. Ima
 All parsers must inherit from `AbstractParser` and implement the `parse()` method:
 
 ```python
-from bam_masterdata.parsing import AbstractParser
-from bam_masterdata.datamodel.object_types import ExperimentalStep
 import json
 import datetime
+from bam_masterdata.parsing import AbstractParser
+from bam_masterdata.datamodel.object_types import ExperimentalStep
 
 
 class ExperimentSetupParser(AbstractParser):
     """Parser for experimental setup JSON files."""
-    
+
     def parse(self, files, collection, logger):
         """
         Parse experimental setup files and populate the collection.
-        
+
         Args:
             files (list[str]): List of file paths to parse
             collection (CollectionType): Collection to populate with objects
@@ -86,11 +98,11 @@ class ExperimentSetupParser(AbstractParser):
         """
         for file_path in files:
             logger.info(f"Parsing file: {file_path}")
-            
+
             # Read the JSON file
             with open(file_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
-            
+
             # Create an ExperimentalStep object
             experiment = ExperimentalStep(
                 name=data.get("experiment_name"),
@@ -98,11 +110,16 @@ class ExperimentSetupParser(AbstractParser):
                     data.get("date"), "%Y-%m-%d"
                 ).date(),
             )
-            
+
             # Add to collection
             exp_id = collection.add(experiment)
             logger.info(f"Added experiment with ID: {exp_id}")
 ```
+
+??? note "Mapping metadata to openBIS"
+    Not all metadata fields you have defined in your files are necessarily defined in your openBIS instance. If you feel a field is important but missing in openBIS, please, contact the admins of your instance to include such field.
+
+    For `bam-masterdata`, you can [open an issue](https://github.com/BAMresearch/bam-masterdata/issues) with your prefered changes. The whole list of Object Types and their metadata is defined [here](https://github.com/BAMresearch/bam-masterdata/blob/main/bam_masterdata/datamodel/object_types.py).
 
 ### Step 2: Test the Parser Locally
 
@@ -156,7 +173,7 @@ openbis.login(username="your_username", password="your_password", save_token=Tru
 
 ### Step 2: Run the Parser
 
-Now use `run_parser()` to automate the entire workflow:
+Now, use `run_parser()` to automate the entire workflow:
 
 ```python
 from bam_masterdata.cli.run_parser import run_parser
@@ -175,7 +192,7 @@ run_parser(
     openbis=openbis,
     space_name="MY_RESEARCH_SPACE",
     project_name="MY_PROJECT",
-    collection_name="EXPERIMENT_COLLECTION",
+    collection_name="MY_EXPERIMENT_COLLECTION",
     files_parser=files_parser
 )
 ```
@@ -184,8 +201,8 @@ run_parser(
 
 When you call `run_parser()`, the following steps occur automatically:
 
-1. **Space and Project Setup**: The function checks if the specified space and project exist. If not, it uses your user space or creates a new project.
-2. **Collection Creation**: A collection is created (or retrieved if it exists) to group the objects.
+1. **Space and Project Setup**: The function checks if the specified space and project exist. If not, it uses your user space and creates a new project.
+2. **Collection Creation**: A collection is created (or retrieved if it exists) to group the objects. If not specified, the objects will be directly created under the project.
 3. **Parsing**: Each parser processes its files and populates a `CollectionType`.
 4. **Object Creation**: Objects from the collection are created in openBIS with their metadata.
 5. **File Upload**: The raw files are uploaded as datasets to the collection.
@@ -231,29 +248,29 @@ Often, objects in your data model are related. For example, a measurement might 
 ### Example: Linking Samples to Experiments
 
 ```python
+import json
 from bam_masterdata.parsing import AbstractParser
 from bam_masterdata.datamodel.object_types import ExperimentalStep, Sample
-import json
 
 
 class ExperimentWithSamplesParser(AbstractParser):
     """Parser that creates experiments and links samples to them."""
-    
+
     def parse(self, files, collection, logger):
         for file_path in files:
             with open(file_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
-            
+
             # Create the main experiment
             experiment = ExperimentalStep(name=data.get("experiment_name"))
             exp_id = collection.add(experiment)
             logger.info(f"Created experiment: {exp_id}")
-            
+
             # Create samples and link them to the experiment
             for sample_data in data.get("samples", []):
                 sample = Sample(name=sample_data.get("sample_name"))
                 sample_id = collection.add(sample)
-                
+
                 # Create parent-child relationship
                 # The experiment is the parent, samples are children
                 collection.add_relationship(parent_id=exp_id, child_id=sample_id)
@@ -279,37 +296,37 @@ When `run_parser()` processes this, it will:
 
 ## Updating Existing Objects
 
-Sometimes you want to update objects that already exist in openBIS rather than creating new ones. To do this, set the `code` attribute on your object before adding it to the collection.
+Sometimes you want to use parsers to update objects that already exist in openBIS rather than creating new ones. To do this, set the `code` attribute on your object before adding it to the collection.
 
 ### Example: Updating an Existing Sample
 
 ```python
+import json
 from bam_masterdata.parsing import AbstractParser
 from bam_masterdata.datamodel.object_types import Sample
-import json
 
 
 class SampleUpdateParser(AbstractParser):
     """Parser that updates existing samples with new metadata."""
-    
+
     def parse(self, files, collection, logger):
         for file_path in files:
             with open(file_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
-            
+
             # Create a sample object
             sample = Sample(
                 name=data.get("sample_name"),
                 # Add any other metadata fields
             )
-            
+
             # Reference an existing object by its code
             if data.get("existing_code"):
                 sample.code = data.get("existing_code")
                 logger.info(f"Updating existing sample: {sample.code}")
             else:
                 logger.info("Creating new sample")
-            
+
             # Add to collection
             sample_id = collection.add(sample)
 ```
@@ -327,7 +344,7 @@ Example JSON for updating:
 
 !!! note "Identifier Construction"
     The full identifier for updating is:
-    
+
     - With collection: `/{space_name}/{project_name}/{collection_name}/{code}`
     - Without collection: `/{space_name}/{project_name}/{code}`
 
@@ -353,30 +370,27 @@ run_parser(
 Here's a complete script that demonstrates automating metadata injection for multiple files:
 
 ```python
-#!/usr/bin/env python3
-"""
-Script to automate metadata injection from experimental files.
-"""
-
-from pybis import Openbis
-from bam_masterdata.cli.run_parser import run_parser
-from bam_masterdata.parsing import AbstractParser
-from bam_masterdata.datamodel.object_types import ExperimentalStep, SoftwareCode
 import json
 import datetime
 import os
 
+from pybis import Openbis
+
+from bam_masterdata.cli.run_parser import run_parser
+from bam_masterdata.parsing import AbstractParser
+from bam_masterdata.datamodel.object_types import ExperimentalStep, SoftwareCode
+
 
 class ExperimentParser(AbstractParser):
     """Parser for experiment metadata files."""
-    
+
     def parse(self, files, collection, logger):
         for file_path in files:
             logger.info(f"Processing: {file_path}")
-            
+
             with open(file_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
-            
+
             # Create experiment object
             experiment = ExperimentalStep(
                 name=data.get("name"),
@@ -385,10 +399,10 @@ class ExperimentParser(AbstractParser):
                 ).date() if data.get("date") else None,
                 finished_flag=data.get("completed", False),
             )
-            
+
             exp_id = collection.add(experiment)
             logger.info(f"Added experiment: {exp_id}")
-            
+
             # If software information is provided, create and link it
             if data.get("software"):
                 software = SoftwareCode(
@@ -405,28 +419,28 @@ def main():
     OPENBIS_URL = "https://your-openbis-instance.com"
     USERNAME = os.getenv("OPENBIS_USERNAME")
     PASSWORD = os.getenv("OPENBIS_PASSWORD")
-    
+
     # Connect to openBIS
     print("Connecting to openBIS...")
     openbis = Openbis(url=OPENBIS_URL)
     openbis.login(username=USERNAME, password=PASSWORD, save_token=True)
     print(f"Connected as: {openbis.username}")
-    
+
     # Find all experiment files in a directory
     data_dir = "./experiment_data"
     experiment_files = [
-        os.path.join(data_dir, f) 
-        for f in os.listdir(data_dir) 
+        os.path.join(data_dir, f)
+        for f in os.listdir(data_dir)
         if f.endswith(".json")
     ]
-    
+
     print(f"Found {len(experiment_files)} files to process")
-    
+
     # Setup parser
     files_parser = {
         ExperimentParser(): experiment_files
     }
-    
+
     # Run the parser
     print("Running parser...")
     run_parser(
@@ -436,7 +450,7 @@ def main():
         collection_name="BATCH_EXPERIMENTS",
         files_parser=files_parser
     )
-    
+
     print("Metadata injection complete!")
 
 
@@ -457,11 +471,11 @@ class RobustParser(AbstractParser):
             try:
                 with open(file_path, "r", encoding="utf-8") as f:
                     data = json.load(f)
-                
+
                 # Your parsing logic here
                 experiment = ExperimentalStep(name=data.get("name"))
                 collection.add(experiment)
-                
+
             except FileNotFoundError:
                 logger.error(f"File not found: {file_path}")
             except json.JSONDecodeError:
@@ -479,17 +493,17 @@ def parse(self, files, collection, logger):
     for file_path in files:
         with open(file_path, "r", encoding="utf-8") as f:
             data = json.load(f)
-        
+
         # Validate required fields
         if not data.get("name"):
             logger.warning(f"Skipping file {file_path}: missing required 'name' field")
             continue
-        
+
         # Validate data types
         if data.get("temperature") and not isinstance(data["temperature"], (int, float)):
             logger.warning(f"Invalid temperature value in {file_path}")
             continue
-        
+
         # Create object only if validation passes
         experiment = ExperimentalStep(name=data["name"])
         collection.add(experiment)
@@ -524,26 +538,3 @@ logger.critical("Database connection lost") # Critical failures
 
 **Issue**: Files not uploaded as datasets
 - **Solution**: Ensure you're using a collection (not attaching directly to a project), as pyBIS requires collections for dataset uploads.
-
-## Next Steps
-
-Now that you understand how to automate metadata injection with parsers, you can:
-
-1. **Learn more about parsers**: Read [How-to: Create new parsers](../howtos/parsing/create_new_parsers.md) for advanced parser development
-2. **Understand the architecture**: Study [Explanation: Parsing and ETL Structure in the Parser App](../explanations/parsing_structure.md) to learn about the ETL pipeline design
-3. **Explore the Parser App**: Check out [Use the Parser app](../howtos/parsing/parser_app.md) for a web-based interface to parsing
-4. **Review Object Types**: See the [Getting Started](tutorial.md) tutorial for more details on Object Types and properties
-5. **API Reference**: Browse the [API Reference](../references/api.md) for detailed function documentation
-
-## Summary
-
-In this tutorial, you learned:
-
-- ✅ How to create a custom parser by inheriting from `AbstractParser`
-- ✅ How to extract metadata from files and create structured objects
-- ✅ How to use `run_parser()` to automate metadata injection into openBIS
-- ✅ How to establish relationships between objects
-- ✅ How to update existing objects using codes
-- ✅ Best practices for error handling and validation
-
-With these skills, you can now automate the processing of multiple data files and systematically build your openBIS metadata catalog!
