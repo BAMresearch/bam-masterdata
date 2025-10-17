@@ -2,59 +2,8 @@
 
 import pytest
 
-from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
-from bam_masterdata.metadata.entities import ObjectType
-
-
-class Person(ObjectType):
-    """Mock Person object type for testing."""
-
-    defs = ObjectTypeDef(
-        code="PERSON",
-        description="A person entity for testing",
-        generated_code_prefix="PER",
-    )
-
-    name = PropertyTypeAssignment(
-        code="$NAME",
-        data_type="VARCHAR",
-        property_label="Name",
-        description="Person's name",
-        mandatory=True,
-        show_in_edit_views=True,
-        section="General",
-    )
-
-
-class Instrument(ObjectType):
-    """Mock Instrument object type with OBJECT property for testing."""
-
-    defs = ObjectTypeDef(
-        code="INSTRUMENT",
-        description="An instrument entity for testing",
-        generated_code_prefix="INS",
-    )
-
-    name = PropertyTypeAssignment(
-        code="$NAME",
-        data_type="VARCHAR",
-        property_label="Name",
-        description="Instrument name",
-        mandatory=True,
-        show_in_edit_views=True,
-        section="General",
-    )
-
-    responsible_person = PropertyTypeAssignment(
-        code="RESPONSIBLE_PERSON",
-        data_type="OBJECT",
-        object_code="PERSON",
-        property_label="Responsible Person",
-        description="Person responsible for the instrument",
-        mandatory=False,
-        show_in_edit_views=True,
-        section="General",
-    )
+from bam_masterdata.metadata.definitions import PropertyTypeAssignment
+from tests.conftest import InstrumentObjectType, PersonObjectType
 
 
 class TestObjectDataType:
@@ -62,7 +11,7 @@ class TestObjectDataType:
 
     def test_object_property_with_path_4_parts(self):
         """Test setting an OBJECT property with a valid 4-part path."""
-        instrument = Instrument()
+        instrument = InstrumentObjectType()
         instrument.name = "Test Instrument"
 
         # Valid 4-part path: /{space}/{project}/{collection}/{object}
@@ -73,7 +22,7 @@ class TestObjectDataType:
 
     def test_object_property_with_path_3_parts(self):
         """Test setting an OBJECT property with a valid 3-part path."""
-        instrument = Instrument()
+        instrument = InstrumentObjectType()
         instrument.name = "Test Instrument"
 
         # Valid 3-part path: /{space}/{project}/{object}
@@ -84,7 +33,7 @@ class TestObjectDataType:
 
     def test_object_property_with_path_leading_trailing_slashes(self):
         """Test that paths with or without leading/trailing slashes are handled."""
-        instrument = Instrument()
+        instrument = InstrumentObjectType()
         instrument.name = "Test Instrument"
 
         # Path without leading slash - should fail
@@ -98,7 +47,7 @@ class TestObjectDataType:
 
     def test_object_property_with_invalid_path_too_short(self):
         """Test that paths with too few parts are rejected."""
-        instrument = Instrument()
+        instrument = InstrumentObjectType()
         instrument.name = "Test Instrument"
 
         with pytest.raises(ValueError, match="Invalid OBJECT path format"):
@@ -106,7 +55,7 @@ class TestObjectDataType:
 
     def test_object_property_with_invalid_path_too_long(self):
         """Test that paths with too many parts are rejected."""
-        instrument = Instrument()
+        instrument = InstrumentObjectType()
         instrument.name = "Test Instrument"
 
         with pytest.raises(ValueError, match="Invalid OBJECT path format"):
@@ -116,10 +65,10 @@ class TestObjectDataType:
 
     def test_object_property_with_object_instance(self):
         """Test setting an OBJECT property with an ObjectType instance."""
-        instrument = Instrument()
+        instrument = InstrumentObjectType()
         instrument.name = "Test Instrument"
 
-        person = Person()
+        person = PersonObjectType()
         person.name = "John Doe"
         person.code = "PERSON_001"
 
@@ -130,10 +79,10 @@ class TestObjectDataType:
 
     def test_object_property_with_object_instance_no_code(self):
         """Test that setting an OBJECT property with an instance without code fails."""
-        instrument = Instrument()
+        instrument = InstrumentObjectType()
         instrument.name = "Test Instrument"
 
-        person = Person()
+        person = PersonObjectType()
         person.name = "John Doe"
         # No code set
 
@@ -142,7 +91,7 @@ class TestObjectDataType:
 
     def test_object_property_with_invalid_type(self):
         """Test that setting an OBJECT property with an invalid type fails."""
-        instrument = Instrument()
+        instrument = InstrumentObjectType()
         instrument.name = "Test Instrument"
 
         # Try to set with an integer
@@ -159,7 +108,7 @@ class TestObjectDataType:
 
     def test_object_property_none_value(self):
         """Test that setting an OBJECT property to None is allowed (for optional properties)."""
-        instrument = Instrument()
+        instrument = InstrumentObjectType()
         instrument.name = "Test Instrument"
 
         # responsible_person is optional (mandatory=False)
