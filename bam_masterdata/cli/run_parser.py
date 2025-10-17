@@ -14,7 +14,7 @@ def run_parser(
 ) -> None:
     """
     Run the parsers on the specified files and collect the results.
-    login with save_token=True dont forget!!
+    login with save_token=True don't forget!!
 
     Args:
         openbis (Openbis): An instance of the Openbis class from pyBIS, already logged in.
@@ -61,7 +61,7 @@ def run_parser(
             )
             return
 
-    # Get project is `project_name` already exists under the space or create a new one if it does not
+    # Get project if `project_name` already exists under the space or create a new one if it does not
     if project_name.upper() in [p.code for p in space.get_projects()]:
         project = space.get_project(project_name)
     else:
