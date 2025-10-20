@@ -367,16 +367,16 @@ for obj_code, obj_data in object_types.items():
 
 ```bash
 # Export all masterdata to Excel
-bam-masterdata export-to-excel masterdata_export.xlsx
+bam_masterdata export-to-excel masterdata_export.xlsx
 
 # Export specific entity types to JSON
-bam-masterdata export-to-json --entity-types object_types dataset_types output.json
+bam_masterdata export-to-json --entity-types object_types dataset_types output.json
 
 # Run consistency checker
-bam-masterdata checker --verbose
+bam_masterdata checker --verbose
 
 # Fill masterdata from OpenBIS
-bam-masterdata fill-masterdata --url https://openbis.example.com --username user
+bam_masterdata fill-masterdata --url https://openbis.example.com --username user
 ```
 
 ### How to Generate Code from Masterdata
