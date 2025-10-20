@@ -62,7 +62,7 @@ cli/
 
 ---
 
-::: bam_masterdata.cli.excel_to_entities
+::: bam_masterdata.excel.excel_to_entities
     options:
       show_root_heading: true
       members:
