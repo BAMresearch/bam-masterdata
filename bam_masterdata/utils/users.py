@@ -23,6 +23,29 @@ class UserID:
             return parts[0], parts[1]
         return parts[0], ""  # if only one name
 
+    def _de_replacements(self, name: str) -> str:
+        """
+        Perform common German name replacements to standardize the name.
+
+        Args:
+            name (str): Name to standardize.
+
+        Returns:
+            str: Standardized name.
+        """
+        replacements = {
+            "Ä": "Ae",
+            "Ö": "Oe",
+            "Ü": "Ue",
+            "ä": "ae",
+            "ö": "oe",
+            "ü": "ue",
+            "ß": "ss",
+        }
+        for old, new in replacements.items():
+            name = name.replace(old, new)
+        return name
+
     def get_userid_from_names(self, firstname: str, lastname: str) -> str | None:
         """
         Return the userId matching the given first and last name (case-insensitive).
@@ -34,6 +57,8 @@ class UserID:
         Returns:
             str | None: The userId if a match is found, otherwise None.
         """
+        firstname = self._de_replacements(firstname)
+        lastname = self._de_replacements(lastname)
         for u in self.users:
             if (
                 u.firstName.lower() == firstname.lower()
@@ -53,6 +78,8 @@ class UserID:
             str | None: The userId if a match is found, otherwise None.
         """
         firstname, lastname = self._split_name(name)
+        firstname = self._de_replacements(firstname)
+        lastname = self._de_replacements(lastname)
         for u in self.users:
             if (u.firstName.lower(), u.lastName.lower()) == (
                 firstname.lower(),
