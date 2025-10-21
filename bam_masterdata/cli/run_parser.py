@@ -188,8 +188,28 @@ def run_parser(
                 if not collection_name
                 else f"/{space_name}/{project_name}/{collection_name}/{object_instance.code}"
             )
-            object_openbis = space.get_object(identifier)
-            object_openbis.set_props(obj_props)
+            try:
+                object_openbis = space.get_object(identifier)
+                object_openbis.set_props(obj_props)  # update properties
+            except Exception:
+                logger.info(
+                    f"Object with code {object_instance.code} does not exist in openBIS, creating new one."
+                )
+                if not collection_name:
+                    object_openbis = openbis.new_object(
+                        type=object_instance.defs.code,
+                        space=space,
+                        project=project,
+                        props=obj_props,
+                    )
+                else:
+                    object_openbis = openbis.new_object(
+                        type=object_instance.defs.code,
+                        space=space,
+                        project=project,
+                        collection=collection_openbis,
+                        props=obj_props,
+                    )
             object_openbis.save()
             logger.info(
                 f"Object {identifier} already exists in openBIS, updating properties."
