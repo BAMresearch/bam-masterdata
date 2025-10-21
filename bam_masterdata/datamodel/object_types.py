@@ -1451,6 +1451,16 @@ class Instrument(ObjectType):
         section="General Information",
     )
 
+    mac_address = PropertyTypeAssignment(
+        code="MAC_ADDRESS",
+        data_type="VARCHAR",
+        property_label="MAC Address",
+        description="""MAC address of the primary network adapter//MAC Adresse der primären Netzwerkschnittstelle""",
+        mandatory=False,
+        show_in_edit_views=False,
+        section="General Information",
+    )
+
     dfg_device_code = PropertyTypeAssignment(
         code="DFG_DEVICE_CODE",
         data_type="CONTROLLEDVOCABULARY",
