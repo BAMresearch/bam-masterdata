@@ -48,5 +48,5 @@ class TestUserID:
 
 
 def test_get_bam_username():
-    assert get_bam_username(firstname="John", lastname="Doe") == "jdoe"
-    assert get_bam_username(firstname="Markus", lastname="Müller") == "mmueller"
+    assert get_bam_username(firstname="John", lastname="Doe") == "JDOE"
+    assert get_bam_username(firstname="Markus", lastname="Müller") == "MMUELLER"

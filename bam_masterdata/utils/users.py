@@ -102,8 +102,8 @@ def get_bam_username(firstname: str, lastname: str) -> str:
         return name
 
     # German umlaut replacements
-    firstname = _de_replacements(firstname).lower()
-    lastname = _de_replacements(lastname).lower()
+    firstname = _de_replacements(firstname).lower().strip()
+    lastname = _de_replacements(lastname).lower().strip()
 
     # Defining username format
     first_letter = firstname[0]
@@ -111,4 +111,4 @@ def get_bam_username(firstname: str, lastname: str) -> str:
         last_part = lastname[:7]
     else:
         last_part = lastname
-    return f"{first_letter}{last_part}"
+    return f"{first_letter}{last_part}".upper()
