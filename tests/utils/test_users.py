@@ -24,6 +24,12 @@ class TestUserID:
         assert user_id._split_name("Doe, John") == ("Doe", "John")
         assert user_id._split_name("Single") == ("Single", "")
 
+    def test_de_replacements(self):
+        user_id = object.__new__(UserID)  # bypass __init__
+        assert user_id._de_replacements("Müller") == "Mueller"
+        assert user_id._de_replacements("Schröder") == "Schroeder"
+        assert user_id._de_replacements("Groß") == "Gross"
+
     @patch("bam_masterdata.utils.users.ologin")
     def test_get_userid_from_names(self, mock_ologin, mock_openbis):
         mock_ologin.return_value = mock_openbis
@@ -41,7 +47,7 @@ class TestUserID:
 
         user_id = UserID(url="https://fake")
         assert user_id.get_userid_from_fullname("John Doe") == "jdoe"
-        assert user_id.get_userid_from_fullname("Doe, John") == "jdoe"
+        assert user_id.get_userid_from_fullname("Müller, Markus") == "mmueller"
         assert user_id.get_userid_from_fullname("Jane Smith") == "jsmith"
         assert user_id.get_userid_from_fullname("Smith, Jane") == "jsmith"
         assert user_id.get_userid_from_fullname("Unknown User") is None
