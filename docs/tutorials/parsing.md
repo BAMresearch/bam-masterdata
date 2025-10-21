@@ -294,6 +294,14 @@ When `run_parser()` processes this, it will:
 2. Create all sample objects
 3. Establish parent-child links between the experiment and each sample
 
+!!! note "OBJECT properties vs. parent-child relationships"
+    The `add_relationship()` method creates parent-child relationships in openBIS. However, some object types have properties with `data_type="OBJECT"` that reference other objects directly (e.g., an Instrument's `responsible_person` property). These are semantically different ways of linking objects:
+
+    - **Parent-child relationships**: Use `collection.add_relationship(parent_id, child_id)` for hierarchical structures. The link has no semantic meaning and instead links inputs with outputs.
+    - **OBJECT property references**: Assign directly to the property (e.g., `instrument.responsible_person = person_obj`). The link has semantic meaning according to the assigned property.
+
+    See [Working with object references](getting_started.md#working-with-object-references) for more details on object referencing.
+
 ## Updating Existing Objects
 
 Sometimes you want to use parsers to update objects that already exist in openBIS rather than creating new ones. To do this, set the `code` attribute on your object before adding it to the collection.

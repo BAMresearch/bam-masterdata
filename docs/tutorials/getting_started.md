@@ -212,14 +212,14 @@ The data types for each assigned property are defined according to openBIS. Thes
 | `HYPERLINK`          | `str`             | `myobj.url = "https://example.com"`                    |
 | `INTEGER`            | `int`             | `myobj.count = 42`                                     |
 | `MULTILINE_VARCHAR`  | `str`             | `myobj.notes = "Line 1\nLine 2\nLine 3"`               |
-| `OBJECT`             | (openBIS object reference) | `myobj.parent = another_object_instance` (depends on schema) |
+| `OBJECT`             | `ObjectType` or `str` (path) | `myobj.parent = person_obj` or `myobj.parent = "/SPACE/PROJECT/PERSON_001"` |
 | `REAL`               | `float`           | `myobj.temperature = 21.7`                             |
 | `TIMESTAMP`          | `datetime.datetime` | `myobj.created_at = datetime.datetime.now()`           |
 | `VARCHAR`            | `str`             | `myobj.name = "Test sample"`                           |
 | `XML`                | `str` (XML string) | `myobj.config = "<root><tag>value</tag></root>"`       |
 
 
-## Assigning controlled vocabularies
+## Working with controlled vocabularies
 
 Many object types have fields that only accept certain values (controlled vocabularies). Use the value codes found in [bam_masterdata/datamodel/vocabulary_types.py](https://github.com/BAMresearch/bam-masterdata/blob/main/bam_masterdata/datamodel/vocabulary_types.py) or check the class directly:
 ```python
@@ -245,6 +245,82 @@ store.storage_storage_validation_level = "BOX"  # CONTROLLEDVOCABULARY
 !!! tip
     When assigning values to properties assigned to Object Types, we recommend carefully [handling potential errors](https://blog.miguelgrinberg.com/post/the-ultimate-guide-to-error-handling-in-python).
     This will allow your scripts to work without interruption and with a total control of conflictive lines.
+
+
+## Working with object references
+
+Some object types have properties that reference other objects in openBIS (when data type is `OBJECT`). For example, an `Instrument` might have a `responsible_person` property that references a `Person` object.
+
+There are two ways to assign object references:
+
+### 1. Using an Object Instance
+
+If you're creating objects in the same batch, you can directly reference the object instance.
+
+```python
+from bam_masterdata.datamodel.object_types import Instrument
+
+# Create a person object
+person = Person(name="Dr. Jane Smith")
+person.code = "PERSON_001"  # Must have a code to be used as reference
+
+# Create an instrument and reference the person
+instrument = Instrument(name="Microscope A")
+instrument.responsible_person = person  # Direct object reference
+```
+
+!!! warning "Object must have a code"
+    When using object instances as references, they must have a `code` attribute set. Otherwise, a `ValueError` will be raised.
+
+### 2. Using a Path String
+
+If the object already exists in openBIS, you can reference it using its identifier path:
+
+```python
+# Reference an existing object using its path
+instrument = Instrument(name="Microscope B")
+
+# Path format: /{space}/{project}/{collection}/{object}
+instrument.responsible_person = "/LAB_SPACE/PEOPLE_LIST_PROJECT/STAFF_COLLECTION/PERSON_001"
+
+# Or without collection: /{space}/{project}/{object}
+instrument.responsible_person = "/LAB_SPACE/PEOPLE_LIST_PROJECT/PERSON_001"
+```
+
+!!! note "Path format validation"
+    The path must:
+
+    - Start with a forward slash `/`
+    - Have either 3 parts (space/project/object) or 4 parts (space/project/collection/object)
+    - Match an existing object identifier in openBIS
+
+### When to use each approach
+
+- **Use object instances** when creating multiple related objects in the same parsing operation. This option is the alternative to defining parent-child relationships if in an Object Type definition you have assigned a property of a certain data type OBJECT.
+- **Use path strings** when referencing existing objects in openBIS that were created separately.
+
+Example combining both approaches:
+
+```python
+from bam_masterdata.metadata.entities import CollectionType
+
+collection = CollectionType()
+
+# Create and add a person
+person = Person(name="Dr. Smith")
+person.code = "PERSON_001"
+person_id = collection.add(person)
+
+# Create instrument referencing the new person (by instance)
+instrument1 = Instrument(name="Instrument 1")
+instrument1.responsible_person = person
+collection.add(instrument1)
+
+# Create another instrument referencing an existing person in openBIS (by path)
+instrument2 = Instrument(name="Instrument 2")
+instrument2.responsible_person = "/MY_SPACE/MY_PROJECT/EXISTING_PERSON_002"
+collection.add(instrument2)
+```
 
 
 ## Saving your Object Types instances in a collection

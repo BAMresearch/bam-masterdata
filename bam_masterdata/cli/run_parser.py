@@ -1,7 +1,11 @@
 from pybis import Openbis
 
 from bam_masterdata.logger import logger
-from bam_masterdata.metadata.entities import CollectionType, PropertyTypeAssignment
+from bam_masterdata.metadata.entities import (
+    CollectionType,
+    ObjectType,
+    PropertyTypeAssignment,
+)
 from bam_masterdata.parsing import AbstractParser
 
 
@@ -107,7 +111,58 @@ def run_parser(
             value = getattr(object_instance, key, None)
             if value is None or isinstance(value, PropertyTypeAssignment):
                 continue
-            obj_props[object_instance._property_metadata[key].code.lower()] = value
+
+            # Handle OBJECT data type properties
+            property_metadata = object_instance._property_metadata[key]
+            if property_metadata.data_type == "OBJECT":
+                if isinstance(value, str):
+                    # Value is a path string, verify it exists in openBIS
+                    try:
+                        referenced_object = openbis.get_object(value)
+                        # Use the identifier from the fetched object
+                        obj_props[property_metadata.code.lower()] = (
+                            referenced_object.identifier
+                        )
+                    except Exception as e:
+                        logger.error(
+                            f"Failed to resolve OBJECT reference '{value}' for property '{key}': {e}"
+                        )
+                        continue
+                elif isinstance(value, ObjectType):
+                    # Value is an ObjectType instance, construct the path
+                    if not value.code:
+                        logger.warning(
+                            f"OBJECT reference for property '{key}' has no code, skipping"
+                        )
+                        continue
+                    # Construct the identifier path
+                    # Try to find this object in the openbis_id_map first (if it's being created in the same batch)
+                    referenced_identifier = None
+                    for obj_id, obj_inst in collection.attached_objects.items():
+                        if obj_inst is value and obj_id in openbis_id_map:
+                            referenced_identifier = openbis_id_map[obj_id]
+                            break
+
+                    if not referenced_identifier:
+                        # Construct identifier from the object's code
+                        # Assume it's in the same space/project as the current object
+                        if not collection_name:
+                            referenced_identifier = (
+                                f"/{space_name}/{project_name}/{value.code}"
+                            )
+                        else:
+                            referenced_identifier = f"/{space_name}/{project_name}/{collection_name}/{value.code}"
+
+                    obj_props[property_metadata.code.lower()] = referenced_identifier
+                else:
+                    # Unexpected type, skip
+                    logger.warning(
+                        f"Unexpected type for OBJECT property '{key}': {type(value).__name__}"
+                    )
+                    continue
+            else:
+                # Not an OBJECT type, handle normally
+                obj_props[property_metadata.code.lower()] = value
 
         # Check if object already exists in openBIS, and if so, notify and get for updating properties
         if not object_instance.code:
