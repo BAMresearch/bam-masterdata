@@ -187,7 +187,8 @@ def mock_openbis():
     # Mock users
     mock_user1 = MagicMock(firstName="John", lastName="Doe", userId="jdoe")
     mock_user2 = MagicMock(firstName="Jane", lastName="Smith", userId="jsmith")
-    mock_openbis.get_users.return_value = [mock_user1, mock_user2]
+    mock_user3 = MagicMock(firstName="Markus", lastName="Müller", userId="mmueller")
+    mock_openbis.get_users.return_value = [mock_user1, mock_user2, mock_user3]
 
     # Mock object creation with pybis
     mock_openbis._objects = []
