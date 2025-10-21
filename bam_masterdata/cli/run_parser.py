@@ -124,7 +124,7 @@ def run_parser(
                             referenced_object.identifier
                         )
                     except Exception as e:
-                        logger.warning(
+                        logger.error(
                             f"Failed to resolve OBJECT reference '{value}' for property '{key}': {e}"
                         )
                         continue
