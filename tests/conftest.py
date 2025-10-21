@@ -179,6 +179,7 @@ def mock_openbis():
     mock_openbis.get_spaces.return_value = []
 
     def new_object(**kwargs):
+        print("Creating new object with args:", kwargs)
         obj = MagicMock(**kwargs)
         obj.identifier = f"/fake/{len(mock_openbis._objects) + 1}"
         mock_openbis._objects.append(obj)
