@@ -23,29 +23,6 @@ class UserID:
             return parts[0], parts[1]
         return parts[0], ""  # if only one name
 
-    def _de_replacements(self, name: str) -> str:
-        """
-        Perform common German name replacements to standardize the name.
-
-        Args:
-            name (str): Name to standardize.
-
-        Returns:
-            str: Standardized name.
-        """
-        replacements = {
-            "Ä": "Ae",
-            "Ö": "Oe",
-            "Ü": "Ue",
-            "ä": "ae",
-            "ö": "oe",
-            "ü": "ue",
-            "ß": "ss",
-        }
-        for old, new in replacements.items():
-            name = name.replace(old, new)
-        return name
-
     def get_userid_from_names(self, firstname: str, lastname: str) -> str | None:
         """
         Return the userId matching the given first and last name (case-insensitive).
@@ -87,28 +64,51 @@ class UserID:
                 return u.userId
         return None
 
-    def get_bam_userid(self, name: str) -> str | None:
+
+def get_bam_username(firstname: str, lastname: str) -> str:
+    """
+    Tries to get the BAM username from the first and last names. The BAM username guess is defined by concatenating
+    the first letter of the first name with the, max. 7 digits of the last name.
+
+    Args:
+        firstname (str): The first name.
+        lastname (str): The last name.
+
+    Returns:
+        str: The guessed BAM username.
+    """
+
+    def _de_replacements(name: str) -> str:
         """
-        Return the BAM userId matching the given fullname (case-insensitive). It uses the `_split_name` and `_de_replacements` methods.
+        Perform common German name replacements to standardize the name.
 
         Args:
-            name (str): Full name, e.g., "Markus Müller" or "Müller, Markus".
+            name (str): Name to standardize.
 
         Returns:
-            str: The BAM userId if existing in openBIS, e.g., "mmueller".
+            str: Standardized name.
         """
-        firstname, lastname = self._split_name(name)
-        firstname = self._de_replacements(firstname).lower()
-        lastname = self._de_replacements(lastname).lower()
+        replacements = {
+            "Ä": "Ae",
+            "Ö": "Oe",
+            "Ü": "Ue",
+            "ä": "ae",
+            "ö": "oe",
+            "ü": "ue",
+            "ß": "ss",
+        }
+        for old, new in replacements.items():
+            name = name.replace(old, new)
+        return name
 
-        # username format: first letter of firstname + first 7 letters of lastname
-        first_letter = firstname[0]
-        if len(lastname) <= 7:
-            last_name = lastname
-        else:
-            last_name = lastname[:7]
-        username = f"{first_letter}{last_name}"
-        for u in self.users:
-            if u.userId.lower() == username:
-                return u.userId
-        return None
+    # German umlaut replacements
+    firstname = _de_replacements(firstname).lower()
+    lastname = _de_replacements(lastname).lower()
+
+    # Defining username format
+    first_letter = firstname[0]
+    if len(lastname) > 7:
+        last_part = lastname[:7]
+    else:
+        last_part = lastname
+    return f"{first_letter}{last_part}"
