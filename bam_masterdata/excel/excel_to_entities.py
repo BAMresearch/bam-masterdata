@@ -169,7 +169,6 @@ class MasterdataExcelExtractor:
                     cell_coordinate=coordinate,
                     sheet_title=sheet_title,
                 )
-                val = val.upper()
         elif is_url:
             if not re.match(
                 r"https?://(?:www\.)?[a-zA-Z0-9-._~:/?#@!$&'()*+,;=%]+", val
@@ -541,7 +540,7 @@ class MasterdataExcelExtractor:
         extracted_columns: dict[str, list] = {term: [] for term in expected_terms}
 
         # Helper function to process each term
-        def process_term(term, cell_value, coordinate, sheet_title):
+        def process_term_cell(term, cell_value, coordinate, sheet_title):
             if term == "Official":
                 return self.str_to_bool(
                     value=cell_value,
@@ -573,7 +572,7 @@ class MasterdataExcelExtractor:
             # Extract values from the column
             for cell in sheet[term_letter][header_index:last_non_empty_row]:
                 extracted_columns[term].append(
-                    process_term(term, cell.value, cell.coordinate, sheet.title)
+                    process_term_cell(term, cell.value, cell.coordinate, sheet.title)
                 )
 
         # Combine extracted values into a dictionary
@@ -581,11 +580,11 @@ class MasterdataExcelExtractor:
             terms_dict[extracted_columns["Code"][i]] = {
                 "permId": extracted_columns["Code"][i],
                 "code": extracted_columns["Code"][i],
-                "descriptions": extracted_columns["Description"][i],
-                "url_template": extracted_columns["Url template"][i],
-                "label": extracted_columns["Label"][i],
-                "official": extracted_columns["Official"][i],
             }
+            for attr_key in ["Description", "Url template", "Label", "Official"]:
+                if extracted_columns.get(attr_key):
+                    value = extracted_columns[attr_key][i]
+                    terms_dict[extracted_columns["Code"][i]][attr_key] = value
 
         return terms_dict
 
