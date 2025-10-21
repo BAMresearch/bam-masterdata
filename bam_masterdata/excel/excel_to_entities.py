@@ -160,6 +160,8 @@ class MasterdataExcelExtractor:
                     sheet_title=sheet_title,
                 )
         elif is_data:
+            # Normalize data type to uppercase
+            val = val.upper()
             if val not in [dt.value for dt in DataType]:
                 self.logger.error(
                     error_message
@@ -581,10 +583,15 @@ class MasterdataExcelExtractor:
                 "permId": extracted_columns["Code"][i],
                 "code": extracted_columns["Code"][i],
             }
-            for attr_key in ["Description", "Url template", "Label", "Official"]:
-                if extracted_columns.get(attr_key):
-                    value = extracted_columns[attr_key][i]
-                    terms_dict[extracted_columns["Code"][i]][attr_key] = value
+            for key, pybis_val in {
+                "Description": "descriptions",
+                "Url template": "url_template",
+                "Label": "label",
+                "Official": "official",
+            }.items():
+                if extracted_columns.get(key):
+                    value = extracted_columns[key][i]
+                    terms_dict[extracted_columns["Code"][i]][pybis_val] = value
 
         return terms_dict
 
