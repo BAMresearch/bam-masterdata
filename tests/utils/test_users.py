@@ -2,7 +2,7 @@ from unittest.mock import patch
 
 import pytest
 
-from bam_masterdata.utils.users import UserID
+from bam_masterdata.utils.users import UserID, get_bam_username
 
 
 class TestUserID:
@@ -23,12 +23,6 @@ class TestUserID:
         assert user_id._split_name("John Doe") == ("John", "Doe")
         assert user_id._split_name("Doe, John") == ("Doe", "John")
         assert user_id._split_name("Single") == ("Single", "")
-
-    def test_de_replacements(self):
-        user_id = object.__new__(UserID)  # bypass __init__
-        assert user_id._de_replacements("Müller") == "Mueller"
-        assert user_id._de_replacements("Schröder") == "Schroeder"
-        assert user_id._de_replacements("Groß") == "Gross"
 
     @patch("bam_masterdata.utils.users.ologin")
     def test_get_userid_from_names(self, mock_ologin, mock_openbis):
@@ -52,11 +46,7 @@ class TestUserID:
         assert user_id.get_userid_from_fullname("Smith, Jane") == "jsmith"
         assert user_id.get_userid_from_fullname("Unknown User") is None
 
-    @patch("bam_masterdata.utils.users.ologin")
-    def test_get_bam_userid(self, mock_ologin, mock_openbis):
-        mock_ologin.return_value = mock_openbis
 
-        user_id = UserID(url="https://fake")
-        assert user_id.get_bam_userid("John Doe") == "jdoe"
-        assert user_id.get_bam_userid("Markus Müller") == "mmueller"
-        assert user_id.get_bam_userid("Nonexistent User") is None
+def test_get_bam_username():
+    assert get_bam_username(firstname="John", lastname="Doe") == "jdoe"
+    assert get_bam_username(firstname="Markus", lastname="Müller") == "mmueller"
