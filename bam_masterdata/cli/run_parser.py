@@ -198,6 +198,7 @@ def run_parser(
                 if not collection_name:
                     object_openbis = openbis.new_object(
                         type=object_instance.defs.code,
+                        code=object_instance.code,
                         space=space,
                         project=project,
                         props=obj_props,
@@ -205,6 +206,7 @@ def run_parser(
                 else:
                     object_openbis = openbis.new_object(
                         type=object_instance.defs.code,
+                        code=object_instance.code,
                         space=space,
                         project=project,
                         collection=collection_openbis,
