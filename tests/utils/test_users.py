@@ -51,3 +51,12 @@ class TestUserID:
         assert user_id.get_userid_from_fullname("Jane Smith") == "jsmith"
         assert user_id.get_userid_from_fullname("Smith, Jane") == "jsmith"
         assert user_id.get_userid_from_fullname("Unknown User") is None
+
+    @patch("bam_masterdata.utils.users.ologin")
+    def test_get_bam_userid(self, mock_ologin, mock_openbis):
+        mock_ologin.return_value = mock_openbis
+
+        user_id = UserID(url="https://fake")
+        assert user_id.get_bam_userid("John Doe") == "jdoe"
+        assert user_id.get_bam_userid("Markus Müller") == "mmueller"
+        assert user_id.get_bam_userid("Nonexistent User") is None

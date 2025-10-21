@@ -57,8 +57,6 @@ class UserID:
         Returns:
             str | None: The userId if a match is found, otherwise None.
         """
-        firstname = self._de_replacements(firstname)
-        lastname = self._de_replacements(lastname)
         for u in self.users:
             if (
                 u.firstName.lower() == firstname.lower()
@@ -78,8 +76,6 @@ class UserID:
             str | None: The userId if a match is found, otherwise None.
         """
         firstname, lastname = self._split_name(name)
-        firstname = self._de_replacements(firstname)
-        lastname = self._de_replacements(lastname)
         for u in self.users:
             if (u.firstName.lower(), u.lastName.lower()) == (
                 firstname.lower(),
@@ -88,5 +84,31 @@ class UserID:
                 lastname.lower(),
                 firstname.lower(),
             ):
+                return u.userId
+        return None
+
+    def get_bam_userid(self, name: str) -> str | None:
+        """
+        Return the BAM userId matching the given fullname (case-insensitive). It uses the `_split_name` and `_de_replacements` methods.
+
+        Args:
+            name (str): Full name, e.g., "Markus Müller" or "Müller, Markus".
+
+        Returns:
+            str: The BAM userId if existing in openBIS, e.g., "mmueller".
+        """
+        firstname, lastname = self._split_name(name)
+        firstname = self._de_replacements(firstname).lower()
+        lastname = self._de_replacements(lastname).lower()
+
+        # username format: first letter of firstname + first 7 letters of lastname
+        first_letter = firstname[0]
+        if len(lastname) <= 7:
+            last_name = lastname
+        else:
+            last_name = lastname[:7]
+        username = f"{first_letter}{last_name}"
+        for u in self.users:
+            if u.userId.lower() == username:
                 return u.userId
         return None
