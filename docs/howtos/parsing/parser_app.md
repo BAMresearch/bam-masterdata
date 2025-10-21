@@ -1,6 +1,6 @@
-# How-to: Use the Parser app
+# How-to: Use the Parser App
 
-This how-to guide explains how to use the Parser app in your browser to upload files, run the parser, and transfer parsed metadata to the Data Store. It is intended for users who want a step-by-step walkthrough of the main app functions.
+This how-to guide explains how to use the Parser App in your browser to upload files, run the parser, and transfer parsed metadata to the Data Store. It is intended for users who want a step-by-step walkthrough of the main app functions.
 
 !!! note "Prerequisites"
     <!-- List here any prerequisites needed to deploy or understand the app (e.g., login credentials, access to Spaces, supported file formats). -->
@@ -12,13 +12,13 @@ This how-to guide explains how to use the Parser app in your browser to upload f
 
 <ol>
     <li>Open your web browser.</li>
-    <li>Go to the provided URL of the Parser app (e.g., https://parser.example.com).</li>
+    <li>Go to the provided URL of the Parser App (e.g., https://parser.example.com).</li>
     <li>The login page of the app will appear.</li>
 
     <div class="click-zoom">
         <label>
             <input type="checkbox">
-            <img src="../../../assets/parsing/LoginParserApp.jpg" alt="Login in the Parser app." width="50%" title="Click to zoom in">
+            <img src="../../../assets/parsing/LoginParserApp.jpg" alt="Login in the Parser App." width="50%" title="Click to zoom in">
         </label>
     </div>
 
@@ -38,7 +38,7 @@ This how-to guide explains how to use the Parser app in your browser to upload f
 <div class="click-zoom">
     <label>
         <input type="checkbox">
-        <img src="../../../assets/parsing/Card1ParserApp.jpg" alt="Card 1 in the Parser app." width="50%" title="Click to zoom in">
+        <img src="../../../assets/parsing/Card1ParserApp.jpg" alt="Card 1 in the Parser App." width="50%" title="Click to zoom in">
     </label>
 </div>
 
@@ -52,7 +52,7 @@ This how-to guide explains how to use the Parser app in your browser to upload f
 <div class="click-zoom">
     <label>
         <input type="checkbox">
-        <img src="../../../assets/parsing/Card2.jpg" alt="Card 2 in the Parser app." width="50%" title="Click to zoom in">
+        <img src="../../../assets/parsing/Card2.jpg" alt="Card 2 in the Parser App." width="50%" title="Click to zoom in">
     </label>
 </div>
 
@@ -64,7 +64,7 @@ This how-to guide explains how to use the Parser app in your browser to upload f
 <div class="click-zoom">
     <label>
         <input type="checkbox">
-        <img src="../../../assets/parsing/Card3Logs.jpg" alt="Card 3 in the Parser app." width="50%" title="Click to zoom in">
+        <img src="../../../assets/parsing/Card3Logs.jpg" alt="Card 3 in the Parser App." width="50%" title="Click to zoom in">
     </label>
 </div>
 
@@ -72,7 +72,7 @@ This how-to guide explains how to use the Parser app in your browser to upload f
 
 ## Advanced: Updating Existing Objects
 
-The Parser app can update existing objects in the Data Store rather than always creating new ones. This is useful when you want to:
+The Parser App can update existing objects in the Data Store rather than always creating new ones. This is useful when you want to:
 
 - Update metadata for samples or experiments that already exist.
 - Correct or enrich existing data.
@@ -80,7 +80,7 @@ The Parser app can update existing objects in the Data Store rather than always 
 
 To update an existing object, your parser must set the `code` attribute on the object instance. When the `code` is set:
 
-1. The Parser app looks for an existing object with that code in your Space/Project/Collection (note that Collection is optional if objects exist at the Project level).
+1. The Parser App looks for an existing object with that code in your Space/Project/Collection (note that Collection is optional if objects exist at the Project level).
 2. If found, the object's properties are updated with the new values.
 3. A log message confirms that the existing object was updated.
 

@@ -616,6 +616,67 @@ class ObjectType(BaseEntity):
         for key, prop in self._property_metadata.items():
             self._properties[key] = prop.data_type
 
+    def _set_object_value(self, key, value):
+        """
+        Sets the value when the data type is OBJECT.
+        """
+        if isinstance(value, str):
+            # Validate the path format: /{space}/{project}/{collection}/{object} or /{space}/{project}/{object}
+            # If path is valid, store it as-is
+            if not value.startswith("/"):
+                raise ValueError(
+                    f"Invalid OBJECT path format for '{key}': Path must start with '/', got '{value}'"
+                )
+            path_parts = value.strip("/").split("/")
+            if len(path_parts) not in [3, 4]:
+                raise ValueError(
+                    f"Invalid OBJECT path format for '{key}': Expected '/<space>/<project>/<collection>/<object>' "
+                    f"or '/<space>/<project>/<object>', got '{value}'"
+                )
+            # * We don't validate if the object exists here as it requires pybis connection
+            # * That validation should be done when saving to openBIS
+        elif isinstance(value, ObjectType):
+            # Check if the object instance has a code
+            if not hasattr(value, "code") or value.code is None:
+                raise ValueError(
+                    f"Object instance for '{key}' must have a 'code' attribute set to be used as a reference"
+                )
+        else:
+            raise TypeError(
+                f"Invalid type for OBJECT property '{key}': Expected str (path) or ObjectType instance, "
+                f"got {type(value).__name__}"
+            )
+        return value
+
+    def _validate_controlled_vocabulary(self, meta, key, value) -> None:
+        """
+        Validates the value of a CONTROLLEDVOCABULARY.
+        """
+        vocabulary_code = meta[key].vocabulary_code
+        if not vocabulary_code:
+            raise ValueError(
+                f"Property '{key}' of type CONTROLLEDVOCABULARY must have a vocabulary_code defined."
+            )
+        vocab_path = None
+        for file in listdir_py_modules(DATAMODEL_DIR):
+            if "vocabulary_types.py" in file:
+                vocab_path = file
+                break
+        if vocab_path is None:
+            raise FileNotFoundError(
+                f"The file 'vocabulary_types.py' was not found in the directory specified by {DATAMODEL_DIR}."
+            )
+        vocabulary_class = self.get_vocabulary_class(vocabulary_code, vocab_path)
+        if vocabulary_class is None:
+            raise ValueError(
+                f"No matching vocabulary class found for vocabulary_code '{vocabulary_code}'."
+            )
+        codes = [term.code for term in vocabulary_class.terms]
+        if value not in codes:
+            raise ValueError(
+                f"{value} for {key} is not in the list of allowed terms for vocabulary."
+            )
+
     def __setattr__(self, key, value):
         if key in ["_property_metadata", "_properties", "code"]:
             super().__setattr__(key, value)
@@ -660,36 +721,19 @@ class ObjectType(BaseEntity):
                         raise TypeError(
                             f"Invalid type for '{key}': Expected {expected_type.__name__}, got {type(value).__name__}"
                         )
-                    #  CONTROLLEDVOCABULARY check
+
+                    # Get data type for additional checks
                     data_type = meta[key].data_type
-                    if data_type == "CONTROLLEDVOCABULARY":
-                        vocabulary_code = meta[key].vocabulary_code
-                        if not vocabulary_code:
-                            raise ValueError(
-                                f"Property '{key}' of type CONTROLLEDVOCABULARY must have a vocabulary_code defined."
-                            )
-                        vocab_path = None
-                        for file in listdir_py_modules(DATAMODEL_DIR):
-                            if "vocabulary_types.py" in file:
-                                vocab_path = file
-                                break
-                        if vocab_path is None:
-                            raise FileNotFoundError(
-                                f"The file 'vocabulary_types.py' was not found in the directory specified by {DATAMODEL_DIR}."
-                            )
-                        vocabulary_class = self.get_vocabulary_class(
-                            vocabulary_code, vocab_path
+                    # OBJECT check and attr assignment
+                    if data_type == "OBJECT":
+                        return object.__setattr__(
+                            self, key, self._set_object_value(key, value)
                         )
-                        if vocabulary_class is None:
-                            raise ValueError(
-                                f"No matching vocabulary class found for vocabulary_code '{vocabulary_code}'."
-                            )
-                        codes = [term.code for term in vocabulary_class.terms]
-                        if value not in codes:
-                            raise ValueError(
-                                f"{value} for {key} is not in the list of allowed terms for vocabulary."
-                            )
-                    # set attribute
+                    # CONTROLLEDVOCABULARY check
+                    if data_type == "CONTROLLEDVOCABULARY":
+                        self._validate_controlled_vocabulary(meta, key, value)
+
+                    # Setting attribute value after all checks
                     return object.__setattr__(self, key, value)
 
         raise KeyError(

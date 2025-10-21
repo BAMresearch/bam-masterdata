@@ -8,9 +8,10 @@ nav:
     - Getting Started: tutorials/getting_started.md
     - Automating Metadata with Parsers: tutorials/parsing.md
   - How-to Guides:
+    - Work with Object References: howtos/object_references.md
     - Parsing:
-      - Use the Parser app: howtos/parsing/parser_app.md
-      - Create new parsers: howtos/parsing/create_new_parsers.md
+      - Use the Parser App: howtos/parsing/parser_app.md
+      - Create New Parsers: howtos/parsing/create_new_parsers.md
   - Explanations:
     - Parsing Structure: explanations/parsing_structure.md
     - Schema Definitions: explanations/schema_defs.md
