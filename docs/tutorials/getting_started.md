@@ -219,7 +219,7 @@ The data types for each assigned property are defined according to openBIS. Thes
 | `XML`                | `str` (XML string) | `myobj.config = "<root><tag>value</tag></root>"`       |
 
 
-## Assigning controlled vocabularies
+## Working with controlled vocabularies
 
 Many object types have fields that only accept certain values (controlled vocabularies). Use the value codes found in [bam_masterdata/datamodel/vocabulary_types.py](https://github.com/BAMresearch/bam-masterdata/blob/main/bam_masterdata/datamodel/vocabulary_types.py) or check the class directly:
 ```python
@@ -247,15 +247,15 @@ store.storage_storage_validation_level = "BOX"  # CONTROLLEDVOCABULARY
     This will allow your scripts to work without interruption and with a total control of conflictive lines.
 
 
-## Working with OBJECT references
+## Working with object references
 
-Some object types have properties that reference other objects in openBIS (data type `OBJECT`). For example, an `Instrument` might have a `responsible_person` property that references a `Person` object.
+Some object types have properties that reference other objects in openBIS (when data type is `OBJECT`). For example, an `Instrument` might have a `responsible_person` property that references a `Person` object.
 
-There are two ways to assign OBJECT properties:
+There are two ways to assign object references:
 
 ### 1. Using an Object Instance
 
-If you're creating objects in the same batch, you can directly reference the object instance:
+If you're creating objects in the same batch, you can directly reference the object instance.
 
 ```python
 from bam_masterdata.datamodel.object_types import Instrument
@@ -281,23 +281,23 @@ If the object already exists in openBIS, you can reference it using its identifi
 instrument = Instrument(name="Microscope B")
 
 # Path format: /{space}/{project}/{collection}/{object}
-instrument.responsible_person = "/LAB_SPACE/INSTRUMENTS_PROJECT/STAFF/PERSON_001"
+instrument.responsible_person = "/LAB_SPACE/PEOPLE_LIST_PROJECT/STAFF_COLLECTION/PERSON_001"
 
 # Or without collection: /{space}/{project}/{object}
-instrument.responsible_person = "/LAB_SPACE/INSTRUMENTS_PROJECT/PERSON_001"
+instrument.responsible_person = "/LAB_SPACE/PEOPLE_LIST_PROJECT/PERSON_001"
 ```
 
 !!! note "Path format validation"
     The path must:
-    
+
     - Start with a forward slash `/`
     - Have either 3 parts (space/project/object) or 4 parts (space/project/collection/object)
-    - Match an existing object in openBIS when using `run_parser()`
+    - Match an existing object identifier in openBIS
 
 ### When to use each approach
 
-- **Use object instances** when creating multiple related objects in the same parsing operation
-- **Use path strings** when referencing existing objects in openBIS that were created separately
+- **Use object instances** when creating multiple related objects in the same parsing operation. This option is the alternative to defining parent-child relationships if in an Object Type definition you have assigned a property of a certain data type OBJECT.
+- **Use path strings** when referencing existing objects in openBIS that were created separately.
 
 Example combining both approaches:
 
@@ -321,12 +321,6 @@ instrument2 = Instrument(name="Instrument 2")
 instrument2.responsible_person = "/MY_SPACE/MY_PROJECT/EXISTING_PERSON_002"
 collection.add(instrument2)
 ```
-
-When using `run_parser()` to push these objects to openBIS, the system will:
-
-1. Verify that path string references point to existing objects
-2. Construct appropriate identifiers for object instance references
-3. Create the proper relationships in openBIS
 
 
 ## Saving your Object Types instances in a collection
