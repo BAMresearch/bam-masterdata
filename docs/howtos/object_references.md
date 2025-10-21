@@ -1,8 +1,8 @@
-# How-to: Work with OBJECT References
+# How-to: Work with Object References
 
-This guide shows you how to work with OBJECT type properties that reference other objects in openBIS.
+This how-to guide shows you how to work with properties whose data type is OBJECT in order to reference other objects in openBIS.
 
-## What are OBJECT properties?
+## What are object references?
 
 Some object types have properties with `data_type="OBJECT"` that create references to other objects. For example:
 
@@ -10,7 +10,10 @@ Some object types have properties with `data_type="OBJECT"` that create referenc
 - A `Calibration` might have an `instrument` property that references an `Instrument` object
 - A `Sample` might have a `parent_sample` property that references another `Sample` object
 
-These are different from parent-child relationships created with `collection.add_relationship()`.
+These are properties defined to reference other existing objects in openBIS. Their purpose is to link between objects, similar to what a parent-child relationship do. However, these links have a semantic meaning, while parent-child relationships are only connecting inputs with outputs.
+
+??? note "Semantic meaning of object referencing"
+    The semantic meaning of object referencing is given by the name of the property (e.g., a person responsible for operating an instrument). Nevertheless, openBIS will soon allow for adding more metainformation to these properties to create a more complete description of objects and their relationships.
 
 ## Option 1: Reference by Object Instance
 
@@ -36,7 +39,7 @@ instrument_id = collection.add(instrument)
 
 !!! warning "Object must have a code"
     When referencing an object instance, it **must** have a `code` attribute set. If not, you'll get a `ValueError`:
-    
+
     ```
     ValueError: Object instance for 'responsible_person' must have a 'code' attribute set
     ```
@@ -61,10 +64,10 @@ instrument.responsible_person = "/LAB_SPACE/INSTRUMENTS/PERSON_001"
 
 !!! note "Path validation"
     The path must:
-    
+
     - Start with `/`
     - Have either 3 parts (space/project/object) or 4 parts (space/project/collection/object)
-    - Point to an existing object in openBIS when using `run_parser()`
+    - Point to an existing object in openBIS
 
 ## Combining Both Approaches
 
@@ -80,50 +83,16 @@ class InstrumentParser(AbstractParser):
         new_person = Person(name="Dr. Alice Johnson")
         new_person.code = "PERSON_NEW_001"
         collection.add(new_person)
-        
+
         # Instrument 1: References the newly created person
         instrument1 = Instrument(name="Microscope A")
         instrument1.responsible_person = new_person  # Object instance
         collection.add(instrument1)
-        
+
         # Instrument 2: References an existing person in openBIS
         instrument2 = Instrument(name="Microscope B")
         instrument2.responsible_person = "/LAB_SPACE/PROJECT/PERSON_EXISTING"  # Path
         collection.add(instrument2)
-```
-
-## Common Use Cases
-
-### Assigning Multiple Related Objects
-
-```python
-# Create a calibration record for an instrument
-from bam_masterdata.datamodel.object_types import Calibration, Instrument
-
-# Existing instrument in openBIS
-calibration = Calibration(name="Annual Calibration 2024")
-calibration.instrument = "/LAB_SPACE/EQUIPMENT/INS_001"
-calibration.calibration_date = datetime.date(2024, 12, 15)
-```
-
-### Building Object Hierarchies
-
-```python
-# Create a hierarchy of experimental steps
-from bam_masterdata.datamodel.object_types import ExperimentalStep
-
-parent_step = ExperimentalStep(name="Main Experiment")
-parent_step.code = "EXP_MAIN_001"
-collection.add(parent_step)
-
-# Child steps can reference the parent via OBJECT property (if defined)
-child_step = ExperimentalStep(name="Preparation Phase")
-# Assuming there's a parent_step property:
-# child_step.parent_step = parent_step
-collection.add(child_step)
-
-# Note: Use collection.add_relationship() for parent-child relationships
-collection.add_relationship(parent_id=parent_step_id, child_id=child_step_id)
 ```
 
 ## Troubleshooting
@@ -174,17 +143,3 @@ try:
 except:
     print("Object not found - create it first or use a different path")
 ```
-
-## Best Practices
-
-1. **Use object instances** when creating related objects in the same batch operation
-2. **Use path strings** when referencing existing objects that were created separately
-3. **Always set codes** on object instances before using them as references
-4. **Validate paths** before running `run_parser()` to avoid runtime errors
-5. **Document your references** in your parser code to make relationships clear
-
-## Related Documentation
-
-- [Tutorial: Getting Started - Working with OBJECT references](../tutorials/getting_started.md#working-with-object-references)
-- [Tutorial: Automating Metadata Injection - Creating Relationships](../tutorials/parsing.md#creating-relationships-between-objects)
-- [API Reference: PropertyTypeAssignment](../references/api.md)
