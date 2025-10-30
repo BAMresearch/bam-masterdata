@@ -622,7 +622,7 @@ def push_to_openbis(file_path, datamodel_path):
     "collection_type",  # alias
     type=click.Choice(["COLLECTION", "DEFAULT_EXPERIMENT"], case_sensitive=False),
     default="COLLECTION",
-    help='Type of collection to create in openBIS. Options are "COLLECTION" or "DEFAULT_EXPERIMENT". Defaults to "COLLECTION".',
+    help="Type of collection to create in openBIS. Options are 'COLLECTION' or 'DEFAULT_EXPERIMENT'. Defaults to 'COLLECTION'.",
 )
 def parser(files_parser, project_name, collection_name, space_name, collection_type):
     parser_map = {}  # TODO load from configuration from yaml file
