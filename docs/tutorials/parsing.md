@@ -54,6 +54,7 @@ The whole process then depends on the inputs and output `run_parser()`:
     - `space_name`: _string_, this coincides with the space name you have associated in your openBIS instance
     - `project_name`: _string_, the name of the project where you want to store the parsed objects
     - `collection_name`: _string_, optional, the name of the collection you want to store the parsed objects
+    - `collection_type`: _string_, optional, the type of collection to create in openBIS. Options are `"COLLECTION"` or `"DEFAULT_EXPERIMENT"`. Defaults to `"COLLECTION"`.
     - `files_parser`: _dict_, a dictionary where the keys are the parser class instances (see below) and the values are the files you want to pass to the specific parser class
 - **Output**: the metadata objects and relationships mapped to your space/project/collection in openBIS
 
@@ -193,9 +194,17 @@ run_parser(
     space_name="MY_RESEARCH_SPACE",
     project_name="MY_PROJECT",
     collection_name="MY_EXPERIMENT_COLLECTION",
-    files_parser=files_parser
+    files_parser=files_parser,
+    collection_type="COLLECTION"  # Optional: defaults to "COLLECTION"
 )
 ```
+
+!!! tip "Collection Types"
+    You can choose between two collection types:
+    - `"COLLECTION"` (default): A general-purpose collection type
+    - `"DEFAULT_EXPERIMENT"`: A collection type designed for experiments with additional metadata fields like start/end dates, experimental goals, etc.
+    
+    If you don't specify `collection_type`, it defaults to `"COLLECTION"`.
 
 ### What Happens Next?
 
@@ -235,7 +244,8 @@ run_parser(
     space_name="MY_RESEARCH_SPACE",
     project_name="MY_PROJECT",
     collection_name="MULTI_DATA_COLLECTION",
-    files_parser=files_parser
+    files_parser=files_parser,
+    collection_type="DEFAULT_EXPERIMENT"  # Use DEFAULT_EXPERIMENT for experiment data
 )
 ```
 
@@ -456,7 +466,8 @@ def main():
         space_name="RESEARCH_SPACE",
         project_name="AUTOMATION_TEST",
         collection_name="BATCH_EXPERIMENTS",
-        files_parser=files_parser
+        files_parser=files_parser,
+        collection_type="DEFAULT_EXPERIMENT"
     )
 
     print("Metadata injection complete!")
