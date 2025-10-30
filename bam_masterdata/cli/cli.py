@@ -617,7 +617,14 @@ def push_to_openbis(file_path, datamodel_path):
     required=False,
     help="OpenBIS space name",
 )
-def parser(files_parser, project_name, collection_name, space_name):
+@click.option(
+    "--collection-type",
+    "collection_type",  # alias
+    type=click.Choice(["COLLECTION", "DEFAULT_EXPERIMENT"], case_sensitive=False),
+    default="COLLECTION",
+    help='Type of collection to create in openBIS. Options are "COLLECTION" or "DEFAULT_EXPERIMENT". Defaults to "COLLECTION".',
+)
+def parser(files_parser, project_name, collection_name, space_name, collection_type):
     parser_map = {}  # TODO load from configuration from yaml file
     parse_file_dict = {}
     for parser_key, filepath in files_parser:
@@ -636,6 +643,7 @@ def parser(files_parser, project_name, collection_name, space_name):
         project_name=project_name,
         collection_name=collection_name,
         files_parser=parse_file_dict,
+        collection_type=collection_type.upper(),
     )
 
 
