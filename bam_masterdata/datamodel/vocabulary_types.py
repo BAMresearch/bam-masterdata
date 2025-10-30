@@ -78455,22 +78455,16 @@ class OrganismGroup(VocabularyType):
         description="""Fungi//Pilze""",
     )
 
-    moths = VocabularyTerm(
-        code="MOTHS",
-        label="MOTHS",
-        description="""Moths//Motten""",
+    insects = VocabularyTerm(
+        code="INSECTS",
+        label="INSECTS",
+        description="""Insects//Insekten""",
     )
 
     other = VocabularyTerm(
         code="OTHER",
         label="OTHER",
         description="""other Organisms//andere Organismen""",
-    )
-
-    termites = VocabularyTerm(
-        code="TERMITES",
-        label="TERMITES",
-        description="""Termites//Termiten""",
     )
 
     tse_agents = VocabularyTerm(
