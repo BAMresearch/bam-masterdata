@@ -78428,61 +78428,88 @@ class OrganismFootnoteZkbs(VocabularyType):
 class OrganismGroup(VocabularyType):
     defs = VocabularyTypeDef(
         code="ORGANISM_GROUP",
-        description="""Organism group assignment according to the central comission of biological safety or category in the BAM-Biomicrosearch//Organismen Gruppenzuordnung anhand ZKBS bzw. die Kategorie in der BAM-Microsearch Datenbank database//Organismen Gruppenzuordnung anhand ZKBS bzw. die Kategorie in der BAM-Microsearch Datenbank""",
+        description="""
+        Controlled vocabulary for categorizing organisms according to the central commission of biology safety or category in the BAM-Biomicrosearch.
+        """,
     )
 
     archaea = VocabularyTerm(
         code="ARCHAEA",
         label="ARCHAEA",
-        description="""Archaea//Archaeen""",
+        description="""
+        Single-celled prokaryotic microorganisms distinct from bacteria, often found in extreme
+        environments.
+        """,
     )
 
     bacteria = VocabularyTerm(
         code="BACTERIA",
         label="BACTERIA",
-        description="""Bacteria//Bakterien""",
+        description="""
+        Single-celled prokaryotic microorganisms that lack a nucleus and are ubiquitous in many
+        habitats.
+        """,
     )
 
     eukaryotic_microorganisms = VocabularyTerm(
         code="EUKARYOTIC_MICROORGANISMS",
         label="EUKARYOTIC_MICROORGANISMS",
-        description="""Eukaryotic Microorganismes//Eukaryotische Mikroorganismen""",
+        description="""
+        Eukaryotic microorganisms (e.g. protists, microalgae). These are eukaryotic single-celled
+        (or simple multicellular) organisms. Includes protists, microalgae.
+        """,
     )
 
     fungi = VocabularyTerm(
         code="FUNGI",
         label="FUNGI",
-        description="""Fungi//Pilze""",
+        description="""
+        Eukaryotic organisms that include unicellular and multicellular forms and absorb nutrients
+        from their environment. Includes yeasts, molds.
+        """,
     )
 
     insects = VocabularyTerm(
         code="INSECTS",
         label="INSECTS",
-        description="""Insects//Insekten""",
-    )
-
-    other = VocabularyTerm(
-        code="OTHER",
-        label="OTHER",
-        description="""other Organisms//andere Organismen""",
+        description="""
+        Arthropods having a segmented body, three pairs of legs, typically wings and antennae.
+        """,
     )
 
     tse_agents = VocabularyTerm(
         code="TSE-AGENTS",
         label="TSE-AGENTS",
-        description="""TSE-Agents//TSE-Agenzien""",
+        description="""
+        Transmissible spongiform encephalopathy (TSE) agents. Infectious proteinaceous particles
+        (prions) implicated in prion diseases.
+        """,
     )
 
     viroid = VocabularyTerm(
         code="VIROID",
         label="VIROID",
-        description="""Viroids//Viroide""",
+        description="""
+        Infectious, small circular RNA molecules without a protein coat that can cause disease
+        in plants.
+        """,
     )
 
     virus = VocabularyTerm(
         code="VIRUS",
         label="VIRUS",
-        description="""Virus//Viren""",
+        description="""
+        Infectious agents composed of genetic material (RNA or DNA) enclosed in a protein capsid,
+        sometimes with an envelope, which replicate inside host cells.
+        """,
+    )
+
+    other = VocabularyTerm(
+        code="OTHER",
+        label="OTHER",
+        description="""
+        Any organism not covered by the above categories (e.g. multicellular animals, plants, etc.).
+        """,
     )
 
 
