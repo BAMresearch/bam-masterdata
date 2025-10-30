@@ -15,6 +15,7 @@ def run_parser(
     project_name: str = "PROJECT",
     collection_name: str = "",
     files_parser: dict[AbstractParser, list[str]] = {},
+    collection_type: str = "COLLECTION",
 ) -> None:
     """
     Run the parsers on the specified files and collect the results.
@@ -26,6 +27,7 @@ def run_parser(
         project_name (str): The project in openBIS where the entities will be stored.
         collection_name (str): The collection in openBIS where the entities will be stored.
         files_parser (dict): A dictionary where keys are parser instances and values are lists of file paths to be parsed. E.g., {MasterdataParserExample(): ["path/to/file.json", "path/to/another_file.json"]}
+        collection_type (str): The type of collection to create in openBIS. Options are "COLLECTION" or "DEFAULT_EXPERIMENT". Defaults to "COLLECTION".
     """
     # Ensure openbis is provided
     if openbis is None:
@@ -91,7 +93,7 @@ def run_parser(
             logger.info("Replacing collection code with uppercase and underscores.")
             collection_openbis = openbis.new_collection(
                 code=collection_name.replace(" ", "_").upper(),
-                type="DEFAULT_EXPERIMENT",
+                type=collection_type,
                 project=project,
             )
         collection_openbis.save()
