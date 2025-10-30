@@ -43,6 +43,12 @@ def run_parser(
             "No files or parsers to parse. Please provide valid file paths or contact an Admin to add missing parser."
         )
         return
+    # Ensure collection_type is valid
+    if collection_type not in ["COLLECTION", "DEFAULT_EXPERIMENT"]:
+        logger.error(
+            f"Invalid collection_type '{collection_type}'. Must be either 'COLLECTION' or 'DEFAULT_EXPERIMENT'."
+        )
+        return
 
     # Specify the space
     try:

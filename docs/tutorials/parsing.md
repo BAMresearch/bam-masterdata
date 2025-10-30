@@ -203,8 +203,8 @@ run_parser(
     You can choose between two collection types:
     - `"COLLECTION"` (default): A general-purpose collection type
     - `"DEFAULT_EXPERIMENT"`: A collection type designed for experiments with additional metadata fields like start/end dates, experimental goals, etc.
-    
-    If you don't specify `collection_type`, it defaults to `"COLLECTION"`.
+
+    If you don't specify `collection_type`, it defaults to `"COLLECTION"`. We recommend keeping the default `collection_type`, as future openBIS releases will get rid of the collection concept and we will, as a result, deprecate this feature.
 
 ### What Happens Next?
 
@@ -245,7 +245,6 @@ run_parser(
     project_name="MY_PROJECT",
     collection_name="MULTI_DATA_COLLECTION",
     files_parser=files_parser,
-    collection_type="DEFAULT_EXPERIMENT"  # Use DEFAULT_EXPERIMENT for experiment data
 )
 ```
 
@@ -467,7 +466,6 @@ def main():
         project_name="AUTOMATION_TEST",
         collection_name="BATCH_EXPERIMENTS",
         files_parser=files_parser,
-        collection_type="DEFAULT_EXPERIMENT"
     )
 
     print("Metadata injection complete!")
