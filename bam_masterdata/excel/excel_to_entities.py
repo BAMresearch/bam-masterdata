@@ -619,14 +619,6 @@ class MasterdataExcelExtractor:
 
         # Get the entity type
         entity_type = sheet[f"A{start_index_row}"].value
-
-        self.logger.critical("--- DIAGNOSTIC: Inside block_to_entity_dict ---")
-        self.logger.critical(
-            f"Raw entity_type from Excel cell A{start_index_row} is: {repr(entity_type)}"
-        )
-        print(
-            f"--- DIAGNOSTIC PRINT: Raw entity_type is: {repr(entity_type)}", flush=True
-        )
         if entity_type not in self.VALIDATION_RULES:
             raise ValueError(f"Invalid entity type: {entity_type}")
 
