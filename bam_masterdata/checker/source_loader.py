@@ -64,7 +64,7 @@ class SourceLoader:
             transformed_data[entity_type] = {}
 
             for entity_name, entity_data in entities.items():
-                if entity_type == "vocabulary_types":
+                if entity_type in ("vocabulary_type", "vocabulary_types"):
                     transformed_entity = {
                         "terms": [],  # Now placed before "defs"
                         "defs": {  # Metadata moved to the end
@@ -87,14 +87,17 @@ class SourceLoader:
                                 entity_name
                             ),  # PascalCase for entity ID
                             "row_location": entity_data.get("row_location"),
-                            "validation_script": entity_data.get("validationPlugin")
-                            or None,  # Convert "" to None
+                            "validation_script": entity_data.get(
+                                "validationPlugin"
+                            ).strip()
+                            if isinstance(entity_data.get("validationPlugin"), str)
+                            else None,
                             "iri": entity_data.get("iri") or None,  # Convert "" to None
                         },
                     }
 
                 # Handle additional fields specific to dataset_types
-                if entity_type == "dataset_types":
+                if entity_type in ("dataset_types", "dataset_type"):
                     transformed_entity["defs"]["main_dataset_pattern"] = (
                         entity_data.get("main_dataset_pattern")
                     )
@@ -103,7 +106,7 @@ class SourceLoader:
                     )
 
                 # Handle additional fields specific to object_types
-                if entity_type == "object_types":
+                if entity_type in ("object_types", "object_type"):
                     transformed_entity["defs"]["generated_code_prefix"] = (
                         entity_data.get("generatedCodePrefix")
                     )
@@ -140,7 +143,10 @@ class SourceLoader:
                         transformed_entity["properties"].append(transformed_property)
 
                 if "terms" in entity_data:
-                    for term_name, term_data in entity_data["terms"].items():
+                    transformed_entity.setdefault("terms", [])
+                    for term_name, term_data in (
+                        entity_data.get("terms") or {}
+                    ).items():
                         transformed_term = {
                             "code": term_data.get("code"),
                             "description": term_data.get("description", ""),

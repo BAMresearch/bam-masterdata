@@ -4,7 +4,7 @@
     "Description": {"key": "description", "pattern": ".*", "is_description": true},
     "Validation script": {
       "key": "validationPlugin",
-      "pattern": "^[A-Za-z0-9_]+\\.py$",
+      "pattern": "^[A-Za-z0-9_\\.]+\\.py$",
       "allow_empty": true
     },
     "Generated code prefix": {
@@ -19,7 +19,7 @@
     "Description": {"key": "description", "pattern": ".*", "is_description": true},
     "Validation script": {
       "key": "validationPlugin",
-      "pattern": "^[A-Za-z0-9_]+\\.py$",
+      "pattern": "^[A-Za-z0-9_\\.]+\\.py$",
       "allow_empty": true
     },
     "Generated code prefix": {
@@ -34,7 +34,7 @@
     "Description": {"key": "description", "pattern": ".*", "is_description": true},
     "Validation script": {
       "key": "validationPlugin",
-      "pattern": "^[A-Za-z0-9_\\.]+$",
+      "pattern": "^[A-Za-z0-9_\\.]+\\.py$",
       "allow_empty": true
     }
   },
@@ -43,7 +43,7 @@
     "Description": {"key": "description", "pattern": ".*", "is_description": true},
     "Validation script": {
       "key": "validationPlugin",
-      "pattern": "^[A-Za-z0-9_]+\\.py$",
+      "pattern": "^[A-Za-z0-9_\\.]+\\.py$",
       "allow_empty": true
     },
     "Main dataset pattern": {"key": "main_dataset_pattern", "pattern": ".*", "allow_empty": true},
@@ -58,7 +58,7 @@
     "Metadata": {"key": "metadata", "pattern": ".*"},
     "Dynamic script": {
       "key": "plugin",
-      "pattern": "^[A-Za-z0-9_]+\\.py$",
+      "pattern": "^[A-Za-z0-9_\\.]+\\.py$",
       "allow_empty": true
     }
   },

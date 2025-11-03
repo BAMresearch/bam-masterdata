@@ -71,7 +71,7 @@
       "is_bool": true
     },
     "section": {
-      "pattern": "^([A-Z][a-z]*|[A-Z]+)( ([A-Z][a-z]*|[A-Z]+))*$",
+      "pattern": "^([A-Z][a-z]*|[A-Z]+)( (([A-Z][a-z]*|[A-Z]+)|\\(([A-Z][a-z]*|[A-Z]+)( ([A-Z][a-z]*|[A-Z]+))*\\)))*$",
       "is_section": true,
       "allow_empty": true
     },
