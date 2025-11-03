@@ -1,5 +1,6 @@
 import os
 import re
+import sys
 from typing import TYPE_CHECKING, Any
 
 from bam_masterdata.utils import is_reduced_version, load_validation_rules
@@ -577,21 +578,30 @@ class MasterdataExcelExtractor:
                     process_term_cell(term, cell.value, cell.coordinate, sheet.title)
                 )
 
-        # Combine extracted values into a dictionary
+        if not extracted_columns.get("Code"):
+            self.logger.error(
+                f"The required 'Code' column for terms was not found in sheet {sheet.title}."
+            )
+            return {}
+
+        # Combine extracted values into a dictionary safely
         for i in range(len(extracted_columns["Code"])):
-            terms_dict[extracted_columns["Code"][i]] = {
-                "permId": extracted_columns["Code"][i],
-                "code": extracted_columns["Code"][i],
+            code = extracted_columns["Code"][i]
+            terms_dict[code] = {
+                "permId": code,
+                "code": code,
             }
+            # Also correct a typo here: "descriptions" -> "description"
             for key, pybis_val in {
-                "Description": "descriptions",
+                "Description": "description",
                 "Url template": "url_template",
                 "Label": "label",
                 "Official": "official",
             }.items():
-                if extracted_columns.get(key):
+                # THE CRITICAL FIX: Only try to access a value if the column exists and has an entry for this row.
+                if extracted_columns.get(key) and i < len(extracted_columns[key]):
                     value = extracted_columns[key][i]
-                    terms_dict[extracted_columns["Code"][i]][pybis_val] = value
+                    terms_dict[code][pybis_val] = value
 
         return terms_dict
 
@@ -609,6 +619,14 @@ class MasterdataExcelExtractor:
 
         # Get the entity type
         entity_type = sheet[f"A{start_index_row}"].value
+
+        self.logger.critical("--- DIAGNOSTIC: Inside block_to_entity_dict ---")
+        self.logger.critical(
+            f"Raw entity_type from Excel cell A{start_index_row} is: {repr(entity_type)}"
+        )
+        print(
+            f"--- DIAGNOSTIC PRINT: Raw entity_type is: {repr(entity_type)}", flush=True
+        )
         if entity_type not in self.VALIDATION_RULES:
             raise ValueError(f"Invalid entity type: {entity_type}")
 

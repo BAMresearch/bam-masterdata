@@ -120,7 +120,10 @@ class MasterdataValidator:
                 # Collect ordered sections for each entity
                 entity_sections = []
                 # Validate 'properties' (except for vocabulary_types, which uses 'terms')
-                if entity_type != "vocabulary_types" and "properties" in entity_data:
+                if (
+                    entity_type != "vocabulary_types"
+                    and entity_type != "vocabulary_type"
+                ) and "properties" in entity_data:
                     for prop in entity_data["properties"]:
                         row_location = prop.get("row_location", "Unknown")
 
@@ -178,8 +181,8 @@ class MasterdataValidator:
 
                 # Check if required properties exist in specific sections
                 required_properties = {
-                    "Additional Information": "NOTES",
-                    "Comments": "$XMLCOMMENTS",
+                    "Additional Information": ["notes"],
+                    "Comments": ["comments", "xmlcomments", "$xmlcomments"],
                 }
 
                 # Track found properties
@@ -190,11 +193,11 @@ class MasterdataValidator:
                     property_code = entry["code"]
                     row_location = entry["row_location"]
 
-                    if (
-                        section in required_properties
-                        and property_code == required_properties[section]
-                    ):
-                        found_properties[section] = True
+                    # Check if this section is one we need to validate
+                    if section in required_properties:
+                        # Perform a case-insensitive check against the list of allowed property codes
+                        if property_code.lower() in required_properties[section]:
+                            found_properties[section] = True
 
                 # Log errors for missing required properties
                 for section, prop in required_properties.items():
@@ -208,7 +211,10 @@ class MasterdataValidator:
                         )
 
                 # Validate 'terms' (only for vocabulary_types)
-                if entity_type == "vocabulary_types" and "terms" in entity_data:
+                if (
+                    entity_type == "vocabulary_types"
+                    or entity_type == "vocabulary_type"
+                ) and "terms" in entity_data:
                     for term in entity_data["terms"]:
                         row_location = term.get("row_location", "Unknown")
                         self._validate_fields(
@@ -363,7 +369,7 @@ class MasterdataValidator:
                             )
 
                     # Special case for `property_types`
-                    if entity_type == "property_types":
+                    if entity_type in ("property_types", "property_type"):
                         incoming_row_location = incoming_entity.get(
                             "row_location", "Unknown"
                         )
