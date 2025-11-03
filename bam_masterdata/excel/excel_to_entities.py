@@ -593,7 +593,7 @@ class MasterdataExcelExtractor:
             }
             # Also correct a typo here: "descriptions" -> "description"
             for key, pybis_val in {
-                "Description": "description",
+                "Description": "descriptions",
                 "Url template": "url_template",
                 "Label": "label",
                 "Official": "official",
