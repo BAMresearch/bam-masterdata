@@ -8883,6 +8883,16 @@ class Camera(Instrument):
         generated_code_prefix="INS.CAM",
     )
 
+    mac_address = PropertyTypeAssignment(
+        code="MAC_ADDRESS",
+        data_type="VARCHAR",
+        property_label="MAC Address",
+        description="""MAC address of the primary network adapter//MAC Adresse der primären Netzwerkschnittstelle""",
+        mandatory=False,
+        show_in_edit_views=False,
+        section="General Information",
+    )
+
     image_sensor_name = PropertyTypeAssignment(
         code="IMAGE_SENSOR_NAME",
         data_type="VARCHAR",
@@ -8969,6 +8979,16 @@ class LaserLineScanner(Instrument):
         code="INSTRUMENT.LASER_LINE_SCANNER",
         description="""A laser scanner used to measure 2D profiles along a laser line//Laserlinienscanner""",
         generated_code_prefix="INS.LAS_LINE_SCAN",
+    )
+
+    mac_address = PropertyTypeAssignment(
+        code="MAC_ADDRESS",
+        data_type="VARCHAR",
+        property_label="MAC Address",
+        description="""MAC address of the primary network adapter//MAC Adresse der primären Netzwerkschnittstelle""",
+        mandatory=False,
+        show_in_edit_views=False,
+        section="General Information",
     )
 
     instrument_laser_scanner_z_min = PropertyTypeAssignment(
@@ -13131,6 +13151,16 @@ class GmawWeldingPowerSource(WeldingEquipment):
         generated_code_prefix="INS.WLD_EQP.GMAW_PWR_SRC",
     )
 
+    mac_address = PropertyTypeAssignment(
+        code="MAC_ADDRESS",
+        data_type="VARCHAR",
+        property_label="MAC Address",
+        description="""MAC address of the primary network adapter//MAC Adresse der primären Netzwerkschnittstelle""",
+        mandatory=False,
+        show_in_edit_views=False,
+        section="General Information",
+    )
+
     welding_arc_current_min = PropertyTypeAssignment(
         code="WELDING.ARC_CURRENT_MIN",
         data_type="REAL",
@@ -13216,6 +13246,16 @@ class RobotController(WeldingEquipment):
         code="INSTRUMENT.WELDING_EQUIPMENT.ROBOT_CONTROLLER",
         description="""Controller connected to a welding robot//Steuerung für Schweißroboter""",
         generated_code_prefix="INS.WLD_EQP.RBT_CTRL",
+    )
+
+    mac_address = PropertyTypeAssignment(
+        code="MAC_ADDRESS",
+        data_type="VARCHAR",
+        property_label="MAC Address",
+        description="""MAC address of the primary network adapter//MAC Adresse der primären Netzwerkschnittstelle""",
+        mandatory=False,
+        show_in_edit_views=False,
+        section="General Information",
     )
 
     robot_controller_axis_count = PropertyTypeAssignment(
