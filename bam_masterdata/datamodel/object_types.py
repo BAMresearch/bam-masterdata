@@ -4592,7 +4592,7 @@ class SampleNdt(ObjectType):
 class SampleHolder(ObjectType):
     defs = ObjectTypeDef(
         code="SAMPLE_HOLDER",
-        description="""Container holding the sample during measurement//Behälter für die Probe während der Messung""",
+        description="""Container enveloping the sample during measurement//Behälter, der die Probe während der Messung umschließt""",
         generated_code_prefix="SAM_HOL_",
     )
 
@@ -4631,7 +4631,7 @@ class SampleHolder(ObjectType):
         data_type="CONTROLLEDVOCABULARY",
         vocabulary_code="SAMPLE_HOLDER_MATERIAL",
         property_label="Holder Material",
-        description="""Material of the sample holder//Material des Probenbehälters""",
+        description="""The material of the sample envelope contributing to the measurement//Das Material des Probenbehälters, das zur Messung beiträgt""",
         mandatory=True,
         show_in_edit_views=False,
         section="Physical Properties",
