@@ -79418,6 +79418,12 @@ class SampleHolderMaterial(VocabularyType):
         description="""Scotch Magic Tape//Scotch Magic Tape""",
     )
 
+    sam_hol_mat_none = VocabularyTerm(
+        code="SAM_HOL_MAT_NONE",
+        label="None",
+        description="""None//Keins""",
+    )
+
 
 class ShortRngOrd(VocabularyType):
     defs = VocabularyTypeDef(
