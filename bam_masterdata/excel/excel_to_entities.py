@@ -591,17 +591,15 @@ class MasterdataExcelExtractor:
                 "permId": code,
                 "code": code,
             }
-            # Also correct a typo here: "descriptions" -> "description"
             for key, pybis_val in {
                 "Description": "descriptions",
                 "Url template": "url_template",
                 "Label": "label",
                 "Official": "official",
             }.items():
-                # THE CRITICAL FIX: Only try to access a value if the column exists and has an entry for this row.
-                if extracted_columns.get(key) and i < len(extracted_columns[key]):
-                    value = extracted_columns[key][i]
-                    terms_dict[code][pybis_val] = value
+                values = extracted_columns.get(key, [])
+                if len(values) > i:
+                    terms_dict[code][pybis_val] = values[i]
 
         return terms_dict
 
