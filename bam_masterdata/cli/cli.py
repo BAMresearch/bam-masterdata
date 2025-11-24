@@ -388,49 +388,79 @@ def run_checker(file_path: str, mode: str = "all", datamodel_path: str = DATAMOD
     validation_results = checker.check(mode=mode)
 
     # Check if there are problems with the current model
-    if mode in ["self", "all", "validate"] and validation_results.get(
-        "current_model", {}
-    ):
-        for entity, errors in validation_results.get("current_model", {}).items():
-            if errors:
-                click.echo(
-                    f"There are problems in the current model for entity {entity} that need to be solved"
-                )
+    if mode in ["self", "all", "validate"]:
+        current_model_results = validation_results.get("current_model", {})
+        # Check if any entity in this section has errors
+        has_errors = any(errors for errors in current_model_results.values())
+
+        if has_errors:
+            # If errors exist, run your original, trusted error-printing logic
+            for entity, errors in current_model_results.items():
+                if errors:
+                    click.echo(
+                        f"There are problems in the current model for entity {entity} that need to be solved"
+                    )
+        elif current_model_results:
+            # If there are no errors AND there were entities to check, print success
+            click.echo("All entities in the current model are valid.")
 
     # Check if there are problems with the incoming model
-    if mode in ["incoming", "all", "validate"] and validation_results.get(
-        "incoming_model", {}
-    ):
-        for entity, errors in validation_results.get("incoming_model", {}).items():
-            if errors:
-                click.echo(
-                    f"There are problems in the incoming model in {file_path} for entity {entity} that need to be solved"
-                )
+    if mode in ["incoming", "all", "validate"]:
+        incoming_model_results = validation_results.get("incoming_model", {})
+        has_errors = any(errors for errors in incoming_model_results.values())
+
+        if has_errors:
+            for entity, errors in incoming_model_results.items():
+                if errors:
+                    click.echo(
+                        f"There are problems in the incoming model in {file_path} for entity {entity} that need to be solved"
+                    )
+        elif incoming_model_results:
+            click.echo("All entities in the incoming model are valid.")
 
     # Check if there are comparison problems
-    if mode in ["compare", "all"] and validation_results.get("comparisons", {}):
-        for entity, errors in validation_results.get("comparisons", {}).items():
-            if errors:
-                click.echo(
-                    f"There are problems when checking the incoming model in {file_path} against the current model {datamodel_path} for entity {entity} that need to be solved"
-                )
+    if mode in ["compare", "all"]:
+        comparison_results = validation_results.get("comparisons", {})
+        has_errors = any(errors for errors in comparison_results.values())
+
+        if has_errors:
+            for entity, errors in comparison_results.items():
+                if errors:
+                    click.echo(
+                        f"There are problems when checking the incoming model in {file_path} against the current model {datamodel_path} for entity {entity} that need to be solved"
+                    )
+        elif comparison_results:
+            click.echo("All entities are valid when compared to the current model.")
 
     # Check if there are individual repository problems
-    if (
-        mode in ["individual"]
-        and validation_results.get("incoming_model", {})
-        and validation_results.get("comparisons", {})
-    ):
-        for entity, errors in validation_results.get("individual", {}).items():
-            if errors:
-                click.echo(
-                    f"There are problems in the individual repositories when validating them for entity {entity} that need to be solved"
-                )
-        for entity, errors in validation_results.get("comparisons", {}).items():
-            if errors:
-                click.echo(
-                    f"There are problems in the individual repositories when comparing them with respect to bam-masterdata for entity {entity} that need to be solved"
-                )
+    if mode in ["individual"]:
+        # First, check the 'individual' validation results
+        individual_results = validation_results.get("individual", {})
+        has_individual_errors = any(errors for errors in individual_results.values())
+
+        if has_individual_errors:
+            for entity, errors in individual_results.items():
+                if errors:
+                    click.echo(
+                        f"There are problems in the individual repositories when validating them for entity {entity} that need to be solved"
+                    )
+        elif individual_results:
+            click.echo("All entities in the individual repositories are valid.")
+
+        # Second, check the 'comparison' results for this mode
+        comparison_results = validation_results.get("comparisons", {})
+        has_comparison_errors = any(errors for errors in comparison_results.values())
+
+        if has_comparison_errors:
+            for entity, errors in comparison_results.items():
+                if errors:
+                    click.echo(
+                        f"There are problems in the individual repositories when comparing them with respect to bam-masterdata for entity {entity} that need to be solved"
+                    )
+        elif comparison_results:
+            click.echo(
+                "All entities are valid when compared to bam-masterdata in the individual repositories."
+            )
 
 
 @cli.command(
