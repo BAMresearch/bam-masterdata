@@ -144,9 +144,7 @@ class SourceLoader:
 
                 if "terms" in entity_data:
                     transformed_entity.setdefault("terms", [])
-                    for term_name, term_data in (
-                        entity_data.get("terms") or {}
-                    ).items():
+                    for term_name, term_data in entity_data.get("terms", "{}").items():
                         transformed_term = {
                             "code": term_data.get("code"),
                             "description": term_data.get("description", ""),
