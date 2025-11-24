@@ -14,7 +14,5 @@ def ologin(url: str = "") -> Openbis:
         Openbis: Openbis object for the specific openBIS instance defined in `URL`.
     """
     o = Openbis(url)
-    o.login(
-        environ("OPENBIS_USERNAME"), environ("OPENBIS_NEW_PASSWORD"), save_token=True
-    )
+    o.login(environ("OPENBIS_USERNAME"), environ("OPENBIS_PASSWORD"), save_token=True)
     return o
