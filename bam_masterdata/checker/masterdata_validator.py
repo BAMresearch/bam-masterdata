@@ -212,9 +212,9 @@ class MasterdataValidator:
 
                 # Validate 'terms' (only for vocabulary_types)
                 if (
-                    entity_type == "vocabulary_types"
-                    or entity_type == "vocabulary_type"
-                ) and "terms" in entity_data:
+                    entity_type in ["vocabulary_types", "vocabulary_type"]
+                    and "terms" in entity_data
+                ):
                     for term in entity_data["terms"]:
                         row_location = term.get("row_location", "Unknown")
                         self._validate_fields(
