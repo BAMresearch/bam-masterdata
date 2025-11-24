@@ -88,9 +88,10 @@ class SourceLoader:
                             ),  # PascalCase for entity ID
                             "row_location": entity_data.get("row_location"),
                             "validation_script": entity_data.get(
-                                "validationPlugin", ""
+                                "validationPlugin"
                             ).strip()
-                            or None,
+                            if isinstance(entity_data.get("validationPlugin"), str)
+                            else None,
                             "iri": entity_data.get("iri") or None,  # Convert "" to None
                         },
                     }
