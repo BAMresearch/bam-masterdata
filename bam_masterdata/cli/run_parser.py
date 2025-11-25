@@ -7,7 +7,7 @@ from bam_masterdata.metadata.entities import (
     PropertyTypeAssignment,
 )
 from bam_masterdata.parsing import AbstractParser
-
+from concurrent.futures import ThreadPoolExecutor, TimeoutError
 
 def run_parser(
     openbis: Openbis | None = None,
@@ -263,3 +263,31 @@ def run_parser(
             logger.info(
                 f"Linked child {child_openbis_id} to parent {parent_openbis_id} in collection {collection_name}."
             )
+
+
+
+def run_parser_withthreading(
+    openbis=None,
+    space_name: str = "",
+    project_name: str = "PROJECT",
+    collection_name: str = "",
+    files_parser: dict = {},
+    collection_type: str = "COLLECTION",
+    timeout: int = 300,
+    max_workers: int = 1,
+) -> None:
+    #
+    with ThreadPoolExecutor(max_workers) as executor:
+        future = executor.submit(
+            run_parser,
+            openbis=openbis,
+            space_name=space_name,
+            project_name=project_name,
+            collection_name=collection_name,
+            files_parser=files_parser,
+            collection_type=collection_type,
+        )
+        try:
+            future.result(timeout=timeout)
+        except TimeoutError:
+            logger.error("Parser execution exceeded the timeout limit.")
