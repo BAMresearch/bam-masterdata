@@ -276,7 +276,18 @@ def run_parser_withthreading(
     timeout: int = 300,
     max_workers: int = 1,
 ) -> None:
-    #
+    """    Run the parser in a separate thread with a timeout.
+
+    Args:
+        openbis (Openbis): An instance of the Openbis class from pyBIS, already logged in.
+        space_name (str): The space in openBIS where the entities will be stored.
+        project_name (str): The project in openBIS where the entities will be stored.
+        collection_name (str): The collection in openBIS where the entities will be stored.
+        files_parser (dict): A dictionary where keys are parser instances and values are lists of file paths to be parsed. E.g., {MasterdataParserExample(): ["path/to/file.json", "path/to/another_file.json"]}
+        collection_type (str): The type of collection to create in openBIS. Options are "COLLECTION" or "DEFAULT_EXPERIMENT". Defaults to "COLLECTION".
+        timeout (int, optional): Time in seconds for the parser to complete before timing out. Defaults to 300.
+        max_workers (int, optional):  Number of threads to use. Defaults to 1.
+    """
     with ThreadPoolExecutor(max_workers) as executor:
         future = executor.submit(
             run_parser,
