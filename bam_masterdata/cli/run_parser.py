@@ -1,3 +1,5 @@
+from concurrent.futures import ThreadPoolExecutor, TimeoutError
+
 from pybis import Openbis
 
 from bam_masterdata.logger import logger
@@ -7,7 +9,7 @@ from bam_masterdata.metadata.entities import (
     PropertyTypeAssignment,
 )
 from bam_masterdata.parsing import AbstractParser
-from concurrent.futures import ThreadPoolExecutor, TimeoutError
+
 
 def run_parser(
     openbis: Openbis | None = None,
@@ -265,7 +267,6 @@ def run_parser(
             )
 
 
-
 def run_parser_withthreading(
     openbis=None,
     space_name: str = "",
@@ -276,7 +277,7 @@ def run_parser_withthreading(
     timeout: int = 300,
     max_workers: int = 1,
 ) -> None:
-    """    Run the parser in a separate thread with a timeout.
+    """Run the parser in a separate thread with a timeout.
 
     Args:
         openbis (Openbis): An instance of the Openbis class from pyBIS, already logged in.
