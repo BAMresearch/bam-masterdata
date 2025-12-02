@@ -12694,6 +12694,104 @@ class Crystal(MatSimStructure):
     )
 
 
+class MouseMeasurement(ExperimentalStep):
+    defs = ObjectTypeDef(
+        code="EXPERIMENTAL_STEP.MOUSE_MEASUREMENT",
+        description="""Metadata of SAXS measurements of sample at MOUSE // Metadaten der SAXS-Messungen einer Probe mit MOUSE""",
+        generated_code_prefix="EXP.MM_",
+    )
+
+    measurement_date = PropertyTypeAssignment(
+        code="MEASUREMENT_DATE",
+        data_type="DATE",
+        property_label="Measurement Date",
+        description="""Measurement Date//Messdatum""",
+        mandatory=True,
+        show_in_edit_views=False,
+        section="Experiment Details",
+    )
+
+    cell_temperature_in_celsius = PropertyTypeAssignment(
+        code="CELL_TEMPERATURE_IN_CELSIUS",
+        data_type="REAL",
+        property_label="Cell Temperature [°C]",
+        description="""Measurement cell temperature in °C // Temperatur der Messzelle in °C""",
+        mandatory=False,
+        show_in_edit_views=False,
+        section="Experiment Details",
+    )
+
+    exposure_time_in_seconds = PropertyTypeAssignment(
+        code="EXPOSURE_TIME_IN_SECONDS",
+        data_type="REAL",
+        property_label="Exposure time [s]",
+        description="""Exposure time in seconds//Belichtungszeit in Sekunden""",
+        mandatory=True,
+        show_in_edit_views=False,
+        section="Experiment Details",
+    )
+
+    responsible_person = PropertyTypeAssignment(
+        code="RESPONSIBLE_PERSON",
+        data_type="OBJECT",
+        property_label="Responsible person",
+        description="""Responsible person//Verantwortliche Person""",
+        mandatory=False,
+        show_in_edit_views=False,
+        section="Experiment Details",
+    )
+
+    sample_location = PropertyTypeAssignment(
+        code="SAMPLE_LOCATION",
+        data_type="VARCHAR",
+        property_label="Retained samples",
+        description="""Location of retained samples (if any?)//Standort von Rückstellproben (wenn existent?)""",
+        mandatory=False,
+        show_in_edit_views=False,
+        section="Experiment Details",
+    )
+
+    measurement_protocol_file = PropertyTypeAssignment(
+        code="MEASUREMENT_PROTOCOL_FILE",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Measurement Protocol // Messprotokoll",
+        description="""Location of the measurement script // Ort des Messprotokollskripts""",
+        mandatory=False,
+        show_in_edit_views=False,
+        section="Experiment Details",
+    )
+
+    measurement_protocol_options = PropertyTypeAssignment(
+        code="MEASUREMENT_PROTOCOL_OPTIONS",
+        data_type="VARCHAR",
+        property_label="Measurement protocol options // Messprotokolloptionen",
+        description="""JSON with key-value combinations // JSON mit Schlüssel-Werte-Paaren""",
+        mandatory=False,
+        show_in_edit_views=False,
+        section="Experiment Details",
+    )
+
+    size_thickness_in_millimeter = PropertyTypeAssignment(
+        code="SIZE_THICKNESS_IN_MILLIMETER",
+        data_type="REAL",
+        property_label="Thickness [mm]",
+        description="""Thickness in mm//Dicke in mm""",
+        mandatory=False,
+        show_in_edit_views=False,
+        section="Data Processing",
+    )
+
+    processing_protocol_file = PropertyTypeAssignment(
+        code="PROCESSING_PROTOCOL_FILE",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Data processing protocol // Datenverarbeitungsprotokoll",
+        description="""Location of the data processing protocol // Ort des Datenverarbeitungsprotokolls""",
+        mandatory=False,
+        show_in_edit_views=False,
+        section="Data Processing",
+    )
+
+
 class MeasurementSession(ExperimentalStep):
     defs = ObjectTypeDef(
         code="EXPERIMENTAL_STEP.MEASUREMENT_SESSION",
