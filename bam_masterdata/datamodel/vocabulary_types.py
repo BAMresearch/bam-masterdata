@@ -17,7 +17,7 @@ class DefaultCollectionViews(VocabularyType):
     list_view = VocabularyTerm(
         code="LIST_VIEW",
         label="List view",
-        description="""""",
+        description="",
     )
 
 
