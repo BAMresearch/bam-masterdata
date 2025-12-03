@@ -13865,3 +13865,204 @@ class StationLayout3(ObjectType):
         show_in_edit_views=False,
         section="Comments",
     )
+
+
+class LaserDiffPSDMeasurement(ExperimentalStep):
+    defs = ObjectTypeDef(
+        code="EXPERIMENTAL_STEP.LASER_DIFF_PSD_MEASUREMENT",
+        description="""Measurement of particle size distribution (PSD) by laser diffraction method // Messung einer Partikelgrößenverteilung mit einem Laserbeugungsverfahren""",
+        auto_generate_codes=True,
+        generated_code_prefix="EXP.LAS_DIFF_PSD_MEAS",
+    )
+
+    # TODO check if these 3 properties (sample_id, measurement_id, operator) can be moved to a common parent class
+    sample_id = PropertyTypeAssignment(
+        code="SAMPLE_ID",
+        data_type="VARCHAR",
+        property_label="Sample ID",
+        description="""Identifier for the sample being measured//Kennung der zu messenden Probe""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="General Information",
+    )
+
+    measurement_id = PropertyTypeAssignment(
+        code="measurement_id",
+        data_type="INTEGER",
+        property_label="Measurement ID",
+        description="""Division-specific measurement identifier//Abteilungsspezifische Mess-Kennung""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="General Information",
+    )
+
+    operator = PropertyTypeAssignment(
+        code="OPERATOR",
+        data_type="VARCHAR",
+        property_label="Operator",
+        description="""Name of the person or user performing the measurement//Name der Person oder des Benutzers, der die Messung durchführt""",
+        mandatory=True,
+        show_in_edit_views=True,
+        section="General Information",
+    )
+
+    dispersing_medium = PropertyTypeAssignment(
+        code="DISPERSING_MEDIUM",
+        data_type="VARCHAR",
+        property_label="Dispersing medium",
+        description="""Medium in which the particles are dispersed for the measurement. Could be a liquid solvent (water, ethanol) or air. If the solvent contains additional dispersing agent, the respective type and concentration can also be stored in this field.//Medium, in dem die Partikel für die Messung dispergiert werden. Dies kann ein flüssiges Lösungsmittel (Wasser, Ethanol) oder Luft sein. Enthält das Lösungsmittel ein zusätzliches Dispergiermittel, können dessen Art und Konzentration ebenfalls in diesem Feld gespeichert werden.""",
+        mandatory=True,
+        show_in_edit_views=True,
+        section="Experimental Details",
+    )
+
+    scattering_model_psd_ld = PropertyTypeAssignment(
+        code="SCATTERING_MODEL_PSD_LD",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="SCATTERING_MODEL_PSD_LD",
+        property_label="Light scattering model",
+        description="""Light scattering model for the analysis of particle size by laser diffraction methods according to ISO 13220. Could be Mie or Fraunhofer, depending on the actual particle size.//Lichtstreuungsmodell zur Analyse der Partikelgröße mittels Laserbeugungsmethoden gemäß ISO 13220. Je nach tatsächlicher Partikelgröße kann es sich um das Mie- oder das Fraunhofer-Modell handeln.""",
+        mandatory=True,
+        show_in_edit_views=True,
+        section="Experimental Details",
+    )
+
+    name_optical_parameterset_sample = PropertyTypeAssignment(
+        code="NAME_OPTICAL_PARAMETERSET_SAMPLE",
+        data_type="VARCHAR",
+        property_label="Optical parameters designation",
+        description="""Designation of the dataset of optical parameters of the sample//Bezeichnung des Datensatzes der optischen Parameter der Probe""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Experimental Details",
+    )
+
+    refractive_index_sample = PropertyTypeAssignment(
+        code="REFRACTIVE_INDEX_SAMPLE",
+        data_type="REAL",
+        property_label="Refractive index of sample",
+        description="""Refractive index of the sample//Brechungsindex der Probe""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Experimental Details",
+    )
+
+    absorption_coeff_sample = PropertyTypeAssignment(
+        code="ABSORPTION_COEFF_SAMPLE",
+        data_type="REAL",
+        property_label="Absorption coefficient of sample",
+        description="""Absorption coefficient of the sample for blue light, if the measuring device has such a second light source//Absorptionskoeffizient der Probe für blaues Licht, wenn das Messgerät eine derartige zweite Lichtquelle aufweist""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Experimental Details",
+    )
+
+    refractive_index_blue_sample = PropertyTypeAssignment(
+        code="REFRACTIVE_INDEX_BLUE_SAMPLE",
+        data_type="REAL",
+        property_label="Refractive index for blue light of sample",
+        description="""Refractive index of the sample for blue light, if the measuring device has such a second light source//Brechungsindex der Probe für blaues Licht, wenn das Messgerät eine derartige zweite Lichtquelle aufweist""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Experimental Details",
+    )
+
+    absorption_coeff_blue_sample = PropertyTypeAssignment(
+        code="ABSORPTION_COEFF_BLUE_SAMPLE",
+        data_type="REAL",
+        property_label="Absorption coeffecient for blue light of sample",
+        description="""Absorption coefficient of the sample for blue light//Absorptionskoeffizient der Probe für blaues Licht""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Experimental Details",
+    )
+
+    laser_obscuration = PropertyTypeAssignment(
+        code="LASER_OBSCURATION",
+        data_type="REAL",
+        property_label="Laser obscuration",
+        description="""Laser obscuration//Laserabschattung""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Results",
+    )
+
+    laser_transmission = PropertyTypeAssignment(
+        code="LASER_TRANSMISSION",
+        data_type="REAL",
+        property_label="Laser transmission",
+        description="""Laser transmission//Transmission des Lasers""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Results",
+    )
+
+    weighted_deviation = PropertyTypeAssignment(
+        code="WEIGHTED_DEVIATION",
+        data_type="REAL",
+        property_label="Weighted deviation of fit",
+        description="""In the context of fitted data, the weighted deviation describes how much the individual measurement points deviate from the curve predicted by the model, taking into account their respective weights (e.g. uncertainties or relevance).//Im Zusammenhang mit gefitteten Daten beschreibt die gewichtete Abweichung, wie stark die einzelnen Messpunkte von der durch das Modell vorhergesagten Kurve abweichen - unter Berücksichtigung ihrer jeweiligen Gewichte (z.B. Unsicherheiten oder Relevanz).""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Results",
+    )
+
+    absolute_deviation = PropertyTypeAssignment(
+        code="ABSOLUTE_DEVIATION",
+        data_type="REAL",
+        property_label="Absolute deviation of fit",
+        description="""The absolute deviation for fitted data describes the sum (or mean value) of the differences in magnitude between the measured values and the values predicted by the model without squaring and without weighting.//Die absolute Abweichung bei gefitteten Daten beschreibt die Summe (oder den Mittelwert) der betragsmäßigen Unterschiede zwischen den gemessenen Werten und den durch das Modell vorhergesagten Werten ohne Quadrieren und ohne Gewichtung.""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Results",
+    )
+
+    meas_medium_temperature_in_celsius = PropertyTypeAssignment(
+        code="MEAS_MEDIUM_TEMPERATURE_IN_CELSIUS",
+        data_type="REAL",
+        property_label="Temperature of dispersing medium in °C",
+        description="""Temperature of measurement medium in °C//Temperatur des Messmediums in °C""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Results",
+    )
+
+    d_10_in_micrometers = PropertyTypeAssignment(
+        code="D_10_IN_MICROMETERS",
+        data_type="REAL",
+        property_label="Particle size D_10 in µm",
+        description="""Particle size D_10 in µm//Partikelgröße D_10 in µm""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Results",
+    )
+
+    d_50_in_micrometers = PropertyTypeAssignment(
+        code="D_50_IN_MICROMETERS",
+        data_type="REAL",
+        property_label="Particle size D_50 in µm",
+        description="""Particle size D_50 in µm//Partikelgröße D_50 in µm""",
+        mandatory=True,
+        show_in_edit_views=True,
+        section="Results",
+    )
+
+    d_90_in_micrometers = PropertyTypeAssignment(
+        code="D_90_IN_MICROMETERS",
+        data_type="REAL",
+        property_label="Particle size D_90 in µm",
+        description="""Particle size D_90 in µm//Partikelgröße D_90 in µm""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Results",
+    )
+
+    mode_count = PropertyTypeAssignment(
+        code="MODE_COUNT",
+        data_type="INTEGER",
+        property_label="Number of modes",
+        description="""Number of modes//Anzahl der Modalwerte""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Results",
+    )
