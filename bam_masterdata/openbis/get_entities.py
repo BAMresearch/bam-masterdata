@@ -154,19 +154,18 @@ class OpenbisEntities:
         for voc in self.openbis.get_vocabularies():
             code = voc.code  # Unique identifier for the object type
 
-            # ! we need this for parsing!!
-            # # BAM_FLOOR, BAM_HOUSE, BAM_LOCATION, BAM_LOCATION_COMPLETE, BAM_OE, BAM_ROOM, PERSON_STATUS
-            # # are not exported due to containing sensitive information
-            # if code in [
-            #     "BAM_FLOOR",
-            #     "BAM_HOUSE",
-            #     "BAM_LOCATION",
-            #     "BAM_LOCATION_COMPLETE",
-            #     "BAM_OE",
-            #     "BAM_ROOM",
-            #     "PERSON_STATUS",
-            # ]:
-            #     continue
+            # BAM_FLOOR, BAM_HOUSE, BAM_LOCATION, BAM_LOCATION_COMPLETE, BAM_OE, BAM_ROOM, PERSON_STATUS
+            # are not exported due to containing sensitive information
+            if code in [
+                "BAM_FLOOR",
+                "BAM_HOUSE",
+                "BAM_LOCATION",
+                "BAM_LOCATION_COMPLETE",
+                "BAM_OE",
+                "BAM_ROOM",
+                "PERSON_STATUS",
+            ]:
+                continue
             terms = voc.get_terms()
 
             if terms:

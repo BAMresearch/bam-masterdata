@@ -1,6 +1,7 @@
 import datetime
 import inspect
 import json
+import warnings
 from collections.abc import Callable
 from typing import TYPE_CHECKING, Any, no_type_check
 
@@ -653,6 +654,25 @@ class ObjectType(BaseEntity):
         Validates the value of a CONTROLLEDVOCABULARY.
         """
         vocabulary_code = meta[key].vocabulary_code
+
+        # Patch to handle institutional vocabularies
+        if vocabulary_code in [
+            "BAM_FLOOR",
+            "BAM_HOUSE",
+            "BAM_LOCATION",
+            "BAM_LOCATION_COMPLETE",
+            "BAM_OE",
+            "BAM_ROOM",
+            "PERSON_STATUS",
+        ]:
+            warnings.warn(
+                f"The attribute '{key}' uses the institutional vocabulary '{vocabulary_code}'. "
+                "This value will not be validated against internal vocabulary definitions.",
+                UserWarning,
+                stacklevel=3,
+            )
+            return None
+
         if not vocabulary_code:
             raise ValueError(
                 f"Property '{key}' of type CONTROLLEDVOCABULARY must have a vocabulary_code defined."
