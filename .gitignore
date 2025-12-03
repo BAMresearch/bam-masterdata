@@ -180,3 +180,5 @@ tmp/
 
 # testing python file
 bam_masterdata/test.py
+
+bam_masterdata/datamodel/vocabulary_types_internal.py
