@@ -32262,13 +32262,13 @@ class ScatteringModelPSDLD(VocabularyType):
         description="""Light scattering model for analyzing laser diffraction data""",
     )
 
-    welding_fillet_weld = VocabularyTerm(
+    mie = VocabularyTerm(
         code="MIE",
         label="Mie scattering",
         description="""The Mie model describes the scattering and refraction of light by spherical particles whose size is comparable to the wavelength of light. For particles < 50 µm // Das Mie-Modell beschreibt die Streuung und Brechung von Licht an kugelförmigen Partikeln, deren Größe vergleichbar mit der Wellenlänge des Lichts ist. Für Partikelgrößen kleiner als 50 µm""",
     )
 
-    welding_groove_weld = VocabularyTerm(
+    fraunhofer = VocabularyTerm(
         code="FRAUNHOFER",
         label="Fraunhofer diffraction for particles",
         description="""In the context of the laser light scattering method for particle size determination, Fraunhofer scattering refers to a simplified mathematical description of light scattering that is used for relatively large particles (significantly larger than the wavelength of light). For particles > 50 µm // Im Kontext des Laserstreulichtverfahrens zur Partikelgrößenbestimmung bezieht sich die Fraunhofer-Brechung auf eine vereinfachte mathematische Beschreibung der Lichtstreuung, die für relativ große Partikel (deutlich größer als die Lichtwellenlänge) verwendet wird. Für Partikelgrößen größer als 50 µm""",
