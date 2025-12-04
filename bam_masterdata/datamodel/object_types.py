@@ -12719,7 +12719,7 @@ class MouseMeasurement(SaxsMeasurement):
         code="SAMPLE_POSITION",
         data_type="VARCHAR",
         property_label="Sample Position // Position der Probe",
-        description="""The sample position (ID) in the sample holder // Die Position der Probe (ID) im Probenhalter""",
+        description="""The sample position ID in the sample holder. Used to record the spatial/orientational position of the sample within the holder or setup. Different sample holders might get new names, or one-off sample holders might have a temporary ID.//Die Position der Probe (ID) im Probenhalter. Sie dient zur Erfassung der räumlichen/orientierungsmäßigen Position der Probe innerhalb des Halters oder der Versuchsanordnung. Verschiedene Probenhalter können unterschiedliche Namen erhalten, oder einmalige Probenhalter können eine temporäre ID haben.""",
         mandatory=False,
         show_in_edit_views=True,
         section="Experiment Details",
