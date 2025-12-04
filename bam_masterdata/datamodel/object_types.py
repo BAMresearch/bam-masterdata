@@ -12715,7 +12715,6 @@ class MouseMeasurement(SaxsMeasurement):
     )
 
     # not a vocabulary: different sample holders might get new names,
-    # or one-off sample holders might have a temporary definition.
     sample_position = PropertyTypeAssignment(
         code="SAMPLE_POSITION",
         data_type="VARCHAR",
