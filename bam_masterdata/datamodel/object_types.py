@@ -13815,7 +13815,7 @@ class LaserDiffPSDMeasurement(ExperimentalStep):
     )
 
     measurement_id = PropertyTypeAssignment(
-        code="measurement_id",
+        code="MEASUREMENT_ID",
         data_type="INTEGER",
         property_label="Measurement ID",
         description="""Division-specific measurement identifier//Abteilungsspezifische Mess-Kennung""",
@@ -13824,6 +13824,7 @@ class LaserDiffPSDMeasurement(ExperimentalStep):
         section="General Information",
     )
 
+    # TODO check this property: this refers to the DATA_CREATOR during an activity/experimental step
     operator = PropertyTypeAssignment(
         code="OPERATOR",
         data_type="VARCHAR",
@@ -13898,7 +13899,7 @@ class LaserDiffPSDMeasurement(ExperimentalStep):
     absorption_coeff_blue_sample = PropertyTypeAssignment(
         code="ABSORPTION_COEFF_BLUE_SAMPLE",
         data_type="REAL",
-        property_label="Absorption coeffecient for blue light of sample",
+        property_label="Absorption coefficient for blue light of sample",
         description="""Absorption coefficient of the sample for blue light//Absorptionskoeffizient der Probe für blaues Licht""",
         mandatory=False,
         show_in_edit_views=True,
