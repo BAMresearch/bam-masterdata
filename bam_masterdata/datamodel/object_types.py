@@ -13897,6 +13897,7 @@ class LaserDiffPSDMeasurement(ExperimentalStep):
     )
 
     # TODO check this property: this refers to the DATA_CREATOR during an activity/experimental step
+    # TODO it can be a BAM user, an external, or any person. We should have the possibility of creating a list of PERSON in the inventory besides BAM.PERSON
     operator = PropertyTypeAssignment(
         code="OPERATOR",
         data_type="VARCHAR",
