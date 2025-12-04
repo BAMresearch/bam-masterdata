@@ -32254,3 +32254,22 @@ class WeldType(VocabularyType):
         label="tack weld",
         description="""Used to hold the parts of a weldment in proper alignment are placed in grooves or fillet locations and are small enough to be consumed by the production weld.//Heftnaht zur Positionierung von Bauteilen""",
     )
+
+
+class ScatteringModelPSDLD(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="SCATTERING_MODEL_PSD_LD",
+        description="""Light scattering model for analyzing laser diffraction data""",
+    )
+
+    mie = VocabularyTerm(
+        code="MIE",
+        label="Mie scattering",
+        description="""The Mie model describes the scattering and refraction of light by spherical particles whose size is comparable to the wavelength of light. For particles < 50 µm // Das Mie-Modell beschreibt die Streuung und Brechung von Licht an kugelförmigen Partikeln, deren Größe vergleichbar mit der Wellenlänge des Lichts ist. Für Partikelgrößen kleiner als 50 µm""",
+    )
+
+    fraunhofer = VocabularyTerm(
+        code="FRAUNHOFER",
+        label="Fraunhofer diffraction for particles",
+        description="""In the context of the laser light scattering method for particle size determination, Fraunhofer scattering refers to a simplified mathematical description of light scattering that is used for relatively large particles (significantly larger than the wavelength of light). For particles > 50 µm // Im Kontext des Laserstreulichtverfahrens zur Partikelgrößenbestimmung bezieht sich die Fraunhofer-Brechung auf eine vereinfachte mathematische Beschreibung der Lichtstreuung, die für relativ große Partikel (deutlich größer als die Lichtwellenlänge) verwendet wird. Für Partikelgrößen größer als 50 µm""",
+    )
