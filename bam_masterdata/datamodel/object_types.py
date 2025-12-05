@@ -12694,6 +12694,78 @@ class Crystal(MatSimStructure):
     )
 
 
+# Hidden inherited properties: EXPERIMENTAL_DESCRIPTION, EXPERIMENTAL_RESULTS,
+#   EXPERIMENTAL_GOALS, SPREADSHEET, REFERENCE, PUBLICATION, COMMENTS
+class MouseMeasurement(SaxsMeasurement):
+    defs = ObjectTypeDef(
+        code="EXPERIMENTAL_STEP.SAXS_MEASUREMENT.MOUSE_MEASUREMENT",
+        description="""Metadata of SAXS measurements of sample at MOUSE // Metadaten der SAXS-Messungen einer Probe mit MOUSE""",
+        generated_code_prefix="EXP.MOME_",
+    )
+
+    responsible_person = PropertyTypeAssignment(
+        code="RESPONSIBLE_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON.BAM",
+        property_label="Responsible person",
+        description="""Responsible person//Verantwortliche Person""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="General Information",
+    )
+
+    sample_position = PropertyTypeAssignment(
+        code="SAMPLE_POSITION",
+        data_type="VARCHAR",
+        property_label="Sample Position // Position der Probe",
+        description="""The sample position ID in the sample holder. Used to record the spatial/orientational position of the sample within the holder or setup. Different sample holders might get new names, or one-off sample holders might have a temporary ID.//Die Position der Probe (ID) im Probenhalter. Sie dient zur Erfassung der räumlichen/orientierungsmäßigen Position der Probe innerhalb des Halters oder der Versuchsanordnung. Verschiedene Probenhalter können unterschiedliche Namen erhalten, oder einmalige Probenhalter können eine temporäre ID haben.""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Experiment Details",
+    )
+
+    measurement_protocol_file = PropertyTypeAssignment(
+        code="MEASUREMENT_PROTOCOL_FILE",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Measurement Protocol // Messprotokoll",
+        description="""Location of the measurement script // Ort des Messprotokollskripts""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Experiment Details",
+    )
+
+    # TODO revisit this property when JSON is integrated in openBIS
+    measurement_protocol_options = PropertyTypeAssignment(
+        code="MEASUREMENT_PROTOCOL_OPTIONS",
+        data_type="VARCHAR",
+        property_label="Measurement protocol options // Messprotokolloptionen",
+        description="""JSON with key-value combinations // JSON mit Schlüssel-Werte-Paaren""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Experiment Details",
+    )
+
+    size_thickness_in_millimeter = PropertyTypeAssignment(
+        code="SIZE_THICKNESS_IN_MILLIMETER",
+        data_type="REAL",
+        property_label="Thickness [mm]",
+        description="""Thickness in mm//Dicke in mm""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Data Processing",
+    )
+
+    processing_protocol_file = PropertyTypeAssignment(
+        code="PROCESSING_PROTOCOL_FILE",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Data processing protocol // Datenverarbeitungsprotokoll",
+        description="""Location of the data processing protocol // Ort des Datenverarbeitungsprotokolls""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Data Processing",
+    )
+
+
 class MeasurementSession(ExperimentalStep):
     defs = ObjectTypeDef(
         code="EXPERIMENTAL_STEP.MEASUREMENT_SESSION",
