@@ -1,3 +1,6 @@
+import time
+from concurrent.futures import ThreadPoolExecutor, TimeoutError
+
 from pybis import Openbis
 
 from bam_masterdata.logger import logger
@@ -14,7 +17,7 @@ def run_parser(
     space_name: str = "",
     project_name: str = "PROJECT",
     collection_name: str = "",
-    files_parser: dict[AbstractParser, list[str]] = {},
+    files_parser: dict[AbstractParser, list[str]] | None = None,
     collection_type: str = "COLLECTION",
 ) -> None:
     """
@@ -263,3 +266,49 @@ def run_parser(
             logger.info(
                 f"Linked child {child_openbis_id} to parent {parent_openbis_id} in collection {collection_name}."
             )
+
+
+def run_parser_withthreading(
+    openbis: Openbis | None = None,
+    space_name: str = "",
+    project_name: str = "PROJECT",
+    collection_name: str = "",
+    files_parser: dict | None = None,
+    collection_type: str = "COLLECTION",
+    timeout: int = 300,
+    max_workers: int = 1,
+) -> int:
+    """Run the parser in a separate thread with a timeout.
+
+    Args:
+        openbis (Openbis): An instance of the Openbis class from pyBIS, already logged in.
+        space_name (str): The space in openBIS where the entities will be stored.
+        project_name (str): The project in openBIS where the entities will be stored.
+        collection_name (str): The collection in openBIS where the entities will be stored.
+        files_parser (dict): A dictionary where keys are parser instances and values are lists of file paths to be parsed. E.g., {MasterdataParserExample(): ["path/to/file.json", "path/to/another_file.json"]}
+        collection_type (str): The type of collection to create in openBIS. Options are "COLLECTION" or "DEFAULT_EXPERIMENT". Defaults to "COLLECTION".
+        timeout (int, optional): Time in seconds for the parser to complete before timing out. Defaults to 300.
+        max_workers (int, optional):  Number of threads to use. Defaults to 1.
+    """
+    try:
+        start = time.perf_counter()
+        with ThreadPoolExecutor(max_workers) as executor:
+            future = executor.submit(
+                run_parser,
+                openbis=openbis,
+                space_name=space_name,
+                project_name=project_name,
+                collection_name=collection_name,
+                files_parser=files_parser,
+                collection_type=collection_type,
+            )
+            try:
+                future.result(timeout=timeout)
+            except Exception as e:
+                logger.error(f"Parser faild: {e}")
+            except TimeoutError:
+                logger.error("Parser execution exceeded the timeout limit.")
+    finally:
+        elapsed = time.perf_counter() - start
+        logger.info(f"Parser finished in {elapsed:.2f} seconds.")
+        return elapsed
