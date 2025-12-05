@@ -12698,7 +12698,7 @@ class Crystal(MatSimStructure):
 #   EXPERIMENTAL_GOALS, SPREADSHEET, REFERENCE, PUBLICATION, COMMENTS
 class MouseMeasurement(SaxsMeasurement):
     defs = ObjectTypeDef(
-        code="EXPERIMENTAL_STEP.MOUSE_MEASUREMENT",
+        code="EXPERIMENTAL_STEP.SAXS_MEASUREMENT.MOUSE_MEASUREMENT",
         description="""Metadata of SAXS measurements of sample at MOUSE // Metadaten der SAXS-Messungen einer Probe mit MOUSE""",
         generated_code_prefix="EXP.MOME_",
     )
