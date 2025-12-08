@@ -288,8 +288,8 @@ class RunParser:
             timeout (int, optional): Time in seconds for the parser to complete before timing out. Defaults to 300.
             max_workers (int, optional):  Number of threads to use. Defaults to 1.
         """
+        start = time.perf_counter()
         try:
-            start = time.perf_counter()
             with ThreadPoolExecutor(max_workers) as executor:
                 future = executor.submit(self.run_parser)
                 try:
