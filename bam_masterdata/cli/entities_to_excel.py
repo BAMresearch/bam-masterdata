@@ -63,9 +63,8 @@ def entities_to_excel(
                 row = []
                 for field in prop.excel_headers_map.keys():
                     if field == "data_type":
-                        if (
-                            prop.data_type == DataType.OBJECT
-                            and getattr(prop, "object_code", None)
+                        if prop.data_type == DataType.OBJECT and getattr(
+                            prop, "object_code", None
                         ):
                             val = f"SAMPLE:{prop.object_code}"
                         else:

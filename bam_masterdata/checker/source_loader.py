@@ -123,7 +123,10 @@ class SourceLoader:
                             data_type_upper = data_type.upper()
                             if ":" in data_type_upper:
                                 prefix, dynamic_code = data_type_upper.split(":", 1)
-                                if prefix in ("SAMPLE", "OBJECT") and dynamic_code.strip():
+                                if (
+                                    prefix in ("SAMPLE", "OBJECT")
+                                    and dynamic_code.strip()
+                                ):
                                     data_type_upper = "OBJECT"
                                     object_code = object_code or dynamic_code.strip()
                             data_type = data_type_upper
