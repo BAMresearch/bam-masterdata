@@ -293,7 +293,6 @@ class MasterdataExcelExtractor:
                     is_valid_dynamic = True
             validated = is_valid_standard or is_valid_dynamic
             error_message += f" The Data Type should be one of the following: {allowed_types} or follow the format 'SAMPLE:<CODE>' or 'OBJECT:<CODE>'"
-            value = val_upper
         elif is_url:
             error_message += " It should be an URL or empty"
 
