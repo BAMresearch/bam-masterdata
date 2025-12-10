@@ -315,7 +315,7 @@ class MasterdataValidator:
                     store_log_message(
                         logger,
                         parent_entity,
-                        f"{log_message}The Data Type should be one of the following: {[dt.value for dt in DataType]} or follow the format 'SAMPLE:<CODE>'",
+                        f"{log_message}The Data Type should be one of the following: {[dt.value for dt in DataType]} or follow the format 'SAMPLE:<CODE>' or 'OBJECT:<CODE>'",
                         level="error",
                     )
 
