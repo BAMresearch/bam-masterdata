@@ -376,7 +376,11 @@ class MasterdataExcelExtractor:
                             sheet_title=sheet.title,
                         )
                     else:
-                        cell_value = cell_value_upper if isinstance(cell_value, str) else cell_value
+                        cell_value = (
+                            cell_value_upper
+                            if isinstance(cell_value, str)
+                            else cell_value
+                        )
 
                 # Handle additional validation for "Generated code prefix"
                 elif (
