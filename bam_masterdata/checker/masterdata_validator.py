@@ -298,13 +298,26 @@ class MasterdataValidator:
                 )
 
             # Validate data types
-            if "is_data" in rule and str(value) not in [dt.value for dt in DataType]:
-                store_log_message(
-                    logger,
-                    parent_entity,
-                    f"{log_message}The Data Type should be one of the following: {[dt.value for dt in DataType]}",
-                    level="error",
-                )
+            if "is_data" in rule:
+                str_val = str(value)
+                is_valid_standard = str_val in [dt.value for dt in DataType]
+                is_valid_dynamic = False
+
+                if not is_valid_standard and (
+                    str_val.startswith("OBJECT") or str_val.startswith("SAMPLE")
+                ):
+                    els = str_val.split(":")
+
+                    if len(els) == 2 and els[1].strip():
+                        is_valid_dynamic = True
+
+                if not is_valid_standard and not is_valid_dynamic:
+                    store_log_message(
+                        logger,
+                        parent_entity,
+                        f"{log_message}The Data Type should be one of the following: {[dt.value for dt in DataType]} or follow the format 'SAMPLE:<CODE>' or 'OBJECT:<CODE>'",
+                        level="error",
+                    )
 
             # Validate special cases (e.g., extra validation functions)
             if "extra_validation" in rule:

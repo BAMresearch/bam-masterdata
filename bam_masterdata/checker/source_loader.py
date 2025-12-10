@@ -117,6 +117,20 @@ class SourceLoader:
                 # Convert properties from dict to list
                 if "properties" in entity_data:
                     for prop_name, prop_data in entity_data["properties"].items():
+                        data_type = prop_data.get("dataType")
+                        object_code = prop_data.get("objectCode")
+                        if isinstance(data_type, str):
+                            data_type_upper = data_type.upper()
+                            if ":" in data_type_upper:
+                                prefix, dynamic_code = data_type_upper.split(":", 1)
+                                if (
+                                    prefix in ("SAMPLE", "OBJECT")
+                                    and dynamic_code.strip()
+                                ):
+                                    data_type_upper = "OBJECT"
+                                    object_code = object_code or dynamic_code.strip()
+                            data_type = data_type_upper
+
                         transformed_property = {
                             "code": prop_data.get("code"),
                             "description": prop_data.get("description", ""),
@@ -126,10 +140,10 @@ class SourceLoader:
                             "row_location": prop_data.get("row_location"),
                             "iri": prop_data.get("iri") or None,  # Convert "" to None
                             "property_label": prop_data.get("label"),
-                            "data_type": prop_data.get("dataType"),
+                            "data_type": data_type,
                             "vocabulary_code": prop_data.get("vocabularyCode")
                             or None,  # Convert "" to None
-                            "object_code": None,
+                            "object_code": object_code,
                             "metadata": None,
                             "dynamic_script": None,
                             "mandatory": prop_data.get("mandatory", False),

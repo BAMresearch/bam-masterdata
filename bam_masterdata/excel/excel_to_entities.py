@@ -161,17 +161,29 @@ class MasterdataExcelExtractor:
                     sheet_title=sheet_title,
                 )
         elif is_data:
-            # Normalize data type to uppercase
-            val = val.upper()
-            if val not in [dt.value for dt in DataType]:
+            # Normalize data type to uppercase and allow dynamic SAMPLE/OBJECT codes
+            val_upper = val.upper()
+            allowed_types = [dt.value for dt in DataType]
+            is_valid_standard = val_upper in allowed_types
+            is_valid_dynamic = False
+
+            if not is_valid_standard and (
+                val_upper.startswith("SAMPLE:") or val_upper.startswith("OBJECT:")
+            ):
+                parts = val_upper.split(":", 1)
+                if len(parts) == 2 and parts[1].strip():
+                    is_valid_dynamic = True
+
+            if not is_valid_standard and not is_valid_dynamic:
                 self.logger.error(
                     error_message
-                    + f"The Data Type should be one of the following: {[dt.value for dt in DataType]}",
+                    + f"The Data Type should be one of the following: {allowed_types} or follow the format 'SAMPLE:<CODE>' or 'OBJECT:<CODE>'",
                     term=term,
-                    cell_value=val,
+                    cell_value=val_upper,
                     cell_coordinate=coordinate,
                     sheet_title=sheet_title,
                 )
+            val = val_upper
         elif is_url:
             if not re.match(
                 r"https?://(?:www\.)?[a-zA-Z0-9-._~:/?#@!$&'()*+,;=%]+", val
@@ -269,8 +281,18 @@ class MasterdataExcelExtractor:
         if is_description:
             error_message += " Description should follow the schema: English Description + '//' + German Description."
         elif is_data:
-            validated = str(value) in [dt.value for dt in DataType]
-            error_message += f" The Data Type should be one of the following: {[dt.value for dt in DataType]}"
+            val_upper = str(value).upper()
+            allowed_types = [dt.value for dt in DataType]
+            is_valid_standard = val_upper in allowed_types
+            is_valid_dynamic = False
+            if not is_valid_standard and (
+                val_upper.startswith("SAMPLE:") or val_upper.startswith("OBJECT:")
+            ):
+                parts = val_upper.split(":", 1)
+                if len(parts) == 2 and parts[1].strip():
+                    is_valid_dynamic = True
+            validated = is_valid_standard or is_valid_dynamic
+            error_message += f" The Data Type should be one of the following: {allowed_types} or follow the format 'SAMPLE:<CODE>' or 'OBJECT:<CODE>'"
         elif is_url:
             error_message += " It should be an URL or empty"
 
@@ -333,13 +355,30 @@ class MasterdataExcelExtractor:
 
                 # Handle data type validation
                 elif self.VALIDATION_RULES[entity_type][term].get("is_data"):
-                    if cell_value not in [dt.value for dt in DataType]:
+                    allowed_types = [dt.value for dt in DataType]
+                    cell_value_upper = str(cell_value).upper()
+                    is_valid_standard = cell_value_upper in allowed_types
+                    is_valid_dynamic = False
+                    if not is_valid_standard and (
+                        cell_value_upper.startswith("SAMPLE:")
+                        or cell_value_upper.startswith("OBJECT:")
+                    ):
+                        parts = cell_value_upper.split(":", 1)
+                        if len(parts) == 2 and parts[1].strip():
+                            is_valid_dynamic = True
+                    if not is_valid_standard and not is_valid_dynamic:
                         self.logger.error(
-                            f"Invalid Data Type: {cell_value} in {cell.coordinate} (Sheet: {sheet.title}). Should be one of the following: {[dt.value for dt in DataType]}",
+                            f"Invalid Data Type: {cell_value} in {cell.coordinate} (Sheet: {sheet.title}). Should be one of the following: {allowed_types} or follow the format 'SAMPLE:<CODE>' or 'OBJECT:<CODE>'",
                             term=term,
                             cell_value=cell_value,
                             cell_coordinate=cell.coordinate,
                             sheet_title=sheet.title,
+                        )
+                    else:
+                        cell_value = (
+                            cell_value_upper
+                            if isinstance(cell_value, str)
+                            else cell_value
                         )
 
                 # Handle additional validation for "Generated code prefix"
@@ -494,7 +533,24 @@ class MasterdataExcelExtractor:
                 data_column = extracted_columns.get(key, [])
                 if not data_column:
                     continue
-                property_dict[code][pybis_val] = data_column[i]
+                cell_value = data_column[i]
+                if key == "Data type":
+                    object_code = None
+                    normalized_value = (
+                        str(cell_value).upper()
+                        if isinstance(cell_value, str)
+                        else cell_value
+                    )
+                    if isinstance(normalized_value, str) and ":" in normalized_value:
+                        prefix, dynamic_code = normalized_value.split(":", 1)
+                        if prefix in ("SAMPLE", "OBJECT") and dynamic_code.strip():
+                            object_code = dynamic_code.strip()
+                            normalized_value = DataType.OBJECT.value
+                    property_dict[code][pybis_val] = normalized_value
+                    if object_code:
+                        property_dict[code]["objectCode"] = object_code
+                else:
+                    property_dict[code][pybis_val] = cell_value
             if self.row_cell_info:
                 property_dict[code]["row_location"] = (
                     extracted_columns.get("row_location")[i],

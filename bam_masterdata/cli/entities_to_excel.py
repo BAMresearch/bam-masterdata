@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, Any
 if TYPE_CHECKING:
     from openpyxl.worksheet.worksheet import Worksheet
 
+from bam_masterdata.metadata.definitions import DataType
 from bam_masterdata.utils import import_module
 
 
@@ -62,11 +63,16 @@ def entities_to_excel(
                 row = []
                 for field in prop.excel_headers_map.keys():
                     if field == "data_type":
-                        val = prop.data_type.value
+                        if prop.data_type == DataType.OBJECT and getattr(
+                            prop, "object_code", None
+                        ):
+                            val = f"SAMPLE:{prop.object_code}"
+                        else:
+                            val = prop.data_type.value
                     else:
                         val = getattr(prop, field)
                     row.append(val)
-                worksheet.append(row)
+            worksheet.append(row)
         # Terms assignment for VocabularyType
         elif obj_instance.base_name == "VocabularyType":
             if not obj_instance.terms:
