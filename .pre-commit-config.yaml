@@ -1,0 +1,34 @@
+repos:
+  # Common hygiene checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-merge-conflict
+      - id: check-added-large-files
+
+  # Ruff: lint + format (state-of-the-art for Python tooling)
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.8.6
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  # Secrets scanning (baseline file recommended)
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        args: [--baseline, .secrets.baseline]
+
+  # Custom local policy hook: forbid specific VocabularyTypeDef.code values
+  - repo: local
+    hooks:
+      - id: forbid-vocabulary-codes
+        name: Forbid VocabularyTypeDef.code values in vocabulary_types.py
+        entry: python tools/precommit/forbid_vocabularies.py
+        language: python
+        files: ^bam_masterdata/datamodel/vocabulary_types\.py$
