@@ -8723,7 +8723,7 @@ class Weldment(ExperimentalStep):
     )
 
     weld_joint_number = PropertyTypeAssignment(
-        code="EXPERIMENTAL_STEP.WELD_JOINT_NUMBER",
+        code="WELD_JOINT_NUMBER",
         data_type="INTEGER",
         property_label="Joint Number",
         description="""Consecutive numbering of weld joints of a workpiece or component//Fortlaufende Numerierung von Schweißnähten an Werkstücken und Bauteilen""",
@@ -8733,7 +8733,7 @@ class Weldment(ExperimentalStep):
     )
 
     weld_layer_number = PropertyTypeAssignment(
-        code="EXPERIMENTAL_STEP.WELD_LAYER_NUMBER",
+        code="WELD_LAYER_NUMBER",
         data_type="INTEGER",
         property_label="Layer Number",
         description="""Consecutive numbering of weld layers for a parent joint//Fortlaufende Numerierung von Schweißlagen der übergeordneten Schweißnaht""",
@@ -8743,7 +8743,7 @@ class Weldment(ExperimentalStep):
     )
 
     weld_bead_number = PropertyTypeAssignment(
-        code="EXPERIMENTAL_STEP.WELD_BEAD_NUMBER",
+        code="WELD_BEAD_NUMBER",
         data_type="INTEGER",
         property_label="Bead Number",
         description="""Consecutive numbering of weld beads or tracks for a parent layer//Fortlaufende Numerierung von Schweißraupen der übergeordneten Schweißlage""",
@@ -8753,7 +8753,7 @@ class Weldment(ExperimentalStep):
     )
 
     weld_weldment_number = PropertyTypeAssignment(
-        code="EXPERIMENTAL_STEP.WELD_WELDMENT_NUMBER",
+        code="WELD_WELDMENT_NUMBER",
         data_type="INTEGER",
         property_label="Weldment Number",
         description="""Consecutive numbering of uninterrupted weldments in a single bead//Fortlaufende Numerierung von ununterbrochenen Schweißungen einer einzelnen Schweißraupe""",
