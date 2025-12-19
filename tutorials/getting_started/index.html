@@ -1,0 +1,1982 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation page for the BAM Masterdata.">
+      
+      
+        <meta name="author" content="BAM Data Store">
+      
+      
+      
+        <link rel="prev" href="../..">
+      
+      
+        <link rel="next" href="../parsing/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/bammasterdata_blue_transparent.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Getting Started - BAM Masterdata</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#getting-started-with-bam-masterdata" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="BAM Masterdata" class="md-header__button md-logo" aria-label="BAM Masterdata" data-md-component="logo">
+      
+  <img src="../../assets/bammasterdata_blue_transparent.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BAM Masterdata
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Getting Started
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/BAMresearch/bam-masterdata" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="BAM Masterdata" class="md-nav__button md-logo" aria-label="BAM Masterdata" data-md-component="logo">
+      
+  <img src="../../assets/bammasterdata_blue_transparent.png" alt="logo">
+
+    </a>
+    BAM Masterdata
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/BAMresearch/bam-masterdata" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-bam-masterdata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is bam-masterdata?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation-and-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation and Setup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation and Setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-an-empty-test-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create an empty test directory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-a-virtual-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create a Virtual Environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-the-package" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install the Package
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify Installation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#your-first-bam-masterdata-experience" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Your First bam-masterdata Experience
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Your First bam-masterdata Experience">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#understanding-entity-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Understanding Entity Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#overview-of-the-object-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview of the Object Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-your-first-entity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating Your First Entity
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#available-properties-for-an-object-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available properties for an Object Type
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data types
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#working-with-controlled-vocabularies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Working with controlled vocabularies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#working-with-object-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Working with object references
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Working with object references">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-using-an-object-instance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Using an Object Instance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-using-a-path-string" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Using a Path String
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-to-use-each-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to use each approach
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#saving-your-object-types-instances-in-a-collection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Saving your Object Types instances in a collection
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#converting-object-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Converting Object Types
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#working-with-real-raw-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Working with real raw data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-the-command-line-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using the Command Line Interface
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Development Setup
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../parsing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automating Metadata with Parsers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How-to Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    How-to Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../howtos/object_references/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Work with Object References
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Parsing
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Parsing
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../howtos/parsing/parser_app/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use the Parser App
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../howtos/parsing/create_new_parsers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Create New Parsers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Explanations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Explanations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../explanations/parsing_structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Parsing Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../explanations/schema_defs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schema Definitions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    References
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    References
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../references/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../references/api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-bam-masterdata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is bam-masterdata?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation-and-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation and Setup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation and Setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-an-empty-test-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create an empty test directory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-a-virtual-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create a Virtual Environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-the-package" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install the Package
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify Installation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#your-first-bam-masterdata-experience" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Your First bam-masterdata Experience
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Your First bam-masterdata Experience">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#understanding-entity-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Understanding Entity Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#overview-of-the-object-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview of the Object Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-your-first-entity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating Your First Entity
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#available-properties-for-an-object-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available properties for an Object Type
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data types
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#working-with-controlled-vocabularies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Working with controlled vocabularies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#working-with-object-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Working with object references
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Working with object references">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-using-an-object-instance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Using an Object Instance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-using-a-path-string" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Using a Path String
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-to-use-each-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to use each approach
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#saving-your-object-types-instances-in-a-collection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Saving your Object Types instances in a collection
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#converting-object-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Converting Object Types
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#working-with-real-raw-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Working with real raw data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-the-command-line-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using the Command Line Interface
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Development Setup
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="./" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Tutorials
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="getting-started-with-bam-masterdata">Getting Started with <code>bam-masterdata</code><a class="headerlink" href="#getting-started-with-bam-masterdata" title="Permanent link">&para;</a></h1>
+<p>This tutorial will guide you through your first interaction with the <code>bam-masterdata</code> package, helping you understand its core concepts and basic functionality.</p>
+<h2 id="what-is-bam-masterdata">What is <code>bam-masterdata</code>?<a class="headerlink" href="#what-is-bam-masterdata" title="Permanent link">&para;</a></h2>
+<p>The <code>bam-masterdata</code> is a Python package designed to help administrators and users to manage the <a href="../../references/glossary/#masterdata">Masterdata</a>/schema definitions. It provides with a set of Python classes and utilities for working with different types of entities in the openBIS Research Data Management (RDM) system. It also contains the Masterdata definitions used at the Bundesanstalt für Materialforschung und -prüfung (BAM) in the context of Materials Science and Engineering research.</p>
+<p><em>[Image placeholder: Architecture overview diagram showing the relationship between BAM Masterdata, openBIS, and the BAM Data Store. The diagram should illustrate data flow and the role of masterdata schemas in the system.]</em></p>
+<p>The <code>bam-masterdata</code> provides you with tools to:</p>
+<ul>
+<li>Export the Masterdata from your openBIS instance.</li>
+<li>Update the Masterdata in your openBIS instance.</li>
+<li>Export/Import from different formats: Excel, Python, RDF/XML, JSON.</li>
+<li>Check consistency of the Masterdata with respect to a ground truth.</li>
+<li>Automatically parse metainformation in your openBIS instance.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Prerequisites</p>
+<ul>
+<li>Basic Python and openBIS knowledge.</li>
+<li>A system with Python 3.10 or higher.</li>
+<li>Knowledge of virtual environments, CLI usage, IDEs such as VSCode, and GitHub.</li>
+</ul>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Note all steps in this documentation are done in Ubuntu 22.04. All the commands in the terminal need to be modified if you work from Windows.</p>
+</div>
+<h2 id="installation-and-setup">Installation and Setup<a class="headerlink" href="#installation-and-setup" title="Permanent link">&para;</a></h2>
+<h3 id="create-an-empty-test-directory">Create an empty test directory<a class="headerlink" href="#create-an-empty-test-directory" title="Permanent link">&para;</a></h3>
+<p>We will test the basic functionalities of <code>bam-masterdata</code> in an empty directory. Open your terminal and type:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>mkdir<span class="w"> </span>test_bm
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">cd</span><span class="w"> </span>test_bm/
+</span></code></pre></div></p>
+<h3 id="create-a-virtual-environment">Create a Virtual Environment<a class="headerlink" href="#create-a-virtual-environment" title="Permanent link">&para;</a></h3>
+<p>We strongly recommend using a virtual environment to avoid conflicts with other packages.</p>
+<p><strong>Using venv:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+</span></code></pre></div></p>
+<p><strong>Using conda:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>conda<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span>.venv<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.10<span class="w">  </span><span class="c1"># or any version 3.10 &lt;= python &lt;= 3.12</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>conda<span class="w"> </span>activate<span class="w"> </span>.venv
+</span></code></pre></div></p>
+<h3 id="install-the-package">Install the Package<a class="headerlink" href="#install-the-package" title="Permanent link">&para;</a></h3>
+<p><code>bam-masterdata</code> is part of the PyPI registry and can be installed via pip:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>pip
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>pip<span class="w"> </span>install<span class="w"> </span>bam-masterdata
+</span></code></pre></div></p>
+<div class="admonition tip">
+<p class="admonition-title">Faster Installation</p>
+<p>For faster installation, you can use <a href="https://docs.astral.sh/uv/"><code>uv</code></a>:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>pip<span class="w"> </span>install<span class="w"> </span>uv
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>bam-masterdata
+</span></code></pre></div></p>
+</div>
+<h3 id="verify-installation">Verify Installation<a class="headerlink" href="#verify-installation" title="Permanent link">&para;</a></h3>
+<p>You can verify that the installation was successful. Open a Python script and write:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">importlib.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">version</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;BAM Masterdata version: </span><span class="si">{</span><span class="n">version</span><span class="p">(</span><span class="s2">&quot;bam_masterdata&quot;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span></code></pre></div></p>
+<p>And running in your terminal:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>python<span class="w"> </span>&lt;path-to-Python-script&gt;
+</span></code></pre></div></p>
+<p>This should return the version of the installed package.</p>
+<h2 id="your-first-bam-masterdata-experience">Your First <code>bam-masterdata</code> Experience<a class="headerlink" href="#your-first-bam-masterdata-experience" title="Permanent link">&para;</a></h2>
+<h3 id="understanding-entity-types">Understanding Entity Types<a class="headerlink" href="#understanding-entity-types" title="Permanent link">&para;</a></h3>
+<p>The BAM Masterdata system organizes information into different entity types:</p>
+<ul>
+<li><strong>Object Types</strong>: Physical or conceptual objects (samples, instruments, people)</li>
+<li><strong>Collection Types</strong>: Groups of related objects</li>
+<li><strong>Dataset Types</strong>: Data files and their metadata</li>
+<li><strong>Vocabulary Types</strong>: Controlled vocabularies for standardized values</li>
+</ul>
+<p><em>[Image placeholder: Entity relationship diagram showing the four main entity types and their relationships. Should include sample instances of each type.]</em></p>
+<details class="info">
+<summary>Deprecating Collection Types and Dataset Types</summary>
+<p>As of September 2025, the development of new Collection and Dataset types is stalled. We will use the abstract concepts only, i.e., a Collection Type is a class used to add objects to it and their relationships, and a Dataset Type is a class to attach raw data files to it.</p>
+</details>
+<h3 id="overview-of-the-object-types">Overview of the Object Types<a class="headerlink" href="#overview-of-the-object-types" title="Permanent link">&para;</a></h3>
+<p>The central ingredients for defining data models associated with a research activity are the Object Types. These are classes inheriting from an abstract class called <code>ObjectType</code> and with two types of attributes:</p>
+<ul>
+<li><code>defs</code>: The definitions of the Object Type. These attributes do not change when filling with data the object.</li>
+<li><code>properties</code>: The list of properties assigned to an object. These attributes are filled when assigning data to the object.</li>
+</ul>
+<p>All accessible object types are defined as Python classes in <a href="https://github.com/BAMresearch/bam-masterdata/tree/main/bam_masterdata/datamodel/object_types.py"><code>bam_masterdata/datamodel/object_types.py</code></a>.
+Each object type has a set of assigned properties (metadata fields), some of which are <strong>mandatory</strong> and some are <strong>optional</strong>. For example:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">Chemical</span><span class="p">(</span><span class="n">ObjectType</span><span class="p">):</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    <span class="n">defs</span> <span class="o">=</span> <span class="n">ObjectTypeDef</span><span class="p">(</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>        <span class="n">code</span><span class="o">=</span><span class="s2">&quot;CHEMICAL&quot;</span><span class="p">,</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Chemical Substance//Chemische Substanz&quot;&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>        <span class="n">generated_code_prefix</span><span class="o">=</span><span class="s2">&quot;CHEM&quot;</span><span class="p">,</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="p">)</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    <span class="n">name</span> <span class="o">=</span> <span class="n">PropertyTypeAssignment</span><span class="p">(</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>        <span class="n">code</span><span class="o">=</span><span class="s2">&quot;$NAME&quot;</span><span class="p">,</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>        <span class="n">data_type</span><span class="o">=</span><span class="s2">&quot;VARCHAR&quot;</span><span class="p">,</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>        <span class="n">property_label</span><span class="o">=</span><span class="s2">&quot;Name&quot;</span><span class="p">,</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Name&quot;&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>        <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>        <span class="n">show_in_edit_views</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>        <span class="n">section</span><span class="o">=</span><span class="s2">&quot;General Information&quot;</span><span class="p">,</span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>    <span class="p">)</span>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>    <span class="n">alias</span> <span class="o">=</span> <span class="n">PropertyTypeAssignment</span><span class="p">(</span>
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>        <span class="n">code</span><span class="o">=</span><span class="s2">&quot;ALIAS&quot;</span><span class="p">,</span>
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>        <span class="n">data_type</span><span class="o">=</span><span class="s2">&quot;VARCHAR&quot;</span><span class="p">,</span>
+</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>        <span class="n">property_label</span><span class="o">=</span><span class="s2">&quot;Alternative Name&quot;</span><span class="p">,</span>
+</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;e.g. abbreviation or nickname//z.B. Abkürzung oder Spitzname&quot;&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>        <span class="n">mandatory</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a>        <span class="n">show_in_edit_views</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-7-25"><a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a>        <span class="n">section</span><span class="o">=</span><span class="s2">&quot;General Information&quot;</span><span class="p">,</span>
+</span><span id="__span-7-26"><a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a>    <span class="p">)</span>
+</span><span id="__span-7-27"><a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a>
+</span><span id="__span-7-28"><a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a>    <span class="c1"># ... more PropertyTypeAssignment</span>
+</span></code></pre></div></p>
+<p>You can read more in <a href="../../explanations/schema_defs/">Schema Definitions</a> to learn about the definitions of Object Types and how to assign properties.</p>
+<h3 id="creating-your-first-entity">Creating Your First Entity<a class="headerlink" href="#creating-your-first-entity" title="Permanent link">&para;</a></h3>
+<p>Let's create/instantiate a simple experimental step object:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">bam_masterdata.datamodel.object_types</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExperimentalStep</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># Create a new experimental step instance</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="n">step</span> <span class="o">=</span> <span class="n">ExperimentalStep</span><span class="p">(</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;SEM measurement&quot;</span><span class="p">,</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>    <span class="n">finished_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="p">)</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="nb">print</span><span class="p">(</span><span class="n">step</span><span class="p">)</span> <span class="c1"># prints the object type and its assigned properties</span>
+</span></code></pre></div>
+<p>This will print:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>SEM<span class="w"> </span>measurement:ExperimentalStep<span class="o">(</span><span class="nv">name</span><span class="o">=</span><span class="s2">&quot;SEM measurement&quot;</span>,<span class="w"> </span><span class="nv">finished_flag</span><span class="o">=</span>True<span class="o">)</span>
+</span></code></pre></div></p>
+<p>You can assign values to other properties after instantiation as well:</p>
+<p><div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">step</span><span class="o">.</span><span class="n">show_in_project_overview</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nb">print</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+</span></code></pre></div>
+This will print:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>SEM<span class="w"> </span>measurement:ExperimentalStep<span class="o">(</span><span class="nv">name</span><span class="o">=</span><span class="s2">&quot;SEM measurement&quot;</span>,<span class="w"> </span><span class="nv">show_in_project_overview</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">finished_flag</span><span class="o">=</span>True<span class="o">)</span>
+</span></code></pre></div></p>
+<p>If the type of the property does not match the expected type, an error will be shown. For example, <code>ExperimentalStep.show_in_project_overview</code> is a boolean, hence:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">step</span><span class="o">.</span><span class="n">show_in_project_overview</span> <span class="o">=</span> <span class="mi">2</span>
+</span></code></pre></div>
+will return:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>TypeError:<span class="w"> </span>Invalid<span class="w"> </span><span class="nb">type</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="s1">&#39;show_in_project_overview&#39;</span>:<span class="w"> </span>Expected<span class="w"> </span>bool,<span class="w"> </span>got<span class="w"> </span>int
+</span></code></pre></div></p>
+<h2 id="available-properties-for-an-object-type">Available properties for an Object Type<a class="headerlink" href="#available-properties-for-an-object-type" title="Permanent link">&para;</a></h2>
+<p>To explore which attributes are available for a given type, check its <code>_property_metadata</code>.</p>
+<p><div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">bam_masterdata.datamodel.object_types</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExperimentalStep</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="n">step</span> <span class="o">=</span> <span class="n">ExperimentalStep</span><span class="p">()</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">_property_metadata</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+</span></code></pre></div>
+will return:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="o">[</span><span class="s1">&#39;name&#39;</span>,<span class="w"> </span><span class="s1">&#39;show_in_project_overview&#39;</span>,<span class="w"> </span><span class="s1">&#39;finished_flag&#39;</span>,<span class="w"> </span><span class="s1">&#39;start_date&#39;</span>,<span class="w"> </span>...<span class="o">]</span>
+</span></code></pre></div></p>
+<p>If you want a detailed list of the <code>PropertyTypeAssignment</code> assigned to an Object Type, you can print <code>properties</code> instead.</p>
+<h2 id="data-types">Data types<a class="headerlink" href="#data-types" title="Permanent link">&para;</a></h2>
+<p>The data types for each assigned property are defined according to openBIS. These have their direct counterpart in Python types. The following table shows the equivalency of each type:</p>
+<table>
+<thead>
+<tr>
+<th>DataType</th>
+<th>Python type</th>
+<th>Example assignment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>BOOLEAN</code></td>
+<td><code>bool</code></td>
+<td><code>myobj.flag = True</code></td>
+</tr>
+<tr>
+<td><code>CONTROLLEDVOCABULARY</code></td>
+<td><code>str</code> (enum term code)</td>
+<td><code>myobj.status = "ACTIVE"</code> (must match allowed vocabulary term)</td>
+</tr>
+<tr>
+<td><code>DATE</code></td>
+<td><code>datetime.date</code></td>
+<td><code>myobj.start_date = datetime.date(2025, 9, 29)</code></td>
+</tr>
+<tr>
+<td><code>HYPERLINK</code></td>
+<td><code>str</code></td>
+<td><code>myobj.url = "https://example.com"</code></td>
+</tr>
+<tr>
+<td><code>INTEGER</code></td>
+<td><code>int</code></td>
+<td><code>myobj.count = 42</code></td>
+</tr>
+<tr>
+<td><code>MULTILINE_VARCHAR</code></td>
+<td><code>str</code></td>
+<td><code>myobj.notes = "Line 1\nLine 2\nLine 3"</code></td>
+</tr>
+<tr>
+<td><code>OBJECT</code></td>
+<td><code>ObjectType</code> or <code>str</code> (path)</td>
+<td><code>myobj.parent = person_obj</code> or <code>myobj.parent = "/SPACE/PROJECT/PERSON_001"</code></td>
+</tr>
+<tr>
+<td><code>REAL</code></td>
+<td><code>float</code></td>
+<td><code>myobj.temperature = 21.7</code></td>
+</tr>
+<tr>
+<td><code>TIMESTAMP</code></td>
+<td><code>datetime.datetime</code></td>
+<td><code>myobj.created_at = datetime.datetime.now()</code></td>
+</tr>
+<tr>
+<td><code>VARCHAR</code></td>
+<td><code>str</code></td>
+<td><code>myobj.name = "Test sample"</code></td>
+</tr>
+<tr>
+<td><code>XML</code></td>
+<td><code>str</code> (XML string)</td>
+<td><code>myobj.config = "&lt;root&gt;&lt;tag&gt;value&lt;/tag&gt;&lt;/root&gt;"</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="working-with-controlled-vocabularies">Working with controlled vocabularies<a class="headerlink" href="#working-with-controlled-vocabularies" title="Permanent link">&para;</a></h2>
+<p>Many object types have fields that only accept certain values (controlled vocabularies). Use the value codes found in <a href="https://github.com/BAMresearch/bam-masterdata/blob/main/bam_masterdata/datamodel/vocabulary_types.py">bam_masterdata/datamodel/vocabulary_types.py</a> or check the class directly:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">bam_masterdata.datamodel.vocabulary_types</span><span class="w"> </span><span class="kn">import</span> <span class="n">StorageValidationLevel</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="nb">print</span><span class="p">([</span><span class="n">term</span><span class="o">.</span><span class="n">code</span> <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">StorageValidationLevel</span><span class="p">()</span><span class="o">.</span><span class="n">terms</span><span class="p">])</span>
+</span></code></pre></div>
+will return:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="o">[</span><span class="s1">&#39;BOX&#39;</span>,<span class="w"> </span><span class="s1">&#39;BOX_POSITION&#39;</span>,<span class="w"> </span><span class="s1">&#39;RACK&#39;</span><span class="o">]</span>
+</span></code></pre></div></p>
+<p>Thus we can assign only:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">bam_masterdata.datamodel.object_types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Storage</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="n">store</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">()</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="n">store</span><span class="o">.</span><span class="n">storage_storage_validation_level</span> <span class="o">=</span> <span class="s2">&quot;BOX&quot;</span>  <span class="c1"># CONTROLLEDVOCABULARY</span>
+</span></code></pre></div></p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>When assigning values to properties assigned to Object Types, we recommend carefully <a href="https://blog.miguelgrinberg.com/post/the-ultimate-guide-to-error-handling-in-python">handling potential errors</a>.
+This will allow your scripts to work without interruption and with a total control of conflictive lines.</p>
+</div>
+<h2 id="working-with-object-references">Working with object references<a class="headerlink" href="#working-with-object-references" title="Permanent link">&para;</a></h2>
+<p>Some object types have properties that reference other objects in openBIS (when data type is <code>OBJECT</code>). For example, an <code>Instrument</code> might have a <code>responsible_person</code> property that references a <code>Person</code> object.</p>
+<p>There are two ways to assign object references:</p>
+<h3 id="1-using-an-object-instance">1. Using an Object Instance<a class="headerlink" href="#1-using-an-object-instance" title="Permanent link">&para;</a></h3>
+<p>If you're creating objects in the same batch, you can directly reference the object instance.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">bam_masterdata.datamodel.object_types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Instrument</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="c1"># Create a person object</span>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="n">person</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Dr. Jane Smith&quot;</span><span class="p">)</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="n">person</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="s2">&quot;PERSON_001&quot;</span>  <span class="c1"># Must have a code to be used as reference</span>
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="c1"># Create an instrument and reference the person</span>
+</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="n">instrument</span> <span class="o">=</span> <span class="n">Instrument</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Microscope A&quot;</span><span class="p">)</span>
+</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="n">instrument</span><span class="o">.</span><span class="n">responsible_person</span> <span class="o">=</span> <span class="n">person</span>  <span class="c1"># Direct object reference</span>
+</span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Object must have a code</p>
+<p>When using object instances as references, they must have a <code>code</code> attribute set. Otherwise, a <code>ValueError</code> will be raised.</p>
+</div>
+<h3 id="2-using-a-path-string">2. Using a Path String<a class="headerlink" href="#2-using-a-path-string" title="Permanent link">&para;</a></h3>
+<p>If the object already exists in openBIS, you can reference it using its identifier path:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Reference an existing object using its path</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="n">instrument</span> <span class="o">=</span> <span class="n">Instrument</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Microscope B&quot;</span><span class="p">)</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="c1"># Path format: /{space}/{project}/{collection}/{object}</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="n">instrument</span><span class="o">.</span><span class="n">responsible_person</span> <span class="o">=</span> <span class="s2">&quot;/LAB_SPACE/PEOPLE_LIST_PROJECT/STAFF_COLLECTION/PERSON_001&quot;</span>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="c1"># Or without collection: /{space}/{project}/{object}</span>
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="n">instrument</span><span class="o">.</span><span class="n">responsible_person</span> <span class="o">=</span> <span class="s2">&quot;/LAB_SPACE/PEOPLE_LIST_PROJECT/PERSON_001&quot;</span>
+</span></code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Path format validation</p>
+<p>The path must:</p>
+<ul>
+<li>Start with a forward slash <code>/</code></li>
+<li>Have either 3 parts (space/project/object) or 4 parts (space/project/collection/object)</li>
+<li>Match an existing object identifier in openBIS</li>
+</ul>
+</div>
+<h3 id="when-to-use-each-approach">When to use each approach<a class="headerlink" href="#when-to-use-each-approach" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Use object instances</strong> when creating multiple related objects in the same parsing operation. This option is the alternative to defining parent-child relationships if in an Object Type definition you have assigned a property of a certain data type OBJECT.</li>
+<li><strong>Use path strings</strong> when referencing existing objects in openBIS that were created separately.</li>
+</ul>
+<p>Example combining both approaches:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">bam_masterdata.metadata.entities</span><span class="w"> </span><span class="kn">import</span> <span class="n">CollectionType</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="n">collection</span> <span class="o">=</span> <span class="n">CollectionType</span><span class="p">()</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="c1"># Create and add a person</span>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="n">person</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Dr. Smith&quot;</span><span class="p">)</span>
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="n">person</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="s2">&quot;PERSON_001&quot;</span>
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="n">person_id</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">person</span><span class="p">)</span>
+</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>
+</span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a><span class="c1"># Create instrument referencing the new person (by instance)</span>
+</span><span id="__span-21-11"><a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a><span class="n">instrument1</span> <span class="o">=</span> <span class="n">Instrument</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Instrument 1&quot;</span><span class="p">)</span>
+</span><span id="__span-21-12"><a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a><span class="n">instrument1</span><span class="o">.</span><span class="n">responsible_person</span> <span class="o">=</span> <span class="n">person</span>
+</span><span id="__span-21-13"><a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a><span class="n">collection</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">instrument1</span><span class="p">)</span>
+</span><span id="__span-21-14"><a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a>
+</span><span id="__span-21-15"><a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a><span class="c1"># Create another instrument referencing an existing person in openBIS (by path)</span>
+</span><span id="__span-21-16"><a id="__codelineno-21-16" name="__codelineno-21-16" href="#__codelineno-21-16"></a><span class="n">instrument2</span> <span class="o">=</span> <span class="n">Instrument</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Instrument 2&quot;</span><span class="p">)</span>
+</span><span id="__span-21-17"><a id="__codelineno-21-17" name="__codelineno-21-17" href="#__codelineno-21-17"></a><span class="n">instrument2</span><span class="o">.</span><span class="n">responsible_person</span> <span class="o">=</span> <span class="s2">&quot;/MY_SPACE/MY_PROJECT/EXISTING_PERSON_002&quot;</span>
+</span><span id="__span-21-18"><a id="__codelineno-21-18" name="__codelineno-21-18" href="#__codelineno-21-18"></a><span class="n">collection</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">instrument2</span><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="saving-your-object-types-instances-in-a-collection">Saving your Object Types instances in a collection<a class="headerlink" href="#saving-your-object-types-instances-in-a-collection" title="Permanent link">&para;</a></h2>
+<p>Most usecases end with saving the Object Types and their field values in a colletion for further use.
+This can be done by adding those Object Types in a <code>CollectionType</code> like:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">bam_masterdata.metadata.entities</span><span class="w"> </span><span class="kn">import</span> <span class="n">CollectionType</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">bam_masterdata.datamodel.object_types</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExperimentalStep</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="n">step_1</span> <span class="o">=</span> <span class="n">ExperimentalStep</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Step 1&quot;</span><span class="p">)</span>
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>
+</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="n">collection</span> <span class="o">=</span> <span class="n">CollectionType</span><span class="p">()</span>
+</span><span id="__span-22-8"><a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a><span class="n">step_1_id</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">step_1</span><span class="p">)</span>
+</span><span id="__span-22-9"><a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a><span class="nb">print</span><span class="p">(</span><span class="n">collection</span><span class="p">)</span>
+</span></code></pre></div></p>
+<p>This will return the <code>CollectionType</code> with the attached objects:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>CollectionType<span class="o">(</span><span class="nv">attached_objects</span><span class="o">={</span><span class="s1">&#39;EXP8f78245b&#39;</span>:<span class="w"> </span>ExperimentalStep<span class="o">(</span><span class="nv">name</span><span class="o">=</span><span class="s1">&#39;Step 1&#39;</span><span class="o">)}</span>,<span class="w"> </span><span class="nv">relationships</span><span class="o">={})</span>
+</span></code></pre></div></p>
+<p>You can also add relationships between objects by using their ids when attached to the <code>CollectionType</code>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">bam_masterdata.metadata.entities</span><span class="w"> </span><span class="kn">import</span> <span class="n">CollectionType</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">bam_masterdata.datamodel.object_types</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExperimentalStep</span>
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>
+</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>
+</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="n">step_1</span> <span class="o">=</span> <span class="n">ExperimentalStep</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Step 1&quot;</span><span class="p">)</span>
+</span><span id="__span-24-6"><a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="n">step_2</span> <span class="o">=</span> <span class="n">ExperimentalStep</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Step 2&quot;</span><span class="p">)</span>
+</span><span id="__span-24-7"><a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a>
+</span><span id="__span-24-8"><a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a><span class="n">collection</span> <span class="o">=</span> <span class="n">CollectionType</span><span class="p">()</span>
+</span><span id="__span-24-9"><a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a><span class="n">step_1_id</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">step_1</span><span class="p">)</span>
+</span><span id="__span-24-10"><a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a><span class="n">step_2_id</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">step_2</span><span class="p">)</span>
+</span><span id="__span-24-11"><a id="__codelineno-24-11" name="__codelineno-24-11" href="#__codelineno-24-11"></a><span class="n">_</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">add_relationship</span><span class="p">(</span><span class="n">parent_id</span><span class="o">=</span><span class="n">step_1_id</span><span class="p">,</span> <span class="n">child_id</span><span class="o">=</span><span class="n">step_2_id</span><span class="p">)</span>
+</span><span id="__span-24-12"><a id="__codelineno-24-12" name="__codelineno-24-12" href="#__codelineno-24-12"></a><span class="nb">print</span><span class="p">(</span><span class="n">collection</span><span class="p">)</span>
+</span></code></pre></div>
+will return:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>CollectionType<span class="o">(</span><span class="nv">attached_objects</span><span class="o">={</span><span class="s1">&#39;EXP3e6f674e&#39;</span>:<span class="w"> </span>ExperimentalStep<span class="o">(</span><span class="nv">name</span><span class="o">=</span><span class="s1">&#39;Step 1&#39;</span><span class="o">)</span>,<span class="w"> </span><span class="s1">&#39;EXP87b64b62&#39;</span>:<span class="w"> </span>ExperimentalStep<span class="o">(</span><span class="nv">name</span><span class="o">=</span><span class="s1">&#39;Step 2&#39;</span><span class="o">)}</span>,<span class="w"> </span><span class="nv">relationships</span><span class="o">={</span><span class="s1">&#39;EXP3e6f674e&gt;&gt;EXP87b64b62&#39;</span>:<span class="w"> </span><span class="o">(</span><span class="s1">&#39;EXP3e6f674e&#39;</span>,<span class="w"> </span><span class="s1">&#39;EXP87b64b62&#39;</span><span class="o">)})</span>
+</span></code></pre></div></p>
+<h2 id="converting-object-types">Converting Object Types<a class="headerlink" href="#converting-object-types" title="Permanent link">&para;</a></h2>
+<p>The package supports various export formats for working with Object Types. These divide in two main purposes:</p>
+<ul>
+<li>Exporting the schema definitions: this is done using the methods <code>model_to_&lt;format&gt;()</code>.</li>
+<li>Exporting the data model: this is done using the methods <code>to_&lt;format()&gt;</code>.</li>
+</ul>
+<p>For example:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1"># Convert data model to dictionary</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="n">step_dict</span> <span class="o">=</span> <span class="n">step</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="c1"># Convert schema to dictionary</span>
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="n">step_schema_dict</span> <span class="o">=</span> <span class="n">step</span><span class="o">.</span><span class="n">model_to_dict</span><span class="p">()</span>
+</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="nb">print</span><span class="p">(</span><span class="n">step_dict</span><span class="p">)</span>  <span class="c1"># print: {&#39;name&#39;: &#39;SEM measurement&#39;, &#39;finished_flag&#39;: True}</span>
+</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a><span class="nb">print</span><span class="p">(</span><span class="n">step_schema_dict</span><span class="p">)</span>  <span class="c1"># print: {&#39;properties&#39;: [{...}, {...}, {...}, {...}, {...}, {...}, {...}, {...}, {...}, {...}, {...}, {...}, {...}, {...}], &#39;defs&#39;: {&#39;code&#39;: &#39;EXPERIMENTAL_STEP&#39;, &#39;description&#39;: &#39;Experimental Step (generic)//Experimenteller Schritt (allgemein)&#39;, &#39;iri&#39;: None, &#39;id&#39;: &#39;ExperimentalStep&#39;, &#39;row_location&#39;: None, &#39;validation_script&#39;: None, &#39;generated_code_prefix&#39;: &#39;EXP&#39;, &#39;auto_generate_codes&#39;: True}}</span>
+</span><span id="__span-26-7"><a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a>
+</span><span id="__span-26-8"><a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a><span class="c1"># Convert to JSON</span>
+</span><span id="__span-26-9"><a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a><span class="n">step_json</span> <span class="o">=</span> <span class="n">step</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span>
+</span><span id="__span-26-10"><a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a><span class="n">step_schema_json</span> <span class="o">=</span> <span class="n">step</span><span class="o">.</span><span class="n">model_to_json</span><span class="p">()</span>
+</span></code></pre></div></p>
+<p>The possible export formats can be found in the <a href="../../references/api/">API Reference</a> documentation page.</p>
+<h2 id="working-with-real-raw-data">Working with real raw data<a class="headerlink" href="#working-with-real-raw-data" title="Permanent link">&para;</a></h2>
+<p>In order to work with raw data, you will need to create a script (also called <em>parser</em>) to read the i/o files metainformation, and map such information to the corresponding Object Types classes and properties. You can find more information in <a href="../../howtos/parsing/create_new_parsers/">How-to: Create new parsers</a></p>
+<h2 id="using-the-command-line-interface">Using the Command Line Interface<a class="headerlink" href="#using-the-command-line-interface" title="Permanent link">&para;</a></h2>
+<p>The package provides a CLI for common operations:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="c1"># Export current masterdata to Excel</span>
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>bam_masterdata<span class="w"> </span>export_to_excel<span class="w"> </span>--export-dir<span class="o">=</span>example_export_excel
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>
+</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="c1"># Fill masterdata from OpenBIS</span>
+</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>bam_masterdata<span class="w"> </span>fill_masterdata
+</span></code></pre></div>
+<p>A comprehensive explanation of all options can be found in the terminal when adding the <code>--help</code> flag at the end of the command. For example:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>bam_masterdata<span class="w"> </span>export_to_json<span class="w"> </span>--help
+</span></code></pre></div>
+will produce:
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>Usage:<span class="w"> </span>bam_masterdata<span class="w"> </span>export_to_json<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="w">  </span>Export<span class="w"> </span>entities<span class="w"> </span>to<span class="w"> </span>JSON<span class="w"> </span>files<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span><span class="sb">`</span>./artifacts/<span class="sb">`</span><span class="w"> </span>folder.
+</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>
+</span><span id="__span-29-5"><a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>Options:
+</span><span id="__span-29-6"><a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a><span class="w">  </span>--force-delete<span class="w"> </span>BOOLEAN<span class="w">  </span><span class="o">(</span>Optional<span class="o">)</span><span class="w"> </span>If<span class="w"> </span><span class="nb">set</span><span class="w"> </span>to<span class="w"> </span><span class="sb">`</span>True<span class="sb">`</span>,<span class="w"> </span>it<span class="w"> </span>will<span class="w"> </span>delete<span class="w"> </span>the
+</span><span id="__span-29-7"><a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a><span class="w">                          </span>current<span class="w"> </span><span class="sb">`</span>./artifacts/<span class="sb">`</span><span class="w"> </span>folder<span class="w"> </span>and<span class="w"> </span>create<span class="w"> </span>a<span class="w"> </span>new<span class="w"> </span>one.
+</span><span id="__span-29-8"><a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a><span class="w">                          </span>Default<span class="w"> </span>is<span class="w"> </span><span class="sb">`</span>False<span class="sb">`</span>.
+</span><span id="__span-29-9"><a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a><span class="w">  </span>--python-path<span class="w"> </span>TEXT<span class="w">      </span><span class="o">(</span>Optional<span class="o">)</span><span class="w"> </span>The<span class="w"> </span>path<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>individual<span class="w"> </span>Python<span class="w"> </span>module
+</span><span id="__span-29-10"><a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a><span class="w">                          </span>or<span class="w"> </span>the<span class="w"> </span>directory<span class="w"> </span>containing<span class="w"> </span>the<span class="w"> </span>Python<span class="w"> </span>modules<span class="w"> </span>to
+</span><span id="__span-29-11"><a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a><span class="w">                          </span>process<span class="w"> </span>the<span class="w"> </span>datamodel.<span class="w"> </span>Default<span class="w"> </span>is<span class="w"> </span>the<span class="w"> </span><span class="sb">`</span>/datamodel/<span class="sb">`</span>
+</span><span id="__span-29-12"><a id="__codelineno-29-12" name="__codelineno-29-12" href="#__codelineno-29-12"></a><span class="w">                          </span>directory.
+</span><span id="__span-29-13"><a id="__codelineno-29-13" name="__codelineno-29-13" href="#__codelineno-29-13"></a><span class="w">  </span>--export-dir<span class="w"> </span>TEXT<span class="w">       </span>The<span class="w"> </span>directory<span class="w"> </span>where<span class="w"> </span>the<span class="w"> </span>JSON<span class="w"> </span>files<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>exported.
+</span><span id="__span-29-14"><a id="__codelineno-29-14" name="__codelineno-29-14" href="#__codelineno-29-14"></a><span class="w">                          </span>Default<span class="w"> </span>is<span class="w"> </span><span class="sb">`</span>./artifacts<span class="sb">`</span>.
+</span><span id="__span-29-15"><a id="__codelineno-29-15" name="__codelineno-29-15" href="#__codelineno-29-15"></a><span class="w">  </span>--single-json<span class="w"> </span>BOOLEAN<span class="w">   </span>Whether<span class="w"> </span>the<span class="w"> </span><span class="nb">export</span><span class="w"> </span>to<span class="w"> </span>JSON<span class="w"> </span>is<span class="w"> </span><span class="k">done</span><span class="w"> </span>to<span class="w"> </span>a<span class="w"> </span>single<span class="w"> </span>JSON
+</span><span id="__span-29-16"><a id="__codelineno-29-16" name="__codelineno-29-16" href="#__codelineno-29-16"></a><span class="w">                          </span>file.<span class="w"> </span>Default<span class="w"> </span>is<span class="w"> </span>False.
+</span><span id="__span-29-17"><a id="__codelineno-29-17" name="__codelineno-29-17" href="#__codelineno-29-17"></a><span class="w">  </span>--help<span class="w">                  </span>Show<span class="w"> </span>this<span class="w"> </span>message<span class="w"> </span>and<span class="w"> </span>exit.
+</span></code></pre></div></p>
+<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<p>Now that you've completed this tutorial, you can:</p>
+<ol>
+<li><strong>Explore the How-to Guides</strong>: Learn specific tasks and workflows when using <code>bam-masterdata</code>.</li>
+<li><strong>Read the Explanations</strong>: Understand the concepts behind the system.</li>
+<li><strong>Browse the API Reference</strong>: Dive deep into specific classes and methods.</li>
+</ol>
+<h2 id="development-setup">Development Setup<a class="headerlink" href="#development-setup" title="Permanent link">&para;</a></h2>
+<p>If you want to contribute or modify the package:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/BAMresearch/bam-masterdata.git
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="nb">cd</span><span class="w"> </span>bam-masterdata
+</span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv
+</span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+</span><span id="__span-30-5"><a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a>./scripts/install_python_dependencies.sh
+</span></code></pre></div>
+<p>Read the <code>README.md</code> for more details.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../.." class="md-footer__link md-footer__link--prev" aria-label="Previous: Home">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Home
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../parsing/" class="md-footer__link md-footer__link--next" aria-label="Next: Automating Metadata with Parsers">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Automating Metadata with Parsers
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.path", "navigation.footer", "navigation.top", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+      
+        <script src="https://unpkg.com/cytoscape@3.19.1/dist/cytoscape.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10.9.0/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>
