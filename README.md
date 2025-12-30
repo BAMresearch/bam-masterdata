@@ -43,11 +43,11 @@ source .venv/bin/activate
 Run the following script depending on your OS:
 - *Linux/MacOS*:
   ```sh
-  ./scripts/install_python_dependencies.sh
+  ./tools/scripts/install_python_dependencies.sh
   ```
 - *Windows*:
   ```sh
-  scripts/install_python_dependencies.bat
+  tools/scripts/install_python_dependencies.bat
   ```
 
 **Note**: This script installs the required dependencies for development, testing, and documentation, using `uv` and `pip`.
@@ -84,10 +84,32 @@ ruff format .
 
 If some issues are not possible to fix automatically, you will need to visit the file and fix them by hand.
 
+### Pre-commit hooks (recommended)
+
+We use `pre-commit` to run fast checks automatically on every commit (formatting, linting, secrets scanning, and a repository-specific policy check).
+
+Install once:
+
+```sh
+pip install pre-commit
+pre-commit install
+```
+
+(Optional) Run on the whole repo:
+
+```sh
+pre-commit run --all-files
+```
+
+**Secrets baseline:** the repository uses `.secrets.baseline`. If you add new secrets intentionally (rare), update the baseline:
+
+```sh
+detect-secrets scan > .secrets.baseline
+```
 
 ### Documentation on Github pages
 
-To view the documentation locally, make sure to have installed the extra packages (this is part of the `scripts/install_python_dependencies.*`, so if you ran this script before, you don't need to do it again now):
+To view the documentation locally, make sure to have installed the extra packages (this is part of the `tools/scripts/install_python_dependencies.*`, so if you ran this script before, you don't need to do it again now):
 
 ```sh
 uv pip install -e '[docu]'
