@@ -12928,7 +12928,6 @@ class GmawBase(Weldment):
         section="Arc welding Parameters",
     )
 
-
 class LaserHybridMagnet(Weldment):
     defs = ObjectTypeDef(
         code="EXPERIMENTAL_STEP.WELDMENT.LASER_HYBRID_MAGNET",
@@ -13106,6 +13105,312 @@ class LaserHybridMagnet(Weldment):
         section="Arc Welding Parameters",
     )
 
+class LaserMagnet(Weldment):
+    defs = ObjectTypeDef(
+        code="EXPERIMENTAL_STEP.WELDMENT.LASER_MAGNET",
+        description="""A welding experiment using laser beam welding with magnetic support//Ein Laserstrahl Schweißversuch mit magnetischer Badstütze""",
+        generated_code_prefix="EXP.WLD.LSR_MGNT",
+    )
+
+    experimental_step_weldment_workpiece_material = PropertyTypeAssignment(
+        code="EXPERIMENTAL_STEP.WELDMENT.WORKPIECE_MATERIAL",
+        data_type="VARCHAR",
+        property_label="Material",
+        description="""Material//Material""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Workpiece",
+    )
+
+    experimental_step_weldment_workpiece_material_type = PropertyTypeAssignment(
+        code="EXPERIMENTAL_STEP.WELDMENT.WORKPIECE_MATERIAL_TYPE",
+        data_type="VARCHAR",
+        property_label="Material Type",
+        description="""Material type//Materialtyp""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Workpiece",
+    )
+
+    raw_material_width = PropertyTypeAssignment(
+        code="RAW_MAT_WIDTH",
+        data_type="REAL",
+        property_label="Workpiece Width [mm]",
+        description="""Width of Workpiece [mm]//Probenbreite [mm]""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Workpiece",
+    )
+
+    raw_material_length = PropertyTypeAssignment(
+        code="RAW_MAT_LENGTH",
+        data_type="REAL",
+        property_label="Workpiece Length [mm]",
+        description="""Length of Workpiece [mm]//Probenlänge [mm]""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Workpiece",
+    )
+
+    raw_material_thickness = PropertyTypeAssignment(
+        code="RAW_MAT_THICKNESS",
+        data_type="REAL",
+        property_label="Workpiece Thickness [mm]",
+        description="""Workpiece thickness [mm]//Bauteildicke [mm]""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Workpiece",
+    )
+
+    experimental_step_weldment_workpiece_surface_preparation = PropertyTypeAssignment(
+        code="EXPERIMENTAL_STEP.WELDMENT.SURFACE_PREPARATION",
+        data_type="VARCHAR",
+        property_label="Surface preparation",
+        description="""Surface preparation//Oberflächenbearbeitung""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Workpiece",
+    )
+
+    experimental_step_weldment_groove_preparation = PropertyTypeAssignment(
+        code="EXPERIMENTAL_STEP.WELDMENT.GROOVE_PREPARATION",
+        data_type="VARCHAR",
+        property_label="Groove preparation",
+        description="""Groove or Joint preparation description//Beschreibung der Nahtvorbereitung""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Joint Configuration",
+    )
+
+    experimental_step_weldment_full_penetration = PropertyTypeAssignment(
+        code="EXPERIMENTAL_STEP.WELDMENT.FULL_PENETRATION",
+        data_type="BOOLEAN",
+        property_label="Full penetration",
+        description="""Full penetration//Durchschweißung""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Joint Configuration",
+    )
+
+    experimental_step_weldment_weld_travel_speed = PropertyTypeAssignment(
+        code="EXPERIMENTAL_STEP.WELDMENT.WELD_TRAVEL_SPEED",
+        data_type="REAL",
+        property_label="Welding travel speed [cm/min]",
+        description="""Welding travel speed//Schweißgeschwindigkeit""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Welding Parameters",
+    )
+
+    experimental_step_weldment_weld_seam_length = PropertyTypeAssignment(
+        code="EXPERIMENTAL_STEP.WELDMENT.WELD_SEAM_LENGTH",
+        data_type="REAL",
+        property_label="Weld seam length [mm]",
+        description="""Weld seam length//Länge der Schweißnaht""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Welding Parameters",
+    )
+
+    experimental_step_weldment_shielding_gas_composition = PropertyTypeAssignment(
+        code="EXPERIMENTAL_STEP.WELDMENT.SHIELDING_GAS_COMPOSITION",
+        data_type="VARCHAR",
+        property_label="Shielding gas composition",
+        description="""Shielding gas composition//Schutzgaszusammensetzung""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Welding Parameters",
+    )
+
+    experimental_step_weldment_shielding_gas_flow = PropertyTypeAssignment(
+        code="EXPERIMENTAL_STEP.WELDMENT.SHIELDING_GAS_FLOW",
+        data_type="REAL",
+        property_label="Shielding gas flowrate [l/min]",
+        description="""Shielding gas flowrate//Schutzgasflussgeschwindigkeit""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Welding Parameters",
+    )
+
+    experimental_step_weldment_shielding_gas_nozzle_heigth = PropertyTypeAssignment(
+        code="EXPERIMENTAL_STEP.WELDMENT.SHIELDING_GAS_NOZZLE_HEIGHT",
+        data_type="REAL",
+        property_label="Shielding gas nozzle height [mm]",
+        description="""Shielding gas nozzle height//Schutzgasdüsenhöhe""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Welding Parameters",
+    )
+
+    experimental_step_weldment_shielding_gas_nozzle_angle = PropertyTypeAssignment(
+        code="EXPERIMENTAL_STEP.WELDMENT.SHIELDING_GAS_NOZZLE_ANGLE",
+        data_type="REAL",
+        property_label="Shielding gas nozzle angle [deg]",
+        description="""Shielding gas nozzle angle// Schutzgasdüsenwinkel""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Welding Parameters",
+    )
+
+    experimental_step_weldment_laser_power = PropertyTypeAssignment(
+        code="EXPERIMENTAL_STEP.WELDMENT.LASER_POWER",
+        data_type="REAL",
+        property_label="Laser power [kW]",
+        description="""Laser power//Laserleistung""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Laser Parameters",
+    )
+
+    experimental_step_weldment_laser_angle = PropertyTypeAssignment(
+        code="EXPERIMENTAL_STEP.WELDMENT.LASER_ANGLE",
+        data_type="REAL",
+        property_label="Laser angle [deg]",
+        description="""Laser angle//Laserwinkel""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Laser Parameters",
+    )
+
+    experimental_step_weldment_laser_focal_length = PropertyTypeAssignment(
+        code="EXPERIMENTAL_STEP.WELDMENT.LASER_FOCAL_LENGTH",
+        data_type="REAL",
+        property_label="Focal length  [mm]",
+        description="""Laser focal length//Laser Fokuslänge""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Laser Parameters",
+    )
+
+    experimental_step_weldment_laser_focal_position = PropertyTypeAssignment(
+        code="EXPERIMENTAL_STEP.WELDMENT.LASER_FOCAL_POSITION",
+        data_type="REAL",
+        property_label="Focal position  [mm]",
+        description="""Laser focal position//Laser Fokusposition""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Laser Parameters",
+    )
+
+    experimental_step_weldment_laser_focal_diameter = PropertyTypeAssignment(
+        code="EXPERIMENTAL_STEP.WELDMENT.LASER_FOCAL_DIAMETER",
+        data_type="REAL",
+        property_label="Focal diameter [mm]",
+        description="""Laser focal diameter//Laser Fokusdurchmesser""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Laser Parameters",
+    )
+
+    experimental_step_weldment_laser_beam_parameter_prod = PropertyTypeAssignment(
+        code="EXPERIMENTAL_STEP.WELDMENT.LASER_BEAM_PARAMETER_PROD",
+        data_type="REAL",
+        property_label="Beam parameter product [mm mrad]",
+        description="""Beam parameter product//Strahlparameterprodukt""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Laser Parameters",
+    )
+
+    experimental_step_weldment_laser_rayleigh_length = PropertyTypeAssignment(
+        code="EXPERIMENTAL_STEP.WELDMENT.LASER_RAYLEIGH_LENGTH",
+        data_type="REAL",
+        property_label="Rayleigh length [mm]",
+        description="""Rayleigh length//Rayleighlänge""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Laser Parameters",
+    )
+
+    experimental_step_weldment_magnet_capacitance = PropertyTypeAssignment(
+        code="EXPERIMENTAL_STEP.WELDMENT.MAGNET_CAPACITANCE",
+        data_type="REAL",
+        property_label="Max flux density mT]",
+        description="""Maximum flux density//Maximale Flussdichte""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Magnet Parameters",
+    )
+
+    experimental_step_weldment_magnet_frequency = PropertyTypeAssignment(
+        code="EXPERIMENTAL_STEP.WELDMENT.MAGNET_FREQUENCY",
+        data_type="REAL",
+        property_label="Frequency F [Hz]",
+        description="""Frequency//Frequenz""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Magnet Parameters",
+    )
+
+    experimental_step_weldment_magnet_u_1 = PropertyTypeAssignment(
+        code="EXPERIMENTAL_STEP.WELDMENT.MAGNET_U_1",
+        data_type="REAL",
+        property_label="U_1 [mV]",
+        description="""Magnet U_1 value//Magnet U_1 Wert""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Magnet Parameters",
+    )
+
+    experimental_step_weldment_magnet_I_1 = PropertyTypeAssignment(
+        code="EXPERIMENTAL_STEP.WELDMENT.MAGNET_I_1",
+        data_type="REAL",
+        property_label="I_1 [A]",
+        description="""Magnet I_1 value//Magnet I_1 Wert""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Magnet Parameters",
+    )
+
+    experimental_step_weldment_laser_program = PropertyTypeAssignment(
+        code="EXPERIMENTAL_STEP.WELDMENT.TLC_LASER_PROGRAM_NAME",
+        data_type="VARCHAR",
+        property_label="Laser Program",
+        description="""Laser program//Laserprogramm""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="TLC 1005",
+    )
+
+    experimental_step_weldment_robot_program = PropertyTypeAssignment(
+        code="EXPERIMENTAL_STEP.WELDMENT.TLC_ROBOT_PROGRAM_NAME",
+        data_type="VARCHAR",
+        property_label="Robot Program",
+        description="""Robot program//Roboterprogramm""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="TLC 1005",
+    )
+
+    experimental_step_weldment_thermocouples_setup = PropertyTypeAssignment(
+        code="EXPERIMENTAL_STEP.WELDMENT.THERMOCOUPLES_SETUP",
+        data_type="XML",
+        property_label="Thermocouples",
+        description="""Thermocouples//Thermoelemente""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Measurements",
+    )
+
+    experimental_step_weldment_camers_setup = PropertyTypeAssignment(
+        code="EXPERIMENTAL_STEP.WELDMENT.CAMERAS_SETUP",
+        data_type="XML",
+        property_label="Cameras",
+        description="""Cameras//Kameras""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Measurements",
+    )
+
+    experimental_step_weldment_measurement_description = PropertyTypeAssignment(
+        code="EXPERIMENTAL_STEP.WELDMENT.MEASUREMENT_DESCRIPTION",
+        data_type="XML",
+        property_label="Additional information",
+        description="""Additional information describing the measurements performed//Zusätzliche Informationen zu den durchgeführten Messungen""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Measurements",
+    )
 
 class WireSolid(Welding):
     defs = ObjectTypeDef(
