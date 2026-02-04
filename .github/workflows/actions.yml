@@ -56,17 +56,15 @@ jobs:
     - name: Install the package
       run: |
         uv pip install dist/*.tar.gz
-  ruff-linting:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v4
-        - uses: chartboost/ruff-action@v1
-          with:
-            args: "check ."
-  ruff-formatting:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v4
-        - uses: chartboost/ruff-action@v1
-          with:
-            args: "format . --check --verbose"
+  pre-commit:
+    name: Pre-commit (lint/format/policy/secrets)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+      - uses: pre-commit/action@v3.0.1
+        with:
+          extra_args: --all-files

@@ -61,4 +61,3 @@ The **References** include a glossary of terms and the automatically generated A
 
 ## Contact
 This documentation is a work in progress. If you have questions that are not yet addressed, please contact [datastore@bam.de](mailto:datastore@bam.de).
-
