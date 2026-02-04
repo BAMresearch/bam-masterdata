@@ -22,7 +22,13 @@ repos:
     rev: v1.5.0
     hooks:
       - id: detect-secrets
-        args: [--baseline, .secrets.baseline]
+        exclude: ^tools/security/\.secrets\.baseline$
+        args:
+          - --baseline
+          - tools/security/.secrets.baseline
+          - --exclude-files
+          - >-
+            (^\.venv/|^\.ruff_cache/|^\.mypy_cache/|^\.pytest_cache/|^dist/|^build/|^\.eggs/|^\.tox/|^\.git/|__pycache__/|\.drawio$)
 
   # Custom local policy hook: forbid specific VocabularyTypeDef.code values
   - repo: local
