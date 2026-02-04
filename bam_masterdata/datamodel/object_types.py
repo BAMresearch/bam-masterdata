@@ -14058,7 +14058,7 @@ class LaserDiffPSDMeasurement(ExperimentalStep):
     meas_medium_temperature_in_celsius = PropertyTypeAssignment(
         code="MEAS_MEDIUM_TEMPERATURE_IN_CELSIUS",
         data_type="REAL",
-        property_label="Temperature of dispersing medium in °C",
+        property_label="Temperature of dispersing medium [°C]",
         description="""Temperature of measurement medium in °C//Temperatur des Messmediums in °C""",
         mandatory=False,
         show_in_edit_views=True,
@@ -14068,7 +14068,7 @@ class LaserDiffPSDMeasurement(ExperimentalStep):
     d_10_in_micrometers = PropertyTypeAssignment(
         code="D_10_IN_MICROMETERS",
         data_type="REAL",
-        property_label="Particle size D_10 in µm",
+        property_label="Particle size D_10 [µm]",
         description="""Particle size D_10 in µm//Partikelgröße D_10 in µm""",
         mandatory=False,
         show_in_edit_views=True,
@@ -14078,7 +14078,7 @@ class LaserDiffPSDMeasurement(ExperimentalStep):
     d_50_in_micrometers = PropertyTypeAssignment(
         code="D_50_IN_MICROMETERS",
         data_type="REAL",
-        property_label="Particle size D_50 in µm",
+        property_label="Particle size D_50 [µm]",
         description="""Particle size D_50 in µm//Partikelgröße D_50 in µm""",
         mandatory=True,
         show_in_edit_views=True,
@@ -14088,7 +14088,7 @@ class LaserDiffPSDMeasurement(ExperimentalStep):
     d_90_in_micrometers = PropertyTypeAssignment(
         code="D_90_IN_MICROMETERS",
         data_type="REAL",
-        property_label="Particle size D_90 in µm",
+        property_label="Particle size D_90 [µm]",
         description="""Particle size D_90 in µm//Partikelgröße D_90 in µm""",
         mandatory=False,
         show_in_edit_views=True,
