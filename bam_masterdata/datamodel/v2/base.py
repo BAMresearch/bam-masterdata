@@ -24,9 +24,56 @@ class BaseEntity(ObjectType):
         code="$NAME",
         data_type="VARCHAR",
         property_label="Name",
-        description="""Name""",
+        description="""
+        Human-readable name used to identify the entity in user interfaces, reports, and search results.
+        """,
         mandatory=True,
         section="General Information",
+    )
+
+    show_in_project_overview = PropertyTypeAssignment(
+        code="$SHOW_IN_PROJECT_OVERVIEW",
+        data_type="BOOLEAN",
+        property_label="Visible in project overview?",
+        description="""
+        Controls whether the entity is displayed in the project overview page.
+        """,
+        mandatory=False,
+        show_in_edit_views=False,
+        section="General Information",
+    )
+
+    description = PropertyTypeAssignment(
+        code="DESCRIPTION",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Description",
+        description="""
+        Human-readable description of the entity.
+        """,
+        mandatory=False,
+        section="References",
+    )
+
+    external_id = PropertyTypeAssignment(
+        code="EXTERNAL_ID",
+        data_type="VARCHAR",
+        property_label="External ID",
+        description="""
+        External persistent identifier (e.g. DOI, handle, registry ID).
+        """,
+        mandatory=False,
+        section="References",
+    )
+
+    references = PropertyTypeAssignment(
+        code="REFERENCE",
+        data_type="MULTILINE_VARCHAR",  # ! change to multivalued HYPERLINK when available
+        property_label="References",
+        description="""
+        Links/DOIs/URLs relevant to this entity (one per line).
+        """,
+        mandatory=False,
+        section="References",
     )
 
     def normalize(self):
@@ -49,6 +96,75 @@ class Activity(BaseEntity):
         generated_code_prefix="ACTIV",
         aliases=[],
         previous_versions=["EXPERIMENTAL_STEP"],
+    )
+
+    start_date = PropertyTypeAssignment(
+        code="START_DATE",
+        data_type="TIMESTAMP",
+        property_label="Start date",
+        description="""
+        Start date of the activity.
+        """,
+        mandatory=False,
+        section="General Information",
+    )
+
+    end_date = PropertyTypeAssignment(
+        code="END_DATE",
+        data_type="TIMESTAMP",
+        property_label="End date",
+        description="""
+        End date of the activity.
+        """,
+        mandatory=False,
+        section="General Information",
+    )
+
+    status = PropertyTypeAssignment(
+        code="STATUS",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="ACTIVITY_STATUS",
+        property_label="Status",
+        description="""
+        Current status of the activity: PLANNED, RUNNING, COMPLETED, CANCELLED.
+        """,
+        mandatory=False,
+        section="General Information",
+    )
+
+    goals = PropertyTypeAssignment(
+        code="GOALS",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Goals",
+        description="""
+        Goals of the activity.
+        """,
+        mandatory=False,
+        section="Activity Details",
+    )
+
+    activity_spreadsheet = PropertyTypeAssignment(
+        code="SPREADSHEET",
+        data_type="XML",
+        property_label="Spreadsheet",
+        description="""
+        Optional structured spreadsheet used to capture tabular parameters, intermediate values,
+        or structured notes associated with an entity. This field is intended for lightweight,
+        human-curated data and is not a replacement for datasets or result files.
+        """,
+        mandatory=False,
+        section="Activity Details",
+    )
+
+    notes = PropertyTypeAssignment(
+        code="NOTES",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Notes",
+        description="""
+        Free-form notes.
+        """,
+        mandatory=False,
+        section="Additional Information",
     )
 
 
