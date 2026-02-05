@@ -13112,27 +13112,27 @@ class LaserMagnet(Weldment):
         generated_code_prefix="EXP.WLD.LSR_MGNT",
     )
 
-    experimental_step_weldment_workpiece_material = PropertyTypeAssignment(
+    workpiece_material = PropertyTypeAssignment(
         code="EXPERIMENTAL_STEP.WELDMENT.WORKPIECE_MATERIAL",
         data_type="VARCHAR",
         property_label="Material",
-        description="""Material//Material""",
+        description="""Material classification//Materialgruppe""",
         mandatory=False,
         show_in_edit_views=True,
         section="Workpiece",
     )
 
-    experimental_step_weldment_workpiece_material_type = PropertyTypeAssignment(
-        code="EXPERIMENTAL_STEP.WELDMENT.WORKPIECE_MATERIAL_TYPE",
+    workpiece_material_treatments = PropertyTypeAssignment(
+        code="WORKPIECE_MATERIAL_TREATMENTS",
         data_type="VARCHAR",
-        property_label="Material Type",
-        description="""Material type//Materialtyp""",
+        property_label="Material Treatments",
+        description="""Additional material treatments (heat treatments, rolling etc.)//Zusätzliche Angaben zu Materialbehandlungen (Wärmebehandlungen usw.)""",
         mandatory=False,
         show_in_edit_views=True,
         section="Workpiece",
     )
 
-    raw_material_width = PropertyTypeAssignment(
+    workpiece_width = PropertyTypeAssignment(
         code="RAW_MAT_WIDTH",
         data_type="REAL",
         property_label="Workpiece Width [mm]",
@@ -13142,7 +13142,7 @@ class LaserMagnet(Weldment):
         section="Workpiece",
     )
 
-    raw_material_length = PropertyTypeAssignment(
+    workpiece_length = PropertyTypeAssignment(
         code="RAW_MAT_LENGTH",
         data_type="REAL",
         property_label="Workpiece Length [mm]",
@@ -13152,7 +13152,7 @@ class LaserMagnet(Weldment):
         section="Workpiece",
     )
 
-    raw_material_thickness = PropertyTypeAssignment(
+    workpiece_thickness = PropertyTypeAssignment(
         code="RAW_MAT_THICKNESS",
         data_type="REAL",
         property_label="Workpiece Thickness [mm]",
@@ -13162,10 +13162,10 @@ class LaserMagnet(Weldment):
         section="Workpiece",
     )
 
-    experimental_step_weldment_workpiece_surface_preparation = PropertyTypeAssignment(
+    workpiece_surface_preparation = PropertyTypeAssignment(
         code="SURFACE_PREPARATION",
         data_type="VARCHAR",
-        property_label="Surface preparation",
+        property_label="Surface Preparation",
         description="""Surface preparation//Oberflächenbearbeitung""",
         mandatory=False,
         show_in_edit_views=True,
@@ -13202,7 +13202,7 @@ class LaserMagnet(Weldment):
         section="Welding Parameters",
     )
 
-    experimental_step_weldment_weld_seam_length = PropertyTypeAssignment(
+    weld_seam_length = PropertyTypeAssignment(
         code="WELD_SEAM_LENGTH",
         data_type="REAL",
         property_label="Weld seam length [mm]",
@@ -13232,11 +13232,11 @@ class LaserMagnet(Weldment):
         section="Welding Parameters",
     )
 
-    shielding_gas_nozzle_heigth = PropertyTypeAssignment(
-        code="SHIELDING_GAS_NOZZLE_HEIGHT",
+    shielding_gas_nozzle_distance = PropertyTypeAssignment(
+        code="SHIELDING_GAS_NOZZLE_DISTANCE",
         data_type="REAL",
-        property_label="Shielding gas nozzle height [mm]",
-        description="""Shielding gas nozzle height//Schutzgasdüsenhöhe""",
+        property_label="Shielding gas nozzle distance [mm]",
+        description="""Shielding gas nozzle distance in vertical direction//Abstand der Schutzgasdüse""",
         mandatory=False,
         show_in_edit_views=True,
         section="Welding Parameters",
@@ -13246,7 +13246,7 @@ class LaserMagnet(Weldment):
         code="SHIELDING_GAS_NOZZLE_ANGLE",
         data_type="REAL",
         property_label="Shielding gas nozzle angle [deg]",
-        description="""Shielding gas nozzle angle// Schutzgasdüsenwinkel""",
+        description="""Shielding gas nozzle angle//Anstellwinkel der Schutzgasdüse""",
         mandatory=False,
         show_in_edit_views=True,
         section="Welding Parameters",
@@ -13322,10 +13322,10 @@ class LaserMagnet(Weldment):
         section="Laser Parameters",
     )
 
-    experimental_step_weldment_magnet_capacitance = PropertyTypeAssignment(
-        code="EXPERIMENTAL_STEP.WELDMENT.MAGNET_CAPACITANCE",
+    magnet_max_flux_density = PropertyTypeAssignment(
+        code="EXPERIMENTAL_STEP.WELDMENT.MAGNET_MAX_FLUX_DENSITY",
         data_type="REAL",
-        property_label="Max flux density mT]",
+        property_label="Max flux density [mT]",
         description="""Maximum flux density//Maximale Flussdichte""",
         mandatory=False,
         show_in_edit_views=True,
@@ -13333,80 +13333,70 @@ class LaserMagnet(Weldment):
     )
 
     magnet_frequency = PropertyTypeAssignment(
-        code="EXPERIMENTAL_STEP.WELDMENT.MAGNET_FREQUENCY",
+        code="MAGNET_FREQUENCY",
         data_type="REAL",
-        property_label="Frequency F [Hz]",
+        property_label="Frequency [Hz]",
         description="""Frequency//Frequenz""",
         mandatory=False,
         show_in_edit_views=True,
         section="Magnet Parameters",
     )
 
-    experimental_step_weldment_magnet_u_1 = PropertyTypeAssignment(
-        code="EXPERIMENTAL_STEP.WELDMENT.MAGNET_U_1",
+    magnet_primary_circuit_voltage = PropertyTypeAssignment(
+        code="MAGNET_PRIMARY_CIRCUIT_VOLTAGE",
         data_type="REAL",
-        property_label="U_1 [mV]",
-        description="""Magnet U_1 value//Magnet U_1 Wert""",
+        property_label="Primary Circuit Voltage [mV]",
+        description="""Voltage set in the primary magnet circuit (U_1)//Spannung im Primärkreis des Magneten (U_1)""",
         mandatory=False,
         show_in_edit_views=True,
         section="Magnet Parameters",
     )
 
-    experimental_step_weldment_magnet_I_1 = PropertyTypeAssignment(
-        code="EXPERIMENTAL_STEP.WELDMENT.MAGNET_I_1",
+    magnet_primary_circuit_current = PropertyTypeAssignment(
+        code="MAGNET_PRIMARY_CIRCUIT_CURRENT",
         data_type="REAL",
-        property_label="I_1 [A]",
-        description="""Magnet I_1 value//Magnet I_1 Wert""",
+        property_label="Primary Circuit Current [A]",
+        description="""Current measured in the primary magnet circuit (I_1)//Gemessene Stromstärke im Primärkreis des Magneten (I_1)""",
         mandatory=False,
         show_in_edit_views=True,
         section="Magnet Parameters",
     )
 
-    experimental_step_weldment_laser_program = PropertyTypeAssignment(
-        code="EXPERIMENTAL_STEP.WELDMENT.TLC_LASER_PROGRAM_NAME",
+    laser_program_name = PropertyTypeAssignment(
+        code="TLC_LASER_PROGRAM_NAME",
         data_type="VARCHAR",
-        property_label="Laser Program",
-        description="""Laser program//Laserprogramm""",
+        property_label="Laser Program Name",
+        description="""Name of the laser program used for welding//Name des Laserprogramms zum Schweißen""",
         mandatory=False,
         show_in_edit_views=True,
         section="TLC 1005",
     )
 
-    experimental_step_weldment_robot_program = PropertyTypeAssignment(
-        code="EXPERIMENTAL_STEP.WELDMENT.TLC_ROBOT_PROGRAM_NAME",
+    robot_program_name = PropertyTypeAssignment(
+        code="TLC_ROBOT_PROGRAM_NAME",
         data_type="VARCHAR",
-        property_label="Robot Program",
-        description="""Robot program//Roboterprogramm""",
+        property_label="Robot Program Name",
+        description="""Name of the robot program used for welding//Name des Roboterprogramms zum Schweißen""",
         mandatory=False,
         show_in_edit_views=True,
         section="TLC 1005",
     )
 
-    experimental_step_weldment_thermocouples_setup = PropertyTypeAssignment(
-        code="EXPERIMENTAL_STEP.WELDMENT.THERMOCOUPLES_SETUP",
+    thermocouples_setup = PropertyTypeAssignment(
+        code="THERMOCOUPLES_SETUP",
         data_type="XML",
         property_label="Thermocouples",
-        description="""Thermocouples//Thermoelemente""",
+        description="""Description of Thermocouples measurement and positioning//Beschreibung der Thermoelement-Messungen und Positionen""",
         mandatory=False,
         show_in_edit_views=True,
         section="Measurements",
     )
 
-    experimental_step_weldment_camers_setup = PropertyTypeAssignment(
-        code="EXPERIMENTAL_STEP.WELDMENT.CAMERAS_SETUP",
+    cameras_setup = PropertyTypeAssignment(
+        code="CAMERAS_SETUP",
         data_type="XML",
-        property_label="Cameras",
-        description="""Cameras//Kameras""",
-        mandatory=False,
-        show_in_edit_views=True,
-        section="Measurements",
-    )
-
-    experimental_step_weldment_measurement_description = PropertyTypeAssignment(
-        code="EXPERIMENTAL_STEP.WELDMENT.MEASUREMENT_DESCRIPTION",
-        data_type="XML",
-        property_label="Additional information",
-        description="""Additional information describing the measurements performed//Zusätzliche Informationen zu den durchgeführten Messungen""",
+        property_label="Camera Setup",
+        description="""Description of the Camera setup used//Beschreibung der verwendeten Kameras""",
         mandatory=False,
         show_in_edit_views=True,
         section="Measurements",
