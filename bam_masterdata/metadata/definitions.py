@@ -190,7 +190,7 @@ class EntityDef(BaseModel):
         fields = [
             k
             for k in self.model_fields.keys()
-            if k not in ["iri", "id", "row_location"]
+            if k not in ["iri", "is_a", "references", "aliases", "id", "row_location"]
         ]
         headers: dict = {}
         for f in fields:
@@ -317,9 +317,9 @@ class ObjectTypeDef(BaseObjectTypeDef):
         Returns:
             Any: The data with the validated fields.
         """
-        # If `generated_code_prefix` is not set, use the first 3 characters of `code`
+        # If `generated_code_prefix` is not set, use the first 5 characters of `code`
         if not data.generated_code_prefix:
-            data.generated_code_prefix = data.code[:3]
+            data.generated_code_prefix = data.code[:5]
 
         return data
 
