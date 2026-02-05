@@ -13163,7 +13163,7 @@ class LaserMagnet(Weldment):
     )
 
     experimental_step_weldment_workpiece_surface_preparation = PropertyTypeAssignment(
-        code="EXPERIMENTAL_STEP.WELDMENT.SURFACE_PREPARATION",
+        code="SURFACE_PREPARATION",
         data_type="VARCHAR",
         property_label="Surface preparation",
         description="""Surface preparation//Oberflächenbearbeitung""",
@@ -13172,8 +13172,8 @@ class LaserMagnet(Weldment):
         section="Workpiece",
     )
 
-    experimental_step_weldment_groove_preparation = PropertyTypeAssignment(
-        code="EXPERIMENTAL_STEP.WELDMENT.GROOVE_PREPARATION",
+    weldment_grove_preparation = PropertyTypeAssignment(
+        code="WELDMENT_GROOVE_PREPARATION",
         data_type="VARCHAR",
         property_label="Groove preparation",
         description="""Groove or Joint preparation description//Beschreibung der Nahtvorbereitung""",
@@ -13182,8 +13182,8 @@ class LaserMagnet(Weldment):
         section="Joint Configuration",
     )
 
-    experimental_step_weldment_full_penetration = PropertyTypeAssignment(
-        code="EXPERIMENTAL_STEP.WELDMENT.FULL_PENETRATION",
+    weldment_full_penetration = PropertyTypeAssignment(
+        code="WELDMENT_FULL_PENETRATION",
         data_type="BOOLEAN",
         property_label="Full penetration",
         description="""Full penetration//Durchschweißung""",
@@ -13192,8 +13192,8 @@ class LaserMagnet(Weldment):
         section="Joint Configuration",
     )
 
-    experimental_step_weldment_weld_travel_speed = PropertyTypeAssignment(
-        code="EXPERIMENTAL_STEP.WELDMENT.WELD_TRAVEL_SPEED",
+    welding_travel_speed = PropertyTypeAssignment(
+        code="WELDING_TRAVEL_SPEED",
         data_type="REAL",
         property_label="Welding travel speed [cm/min]",
         description="""Welding travel speed//Schweißgeschwindigkeit""",
@@ -13203,7 +13203,7 @@ class LaserMagnet(Weldment):
     )
 
     experimental_step_weldment_weld_seam_length = PropertyTypeAssignment(
-        code="EXPERIMENTAL_STEP.WELDMENT.WELD_SEAM_LENGTH",
+        code="WELD_SEAM_LENGTH",
         data_type="REAL",
         property_label="Weld seam length [mm]",
         description="""Weld seam length//Länge der Schweißnaht""",
@@ -13212,8 +13212,8 @@ class LaserMagnet(Weldment):
         section="Welding Parameters",
     )
 
-    experimental_step_weldment_shielding_gas_composition = PropertyTypeAssignment(
-        code="EXPERIMENTAL_STEP.WELDMENT.SHIELDING_GAS_COMPOSITION",
+    shielding_gas_composition = PropertyTypeAssignment(
+        code="SHIELDING_GAS_COMPOSITION",
         data_type="VARCHAR",
         property_label="Shielding gas composition",
         description="""Shielding gas composition//Schutzgaszusammensetzung""",
@@ -13222,8 +13222,8 @@ class LaserMagnet(Weldment):
         section="Welding Parameters",
     )
 
-    experimental_step_weldment_shielding_gas_flow = PropertyTypeAssignment(
-        code="EXPERIMENTAL_STEP.WELDMENT.SHIELDING_GAS_FLOW",
+    shielding_gas_flowrate = PropertyTypeAssignment(
+        code="SHIELDING_GAS_FLOWRATE",
         data_type="REAL",
         property_label="Shielding gas flowrate [l/min]",
         description="""Shielding gas flowrate//Schutzgasflussgeschwindigkeit""",
@@ -13232,8 +13232,8 @@ class LaserMagnet(Weldment):
         section="Welding Parameters",
     )
 
-    experimental_step_weldment_shielding_gas_nozzle_heigth = PropertyTypeAssignment(
-        code="EXPERIMENTAL_STEP.WELDMENT.SHIELDING_GAS_NOZZLE_HEIGHT",
+    shielding_gas_nozzle_heigth = PropertyTypeAssignment(
+        code="SHIELDING_GAS_NOZZLE_HEIGHT",
         data_type="REAL",
         property_label="Shielding gas nozzle height [mm]",
         description="""Shielding gas nozzle height//Schutzgasdüsenhöhe""",
@@ -13242,8 +13242,8 @@ class LaserMagnet(Weldment):
         section="Welding Parameters",
     )
 
-    experimental_step_weldment_shielding_gas_nozzle_angle = PropertyTypeAssignment(
-        code="EXPERIMENTAL_STEP.WELDMENT.SHIELDING_GAS_NOZZLE_ANGLE",
+    shielding_gas_nozzle_angle = PropertyTypeAssignment(
+        code="SHIELDING_GAS_NOZZLE_ANGLE",
         data_type="REAL",
         property_label="Shielding gas nozzle angle [deg]",
         description="""Shielding gas nozzle angle// Schutzgasdüsenwinkel""",
@@ -13252,8 +13252,8 @@ class LaserMagnet(Weldment):
         section="Welding Parameters",
     )
 
-    experimental_step_weldment_laser_power = PropertyTypeAssignment(
-        code="EXPERIMENTAL_STEP.WELDMENT.LASER_POWER",
+    laser_power = PropertyTypeAssignment(
+        code="LASER_POWER",
         data_type="REAL",
         property_label="Laser power [kW]",
         description="""Laser power//Laserleistung""",
@@ -13262,8 +13262,8 @@ class LaserMagnet(Weldment):
         section="Laser Parameters",
     )
 
-    experimental_step_weldment_laser_angle = PropertyTypeAssignment(
-        code="EXPERIMENTAL_STEP.WELDMENT.LASER_ANGLE",
+    laser_angle = PropertyTypeAssignment(
+        code="LASER_ANGLE",
         data_type="REAL",
         property_label="Laser angle [deg]",
         description="""Laser angle//Laserwinkel""",
@@ -13272,28 +13272,28 @@ class LaserMagnet(Weldment):
         section="Laser Parameters",
     )
 
-    experimental_step_weldment_laser_focal_length = PropertyTypeAssignment(
-        code="EXPERIMENTAL_STEP.WELDMENT.LASER_FOCAL_LENGTH",
+    laser_focal_length = PropertyTypeAssignment(
+        code="LASER_FOCAL_LENGTH",
         data_type="REAL",
-        property_label="Focal length  [mm]",
+        property_label="Focal length [mm]",
         description="""Laser focal length//Laser Fokuslänge""",
         mandatory=False,
         show_in_edit_views=True,
         section="Laser Parameters",
     )
 
-    experimental_step_weldment_laser_focal_position = PropertyTypeAssignment(
-        code="EXPERIMENTAL_STEP.WELDMENT.LASER_FOCAL_POSITION",
+    laser_focal_position = PropertyTypeAssignment(
+        code="LASER_FOCAL_POSITION",
         data_type="REAL",
-        property_label="Focal position  [mm]",
+        property_label="Focal position [mm]",
         description="""Laser focal position//Laser Fokusposition""",
         mandatory=False,
         show_in_edit_views=True,
         section="Laser Parameters",
     )
 
-    experimental_step_weldment_laser_focal_diameter = PropertyTypeAssignment(
-        code="EXPERIMENTAL_STEP.WELDMENT.LASER_FOCAL_DIAMETER",
+    laser_focal_diameter = PropertyTypeAssignment(
+        code="LASER_FOCAL_DIAMETER",
         data_type="REAL",
         property_label="Focal diameter [mm]",
         description="""Laser focal diameter//Laser Fokusdurchmesser""",
@@ -13302,8 +13302,8 @@ class LaserMagnet(Weldment):
         section="Laser Parameters",
     )
 
-    experimental_step_weldment_laser_beam_parameter_prod = PropertyTypeAssignment(
-        code="EXPERIMENTAL_STEP.WELDMENT.LASER_BEAM_PARAMETER_PROD",
+    laser_beam_parameter_prod = PropertyTypeAssignment(
+        code="LASER_BEAM_PARAMETER_PROD",
         data_type="REAL",
         property_label="Beam parameter product [mm mrad]",
         description="""Beam parameter product//Strahlparameterprodukt""",
@@ -13312,8 +13312,8 @@ class LaserMagnet(Weldment):
         section="Laser Parameters",
     )
 
-    experimental_step_weldment_laser_rayleigh_length = PropertyTypeAssignment(
-        code="EXPERIMENTAL_STEP.WELDMENT.LASER_RAYLEIGH_LENGTH",
+    laser_rayleigh_length = PropertyTypeAssignment(
+        code="LASER_RAYLEIGH_LENGTH",
         data_type="REAL",
         property_label="Rayleigh length [mm]",
         description="""Rayleigh length//Rayleighlänge""",
@@ -13332,7 +13332,7 @@ class LaserMagnet(Weldment):
         section="Magnet Parameters",
     )
 
-    experimental_step_weldment_magnet_frequency = PropertyTypeAssignment(
+    magnet_frequency = PropertyTypeAssignment(
         code="EXPERIMENTAL_STEP.WELDMENT.MAGNET_FREQUENCY",
         data_type="REAL",
         property_label="Frequency F [Hz]",
