@@ -117,6 +117,14 @@ class EntityDef(BaseModel):
         """,
     )
 
+    previous_versions: list[str] = Field(
+        default_factory=list,
+        description="""
+        List of previous version codes for the entity. This can be used to track the evolution
+        of the entity definition over time.
+        """,
+    )
+
     id: str | None = Field(
         default=None,
         description="""
