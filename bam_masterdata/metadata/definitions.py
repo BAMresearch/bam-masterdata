@@ -47,7 +47,7 @@ class DataType(str, Enum):
             "VARCHAR": str,
             # 'XML': ,
         }
-        return mapping.get(self, None)
+        return mapping.get(self.value, None)
 
 
 class EntityDef(BaseModel):
@@ -109,12 +109,16 @@ class EntityDef(BaseModel):
     @field_validator("code")
     @classmethod
     def validate_code(cls, value: str) -> str:
-        if not value or not re.match(r"^[\w_\$\.\-\+]+$", value):
-            raise ValueError(
-                "`code` must follow the rules specified in the description: 1) Must be uppercase, "
-                "2) separated by underscores, 3) start with a dollar sign if native to openBIS, "
-                "4) separated by dots if there is inheritance."
-            )
+        if not value or not re.match(r"^[A-Za-z0-9_\$\.\-\+]+$", value):
+            raise ValueError("`code` contains invalid characters.")
+
+        if value.startswith("$"):
+            # native codes: keep as-is
+            return value
+
+        if value != value.upper():
+            raise ValueError("`code` must be uppercase (unless it starts with '$').")
+
         return value
 
     @field_validator("iri")
@@ -277,6 +281,17 @@ class ObjectTypeDef(BaseObjectTypeDef):
         """,
     )
 
+    @field_validator("generated_code_prefix")
+    @classmethod
+    def validate_prefix(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        if value != value.upper():
+            raise ValueError("`generated_code_prefix` must be uppercase.")
+        if not re.match(r"^[A-Z0-9_]+$", value):
+            raise ValueError("`generated_code_prefix` must match ^[A-Z0-9_]+$.")
+        return value
+
     @model_validator(mode="after")
     @classmethod
     def model_validator_after_init(cls, data: Any) -> Any:
@@ -294,151 +309,6 @@ class ObjectTypeDef(BaseObjectTypeDef):
             data.generated_code_prefix = data.code[:3]
 
         return data
-
-
-class PropertyTypeDef(EntityDef):
-    """
-    Definition class for a property type. It adds the fields of `property_label`, `data_type`,
-    `vocabulary_code`, `metadata`, `dynamic_script`, and `multivalued` to the common attributes of
-    an entity definition.
-
-    This class is used as an abstract layer for `PropertyTypeAssignment`, as in openBIS a PropertyType
-    definition has less fields than when it is actually assigned to an entity type.
-    """
-
-    property_label: str = Field(
-        ...,
-        description="""
-        Label that appears in the inventory view. This is the human-readable text for the property
-        type definition, and it typically coincides with the `code`, e.g., `'Monitoring date'` for the
-        `MONITORING_DATE` property type.
-        """,
-    )
-
-    data_type: DataType = Field(
-        ...,
-        description="""
-        The data type of the property, i.e., if it is an integer, float, string, etc. The allowed
-        data types in openBIS are:
-            - `BOOLEAN`
-            - `CONTROLLEDVOCABULARY`
-            - `DATE`
-            - `HYPERLINK`
-            - `INTEGER`
-            - `MATERIAL`
-            - `MULTILINE_VARCHAR`
-            - `OBJECT`
-            - `SAMPLE`
-            - `REAL`
-            - `TIMESTAMP`
-            - `VARCHAR`
-            - `XML`
-
-        These are defined as an enumeration in the `DataType` class.
-
-        Read more in https://openbis.readthedocs.io/en/latest/uncategorized/register-master-data-via-the-admin-interface.html#data-types-available-in-openbis.
-        """,
-    )
-
-    vocabulary_code: str | None = Field(
-        default=None,
-        description="""
-        String identifying the controlled vocabulary used for the data type of the property. This is
-        thus only relevant if `data_type == 'CONTROLLEDVOCABULARY'`.
-        """,
-    )
-
-    object_code: str | None = Field(
-        default=None,
-        description="""
-        String identifying the object type used for the data type of the property. This is only
-        relevant if `data_type == 'OBJECT'`.
-        """,
-    )
-
-    # TODO add descriptions for `dynamic_script`
-
-    metadata: dict | None = Field(
-        default=None,
-        description="""
-        General metadata written in a dictionary format. This is used to store additional information
-        about the property type, e.g., `{'unit': 'm', 'precision': 2}`.
-        """,
-    )
-
-    dynamic_script: str | None = Field(
-        default=None,
-        description="""""",
-    )
-
-
-class PropertyTypeAssignment(PropertyTypeDef):
-    """
-    Base class used to define properties inside `ObjectType`, `CollectionType`, or `DatasetType`.
-    This is used to construct these types by assigning property types to them. It adds the fields
-    of `mandatory`, `show_in_edit_views`, `section`, `unique`, and `internal_assignment` to the common
-    attributes of a property type definition. E.g.:
-
-    ```python
-    class Instrument(ObjectType):
-        defs = ObjectTypeDef(
-            code='INSTRUMENT',
-            description='
-            Measuring Instrument//Messger\u00e4t
-            ',
-            generated_code_prefix='INS',
-        )
-
-        alias = PropertyTypeAssignment(
-            code='ALIAS',
-            data_type='VARCHAR',
-            property_label='Alternative name',
-            description='
-            e.g. abbreviation or nickname//z.B. Abkürzung oder Spitzname//z.B. Abkürzung oder Spitzname
-            ',
-            mandatory=False,
-            show_in_edit_views=True,
-            section='General information',
-        )
-
-        # ... other property type assignments here ...
-    ```
-    """
-
-    mandatory: bool = Field(
-        ...,
-        description="""
-        If `True`, the property is mandatory and has to be set during instantiation of the object type.
-        If `False`, the property is optional.
-        """,
-    )
-
-    show_in_edit_views: bool = Field(
-        ...,
-        description="""
-        If `True`, the property is shown in the edit views of the ELN in the object type instantiation.
-        If `False`, the property is hidden.
-        """,
-    )
-
-    section: str = Field(
-        ...,
-        description="""
-        Section to which the property type belongs to. E.g., `'General Information'`.
-        """,
-    )
-
-    # TODO add descriptions for `unique` and `internal_assignment`
-
-    unique: str | None = Field(
-        default=None,
-        description="""""",
-    )
-
-    internal_assignment: str | None = Field(
-        default=None,
-        description="""""",
-    )
 
 
 class VocabularyTypeDef(EntityDef):
@@ -502,3 +372,204 @@ class VocabularyTerm(VocabularyTypeDef):
         True,
         description="""""",
     )
+
+
+class PropertyTypeDef(EntityDef):
+    """
+    Definition class for a property type. It adds the fields of `property_label`, `data_type`,
+    `vocabulary_code`, `metadata`, `dynamic_script`, and `multivalued` to the common attributes of
+    an entity definition.
+
+    This class is used as an abstract layer for `PropertyTypeAssignment`, as in openBIS a PropertyType
+    definition has less fields than when it is actually assigned to an entity type.
+    """
+
+    property_label: str = Field(
+        ...,
+        description="""
+        Label that appears in the inventory view. This is the human-readable text for the property
+        type definition, and it typically coincides with the `code`, e.g., `'Monitoring date'` for the
+        `MONITORING_DATE` property type.
+        """,
+    )
+
+    data_type: DataType = Field(
+        ...,
+        description="""
+        The data type of the property, i.e., if it is an integer, float, string, etc. The allowed
+        data types in openBIS are:
+            - `BOOLEAN`
+            - `CONTROLLEDVOCABULARY`
+            - `DATE`
+            - `HYPERLINK`
+            - `INTEGER`
+            - `MATERIAL`
+            - `MULTILINE_VARCHAR`
+            - `OBJECT`
+            - `SAMPLE`
+            - `REAL`
+            - `TIMESTAMP`
+            - `VARCHAR`
+            - `XML`
+
+        These are defined as an enumeration in the `DataType` class.
+
+        Read more in https://openbis.readthedocs.io/en/latest/uncategorized/register-master-data-via-the-admin-interface.html#data-types-available-in-openbis.
+        """,
+    )
+
+    vocabulary_code: str | None = Field(
+        default=None,
+        description="""
+        String identifying the controlled vocabulary used for the data type of the property. This is
+        thus only relevant if `data_type == 'CONTROLLEDVOCABULARY'`.
+        """,
+    )
+
+    vocabulary_terms: list[VocabularyTerm] | None = Field(
+        default_factory=list,
+        description="""
+        List of vocabulary terms defined for the controlled vocabulary used for the data type of
+        the property. This is thus only relevant if `data_type == 'CONTROLLEDVOCABULARY'`.
+        """,
+    )
+
+    object_code: str | None = Field(
+        default=None,
+        description="""
+        String identifying the object type used for the data type of the property. This is only
+        relevant if `data_type == 'OBJECT'`.
+        """,
+    )
+
+    # TODO add descriptions for `dynamic_script`
+
+    metadata: dict | None = Field(
+        default=None,
+        description="""
+        General metadata written in a dictionary format. This is used to store additional information
+        about the property type, e.g., `{'unit': 'm', 'precision': 2}`.
+        """,
+    )
+
+    dynamic_script: str | None = Field(
+        default=None,
+        description="""""",
+    )
+
+    @model_validator(mode="after")
+    def validate_datatype_dependent_fields(self):
+        dt = self.data_type
+
+        if dt == DataType.CONTROLLEDVOCABULARY:
+            if not self.vocabulary_code:
+                raise ValueError(
+                    "`vocabulary_code` is required when data_type is CONTROLLEDVOCABULARY."
+                )
+            if self.object_code is not None:
+                raise ValueError(
+                    "`object_code` must be None when data_type is CONTROLLEDVOCABULARY."
+                )
+            # vocabulary_terms optional
+
+            if self.vocabulary_terms:
+                # ensure codes unique + match the vocabulary_code type (optional)
+                codes = [t.code for t in self.vocabulary_terms]
+                if len(codes) != len(set(codes)):
+                    raise ValueError(
+                        "`vocabulary_terms` contains duplicate term codes."
+                    )
+        elif dt == DataType.OBJECT:
+            if not self.object_code:
+                raise ValueError("`object_code` is required when data_type is OBJECT.")
+            if self.vocabulary_code is not None or self.vocabulary_terms:
+                raise ValueError(
+                    "`vocabulary_code`/`vocabulary_terms` must be None when data_type is OBJECT."
+                )
+        else:
+            if self.vocabulary_code is not None or self.vocabulary_terms:
+                raise ValueError(
+                    "`vocabulary_code`/`vocabulary_terms` only allowed for CONTROLLEDVOCABULARY."
+                )
+            if self.object_code is not None:
+                raise ValueError("`object_code` only allowed for OBJECT.")
+
+        return self
+
+
+class PropertyTypeAssignment(PropertyTypeDef):
+    """
+    Base class used to define properties inside `ObjectType`, `CollectionType`, or `DatasetType`.
+    This is used to construct these types by assigning property types to them. It adds the fields
+    of `mandatory`, `show_in_edit_views`, `section`, `unique`, and `internal_assignment` to the common
+    attributes of a property type definition. E.g.:
+
+    ```python
+    class Instrument(ObjectType):
+        defs = ObjectTypeDef(
+            code='INSTRUMENT',
+            description='
+            Measuring Instrument//Messger\u00e4t
+            ',
+            generated_code_prefix='INS',
+        )
+
+        alias = PropertyTypeAssignment(
+            code='ALIAS',
+            data_type='VARCHAR',
+            property_label='Alternative name',
+            description='
+            e.g. abbreviation or nickname//z.B. Abkürzung oder Spitzname//z.B. Abkürzung oder Spitzname
+            ',
+            mandatory=False,
+            show_in_edit_views=True,
+            section='General information',
+        )
+
+        # ... other property type assignments here ...
+    ```
+    """
+
+    mandatory: bool = Field(
+        False,
+        description="""
+        If `True`, the property is mandatory and has to be set during instantiation of the
+        object type. If `False`, the property is optional. Defaults to `False`.
+        """,
+    )
+
+    show_in_edit_views: bool = Field(
+        False,
+        description="""
+        If `True`, the property is shown in the edit views of the ELN in the object type
+        instantiation. If `False`, the property is hidden. Defaults to `False`.
+        """,
+    )
+
+    section: str = Field(
+        "General Information",
+        description="""
+        Section to which the property type belongs to. E.g., `'General Information'`. Defaults
+        to `'General Information'`.
+        """,
+    )
+
+    # TODO add descriptions for `unique` and `internal_assignment`
+
+    unique: str | None = Field(
+        default=None,
+        description="""""",
+    )
+
+    internal_assignment: str | None = Field(
+        default=None,
+        description="""""",
+    )
+
+    @field_validator("section")
+    @classmethod
+    def validate_section(cls, value: str) -> str:
+        value = value.strip()
+        if not value:
+            raise ValueError("`section` must not be empty.")
+        return value
