@@ -3,6 +3,7 @@ import re
 from enum import Enum
 from typing import Any
 
+from pint import DefinitionSyntaxError, UndefinedUnitError, UnitRegistry
 from pydantic import BaseModel, Field, field_validator, model_validator
 
 from bam_masterdata.utils import code_to_class_name
@@ -48,6 +49,11 @@ class DataType(str, Enum):
             # 'XML': ,
         }
         return mapping.get(self, None)
+
+
+_UNIT_REGISTRY = UnitRegistry()
+_UNIT_LABEL_PATTERN = re.compile(r"\[[^\]]+\]")
+_UNIT_SUFFIX_PATTERN = re.compile(r"\bin \[[^\]]+\]")
 
 
 class EntityDef(BaseModel):
@@ -315,6 +321,17 @@ class PropertyTypeDef(EntityDef):
         """,
     )
 
+    units: str | None = Field(
+        default=None,
+        description="""
+        Optional units for the property type, expressed in pint format. Read more about pint
+        units in https://github.com/hgrecco/pint/blob/master/pint/default_en.txt.
+
+        When provided, the `property_label` is automatically suffixed with `in [units]` unless
+        it already contains a units suffix in square brackets (legacy feature).
+        """,
+    )
+
     data_type: DataType = Field(
         ...,
         description="""
@@ -370,6 +387,30 @@ class PropertyTypeDef(EntityDef):
         default=None,
         description="""""",
     )
+
+    @field_validator("units")
+    @classmethod
+    def validate_units(cls, value: str | None) -> str | None:
+        if value is None:
+            return value
+        try:
+            _UNIT_REGISTRY.Unit(value)
+        except (UndefinedUnitError, DefinitionSyntaxError) as exc:
+            raise ValueError(f"Invalid units format: {value}") from exc
+        return value
+
+    @model_validator(mode="after")
+    @classmethod
+    def apply_units_to_property_label(cls, data: Any) -> Any:
+        if data.units:
+            if _UNIT_LABEL_PATTERN.search(data.property_label):
+                if not _UNIT_SUFFIX_PATTERN.search(data.property_label):
+                    raise ValueError(
+                        "property_label with units must include 'in [units]'"
+                    )
+            else:
+                data.property_label = f"{data.property_label} in [{data.units}]"
+        return data
 
 
 class PropertyTypeAssignment(PropertyTypeDef):
