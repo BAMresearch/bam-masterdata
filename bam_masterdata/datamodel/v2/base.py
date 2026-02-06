@@ -52,6 +52,7 @@ class BaseEntity(ObjectType):
         """,
         mandatory=False,
         section="References",
+        previous_versions=["EXPERIMENTAL_STEP.EXPERIMENTAL_DESCRIPTION"],
     )
 
     external_id = PropertyTypeAssignment(
@@ -63,6 +64,7 @@ class BaseEntity(ObjectType):
         """,
         mandatory=False,
         section="References",
+        previous_versions=["PUBLICATION"],
     )
 
     references = PropertyTypeAssignment(
@@ -130,6 +132,7 @@ class Activity(BaseEntity):
         """,
         mandatory=False,
         section="General Information",
+        previous_versions=["FINISHED_FLAG"],
     )
 
     goals = PropertyTypeAssignment(
@@ -141,6 +144,7 @@ class Activity(BaseEntity):
         """,
         mandatory=False,
         section="Activity Details",
+        previous_versions=["EXPERIMENTAL_STEP.EXPERIMENTAL_GOALS"],
     )
 
     activity_spreadsheet = PropertyTypeAssignment(
@@ -154,6 +158,7 @@ class Activity(BaseEntity):
         """,
         mandatory=False,
         section="Activity Details",
+        previous_versions=["EXPERIMENTAL_STEP.SPREADSHEET"],
     )
 
     notes = PropertyTypeAssignment(
