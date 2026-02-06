@@ -3,6 +3,7 @@ import re
 from enum import Enum
 from typing import Any
 
+from pint import DefinitionSyntaxError, UndefinedUnitError, UnitRegistry
 from pydantic import BaseModel, Field, field_validator, model_validator
 
 from bam_masterdata.utils import code_to_class_name
@@ -48,6 +49,11 @@ class DataType(str, Enum):
             # 'XML': ,
         }
         return mapping.get(self, None)
+
+
+_UNIT_REGISTRY = UnitRegistry()
+_UNIT_LABEL_PATTERN = re.compile(r"\[[^\]]+\]")
+_UNIT_SUFFIX_PATTERN = re.compile(r"\bin \[[^\]]+\]")
 
 
 class EntityDef(BaseModel):
@@ -109,6 +115,18 @@ class EntityDef(BaseModel):
     @field_validator("code")
     @classmethod
     def validate_code(cls, value: str) -> str:
+        """
+        Validate entity codes against the allowed openBIS format.
+
+        Args:
+            value: Candidate code string.
+
+        Returns:
+            The validated code.
+
+        Raises:
+            ValueError: If the code is empty or contains invalid characters.
+        """
         if not value or not re.match(r"^[\w_\$\.\-\+]+$", value):
             raise ValueError(
                 "`code` must follow the rules specified in the description: 1) Must be uppercase, "
@@ -120,6 +138,18 @@ class EntityDef(BaseModel):
     @field_validator("iri")
     @classmethod
     def validate_iri(cls, value: str | None) -> str | None:
+        """
+        Validate the optional ontology IRI against the expected BAM pattern.
+
+        Args:
+            value: Candidate IRI string, or None.
+
+        Returns:
+            The validated IRI (or None).
+
+        Raises:
+            ValueError: If the IRI does not match the required pattern.
+        """
         if not value:
             return value
         if not re.match(
@@ -135,6 +165,15 @@ class EntityDef(BaseModel):
     @field_validator("description")
     @classmethod
     def strip_description(cls, value: str) -> str:
+        """
+        Strip leading and trailing whitespace from descriptions.
+
+        Args:
+            value: Description string.
+
+        Returns:
+            The trimmed description.
+        """
         return value.strip()
 
     @property
@@ -173,7 +212,7 @@ class EntityDef(BaseModel):
     @classmethod
     def model_id(cls, data: Any) -> Any:
         """
-        Stores the model `id` as the class name from the `code` field.
+        Populate `id` based on the entity code and entity type.
 
         Args:
             data (Any): The data containing the fields values to validate.
@@ -281,7 +320,7 @@ class ObjectTypeDef(BaseObjectTypeDef):
     @classmethod
     def model_validator_after_init(cls, data: Any) -> Any:
         """
-        Validate the model after instantiation of the class.
+        Ensure `generated_code_prefix` is set after initialization.
 
         Args:
             data (Any): The data containing the fields values to validate.
@@ -312,6 +351,17 @@ class PropertyTypeDef(EntityDef):
         Label that appears in the inventory view. This is the human-readable text for the property
         type definition, and it typically coincides with the `code`, e.g., `'Monitoring date'` for the
         `MONITORING_DATE` property type.
+        """,
+    )
+
+    units: str | None = Field(
+        default=None,
+        description="""
+        Optional units for the property type, expressed in pint format. Read more about pint
+        units in https://github.com/hgrecco/pint/blob/master/pint/default_en.txt.
+
+        When provided, the `property_label` is automatically suffixed with `in [units]` unless
+        it already contains a units suffix in square brackets (legacy feature).
         """,
     )
 
@@ -370,6 +420,58 @@ class PropertyTypeDef(EntityDef):
         default=None,
         description="""""",
     )
+
+    @field_validator("units")
+    @classmethod
+    def validate_units(cls, value: str | None) -> str | None:
+        """
+        Validate the optional units string using pint's unit registry.
+
+        Args:
+            value: Units string in pint format, or None.
+
+        Returns:
+            The validated units string (or None).
+
+        Raises:
+            ValueError: If the units string is not recognized by pint.
+        """
+        if value is None:
+            return value
+        try:
+            _UNIT_REGISTRY.Unit(value)
+        except (UndefinedUnitError, DefinitionSyntaxError) as exc:
+            raise ValueError(f"Invalid units format: {value}") from exc
+        return value
+
+    @model_validator(mode="after")
+    @classmethod
+    def apply_units_to_property_label(cls, data: Any) -> Any:
+        """
+        Enforce the `in [units]` suffix in `property_label` when units are provided.
+
+        If the label already contains a bracketed unit, it must include the
+        exact `in [units]` format or validation fails. Otherwise, the suffix
+        is appended.
+
+        Args:
+            data (Any): The data containing the fields values to validate.
+
+        Returns:
+            Any: The data with the updated label (if needed).
+
+        Raises:
+            ValueError: If a bracketed unit exists without the `in [units]` suffix.
+        """
+        if data.units:
+            if _UNIT_LABEL_PATTERN.search(data.property_label):
+                if not _UNIT_SUFFIX_PATTERN.search(data.property_label):
+                    raise ValueError(
+                        "property_label with units must include 'in [units]'"
+                    )
+            else:
+                data.property_label += f" in [{data.units}]"
+        return data
 
 
 class PropertyTypeAssignment(PropertyTypeDef):

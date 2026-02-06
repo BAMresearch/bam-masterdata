@@ -8728,6 +8728,7 @@ class Weldment(ExperimentalStep):
         property_label="Joint Number",
         description="""Consecutive numbering of weld joints of a workpiece or component//Fortlaufende Numerierung von Schweißnähten an Werkstücken und Bauteilen""",
         mandatory=False,
+        show_in_edit_views=True,
         section="Identifiers",
     )
 
@@ -8737,6 +8738,7 @@ class Weldment(ExperimentalStep):
         property_label="Layer Number",
         description="""Consecutive numbering of weld layers for a parent joint//Fortlaufende Numerierung von Schweißlagen der übergeordneten Schweißnaht""",
         mandatory=False,
+        show_in_edit_views=True,
         section="Identifiers",
     )
 
@@ -8746,6 +8748,7 @@ class Weldment(ExperimentalStep):
         property_label="Bead Number",
         description="""Consecutive numbering of weld beads or tracks for a parent layer//Fortlaufende Numerierung von Schweißraupen der übergeordneten Schweißlage""",
         mandatory=False,
+        show_in_edit_views=True,
         section="Identifiers",
     )
 
@@ -8755,6 +8758,7 @@ class Weldment(ExperimentalStep):
         property_label="Weldment Number",
         description="""Consecutive numbering of uninterrupted weldments in a single bead//Fortlaufende Numerierung von ununterbrochenen Schweißungen einer einzelnen Schweißraupe""",
         mandatory=False,
+        show_in_edit_views=True,
         section="Identifiers",
     )
 
