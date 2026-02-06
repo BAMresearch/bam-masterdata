@@ -57,12 +57,12 @@ class BaseEntity(ObjectType):
 
     data_id = PropertyTypeAssignment(
         code="DATA_ID",
-        data_type="VARCHAR",
+        data_type="VARCHAR",  # ! change to multivalued VARCHAR when available
         property_label="ID",
         description="""
-        Persistent identifier used to uniquely identify the entity. It can be a DOI, handle,
-        accession number, or any other unique identifier that can be used to reference the
-        entity internally or in external systems or databases.
+        Persistent identifier used to uniquely identify the entity. It can be any unique
+        identifier that can be used to reference the entity internally or in external systems
+        or databases.
         """,
         mandatory=False,
         section="References",
@@ -142,7 +142,7 @@ class Activity(BaseEntity):
         data_type="MULTILINE_VARCHAR",
         property_label="Goals",
         description="""
-        Goals of the activity.
+        Goals of the activity in free-text format.
         """,
         mandatory=False,
         section="Activity Details",
