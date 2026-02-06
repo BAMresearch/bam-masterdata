@@ -77,7 +77,7 @@ def test_entities_to_rdf():
 
     # Testing
     # ! this number is subject to change as the datamodel evolves
-    assert len(graph) == 11910
+    assert len(graph) == 12254
 
     # Check Instrument entity
     instrument_uri = BAM["Instrument"]

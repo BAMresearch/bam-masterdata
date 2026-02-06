@@ -47,7 +47,7 @@ class DataType(str, Enum):
             "VARCHAR": str,
             # 'XML': ,
         }
-        return mapping.get(self.value, None)
+        return mapping.get(self, None)
 
 
 class EntityDef(BaseModel):
@@ -281,16 +281,17 @@ class ObjectTypeDef(BaseObjectTypeDef):
         """,
     )
 
-    @field_validator("generated_code_prefix")
-    @classmethod
-    def validate_prefix(cls, value: str | None) -> str | None:
-        if value is None:
-            return None
-        if value != value.upper():
-            raise ValueError("`generated_code_prefix` must be uppercase.")
-        if not re.match(r"^[A-Z0-9_]+$", value):
-            raise ValueError("`generated_code_prefix` must match ^[A-Z0-9_]+$.")
-        return value
+    # * commented out until datamodel changes to v2
+    # @field_validator("generated_code_prefix")
+    # @classmethod
+    # def validate_prefix(cls, value: str | None) -> str | None:
+    #     if value is None:
+    #         return None
+    #     if value != value.upper():
+    #         raise ValueError("`generated_code_prefix` must be uppercase.")
+    #     if not re.match(r"^[A-Z0-9_]+$", value):
+    #         raise ValueError("`generated_code_prefix` must match ^[A-Z0-9_]+$.")
+    #     return value
 
     @model_validator(mode="after")
     @classmethod
@@ -457,44 +458,45 @@ class PropertyTypeDef(EntityDef):
         description="""""",
     )
 
-    @model_validator(mode="after")
-    def validate_datatype_dependent_fields(self):
-        dt = self.data_type
+    # * commented out until datamodel changes to v2
+    # @model_validator(mode="after")
+    # def validate_datatype_dependent_fields(self):
+    #     dt = self.data_type
 
-        if dt == DataType.CONTROLLEDVOCABULARY:
-            if not self.vocabulary_code:
-                raise ValueError(
-                    "`vocabulary_code` is required when data_type is CONTROLLEDVOCABULARY."
-                )
-            if self.object_code is not None:
-                raise ValueError(
-                    "`object_code` must be None when data_type is CONTROLLEDVOCABULARY."
-                )
-            # vocabulary_terms optional
+    #     if dt == DataType.CONTROLLEDVOCABULARY:
+    #         if not self.vocabulary_code:
+    #             raise ValueError(
+    #                 "`vocabulary_code` is required when data_type is CONTROLLEDVOCABULARY."
+    #             )
+    #         if self.object_code is not None:
+    #             raise ValueError(
+    #                 "`object_code` must be None when data_type is CONTROLLEDVOCABULARY."
+    #             )
+    #         # vocabulary_terms optional
 
-            if self.vocabulary_terms:
-                # ensure codes unique + match the vocabulary_code type (optional)
-                codes = [t.code for t in self.vocabulary_terms]
-                if len(codes) != len(set(codes)):
-                    raise ValueError(
-                        "`vocabulary_terms` contains duplicate term codes."
-                    )
-        elif dt == DataType.OBJECT:
-            if not self.object_code:
-                raise ValueError("`object_code` is required when data_type is OBJECT.")
-            if self.vocabulary_code is not None or self.vocabulary_terms:
-                raise ValueError(
-                    "`vocabulary_code`/`vocabulary_terms` must be None when data_type is OBJECT."
-                )
-        else:
-            if self.vocabulary_code is not None or self.vocabulary_terms:
-                raise ValueError(
-                    "`vocabulary_code`/`vocabulary_terms` only allowed for CONTROLLEDVOCABULARY."
-                )
-            if self.object_code is not None:
-                raise ValueError("`object_code` only allowed for OBJECT.")
+    #         if self.vocabulary_terms:
+    #             # ensure codes unique + match the vocabulary_code type (optional)
+    #             codes = [t.code for t in self.vocabulary_terms]
+    #             if len(codes) != len(set(codes)):
+    #                 raise ValueError(
+    #                     "`vocabulary_terms` contains duplicate term codes."
+    #                 )
+    #     elif dt == DataType.OBJECT:
+    #         if not self.object_code:
+    #             raise ValueError("`object_code` is required when data_type is OBJECT.")
+    #         if self.vocabulary_code is not None or self.vocabulary_terms:
+    #             raise ValueError(
+    #                 "`vocabulary_code`/`vocabulary_terms` must be None when data_type is OBJECT."
+    #             )
+    #     else:
+    #         if self.vocabulary_code is not None or self.vocabulary_terms:
+    #             raise ValueError(
+    #                 "`vocabulary_code`/`vocabulary_terms` only allowed for CONTROLLEDVOCABULARY."
+    #             )
+    #         if self.object_code is not None:
+    #             raise ValueError("`object_code` only allowed for OBJECT.")
 
-        return self
+    #     return self
 
 
 class PropertyTypeAssignment(PropertyTypeDef):
@@ -566,10 +568,11 @@ class PropertyTypeAssignment(PropertyTypeDef):
         description="""""",
     )
 
-    @field_validator("section")
-    @classmethod
-    def validate_section(cls, value: str) -> str:
-        value = value.strip()
-        if not value:
-            raise ValueError("`section` must not be empty.")
-        return value
+    # * commented out until datamodel changes to v2
+    # @field_validator("section")
+    # @classmethod
+    # def validate_section(cls, value: str) -> str:
+    #     value = value.strip()
+    #     if not value:
+    #         raise ValueError("`section` must not be empty.")
+    #     return value
