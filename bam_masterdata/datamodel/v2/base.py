@@ -55,12 +55,14 @@ class BaseEntity(ObjectType):
         previous_versions=["EXPERIMENTAL_STEP.EXPERIMENTAL_DESCRIPTION"],
     )
 
-    external_id = PropertyTypeAssignment(
-        code="EXTERNAL_ID",
+    data_id = PropertyTypeAssignment(
+        code="DATA_ID",
         data_type="VARCHAR",
-        property_label="External ID",
+        property_label="ID",
         description="""
-        External persistent identifier (e.g. DOI, handle, registry ID).
+        Persistent identifier used to uniquely identify the entity. It can be a DOI, handle,
+        accession number, or any other unique identifier that can be used to reference the
+        entity internally or in external systems or databases.
         """,
         mandatory=False,
         section="References",
@@ -96,7 +98,7 @@ class Activity(BaseEntity):
             "https://www.w3.org/TR/prov-o/#Activity",
         ],
         generated_code_prefix="ACTIV",
-        aliases=[],
+        aliases=["ACTIVITY_STEP", "EXPERIMENTAL_STEP"],
         previous_versions=["EXPERIMENTAL_STEP"],
     )
 
