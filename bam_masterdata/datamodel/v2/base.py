@@ -125,7 +125,7 @@ class Activity(BaseEntity):
     )
 
     status = PropertyTypeAssignment(
-        code="STATUS",
+        code="ACTIVITY_STATUS",
         data_type="CONTROLLEDVOCABULARY",
         vocabulary_code="ACTIVITY_STATUS",
         property_label="Status",
@@ -154,8 +154,8 @@ class Activity(BaseEntity):
         data_type="XML",
         property_label="Spreadsheet",
         description="""
-        Optional structured spreadsheet used to capture tabular parameters, intermediate values,
-        or structured notes associated with an entity. This field is intended for lightweight,
+        Structured spreadsheet used to capture tabular parameters, intermediate values, or
+        structured notes associated with an entity. This field is intended for lightweight,
         human-curated data and is not a replacement for datasets or result files.
         """,
         mandatory=False,

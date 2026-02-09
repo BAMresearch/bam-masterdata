@@ -268,34 +268,6 @@ class Weldment(Processing):
     )
 
 
-class GmawBase(Weldment):
-    defs = ObjectTypeDef(
-        code="GMAW_BASE",
-        description="""
-        A simple gas metal arc welding (GMAW) experiment
-        """,
-        iri="https://bam.de/masterdata/GmawBase",
-        references=[],
-        generated_code_prefix="GMAW_BASE",
-        aliases=[],
-        previous_versions=["EXPERIMENTAL_STEP.WELDMENT.GMAW_BASE"],
-    )
-
-
-class LaserHybridMagnet(Weldment):
-    defs = ObjectTypeDef(
-        code="LASER_HYBRID_MAGNET",
-        description="""
-        A welding experiment using laser-hybrid welding with magnetic support
-        """,
-        iri="https://bam.de/masterdata/LaserHybridMagnet",
-        references=[],
-        generated_code_prefix="LASER_HYBRI_MAGNE",
-        aliases=[],
-        previous_versions=["EXPERIMENTAL_STEP.WELDMENT.LASER_HYBRID_MAGNET"],
-    )
-
-
 class FcgTest(Test):
     defs = ObjectTypeDef(
         code="FCG_TEST",
