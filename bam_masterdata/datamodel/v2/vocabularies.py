@@ -52,9 +52,9 @@ class DcpdPotDropCalibration(VocabularyType):
     )
 
 
-class MicroscopyFcgCracklengthType(VocabularyType):
+class MicroscopyFractureSurfaceType(VocabularyType):
     defs = VocabularyTypeDef(
-        code="MIC_FCG_FRACSURF_CRACK_TYPE",
+        code="MICROSCOPY_FRACTURE_SURFACE_TYPE",
         description="""Describes which Cracklength has been measured""",
     )
 

@@ -10,7 +10,7 @@ from bam_masterdata.datamodel.v2.base import (
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
 
 
-class Dcpd(Measurement):
+class DCPD(Measurement):
     # ! check whether keeping the Results here
     defs = ObjectTypeDef(
         code="DCPD",
@@ -21,7 +21,7 @@ class Dcpd(Measurement):
         damage evolution in materials, as the presence of a crack can increase the resistance
         and thus the potential drop.
         """,
-        iri="https://bam.de/masterdata/Dcpd",
+        iri="https://bam.de/masterdata/DCPD",
         references=[],
         generated_code_prefix="DCPD",
         aliases=[],
@@ -141,27 +141,26 @@ class ImageSeries(Measurement):
     )
 
 
-class MicroscopyFcgFractureSurfaceCrackLength(Measurement):
+class MicroscopyFractureSurface(Measurement):
     defs = ObjectTypeDef(
-        code="MICROSCOPY_FCG_FRACTURE_SURFACE_CRACK_LENGTH",
+        code="MICROSCOPY_FRACTURE_SURFACE",
         description="""
-        A Microscopy Fracture Surface Crack Length Measurement is a measurement that determines
-        crack length on the fracture surface of a fatigue crack growth sample using optical
-        microscopy.
+        A Microscopy Fracture Surface is a measurement that determines crack length on the
+        fracture surface of a fatigue crack growth sample using optical microscopy.
         """,
-        iri="https://bam.de/masterdata/MicroscopyFcgFractureSurfaceCrackLength",
+        iri="https://bam.de/masterdata/MicroscopyFractureSurface",
         references=[],
-        generated_code_prefix="MICRO_FCG_FS",
+        generated_code_prefix="MICRO_FRACT_SURF",
         aliases=[],
         previous_versions=[
             "EXPERIMENTAL_STEP.MICROSCOPY_FCG_FRACTURE_SURFACE_CRACKLENGTH"
         ],
     )
 
-    crack_length_type = PropertyTypeAssignment(
-        code="MICROSCOPY_FCG_CRACK_LENGTH_TYPE",
+    microscopy_fracture_surface_type = PropertyTypeAssignment(
+        code="MICROSCOPY_FRACTURE_SURFACE_TYPE",
         data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="MICROSCOPY_FCG_CRACK_LENGTH_TYPE",
+        vocabulary_code="MICROSCOPY_FRACTURE_SURFACE_TYPE",
         property_label="Crack length type",
         description="""
         Category of crack length measured on the fracture surface: BEACHMARK, FINAL, NOTCH.
@@ -171,8 +170,8 @@ class MicroscopyFcgFractureSurfaceCrackLength(Measurement):
         previous_versions=["MIC_FCG_FRACSURF_CRACKLENGTH_TYPE"],
     )
 
-    crack_length = PropertyTypeAssignment(
-        code="MICROSCOPY_FCG_CRACK_LENGTH_VALUE",
+    microscopy_fracture_surface_crack_length = PropertyTypeAssignment(
+        code="MICROSCOPY_FRACTURE_SURFACE_CRACK_LENGTH",
         data_type="REAL",
         property_label="Crack length",
         units="mm",
@@ -184,8 +183,8 @@ class MicroscopyFcgFractureSurfaceCrackLength(Measurement):
         previous_versions=["MIC_FCG_FRACSURF_CRACKLENGTH_VALUE"],
     )
 
-    cycle_count = PropertyTypeAssignment(
-        code="MICROSCOPY_FCG_CRACK_LENGTH_CYCLES",
+    microscopy_fracture_surface_cycle_count = PropertyTypeAssignment(
+        code="MICROSCOPY_FRACTURE_SURFACE_CYCLE_COUNT",
         data_type="INTEGER",
         property_label="Cycle count",
         description="""
@@ -407,7 +406,7 @@ class Weldment(Processing):
     )
 
 
-class FcgTest(Test):
+class FCGTest(Test):
     # ! add results from former FCG_TEST
     # ! check which properties are necessary from FCG_STEP
     defs = ObjectTypeDef(
@@ -417,7 +416,7 @@ class FcgTest(Test):
         is cyclically loaded to measure crack growth behavior as a function of loading parameters
         and number of cycles.
         """,
-        iri="https://bam.de/masterdata/FcgTest",
+        iri="https://bam.de/masterdata/FCGTest",
         references=[],
         generated_code_prefix="FCG_TEST",
         aliases=[],
@@ -518,4 +517,18 @@ class FcgTest(Test):
         mandatory=False,
         section="Results",
         previous_versions=["FINAL_CRACKLENGTH"],
+    )
+
+
+class LaserDiffPSD(Measurement):
+    defs = ObjectTypeDef(
+        code="LaserDiffPSD",
+        description="""
+        Measurement of particle size distribution (PSD) by laser diffraction method.
+        """,
+        iri="https://bam.de/masterdata/LaserDiffPSD",
+        references=[],
+        generated_code_prefix="LASER_DIFF_PSD",
+        aliases=[],
+        previous_versions=["EXPERIMENTAL_STEP.LASER_DIFF_PSD_MEASUREMENT"],
     )
