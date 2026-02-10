@@ -28,7 +28,7 @@ repos:
           - tools/security/.secrets.baseline
           - --exclude-files
           - >-
-            (^\.venv/|^\.ruff_cache/|^\.mypy_cache/|^\.pytest_cache/|^dist/|^build/|^\.eggs/|^\.tox/|^\.git/|__pycache__/|\.drawio$)
+            (^\.venv/|^\.ruff_cache/|^\.mypy_cache/|^\.pytest_cache/|^dist/|^build/|^\.eggs/|^\.tox/|^\.git/|__pycache__/|\.drawio$|object_types_old\.py$)
 
   # Custom local policy hook: forbid specific VocabularyTypeDef.code values
   - repo: local

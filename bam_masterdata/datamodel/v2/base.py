@@ -39,7 +39,6 @@ class BaseEntity(ObjectType):
         Controls whether the entity is displayed in the project overview page.
         """,
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -185,7 +184,7 @@ class Analysis(Activity):
         iri="https://bam.de/masterdata/Analysis",
         generated_code_prefix="ANALI",
         aliases=[],
-        previous_versions=[],
+        previous_versions=["COMPUTATIONAL_ANALYSIS"],
     )
 
 
@@ -200,6 +199,64 @@ class Calibration(Activity):
         generated_code_prefix="CALIB",
         aliases=[],
         previous_versions=[],
+    )
+
+    calibration_date = PropertyTypeAssignment(
+        code="CALIBRATION_DATE",
+        data_type="DATE",
+        property_label="Calibration date",
+        description="""
+        Date when the calibration was performed.
+        """,
+        mandatory=True,
+        section="Calibration Information",
+    )
+
+    calibration_provider = PropertyTypeAssignment(
+        code="CALIBRATION_PROVIDER",
+        data_type="VARCHAR",
+        vocabulary_code="CALIBRATION_PROVIDER",
+        property_label="Calibration provider",
+        description="""
+        Organization or service provider that performed the calibration.
+        """,
+        mandatory=True,
+        section="Calibration Information",
+    )
+
+    calibration_certificate_number = PropertyTypeAssignment(
+        code="CALIBRATION_CERTIFICATE_NUMBER",
+        data_type="VARCHAR",
+        property_label="Calibration certificate number",
+        description="""
+        Identifier of the calibration certificate issued for this calibration.
+        """,
+        mandatory=True,
+        section="Calibration Information",
+    )
+
+    accredited_calibration_lab = PropertyTypeAssignment(
+        code="ACCREDITED_CALIBRATION_LAB",
+        data_type="BOOLEAN",
+        property_label="Calibration performed by an Accredited Laboratory?",
+        description="""
+        Indicates whether the calibration was performed by an accredited laboratory.
+        """,
+        mandatory=True,
+        section="Calibration Information",
+        previous_versions=["ACCREDITATED_CALIBRATION_LAB"],
+    )
+
+    calibration_lab_accreditation_number = PropertyTypeAssignment(
+        code="CALIBRATION_LAB_ACCREDITATION_NUMBER",
+        data_type="VARCHAR",
+        property_label="Calibration Laboratory Accreditation Number",
+        description="""
+        Accreditation identifier of the laboratory (required if the calibration was performed by
+        an accredited laboratory).
+        """,
+        mandatory=False,
+        section="Calibration Information",
     )
 
 
