@@ -14,3 +14,12 @@
 - Changed `CALIBRATION_PROVIDER` from CONTROLLEDVOCABULARY to VARCHAR
 - Deleted `COMPUTATIONAL_ANALYSIS` (now it is `ANALYSIS`)
 - Deleted `CONDA_ENVIRONMENT`, `JUPYTER_NOTEBOOK`
+- Change vocabulary code `DCPD_POT_CAL` to `DCPD_POT_DROP_CALIBRATION`
+- Changed `DCPD_INITIAL_CRACKLENGTH` property code to `DCPD_INITIAL_CRACK_LENGTH`
+- Deleted all properties in DCPD which are instrument-specific --> they should be properties of the instrument
+- Changed `RAZOR_STROKELENGTH`, `RAZOR_STROKESPEED`, and `RAZOR_STROKECOUNT` to `RAZOR_STROKE_LENGTH`, `RAZOR_STROKE_SPEED`, and `RAZOR_STROKE_COUNT`
+- Changed `RAZOR_STROKE_COUNT` from REAL to INTEGER
+- Combined `FCG_TEST` and `FCG_STEP` into `FCG_TEST`
+- Changed `FINAL_CYCLES` from REAL to INTEGER
+- Changed vocabulary code `MICROSCOPY_FCG_CRACK_LENGTH_TYPE` to `MICROSCOPY_FCG_CRACK_LENGTH_TYPE`
+- Deleted `EXPERIMENTAL_STEP.FCG_EVALUATION`
