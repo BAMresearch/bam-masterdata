@@ -12932,6 +12932,7 @@ class GmawBase(Weldment):
         section="Arc welding Parameters",
     )
 
+
 class LaserHybridMagnet(Weldment):
     defs = ObjectTypeDef(
         code="EXPERIMENTAL_STEP.WELDMENT.LASER_HYBRID_MAGNET",
@@ -13108,6 +13109,7 @@ class LaserHybridMagnet(Weldment):
         show_in_edit_views=False,
         section="Arc Welding Parameters",
     )
+
 
 class LaserMagnet(Weldment):
     defs = ObjectTypeDef(
@@ -13405,6 +13407,7 @@ class LaserMagnet(Weldment):
         show_in_edit_views=True,
         section="Measurements",
     )
+
 
 class WireSolid(Welding):
     defs = ObjectTypeDef(
