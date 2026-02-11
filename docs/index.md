@@ -27,6 +27,8 @@ The **Tutorials** are designed to guide you through the general and basic functi
 
 The **How-to guides** provide step-by-step instructions for a variety of tasks. These serve as a quick reference for practical applications when you need specific information.
 
+- [Define Object Types and Properties](howtos/object_types.md)
+- [Work with Object References](howtos/object_references.md)
 - Parsing
     - [Use the Parser app](howtos/parsing/parser_app.md)
     - [Create new parsers](howtos/parsing/create_new_parsers.md)
@@ -61,4 +63,3 @@ The **References** include a glossary of terms and the automatically generated A
 
 ## Contact
 This documentation is a work in progress. If you have questions that are not yet addressed, please contact [datastore@bam.de](mailto:datastore@bam.de).
-

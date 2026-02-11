@@ -29,6 +29,7 @@ dependencies = [
   "openpyxl",
   "click",
   "pydantic~=2.10.5",
+  "pint",
   "rdflib",
   "h5py~=3.12.1",
   "python-decouple",
@@ -47,6 +48,8 @@ dev = [
   "pytest",
   "pytest-timeout",
   "pytest-cov",
+  "pre-commit",
+  "detect-secrets",
 ]
 docu = [
   "mkdocs-material",

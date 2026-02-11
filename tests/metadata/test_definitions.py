@@ -255,6 +255,7 @@ class TestPropertyTypeDef:
             "id",
             "row_location",
             "property_label",
+            "units",
             "data_type",
             "vocabulary_code",
             "object_code",
@@ -268,12 +269,53 @@ class TestPropertyTypeDef:
             str | None,
             str | None,
             str,
+            str | None,
             DataType,
             str | None,
             str | None,
             dict | None,
             str | None,
         ]
+
+    def test_units_append_to_label(self):
+        prop = PropertyTypeDef(
+            code="LENGTH",
+            description="Length of the sample",
+            property_label="Length",
+            data_type=DataType.REAL,
+            units="meter",
+        )
+        assert prop.property_label == "Length in [meter]"
+
+    def test_units_skip_when_label_already_has_units(self):
+        prop = PropertyTypeDef(
+            code="LENGTH",
+            description="Length of the sample",
+            property_label="Length in [m]",
+            data_type=DataType.REAL,
+            units="meter",
+        )
+        assert prop.property_label == "Length in [m]"
+
+    def test_units_invalid(self):
+        with pytest.raises(ValueError):
+            PropertyTypeDef(
+                code="LENGTH",
+                description="Length of the sample",
+                property_label="Length",
+                data_type=DataType.REAL,
+                units="not_a_real_unit",
+            )
+
+    def test_units_invalid_label_format(self):
+        with pytest.raises(ValueError):
+            PropertyTypeDef(
+                code="LENGTH",
+                description="Length of the sample",
+                property_label="Length [m]",
+                data_type=DataType.REAL,
+                units="meter",
+            )
 
 
 class TestPropertyTypeAssignment:
@@ -290,6 +332,7 @@ class TestPropertyTypeAssignment:
             "id",
             "row_location",
             "property_label",
+            "units",
             "data_type",
             "vocabulary_code",
             "object_code",
@@ -308,6 +351,7 @@ class TestPropertyTypeAssignment:
             str | None,
             str | None,
             str,
+            str | None,
             DataType,
             str | None,
             str | None,

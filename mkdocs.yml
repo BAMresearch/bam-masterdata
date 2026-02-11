@@ -8,6 +8,7 @@ nav:
     - Getting Started: tutorials/getting_started.md
     - Automating Metadata with Parsers: tutorials/parsing.md
   - How-to Guides:
+    - Define Object Types and Properties: howtos/object_types.md
     - Work with Object References: howtos/object_references.md
     - Parsing:
       - Use the Parser App: howtos/parsing/parser_app.md
@@ -61,7 +62,6 @@ markdown_extensions:
       custom_fences:
         - name: mermaid
           class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
   - toc:
       permalink: True
       toc_depth: 3

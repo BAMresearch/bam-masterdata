@@ -17,9 +17,14 @@ def remove_row_location(data):  # Not present in Python so just one dict is need
         dict: The dictionary without 'row_location' fields.
     """
     if isinstance(data, dict):
-        return {
-            k: remove_row_location(v) for k, v in data.items() if k != "row_location"
-        }
+        cleaned = {}
+        for k, v in data.items():
+            if k == "row_location":
+                continue
+            if k == "units" and v is None:
+                continue
+            cleaned[k] = remove_row_location(v)
+        return cleaned
     elif isinstance(data, list):
         return [remove_row_location(item) for item in data]
     else:

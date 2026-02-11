@@ -17,9 +17,9 @@ def calculate_package_size():
             )
             total_size += package_size
 
-    print(f'Total size of installed packages: {total_size / (1024 * 1024):.2f} MB')
+    print(f"Total size of installed packages: {total_size / (1024 * 1024):.2f} MB")
 
 
 # * In the root folder, run `python scripts/pkg_size.py` to calculate the total size of installed packages
-if __name__ == '__main__':
+if __name__ == "__main__":
     calculate_package_size()

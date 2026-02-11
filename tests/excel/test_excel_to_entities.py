@@ -391,9 +391,9 @@ def test_process_term(
         expected_cleaned_message = normalize_log_message(log_message)
 
         # Ensure log appears
-        assert any(expected_cleaned_message in log for log in cleaned_logs), (
-            f"Expected log message was not found. Logs: {cleaned_logs}"
-        )
+        assert any(
+            expected_cleaned_message in log for log in cleaned_logs
+        ), f"Expected log message was not found. Logs: {cleaned_logs}"
     else:
         # Ensure no error messages are logged
         assert not any(log["level"] == "error" for log in cleared_log_storage)
@@ -553,15 +553,13 @@ def test_extract_value(
         assert any(
             expected_cleaned_message in log_text and log_level == log_message_level
             for log_text, log_level in cleaned_logs
-        ), (
-            f"Expected log message '{expected_cleaned_message}' with level '{log_message_level}' was not found. Logs: {cleaned_logs}"
-        )
+        ), f"Expected log message '{expected_cleaned_message}' with level '{log_message_level}' was not found. Logs: {cleaned_logs}"
 
     else:
         # Ensure no error messages are logged
-        assert not any(log["level"] == "error" for log in cleared_log_storage), (
-            "Unexpected error log found!"
-        )
+        assert not any(
+            log["level"] == "error" for log in cleared_log_storage
+        ), "Unexpected error log found!"
 
 
 @pytest.mark.parametrize(
@@ -668,9 +666,9 @@ def test_process_entity(
     )
 
     # Assert entity attributes
-    assert result == expected_attributes, (
-        f"Expected: {expected_attributes}, but got: {result}"
-    )
+    assert (
+        result == expected_attributes
+    ), f"Expected: {expected_attributes}, but got: {result}"
 
     # Log message checking
     if log_message:
@@ -679,18 +677,18 @@ def test_process_entity(
         ]
         expected_cleaned_message = re.sub(r"\s+", " ", log_message).strip()
 
-        assert any(expected_cleaned_message in log for log in cleaned_logs), (
-            "Expected log message was not found!"
-        )
+        assert any(
+            expected_cleaned_message in log for log in cleaned_logs
+        ), "Expected log message was not found!"
 
         # Ensure the correct log level is used
-        assert any(log["level"] == log_message_level for log in cleared_log_storage), (
-            f"Expected log level '{log_message_level}' not found."
-        )
+        assert any(
+            log["level"] == log_message_level for log in cleared_log_storage
+        ), f"Expected log level '{log_message_level}' not found."
     else:
-        assert not any(log["level"] == "error" for log in cleared_log_storage), (
-            "Unexpected error logs found!"
-        )
+        assert not any(
+            log["level"] == "error" for log in cleared_log_storage
+        ), "Unexpected error logs found!"
 
 
 @pytest.mark.parametrize(
@@ -833,9 +831,9 @@ def test_properties_to_dict(
     )
 
     # Assert dictionary structure
-    assert result == expected_properties, (
-        f"Expected: {expected_properties}, but got: {result}"
-    )
+    assert (
+        result == expected_properties
+    ), f"Expected: {expected_properties}, but got: {result}"
 
     # Log message checking
     if log_message:
@@ -845,18 +843,18 @@ def test_properties_to_dict(
         expected_cleaned_message = re.sub(r"\s+", " ", log_message).strip()
 
         # Ensure the expected log message appears
-        assert any(expected_cleaned_message in log for log in cleaned_logs), (
-            "Expected log message was not found!"
-        )
+        assert any(
+            expected_cleaned_message in log for log in cleaned_logs
+        ), "Expected log message was not found!"
 
         # Ensure the correct log level is used
-        assert any(log["level"] == log_message_level for log in cleared_log_storage), (
-            f"Expected log level '{log_message_level}' not found."
-        )
+        assert any(
+            log["level"] == log_message_level for log in cleared_log_storage
+        ), f"Expected log level '{log_message_level}' not found."
     else:
-        assert not any(log["level"] == "error" for log in cleared_log_storage), (
-            "Unexpected error logs found!"
-        )
+        assert not any(
+            log["level"] == "error" for log in cleared_log_storage
+        ), "Unexpected error logs found!"
 
 
 @pytest.mark.parametrize(
@@ -1018,18 +1016,18 @@ def test_terms_to_dict(
         expected_cleaned_message = re.sub(r"\s+", " ", log_message).strip()
 
         # Ensure the expected log message appears
-        assert any(expected_cleaned_message in log for log in cleaned_logs), (
-            "Expected log message was not found!"
-        )
+        assert any(
+            expected_cleaned_message in log for log in cleaned_logs
+        ), "Expected log message was not found!"
 
         # Ensure the correct log level is used
-        assert any(log["level"] == log_message_level for log in cleared_log_storage), (
-            f"Expected log level '{log_message_level}' not found."
-        )
+        assert any(
+            log["level"] == log_message_level for log in cleared_log_storage
+        ), f"Expected log level '{log_message_level}' not found."
     else:
-        assert not any(log["level"] == "error" for log in cleared_log_storage), (
-            "Unexpected error logs found!"
-        )
+        assert not any(
+            log["level"] == "error" for log in cleared_log_storage
+        ), "Unexpected error logs found!"
 
 
 import pytest
@@ -1152,9 +1150,9 @@ def test_block_to_entity_dict(
         )
 
         # Assert dictionary structure
-        assert result == expected_entities, (
-            f"Expected: {expected_entities}, but got: {result}"
-        )
+        assert (
+            result == expected_entities
+        ), f"Expected: {expected_entities}, but got: {result}"
 
 
 @pytest.mark.parametrize(

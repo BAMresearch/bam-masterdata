@@ -1,9 +1,25 @@
 import json
 import os
+from enum import Enum
 
 import pytest
 
 from bam_masterdata.metadata.entities_dict import EntitiesDict
+
+
+def normalize_data(data):
+    if isinstance(data, Enum):
+        return data.value
+    if isinstance(data, dict):
+        cleaned = {}
+        for k, v in data.items():
+            if k == "units" and v is None:
+                continue
+            cleaned[k] = normalize_data(v)
+        return cleaned
+    if isinstance(data, list):
+        return [normalize_data(item) for item in data]
+    return data
 
 
 class TestEntitiesDict:
@@ -95,7 +111,7 @@ class TestEntitiesDict:
                         "description": "Name",
                         "iri": null,
                         "id": "Name",
-                        "row_location": 4218,
+                        "row_location": 4228,
                         "property_label": "Name",
                         "data_type": "VARCHAR",
                         "vocabulary_code": null,
@@ -113,7 +129,7 @@ class TestEntitiesDict:
                         "description": "Action Date//Datum der Handlung",
                         "iri": null,
                         "id": "ActionDate",
-                        "row_location": 4228,
+                        "row_location": 4238,
                         "property_label": "Monitoring Date",
                         "data_type": "DATE",
                         "vocabulary_code": null,
@@ -131,7 +147,7 @@ class TestEntitiesDict:
                         "description": "Acting Person//Handelnde Person",
                         "iri": null,
                         "id": "ActingPerson",
-                        "row_location": 4238,
+                        "row_location": 4248,
                         "property_label": "Acting Person",
                         "data_type": "OBJECT",
                         "vocabulary_code": null,
@@ -149,7 +165,7 @@ class TestEntitiesDict:
                         "description": "Comments log",
                         "iri": null,
                         "id": "Xmlcomments",
-                        "row_location": 4249,
+                        "row_location": 4259,
                         "property_label": "Comments",
                         "data_type": "XML",
                         "vocabulary_code": null,
@@ -167,7 +183,7 @@ class TestEntitiesDict:
                         "description": "Annotations State",
                         "iri": null,
                         "id": "AnnotationsState",
-                        "row_location": 4259,
+                        "row_location": 4269,
                         "property_label": "Annotations State",
                         "data_type": "XML",
                         "vocabulary_code": null,
@@ -186,7 +202,7 @@ class TestEntitiesDict:
                         "description": "This Object allows to store information on an action by a user.//Dieses Objekt erlaubt eine Nutzer-Aktion zu beschreiben.",
                         "iri": null,
                         "id": "Action",
-                        "row_location": 4211,
+                        "row_location": 4221,
                         "validation_script": null,
                         "generated_code_prefix": "ACT",
                         "auto_generate_codes": true
@@ -248,7 +264,9 @@ class TestEntitiesDict:
         assert entity_code in data
         for attr in attr_names:
             assert attr in data[entity_code]
-        assert data[entity_code] == json.loads(result_json)
+        assert normalize_data(data[entity_code]) == normalize_data(
+            json.loads(result_json)
+        )
 
     def test_single_json(self):
         """Test the `single_json` function."""
