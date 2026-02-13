@@ -7197,169 +7197,7 @@ class MeasuringAmplifier(Instrument):
     )
 
 
-class ImageSeries(ExperimentalStep):
-    defs = ObjectTypeDef(
-        code="EXPERIMENTAL_STEP.IMAGE_SERIES",
-        description="""A series of one or more still image recordings//Eine Serie aus einer oder mehrerer Einzelbildaufnahmen""",
-        generated_code_prefix="EXP.IMG_SRS",
-    )
 
-    uuid = PropertyTypeAssignment(
-        code="UUID",
-        data_type="VARCHAR",
-        property_label="UUID",
-        description="""A Universally Unique IDentifier (UUID/GUID) according to RFC 4122//Ein Universally Unique IDentifier (UUID/GUID) nach RFC 4122""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Identifiers",
-    )
-
-    image_horizontal_resolution = PropertyTypeAssignment(
-        code="IMAGE_HORIZONTAL_RESOLUTION",
-        data_type="INTEGER",
-        property_label="Horizontal resolution [pixel]",
-        description="""Horizontal resolution of the image [pixel]//Horizonzale Auflösung des Bildes [Pixel]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Image Series Information",
-    )
-
-    image_vertical_resolution = PropertyTypeAssignment(
-        code="IMAGE_VERTICAL_RESOLUTION",
-        data_type="INTEGER",
-        property_label="Vertical resolution [pixel]",
-        description="""Vertical resolution of the image [pixel]////Vertikale Auflösung des Bildes [Pixel]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Image Series Information",
-    )
-
-    image_series_count = PropertyTypeAssignment(
-        code="IMAGE_SERIES_COUNT",
-        data_type="INTEGER",
-        property_label="Number of images recorded",
-        description="""Number of images recorded//Anzahl der aufgenommenen Bilder""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Image Series Information",
-    )
-
-
-class ProfileScan(ExperimentalStep):
-    defs = ObjectTypeDef(
-        code="EXPERIMENTAL_STEP.PROFILE_SCAN",
-        description="""A series of 2D line sensor readings//Eine Reihe von 2D Profillinienaufnahmen""",
-        generated_code_prefix="EXP.LINE_SCAN",
-    )
-
-    uuid = PropertyTypeAssignment(
-        code="UUID",
-        data_type="VARCHAR",
-        property_label="UUID",
-        description="""A Universally Unique IDentifier (UUID/GUID) according to RFC 4122//Ein Universally Unique IDentifier (UUID/GUID) nach RFC 4122""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Identifiers",
-    )
-
-    scan_line_count = PropertyTypeAssignment(
-        code="SCAN_LINE_COUNT",
-        data_type="INTEGER",
-        property_label="Scan line count",
-        description="""Number of individual scan lines recorded//Anzahl der aufgenommenen Scanlinien""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Scan Information",
-    )
-
-    scan_line_resolution = PropertyTypeAssignment(
-        code="SCAN_LINE_RESOLUTION",
-        data_type="INTEGER",
-        property_label="Scan line resolution [pixel]",
-        description="""Number of pixels recorded for each scan line//Anzahl der Messpunkt einer Scanlinie""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Scan Information",
-    )
-
-
-class VideoRecording(ExperimentalStep):
-    defs = ObjectTypeDef(
-        code="EXPERIMENTAL_STEP.VIDEO_RECORDING",
-        description="""An experimental step describing a video recording//Ein experimenteller Schritt zur Erzeugung einer Videoaufnahme""",
-        generated_code_prefix="EXP.VID",
-    )
-
-    uuid = PropertyTypeAssignment(
-        code="UUID",
-        data_type="VARCHAR",
-        property_label="UUID",
-        description="""A Universally Unique IDentifier (UUID/GUID) according to RFC 4122//Ein Universally Unique IDentifier (UUID/GUID) nach RFC 4122""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Identifiers",
-    )
-
-    image_horizontal_resolution = PropertyTypeAssignment(
-        code="IMAGE_HORIZONTAL_RESOLUTION",
-        data_type="INTEGER",
-        property_label="Horizontal resolution [pixel]",
-        description="""Horizontal resolution of the image [pixel]//Horizonzale Auflösung des Bildes [Pixel]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Video Information",
-    )
-
-    image_vertical_resolution = PropertyTypeAssignment(
-        code="IMAGE_VERTICAL_RESOLUTION",
-        data_type="INTEGER",
-        property_label="Vertical resolution [pixel]",
-        description="""Vertical resolution of the image [pixel]////Vertikale Auflösung des Bildes [Pixel]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Video Information",
-    )
-
-    video_frame_per_seconds = PropertyTypeAssignment(
-        code="VIDEO_FRAME_PER_SECONDS",
-        data_type="INTEGER",
-        property_label="Average video framerate [frames per second]",
-        description="""Average video framerate [frames per second]//Mittlere Bildrate (in Bilder pro Sekunde)""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Video Information",
-    )
-
-    video_codec = PropertyTypeAssignment(
-        code="VIDEO_CODEC",
-        data_type="VARCHAR",
-        property_label="Video codec used during recording",
-        description="""Video codec used during recording (if applicable)//Videocodec (sofern kodiert)""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Video Information",
-    )
-
-    video_dynamic_framerate = PropertyTypeAssignment(
-        code="VIDEO_DYNAMIC_FRAMERATE",
-        data_type="BOOLEAN",
-        property_label="Dynamic video frame rate",
-        description="""Flag to indicate that the video frame rate varies over time//Gibt an, dass die Bildrate des Videos nicht konstant ist""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Video Information",
-    )
-
-    camera_shutter_mode = PropertyTypeAssignment(
-        code="CAMERA_SHUTTER_MODE",
-        data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="CAMERA_SHUTTER_MODE",
-        property_label="Shutter mode",
-        description="""The shutter mode used for video recording//Belichtungsprinzip des Bildsensors""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Video Information",
-    )
 
 
 class Weldment(ExperimentalStep):
@@ -7929,1029 +7767,9 @@ class CentrifugeRotor(Instrument):
     )
 
 
-class Ftir(ExperimentalStep):
-    defs = ObjectTypeDef(
-        code="EXPERIMENTAL_STEP.FTIR",
-        description="""Fourier-Transfom Infrared Spectroscopy//Fourier-Transfom Infrarotspektroskopie""",
-        generated_code_prefix="EXP.FTIR",
-    )
 
-    ftir_instrument = PropertyTypeAssignment(
-        code="FTIR.INSTRUMENT",
-        data_type="VARCHAR",
-        property_label="Instrument",
-        description="""FT-IR Instrument//FT-IR Instrument""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Meaurement Parameters",
-    )
 
-    ftir_start_wavenumber = PropertyTypeAssignment(
-        code="FTIR.START_WAVENUMBER",
-        data_type="REAL",
-        property_label="Start Wavenumber [1/cm]",
-        description="""Start Wavenumber [1/cm]//Start-Wellenzahl [1/cm]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Meaurement Parameters",
-    )
 
-    ftir_end_wavenumber = PropertyTypeAssignment(
-        code="FTIR.END_WAVENUMBER",
-        data_type="REAL",
-        property_label="End Wavenumber [1/cm]",
-        description="""End Wavenumber [1/cm]//End-Wellenzahl [1/cm]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Meaurement Parameters",
-    )
-
-    ftir_resolution = PropertyTypeAssignment(
-        code="FTIR.RESOLUTION",
-        data_type="INTEGER",
-        property_label="Resolution [1/cm]",
-        description="""Resolution [1/cm]//Auflösung [1/cm]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Meaurement Parameters",
-    )
-
-    ftir_scans = PropertyTypeAssignment(
-        code="FTIR.SCANS",
-        data_type="INTEGER",
-        property_label="Number of Scans",
-        description="""Number of FTIR Scans//Anzahl FTIR Scans""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Meaurement Parameters",
-    )
-
-    ftir_accessory = PropertyTypeAssignment(
-        code="FTIR.ACCESSORY",
-        data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="FTIR_ACCESSORIES",
-        property_label="Accessory",
-        description="""FTIR Accessory//FTIR Zubehör""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Meaurement Parameters",
-    )
-
-    ftir_is_flushed = PropertyTypeAssignment(
-        code="FTIR.IS_FLUSHED",
-        data_type="BOOLEAN",
-        property_label="Flushed with Nitrogen",
-        description="""Flushed with Nitrogen//Gespült mit Sickstoff""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Meaurement Parameters",
-    )
-
-
-class Sem(ExperimentalStep):
-    defs = ObjectTypeDef(
-        code="EXPERIMENTAL_STEP.SEM",
-        description="""Scanning Electron Microscopy//Rasterelektronenmikroskopie""",
-        generated_code_prefix="EXP.SEM",
-    )
-
-    sem_instrument = PropertyTypeAssignment(
-        code="SEM.INSTRUMENT",
-        data_type="VARCHAR",
-        property_label="Instrument",
-        description="""SEM Instrument//SEM Instrument""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    sem_imagesizex = PropertyTypeAssignment(
-        code="SEM.IMAGESIZEX",
-        data_type="VARCHAR",
-        property_label="Image Size X",
-        description="""Image Size X//Bildgröße X""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    sem_imagesizey = PropertyTypeAssignment(
-        code="SEM.IMAGESIZEY",
-        data_type="VARCHAR",
-        property_label="Image Size Y",
-        description="""Image Size Y//Bildgröße Y""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    sem_operatingmode = PropertyTypeAssignment(
-        code="SEM.OPERATINGMODE",
-        data_type="VARCHAR",
-        property_label="Operating Mode",
-        description="""Operating Mode//Aufnahmemodus""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    sem_detector = PropertyTypeAssignment(
-        code="SEM.DETECTOR",
-        data_type="VARCHAR",
-        property_label="Detector",
-        description="""Detector//Detektor""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    sem_projectormode = PropertyTypeAssignment(
-        code="SEM.PROJECTORMODE",
-        data_type="VARCHAR",
-        property_label="Projector Mode",
-        description="""Projector Mode//Projektionsmodus""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    sem_pixelsizex = PropertyTypeAssignment(
-        code="SEM.PIXELSIZEX",
-        data_type="VARCHAR",
-        property_label="Pixel Size X",
-        description="""Pixel Size X//Pixelgröße X""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    sem_pixelsizey = PropertyTypeAssignment(
-        code="SEM.PIXELSIZEY",
-        data_type="VARCHAR",
-        property_label="Pixel Size Y",
-        description="""Pixel Size Y//Pixelgrße Y""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    sem_accelerationvoltage = PropertyTypeAssignment(
-        code="SEM.ACCELERATIONVOLTAGE",
-        data_type="VARCHAR",
-        property_label="Acceleration Voltage [keV]",
-        description="""Acceleration Voltage [keV]//Beschleunigungsspannung [keV]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    sem_magnification = PropertyTypeAssignment(
-        code="SEM.MAGNIFICATION",
-        data_type="VARCHAR",
-        property_label="Magnification",
-        description="""Magnificaiton//Vergrößerung""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    sem_workingdistance = PropertyTypeAssignment(
-        code="SEM.WORKINGDISTANCE",
-        data_type="VARCHAR",
-        property_label="Working Distance [mm]",
-        description="""Working Distance [mm]//Arbeitsabstand [mm]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-
-class Nmr(ExperimentalStep):
-    defs = ObjectTypeDef(
-        code="EXPERIMENTAL_STEP.NMR",
-        description="""Nuclear Magnetic Resonance Spectroscopy//Kernspinresonanz-Spektroskopie""",
-        generated_code_prefix="EXP.NMR",
-    )
-
-    nmr_instrument = PropertyTypeAssignment(
-        code="NMR.INSTRUMENT",
-        data_type="VARCHAR",
-        property_label="Instrument",
-        description="""NMR Instrument//NMR Instrument""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    nmr_nucleus_direct = PropertyTypeAssignment(
-        code="NMR.NUCLEUS_DIRECT",
-        data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="NMR_NUCLEI",
-        property_label="Nucleus (direct)",
-        description="""Nucleus (direct)//Kern (direct)""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    nmr_nucleus_indirect = PropertyTypeAssignment(
-        code="NMR.NUCLEUS_INDIRECT",
-        data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="NMR_NUCLEI",
-        property_label="Nucleus (indirect, 2D only)",
-        description="""Nucleus (indirect, 2D only)//Kern (indirekt, nur 2D)""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    nmr_solvent = PropertyTypeAssignment(
-        code="NMR.SOLVENT",
-        data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="NMR_SOLVENTS",
-        property_label="Solvent",
-        description="""NMR Solvent//NMR Lösungsmittel""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    nmr_frequency = PropertyTypeAssignment(
-        code="NMR.FREQUENCY",
-        data_type="REAL",
-        property_label="Frequency [MHz]",
-        description="""NMR Frequency [MHz]//NMR Frequenz [MHz]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    nmr_experiment = PropertyTypeAssignment(
-        code="NMR.EXPERIMENT",
-        data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="NMR_EXPERIMENT_TYPES",
-        property_label="Experiment",
-        description="""NMR Experiment//NMR Experiment""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    nmr_scans = PropertyTypeAssignment(
-        code="NMR.SCANS",
-        data_type="INTEGER",
-        property_label="Number of Scans",
-        description="""Number of NMR Scans//Anzahl NMR Scans""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    nmr_start_chemical_shift = PropertyTypeAssignment(
-        code="NMR.START_CHEMICAL_SHIFT",
-        data_type="REAL",
-        property_label="Start Chemical Shift [ppm]",
-        description="""Start Chemical Shift [ppm]//Start Chemische Verschiebung [ppm]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    nmr_end_chemical_shift = PropertyTypeAssignment(
-        code="NMR.END_CHEMICAL_SHIFT",
-        data_type="REAL",
-        property_label="End Chemical Shift [ppm]",
-        description="""End Chemical Shift [ppm]//Ende Chemische Verschiebung [ppm]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    nmr_is_qnmr = PropertyTypeAssignment(
-        code="NMR.IS_QNMR",
-        data_type="BOOLEAN",
-        property_label="Quantitative NMR",
-        description="""Quantitative NMR//Quantitatives NMR""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    nmr_pulse_angle = PropertyTypeAssignment(
-        code="NMR.PULSE_ANGLE",
-        data_type="REAL",
-        property_label="Pulse Angle [degree]",
-        description="""Pulse Angle [degree]//Pulswinkel [degree]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    nmr_interpulse_delay = PropertyTypeAssignment(
-        code="NMR.INTERPULSE_DELAY",
-        data_type="REAL",
-        property_label="Interpulse Delay [s]",
-        description="""Interpulse Delay [s]//Wartezeit zwischen Pulsen [s]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    nmr_acquisition_time = PropertyTypeAssignment(
-        code="NMR.ACQUISITION_TIME",
-        data_type="REAL",
-        property_label="Acquisition Time [s]",
-        description="""Acquisition Time [s]//Akquisitionszeit [s]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-
-class Tem(ExperimentalStep):
-    defs = ObjectTypeDef(
-        code="EXPERIMENTAL_STEP.TEM",
-        description="""Transmission Electron Microscopy//Transmisisonselektronenmikroskopie""",
-        generated_code_prefix="EXP.TEM",
-    )
-
-    tem_instrument = PropertyTypeAssignment(
-        code="TEM.INSTRUMENT",
-        data_type="VARCHAR",
-        property_label="Instrument",
-        description="""TEM Instrument//TEM Instrument""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    tem_imagesizex = PropertyTypeAssignment(
-        code="TEM.IMAGESIZEX",
-        data_type="VARCHAR",
-        property_label="Image Size X",
-        description="""Image Size X//Bildgröße X""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    tem_imagesizey = PropertyTypeAssignment(
-        code="TEM.IMAGESIZEY",
-        data_type="VARCHAR",
-        property_label="Image Size Y",
-        description="""Image Size Y//Bildgröße Y""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    tem_operatingmode = PropertyTypeAssignment(
-        code="TEM.OPERATINGMODE",
-        data_type="VARCHAR",
-        property_label="Operating Mode",
-        description="""Operating Mode//Aufnahmemodus""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    tem_detector = PropertyTypeAssignment(
-        code="TEM.DETECTOR",
-        data_type="VARCHAR",
-        property_label="Detector",
-        description="""Detector//Detektor""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    tem_projectormode = PropertyTypeAssignment(
-        code="TEM.PROJECTORMODE",
-        data_type="VARCHAR",
-        property_label="Projector Mode",
-        description="""Projector Mode//Projektionsmodus""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    tem_pixelsizex = PropertyTypeAssignment(
-        code="TEM.PIXELSIZEX",
-        data_type="VARCHAR",
-        property_label="Pixel Size X",
-        description="""Pixel Size X//Pixelgröße X""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    tem_pixelsizey = PropertyTypeAssignment(
-        code="TEM.PIXELSIZEY",
-        data_type="VARCHAR",
-        property_label="Pixel Size Y",
-        description="""Pixel Size Y//Pixelgrße Y""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    tem_accelerationvoltage = PropertyTypeAssignment(
-        code="TEM.ACCELERATIONVOLTAGE",
-        data_type="VARCHAR",
-        property_label="Acceleration Voltage  [keV]",
-        description="""Acceleration Voltage [keV]//Beschleunigungsspannung [keV]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    tem_magnification = PropertyTypeAssignment(
-        code="TEM.MAGNIFICATION",
-        data_type="VARCHAR",
-        property_label="Magnification",
-        description="""Magnification//Vergrößerung""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    tem_cameralength = PropertyTypeAssignment(
-        code="TEM.CAMERALENGTH",
-        data_type="VARCHAR",
-        property_label="Camera Length",
-        description="""Camera Length//Kamera-Länge""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    tem_spot_index = PropertyTypeAssignment(
-        code="TEM.SPOT_INDEX",
-        data_type="VARCHAR",
-        property_label="Spot Index",
-        description="""Spot Index//Spot Index""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    tem_gun_lens_setting = PropertyTypeAssignment(
-        code="TEM.GUN_LENS_SETTING",
-        data_type="VARCHAR",
-        property_label="Gun Lens Setting",
-        description="""Gun Lens Setting//Einstellung der Elektronenquellenlinse""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    tem_c2_aperture_name = PropertyTypeAssignment(
-        code="TEM.C2_APERTURE_NAME",
-        data_type="VARCHAR",
-        property_label="C2 Aperture",
-        description="""C2 Aperture//C2 Apertur""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    tem_obj_aperture_name = PropertyTypeAssignment(
-        code="TEM.OBJ_APERTURE_NAME",
-        data_type="VARCHAR",
-        property_label="Objective Aperture",
-        description="""Objective Aperture//Objektiv Apertur""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    tem_saed_aperturediameter = PropertyTypeAssignment(
-        code="TEM.SAED_APERTUREDIAMETER",
-        data_type="VARCHAR",
-        property_label="SAED Aperture Diameter",
-        description="""SAED Aperture Diameter//SAED Apertur Durchmesser""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    tem_saed_apertureposx = PropertyTypeAssignment(
-        code="TEM.SAED_APERTUREPOSX",
-        data_type="VARCHAR",
-        property_label="SAED Aperture Pos X",
-        description="""SAED Aperture Pos X//SAED Apertur Position X""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    tem_saed_apertureposy = PropertyTypeAssignment(
-        code="TEM.SAED_APERTUREPOSY",
-        data_type="VARCHAR",
-        property_label="SAED Aperture PosY",
-        description="""SAED Aperture Pos Y//SAED Apertur Position Y""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-
-class Dls(ExperimentalStep):
-    defs = ObjectTypeDef(
-        code="EXPERIMENTAL_STEP.DLS",
-        description="""Dynamic and electrophoretic light scattering//Dynamische und elektrophoretische Lichtstreuung""",
-        generated_code_prefix="EXP.DLS",
-    )
-
-    dls_material = PropertyTypeAssignment(
-        code="DLS.MATERIAL",
-        data_type="VARCHAR",
-        property_label="Material Name",
-        description="""Material Name for DLS Measurement//Materialname für DLS Messung""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    dls_dispersant = PropertyTypeAssignment(
-        code="DLS.DISPERSANT",
-        data_type="VARCHAR",
-        property_label="Dispersant",
-        description="""Dispersant for DLS Measurement//Dispersant für DLS Messung""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    dls_temperature = PropertyTypeAssignment(
-        code="DLS.TEMPERATURE",
-        data_type="REAL",
-        property_label="Temperature [°C]",
-        description="""Temperature [°C]//Temperatur [°C]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    dls_celldescription = PropertyTypeAssignment(
-        code="DLS.CELLDESCRIPTION",
-        data_type="VARCHAR",
-        property_label="Cell Description",
-        description="""DLS Cell Description//DLS Messküvette""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    dls_attenuator = PropertyTypeAssignment(
-        code="DLS.ATTENUATOR",
-        data_type="INTEGER",
-        property_label="Attenuator",
-        description="""Attenuator for DLS Measurement//Abschwächung für DLS Messung""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Parameters",
-    )
-
-    dls_zavg = PropertyTypeAssignment(
-        code="DLS.ZAVG",
-        data_type="REAL",
-        property_label="Z-Average",
-        description="""Z-Average//Z-Durchschnitt""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results",
-    )
-
-    dls_pdi = PropertyTypeAssignment(
-        code="DLS.PDI",
-        data_type="REAL",
-        property_label="PDI",
-        description="""Polydispersity Index//Polydispersitätsindex""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results",
-    )
-
-    dls_zeta = PropertyTypeAssignment(
-        code="DLS.ZETA",
-        data_type="REAL",
-        property_label="Zeta Potential [mV]",
-        description="""Zeta Potential [mV]//Zeta Potential [mV]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results",
-    )
-
-    dls_pk1int = PropertyTypeAssignment(
-        code="DLS.PK1INT",
-        data_type="REAL",
-        property_label="Peak 1 (Intensity) [nm]",
-        description="""Peak 1 (Intensity) [nm]//Peak 1 (Intensität) [nm]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Intensity Distribution)",
-    )
-
-    dls_pk1intwidth = PropertyTypeAssignment(
-        code="DLS.PK1INTWIDTH",
-        data_type="REAL",
-        property_label="Peak 1 Width (Intensity) [nm]",
-        description="""Peak 1 Width (Intensity) [nm]//Peak 1 Breite (Intensität) [nm]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Intensity Distribution)",
-    )
-
-    dls_pk1intpd = PropertyTypeAssignment(
-        code="DLS.PK1INTPD",
-        data_type="REAL",
-        property_label="Peak 1 Polydispersity (Intensity)",
-        description="""Peak 1 Polydispersity (Intensity)//Peak 1 Polydispersität (Intensität)""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Intensity Distribution)",
-    )
-
-    dls_pk2int = PropertyTypeAssignment(
-        code="DLS.PK2INT",
-        data_type="REAL",
-        property_label="Peak 2 (Intensity) [nm]",
-        description="""Peak 2 (Intensity) [nm]//Peak 2 (Intensität) [nm]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Intensity Distribution)",
-    )
-
-    dls_pk2intwidth = PropertyTypeAssignment(
-        code="DLS.PK2INTWIDTH",
-        data_type="REAL",
-        property_label="Peak 2 Width (Intensity) [nm]",
-        description="""Peak 2 Width (Intensity) [nm]//Peak 2 Breite (Intensität) [nm]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Intensity Distribution)",
-    )
-
-    dls_pk2intpd = PropertyTypeAssignment(
-        code="DLS.PK2INTPD",
-        data_type="REAL",
-        property_label="Peak 2 Polydispersity (Intensity)",
-        description="""Peak 2 Polydispersity (Intensity)//Peak 2 Polydispersität (Intensität)""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Intensity Distribution)",
-    )
-
-    dls_pk3int = PropertyTypeAssignment(
-        code="DLS.PK3INT",
-        data_type="REAL",
-        property_label="Peak 3 (Intensity) [nm]",
-        description="""Peak 3 (Intensity) [nm]//Peak 3 (Intensität) [nm]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Intensity Distribution)",
-    )
-
-    dls_pk3intwidth = PropertyTypeAssignment(
-        code="DLS.PK3INTWIDTH",
-        data_type="REAL",
-        property_label="Peak 3 Width (Intensity) [nm]",
-        description="""Peak 3 Width (Intensity) [nm]//Peak 3 Breite (Intensität) [nm]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Intensity Distribution)",
-    )
-
-    dls_pk3intpd = PropertyTypeAssignment(
-        code="DLS.PK3INTPD",
-        data_type="REAL",
-        property_label="Peak 3 Polydispersity (Intensity)",
-        description="""Peak 3 Polydispersity (Intensity)//Peak 3 Polydispersität (Intensität)""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Intensity Distribution)",
-    )
-
-    dls_pk1vol = PropertyTypeAssignment(
-        code="DLS.PK1VOL",
-        data_type="REAL",
-        property_label="Peak 1 (Volume) [nm]",
-        description="""Peak 1 (Volume) [nm]//Peak 1 (Volumen) [nm]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Volume Distribution)",
-    )
-
-    dls_pk1volwidth = PropertyTypeAssignment(
-        code="DLS.PK1VOLWIDTH",
-        data_type="REAL",
-        property_label="Peak 1 Width (Volume) [nm]",
-        description="""Peak 1 Width (Volume) [nm]//Peak 1 Breite (Volumen) [nm]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Volume Distribution)",
-    )
-
-    dls_pk1volpd = PropertyTypeAssignment(
-        code="DLS.PK1VOLPD",
-        data_type="REAL",
-        property_label="Peak 1 Polydispersity (Volume)",
-        description="""Peak 1 Polydispersity (Volume)//Peak 1 Polydispersität (Volumen)""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Volume Distribution)",
-    )
-
-    dls_pk2vol = PropertyTypeAssignment(
-        code="DLS.PK2VOL",
-        data_type="REAL",
-        property_label="Peak 2 (Volume) [nm]",
-        description="""Peak 2 (Volume) [nm]//Peak 2 (Volumen) [nm]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Volume Distribution)",
-    )
-
-    dls_pk2volwidth = PropertyTypeAssignment(
-        code="DLS.PK2VOLWIDTH",
-        data_type="REAL",
-        property_label="Peak 2 Width (Volume) [nm]",
-        description="""Peak 2 Width (Volume) [nm]//Peak 2 Breite (Volumen) [nm]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Volume Distribution)",
-    )
-
-    dls_pk2volpd = PropertyTypeAssignment(
-        code="DLS.PK2VOLPD",
-        data_type="REAL",
-        property_label="Peak 2 Polydispersity (Volume)",
-        description="""Peak 2 Polydispersity (Volume)//Peak 2 Polydispersität (Volumen)""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Volume Distribution)",
-    )
-
-    dls_pk3vol = PropertyTypeAssignment(
-        code="DLS.PK3VOL",
-        data_type="REAL",
-        property_label="Peak 3 (Volume) [nm]",
-        description="""Peak 3 (Volume) [nm]//Peak 3 (Volumen) [nm]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Volume Distribution)",
-    )
-
-    dls_pk3volwidth = PropertyTypeAssignment(
-        code="DLS.PK3VOLWIDTH",
-        data_type="REAL",
-        property_label="Peak 3 Width (Volume) [nm]",
-        description="""Peak 3 Width (Volume) [nm]//Peak 3 Breite (Volumen) [nm]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Volume Distribution)",
-    )
-
-    dls_pk3volpd = PropertyTypeAssignment(
-        code="DLS.PK3VOLPD",
-        data_type="REAL",
-        property_label="Peak 3 Polydispersity (Volume)",
-        description="""Peak 3 Polydispersity (Volume)//Peak 3 Polydispersität (Volumen)""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Volume Distribution)",
-    )
-
-    dls_pk1num = PropertyTypeAssignment(
-        code="DLS.PK1NUM",
-        data_type="REAL",
-        property_label="Peak 1 (Number) [nm]",
-        description="""Peak 1 (Number) [nm]//Peak 1 (Anzahl) [nm]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Number Distribution)",
-    )
-
-    dls_pk1numwidth = PropertyTypeAssignment(
-        code="DLS.PK1NUMWIDTH",
-        data_type="REAL",
-        property_label="Peak 1 Width (Number) [nm]",
-        description="""Peak 1 Width (Number) [nm]//Peak 1 Breite (Anzahl) [nm]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Number Distribution)",
-    )
-
-    dls_pk1numpd = PropertyTypeAssignment(
-        code="DLS.PK1NUMPD",
-        data_type="REAL",
-        property_label="Peak 1 Polydispersity (Number)",
-        description="""Peak 1 Polydispersity (Number)//Peak 1 Polydispersität (Anzahl)""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Number Distribution)",
-    )
-
-    dls_pk2num = PropertyTypeAssignment(
-        code="DLS.PK2NUM",
-        data_type="REAL",
-        property_label="Peak 2 (Number) [nm]",
-        description="""Peak 2 (Number) [nm]//Peak 2 (Anzahl) [nm]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Number Distribution)",
-    )
-
-    dls_pk2numwidth = PropertyTypeAssignment(
-        code="DLS.PK2NUMWIDTH",
-        data_type="REAL",
-        property_label="Peak 2 Width (Number) [nm]",
-        description="""Peak 2 Width (Number) [nm]//Peak 2 Breite (Anzahl) [nm]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Number Distribution)",
-    )
-
-    dls_pk2numpd = PropertyTypeAssignment(
-        code="DLS.PK2NUMPD",
-        data_type="REAL",
-        property_label="Peak 2 Polydispersity (Number)",
-        description="""Peak 2 Polydispersity (Number)//Peak 2 Polydispersität (Anzahl)""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Number Distribution)",
-    )
-
-    dls_pk3num = PropertyTypeAssignment(
-        code="DLS.PK3NUM",
-        data_type="REAL",
-        property_label="Peak 3 (Number) [nm]",
-        description="""Peak 3 (Number) [nm]//Peak 3 (Anzahl) [nm]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Number Distribution)",
-    )
-
-    dls_pk3numwidth = PropertyTypeAssignment(
-        code="DLS.PK3NUMWIDTH",
-        data_type="REAL",
-        property_label="Peak 3 Width (Number) [nm]",
-        description="""Peak 3 Width (Number) [nm]//Peak 3 Breite (Anzahl) [nm]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Number Distribution)",
-    )
-
-    dls_pk3numpd = PropertyTypeAssignment(
-        code="DLS.PK3NUMPD",
-        data_type="REAL",
-        property_label="Peak 3 Polydispersity (Number)",
-        description="""Peak 3 Polydispersity (Number)//Peak 3 Polydispersität (Anzahl)""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Number Distribution)",
-    )
-
-    dls_pk1zeta = PropertyTypeAssignment(
-        code="DLS.PK1ZETA",
-        data_type="REAL",
-        property_label="Peak 1 (Zeta) [mV]",
-        description="""Peak 1 (Zetapotential) [mV]//Peak 1 (Zetapotential) [mV]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Zeta Potential)",
-    )
-
-    dls_pk1zetawidth = PropertyTypeAssignment(
-        code="DLS.PK1ZETAWIDTH",
-        data_type="REAL",
-        property_label="Peak 1 Width (Zeta) [mV]",
-        description="""Peak 1 Width (Zetapotential) [mV]//Peak 1 Breite (Zetapotential) [mV]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Zeta Potential)",
-    )
-
-    dls_pk2zeta = PropertyTypeAssignment(
-        code="DLS.PK2ZETA",
-        data_type="REAL",
-        property_label="Peak 2 (Zeta) [mV]",
-        description="""Peak 2 (Zetapotential) [mV]//Peak 2 (Zetapotential) [mV]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Zeta Potential)",
-    )
-
-    dls_pk2zetawidth = PropertyTypeAssignment(
-        code="DLS.PK2ZETAWIDTH",
-        data_type="REAL",
-        property_label="Peak 2 Width (Zeta) [mV]",
-        description="""Peak 2 Width (Zetapotential) [mV]//Peak 2 Breite (Zetapotential) [mV]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Zeta Potential)",
-    )
-
-    dls_pk3zeta = PropertyTypeAssignment(
-        code="DLS.PK3ZETA",
-        data_type="REAL",
-        property_label="Peak 3 (Zeta) [mV]",
-        description="""Peak 3 (Zetapotential) [mV]//Peak 3 (Zetapotential) [mV]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Zeta Potential)",
-    )
-
-    dls_pk3zetawidth = PropertyTypeAssignment(
-        code="DLS.PK3ZETAWIDTH",
-        data_type="REAL",
-        property_label="Peak 3 Width (Zeta) [mV]",
-        description="""Peak 3 Width (Zetapotential) [mV]//Peak 3 Breite (Zetapotential) [mV]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Results (Zeta Potential)",
-    )
-
-    dls_analysismodel = PropertyTypeAssignment(
-        code="DLS.ANALYSISMODEL",
-        data_type="VARCHAR",
-        property_label="Analysis Model",
-        description="""Analysis Model//Analysemodell""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Information",
-    )
-
-    dls_intercept = PropertyTypeAssignment(
-        code="DLS.INTERCEPT",
-        data_type="REAL",
-        property_label="Measured Intercept",
-        description="""Measured Intercept//Achsenabschnitt""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Information",
-    )
-
-    dls_sizemerit = PropertyTypeAssignment(
-        code="DLS.SIZEMERIT",
-        data_type="REAL",
-        property_label="Size Merit",
-        description="""Size Merit//Güte""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Information",
-    )
-
-    dls_cumulantsfiterror = PropertyTypeAssignment(
-        code="DLS.CUMULANTSFITERROR",
-        data_type="REAL",
-        property_label="Cumulants Fit Error",
-        description="""Cumulants Fit Error//Fehler des Kummulanten-Fits""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Information",
-    )
-
-    dls_multimodalfiterror = PropertyTypeAssignment(
-        code="DLS.MULTIMODALFITERROR",
-        data_type="REAL",
-        property_label="Multimodal Fit Error",
-        description="""Multimodal Fit Error//Fehler des multimodalen Fits""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Information",
-    )
-
-    dls_fkamodel = PropertyTypeAssignment(
-        code="DLS.FKAMODEL",
-        data_type="VARCHAR",
-        property_label="Fka Model",
-        description="""Fka Model//Fka Modell""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Information",
-    )
-
-    dls_volt = PropertyTypeAssignment(
-        code="DLS.VOLT",
-        data_type="REAL",
-        property_label="Measured Voltage [V]",
-        description="""Measured Voltage [V]//Gemessene Spannung [V]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Information",
-    )
-
-    dls_cond = PropertyTypeAssignment(
-        code="DLS.COND",
-        data_type="REAL",
-        property_label="Conductivity [mS/cm]",
-        description="""Conductivity [mS/cm]//Leitfähigkeit [mS/cm]""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Measurement Information",
-    )
 
 
 class MsBatch(ExperimentalStep):
@@ -10193,24 +9011,6 @@ class ObjectiveSpacer(Instrument):
     )
 
 
-class ThermographicMeasurement(ExperimentalStep):
-    defs = ObjectTypeDef(
-        code="EXPERIMENTAL_STEP.THERMOGRAPHIC_MEASUREMENT",
-        description="""Thermographic Measurement//Thermografiemessung""",
-        generated_code_prefix="EXP_STEP.THE_MEA",
-    )
-
-    associated_project = PropertyTypeAssignment(
-        code="ASSOCIATED_PROJECT",
-        data_type="OBJECT",
-        object_code="PROJECT",
-        property_label="Associated project",
-        description="""Associated project//Assoziiertes Projekt""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="References",
-    )
-
 
 class Named(SampleNdt):
     defs = ObjectTypeDef(
@@ -10312,63 +9112,6 @@ class Named(SampleNdt):
         section="BAM Information",
     )
 
-
-class SaxsMeasurement(ExperimentalStep):
-    defs = ObjectTypeDef(
-        code="EXPERIMENTAL_STEP.SAXS_MEASUREMENT",
-        description="""Metadata of a single Small-Angle Scattering (SAXS) measurement//Metadaten einer einzelnen Kleinwinkelstreuungmessung""",
-        generated_code_prefix="EXP.SXSM_",
-    )
-
-    measurement_id = PropertyTypeAssignment(
-        code="MEASUREMENT_ID",
-        data_type="INTEGER",
-        property_label="Measurement ID",
-        description="""Div. internal measurement ID//FB-interne Messdatennummer""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Experiment Details",
-    )
-
-    measurement_date = PropertyTypeAssignment(
-        code="MEASUREMENT_DATE",
-        data_type="DATE",
-        property_label="Measurement Date",
-        description="""Measurement Date//Messdatum""",
-        mandatory=True,
-        show_in_edit_views=False,
-        section="Experiment Details",
-    )
-
-    cell_temperature_in_celsius = PropertyTypeAssignment(
-        code="CELL_TEMPERATURE_IN_CELSIUS",
-        data_type="REAL",
-        property_label="Cell Temperature [°C]",
-        description="""Measurement cell temperature in °C // Temperatur der Messzelle in °C""",
-        mandatory=True,
-        show_in_edit_views=False,
-        section="Experiment Details",
-    )
-
-    exposure_time_in_seconds = PropertyTypeAssignment(
-        code="EXPOSURE_TIME_IN_SECONDS",
-        data_type="REAL",
-        property_label="Exposure time [s]",
-        description="""Exposure time in seconds//Belichtungszeit in Sekunden""",
-        mandatory=True,
-        show_in_edit_views=False,
-        section="Experiment Details",
-    )
-
-    frame_count = PropertyTypeAssignment(
-        code="FRAME_COUNT",
-        data_type="INTEGER",
-        property_label="Number of frames",
-        description="""Number of frames//Anzahl von Aufnahmen""",
-        mandatory=True,
-        show_in_edit_views=False,
-        section="Experiment Details",
-    )
 
 
 class LocalWorkstation(Instrument):
@@ -12180,205 +10923,1462 @@ class StationLayout3(ObjectType):
         section="Comments",
     )
 
+# Legacy definitions moved to v2 schema
+# class ImageSeries(ExperimentalStep):
+#     defs = ObjectTypeDef(
+#         code="EXPERIMENTAL_STEP.IMAGE_SERIES",
+#         description="""A series of one or more still image recordings//Eine Serie aus einer oder mehrerer Einzelbildaufnahmen""",
+#         generated_code_prefix="EXP.IMG_SRS",
+#     )
+#
+#     uuid = PropertyTypeAssignment(
+#         code="UUID",
+#         data_type="VARCHAR",
+#         property_label="UUID",
+#         description="""A Universally Unique IDentifier (UUID/GUID) according to RFC 4122//Ein Universally Unique IDentifier (UUID/GUID) nach RFC 4122""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Identifiers",
+#     )
+#
+#     image_horizontal_resolution = PropertyTypeAssignment(
+#         code="IMAGE_HORIZONTAL_RESOLUTION",
+#         data_type="INTEGER",
+#         property_label="Horizontal resolution [pixel]",
+#         description="""Horizontal resolution of the image [pixel]//Horizonzale Auflösung des Bildes [Pixel]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Image Series Information",
+#     )
+#
+#     image_vertical_resolution = PropertyTypeAssignment(
+#         code="IMAGE_VERTICAL_RESOLUTION",
+#         data_type="INTEGER",
+#         property_label="Vertical resolution [pixel]",
+#         description="""Vertical resolution of the image [pixel]////Vertikale Auflösung des Bildes [Pixel]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Image Series Information",
+#     )
+#
+#     image_series_count = PropertyTypeAssignment(
+#         code="IMAGE_SERIES_COUNT",
+#         data_type="INTEGER",
+#         property_label="Number of images recorded",
+#         description="""Number of images recorded//Anzahl der aufgenommenen Bilder""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Image Series Information",
+#     )
 
-class LaserDiffPSDMeasurement(ExperimentalStep):
-    defs = ObjectTypeDef(
-        code="EXPERIMENTAL_STEP.LASER_DIFF_PSD_MEASUREMENT",
-        description="""Measurement of particle size distribution (PSD) by laser diffraction method // Messung einer Partikelgrößenverteilung mit einem Laserbeugungsverfahren""",
-        auto_generate_codes=True,
-        generated_code_prefix="EXP.LAS_DIFF_PSD_MEAS",
-    )
+# class ProfileScan(ExperimentalStep):
+#     defs = ObjectTypeDef(
+#         code="EXPERIMENTAL_STEP.PROFILE_SCAN",
+#         description="""A series of 2D line sensor readings//Eine Reihe von 2D Profillinienaufnahmen""",
+#         generated_code_prefix="EXP.LINE_SCAN",
+#     )
+#
+#     uuid = PropertyTypeAssignment(
+#         code="UUID",
+#         data_type="VARCHAR",
+#         property_label="UUID",
+#         description="""A Universally Unique IDentifier (UUID/GUID) according to RFC 4122//Ein Universally Unique IDentifier (UUID/GUID) nach RFC 4122""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Identifiers",
+#     )
+#
+#     scan_line_count = PropertyTypeAssignment(
+#         code="SCAN_LINE_COUNT",
+#         data_type="INTEGER",
+#         property_label="Scan line count",
+#         description="""Number of individual scan lines recorded//Anzahl der aufgenommenen Scanlinien""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Scan Information",
+#     )
+#
+#     scan_line_resolution = PropertyTypeAssignment(
+#         code="SCAN_LINE_RESOLUTION",
+#         data_type="INTEGER",
+#         property_label="Scan line resolution [pixel]",
+#         description="""Number of pixels recorded for each scan line//Anzahl der Messpunkt einer Scanlinie""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Scan Information",
+#     )
 
-    # TODO check if these 3 properties (sample_id, measurement_id, operator) can be moved to a common parent class
-    sample_id = PropertyTypeAssignment(
-        code="SAMPLE_ID",
-        data_type="VARCHAR",
-        property_label="Sample ID",
-        description="""Sample ID//Identifikationsnummer""",
-        mandatory=False,
-        show_in_edit_views=True,
-        section="General Information",
-    )
+# class VideoRecording(ExperimentalStep):
+#     defs = ObjectTypeDef(
+#         code="EXPERIMENTAL_STEP.VIDEO_RECORDING",
+#         description="""An experimental step describing a video recording//Ein experimenteller Schritt zur Erzeugung einer Videoaufnahme""",
+#         generated_code_prefix="EXP.VID",
+#     )
+#
+#     uuid = PropertyTypeAssignment(
+#         code="UUID",
+#         data_type="VARCHAR",
+#         property_label="UUID",
+#         description="""A Universally Unique IDentifier (UUID/GUID) according to RFC 4122//Ein Universally Unique IDentifier (UUID/GUID) nach RFC 4122""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Identifiers",
+#     )
+#
+#     image_horizontal_resolution = PropertyTypeAssignment(
+#         code="IMAGE_HORIZONTAL_RESOLUTION",
+#         data_type="INTEGER",
+#         property_label="Horizontal resolution [pixel]",
+#         description="""Horizontal resolution of the image [pixel]//Horizonzale Auflösung des Bildes [Pixel]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Video Information",
+#     )
+#
+#     image_vertical_resolution = PropertyTypeAssignment(
+#         code="IMAGE_VERTICAL_RESOLUTION",
+#         data_type="INTEGER",
+#         property_label="Vertical resolution [pixel]",
+#         description="""Vertical resolution of the image [pixel]////Vertikale Auflösung des Bildes [Pixel]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Video Information",
+#     )
+#
+#     video_frame_per_seconds = PropertyTypeAssignment(
+#         code="VIDEO_FRAME_PER_SECONDS",
+#         data_type="INTEGER",
+#         property_label="Average video framerate [frames per second]",
+#         description="""Average video framerate [frames per second]//Mittlere Bildrate (in Bilder pro Sekunde)""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Video Information",
+#     )
+#
+#     video_codec = PropertyTypeAssignment(
+#         code="VIDEO_CODEC",
+#         data_type="VARCHAR",
+#         property_label="Video codec used during recording",
+#         description="""Video codec used during recording (if applicable)//Videocodec (sofern kodiert)""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Video Information",
+#     )
+#
+#     video_dynamic_framerate = PropertyTypeAssignment(
+#         code="VIDEO_DYNAMIC_FRAMERATE",
+#         data_type="BOOLEAN",
+#         property_label="Dynamic video frame rate",
+#         description="""Flag to indicate that the video frame rate varies over time//Gibt an, dass die Bildrate des Videos nicht konstant ist""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Video Information",
+#     )
+#
+#     camera_shutter_mode = PropertyTypeAssignment(
+#         code="CAMERA_SHUTTER_MODE",
+#         data_type="CONTROLLEDVOCABULARY",
+#         vocabulary_code="CAMERA_SHUTTER_MODE",
+#         property_label="Shutter mode",
+#         description="""The shutter mode used for video recording//Belichtungsprinzip des Bildsensors""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Video Information",
+#     )
 
-    measurement_id = PropertyTypeAssignment(
-        code="MEASUREMENT_ID",
-        data_type="INTEGER",
-        property_label="Measurement ID",
-        description="""Div. internal measurement ID//FB-interne Messdatennummer""",
-        mandatory=False,
-        show_in_edit_views=True,
-        section="General Information",
-    )
+# class Ftir(ExperimentalStep):
+#     defs = ObjectTypeDef(
+#         code="EXPERIMENTAL_STEP.FTIR",
+#         description="""Fourier-Transfom Infrared Spectroscopy//Fourier-Transfom Infrarotspektroskopie""",
+#         generated_code_prefix="EXP.FTIR",
+#     )
+#
+#     ftir_instrument = PropertyTypeAssignment(
+#         code="FTIR.INSTRUMENT",
+#         data_type="VARCHAR",
+#         property_label="Instrument",
+#         description="""FT-IR Instrument//FT-IR Instrument""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Meaurement Parameters",
+#     )
+#
+#     ftir_start_wavenumber = PropertyTypeAssignment(
+#         code="FTIR.START_WAVENUMBER",
+#         data_type="REAL",
+#         property_label="Start Wavenumber [1/cm]",
+#         description="""Start Wavenumber [1/cm]//Start-Wellenzahl [1/cm]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Meaurement Parameters",
+#     )
+#
+#     ftir_end_wavenumber = PropertyTypeAssignment(
+#         code="FTIR.END_WAVENUMBER",
+#         data_type="REAL",
+#         property_label="End Wavenumber [1/cm]",
+#         description="""End Wavenumber [1/cm]//End-Wellenzahl [1/cm]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Meaurement Parameters",
+#     )
+#
+#     ftir_resolution = PropertyTypeAssignment(
+#         code="FTIR.RESOLUTION",
+#         data_type="INTEGER",
+#         property_label="Resolution [1/cm]",
+#         description="""Resolution [1/cm]//Auflösung [1/cm]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Meaurement Parameters",
+#     )
+#
+#     ftir_scans = PropertyTypeAssignment(
+#         code="FTIR.SCANS",
+#         data_type="INTEGER",
+#         property_label="Number of Scans",
+#         description="""Number of FTIR Scans//Anzahl FTIR Scans""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Meaurement Parameters",
+#     )
+#
+#     ftir_accessory = PropertyTypeAssignment(
+#         code="FTIR.ACCESSORY",
+#         data_type="CONTROLLEDVOCABULARY",
+#         vocabulary_code="FTIR_ACCESSORIES",
+#         property_label="Accessory",
+#         description="""FTIR Accessory//FTIR Zubehör""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Meaurement Parameters",
+#     )
+#
+#     ftir_is_flushed = PropertyTypeAssignment(
+#         code="FTIR.IS_FLUSHED",
+#         data_type="BOOLEAN",
+#         property_label="Flushed with Nitrogen",
+#         description="""Flushed with Nitrogen//Gespült mit Sickstoff""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Meaurement Parameters",
+#     )
 
-    # TODO check this property: this refers to the DATA_CREATOR during an activity/experimental step
-    # TODO it can be a BAM user, an external, or any person. We should have the possibility of creating a list of PERSON in the inventory besides BAM.PERSON
-    operator = PropertyTypeAssignment(
-        code="OPERATOR",
-        data_type="VARCHAR",
-        property_label="Operator",
-        description="""Name of the person or user performing the measurement//Name der Person oder des Benutzers, der die Messung durchführt""",
-        mandatory=True,
-        show_in_edit_views=True,
-        section="General Information",
-    )
+# class Sem(ExperimentalStep):
+#     defs = ObjectTypeDef(
+#         code="EXPERIMENTAL_STEP.SEM",
+#         description="""Scanning Electron Microscopy//Rasterelektronenmikroskopie""",
+#         generated_code_prefix="EXP.SEM",
+#     )
+#
+#     sem_instrument = PropertyTypeAssignment(
+#         code="SEM.INSTRUMENT",
+#         data_type="VARCHAR",
+#         property_label="Instrument",
+#         description="""SEM Instrument//SEM Instrument""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     sem_imagesizex = PropertyTypeAssignment(
+#         code="SEM.IMAGESIZEX",
+#         data_type="VARCHAR",
+#         property_label="Image Size X",
+#         description="""Image Size X//Bildgröße X""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     sem_imagesizey = PropertyTypeAssignment(
+#         code="SEM.IMAGESIZEY",
+#         data_type="VARCHAR",
+#         property_label="Image Size Y",
+#         description="""Image Size Y//Bildgröße Y""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     sem_operatingmode = PropertyTypeAssignment(
+#         code="SEM.OPERATINGMODE",
+#         data_type="VARCHAR",
+#         property_label="Operating Mode",
+#         description="""Operating Mode//Aufnahmemodus""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     sem_detector = PropertyTypeAssignment(
+#         code="SEM.DETECTOR",
+#         data_type="VARCHAR",
+#         property_label="Detector",
+#         description="""Detector//Detektor""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     sem_projectormode = PropertyTypeAssignment(
+#         code="SEM.PROJECTORMODE",
+#         data_type="VARCHAR",
+#         property_label="Projector Mode",
+#         description="""Projector Mode//Projektionsmodus""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     sem_pixelsizex = PropertyTypeAssignment(
+#         code="SEM.PIXELSIZEX",
+#         data_type="VARCHAR",
+#         property_label="Pixel Size X",
+#         description="""Pixel Size X//Pixelgröße X""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     sem_pixelsizey = PropertyTypeAssignment(
+#         code="SEM.PIXELSIZEY",
+#         data_type="VARCHAR",
+#         property_label="Pixel Size Y",
+#         description="""Pixel Size Y//Pixelgrße Y""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     sem_accelerationvoltage = PropertyTypeAssignment(
+#         code="SEM.ACCELERATIONVOLTAGE",
+#         data_type="VARCHAR",
+#         property_label="Acceleration Voltage [keV]",
+#         description="""Acceleration Voltage [keV]//Beschleunigungsspannung [keV]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     sem_magnification = PropertyTypeAssignment(
+#         code="SEM.MAGNIFICATION",
+#         data_type="VARCHAR",
+#         property_label="Magnification",
+#         description="""Magnificaiton//Vergrößerung""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     sem_workingdistance = PropertyTypeAssignment(
+#         code="SEM.WORKINGDISTANCE",
+#         data_type="VARCHAR",
+#         property_label="Working Distance [mm]",
+#         description="""Working Distance [mm]//Arbeitsabstand [mm]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
 
-    dispersing_medium = PropertyTypeAssignment(
-        code="DISPERSING_MEDIUM",
-        data_type="VARCHAR",
-        property_label="Dispersing medium",
-        description="""Medium in which the particles are dispersed for the measurement. Could be a liquid solvent (water, ethanol) or air. If the solvent contains additional dispersing agent, the respective type and concentration can also be stored in this field.//Medium, in dem die Partikel für die Messung dispergiert werden. Dies kann ein flüssiges Lösungsmittel (Wasser, Ethanol) oder Luft sein. Enthält das Lösungsmittel ein zusätzliches Dispergiermittel, können dessen Art und Konzentration ebenfalls in diesem Feld gespeichert werden.""",
-        mandatory=True,
-        show_in_edit_views=True,
-        section="Experimental Details",
-    )
+# class Nmr(ExperimentalStep):
+#     defs = ObjectTypeDef(
+#         code="EXPERIMENTAL_STEP.NMR",
+#         description="""Nuclear Magnetic Resonance Spectroscopy//Kernspinresonanz-Spektroskopie""",
+#         generated_code_prefix="EXP.NMR",
+#     )
+#
+#     nmr_instrument = PropertyTypeAssignment(
+#         code="NMR.INSTRUMENT",
+#         data_type="VARCHAR",
+#         property_label="Instrument",
+#         description="""NMR Instrument//NMR Instrument""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     nmr_nucleus_direct = PropertyTypeAssignment(
+#         code="NMR.NUCLEUS_DIRECT",
+#         data_type="CONTROLLEDVOCABULARY",
+#         vocabulary_code="NMR_NUCLEI",
+#         property_label="Nucleus (direct)",
+#         description="""Nucleus (direct)//Kern (direct)""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     nmr_nucleus_indirect = PropertyTypeAssignment(
+#         code="NMR.NUCLEUS_INDIRECT",
+#         data_type="CONTROLLEDVOCABULARY",
+#         vocabulary_code="NMR_NUCLEI",
+#         property_label="Nucleus (indirect, 2D only)",
+#         description="""Nucleus (indirect, 2D only)//Kern (indirekt, nur 2D)""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     nmr_solvent = PropertyTypeAssignment(
+#         code="NMR.SOLVENT",
+#         data_type="CONTROLLEDVOCABULARY",
+#         vocabulary_code="NMR_SOLVENTS",
+#         property_label="Solvent",
+#         description="""NMR Solvent//NMR Lösungsmittel""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     nmr_frequency = PropertyTypeAssignment(
+#         code="NMR.FREQUENCY",
+#         data_type="REAL",
+#         property_label="Frequency [MHz]",
+#         description="""NMR Frequency [MHz]//NMR Frequenz [MHz]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     nmr_experiment = PropertyTypeAssignment(
+#         code="NMR.EXPERIMENT",
+#         data_type="CONTROLLEDVOCABULARY",
+#         vocabulary_code="NMR_EXPERIMENT_TYPES",
+#         property_label="Experiment",
+#         description="""NMR Experiment//NMR Experiment""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     nmr_scans = PropertyTypeAssignment(
+#         code="NMR.SCANS",
+#         data_type="INTEGER",
+#         property_label="Number of Scans",
+#         description="""Number of NMR Scans//Anzahl NMR Scans""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     nmr_start_chemical_shift = PropertyTypeAssignment(
+#         code="NMR.START_CHEMICAL_SHIFT",
+#         data_type="REAL",
+#         property_label="Start Chemical Shift [ppm]",
+#         description="""Start Chemical Shift [ppm]//Start Chemische Verschiebung [ppm]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     nmr_end_chemical_shift = PropertyTypeAssignment(
+#         code="NMR.END_CHEMICAL_SHIFT",
+#         data_type="REAL",
+#         property_label="End Chemical Shift [ppm]",
+#         description="""End Chemical Shift [ppm]//Ende Chemische Verschiebung [ppm]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     nmr_is_qnmr = PropertyTypeAssignment(
+#         code="NMR.IS_QNMR",
+#         data_type="BOOLEAN",
+#         property_label="Quantitative NMR",
+#         description="""Quantitative NMR//Quantitatives NMR""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     nmr_pulse_angle = PropertyTypeAssignment(
+#         code="NMR.PULSE_ANGLE",
+#         data_type="REAL",
+#         property_label="Pulse Angle [degree]",
+#         description="""Pulse Angle [degree]//Pulswinkel [degree]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     nmr_interpulse_delay = PropertyTypeAssignment(
+#         code="NMR.INTERPULSE_DELAY",
+#         data_type="REAL",
+#         property_label="Interpulse Delay [s]",
+#         description="""Interpulse Delay [s]//Wartezeit zwischen Pulsen [s]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     nmr_acquisition_time = PropertyTypeAssignment(
+#         code="NMR.ACQUISITION_TIME",
+#         data_type="REAL",
+#         property_label="Acquisition Time [s]",
+#         description="""Acquisition Time [s]//Akquisitionszeit [s]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
 
-    scattering_model_psd_ld = PropertyTypeAssignment(
-        code="SCATTERING_MODEL_PSD_LD",
-        data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="SCATTERING_MODEL_PSD_LD",
-        property_label="Light scattering model",
-        description="""Light scattering model for the analysis of particle size by laser diffraction methods according to ISO 13220. Could be Mie or Fraunhofer, depending on the actual particle size.//Lichtstreuungsmodell zur Analyse der Partikelgröße mittels Laserbeugungsmethoden gemäß ISO 13220. Je nach tatsächlicher Partikelgröße kann es sich um das Mie- oder das Fraunhofer-Modell handeln.""",
-        mandatory=True,
-        show_in_edit_views=True,
-        section="Experimental Details",
-    )
+# class Tem(ExperimentalStep):
+#     defs = ObjectTypeDef(
+#         code="EXPERIMENTAL_STEP.TEM",
+#         description="""Transmission Electron Microscopy//Transmisisonselektronenmikroskopie""",
+#         generated_code_prefix="EXP.TEM",
+#     )
+#
+#     tem_instrument = PropertyTypeAssignment(
+#         code="TEM.INSTRUMENT",
+#         data_type="VARCHAR",
+#         property_label="Instrument",
+#         description="""TEM Instrument//TEM Instrument""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     tem_imagesizex = PropertyTypeAssignment(
+#         code="TEM.IMAGESIZEX",
+#         data_type="VARCHAR",
+#         property_label="Image Size X",
+#         description="""Image Size X//Bildgröße X""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     tem_imagesizey = PropertyTypeAssignment(
+#         code="TEM.IMAGESIZEY",
+#         data_type="VARCHAR",
+#         property_label="Image Size Y",
+#         description="""Image Size Y//Bildgröße Y""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     tem_operatingmode = PropertyTypeAssignment(
+#         code="TEM.OPERATINGMODE",
+#         data_type="VARCHAR",
+#         property_label="Operating Mode",
+#         description="""Operating Mode//Aufnahmemodus""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     tem_detector = PropertyTypeAssignment(
+#         code="TEM.DETECTOR",
+#         data_type="VARCHAR",
+#         property_label="Detector",
+#         description="""Detector//Detektor""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     tem_projectormode = PropertyTypeAssignment(
+#         code="TEM.PROJECTORMODE",
+#         data_type="VARCHAR",
+#         property_label="Projector Mode",
+#         description="""Projector Mode//Projektionsmodus""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     tem_pixelsizex = PropertyTypeAssignment(
+#         code="TEM.PIXELSIZEX",
+#         data_type="VARCHAR",
+#         property_label="Pixel Size X",
+#         description="""Pixel Size X//Pixelgröße X""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     tem_pixelsizey = PropertyTypeAssignment(
+#         code="TEM.PIXELSIZEY",
+#         data_type="VARCHAR",
+#         property_label="Pixel Size Y",
+#         description="""Pixel Size Y//Pixelgrße Y""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     tem_accelerationvoltage = PropertyTypeAssignment(
+#         code="TEM.ACCELERATIONVOLTAGE",
+#         data_type="VARCHAR",
+#         property_label="Acceleration Voltage  [keV]",
+#         description="""Acceleration Voltage [keV]//Beschleunigungsspannung [keV]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     tem_magnification = PropertyTypeAssignment(
+#         code="TEM.MAGNIFICATION",
+#         data_type="VARCHAR",
+#         property_label="Magnification",
+#         description="""Magnification//Vergrößerung""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     tem_cameralength = PropertyTypeAssignment(
+#         code="TEM.CAMERALENGTH",
+#         data_type="VARCHAR",
+#         property_label="Camera Length",
+#         description="""Camera Length//Kamera-Länge""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     tem_spot_index = PropertyTypeAssignment(
+#         code="TEM.SPOT_INDEX",
+#         data_type="VARCHAR",
+#         property_label="Spot Index",
+#         description="""Spot Index//Spot Index""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     tem_gun_lens_setting = PropertyTypeAssignment(
+#         code="TEM.GUN_LENS_SETTING",
+#         data_type="VARCHAR",
+#         property_label="Gun Lens Setting",
+#         description="""Gun Lens Setting//Einstellung der Elektronenquellenlinse""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     tem_c2_aperture_name = PropertyTypeAssignment(
+#         code="TEM.C2_APERTURE_NAME",
+#         data_type="VARCHAR",
+#         property_label="C2 Aperture",
+#         description="""C2 Aperture//C2 Apertur""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     tem_obj_aperture_name = PropertyTypeAssignment(
+#         code="TEM.OBJ_APERTURE_NAME",
+#         data_type="VARCHAR",
+#         property_label="Objective Aperture",
+#         description="""Objective Aperture//Objektiv Apertur""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     tem_saed_aperturediameter = PropertyTypeAssignment(
+#         code="TEM.SAED_APERTUREDIAMETER",
+#         data_type="VARCHAR",
+#         property_label="SAED Aperture Diameter",
+#         description="""SAED Aperture Diameter//SAED Apertur Durchmesser""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     tem_saed_apertureposx = PropertyTypeAssignment(
+#         code="TEM.SAED_APERTUREPOSX",
+#         data_type="VARCHAR",
+#         property_label="SAED Aperture Pos X",
+#         description="""SAED Aperture Pos X//SAED Apertur Position X""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     tem_saed_apertureposy = PropertyTypeAssignment(
+#         code="TEM.SAED_APERTUREPOSY",
+#         data_type="VARCHAR",
+#         property_label="SAED Aperture PosY",
+#         description="""SAED Aperture Pos Y//SAED Apertur Position Y""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
 
-    name_optical_parameterset_sample = PropertyTypeAssignment(
-        code="NAME_OPTICAL_PARAMETERSET_SAMPLE",
-        data_type="VARCHAR",
-        property_label="Optical parameters designation",
-        description="""Designation of the dataset of optical parameters of the sample//Bezeichnung des Datensatzes der optischen Parameter der Probe""",
-        mandatory=False,
-        show_in_edit_views=True,
-        section="Experimental Details",
-    )
+# class Dls(ExperimentalStep):
+#     defs = ObjectTypeDef(
+#         code="EXPERIMENTAL_STEP.DLS",
+#         description="""Dynamic and electrophoretic light scattering//Dynamische und elektrophoretische Lichtstreuung""",
+#         generated_code_prefix="EXP.DLS",
+#     )
+#
+#     dls_material = PropertyTypeAssignment(
+#         code="DLS.MATERIAL",
+#         data_type="VARCHAR",
+#         property_label="Material Name",
+#         description="""Material Name for DLS Measurement//Materialname für DLS Messung""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     dls_dispersant = PropertyTypeAssignment(
+#         code="DLS.DISPERSANT",
+#         data_type="VARCHAR",
+#         property_label="Dispersant",
+#         description="""Dispersant for DLS Measurement//Dispersant für DLS Messung""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     dls_temperature = PropertyTypeAssignment(
+#         code="DLS.TEMPERATURE",
+#         data_type="REAL",
+#         property_label="Temperature [°C]",
+#         description="""Temperature [°C]//Temperatur [°C]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     dls_celldescription = PropertyTypeAssignment(
+#         code="DLS.CELLDESCRIPTION",
+#         data_type="VARCHAR",
+#         property_label="Cell Description",
+#         description="""DLS Cell Description//DLS Messküvette""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     dls_attenuator = PropertyTypeAssignment(
+#         code="DLS.ATTENUATOR",
+#         data_type="INTEGER",
+#         property_label="Attenuator",
+#         description="""Attenuator for DLS Measurement//Abschwächung für DLS Messung""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Parameters",
+#     )
+#
+#     dls_zavg = PropertyTypeAssignment(
+#         code="DLS.ZAVG",
+#         data_type="REAL",
+#         property_label="Z-Average",
+#         description="""Z-Average//Z-Durchschnitt""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results",
+#     )
+#
+#     dls_pdi = PropertyTypeAssignment(
+#         code="DLS.PDI",
+#         data_type="REAL",
+#         property_label="PDI",
+#         description="""Polydispersity Index//Polydispersitätsindex""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results",
+#     )
+#
+#     dls_zeta = PropertyTypeAssignment(
+#         code="DLS.ZETA",
+#         data_type="REAL",
+#         property_label="Zeta Potential [mV]",
+#         description="""Zeta Potential [mV]//Zeta Potential [mV]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results",
+#     )
+#
+#     dls_pk1int = PropertyTypeAssignment(
+#         code="DLS.PK1INT",
+#         data_type="REAL",
+#         property_label="Peak 1 (Intensity) [nm]",
+#         description="""Peak 1 (Intensity) [nm]//Peak 1 (Intensität) [nm]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Intensity Distribution)",
+#     )
+#
+#     dls_pk1intwidth = PropertyTypeAssignment(
+#         code="DLS.PK1INTWIDTH",
+#         data_type="REAL",
+#         property_label="Peak 1 Width (Intensity) [nm]",
+#         description="""Peak 1 Width (Intensity) [nm]//Peak 1 Breite (Intensität) [nm]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Intensity Distribution)",
+#     )
+#
+#     dls_pk1intpd = PropertyTypeAssignment(
+#         code="DLS.PK1INTPD",
+#         data_type="REAL",
+#         property_label="Peak 1 Polydispersity (Intensity)",
+#         description="""Peak 1 Polydispersity (Intensity)//Peak 1 Polydispersität (Intensität)""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Intensity Distribution)",
+#     )
+#
+#     dls_pk2int = PropertyTypeAssignment(
+#         code="DLS.PK2INT",
+#         data_type="REAL",
+#         property_label="Peak 2 (Intensity) [nm]",
+#         description="""Peak 2 (Intensity) [nm]//Peak 2 (Intensität) [nm]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Intensity Distribution)",
+#     )
+#
+#     dls_pk2intwidth = PropertyTypeAssignment(
+#         code="DLS.PK2INTWIDTH",
+#         data_type="REAL",
+#         property_label="Peak 2 Width (Intensity) [nm]",
+#         description="""Peak 2 Width (Intensity) [nm]//Peak 2 Breite (Intensität) [nm]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Intensity Distribution)",
+#     )
+#
+#     dls_pk2intpd = PropertyTypeAssignment(
+#         code="DLS.PK2INTPD",
+#         data_type="REAL",
+#         property_label="Peak 2 Polydispersity (Intensity)",
+#         description="""Peak 2 Polydispersity (Intensity)//Peak 2 Polydispersität (Intensität)""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Intensity Distribution)",
+#     )
+#
+#     dls_pk3int = PropertyTypeAssignment(
+#         code="DLS.PK3INT",
+#         data_type="REAL",
+#         property_label="Peak 3 (Intensity) [nm]",
+#         description="""Peak 3 (Intensity) [nm]//Peak 3 (Intensität) [nm]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Intensity Distribution)",
+#     )
+#
+#     dls_pk3intwidth = PropertyTypeAssignment(
+#         code="DLS.PK3INTWIDTH",
+#         data_type="REAL",
+#         property_label="Peak 3 Width (Intensity) [nm]",
+#         description="""Peak 3 Width (Intensity) [nm]//Peak 3 Breite (Intensität) [nm]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Intensity Distribution)",
+#     )
+#
+#     dls_pk3intpd = PropertyTypeAssignment(
+#         code="DLS.PK3INTPD",
+#         data_type="REAL",
+#         property_label="Peak 3 Polydispersity (Intensity)",
+#         description="""Peak 3 Polydispersity (Intensity)//Peak 3 Polydispersität (Intensität)""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Intensity Distribution)",
+#     )
+#
+#     dls_pk1vol = PropertyTypeAssignment(
+#         code="DLS.PK1VOL",
+#         data_type="REAL",
+#         property_label="Peak 1 (Volume) [nm]",
+#         description="""Peak 1 (Volume) [nm]//Peak 1 (Volumen) [nm]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Volume Distribution)",
+#     )
+#
+#     dls_pk1volwidth = PropertyTypeAssignment(
+#         code="DLS.PK1VOLWIDTH",
+#         data_type="REAL",
+#         property_label="Peak 1 Width (Volume) [nm]",
+#         description="""Peak 1 Width (Volume) [nm]//Peak 1 Breite (Volumen) [nm]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Volume Distribution)",
+#     )
+#
+#     dls_pk1volpd = PropertyTypeAssignment(
+#         code="DLS.PK1VOLPD",
+#         data_type="REAL",
+#         property_label="Peak 1 Polydispersity (Volume)",
+#         description="""Peak 1 Polydispersity (Volume)//Peak 1 Polydispersität (Volumen)""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Volume Distribution)",
+#     )
+#
+#     dls_pk2vol = PropertyTypeAssignment(
+#         code="DLS.PK2VOL",
+#         data_type="REAL",
+#         property_label="Peak 2 (Volume) [nm]",
+#         description="""Peak 2 (Volume) [nm]//Peak 2 (Volumen) [nm]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Volume Distribution)",
+#     )
+#
+#     dls_pk2volwidth = PropertyTypeAssignment(
+#         code="DLS.PK2VOLWIDTH",
+#         data_type="REAL",
+#         property_label="Peak 2 Width (Volume) [nm]",
+#         description="""Peak 2 Width (Volume) [nm]//Peak 2 Breite (Volumen) [nm]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Volume Distribution)",
+#     )
+#
+#     dls_pk2volpd = PropertyTypeAssignment(
+#         code="DLS.PK2VOLPD",
+#         data_type="REAL",
+#         property_label="Peak 2 Polydispersity (Volume)",
+#         description="""Peak 2 Polydispersity (Volume)//Peak 2 Polydispersität (Volumen)""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Volume Distribution)",
+#     )
+#
+#     dls_pk3vol = PropertyTypeAssignment(
+#         code="DLS.PK3VOL",
+#         data_type="REAL",
+#         property_label="Peak 3 (Volume) [nm]",
+#         description="""Peak 3 (Volume) [nm]//Peak 3 (Volumen) [nm]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Volume Distribution)",
+#     )
+#
+#     dls_pk3volwidth = PropertyTypeAssignment(
+#         code="DLS.PK3VOLWIDTH",
+#         data_type="REAL",
+#         property_label="Peak 3 Width (Volume) [nm]",
+#         description="""Peak 3 Width (Volume) [nm]//Peak 3 Breite (Volumen) [nm]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Volume Distribution)",
+#     )
+#
+#     dls_pk3volpd = PropertyTypeAssignment(
+#         code="DLS.PK3VOLPD",
+#         data_type="REAL",
+#         property_label="Peak 3 Polydispersity (Volume)",
+#         description="""Peak 3 Polydispersity (Volume)//Peak 3 Polydispersität (Volumen)""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Volume Distribution)",
+#     )
+#
+#     dls_pk1num = PropertyTypeAssignment(
+#         code="DLS.PK1NUM",
+#         data_type="REAL",
+#         property_label="Peak 1 (Number) [nm]",
+#         description="""Peak 1 (Number) [nm]//Peak 1 (Anzahl) [nm]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Number Distribution)",
+#     )
+#
+#     dls_pk1numwidth = PropertyTypeAssignment(
+#         code="DLS.PK1NUMWIDTH",
+#         data_type="REAL",
+#         property_label="Peak 1 Width (Number) [nm]",
+#         description="""Peak 1 Width (Number) [nm]//Peak 1 Breite (Anzahl) [nm]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Number Distribution)",
+#     )
+#
+#     dls_pk1numpd = PropertyTypeAssignment(
+#         code="DLS.PK1NUMPD",
+#         data_type="REAL",
+#         property_label="Peak 1 Polydispersity (Number)",
+#         description="""Peak 1 Polydispersity (Number)//Peak 1 Polydispersität (Anzahl)""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Number Distribution)",
+#     )
+#
+#     dls_pk2num = PropertyTypeAssignment(
+#         code="DLS.PK2NUM",
+#         data_type="REAL",
+#         property_label="Peak 2 (Number) [nm]",
+#         description="""Peak 2 (Number) [nm]//Peak 2 (Anzahl) [nm]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Number Distribution)",
+#     )
+#
+#     dls_pk2numwidth = PropertyTypeAssignment(
+#         code="DLS.PK2NUMWIDTH",
+#         data_type="REAL",
+#         property_label="Peak 2 Width (Number) [nm]",
+#         description="""Peak 2 Width (Number) [nm]//Peak 2 Breite (Anzahl) [nm]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Number Distribution)",
+#     )
+#
+#     dls_pk2numpd = PropertyTypeAssignment(
+#         code="DLS.PK2NUMPD",
+#         data_type="REAL",
+#         property_label="Peak 2 Polydispersity (Number)",
+#         description="""Peak 2 Polydispersity (Number)//Peak 2 Polydispersität (Anzahl)""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Number Distribution)",
+#     )
+#
+#     dls_pk3num = PropertyTypeAssignment(
+#         code="DLS.PK3NUM",
+#         data_type="REAL",
+#         property_label="Peak 3 (Number) [nm]",
+#         description="""Peak 3 (Number) [nm]//Peak 3 (Anzahl) [nm]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Number Distribution)",
+#     )
+#
+#     dls_pk3numwidth = PropertyTypeAssignment(
+#         code="DLS.PK3NUMWIDTH",
+#         data_type="REAL",
+#         property_label="Peak 3 Width (Number) [nm]",
+#         description="""Peak 3 Width (Number) [nm]//Peak 3 Breite (Anzahl) [nm]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Number Distribution)",
+#     )
+#
+#     dls_pk3numpd = PropertyTypeAssignment(
+#         code="DLS.PK3NUMPD",
+#         data_type="REAL",
+#         property_label="Peak 3 Polydispersity (Number)",
+#         description="""Peak 3 Polydispersity (Number)//Peak 3 Polydispersität (Anzahl)""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Number Distribution)",
+#     )
+#
+#     dls_pk1zeta = PropertyTypeAssignment(
+#         code="DLS.PK1ZETA",
+#         data_type="REAL",
+#         property_label="Peak 1 (Zeta) [mV]",
+#         description="""Peak 1 (Zetapotential) [mV]//Peak 1 (Zetapotential) [mV]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Zeta Potential)",
+#     )
+#
+#     dls_pk1zetawidth = PropertyTypeAssignment(
+#         code="DLS.PK1ZETAWIDTH",
+#         data_type="REAL",
+#         property_label="Peak 1 Width (Zeta) [mV]",
+#         description="""Peak 1 Width (Zetapotential) [mV]//Peak 1 Breite (Zetapotential) [mV]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Zeta Potential)",
+#     )
+#
+#     dls_pk2zeta = PropertyTypeAssignment(
+#         code="DLS.PK2ZETA",
+#         data_type="REAL",
+#         property_label="Peak 2 (Zeta) [mV]",
+#         description="""Peak 2 (Zetapotential) [mV]//Peak 2 (Zetapotential) [mV]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Zeta Potential)",
+#     )
+#
+#     dls_pk2zetawidth = PropertyTypeAssignment(
+#         code="DLS.PK2ZETAWIDTH",
+#         data_type="REAL",
+#         property_label="Peak 2 Width (Zeta) [mV]",
+#         description="""Peak 2 Width (Zetapotential) [mV]//Peak 2 Breite (Zetapotential) [mV]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Zeta Potential)",
+#     )
+#
+#     dls_pk3zeta = PropertyTypeAssignment(
+#         code="DLS.PK3ZETA",
+#         data_type="REAL",
+#         property_label="Peak 3 (Zeta) [mV]",
+#         description="""Peak 3 (Zetapotential) [mV]//Peak 3 (Zetapotential) [mV]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Zeta Potential)",
+#     )
+#
+#     dls_pk3zetawidth = PropertyTypeAssignment(
+#         code="DLS.PK3ZETAWIDTH",
+#         data_type="REAL",
+#         property_label="Peak 3 Width (Zeta) [mV]",
+#         description="""Peak 3 Width (Zetapotential) [mV]//Peak 3 Breite (Zetapotential) [mV]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Results (Zeta Potential)",
+#     )
+#
+#     dls_analysismodel = PropertyTypeAssignment(
+#         code="DLS.ANALYSISMODEL",
+#         data_type="VARCHAR",
+#         property_label="Analysis Model",
+#         description="""Analysis Model//Analysemodell""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Information",
+#     )
+#
+#     dls_intercept = PropertyTypeAssignment(
+#         code="DLS.INTERCEPT",
+#         data_type="REAL",
+#         property_label="Measured Intercept",
+#         description="""Measured Intercept//Achsenabschnitt""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Information",
+#     )
+#
+#     dls_sizemerit = PropertyTypeAssignment(
+#         code="DLS.SIZEMERIT",
+#         data_type="REAL",
+#         property_label="Size Merit",
+#         description="""Size Merit//Güte""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Information",
+#     )
+#
+#     dls_cumulantsfiterror = PropertyTypeAssignment(
+#         code="DLS.CUMULANTSFITERROR",
+#         data_type="REAL",
+#         property_label="Cumulants Fit Error",
+#         description="""Cumulants Fit Error//Fehler des Kummulanten-Fits""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Information",
+#     )
+#
+#     dls_multimodalfiterror = PropertyTypeAssignment(
+#         code="DLS.MULTIMODALFITERROR",
+#         data_type="REAL",
+#         property_label="Multimodal Fit Error",
+#         description="""Multimodal Fit Error//Fehler des multimodalen Fits""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Information",
+#     )
+#
+#     dls_fkamodel = PropertyTypeAssignment(
+#         code="DLS.FKAMODEL",
+#         data_type="VARCHAR",
+#         property_label="Fka Model",
+#         description="""Fka Model//Fka Modell""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Information",
+#     )
+#
+#     dls_volt = PropertyTypeAssignment(
+#         code="DLS.VOLT",
+#         data_type="REAL",
+#         property_label="Measured Voltage [V]",
+#         description="""Measured Voltage [V]//Gemessene Spannung [V]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Information",
+#     )
+#
+#     dls_cond = PropertyTypeAssignment(
+#         code="DLS.COND",
+#         data_type="REAL",
+#         property_label="Conductivity [mS/cm]",
+#         description="""Conductivity [mS/cm]//Leitfähigkeit [mS/cm]""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Measurement Information",
+#     )
 
-    refractive_index_sample = PropertyTypeAssignment(
-        code="REFRACTIVE_INDEX_SAMPLE",
-        data_type="REAL",
-        property_label="Refractive index of sample",
-        description="""Refractive index of the sample//Brechungsindex der Probe""",
-        mandatory=False,
-        show_in_edit_views=True,
-        section="Experimental Details",
-    )
+# class SaxsMeasurement(ExperimentalStep):
+#     defs = ObjectTypeDef(
+#         code="EXPERIMENTAL_STEP.SAXS_MEASUREMENT",
+#         description="""Metadata of a single Small-Angle Scattering (SAXS) measurement//Metadaten einer einzelnen Kleinwinkelstreuungmessung""",
+#         generated_code_prefix="EXP.SXSM_",
+#     )
+#
+#     measurement_id = PropertyTypeAssignment(
+#         code="MEASUREMENT_ID",
+#         data_type="INTEGER",
+#         property_label="Measurement ID",
+#         description="""Div. internal measurement ID//FB-interne Messdatennummer""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="Experiment Details",
+#     )
+#
+#     measurement_date = PropertyTypeAssignment(
+#         code="MEASUREMENT_DATE",
+#         data_type="DATE",
+#         property_label="Measurement Date",
+#         description="""Measurement Date//Messdatum""",
+#         mandatory=True,
+#         show_in_edit_views=False,
+#         section="Experiment Details",
+#     )
+#
+#     cell_temperature_in_celsius = PropertyTypeAssignment(
+#         code="CELL_TEMPERATURE_IN_CELSIUS",
+#         data_type="REAL",
+#         property_label="Cell Temperature [°C]",
+#         description="""Measurement cell temperature in °C // Temperatur der Messzelle in °C""",
+#         mandatory=True,
+#         show_in_edit_views=False,
+#         section="Experiment Details",
+#     )
+#
+#     exposure_time_in_seconds = PropertyTypeAssignment(
+#         code="EXPOSURE_TIME_IN_SECONDS",
+#         data_type="REAL",
+#         property_label="Exposure time [s]",
+#         description="""Exposure time in seconds//Belichtungszeit in Sekunden""",
+#         mandatory=True,
+#         show_in_edit_views=False,
+#         section="Experiment Details",
+#     )
+#
+#     frame_count = PropertyTypeAssignment(
+#         code="FRAME_COUNT",
+#         data_type="INTEGER",
+#         property_label="Number of frames",
+#         description="""Number of frames//Anzahl von Aufnahmen""",
+#         mandatory=True,
+#         show_in_edit_views=False,
+#         section="Experiment Details",
+#     )
 
-    absorption_coeff_sample = PropertyTypeAssignment(
-        code="ABSORPTION_COEFF_SAMPLE",
-        data_type="REAL",
-        property_label="Absorption coefficient of sample",
-        description="""Absorption coefficient of the sample for blue light, if the measuring device has such a second light source//Absorptionskoeffizient der Probe für blaues Licht, wenn das Messgerät eine derartige zweite Lichtquelle aufweist""",
-        mandatory=False,
-        show_in_edit_views=True,
-        section="Experimental Details",
-    )
+# class ThermographicMeasurement(ExperimentalStep):
+#     defs = ObjectTypeDef(
+#         code="EXPERIMENTAL_STEP.THERMOGRAPHIC_MEASUREMENT",
+#         description="""Thermographic Measurement//Thermografiemessung""",
+#         generated_code_prefix="EXP_STEP.THE_MEA",
+#     )
+#
+#     associated_project = PropertyTypeAssignment(
+#         code="ASSOCIATED_PROJECT",
+#         data_type="OBJECT",
+#         object_code="PROJECT",
+#         property_label="Associated project",
+#         description="""Associated project//Assoziiertes Projekt""",
+#         mandatory=False,
+#         show_in_edit_views=False,
+#         section="References",
+#     )
 
-    refractive_index_blue_sample = PropertyTypeAssignment(
-        code="REFRACTIVE_INDEX_BLUE_SAMPLE",
-        data_type="REAL",
-        property_label="Refractive index for blue light of sample",
-        description="""Refractive index of the sample for blue light, if the measuring device has such a second light source//Brechungsindex der Probe für blaues Licht, wenn das Messgerät eine derartige zweite Lichtquelle aufweist""",
-        mandatory=False,
-        show_in_edit_views=True,
-        section="Experimental Details",
-    )
-
-    absorption_coeff_blue_sample = PropertyTypeAssignment(
-        code="ABSORPTION_COEFF_BLUE_SAMPLE",
-        data_type="REAL",
-        property_label="Absorption coefficient for blue light of sample",
-        description="""Absorption coefficient of the sample for blue light//Absorptionskoeffizient der Probe für blaues Licht""",
-        mandatory=False,
-        show_in_edit_views=True,
-        section="Experimental Details",
-    )
-
-    laser_obscuration = PropertyTypeAssignment(
-        code="LASER_OBSCURATION",
-        data_type="REAL",
-        property_label="Laser obscuration",
-        description="""Laser obscuration//Laserabschattung""",
-        mandatory=False,
-        show_in_edit_views=True,
-        section="Results",
-    )
-
-    laser_transmission = PropertyTypeAssignment(
-        code="LASER_TRANSMISSION",
-        data_type="REAL",
-        property_label="Laser transmission",
-        description="""Laser transmission//Transmission des Lasers""",
-        mandatory=False,
-        show_in_edit_views=True,
-        section="Results",
-    )
-
-    weighted_deviation = PropertyTypeAssignment(
-        code="WEIGHTED_DEVIATION",
-        data_type="REAL",
-        property_label="Weighted deviation of fit",
-        description="""In the context of fitted data, the weighted deviation describes how much the individual measurement points deviate from the curve predicted by the model, taking into account their respective weights (e.g. uncertainties or relevance).//Im Zusammenhang mit gefitteten Daten beschreibt die gewichtete Abweichung, wie stark die einzelnen Messpunkte von der durch das Modell vorhergesagten Kurve abweichen - unter Berücksichtigung ihrer jeweiligen Gewichte (z.B. Unsicherheiten oder Relevanz).""",
-        mandatory=False,
-        show_in_edit_views=True,
-        section="Results",
-    )
-
-    absolute_deviation = PropertyTypeAssignment(
-        code="ABSOLUTE_DEVIATION",
-        data_type="REAL",
-        property_label="Absolute deviation of fit",
-        description="""The absolute deviation for fitted data describes the sum (or mean value) of the differences in magnitude between the measured values and the values predicted by the model without squaring and without weighting.//Die absolute Abweichung bei gefitteten Daten beschreibt die Summe (oder den Mittelwert) der betragsmäßigen Unterschiede zwischen den gemessenen Werten und den durch das Modell vorhergesagten Werten ohne Quadrieren und ohne Gewichtung.""",
-        mandatory=False,
-        show_in_edit_views=True,
-        section="Results",
-    )
-
-    meas_medium_temperature_in_celsius = PropertyTypeAssignment(
-        code="MEAS_MEDIUM_TEMPERATURE_IN_CELSIUS",
-        data_type="REAL",
-        property_label="Temperature of dispersing medium [°C]",
-        description="""Temperature of measurement medium in °C//Temperatur des Messmediums in °C""",
-        mandatory=False,
-        show_in_edit_views=True,
-        section="Results",
-    )
-
-    d_10_in_micrometers = PropertyTypeAssignment(
-        code="D_10_IN_MICROMETERS",
-        data_type="REAL",
-        property_label="Particle size D_10 [µm]",
-        description="""Particle size D_10 in µm//Partikelgröße D_10 in µm""",
-        mandatory=False,
-        show_in_edit_views=True,
-        section="Results",
-    )
-
-    d_50_in_micrometers = PropertyTypeAssignment(
-        code="D_50_IN_MICROMETERS",
-        data_type="REAL",
-        property_label="Particle size D_50 [µm]",
-        description="""Particle size D_50 in µm//Partikelgröße D_50 in µm""",
-        mandatory=True,
-        show_in_edit_views=True,
-        section="Results",
-    )
-
-    d_90_in_micrometers = PropertyTypeAssignment(
-        code="D_90_IN_MICROMETERS",
-        data_type="REAL",
-        property_label="Particle size D_90 [µm]",
-        description="""Particle size D_90 in µm//Partikelgröße D_90 in µm""",
-        mandatory=False,
-        show_in_edit_views=True,
-        section="Results",
-    )
-
-    mode_count = PropertyTypeAssignment(
-        code="MODE_COUNT",
-        data_type="INTEGER",
-        property_label="Number of modes",
-        description="""Number of modes//Anzahl der Modalwerte""",
-        mandatory=False,
-        show_in_edit_views=True,
-        section="Results",
-    )
+# class LaserDiffPSDMeasurement(ExperimentalStep):
+#     defs = ObjectTypeDef(
+#         code="EXPERIMENTAL_STEP.LASER_DIFF_PSD_MEASUREMENT",
+#         description="""Measurement of particle size distribution (PSD) by laser diffraction method // Messung einer Partikelgrößenverteilung mit einem Laserbeugungsverfahren""",
+#         auto_generate_codes=True,
+#         generated_code_prefix="EXP.LAS_DIFF_PSD_MEAS",
+#     )
+#
+#     # TODO check if these 3 properties (sample_id, measurement_id, operator) can be moved to a common parent class
+#     sample_id = PropertyTypeAssignment(
+#         code="SAMPLE_ID",
+#         data_type="VARCHAR",
+#         property_label="Sample ID",
+#         description="""Sample ID//Identifikationsnummer""",
+#         mandatory=False,
+#         show_in_edit_views=True,
+#         section="General Information",
+#     )
+#
+#     measurement_id = PropertyTypeAssignment(
+#         code="MEASUREMENT_ID",
+#         data_type="INTEGER",
+#         property_label="Measurement ID",
+#         description="""Div. internal measurement ID//FB-interne Messdatennummer""",
+#         mandatory=False,
+#         show_in_edit_views=True,
+#         section="General Information",
+#     )
+#
+#     # TODO check this property: this refers to the DATA_CREATOR during an activity/experimental step
+#     # TODO it can be a BAM user, an external, or any person. We should have the possibility of creating a list of PERSON in the inventory besides BAM.PERSON
+#     operator = PropertyTypeAssignment(
+#         code="OPERATOR",
+#         data_type="VARCHAR",
+#         property_label="Operator",
+#         description="""Name of the person or user performing the measurement//Name der Person oder des Benutzers, der die Messung durchführt""",
+#         mandatory=True,
+#         show_in_edit_views=True,
+#         section="General Information",
+#     )
+#
+#     dispersing_medium = PropertyTypeAssignment(
+#         code="DISPERSING_MEDIUM",
+#         data_type="VARCHAR",
+#         property_label="Dispersing medium",
+#         description="""Medium in which the particles are dispersed for the measurement. Could be a liquid solvent (water, ethanol) or air. If the solvent contains additional dispersing agent, the respective type and concentration can also be stored in this field.//Medium, in dem die Partikel für die Messung dispergiert werden. Dies kann ein flüssiges Lösungsmittel (Wasser, Ethanol) oder Luft sein. Enthält das Lösungsmittel ein zusätzliches Dispergiermittel, können dessen Art und Konzentration ebenfalls in diesem Feld gespeichert werden.""",
+#         mandatory=True,
+#         show_in_edit_views=True,
+#         section="Experimental Details",
+#     )
+#
+#     scattering_model_psd_ld = PropertyTypeAssignment(
+#         code="SCATTERING_MODEL_PSD_LD",
+#         data_type="CONTROLLEDVOCABULARY",
+#         vocabulary_code="SCATTERING_MODEL_PSD_LD",
+#         property_label="Light scattering model",
+#         description="""Light scattering model for the analysis of particle size by laser diffraction methods according to ISO 13220. Could be Mie or Fraunhofer, depending on the actual particle size.//Lichtstreuungsmodell zur Analyse der Partikelgröße mittels Laserbeugungsmethoden gemäß ISO 13220. Je nach tatsächlicher Partikelgröße kann es sich um das Mie- oder das Fraunhofer-Modell handeln.""",
+#         mandatory=True,
+#         show_in_edit_views=True,
+#         section="Experimental Details",
+#     )
+#
+#     name_optical_parameterset_sample = PropertyTypeAssignment(
+#         code="NAME_OPTICAL_PARAMETERSET_SAMPLE",
+#         data_type="VARCHAR",
+#         property_label="Optical parameters designation",
+#         description="""Designation of the dataset of optical parameters of the sample//Bezeichnung des Datensatzes der optischen Parameter der Probe""",
+#         mandatory=False,
+#         show_in_edit_views=True,
+#         section="Experimental Details",
+#     )
+#
+#     refractive_index_sample = PropertyTypeAssignment(
+#         code="REFRACTIVE_INDEX_SAMPLE",
+#         data_type="REAL",
+#         property_label="Refractive index of sample",
+#         description="""Refractive index of the sample//Brechungsindex der Probe""",
+#         mandatory=False,
+#         show_in_edit_views=True,
+#         section="Experimental Details",
+#     )
+#
+#     absorption_coeff_sample = PropertyTypeAssignment(
+#         code="ABSORPTION_COEFF_SAMPLE",
+#         data_type="REAL",
+#         property_label="Absorption coefficient of sample",
+#         description="""Absorption coefficient of the sample for blue light, if the measuring device has such a second light source//Absorptionskoeffizient der Probe für blaues Licht, wenn das Messgerät eine derartige zweite Lichtquelle aufweist""",
+#         mandatory=False,
+#         show_in_edit_views=True,
+#         section="Experimental Details",
+#     )
+#
+#     refractive_index_blue_sample = PropertyTypeAssignment(
+#         code="REFRACTIVE_INDEX_BLUE_SAMPLE",
+#         data_type="REAL",
+#         property_label="Refractive index for blue light of sample",
+#         description="""Refractive index of the sample for blue light, if the measuring device has such a second light source//Brechungsindex der Probe für blaues Licht, wenn das Messgerät eine derartige zweite Lichtquelle aufweist""",
+#         mandatory=False,
+#         show_in_edit_views=True,
+#         section="Experimental Details",
+#     )
+#
+#     absorption_coeff_blue_sample = PropertyTypeAssignment(
+#         code="ABSORPTION_COEFF_BLUE_SAMPLE",
+#         data_type="REAL",
+#         property_label="Absorption coefficient for blue light of sample",
+#         description="""Absorption coefficient of the sample for blue light//Absorptionskoeffizient der Probe für blaues Licht""",
+#         mandatory=False,
+#         show_in_edit_views=True,
+#         section="Experimental Details",
+#     )
+#
+#     laser_obscuration = PropertyTypeAssignment(
+#         code="LASER_OBSCURATION",
+#         data_type="REAL",
+#         property_label="Laser obscuration",
+#         description="""Laser obscuration//Laserabschattung""",
+#         mandatory=False,
+#         show_in_edit_views=True,
+#         section="Results",
+#     )
+#
+#     laser_transmission = PropertyTypeAssignment(
+#         code="LASER_TRANSMISSION",
+#         data_type="REAL",
+#         property_label="Laser transmission",
+#         description="""Laser transmission//Transmission des Lasers""",
+#         mandatory=False,
+#         show_in_edit_views=True,
+#         section="Results",
+#     )
+#
+#     weighted_deviation = PropertyTypeAssignment(
+#         code="WEIGHTED_DEVIATION",
+#         data_type="REAL",
+#         property_label="Weighted deviation of fit",
+#         description="""In the context of fitted data, the weighted deviation describes how much the individual measurement points deviate from the curve predicted by the model, taking into account their respective weights (e.g. uncertainties or relevance).//Im Zusammenhang mit gefitteten Daten beschreibt die gewichtete Abweichung, wie stark die einzelnen Messpunkte von der durch das Modell vorhergesagten Kurve abweichen - unter Berücksichtigung ihrer jeweiligen Gewichte (z.B. Unsicherheiten oder Relevanz).""",
+#         mandatory=False,
+#         show_in_edit_views=True,
+#         section="Results",
+#     )
+#
+#     absolute_deviation = PropertyTypeAssignment(
+#         code="ABSOLUTE_DEVIATION",
+#         data_type="REAL",
+#         property_label="Absolute deviation of fit",
+#         description="""The absolute deviation for fitted data describes the sum (or mean value) of the differences in magnitude between the measured values and the values predicted by the model without squaring and without weighting.//Die absolute Abweichung bei gefitteten Daten beschreibt die Summe (oder den Mittelwert) der betragsmäßigen Unterschiede zwischen den gemessenen Werten und den durch das Modell vorhergesagten Werten ohne Quadrieren und ohne Gewichtung.""",
+#         mandatory=False,
+#         show_in_edit_views=True,
+#         section="Results",
+#     )
+#
+#     meas_medium_temperature_in_celsius = PropertyTypeAssignment(
+#         code="MEAS_MEDIUM_TEMPERATURE_IN_CELSIUS",
+#         data_type="REAL",
+#         property_label="Temperature of dispersing medium [°C]",
+#         description="""Temperature of measurement medium in °C//Temperatur des Messmediums in °C""",
+#         mandatory=False,
+#         show_in_edit_views=True,
+#         section="Results",
+#     )
+#
+#     d_10_in_micrometers = PropertyTypeAssignment(
+#         code="D_10_IN_MICROMETERS",
+#         data_type="REAL",
+#         property_label="Particle size D_10 [µm]",
+#         description="""Particle size D_10 in µm//Partikelgröße D_10 in µm""",
+#         mandatory=False,
+#         show_in_edit_views=True,
+#         section="Results",
+#     )
+#
+#     d_50_in_micrometers = PropertyTypeAssignment(
+#         code="D_50_IN_MICROMETERS",
+#         data_type="REAL",
+#         property_label="Particle size D_50 [µm]",
+#         description="""Particle size D_50 in µm//Partikelgröße D_50 in µm""",
+#         mandatory=True,
+#         show_in_edit_views=True,
+#         section="Results",
+#     )
+#
+#     d_90_in_micrometers = PropertyTypeAssignment(
+#         code="D_90_IN_MICROMETERS",
+#         data_type="REAL",
+#         property_label="Particle size D_90 [µm]",
+#         description="""Particle size D_90 in µm//Partikelgröße D_90 in µm""",
+#         mandatory=False,
+#         show_in_edit_views=True,
+#         section="Results",
+#     )
+#
+#     mode_count = PropertyTypeAssignment(
+#         code="MODE_COUNT",
+#         data_type="INTEGER",
+#         property_label="Number of modes",
+#         description="""Number of modes//Anzahl der Modalwerte""",
+#         mandatory=False,
+#         show_in_edit_views=True,
+#         section="Results",
+#     )

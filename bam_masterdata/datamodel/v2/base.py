@@ -3,7 +3,10 @@ from bam_masterdata.metadata.entities import ObjectType
 
 # A list of deprecated ObjectType codes that should not be used in new data entries. This can be used to
 # maintain backward compatibility while signaling to users that certain types are no longer recommended for use.
-deprecated_or_unused = ["RAW_MATERIAL.STEEL", "RAW_MATERIAL.ALUMINIUM"]
+DEPRECATED_OR_UNUSED = [
+    "RAW_MATERIAL.STEEL",
+    "RAW_MATERIAL.ALUMINIUM",
+]
 
 
 class BaseEntity(ObjectType):

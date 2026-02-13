@@ -24,3 +24,17 @@
 - Changed `FINAL_CYCLES` from REAL to INTEGER
 - Changed vocabulary code `MICROSCOPY_FCG_CRACK_LENGTH_TYPE` to `MICROSCOPY_FS_TYPE`
 - Deleted `EXPERIMENTAL_STEP.FCG_EVALUATION`
+- Added detailed measurement metadata (DLS, FTIR, ImageSeries, NMR, ProfileScan, SAXS, SEM, TEM, Video, and LaserDiff PSD) to `activities.py`, carrying over `previous_versions` from the legacy schema and keeping the BFO-informed parent properties untouched.
+- Removed the migrated activity definitions from the active legacy model, appended them as a commented block at the end of `object_types_old.py`, and preserved their field descriptions for reference.
+- Marked the legacy `EXPERIMENTAL_STEP.*` codes (including DCPD, MS batch, SAXS, SEM, TEM, NMR, DLS, FTIR, Video, thermographic, and LaserDiff PSD) as deprecated in `base.py` to signal that the new v2 activity classes should be used instead.
+- **DLS:** `DLS_DISPERSANT` → `DLS.DISPERSANT`, `DLS_TEMPERATURE` → `DLS.TEMPERATURE`, `DLS_CELL_DESCRIPTION` → `DLS.CELLDESCRIPTION`, `DLS_ATTENUATOR` → `DLS.ATTENUATOR`, `DLS_Z_AVERAGE` → `DLS.ZAVG`, `DLS_PDI` → `DLS.PDI`, `DLS_ZETA_POTENTIAL` → `DLS.ZETA`, `DLS_CONDUCTIVITY` → `DLS.COND`.
+- **FTIR:** `FTIR_START_WAVENUMBER`, `FTIR_END_WAVENUMBER`, `FTIR_RESOLUTION`, `FTIR_SCAN_COUNT`, `FTIR_ACCESSORY`, `FTIR_FLUSHED_WITH_NITROGEN` now replace `FTIR.*` properties.
+- **ImageSeries:** `IMAGE_HORIZONTAL_RESOLUTION`, `IMAGE_VERTICAL_RESOLUTION`, `IMAGE_SERIES_COUNT`; we removed the legacy `UUID`.
+- **NMR:** `NMR_NUCLEUS_DIRECT`, `NMR_NUCLEUS_INDIRECT`, `NMR_SOLVENT`, `NMR_FREQUENCY`, `NMR_EXPERIMENT_TYPE`, `NMR_SCAN_COUNT`, `NMR_START_CHEMICAL_SHIFT`, `NMR_END_CHEMICAL_SHIFT`, `NMR_IS_QUANTITATIVE`, `NMR_PULSE_ANGLE`, `NMR_INTERPULSE_DELAY`, `NMR_ACQUISITION_TIME`.
+- **ProfileScan:** `SCAN_LINE_COUNT`, `SCAN_LINE_RESOLUTION`; the legacy `UUID` is no longer part of the data model.
+- **SAXS measurement:** `SAXS_CELL_TEMPERATURE`, `SAXS_EXPOSURE_TIME`, `SAXS_FRAME_COUNT`.
+- **SEM:** `SEM_OPERATING_MODE`, `SEM_DETECTOR`, `SEM_ACCELERATION_VOLTAGE`, `SEM_MAGNIFICATION`, `SEM_WORKING_DISTANCE`; we dropped `SEM.INSTRUMENT` and normalized the `SEM.ACCELERATIONVOLTAGE` units (now a VARCHAR placeholder since `keV` in pint is tricky).
+- **TEM:** `TEM_OPERATING_MODE`, `TEM_DETECTOR`, `TEM_ACCELERATION_VOLTAGE`, `TEM_MAGNIFICATION`, `TEM_CAMERA_LENGTH`.
+- **VideoRecording:** `IMAGE_HORIZONTAL_RESOLUTION`, `IMAGE_VERTICAL_RESOLUTION`, `VIDEO_FRAME_PER_SECONDS`, `VIDEO_CODEC`, `VIDEO_DYNAMIC_FRAMERATE`; the old `UUID` field was removed.
+- **LaserDiff PSD:** `DISPERSING_MEDIUM`, `SCATTERING_MODEL_PSD_LD`, `REFRACTIVE_INDEX_SAMPLE`, `ABSORPTION_COEFFICIENT_SAMPLE`, `LASER_OBSCURATION`, `LASER_TRANSMISSION`, `MEASUREMENT_MEDIUM_TEMPERATURE`, `PSD_D10`, `PSD_D50`, `PSD_D90`, `MODE_COUNT`.
+- Ensured every property keeps its legacy `previous_versions` entry so the mapping to `object_types_old.py` remains explicit, supporting audits and migrations.
