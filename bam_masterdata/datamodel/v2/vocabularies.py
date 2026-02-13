@@ -417,3 +417,46 @@ class ScatteringModelPSDLD(VocabularyType):
         label="Fraunhofer diffraction for particles",
         description="""In the context of the laser light scattering method for particle size determination, Fraunhofer scattering refers to a simplified mathematical description of light scattering that is used for relatively large particles (significantly larger than the wavelength of light). For particles > 50 µm // Im Kontext des Laserstreulichtverfahrens zur Partikelgrößenbestimmung bezieht sich die Fraunhofer-Brechung auf eine vereinfachte mathematische Beschreibung der Lichtstreuung, die für relativ große Partikel (deutlich größer als die Lichtwellenlänge) verwendet wird. Für Partikelgrößen größer als 50 µm""",
     )
+
+
+class WeldType(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="WELD_TYPE",
+        description="""Types of welds//Arten von Schweißverbindungen""",
+    )
+
+    welding_fillet_weld = VocabularyTerm(
+        code="WELDING_FILLET_WELD",
+        label="fillet weld",
+        description="""A weld of approximately triangular cross section joining two surfaces approximately at right angles to each other in a lap joint, T-joint, or corner joint.//Kehlnahtschweißung mit näherungsweise dreieckiger Schweißnahtgeometrie.""",
+    )
+
+    welding_groove_weld = VocabularyTerm(
+        code="WELDING_GROOVE_WELD",
+        label="groove weld",
+        description="""A weld in a weld groove on a workpiece surface, between workpiece edges, between workpiece surfaces, or between workpiece edges and surfaces.//Fugennahtschweißung auf oder zwischen Werkstückoberflächen, -ecken""",
+    )
+
+    welding_plug_weld = VocabularyTerm(
+        code="WELDING_PLUG_WELD",
+        label="plug weld",
+        description="""A weld made in a circular hole in one member of a joint fusing that member to another member. A fillet-welded hole is not to be construed as conforming to this definition.//Lochschweißung zur Verbindung paralleler oder überlappender Werkstücke""",
+    )
+
+    welding_spot_weld = VocabularyTerm(
+        code="WELDING_SPOT_WELD",
+        label="spot weld",
+        description="""A  weld made by arc spot or resistance spot welding//durch Punktschweißen hergestellte Verbindung""",
+    )
+
+    welding_surfacing_weld = VocabularyTerm(
+        code="WELDING_SURFACING_WELD",
+        label="surfacing weld",
+        description="""A weld applied to a surface, as opposed to making a joint, to obtain desired properties or dimensions.//Auftragsschweißung zur Strukturbildung oder Beschichtung""",
+    )
+
+    welding_tack_weld = VocabularyTerm(
+        code="WELDING_TACK_WELD",
+        label="tack weld",
+        description="""Used to hold the parts of a weldment in proper alignment are placed in grooves or fillet locations and are small enough to be consumed by the production weld.//Heftnaht zur Positionierung von Bauteilen""",
+    )

@@ -99,7 +99,8 @@ class DLS(Measurement):
         description="""
         A Measurement is an activity that uses an experimental device to produce quantitative
         or qualitative data about the properties of a material.
-        Dynamic and electrophoretic light scattering
+        Dynamic and electrophoretic light scattering that derives hydrodynamic diameter distributions,
+        zeta potential, and stability metrics from colloidal suspensions.
         """,
         iri="https://bam.de/masterdata/DLS",
         references=[],
@@ -217,7 +218,8 @@ class FTIR(Measurement):
         description="""
         A Measurement is an activity that uses an experimental device to produce quantitative
         or qualitative data about the properties of a material.
-        Fourier Transform Infrared Spectroscopy
+        Fourier transform infrared spectroscopy probing vibrational modes to fingerprint
+        molecular composition and surface bonds.
         """,
         iri="https://bam.de/masterdata/FTIR",
         references=[],
@@ -309,7 +311,8 @@ class ImageSeries(Measurement):
         description="""
         A Measurement is an activity that uses an experimental device to produce quantitative
         or qualitative data about the properties of a material.
-        A series of one or more still image recordings
+        A structured series of still images documenting morphology change, defects, or process evolution
+        on material surfaces or cross sections.
         """,
         iri="https://bam.de/masterdata/ImageSeries",
         references=[],
@@ -414,7 +417,8 @@ class NMR(Measurement):
         description="""
         A Measurement is an activity that uses an experimental device to produce quantitative
         or qualitative data about the properties of a material.
-        Nuclear Magnetic Resonance Spectroscopy
+        Nuclear magnetic resonance spectroscopy targeting nuclei-specific resonances to reveal
+        structural and compositional information of materials.
         """,
         iri="https://bam.de/masterdata/NMR",
         references=[],
@@ -584,7 +588,8 @@ class ProfileScan(Measurement):
         description="""
         A Measurement is an activity that uses an experimental device to produce quantitative
         or qualitative data about the properties of a material.
-        A series of 2D line sensor readings
+        A sequence of 2D line sensor readings used to capture surface height profiles, edge geometries,
+        or deformation along a flight path.
         """,
         iri="https://bam.de/masterdata/ProfileScan",
         references=[],
@@ -622,7 +627,8 @@ class SaxsMeasurement(Measurement):
         description="""
         A Measurement is an activity that uses an experimental device to produce quantitative
         or qualitative data about the properties of a material.
-        Metadata of a single Small-Angle X-Ray Scattering (SAXS) measurement
+        Metadata describing a small-angle X-ray scattering measurement for accessing nanoscale
+        structural features and orientation distributions.
         """,
         iri="https://bam.de/masterdata/SaxsMeasurement",
         references=[],
@@ -676,7 +682,8 @@ class SEM(Measurement):
         description="""
         A Measurement is an activity that uses an experimental device to produce quantitative
         or qualitative data about the properties of a material.
-        Scanning Electron Microscopy
+        Scanning electron microscopy that documents surfaces, microstructure, and defect populations
+        through secondary/backscattered contrast and high magnification imaging.
         """,
         iri="https://bam.de/masterdata/SEM",
         references=[],
@@ -779,7 +786,8 @@ class TEM(Measurement):
         description="""
         A Measurement is an activity that uses an experimental device to produce quantitative
         or qualitative data about the properties of a material.
-        Transmission Electron Microscopy
+        Transmission electron microscopy that traverses thin sections with a focused beam to expose
+        internal crystallographic structure and contrast mechanisms.
         """,
         iri="https://bam.de/masterdata/TEM",
         references=[],
@@ -884,7 +892,8 @@ class ThermographicMeasurement(Measurement):
         description="""
         A Measurement is an activity that uses an experimental device to produce quantitative
         or qualitative data about the properties of a material.
-        Thermographic Measurement
+        Thermographic measurement capturing infrared maps to monitor thermal gradients, defects,
+        and material response to heating or cooling cycles.
         """,
         iri="https://bam.de/masterdata/ThermographicMeasurement",
         references=[],
@@ -900,7 +909,8 @@ class VideoRecording(Measurement):
         description="""
         A Measurement is an activity that uses an experimental device to produce quantitative
         or qualitative data about the properties of a material.
-        An experimental step describing a video recording
+        Documentary video capturing dynamic tests, process evolution, or damage progression with
+        frame data appended as measurement metadata.
         """,
         iri="https://bam.de/masterdata/VideoRecording",
         references=[],
@@ -1075,6 +1085,63 @@ class Weldment(Processing):
         previous_versions=["EXPERIMENTAL_STEP.WELDMENT"],
     )
 
+    weld_joint_number = PropertyTypeAssignment(
+        code="WELD_JOINT_NUMBER",
+        data_type="INTEGER",
+        property_label="Joint Number",
+        description="""
+        Consecutive numbering of weld joints of a workpiece or component//Fortlaufende Numerierung von Schweißnähten an Werkstücken und Bauteilen
+        """,
+        mandatory=False,
+        section="Identifiers",
+    )
+
+    weld_layer_number = PropertyTypeAssignment(
+        code="WELD_LAYER_NUMBER",
+        data_type="INTEGER",
+        property_label="Layer Number",
+        description="""
+        Consecutive numbering of weld layers for a parent joint//Fortlaufende Numerierung von Schweißlagen der übergeordneten Schweißnaht
+        """,
+        mandatory=False,
+        section="Identifiers",
+    )
+
+    weld_bead_number = PropertyTypeAssignment(
+        code="WELD_BEAD_NUMBER",
+        data_type="INTEGER",
+        property_label="Bead Number",
+        description="""
+        Consecutive numbering of weld beads or tracks for a parent layer//Fortlaufende Numerierung von Schweißraupen der übergeordneten Schweißlage
+        """,
+        mandatory=False,
+        section="Identifiers",
+    )
+
+    weld_weldment_number = PropertyTypeAssignment(
+        code="WELD_WELDMENT_NUMBER",
+        data_type="INTEGER",
+        property_label="Weldment Number",
+        description="""
+        Consecutive numbering of uninterrupted weldments in a single bead//Fortlaufende Numerierung von ununterbrochenen Schweißungen einer einzelnen Schweißraupe
+        """,
+        mandatory=False,
+        section="Identifiers",
+    )
+
+    weldment_type = PropertyTypeAssignment(
+        code="WELDMENT_TYPE",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="WELD_TYPE",
+        property_label="Type of weld",
+        description="""
+        Type of weldment made//Art der Schweißverbindung
+        """,
+        mandatory=False,
+        show_in_edit_views=False,
+        section="Weldment Information",
+    )
+
 
 class FCGTest(Test):
     # ! add results from former FCG_TEST
@@ -1194,7 +1261,8 @@ class LaserDiffPSD(Measurement):
     defs = ObjectTypeDef(
         code="LaserDiffPSD",
         description="""
-        Measurement of particle size distribution (PSD) by laser diffraction method.
+        Measurement of particle size distribution (PSD) by laser diffraction capturing ensemble
+        diameter statistics across the full sample volume using scattering profiles.
         """,
         iri="https://bam.de/masterdata/LaserDiffPSD",
         references=[],
@@ -1354,4 +1422,76 @@ class LaserDiffPSD(Measurement):
         """,
         mandatory=False,
         section="Results",
+    )
+
+
+# ! Hidden inherited properties: EXPERIMENTAL_DESCRIPTION, EXPERIMENTAL_RESULTS,
+# ! EXPERIMENTAL_GOALS, SPREADSHEET, REFERENCE, PUBLICATION, COMMENTS
+class MouseMeasurement(SaxsMeasurement):
+    defs = ObjectTypeDef(
+        code="EXPERIMENTAL_STEP.SAXS_MEASUREMENT.MOUSE_MEASUREMENT",
+        description="""Metadata of SAXS measurements of sample at MOUSE // Metadaten der SAXS-Messungen einer Probe mit MOUSE""",
+        generated_code_prefix="EXP.MOME_",
+    )
+
+    responsible_person = PropertyTypeAssignment(
+        code="RESPONSIBLE_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON.BAM",
+        property_label="Responsible person",
+        description="""Responsible person//Verantwortliche Person""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="General Information",
+    )
+
+    sample_position = PropertyTypeAssignment(
+        code="SAMPLE_POSITION",
+        data_type="VARCHAR",
+        property_label="Sample Position // Position der Probe",
+        description="""The sample position ID in the sample holder. Used to record the spatial/orientational position of the sample within the holder or setup. Different sample holders might get new names, or one-off sample holders might have a temporary ID.//Die Position der Probe (ID) im Probenhalter. Sie dient zur Erfassung der räumlichen/orientierungsmäßigen Position der Probe innerhalb des Halters oder der Versuchsanordnung. Verschiedene Probenhalter können unterschiedliche Namen erhalten, oder einmalige Probenhalter können eine temporäre ID haben.""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Experiment Details",
+    )
+
+    measurement_protocol_file = PropertyTypeAssignment(
+        code="MEASUREMENT_PROTOCOL_FILE",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Measurement Protocol // Messprotokoll",
+        description="""Location of the measurement script // Ort des Messprotokollskripts""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Experiment Details",
+    )
+
+    # TODO revisit this property when JSON is integrated in openBIS
+    measurement_protocol_options = PropertyTypeAssignment(
+        code="MEASUREMENT_PROTOCOL_OPTIONS",
+        data_type="VARCHAR",
+        property_label="Measurement protocol options // Messprotokolloptionen",
+        description="""JSON with key-value combinations // JSON mit Schlüssel-Werte-Paaren""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Experiment Details",
+    )
+
+    size_thickness_in_millimeter = PropertyTypeAssignment(
+        code="SIZE_THICKNESS_IN_MILLIMETER",
+        data_type="REAL",
+        property_label="Thickness [mm]",
+        description="""Thickness in mm//Dicke in mm""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Data Processing",
+    )
+
+    processing_protocol_file = PropertyTypeAssignment(
+        code="PROCESSING_PROTOCOL_FILE",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Data processing protocol // Datenverarbeitungsprotokoll",
+        description="""Location of the data processing protocol // Ort des Datenverarbeitungsprotokolls""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Data Processing",
     )
