@@ -93,6 +93,44 @@ class EntityDef(BaseModel):
         """,
     )
 
+    is_a: str | None = Field(
+        None,
+        description="""
+        A lineage string indicating the inheritance, i.e., the parent entities from which this
+        entity is derived (using `code` as the identifier of each entity). It is a string
+        with the format `"<parent1_code>.<parent2_code>.<parent3_code>"`. In the specific ase
+        of BASE_ENTITY, this field is None.
+
+        This is resolved in `ObjectType`.
+
+        Example, `MEASUREMENT` inherits from `ACTIVITY`, which inherits from `BASE_ENTITY`: "BASE_ENTITY.ACTIVITY.MEASUREMENT".
+        """,
+    )
+
+    references: list[str] = Field(
+        default_factory=list,
+        description="""
+        List of references (e.g., URLs or DOIs) related to the entity definition. This can
+        include links to IRIs on other ontology definitions, documentation, or relevant publications.
+        """,
+    )
+
+    aliases: list[str] = Field(
+        default_factory=list,
+        description="""
+        List of alternative codes for the entity. These aliases can be used to refer to
+        the entity in different contexts or systems, e.g., in an older version of the Masterdata.
+        """,
+    )
+
+    previous_versions: list[str] = Field(
+        default_factory=list,
+        description="""
+        List of previous version codes for the entity. This can be used to track the evolution
+        of the entity definition over time.
+        """,
+    )
+
     id: str | None = Field(
         default=None,
         description="""
@@ -152,13 +190,11 @@ class EntityDef(BaseModel):
         """
         if not value:
             return value
-        if not re.match(
-            r"^http://purl.obolibrary.org/bam-masterdata/[\w_]+:[\d.]+$", value
-        ):
+        if not re.match(r"https://bam.de/masterdata/[\w_]+$", value):
             raise ValueError(
-                "`iri` must follow the rules specified in the description: 1) Must start with 'http://purl.obolibrary.org/bam-masterdata/', "
-                "2) followed by the entity name, 3) separated by a colon, 4) followed by the semantic versioning number. "
-                "Example: 'http://purl.obolibrary.org/bam-masterdata/Instrument:1.0.0'."
+                "`iri` must follow the rules specified in the description: 1) Must start with 'https://bam.de/masterdata/', "
+                "2) followed by the entity name. "
+                "Example: 'https://bam.de/masterdata/BaseEntity'."
             )
         return value
 
@@ -201,7 +237,7 @@ class EntityDef(BaseModel):
         fields = [
             k
             for k in self.model_fields.keys()
-            if k not in ["iri", "id", "row_location"]
+            if k not in ["iri", "is_a", "references", "aliases", "id", "row_location"]
         ]
         headers: dict = {}
         for f in fields:
@@ -328,9 +364,9 @@ class ObjectTypeDef(BaseObjectTypeDef):
         Returns:
             Any: The data with the validated fields.
         """
-        # If `generated_code_prefix` is not set, use the first 3 characters of `code`
+        # If `generated_code_prefix` is not set, use the first 5 characters of `code`
         if not data.generated_code_prefix:
-            data.generated_code_prefix = data.code[:3]
+            data.generated_code_prefix = data.code[:5]
 
         return data
 
@@ -516,10 +552,11 @@ class PropertyTypeAssignment(PropertyTypeDef):
     )
 
     show_in_edit_views: bool = Field(
-        ...,
+        True,
         description="""
         If `True`, the property is shown in the edit views of the ELN in the object type instantiation.
         If `False`, the property is hidden.
+        Defaults to True.
         """,
     )
 
