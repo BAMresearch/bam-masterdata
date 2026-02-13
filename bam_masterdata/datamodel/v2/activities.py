@@ -93,7 +93,7 @@ class DCPD(Measurement):
     )
 
 
-class Dls(Measurement):
+class DLS(Measurement):
     defs = ObjectTypeDef(
         code="DLS",
         description="""
@@ -101,7 +101,7 @@ class Dls(Measurement):
         or qualitative data about the properties of a material.
         Dynamic and electrophoretic light scattering
         """,
-        iri="https://bam.de/masterdata/Dls",
+        iri="https://bam.de/masterdata/DLS",
         references=[],
         generated_code_prefix="DLS",
         aliases=[],
@@ -211,7 +211,7 @@ class Dls(Measurement):
     # ! check other properties in old schema
 
 
-class Ftir(Measurement):
+class FTIR(Measurement):
     defs = ObjectTypeDef(
         code="FTIR",
         description="""
@@ -219,7 +219,7 @@ class Ftir(Measurement):
         or qualitative data about the properties of a material.
         Fourier Transform Infrared Spectroscopy
         """,
-        iri="https://bam.de/masterdata/Ftir",
+        iri="https://bam.de/masterdata/FTIR",
         references=[],
         generated_code_prefix="FTIR",
         aliases=[],
@@ -408,7 +408,7 @@ class MicroscopyFractureSurface(Measurement):
     )
 
 
-class Nmr(Measurement):
+class NMR(Measurement):
     defs = ObjectTypeDef(
         code="NMR",
         description="""
@@ -416,7 +416,7 @@ class Nmr(Measurement):
         or qualitative data about the properties of a material.
         Nuclear Magnetic Resonance Spectroscopy
         """,
-        iri="https://bam.de/masterdata/Nmr",
+        iri="https://bam.de/masterdata/NMR",
         references=[],
         generated_code_prefix="NMR",
         aliases=[],
@@ -670,7 +670,7 @@ class SaxsMeasurement(Measurement):
     )
 
 
-class Sem(Measurement):
+class SEM(Measurement):
     defs = ObjectTypeDef(
         code="SEM",
         description="""
@@ -678,7 +678,7 @@ class Sem(Measurement):
         or qualitative data about the properties of a material.
         Scanning Electron Microscopy
         """,
-        iri="https://bam.de/masterdata/Sem",
+        iri="https://bam.de/masterdata/SEM",
         references=[],
         generated_code_prefix="SEM",
         aliases=[],
@@ -773,7 +773,7 @@ class Sem(Measurement):
     )
 
 
-class Tem(Measurement):
+class TEM(Measurement):
     defs = ObjectTypeDef(
         code="TEM",
         description="""
@@ -781,7 +781,7 @@ class Tem(Measurement):
         or qualitative data about the properties of a material.
         Transmission Electron Microscopy
         """,
-        iri="https://bam.de/masterdata/Tem",
+        iri="https://bam.de/masterdata/TEM",
         references=[],
         generated_code_prefix="TEM",
         aliases=[],
