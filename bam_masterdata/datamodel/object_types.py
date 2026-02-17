@@ -13111,6 +13111,323 @@ class LaserHybridMagnet(Weldment):
     )
 
 
+class LaserMagnet(Weldment):
+    defs = ObjectTypeDef(
+        code="EXPERIMENTAL_STEP.WELDMENT.LASER_MAGNET",
+        description="""A welding experiment using laser beam welding with magnetic support//Ein Laserstrahl Schweißversuch mit magnetischer Badstütze""",
+        generated_code_prefix="EXP.WLD.LSR_MGNT",
+    )
+
+    workpiece_material = PropertyTypeAssignment(
+        code="WORKPIECE_MATERIAL",
+        data_type="VARCHAR",
+        property_label="Material",
+        description="""Material classification of the workpiece base material//Materialgruppe des verwendeten Grundwerkstoffes""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Workpiece",
+    )
+
+    workpiece_material_treatments = PropertyTypeAssignment(
+        code="WORKPIECE_MATERIAL_TREATMENTS",
+        data_type="VARCHAR",
+        property_label="Material Treatments",
+        description="""Additional material treatments (heat treatments, rolling etc.)//Zusätzliche Angaben zu Materialbehandlungen (Wärmebehandlungen usw.)""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Workpiece",
+    )
+
+    workpiece_width = PropertyTypeAssignment(
+        code="WORKPIECE_WIDTH",
+        data_type="REAL",
+        property_label="Workpiece Width",
+        units="mm",
+        description="""Width of workpiece perpendicular to weld seam direction in [mm]//Probenbreite senkrecht zum Schweißnahtverlauf in [mm]""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Workpiece",
+    )
+
+    workpiece_length = PropertyTypeAssignment(
+        code="WORKPIECE_LENGTH",
+        data_type="REAL",
+        property_label="Workpiece Length",
+        units="mm",
+        description="""Length of Workpiece in weld seam direction in [mm]//Probenlänge in Richtung der Schweißnaht in [mm]""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Workpiece",
+    )
+
+    workpiece_thickness = PropertyTypeAssignment(
+        code="WORKPIECE_THICKNESS",
+        data_type="REAL",
+        property_label="Workpiece Thickness",
+        units="mm",
+        description="""Workpiece thickness in [mm]//Probendicke in [mm]""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Workpiece",
+    )
+
+    workpiece_surface_preparation = PropertyTypeAssignment(
+        code="SURFACE_PREPARATION",
+        data_type="VARCHAR",
+        property_label="Surface Preparation",
+        description="""Surface preparation//Oberflächenbearbeitung""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Workpiece",
+    )
+
+    weldment_grove_preparation = PropertyTypeAssignment(
+        code="WELDMENT_GROOVE_PREPARATION",
+        data_type="VARCHAR",
+        property_label="Groove preparation",
+        description="""Groove or Joint preparation description//Beschreibung der Nahtvorbereitung""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Joint Configuration",
+    )
+
+    weldment_full_penetration = PropertyTypeAssignment(
+        code="WELDMENT_FULL_PENETRATION",
+        data_type="BOOLEAN",
+        property_label="Full penetration",
+        description="""Full penetration//Durchschweißung""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Joint Configuration",
+    )
+
+    welding_travel_speed = PropertyTypeAssignment(
+        code="WELDING_TRAVEL_SPEED",
+        data_type="REAL",
+        property_label="Welding travel speed",
+        units="cm/min",
+        description="""Welding travel speed in [cm/min]//Schweißgeschwindigkeit in [cm/min]""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Welding Parameters",
+    )
+
+    weld_seam_length = PropertyTypeAssignment(
+        code="WELD_SEAM_LENGTH",
+        data_type="REAL",
+        property_label="Weld seam length",
+        units="mm",
+        description="""Weld seam length in [mm]//Länge der Schweißnaht in [mm]""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Welding Parameters",
+    )
+
+    shielding_gas_composition = PropertyTypeAssignment(
+        code="SHIELDING_GAS_COMPOSITION",
+        data_type="VARCHAR",
+        property_label="Shielding gas composition",
+        description="""Shielding gas composition listing all components with their volume percentage, e.g., '82% Ar, 18% CO2'//Schutzgaszusammensetzung mit Aufzählung aller Gasanteile in Volumenprozent, z.B. '82% Ar, 18% CO2'""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Welding Parameters",
+    )
+
+    shielding_gas_flowrate = PropertyTypeAssignment(
+        code="SHIELDING_GAS_FLOWRATE",
+        data_type="REAL",
+        property_label="Shielding gas flowrate",
+        units="l/minute",
+        description="""Shielding gas flowrate in [l/min]//Schutzgasflussrate in [l/min]""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Welding Parameters",
+    )
+
+    shielding_gas_nozzle_distance = PropertyTypeAssignment(
+        code="SHIELDING_GAS_NOZZLE_DISTANCE",
+        data_type="REAL",
+        property_label="Shielding gas nozzle distance",
+        units="mm",
+        description="""Shielding gas nozzle distance in vertical direction in [mm]//Senkrechter Abstand der Schutzgasdüse zur Probe in [mm]""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Welding Parameters",
+    )
+
+    shielding_gas_nozzle_angle = PropertyTypeAssignment(
+        code="SHIELDING_GAS_NOZZLE_ANGLE",
+        data_type="REAL",
+        property_label="Shielding gas nozzle angle",
+        units="deg",
+        description="""Shielding gas nozzle angle in [deg]//Anstellwinkel der Schutzgasdüse in [deg]""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Welding Parameters",
+    )
+
+    laser_power = PropertyTypeAssignment(
+        code="LASER_POWER",
+        data_type="REAL",
+        property_label="Laser power",
+        units="kW",
+        description="""Laser power in [kW]//Laserleistung in [kW]""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Laser Parameters",
+    )
+
+    laser_angle = PropertyTypeAssignment(
+        code="LASER_ANGLE",
+        data_type="REAL",
+        property_label="Laser angle",
+        units="deg",
+        description="""Laser angle in [deg]//Laserwinkel in [deg]""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Laser Parameters",
+    )
+
+    laser_focal_length = PropertyTypeAssignment(
+        code="LASER_FOCAL_LENGTH",
+        data_type="REAL",
+        property_label="Focal length",
+        units="mm",
+        description="""Laser focal length in [mm]//Laser Fokuslänge in [mm]""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Laser Parameters",
+    )
+
+    laser_focal_position = PropertyTypeAssignment(
+        code="LASER_FOCAL_POSITION",
+        data_type="REAL",
+        property_label="Focal position",
+        units="mm",
+        description="""Laser focal position in [mm]//Laser Fokusposition in [mm]""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Laser Parameters",
+    )
+
+    laser_focal_diameter = PropertyTypeAssignment(
+        code="LASER_FOCAL_DIAMETER",
+        data_type="REAL",
+        property_label="Focal diameter",
+        units="mm",
+        description="""Laser focal diameter in [mm]//Laser Fokusdurchmesser in [mm]""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Laser Parameters",
+    )
+
+    laser_beam_parameter_prod = PropertyTypeAssignment(
+        code="LASER_BEAM_PARAMETER_PROD",
+        data_type="REAL",
+        property_label="Beam parameter product",
+        units="mm mrad",
+        description="""Beam parameter product in [mm mrad]//Strahlparameterprodukt [mm mrad]""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Laser Parameters",
+    )
+
+    laser_rayleigh_length = PropertyTypeAssignment(
+        code="LASER_RAYLEIGH_LENGTH",
+        data_type="REAL",
+        property_label="Rayleigh length",
+        units="mm",
+        description="""Rayleigh length in [mm]//Rayleighlänge in [mm]""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Laser Parameters",
+    )
+
+    magnet_max_flux_density = PropertyTypeAssignment(
+        code="MAGNET_MAX_FLUX_DENSITY",
+        data_type="REAL",
+        property_label="Max flux density",
+        units="mT",
+        description="""Maximum flux density in [mT]//Maximale Flussdichte in [mT]""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Magnet Parameters",
+    )
+
+    magnet_frequency = PropertyTypeAssignment(
+        code="MAGNET_FREQUENCY",
+        data_type="REAL",
+        property_label="Frequency",
+        units="Hz",
+        description="""Frequency in [Hz]//Frequenz in [Hz]""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Magnet Parameters",
+    )
+
+    magnet_primary_circuit_voltage = PropertyTypeAssignment(
+        code="MAGNET_PRIMARY_CIRCUIT_VOLTAGE",
+        data_type="REAL",
+        property_label="Primary Circuit Voltage",
+        units="mV",
+        description="""Voltage set in the primary magnet circuit (U_1) in [mV]//Spannung im Primärkreis des Magneten (U_1) in [mV]""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Magnet Parameters",
+    )
+
+    magnet_primary_circuit_current = PropertyTypeAssignment(
+        code="MAGNET_PRIMARY_CIRCUIT_CURRENT",
+        data_type="REAL",
+        property_label="Primary Circuit Current",
+        units="A",
+        description="""Current measured in the primary magnet circuit (I_1) in [A]//Gemessene Stromstärke im Primärkreis des Magneten (I_1) in [A]""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Magnet Parameters",
+    )
+
+    laser_program_name = PropertyTypeAssignment(
+        code="TLC_LASER_PROGRAM_NAME",
+        data_type="VARCHAR",
+        property_label="Laser Program Name",
+        description="""Name of the laser program used for welding//Name des Laserprogramms zum Schweißen""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="TLC 1005",
+    )
+
+    robot_program_name = PropertyTypeAssignment(
+        code="TLC_ROBOT_PROGRAM_NAME",
+        data_type="VARCHAR",
+        property_label="Robot Program Name",
+        description="""Name of the robot program used for welding//Name des Roboterprogramms zum Schweißen""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="TLC 1005",
+    )
+
+    thermocouples_setup = PropertyTypeAssignment(
+        code="THERMOCOUPLES_SETUP",
+        data_type="XML",
+        property_label="Thermocouples setup",
+        description="""Structured description of all Thermocouples measurement and positioning along the workpiece//Strukturierte Beschreibung der Thermoelement-Messungen und Positionen auf der Probe""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Measurements",
+    )
+
+    cameras_setup = PropertyTypeAssignment(
+        code="CAMERAS_SETUP",
+        data_type="XML",
+        property_label="Camera Setup",
+        description="""Structured description of the Camera setup used//Strukturierte Beschreibung der verwendeten Kameras und ihrer Anordnung""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Measurements",
+    )
+
+
 class WireSolid(Welding):
     defs = ObjectTypeDef(
         code="CONSUMABLE.WELDING.WIRE_SOLID",
