@@ -25,7 +25,7 @@ By the end of this tutorial, you will be able to:
 
 When working with research data, you often need to:
 
-1. **Extract** metadata from raw files (CSV, JSON, XML, etc.).
+1. **Extract** metadata from files (CSV, JSON, XML, etc.).
 2. **Transform** the metadata into structured objects and define their relations.
 3. **Load** the structured objects into a database system like openBIS.
 
@@ -34,7 +34,7 @@ The `run_parser()` function automates this ETL (Extract-Transform-Load) pipeline
 ```mermaid
 graph LR
     A[openBIS login] --> B[Specify Space/Project/Collection]
-    B --> C[Raw Files upload]
+    B --> C[Files upload]
     C --> D[Custom Parser]
     D --> E[run_parser]
 ```
@@ -214,7 +214,7 @@ When you call `run_parser()`, the following steps occur automatically:
 2. **Collection Creation**: A collection is created (or retrieved if it exists) to group the objects. If not specified, the objects will be directly created under the project.
 3. **Parsing**: Each parser processes its files and populates a `CollectionType`.
 4. **Object Creation**: Objects from the collection are created in openBIS with their metadata.
-5. **File Upload**: The raw files are uploaded as datasets to the collection.
+5. **File Upload**: The files are uploaded as datasets to the collection.
 6. **Relationship Mapping**: Any parent-child relationships are established.
 
 ## Adding Multiple Parsers
@@ -380,7 +380,7 @@ run_parser(
 ```
 
 !!! note "Dataset Limitation"
-    When working without a collection, dataset uploads may fail because pyBIS requires datasets to be attached to collections. The objects will still be created, but raw files may not be uploaded.
+    When working without a collection, dataset uploads may fail because pyBIS requires datasets to be attached to collections. The objects will still be created, but files may not be uploaded.
 
 ## Complete Example: Multi-File Automation Script
 
