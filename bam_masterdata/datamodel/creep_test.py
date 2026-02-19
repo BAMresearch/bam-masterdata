@@ -11,7 +11,7 @@ class MechanicalTest(ExperimentalStep):
     )
 
 
-class CreepTest(ObjectType):
+class CreepTest(MechanicalTest):
     defs = ObjectTypeDef(
         code="EXPERIMENTAL_STEP.MECHANICAL_TEST.CREEP_TEST",
         description="""Creep test (mechanical) // Kriechversuch (mechanisch)""",
