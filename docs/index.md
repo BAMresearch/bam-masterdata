@@ -29,6 +29,7 @@ The **How-to guides** provide step-by-step instructions for a variety of tasks. 
 
 - [Define Object Types and Properties](howtos/object_types.md)
 - [Work with Object References](howtos/object_references.md)
+- [Extend the Current Masterdata](howtos/extend_masterdata.md)
 - Parsing
     - [Use the Parser app](howtos/parsing/parser_app.md)
     - [Create new parsers](howtos/parsing/create_new_parsers.md)
