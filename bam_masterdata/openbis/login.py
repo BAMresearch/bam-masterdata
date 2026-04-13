@@ -19,7 +19,7 @@ def ologin(url: str | Openbis = "") -> Openbis:
     if not isinstance(url, Openbis):
         o = Openbis(url)
 
-    if not o.is_session_activ():
+    if not o.is_session_active():
         o.login(
             environ("OPENBIS_USERNAME"),
             environ("OPENBIS_PASSWORD"),
