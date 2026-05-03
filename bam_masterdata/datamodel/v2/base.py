@@ -82,9 +82,6 @@ class BaseEntity(ObjectType):
         section="References",
     )
 
-    def normalize(self):
-        pass
-
 
 class Activity(BaseEntity):
     defs = ObjectTypeDef(
