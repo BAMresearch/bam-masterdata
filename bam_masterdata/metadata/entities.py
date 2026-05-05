@@ -522,7 +522,7 @@ class VocabularyType(BaseEntity):
     model_config = ConfigDict(ignored_types=(VocabularyTypeDef, VocabularyTerm))
 
     terms: list[VocabularyTerm] = Field(
-        default=[],
+        default_factory=list,
         description="""
         List of vocabulary terms. This is useful for internal representation of the model.
         """,
@@ -603,7 +603,7 @@ class ObjectType(BaseEntity):
     )
 
     properties: list[PropertyTypeAssignment] = Field(
-        default=[],
+        default_factory=list,
         description="""
         List of properties assigned to an object type. This is useful for internal representation of the model.
         """,
@@ -616,6 +616,16 @@ class ObjectType(BaseEntity):
         self._properties = {}
         for key, prop in self._property_metadata.items():
             self._properties[key] = prop.data_type
+
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        if not hasattr(cls, "defs"):
+            return
+        # Build lineage codes from root->...->self using defs.code
+        codes = [c.defs.code for c in reversed(cls.__mro__) if hasattr(c, "defs")]
+        # For BASE_ENTITY => None, for others, e.g., Activity => "BASE_ENTITY", for Measurement => "BASE_ENTITY.ACTIVITY"
+        is_a = ".".join(codes[:-1]) if len(codes) > 1 else None
+        cls.defs = cls.defs.model_copy(update={"is_a": is_a})  # store in `defs`
 
     def _set_object_value(self, key, value):
         """
@@ -890,7 +900,7 @@ class CollectionType(ObjectType):
     )
 
     attached_objects: dict[str, ObjectType] = Field(
-        default={},
+        default_factory=dict,
         exclude=True,
         description="""
         Dictionary containing the object types attached to the collection type.
@@ -899,7 +909,7 @@ class CollectionType(ObjectType):
     )
 
     relationships: dict[str, tuple[str, str]] = Field(
-        default={},
+        default_factory=dict,
         exclude=True,
         description="""
         Dictionary containing the relationships between the objects attached to the collection type.
