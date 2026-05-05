@@ -87,6 +87,7 @@ exclude = [
     "node_modules",
     "venv",
     "dependencies",
+    "object_types_old.py",
 ]
 # Same as Black.
 line-length = 88
