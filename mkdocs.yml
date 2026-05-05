@@ -15,6 +15,7 @@ nav:
   - Explanations:
     - Parsing Structure: explanations/parsing_structure.md
     - Schema Definitions: explanations/schema_defs.md
+    - Datamodel V2 Base Structure: explanations/datamodel_v2_base_structure.md
   - References:
     - Glossary: references/glossary.md
     - API Reference: references/api.md
