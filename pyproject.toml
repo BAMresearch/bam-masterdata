@@ -57,6 +57,9 @@ docu = [
   "mkdocstrings",
   "mkdocstrings-python",
 ]
+plot = [
+  "graphviz",  # requires system package: apt install graphviz
+]
 
 [project.scripts]
 bam_masterdata = "bam_masterdata.cli:cli"
