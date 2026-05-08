@@ -1,58 +1,56 @@
 import argparse
 import importlib
-import inspect
 from pathlib import Path
 
 from graphviz import Digraph
 
+from bam_masterdata.metadata.definitions import PropertyTypeAssignment
 from bam_masterdata.metadata.entities import ObjectType
 
 
-def is_prop(obj):
-    from bam_masterdata.metadata.definitions import PropertyTypeAssignment
+def get_label(cls) -> str:
+    """Create label based on property types."""
+    props = [
+        name
+        for name, val in vars(cls).items()
+        if isinstance(val, PropertyTypeAssignment)
+    ]
+    return f"{cls.__name__}\\n" + "\\n".join(props)
 
-    return isinstance(obj, PropertyTypeAssignment)
 
-
-def load_module(module_path: str):
-    return importlib.import_module(module_path)
+def add_subclasses(dot: Digraph, cls):
+    """Add all subclasses to the graph."""
+    dot.node(cls.__name__, label=get_label(cls), shape="box")
+    for subcls in cls.__subclasses__():
+        dot.edge(cls.__name__, subcls.__name__)
+        add_subclasses(dot, subcls)
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "module",
-        help="Python module path (e.g. bam_masterdata.datamodel.v2.base)",
+        "root_class",
+        help="Root class to plot (e.g. bam_masterdata.datamodel.v2.base.BaseEntity)",
     )
     parser.add_argument(
         "--output",
-        default="model_runtime",
-        help="Output file name (without extension)",
+        default="",
+        help="Output file name (without extension). By default uses the root class name.",
     )
 
     args = parser.parse_args()
 
-    mod = load_module(args.module)
+    module = args.root_class.rsplit(".", 1)[0]
+    class_name = args.root_class.rsplit(".", 1)[1]
 
-    classes = [
-        obj
-        for _, obj in inspect.getmembers(mod, inspect.isclass)
-        if issubclass(obj, ObjectType) and obj is not ObjectType
-    ]
+    root_class = getattr(importlib.import_module(module), class_name)
+
+    filename = args.output or root_class.__name__
 
     dot = Digraph()
+    add_subclasses(dot, root_class)
 
-    for cls in classes:
-        props = [name for name, val in vars(cls).items() if is_prop(val)]
-        label = f"{cls.__name__}\\n" + "\\n".join(props)
-
-        dot.node(cls.__name__, label=label, shape="box")
-
-        for base in cls.__bases__:
-            if issubclass(base, ObjectType):
-                dot.edge(base.__name__, cls.__name__)
-
-    out_path = Path(__file__).parent / args.output
+    out_path = Path(__file__).parent / filename
     dot.render(str(out_path), format="png")
 
 
