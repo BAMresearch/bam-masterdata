@@ -371,252 +371,8 @@ class Robot(WeldingEquipment):
     )
 
 
-# ------------------------------
-# STATION_LAYOUT :(
-# ------------------------------
-
-
-# ! The parent class of StationLayout is not defined (missing ObjectType)
 # StationLayout is defined several times in the model
-class StationLayout1(ObjectType):
-    defs = ObjectTypeDef(
-        code="WELDING.EQUIPMENT.STATION_LAYOUT",
-        description="""Layout and configuration of a welding station""",
-        generated_code_prefix="INS.WLD_EQP.ST_LYT",
-    )
-
-    name = PropertyTypeAssignment(
-        code="$NAME",
-        data_type="VARCHAR",
-        property_label="Name",
-        description="""Name""",
-        mandatory=True,
-        show_in_edit_views=False,
-        section="General information",
-    )
-
-    alias = PropertyTypeAssignment(
-        code="ALIAS",
-        data_type="VARCHAR",
-        property_label="Alternative Name",
-        description="""e.g. abbreviation or nickname//z.B. Abkürzung oder Spitzname""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="General information",
-    )
-
-    description = PropertyTypeAssignment(
-        code="DESCRIPTION",
-        data_type="MULTILINE_VARCHAR",
-        property_label="Description",
-        description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="General information",
-    )
-
-    device_model_name = PropertyTypeAssignment(
-        code="DEVICE_MODEL_NAME",
-        data_type="VARCHAR",
-        property_label="Model Name",
-        description="""Manufacturer model name//Modellname bzw. Gerätebezeichnung seitens des Herstellers""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="General information",
-    )
-
-    manufacturer = PropertyTypeAssignment(
-        code="MANUFACTURER",
-        data_type="VARCHAR",
-        property_label="Manufacturer",
-        description="""Manufacturer//Hersteller""",
-        mandatory=True,
-        show_in_edit_views=False,
-        section="General information",
-    )
-
-    supplier = PropertyTypeAssignment(
-        code="SUPPLIER",
-        data_type="VARCHAR",
-        property_label="Supplier",
-        description="""Supplier//Lieferant""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="General information",
-    )
-
-    serial_number = PropertyTypeAssignment(
-        code="SERIAL_NUMBER",
-        data_type="VARCHAR",
-        property_label="Serial Number",
-        description="""Serial Number//Seriennummer""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="General information",
-    )
-
-    dfg_device_code = PropertyTypeAssignment(
-        code="DFG_DEVICE_CODE",
-        data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="DFG_DEVICE_CODE",
-        property_label="DFG Device Code",
-        description="""DFG Device Code//DFG Gerätegruppenschlüssel (GGS)""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="General information",
-    )
-
-    inventory_no = PropertyTypeAssignment(
-        code="INVENTORY_NO",
-        data_type="INTEGER",
-        property_label="Inventory Number",
-        description="""PARFIS inventory number (8-digit)//PARFIS Inventarnummer (8-stellig)""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="BAM information",
-    )
-
-    inventory_no_add = PropertyTypeAssignment(
-        code="INVENTORY_NO_ADD",
-        data_type="INTEGER",
-        property_label="Inventory Number Addition",
-        description="""PARFIS inventory number (8-digit)//PARFIS Inventarnummer (8-stellig)""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="BAM information",
-    )
-
-    bam_oe = PropertyTypeAssignment(
-        code="BAM_OE",
-        data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="BAM_OE",
-        property_label="BAM Organizational Entity",
-        description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
-        mandatory=True,
-        show_in_edit_views=False,
-        section="BAM information",
-    )
-
-    responsible_person = PropertyTypeAssignment(
-        code="RESPONSIBLE_PERSON",
-        data_type="OBJECT",
-        object_code="PERSON.BAM",
-        property_label="Responsible person",
-        description="""Responsible person//Verantwortliche Person""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="BAM information",
-    )
-
-    co_responsible_person = PropertyTypeAssignment(
-        code="CO_RESPONSIBLE_PERSON",
-        data_type="OBJECT",
-        object_code="PERSON.BAM",
-        property_label="Co-responsible person",
-        description="""Co-responsible person//Weitere verantwortliche Person""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="BAM information",
-    )
-
-    bam_room = PropertyTypeAssignment(
-        code="BAM_ROOM",
-        data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="BAM_ROOM",
-        property_label="BAM Room",
-        description="""BAM Room//BAM Raum""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="BAM information",
-    )
-
-    bam_floor = PropertyTypeAssignment(
-        code="BAM_FLOOR",
-        data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="BAM_FLOOR",
-        property_label="BAM Floor",
-        description="""BAM Floor//BAM Etage""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="BAM information",
-    )
-
-    bam_house = PropertyTypeAssignment(
-        code="BAM_HOUSE",
-        data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="BAM_HOUSE",
-        property_label="BAM House",
-        description="""BAM House//BAM Haus""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="BAM information",
-    )
-
-    bam_location = PropertyTypeAssignment(
-        code="BAM_LOCATION",
-        data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="BAM_LOCATION",
-        property_label="BAM Location",
-        description="""BAM Location//BAM Liegenschaft""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="BAM information",
-    )
-
-    bam_location_complete = PropertyTypeAssignment(
-        code="BAM_LOCATION_COMPLETE",
-        data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="BAM_LOCATION_COMPLETE",
-        property_label="Complete BAM Location",
-        description="""Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="BAM information",
-    )
-
-    notes = PropertyTypeAssignment(
-        code="NOTES",
-        data_type="MULTILINE_VARCHAR",
-        property_label="Notes",
-        description="""Notes""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Details",
-    )
-
-    last_systemcheck = PropertyTypeAssignment(
-        code="LAST_SYSTEMCHECK",
-        data_type="DATE",
-        property_label="Last System Check",
-        description="""Date of the last system check//Datum des letzten Systemchecks""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Details",
-    )
-
-    xmlcomments = PropertyTypeAssignment(
-        code="$XMLCOMMENTS",
-        data_type="XML",
-        property_label="Comments",
-        description="""Comments log""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Comments",
-    )
-
-    annotations_state = PropertyTypeAssignment(
-        code="$ANNOTATIONS_STATE",
-        data_type="XML",
-        property_label="Annotations State",
-        description="""Annotations State""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Comments",
-    )
-
-
-# StationLayout is defined several times in the model
-class StationLayout2(WeldingEquipment):
+class StationLayout(WeldingEquipment):
     defs = ObjectTypeDef(
         code="INSTRUMENT.WELDING_EQUIPMENT.STATION_LAYOUT",
         description="""Layout and configuration of a welding station""",
@@ -624,243 +380,6 @@ class StationLayout2(WeldingEquipment):
     )
 
 
-# ! The parent class of StationLayout is not defined (missing ObjectType)
-# StationLayout is defined several times in the model
-class StationLayout3(ObjectType):
-    defs = ObjectTypeDef(
-        code="INSTRUMENT.WELDING.EQUIPMENT.STATION_LAYOUT",
-        description="""Layout and configuration of a welding station""",
-        generated_code_prefix="INS.WLD_EQP.ST_LYT",
-    )
-
-    name = PropertyTypeAssignment(
-        code="$NAME",
-        data_type="VARCHAR",
-        property_label="Name",
-        description="""Name""",
-        mandatory=True,
-        show_in_edit_views=False,
-        section="General Information",
-    )
-
-    alias = PropertyTypeAssignment(
-        code="ALIAS",
-        data_type="VARCHAR",
-        property_label="Alternative Name",
-        description="""e.g. abbreviation or nickname//z.B. Abkürzung oder Spitzname""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="General Information",
-    )
-
-    description = PropertyTypeAssignment(
-        code="DESCRIPTION",
-        data_type="MULTILINE_VARCHAR",
-        property_label="Description",
-        description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="General Information",
-    )
-
-    device_model_name = PropertyTypeAssignment(
-        code="DEVICE_MODEL_NAME",
-        data_type="VARCHAR",
-        property_label="Model Name",
-        description="""Manufacturer model name//Modellname bzw. Gerätebezeichnung seitens des Herstellers""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="General Information",
-    )
-
-    manufacturer = PropertyTypeAssignment(
-        code="MANUFACTURER",
-        data_type="VARCHAR",
-        property_label="Manufacturer",
-        description="""Manufacturer//Hersteller""",
-        mandatory=True,
-        show_in_edit_views=False,
-        section="General Information",
-    )
-
-    supplier = PropertyTypeAssignment(
-        code="SUPPLIER",
-        data_type="VARCHAR",
-        property_label="Supplier",
-        description="""Supplier//Lieferant""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="General Information",
-    )
-
-    serial_number = PropertyTypeAssignment(
-        code="SERIAL_NUMBER",
-        data_type="VARCHAR",
-        property_label="Serial Number",
-        description="""Serial Number//Seriennummer""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="General Information",
-    )
-
-    dfg_device_code = PropertyTypeAssignment(
-        code="DFG_DEVICE_CODE",
-        data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="DFG_DEVICE_CODE",
-        property_label="DFG Device Code",
-        description="""DFG Device Code//DFG Gerätegruppenschlüssel (GGS)""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="General Information",
-    )
-
-    inventory_no = PropertyTypeAssignment(
-        code="INVENTORY_NO",
-        data_type="INTEGER",
-        property_label="Inventory Number",
-        description="""PARFIS inventory number (8-digit)//PARFIS Inventarnummer (8-stellig)""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="BAM Information",
-    )
-
-    inventory_no_add = PropertyTypeAssignment(
-        code="INVENTORY_NO_ADD",
-        data_type="INTEGER",
-        property_label="Inventory Number Addition",
-        description="""PARFIS inventory number (8-digit)//PARFIS Inventarnummer (8-stellig)""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="BAM Information",
-    )
-
-    bam_oe = PropertyTypeAssignment(
-        code="BAM_OE",
-        data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="BAM_OE",
-        property_label="BAM Organizational Entity",
-        description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
-        mandatory=True,
-        show_in_edit_views=False,
-        section="BAM Information",
-    )
-
-    responsible_person = PropertyTypeAssignment(
-        code="RESPONSIBLE_PERSON",
-        data_type="OBJECT",
-        object_code="PERSON.BAM",
-        property_label="Responsible person",
-        description="""Responsible person//Verantwortliche Person""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="BAM Information",
-    )
-
-    co_responsible_person = PropertyTypeAssignment(
-        code="CO_RESPONSIBLE_PERSON",
-        data_type="OBJECT",
-        object_code="PERSON.BAM",
-        property_label="Co-responsible person",
-        description="""Co-responsible person//Weitere verantwortliche Person""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="BAM Information",
-    )
-
-    bam_room = PropertyTypeAssignment(
-        code="BAM_ROOM",
-        data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="BAM_ROOM",
-        property_label="BAM Room",
-        description="""BAM Room//BAM Raum""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="BAM Information",
-    )
-
-    bam_floor = PropertyTypeAssignment(
-        code="BAM_FLOOR",
-        data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="BAM_FLOOR",
-        property_label="BAM Floor",
-        description="""BAM Floor//BAM Etage""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="BAM Information",
-    )
-
-    bam_house = PropertyTypeAssignment(
-        code="BAM_HOUSE",
-        data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="BAM_HOUSE",
-        property_label="BAM House",
-        description="""BAM House//BAM Haus""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="BAM Information",
-    )
-
-    bam_location = PropertyTypeAssignment(
-        code="BAM_LOCATION",
-        data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="BAM_LOCATION",
-        property_label="BAM Location",
-        description="""BAM Location//BAM Liegenschaft""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="BAM Information",
-    )
-
-    bam_location_complete = PropertyTypeAssignment(
-        code="BAM_LOCATION_COMPLETE",
-        data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="BAM_LOCATION_COMPLETE",
-        property_label="Complete BAM Location",
-        description="""Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="BAM Information",
-    )
-
-    last_systemcheck = PropertyTypeAssignment(
-        code="LAST_SYSTEMCHECK",
-        data_type="DATE",
-        property_label="Last System Check",
-        description="""Date of the last system check//Datum des letzten Systemchecks""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Additional Information",
-    )
-
-    notes = PropertyTypeAssignment(
-        code="NOTES",
-        data_type="MULTILINE_VARCHAR",
-        property_label="Notes",
-        description="""Notes""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Additional Information",
-    )
-
-    xmlcomments = PropertyTypeAssignment(
-        code="$XMLCOMMENTS",
-        data_type="XML",
-        property_label="Comments",
-        description="""Comments log""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Comments",
-    )
-
-    annotations_state = PropertyTypeAssignment(
-        code="$ANNOTATIONS_STATE",
-        data_type="XML",
-        property_label="Annotations State",
-        description="""Annotations State""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="Comments",
-    )
 
 
 # ------------------------------
@@ -991,7 +510,7 @@ class GmawBase(Weldment):
         description="""Name of the selected arc welding process//Name des Lichtbogenschweißprozesses""",
         mandatory=False,
         show_in_edit_views=False,
-        section="Arc welding Parameters",
+        section="Arc Welding Parameters",
     )
 
     experimental_step_weldment_arc_voltage = PropertyTypeAssignment(
@@ -1001,7 +520,7 @@ class GmawBase(Weldment):
         description="""Welding arc voltage//Lichtbogenspannung""",
         mandatory=False,
         show_in_edit_views=False,
-        section="Arc welding Parameters",
+        section="Arc Welding Parameters",
     )
 
     experimental_step_weldment_arc_current = PropertyTypeAssignment(
@@ -1011,7 +530,7 @@ class GmawBase(Weldment):
         description="""Welding arc current//Schweißstrom""",
         mandatory=False,
         show_in_edit_views=False,
-        section="Arc welding Parameters",
+        section="Arc Welding Parameters",
     )
 
     experimental_step_weldment_wire_stickout_length = PropertyTypeAssignment(
@@ -1021,7 +540,7 @@ class GmawBase(Weldment):
         description="""Length of the wire stickout//Stickoutlänge des Schweißdrahtes""",
         mandatory=False,
         show_in_edit_views=False,
-        section="Arc welding Parameters",
+        section="Arc Welding Parameters",
     )
 
     experimental_step_weldment_wire_feed_rate = PropertyTypeAssignment(
@@ -1031,7 +550,7 @@ class GmawBase(Weldment):
         description="""Welding wire feed rate//Drahtvorschubrate""",
         mandatory=False,
         show_in_edit_views=False,
-        section="Arc welding Parameters",
+        section="Arc Welding Parameters",
     )
 
 
