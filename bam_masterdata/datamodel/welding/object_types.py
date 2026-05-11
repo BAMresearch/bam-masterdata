@@ -371,15 +371,12 @@ class Robot(WeldingEquipment):
     )
 
 
-# StationLayout is defined several times in the model
 class StationLayout(WeldingEquipment):
     defs = ObjectTypeDef(
         code="INSTRUMENT.WELDING_EQUIPMENT.STATION_LAYOUT",
         description="""Layout and configuration of a welding station""",
         generated_code_prefix="INS.WLD_EQP.ST_LYT",
     )
-
-
 
 
 # ------------------------------
