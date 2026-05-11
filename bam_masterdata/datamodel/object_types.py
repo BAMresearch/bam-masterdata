@@ -14425,3 +14425,111 @@ class LaserDiffPSDMeasurement(ExperimentalStep):
         show_in_edit_views=True,
         section="Results",
     )
+
+
+class PowderXRDMeasurement(ExperimentalStep):
+    defs = ObjectTypeDef(
+        code="EXPERIMENTAL_STEP.POWDER_XRD_MEASUREMENT",
+        description="""Measurement of powder X-ray diffraction (XRD) pattern//Messung eines Pulverröntgendiffraktogramms""",
+        auto_generate_codes=True,
+        generated_code_prefix="EXP.POW_XRD_MEAS",
+    )
+
+    # TODO check if adding `radiation_type` (e.g. Cu Kα, Co Kα), `detector_type` (e.g. LynxEye, SSD160)
+
+    time_per_step = PropertyTypeAssignment(
+        code="TIME_PER_STEP",
+        data_type="REAL",
+        property_label="Time per step",
+        units="s",
+        description="""Time per step in seconds//Zeit pro Schritt in Sekunden""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Experimental Details",
+    )
+
+    rotation_speed = PropertyTypeAssignment(
+        code="ROTATION_SPEED",
+        data_type="REAL",
+        property_label="Rotation speed",
+        units="rpm",
+        description="""Sample rotation speed in revolutions per minute (rpm)//Rotationsgeschwindigkeit der Probe in Umdrehungen pro Minute (rpm)""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Experimental Details",
+    )
+
+    voltage = PropertyTypeAssignment(
+        code="VOLTAGE",
+        data_type="REAL",
+        property_label="Voltage",
+        units="kV",
+        description="""Acceleration voltage of the X-ray tube in kilovolts (kV)//Beschleunigungsspannung der Röntgenröhre in Kilovolt (kV)""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Experimental Details",
+    )
+
+    current = PropertyTypeAssignment(
+        code="CURRENT",
+        data_type="REAL",
+        property_label="Current",
+        units="mA",
+        description="""Tube current of the X-ray source in milliamperes (mA)//Röhrenstrom der Röntgenquelle in Milliampere (mA)""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Experimental Details",
+    )
+
+    tube_config = PropertyTypeAssignment(
+        code="TUBE_CONFIG",
+        data_type="VARCHAR",
+        property_label="X-ray tube configuration",
+        description="""Instrument-specific X-ray tube configuration identifier//Gerätespezifischer Konfigurationsbezeichner der Röntgenröhre""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Experimental Details",
+    )
+
+    goniometer_type = PropertyTypeAssignment(
+        code="GONIOMETER_TYPE",
+        data_type="VARCHAR",
+        property_label="Goniometer type",
+        description="""Type of goniometer used for the measurement//Typ des für die Messung verwendeten Goniometers""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Experimental Details",
+    )
+
+    start_2theta = PropertyTypeAssignment(
+        code="START_2THETA",
+        data_type="REAL",
+        property_label="Start 2Theta",
+        units="degree",
+        description="""Starting angle of the 2Theta range in degrees//Startwinkel des 2Theta-Bereichs in Grad""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Experimental Details",
+    )
+
+    end_2theta = PropertyTypeAssignment(
+        code="END_2THETA",
+        data_type="REAL",
+        property_label="End 2Theta",
+        units="degree",
+        description="""Ending angle of the 2Theta range in degrees//Endwinkel des 2Theta-Bereichs in Grad""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Experimental Details",
+    )
+
+    step_size_2theta = PropertyTypeAssignment(
+        code="STEP_SIZE_2THETA",
+        data_type="REAL",
+        property_label="Step size 2Theta",
+        units="degree",
+        description="""Step size of the 2Theta range in degrees//Schrittgröße des 2Theta-Bereichs in Grad""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Experimental Details",
+    )
