@@ -25,7 +25,7 @@ maintainers = [
 ]
 license = { file = "LICENSE" }
 dependencies = [
-  "pybis~=1.37.1rc4",
+  "pybis~=1.37.4",
   "openpyxl",
   "click",
   "pydantic~=2.10.5",
