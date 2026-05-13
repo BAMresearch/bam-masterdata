@@ -353,7 +353,7 @@ class ExperimentalStep(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_view=False,
+        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -363,7 +363,7 @@ class ExperimentalStep(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_view=False,
+        show_in_edit_views=False,
         section="",
     )
 
