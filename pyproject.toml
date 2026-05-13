@@ -26,14 +26,14 @@ classifiers = [
 ]
 dependencies = [
   "pybis~=1.37.4",
+  "pydantic>=2.10,<3",
+  "h5py>=3.12,<4",
+  "structlog==24.4.0",
   "openpyxl",
   "click",
-  "pydantic~=2.10.5",
   "pint",
   "rdflib",
-  "h5py~=3.12.1",
   "python-decouple",
-  "structlog==24.4.0",
 ]
 
 [project.optional-dependencies]
