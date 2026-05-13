@@ -10,4 +10,4 @@ echo "Installing uv..."
 pip install uv
 
 echo "Installing main project dependencies..."
-uv pip install -e '.[dev,docu]'
+uv pip install -e '.[dev]'
