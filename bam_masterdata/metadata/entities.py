@@ -112,29 +112,6 @@ class BaseEntity(BaseModel):
         """
         return self.__class__.__name__
 
-    @classmethod
-    def _iter_class_attributes(
-        cls, attribute_type: type, *, reverse_mro: bool = False
-    ) -> list[tuple[str, Any]]:
-        """
-        Collect class attributes of a given type across the inheritance chain.
-
-        Args:
-            attribute_type: Type used to filter attributes.
-            reverse_mro: When True, iterate from parent to child.
-
-        Returns:
-            list[tuple[str, Any]]: Matching attribute names and values in traversal order.
-        """
-        collected: list[tuple[str, Any]] = []
-        bases = reversed(cls.__mro__) if reverse_mro else cls.__mro__
-        for base in bases:
-            cls_attrs = getattr(base, "__dict__", {})
-            for attr_name, attr_value in cls_attrs.items():
-                if isinstance(attr_value, attribute_type):
-                    collected.append((attr_name, attr_value))
-        return collected
-
     @property
     def _base_attrs(self) -> list:
         """
