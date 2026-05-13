@@ -14481,8 +14481,30 @@ class PowderXRDMeasurement(ExperimentalStep):
         section="Experimental Details",
     )
 
-    tube_config = PropertyTypeAssignment(
-        code="TUBE_CONFIG",
+    tube_material = PropertyTypeAssignment(
+        code="TUBE_MATERIAL",
+        data_type="VARCHAR",
+        vocabulary_code="TUBE_MATERIAL",
+        property_label="X-ray tube material",
+        description="""Material of the X-ray tube anode (e.g. Cu, Co, Mo)//Material der Anode der Röntgenröhre (z.B. Cu, Co, Mo)""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Experimental Details",
+    )
+
+    xray_wavelength_in_angstrom = PropertyTypeAssignment(
+        code="XRAY_WAVELENGTH_IN_ANGSTROM",
+        data_type="REAL",
+        property_label="X-ray wavelength",
+        units="angstrom",
+        description="""Wavelength of the X-ray radiation in Angstrom (Å)//Wellenlänge der Röntgenstrahlung in Angstrom (Å)""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Experimental Details",
+    )
+
+    tube_configuration_name = PropertyTypeAssignment(
+        code="TUBE_CONFIGURATION_NAME",
         data_type="VARCHAR",
         property_label="X-ray tube configuration",
         description="""Instrument-specific X-ray tube configuration identifier//Gerätespezifischer Konfigurationsbezeichner der Röntgenröhre""",
