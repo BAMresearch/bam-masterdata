@@ -1,5 +1,6 @@
 import json
 import os
+import textwrap
 from enum import Enum
 
 import pytest
@@ -278,3 +279,105 @@ class TestEntitiesDict:
             "object_types",
             "vocabulary_types",
         ]
+
+    def test_to_dict_extracts_row_locations_from_temp_module(self, tmp_path):
+        module_path = tmp_path / "temp_metadata.py"
+        module_path.write_text(
+            textwrap.dedent(
+                """
+                from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment, VocabularyTerm, VocabularyTypeDef
+                from bam_masterdata.metadata.entities import ObjectType, VocabularyType
+
+
+                class TempObject(ObjectType):
+                    defs = ObjectTypeDef(code="TEMP_OBJECT", description="Temporary object", generated_code_prefix="TMP")
+
+                    sample_name = PropertyTypeAssignment(
+                        code="$SAMPLE.NAME",
+                        data_type="VARCHAR",
+                        property_label="Sample name",
+                        description="Name",
+                        mandatory=True,
+                        show_in_edit_views=True,
+                        section="General",
+                    )
+
+                    review_status = PropertyTypeAssignment(
+                        code="REVIEW_STATUS",
+                        data_type="VARCHAR",
+                        property_label="Review status",
+                        description="Status",
+                        mandatory=False,
+                        show_in_edit_views=True,
+                        section="General",
+                    )
+
+
+                class TempVocabulary(VocabularyType):
+                    defs = VocabularyTypeDef(code="TEMP_VOCAB", description="Temporary vocabulary")
+
+                    option_a = VocabularyTerm(
+                        code="OPTION_A",
+                        label="Option A",
+                        description="Option A",
+                    )
+                """
+            ),
+            encoding="utf-8",
+        )
+
+        data = EntitiesDict().to_dict(module_path=str(module_path))
+
+        temp_object = data["TEMP_OBJECT"]
+        assert temp_object["defs"]["row_location"] == 6
+        assert temp_object["properties"][0]["row_location"] == 9
+        assert temp_object["properties"][1]["row_location"] == 19
+
+        temp_vocab = data["TEMP_VOCAB"]
+        assert temp_vocab["defs"]["row_location"] == 30
+        assert temp_vocab["terms"][0]["row_location"] == 33
+
+    def test_to_dict_logs_and_skips_broken_classes(self, tmp_path, capsys):
+        module_path = tmp_path / "broken_metadata.py"
+        module_path.write_text(
+            textwrap.dedent(
+                """
+                from bam_masterdata.metadata.definitions import ObjectTypeDef
+
+
+                class BrokenEntity:
+                    defs = ObjectTypeDef(code="BROKEN_ENTITY", description="Broken entity", generated_code_prefix="BRK")
+
+                    def model_to_dict(self):
+                        raise RuntimeError("broken on purpose")
+                """
+            ),
+            encoding="utf-8",
+        )
+
+        data = EntitiesDict().to_dict(module_path=str(module_path))
+
+        captured = capsys.readouterr()
+        assert data == {}
+        assert "Failed to process class BrokenEntity" in captured.out
+        assert "broken on purpose" in captured.out
+
+    def test_single_json_uses_module_names_as_keys(self, monkeypatch):
+        module_paths = ["/tmp/beta.py", "/tmp/alpha.py"]
+
+        monkeypatch.setattr(
+            "bam_masterdata.metadata.entities_dict.listdir_py_modules",
+            lambda directory_path, logger: module_paths,
+        )
+        monkeypatch.setattr(
+            EntitiesDict,
+            "to_dict",
+            lambda self, module_path: {"module_path": module_path},
+        )
+
+        data = EntitiesDict(python_path="/tmp/example").single_json()
+
+        assert data == {
+            "beta": {"module_path": "/tmp/beta.py"},
+            "alpha": {"module_path": "/tmp/alpha.py"},
+        }

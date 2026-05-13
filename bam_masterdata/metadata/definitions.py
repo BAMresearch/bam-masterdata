@@ -54,6 +54,23 @@ class DataType(str, Enum):
 _UNIT_REGISTRY = UnitRegistry()
 _UNIT_LABEL_PATTERN = re.compile(r"\[[^\]]+\]")
 _UNIT_SUFFIX_PATTERN = re.compile(r"\bin \[[^\]]+\]")
+_EXCEL_NAME_MAP = {
+    "CollectionTypeDef": "EXPERIMENT_TYPE",
+    "DatasetTypeDef": "DATASET_TYPE",
+    "ObjectTypeDef": "SAMPLE_TYPE",
+    "VocabularyTypeDef": "VOCABULARY_TYPE",
+}
+_EXCLUDED_EXCEL_HEADER_FIELDS = frozenset({"iri", "id", "row_location"})
+
+
+def _format_excel_header(field_name: str) -> str:
+    """Convert a model field name into the header format used in openBIS Excel files."""
+    return field_name.replace("_", " ").capitalize()
+
+
+def _entity_type_for_model_id(model_name: str) -> str:
+    """Map a definition model name to the entity family used by `code_to_class_name`."""
+    return "property" if "PropertyType" in model_name else "object"
 
 
 class EntityDef(BaseModel):
@@ -185,28 +202,18 @@ class EntityDef(BaseModel):
         """
         Returns the name of the entity in a format suitable for the openBIS Excel file.
         """
-        name_map = {
-            "CollectionTypeDef": "EXPERIMENT_TYPE",
-            "DatasetTypeDef": "DATASET_TYPE",
-            "ObjectTypeDef": "SAMPLE_TYPE",
-            "VocabularyTypeDef": "VOCABULARY_TYPE",
-        }
-        return name_map.get(self.name)
+        return _EXCEL_NAME_MAP.get(self.name)
 
     @property
     def excel_headers_map(self) -> dict:
         """
         Maps the field keys of the Pydantic model into the openBIS Excel style headers.
         """
-        fields = [
-            k
-            for k in self.model_fields.keys()
-            if k not in ["iri", "id", "row_location"]
-        ]
-        headers: dict = {}
-        for f in fields:
-            headers[f] = f.replace("_", " ").capitalize()
-        return headers
+        return {
+            field_name: _format_excel_header(field_name)
+            for field_name in self.model_fields.keys()
+            if field_name not in _EXCLUDED_EXCEL_HEADER_FIELDS
+        }
 
     @model_validator(mode="after")
     @classmethod
@@ -220,10 +227,10 @@ class EntityDef(BaseModel):
         Returns:
             Any: The data with the validated fields.
         """
-        if "PropertyType" in data.name:
-            data.id = code_to_class_name(code=data.code, entity_type="property")
-        else:
-            data.id = code_to_class_name(code=data.code, entity_type="object")
+        data.id = code_to_class_name(
+            code=data.code,
+            entity_type=_entity_type_for_model_id(data.name),
+        )
         return data
 
 

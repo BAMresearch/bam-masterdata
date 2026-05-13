@@ -112,6 +112,29 @@ class BaseEntity(BaseModel):
         """
         return self.__class__.__name__
 
+    @classmethod
+    def _iter_class_attributes(
+        cls, attribute_type: type, *, reverse_mro: bool = False
+    ) -> list[tuple[str, Any]]:
+        """
+        Collect class attributes of a given type across the inheritance chain.
+
+        Args:
+            attribute_type: Type used to filter attributes.
+            reverse_mro: When True, iterate from parent to child.
+
+        Returns:
+            list[tuple[str, Any]]: Matching attribute names and values in traversal order.
+        """
+        collected: list[tuple[str, Any]] = []
+        bases = reversed(cls.__mro__) if reverse_mro else cls.__mro__
+        for base in bases:
+            cls_attrs = getattr(base, "__dict__", {})
+            for attr_name, attr_value in cls_attrs.items():
+                if isinstance(attr_value, attribute_type):
+                    collected.append((attr_name, attr_value))
+        return collected
+
     @property
     def _base_attrs(self) -> list:
         """
@@ -293,11 +316,10 @@ class BaseEntity(BaseModel):
 
         # Store property metadata at class level
         prop_meta_dict: dict = {}
-        for base in type(self).__mro__:
-            cls_attrs = getattr(base, "__dict__", {})
-            for attr_name, attr_value in cls_attrs.items():
-                if isinstance(attr_value, PropertyTypeAssignment):
-                    prop_meta_dict[attr_name] = attr_value
+        for attr_name, attr_value in self._iter_class_attributes(
+            PropertyTypeAssignment
+        ):
+            prop_meta_dict[attr_name] = attr_value
         return prop_meta_dict
 
     def to_json(self, indent: int | None = None) -> str:
@@ -559,10 +581,8 @@ class VocabularyType(BaseEntity):
         """
         # Add all the vocabulary terms defined in the vocabulary type to the `terms` list.
         # TODO check if the order is properly assigned
-        for base in cls.__mro__:
-            for attr_name, attr_val in base.__dict__.items():
-                if isinstance(attr_val, VocabularyTerm):
-                    data.terms.append(attr_val)
+        for _, attr_val in cls._iter_class_attributes(VocabularyTerm):
+            data.terms.append(attr_val)
 
         return data
 
@@ -849,12 +869,11 @@ class ObjectType(BaseEntity):
         Returns:
             Any: The data with the validated fields.
         """
-        # ordered parent -> child properties
-        collected_properties = []
-        for base in reversed(cls.__mro__):
-            for _, attr_val in base.__dict__.items():
-                if isinstance(attr_val, PropertyTypeAssignment):
-                    collected_properties.append(attr_val)
+        # Collect properties using class-first order so child classes can refine section ordering.
+        collected_properties = [
+            attr_val
+            for _, attr_val in cls._iter_class_attributes(PropertyTypeAssignment)
+        ]
 
         # Group by section preserving first appearance order
         grouped_sections = OrderedDict()
