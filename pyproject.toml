@@ -1,19 +1,10 @@
 [build-system]
-requires = ["setuptools>=61.0.0", "setuptools-scm>=8.0"]
+requires = ["setuptools>=61", "setuptools-scm>=8"]
 build-backend = "setuptools.build_meta"
 
 [project]
-classifiers = [
-  "Natural Language :: English",
-  "Intended Audience :: Science/Research",
-  "Operating System :: OS Independent",
-  "Programming Language :: Python",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.12",
-]
 name = "bam-masterdata"
-description = "The BAM Data Store utility tools and masterdata models wrapped in a Python package with a front-end web interface."
+description = "The BAM Data Store utility tools and masterdata models wrapped in a Python package."
 dynamic = ["version"]
 readme = "README.md"
 requires-python = ">=3.10"
@@ -24,16 +15,36 @@ maintainers = [
   { name = "Jose M. Pizarro", email = "jose.pizarro-blanco@bam.de" },
 ]
 license = { file = "LICENSE" }
+classifiers = [
+  "Natural Language :: English",
+  "Intended Audience :: Science/Research",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
 dependencies = [
-  "pybis~=1.37.1rc4",
+  "pybis~=1.37.4",
+  "pydantic>=2.10,<3",
+  "h5py>=3.12,<4",
+  "structlog==24.4.0",
   "openpyxl",
   "click",
-  "pydantic~=2.10.5",
   "pint",
   "rdflib",
-  "h5py~=3.12.1",
   "python-decouple",
-  "structlog==24.4.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "ruff",
+  "pytest",
+  "pytest-timeout",
+  "pytest-cov",
+  "pre-commit",
+  "detect-secrets",
+  "zensical>=0.0.41",
 ]
 
 [project.urls]
@@ -41,27 +52,12 @@ dependencies = [
 "Bug Tracker" = "https://github.com/BAMresearch/bam-masterdata/issues"
 "Documentation" = "https://bamresearch.github.io/bam-masterdata/"
 
-[project.optional-dependencies]
-dev = [
-  "mypy==1.0.1",
-  "ruff",
-  "pytest",
-  "pytest-timeout",
-  "pytest-cov",
-  "pre-commit",
-  "detect-secrets",
-]
-docu = [
-  "mkdocs-material",
-  "mkdocs-click",
-  "mkdocstrings",
-  "mkdocstrings-python",
-]
-
 [project.scripts]
 bam_masterdata = "bam_masterdata.cli:cli"
 
 [tool.ruff]
+line-length = 88
+indent-width = 4
 # Exclude a variety of commonly ignored directories.
 include = ["bam_masterdata/*.py", "tests/*.py"]
 exclude = [
@@ -88,9 +84,6 @@ exclude = [
     "venv",
     "dependencies",
 ]
-# Same as Black.
-line-length = 88
-indent-width = 4
 
 [tool.ruff.lint]
 select = [
@@ -119,23 +112,12 @@ ignore = [
 fixable = ["ALL"]
 # Allow unused variables when underscore-prefixed.
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
-# this is entirely optional, you can remove this if you wish to
-[tool.ruff.format]
-# use double quotes for strings.
-quote-style = "double"
-# indent with spaces, rather than tabs.
-indent-style = "space"
-# Like Black, respect magic trailing commas.
-skip-magic-trailing-comma = false
-# Like Black, automatically detect the appropriate line ending.
-line-ending = "auto"
 
-[tool.mypy]
-strict = false
-ignore_missing_imports = true
-follow_imports = "silent"
-no_strict_optional = true
-disable_error_code = "import, annotation-unchecked"
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
 
 [tool.setuptools.packages.find]
 where = ["."]

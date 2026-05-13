@@ -1,4 +1,4 @@
-# Automating Metadata Injection with the Parser API
+# Automating Metadata with Custom Parsers
 
 This tutorial teaches you how to automate metadata injection from multiple files into openBIS using the `run_parser()` function and custom parsers. This is useful when you have many files (e.g., experimental data, instrument outputs, logs) and want to systematically extract metadata and push it to your openBIS instance.
 

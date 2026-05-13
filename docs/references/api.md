@@ -2,6 +2,9 @@
 
 This API reference provides comprehensive documentation for all public classes and functions in the BAM Masterdata package. For more detailed examples and usage patterns, see the How-to Guides and Tutorial sections.
 
+!!! warning
+  This documentation page is currently broken, as we shifted from MkDocs to Zensical for our documentation engine.
+
 <!--
 -------------------------------------------------------------
 metadata/

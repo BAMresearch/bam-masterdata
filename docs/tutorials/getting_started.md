@@ -1,4 +1,4 @@
-# Getting Started with `bam-masterdata`
+# Getting Started
 
 This tutorial will guide you through your first interaction with the `bam-masterdata` package, helping you understand its core concepts and basic functionality.
 
@@ -6,7 +6,7 @@ This tutorial will guide you through your first interaction with the `bam-master
 
 The `bam-masterdata` is a Python package designed to help administrators and users to manage the [Masterdata](../references/glossary.md#masterdata)/schema definitions. It provides with a set of Python classes and utilities for working with different types of entities in the openBIS Research Data Management (RDM) system. It also contains the Masterdata definitions used at the Bundesanstalt für Materialforschung und -prüfung (BAM) in the context of Materials Science and Engineering research.
 
-*[Image placeholder: Architecture overview diagram showing the relationship between BAM Masterdata, openBIS, and the BAM Data Store. The diagram should illustrate data flow and the role of masterdata schemas in the system.]*
+*Image placeholder: Architecture overview diagram showing the relationship between BAM Masterdata, openBIS, and the BAM Data Store. The diagram should illustrate data flow and the role of masterdata schemas in the system.*
 
 The `bam-masterdata` provides you with tools to:
 
@@ -94,7 +94,7 @@ The BAM Masterdata system organizes information into different entity types:
 - **Dataset Types**: Data files and their metadata
 - **Vocabulary Types**: Controlled vocabularies for standardized values
 
-*[Image placeholder: Entity relationship diagram showing the four main entity types and their relationships. Should include sample instances of each type.]*
+*Image placeholder: Entity relationship diagram showing the four main entity types and their relationships. Should include sample instances of each type.*
 
 ??? info "Deprecating Collection Types and Dataset Types"
     As of September 2025, the development of new Collection and Dataset types is stalled. We will use the abstract concepts only, i.e., a Collection Type is a class used to add objects to it and their relationships, and a Dataset Type is a class to attach raw data files to it.

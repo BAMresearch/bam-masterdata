@@ -1,15 +1,25 @@
+import datetime
 import io
+from unittest.mock import MagicMock, patch
 
 import h5py
 import pytest
 
-from bam_masterdata.metadata.definitions import PropertyTypeAssignment
+from bam_masterdata.metadata.definitions import (
+    ObjectTypeDef,
+    PropertyTypeAssignment,
+    VocabularyTypeDef,
+)
 from bam_masterdata.metadata.entities import (
     CollectionType,
+    ObjectType,
+    VocabularyType,
     generate_object_id,
     generate_object_relationship_id,
 )
 from tests.conftest import (
+    InstrumentObjectType,
+    PersonObjectType,
     generate_base_entity,
     generate_object_type,
     generate_object_type_longer,
@@ -99,17 +109,23 @@ class TestBaseEntity:
             },
         }
 
+    def test_get_property_metadata_includes_inherited_assignments(self):
+        entity = generate_object_type_longer()
+        assert list(entity._property_metadata.keys()) == [
+            "settings",
+            "name",
+            "alias",
+            "storage_storage_validation_level",
+        ]
+
+    def test_base_attrs_only_includes_direct_class_assignments(self):
+        entity = generate_object_type_longer()
+        assert [prop.code for prop in entity._base_attrs] == ["SETTINGS"]
+
 
 class TestObjectType:
     def test_model_validator_after_init(self):
         """Test the method `model_validator_after_init` from the class `ObjectType`."""
-        # 2 properties in this `ObjectType`
-        print(
-            f"MockedObjectType properties: {[prop.code for prop in generate_object_type().properties]}"
-        )
-        print(
-            f"MockedObjectTypeLonger properties: {[prop.code for prop in generate_object_type_longer().properties]}"
-        )
         object_type = generate_object_type()
         assert len(object_type.properties) == 3
         prop_names = [prop.code for prop in object_type.properties]
@@ -120,9 +136,9 @@ class TestObjectType:
         assert len(object_type.properties) == 4
         prop_names = [prop.code for prop in object_type.properties]
         assert prop_names == [
-            "SETTINGS",
             "$NAME",
             "ALIAS",
+            "SETTINGS",
             "$STORAGE.STORAGE_VALIDATION_LEVEL",
         ]
 
@@ -180,6 +196,153 @@ class TestObjectType:
         vocabulary_class = object_type.get_vocabulary_class(code, vocab_path)
         assert (vocabulary_class is not None) is result
 
+    def test_setattr_timestamp_accepts_datetime_and_iso_string(self):
+        class TimestampedObjectType(ObjectType):
+            defs = ObjectTypeDef(
+                code="TIMESTAMPED_OBJECT",
+                description="Timestamped object",
+                generated_code_prefix="TIM",
+            )
+
+            name = PropertyTypeAssignment(
+                code="$NAME",
+                data_type="VARCHAR",
+                property_label="Name",
+                description="Name",
+                mandatory=True,
+                show_in_edit_views=True,
+                section="General",
+            )
+
+            measured_at = PropertyTypeAssignment(
+                code="MEASURED_AT",
+                data_type="TIMESTAMP",
+                property_label="Measured at",
+                description="Measurement timestamp",
+                mandatory=False,
+                show_in_edit_views=True,
+                section="General",
+            )
+
+        entity = TimestampedObjectType(name="Test")
+        entity.measured_at = datetime.datetime(2025, 1, 2, 3, 4, 5)
+        assert entity.measured_at == "2025-01-02 03:04:05"
+
+        entity.measured_at = "2025-01-02T03:04:05"
+        assert entity.measured_at == "2025-01-02T03:04:05"
+
+        with pytest.raises(
+            ValueError,
+            match="Invalid datetime format for 'measured_at'",
+        ):
+            entity.measured_at = "not-a-timestamp"
+
+    def test_object_property_accepts_object_instance_and_path(self):
+        person = PersonObjectType(name="John Doe", code="PERSON_001")
+        instrument = InstrumentObjectType(name="Instrument 1")
+
+        instrument.responsible_person = person
+        assert instrument.responsible_person is person
+
+        instrument.responsible_person = (
+            "/TEST_SPACE/TEST_PROJECT/TEST_COLLECTION/PERSON_001"
+        )
+        assert (
+            instrument.responsible_person
+            == "/TEST_SPACE/TEST_PROJECT/TEST_COLLECTION/PERSON_001"
+        )
+
+    def test_object_property_rejects_invalid_values(self):
+        instrument = InstrumentObjectType(name="Instrument 1")
+
+        with pytest.raises(
+            ValueError,
+            match="Path must start with '/'",
+        ):
+            instrument.responsible_person = "TEST_SPACE/TEST_PROJECT/PERSON_001"
+
+        with pytest.raises(
+            TypeError,
+            match="Invalid type for OBJECT property 'responsible_person'",
+        ):
+            instrument.responsible_person = 42
+
+        person_without_code = PersonObjectType(name="John Doe")
+        with pytest.raises(
+            ValueError,
+            match="must have a 'code' attribute set",
+        ):
+            instrument.responsible_person = person_without_code
+
+    def test_controlled_vocabulary_without_code_raises(self):
+        class InvalidVocabularyObjectType(ObjectType):
+            defs = ObjectTypeDef(
+                code="INVALID_VOCAB_OBJECT",
+                description="Object with invalid vocabulary property",
+                generated_code_prefix="IVO",
+            )
+
+            name = PropertyTypeAssignment(
+                code="$NAME",
+                data_type="VARCHAR",
+                property_label="Name",
+                description="Name",
+                mandatory=True,
+                show_in_edit_views=True,
+                section="General",
+            )
+
+            category = PropertyTypeAssignment(
+                code="CATEGORY",
+                data_type="CONTROLLEDVOCABULARY",
+                property_label="Category",
+                description="Category",
+                mandatory=False,
+                show_in_edit_views=True,
+                section="General",
+            )
+
+        entity = InvalidVocabularyObjectType(name="Test")
+        with pytest.raises(
+            ValueError,
+            match="must have a vocabulary_code defined",
+        ):
+            entity.category = "ANY_VALUE"
+
+    def test_institutional_controlled_vocabulary_warns_and_skips_validation(self):
+        class InstitutionalVocabularyObjectType(ObjectType):
+            defs = ObjectTypeDef(
+                code="INSTITUTIONAL_VOCAB_OBJECT",
+                description="Object with institutional vocabulary",
+                generated_code_prefix="IVO",
+            )
+
+            name = PropertyTypeAssignment(
+                code="$NAME",
+                data_type="VARCHAR",
+                property_label="Name",
+                description="Name",
+                mandatory=True,
+                show_in_edit_views=True,
+                section="General",
+            )
+
+            location = PropertyTypeAssignment(
+                code="LOCATION",
+                data_type="CONTROLLEDVOCABULARY",
+                vocabulary_code="BAM_HOUSE",
+                property_label="Location",
+                description="Location",
+                mandatory=False,
+                show_in_edit_views=True,
+                section="General",
+            )
+
+        entity = InstitutionalVocabularyObjectType(name="Test")
+        with pytest.warns(UserWarning, match="institutional vocabulary 'BAM_HOUSE'"):
+            entity.location = "WHATEVER"
+        assert entity.location == "WHATEVER"
+
 
 class TestVocabularyType:
     def test_model_validator_after_init(self):
@@ -188,6 +351,51 @@ class TestVocabularyType:
         assert len(vocabulary_type.terms) == 2
         term_names = [term.code for term in vocabulary_type.terms]
         assert term_names == ["OPTION_A", "OPTION_B"]
+
+    @patch("bam_masterdata.metadata.entities.OpenbisEntities")
+    def test_to_openbis_creates_new_vocabulary(
+        self, mocked_openbis_entities: MagicMock
+    ):
+        mocked_openbis_entities.return_value.get_vocabulary_dict.return_value = {}
+        logger = MagicMock()
+        openbis = MagicMock()
+        openbis.url = "https://example.openbis"
+        new_vocabulary = MagicMock()
+        openbis.new_vocabulary.return_value = new_vocabulary
+
+        entity = generate_vocabulary_type().to_openbis(logger=logger, openbis=openbis)
+
+        openbis.new_vocabulary.assert_called_once()
+        new_vocabulary.save.assert_called_once()
+        assert entity is new_vocabulary
+
+    @patch("bam_masterdata.metadata.entities.OpenbisEntities")
+    def test_to_openbis_adds_only_missing_terms(
+        self, mocked_openbis_entities: MagicMock
+    ):
+        mocked_openbis_entities.return_value.get_vocabulary_dict.return_value = {
+            "MOCKED_VOCABULARY_TYPE": True
+        }
+        logger = MagicMock()
+        openbis = MagicMock()
+        openbis.url = "https://example.openbis"
+        existing_vocabulary = MagicMock()
+        existing_vocabulary.get_terms.return_value.df.code = ["OPTION_A"]
+        openbis.get_vocabulary.return_value = existing_vocabulary
+        new_term = MagicMock()
+        openbis.new_term.return_value = new_term
+
+        entity = generate_vocabulary_type().to_openbis(logger=logger, openbis=openbis)
+
+        openbis.new_term.assert_called_once_with(
+            code="OPTION_B",
+            vocabularyCode="MOCKED_VOCABULARY_TYPE",
+            label="Option B",
+            description="Option B from two possible options in the vocabulary",
+        )
+        new_term.save.assert_called_once()
+        existing_vocabulary.save.assert_called_once()
+        assert entity is existing_vocabulary
 
 
 def test_generate_object_id():

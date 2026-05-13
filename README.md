@@ -112,33 +112,32 @@ detect-secrets scan > .secrets.baseline
 To view the documentation locally, make sure to have installed the extra packages (this is part of the `tools/scripts/install_python_dependencies.*`, so if you ran this script before, you don't need to do it again now):
 
 ```sh
-uv pip install -e '[docu]'
+uv pip install -e '[dev]'
 ```
 
-**Note**: This command installs `mkdocs`, `mkdocs-material`, and other documentation-related dependencies.
+**Note**: This command installs the `zensical` dependency.
 
 The first time, build the server:
 
 ```sh
-mkdocs build
+zensical build
 ```
 
 Run the documentation server:
 
 ```sh
-mkdocs serve
+zensical serve
 ```
 
 The output looks like:
 
 ```sh
-INFO    -  Building documentation...
-INFO    -  Cleaning site directory
-INFO    -  [14:07:47] Watching paths for changes: 'docs', 'mkdocs.yml'
-INFO    -  [14:07:47] Serving on http://127.0.0.1:8000/
+Serving .../site on http://localhost:8000
+Build started
+No issues found
 ```
 
-Simply click on `http://127.0.0.1:8000/`. The changes in the `md` files of the documentation are immediately reflected when the files are saved (the local web will automatically refresh).
+Simply click on `http://localhost:8000`. The changes in the `md` files of the documentation are immediately reflected when the files are saved (the local web will automatically refresh).
 
 ## Main contributors
 

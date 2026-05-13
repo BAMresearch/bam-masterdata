@@ -1,4 +1,4 @@
-# How-to: Work with Object References
+# Work with Object References
 
 This how-to guide shows you how to work with properties whose data type is OBJECT in order to reference other objects in openBIS.
 

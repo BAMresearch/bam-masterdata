@@ -1,3 +1,5 @@
+# Glossary
+
 The following terms are used throughout `bam-masterdata` and are defined here for clarity.
 
 ## Masterdata {#masterdata}

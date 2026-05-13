@@ -1,4 +1,4 @@
-# How-to: Define Object Types and Properties
+# Define Object Types and Properties
 
 This how-to guide shows how to create new Object Types in `bam-masterdata`, including how to define the
 Object Type itself and the properties assigned to it. It also covers the optional `units` field

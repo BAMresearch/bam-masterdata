@@ -2,6 +2,7 @@ import datetime
 import inspect
 import json
 import warnings
+from collections import OrderedDict
 from collections.abc import Callable
 from typing import TYPE_CHECKING, Any, no_type_check
 
@@ -11,6 +12,7 @@ from rdflib import BNode, Literal
 from rdflib.namespace import DC, OWL, RDF, RDFS
 
 from bam_masterdata.utils import DATAMODEL_DIR, import_module, listdir_py_modules
+from bam_masterdata.utils.decorators import deprecated
 
 if TYPE_CHECKING:
     from pybis import Openbis
@@ -60,6 +62,10 @@ class BaseEntity(BaseModel):
             setattr(self, key, value)
 
     def __setattr__(self, key, value):
+        # Allow initialization before metadata exists
+        if not hasattr(self, "_property_metadata"):
+            return object.__setattr__(self, key, value)
+
         if key == "_property_metadata":
             super().__setattr__(key, value)
             return
@@ -125,6 +131,10 @@ class BaseEntity(BaseModel):
         ]
         return [getattr(self, attr_name) for attr_name in base_attrs]
 
+    @deprecated(
+        "This method is deprecated and will be removed in a future major release. The creation of Object Types, "
+        "Property Types, and Vocabularies is done now in the corresponding ObjectType and VocabularyType classes."
+    )
     def _to_openbis(
         self,
         logger: "BoundLoggerLazyProxy",
@@ -522,7 +532,7 @@ class VocabularyType(BaseEntity):
     model_config = ConfigDict(ignored_types=(VocabularyTypeDef, VocabularyTerm))
 
     terms: list[VocabularyTerm] = Field(
-        default=[],
+        default_factory=list,
         description="""
         List of vocabulary terms. This is useful for internal representation of the model.
         """,
@@ -548,37 +558,70 @@ class VocabularyType(BaseEntity):
             Any: The data with the validated fields.
         """
         # Add all the vocabulary terms defined in the vocabulary type to the `terms` list.
-        # TODO check if the order is properly assigned
         for base in cls.__mro__:
-            for attr_name, attr_val in base.__dict__.items():
+            for _, attr_val in base.__dict__.items():
                 if isinstance(attr_val, VocabularyTerm):
                     data.terms.append(attr_val)
 
         return data
 
-    def to_openbis(
-        self,
-        logger: "BoundLoggerLazyProxy",
-        openbis: "Openbis",
-        type: str = "vocabulary",
-        type_map: dict = VOCABULARY_TYPE_MAP,
-    ) -> None:
-        def get_type(openbis: "Openbis", code: str):
-            return openbis.get_vocabulary(code)
+    def to_openbis(self, logger: "BoundLoggerLazyProxy", openbis: "Openbis") -> None:
+        openbis_entities = OpenbisEntities(url=openbis.url).get_vocabulary_dict()
 
-        def create_type(openbis: "Openbis", defs: VocabularyTypeDef, terms: list):
-            return openbis.new_vocabulary(
-                code=defs.code, description=defs.description, terms=terms
+        if self.defs.code in openbis_entities:
+            logger.info(f"Vocabulary '{self.defs.code}' already exists in openBIS.")
+            entity = openbis.get_vocabulary(self.defs.code)
+
+            obis_terms = entity.get_terms().df.code
+            obis_term_codes = [prop for prop in obis_terms]
+
+            # Check for properties in self that are not in openBIS
+            new_terms_added = False
+            for term in self.terms:
+                if term.code not in obis_term_codes:
+                    logger.info(
+                        f"Adding new term {term.code}' to vocabulary '{self.defs.code}'."
+                    )
+                    new_terms_added = True
+
+                    # Assign the term to the vocabulary
+                    new_term = openbis.new_term(
+                        code=term.code,
+                        vocabularyCode=self.defs.code,
+                        label=term.label,
+                        description=term.description,
+                    )
+                    if term.official:
+                        new_term.official = term.official
+                    new_term.save()
+
+            if not new_terms_added:
+                logger.info(f"No new terms added to vocabulary '{self.defs.code}'.")
+
+        else:
+            logger.info(f"Creating new vocabulary '{self.defs.code}' in openBIS.")
+
+            obis_terms = []
+            obis_term_codes = []
+            for term in self.terms:
+                obis_terms.append(
+                    {
+                        "code": term.code,
+                        "label": term.label,
+                        "description": term.description,
+                    }
+                )
+                obis_term_codes.append(term.code)
+            logger.info(f"Adding terms {obis_term_codes} to {self.defs.code}.")
+
+            # Creating the vocabulary in openBIS with its terms
+            entity = openbis.new_vocabulary(
+                code=self.defs.code,
+                description=self.defs.description,
+                terms=obis_terms,
             )
-
-        super()._to_openbis(
-            logger=logger,
-            openbis=openbis,
-            type=type,
-            type_map=type_map,
-            get_type=get_type,
-            create_type=create_type,
-        )
+        entity.save()
+        return entity
 
 
 class ObjectType(BaseEntity):
@@ -603,7 +646,7 @@ class ObjectType(BaseEntity):
     )
 
     properties: list[PropertyTypeAssignment] = Field(
-        default=[],
+        default_factory=list,
         description="""
         List of properties assigned to an object type. This is useful for internal representation of the model.
         """,
@@ -698,6 +741,9 @@ class ObjectType(BaseEntity):
             )
 
     def __setattr__(self, key, value):
+        if not hasattr(self, "_property_metadata"):
+            return object.__setattr__(self, key, value)
+
         if key in ["_property_metadata", "_properties", "code"]:
             super().__setattr__(key, value)
             return
@@ -802,42 +848,125 @@ class ObjectType(BaseEntity):
         Returns:
             Any: The data with the validated fields.
         """
-        # Add all the properties assigned to the object type to the `properties` list.
-        # TODO check if the order is properly assigned
-        for base in cls.__mro__:
+        # ordered parent -> child properties
+        collected_properties = []
+        for base in reversed(cls.__mro__):
             for _, attr_val in base.__dict__.items():
                 if isinstance(attr_val, PropertyTypeAssignment):
-                    data.properties.append(attr_val)
+                    collected_properties.append(attr_val)
+
+        # Group by section preserving first appearance order
+        grouped_sections = OrderedDict()
+        for prop in collected_properties:
+            section = prop.section or ""
+            grouped_sections.setdefault(section, [])
+            grouped_sections[section].append(prop)
+
+        # Flatten grouped properties
+        ordered_properties = []
+        for props in grouped_sections.values():
+            ordered_properties.extend(props)
+        data.properties = ordered_properties
 
         return data
 
-    def to_openbis(
-        self,
-        logger: "BoundLoggerLazyProxy",
-        openbis: "Openbis",
-        type: str = "object",
-        type_map: dict = OBJECT_TYPE_MAP,
-    ) -> None:
-        def get_type(openbis: "Openbis", code: str):
-            return openbis.get_object_type(code)
+    def to_openbis(self, logger: "BoundLoggerLazyProxy", openbis: "Openbis") -> None:
+        def _assign_property(prop, entity, openbis) -> None:
+            """
+            Assign the property to the entity, adding the `vocabulary` parameter if the `vocabulary_code`
+            is defined for the property. If the property does not exist in openBIS, create it before assigning to the entity.
 
-        def create_type(openbis: "Openbis", defs: ObjectTypeDef):
-            return openbis.new_object_type(
-                code=defs.code,
-                description=defs.description,
-                validationPlugin=defs.validation_script,
-                generatedCodePrefix=defs.generated_code_prefix,
-                autoGeneratedCode=defs.auto_generate_codes,
+            Args:
+                prop (PropertyTypeAssignment): The property to assign.
+                entity (Entity): The entity to assign the property to.
+                openbis (Openbis): The openBIS instance.
+            """
+            # Handle special case for OBJECT data type to map into the legacy name
+            if prop.data_type == "OBJECT":
+                prop.data_type = "SAMPLE"
+
+            # If property does not exist in openBIS, create it before assigning to the entity
+            if not openbis.get_property_types(prop.code):
+                # For CONTROLLEDVOCABULARY properties with a defined vocabulary_code, we need to create the property with the vocabulary assigned
+                if prop.data_type == "CONTROLLEDVOCABULARY" and prop.vocabulary_code:
+                    openbis.new_property_type(
+                        code=prop.code,
+                        label=prop.property_label,
+                        description=prop.description,
+                        dataType=prop.data_type.value,
+                        vocabulary=prop.vocabulary_code,
+                    ).save()
+                else:
+                    openbis.new_property_type(
+                        code=prop.code,
+                        label=prop.property_label,
+                        description=prop.description,
+                        dataType=prop.data_type.value,
+                    ).save()
+
+            # Assign the property to the entity, adding the `vocabulary` parameter if the `vocabulary_code` is defined for the property
+            # TODO check what happens when dataType="SAMPLE" and how to use pyBIS for this
+            if prop.vocabulary_code:
+                entity.assign_property(
+                    prop=prop.code,
+                    section=prop.section,
+                    mandatory=prop.mandatory,
+                    showInEditView=prop.show_in_edit_views,
+                )
+            else:
+                entity.assign_property(
+                    prop=prop.code,
+                    section=prop.section,
+                    mandatory=prop.mandatory,
+                    showInEditView=prop.show_in_edit_views,
+                )
+
+        # Get all existing entities from openBIS
+        openbis_entities = OpenbisEntities(url=openbis.url).get_object_dict()
+
+        if self.defs.code in openbis_entities:
+            logger.info(f"Object type '{self.defs.code}' already exists in openBIS.")
+            entity = openbis.get_object_type(self.defs.code)
+
+            # Get properties from openBIS
+            obis_properties = entity.get_property_assignments()
+            obis_property_codes = [prop.code for prop in obis_properties]
+
+            # Check for properties in self that are not in openBIS
+            new_properties_added = False
+            for prop in self.properties:
+                if prop.code not in obis_property_codes:
+                    logger.info(
+                        f"Adding new property {prop.code}' to object type '{self.defs.code}'."
+                    )
+                    new_properties_added = True
+                    _assign_property(prop, entity, openbis)
+
+            if not new_properties_added:
+                logger.info(
+                    f"No new properties added to object type '{self.defs.code}'."
+                )
+
+        else:
+            logger.info(f"Creating new object type '{self.defs.code}' in openBIS.")
+            entity = openbis.new_object_type(
+                code=self.defs.code,
+                description=self.defs.description,
+                validationPlugin=self.defs.validation_script,
+                generatedCodePrefix=self.defs.generated_code_prefix,
+                autoGeneratedCode=self.defs.auto_generate_codes,
             )
+            entity.save()  # we need to save this before assigning properties
 
-        super()._to_openbis(
-            logger=logger,
-            openbis=openbis,
-            type=type,
-            type_map=type_map,
-            get_type=get_type,
-            create_type=create_type,
-        )
+            # Assign properties to the new entity
+            for prop in self.properties:
+                logger.info(
+                    f"Adding new property {prop.code} to object type {self.defs.code}."
+                )
+                _assign_property(prop, entity, openbis)
+
+        entity.save()
+        return entity
 
 
 UUID_SUFFIX_LENGTH = 8
@@ -890,7 +1019,7 @@ class CollectionType(ObjectType):
     )
 
     attached_objects: dict[str, ObjectType] = Field(
-        default={},
+        default_factory=dict,
         exclude=True,
         description="""
         Dictionary containing the object types attached to the collection type.
@@ -899,7 +1028,7 @@ class CollectionType(ObjectType):
     )
 
     relationships: dict[str, tuple[str, str]] = Field(
-        default={},
+        default_factory=dict,
         exclude=True,
         description="""
         Dictionary containing the relationships between the objects attached to the collection type.
@@ -918,6 +1047,10 @@ class CollectionType(ObjectType):
         """
         return "CollectionType"
 
+    @deprecated(
+        "This method is deprecated and will be removed in a future major release. The creation of Object Types, "
+        "Property Types, and Vocabularies is done now in the corresponding ObjectType and VocabularyType classes."
+    )
     def to_openbis(
         self,
         logger: "BoundLoggerLazyProxy",
@@ -1054,6 +1187,10 @@ class DatasetType(ObjectType):
         """
         return "DatasetType"
 
+    @deprecated(
+        "This method is deprecated and will be removed in a future major release. The creation of Object Types, "
+        "Property Types, and Vocabularies is done now in the corresponding ObjectType and VocabularyType classes."
+    )
     def to_openbis(
         self,
         logger: "BoundLoggerLazyProxy",

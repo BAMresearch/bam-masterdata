@@ -27,6 +27,8 @@ from bam_masterdata.utils import (
     listdir_py_modules,
 )
 
+URL = environ("OPENBIS_URL")
+
 
 @click.group(help="Entry point to run `bam_masterdata` CLI commands.")
 def cli():
@@ -503,7 +505,11 @@ def checker(file_path, mode, datamodel_path):
 
 @cli.command(
     name="push_to_openbis",
-    help="Uploads to openBIS the entities contained in the file specified in the tag `--file-path` after passing correctly all the checks from the `checker`.",
+    help=(
+        "[DEPRECATED] Use `update_openbis_masterdata` instead.\n\n"
+        "Uploads to openBIS the entities contained in the file specified in the tag `--file-path` "
+        "after passing correctly all the checks from the `checker`."
+    ),
 )
 @click.option(
     "--file-path",
@@ -559,18 +565,15 @@ def push_to_openbis(file_path, datamodel_path):
                 click.echo(f"Skipping {module_name}_types.py (empty entity data)")
         logger.info(f"Processed Excel file and exported to {tmp_dir}")
 
+    # ! `checker` needs to be audited, as it is not working as intended in some cases
     # Instantiate the checker class and run validation
     checker = MasterdataChecker()
-
     # Load current model from datamodel path
     checker.load_current_model(datamodel_dir=datamodel_path)
-
     # Load new entities from the specified file path (could be a Python file, directory, or Excel)
     checker.load_new_entities(source=file_path)
-
     # Run the checker in the specified mode
     validation_results = checker.check(mode="individual")
-
     if not validation_results.get("incoming_model"):
         logger.info("No problems found in the new entities definition.")
 
@@ -675,6 +678,62 @@ def parser(files_parser, project_name, collection_name, space_name, collection_t
         files_parser=parse_file_dict,
         collection_type=collection_type.upper(),
     )
+
+
+@cli.command(
+    name="update_openbis_masterdata",
+    help=(
+        "Updates the current Masterdata definitions in openBIS with the `--entity` defined in `--file-path`. "
+        "If `--entity` is not defined, it will update all the entities defined in `--file-path`."
+    ),
+)
+@click.option(
+    "--file-path",
+    "file_path",  # alias
+    type=click.Path(exists=True),
+    required=True,
+    help="""The path to the file containing Python modules with the entity definitions.""",
+)
+@click.option(
+    "--entity",
+    "entity",
+    type=str,
+    required=False,
+    help="""The name of the entity to be updated in openBIS. If not specified, all entities in the `--file-path` will be updated.""",
+)
+@click.option(
+    "--check",
+    "check",
+    type=bool,
+    default=True,
+    help="""Whether to run the `checker` before pushing to openBIS. Default is `True`.""",
+)
+def update_openbis_masterdata(file_path, entity, check):
+    openbis = ologin(url=URL)
+    click.echo(f"Using the openBIS instance: {URL}\n")
+
+    if not check:
+        logger.warning(
+            "Updating without checking the consistency of the incoming model. Make sure the entity "
+            "definitions are correct before pushing to openBIS!"
+        )
+
+        module = import_module(module_path=file_path)
+        if not entity:
+            for _, obj in inspect.getmembers(module, inspect.isclass):
+                if hasattr(obj, "defs") and callable(getattr(obj, "to_openbis")):
+                    obj_instance = obj()
+                    obj_instance.to_openbis(openbis=openbis, logger=logger)
+        else:
+            obj = getattr(module, entity, None)
+            if obj and hasattr(obj, "defs") and callable(getattr(obj, "to_openbis")):
+                obj_instance = obj()
+                obj_instance.to_openbis(openbis=openbis, logger=logger)
+            else:
+                logger.error(
+                    f"Entity {entity} not found in the module {file_path} or it does not have the method `to_openbis`."
+                )
+    # TODO implement `checker` logic
 
 
 if __name__ == "__main__":
