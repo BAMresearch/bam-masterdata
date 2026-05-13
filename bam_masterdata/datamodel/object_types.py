@@ -14492,12 +14492,45 @@ class PowderXRDMeasurement(ExperimentalStep):
         section="Experimental Details",
     )
 
-    xray_wavelength_in_angstrom = PropertyTypeAssignment(
-        code="XRAY_WAVELENGTH_IN_ANGSTROM",
+    xray_wavelength_alpha1_in_angstrom = PropertyTypeAssignment(
+        code="XRAY_WAVELENGTH_ALPHA1_IN_ANGSTROM",
         data_type="REAL",
-        property_label="X-ray wavelength",
+        property_label="X-ray wavelength Alpha 1",
         units="angstrom",
-        description="""Wavelength of the X-ray radiation in Angstrom (Å)//Wellenlänge der Röntgenstrahlung in Angstrom (Å)""",
+        description="""Wavelength of the X-ray radiation Alpha 1 in Angstrom (Å)//Wellenlänge der Röntgenstrahlung Alpha 1 in Angstrom (Å)""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Experimental Details",
+    )
+
+    xray_wavelength_alpha2_in_angstrom = PropertyTypeAssignment(
+        code="XRAY_WAVELENGTH_ALPHA2_IN_ANGSTROM",
+        data_type="REAL",
+        property_label="X-ray wavelength Alpha 2",
+        units="angstrom",
+        description="""Wavelength of the X-ray radiation Alpha 2 in Angstrom (Å)//Wellenlänge der Röntgenstrahlung Alpha 2 in Angstrom (Å)""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Experimental Details",
+    )
+
+    xray_wavelength_average_in_angstrom = PropertyTypeAssignment(
+        code="XRAY_WAVELENGTH_AVERAGE_IN_ANGSTROM",
+        data_type="REAL",
+        property_label="X-ray wavelength average",
+        units="angstrom",
+        description="""Average wavelength of the X-ray radiation in Angstrom (Å)//Durchschnittliche Wellenlänge der Röntgenstrahlung in Angstrom (Å)""",
+        mandatory=False,
+        show_in_edit_views=True,
+        section="Experimental Details",
+    )
+
+    xray_wavelength_beta_in_angstrom = PropertyTypeAssignment(
+        code="XRAY_WAVELENGTH_BETA_IN_ANGSTROM",
+        data_type="REAL",
+        property_label="X-ray wavelength Beta",
+        units="angstrom",
+        description="""Wavelength of the X-ray radiation Beta in Angstrom (Å)//Wellenlänge der Röntgenstrahlung Beta in Angstrom (Å)""",
         mandatory=False,
         show_in_edit_views=True,
         section="Experimental Details",
