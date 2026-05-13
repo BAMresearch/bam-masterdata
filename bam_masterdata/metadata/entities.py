@@ -316,10 +316,11 @@ class BaseEntity(BaseModel):
 
         # Store property metadata at class level
         prop_meta_dict: dict = {}
-        for attr_name, attr_value in self._iter_class_attributes(
-            PropertyTypeAssignment
-        ):
-            prop_meta_dict[attr_name] = attr_value
+        for base in type(self).__mro__:
+            cls_attrs = getattr(base, "__dict__", {})
+            for attr_name, attr_value in cls_attrs.items():
+                if isinstance(attr_value, PropertyTypeAssignment):
+                    prop_meta_dict[attr_name] = attr_value
         return prop_meta_dict
 
     def to_json(self, indent: int | None = None) -> str:
@@ -580,9 +581,10 @@ class VocabularyType(BaseEntity):
             Any: The data with the validated fields.
         """
         # Add all the vocabulary terms defined in the vocabulary type to the `terms` list.
-        # TODO check if the order is properly assigned
-        for _, attr_val in cls._iter_class_attributes(VocabularyTerm):
-            data.terms.append(attr_val)
+        for base in cls.__mro__:
+            for _, attr_val in base.__dict__.items():
+                if isinstance(attr_val, VocabularyTerm):
+                    data.terms.append(attr_val)
 
         return data
 
@@ -869,11 +871,12 @@ class ObjectType(BaseEntity):
         Returns:
             Any: The data with the validated fields.
         """
-        # Collect properties using class-first order so child classes can refine section ordering.
-        collected_properties = [
-            attr_val
-            for _, attr_val in cls._iter_class_attributes(PropertyTypeAssignment)
-        ]
+        # ordered parent -> child properties
+        collected_properties = []
+        for base in reversed(cls.__mro__):
+            for _, attr_val in base.__dict__.items():
+                if isinstance(attr_val, PropertyTypeAssignment):
+                    collected_properties.append(attr_val)
 
         # Group by section preserving first appearance order
         grouped_sections = OrderedDict()
