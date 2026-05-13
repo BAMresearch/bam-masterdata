@@ -13181,8 +13181,8 @@ class PowderXRDMeasurement(ExperimentalStep):
         section="Experimental Details",
     )
 
-    xray_wavelength_in_angstrom = PropertyTypeAssignment(
-        code="XRAY_WAVELENGTH_IN_ANGSTROM",
+    xray_wavelength = PropertyTypeAssignment(
+        code="XRAY_WAVELENGTH",
         data_type="REAL",
         property_label="X-ray wavelength",
         units="angstrom",
