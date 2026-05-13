@@ -523,10 +523,11 @@ class PropertyTypeAssignment(PropertyTypeDef):
     )
 
     show_in_edit_views: bool = Field(
-        ...,
+        True,
         description="""
         If `True`, the property is shown in the edit views of the ELN in the object type instantiation.
         If `False`, the property is hidden.
+        Set to `True` by default.
         """,
     )
 

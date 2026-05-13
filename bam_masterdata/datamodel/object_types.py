@@ -15,7 +15,6 @@ class SearchQuery(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -25,7 +24,6 @@ class SearchQuery(ObjectType):
         property_label="Search criteria",
         description="""V3 API search criteria""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -35,7 +33,6 @@ class SearchQuery(ObjectType):
         property_label="Fetch options",
         description="""V3 API fetch options""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -45,7 +42,6 @@ class SearchQuery(ObjectType):
         property_label="Custom data",
         description="""Additional data in custom format""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -63,7 +59,6 @@ class GeneralElnSettings(ObjectType):
         property_label="ELN Settings",
         description="""ELN Settings""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Settings",
     )
 
@@ -81,7 +76,6 @@ class Entry(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -91,7 +85,6 @@ class Entry(ObjectType):
         property_label="Show in project overview",
         description="""Show in project overview page""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -101,7 +94,6 @@ class Entry(ObjectType):
         property_label="Document",
         description="""Document""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -111,7 +103,6 @@ class Entry(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -129,7 +120,6 @@ class GeneralProtocol(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General info",
     )
 
@@ -139,7 +129,6 @@ class GeneralProtocol(ObjectType):
         property_label="For what",
         description="""For what""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Details",
     )
 
@@ -149,7 +138,6 @@ class GeneralProtocol(ObjectType):
         property_label="Protocol type",
         description="""Category the protocol belongs to""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Details",
     )
 
@@ -159,7 +147,6 @@ class GeneralProtocol(ObjectType):
         property_label="Materials",
         description="""Machines (and relative set up)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Details",
     )
 
@@ -169,7 +156,6 @@ class GeneralProtocol(ObjectType):
         property_label="Time requirement",
         description="""Time required to complete a protocol""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Details",
     )
 
@@ -179,7 +165,6 @@ class GeneralProtocol(ObjectType):
         property_label="Procedure",
         description="""Step-by-step procedure""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Details",
     )
 
@@ -189,7 +174,6 @@ class GeneralProtocol(ObjectType):
         property_label="Protocol evaluation",
         description="""Parameters and observations to meet the minimal efficiency of the protocol""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Details",
     )
 
@@ -199,7 +183,6 @@ class GeneralProtocol(ObjectType):
         property_label="Spreadsheet",
         description="""Multi purpose Spreatsheet""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Details",
     )
 
@@ -209,7 +192,6 @@ class GeneralProtocol(ObjectType):
         property_label="References",
         description="""Useful refences""",
         mandatory=False,
-        show_in_edit_views=False,
         section="References",
     )
 
@@ -219,7 +201,6 @@ class GeneralProtocol(ObjectType):
         property_label="Publication",
         description="""Own publication where this entity is referenced""",
         mandatory=False,
-        show_in_edit_views=False,
         section="References",
     )
 
@@ -229,7 +210,6 @@ class GeneralProtocol(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -239,7 +219,6 @@ class GeneralProtocol(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -249,7 +228,6 @@ class GeneralProtocol(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -267,7 +245,6 @@ class ExperimentalStep(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -277,7 +254,6 @@ class ExperimentalStep(ObjectType):
         property_label="Show in project overview",
         description="""Show in project overview page""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -287,7 +263,6 @@ class ExperimentalStep(ObjectType):
         property_label="Experiment completed",
         description="""Marks the experiment as finished//Markiert das Experiment als abgeschlossen""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -297,7 +272,6 @@ class ExperimentalStep(ObjectType):
         property_label="Start date",
         description="""Start date//Startdatum""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -307,7 +281,6 @@ class ExperimentalStep(ObjectType):
         property_label="End date",
         description="""End date//Enddatum""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -317,7 +290,6 @@ class ExperimentalStep(ObjectType):
         property_label="Experimental goals",
         description="""Goals of the experiment//Ziele des Experiments""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Experimental Details",
     )
 
@@ -327,7 +299,6 @@ class ExperimentalStep(ObjectType):
         property_label="Experimental description",
         description="""Description of the experiment//Beschreibung des Experiments""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Experimental Details",
     )
 
@@ -337,7 +308,6 @@ class ExperimentalStep(ObjectType):
         property_label="Experimental results",
         description="""Summary of experimental results//Zusammenfassung der Ergebnisse des Experiments""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Experimental Details",
     )
 
@@ -347,7 +317,6 @@ class ExperimentalStep(ObjectType):
         property_label="Spreadsheet",
         description="""Multi-purpose Spreadsheet//Spreadsheet zur freien Verwendung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Experimental Details",
     )
 
@@ -357,7 +326,6 @@ class ExperimentalStep(ObjectType):
         property_label="References",
         description="""Useful refences""",
         mandatory=False,
-        show_in_edit_views=False,
         section="References",
     )
 
@@ -367,7 +335,6 @@ class ExperimentalStep(ObjectType):
         property_label="Publication",
         description="""Own publication where this entity is referenced""",
         mandatory=False,
-        show_in_edit_views=False,
         section="References",
     )
 
@@ -377,7 +344,6 @@ class ExperimentalStep(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -387,7 +353,7 @@ class ExperimentalStep(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
+        show_in_edit_view=False,
         section="Comments",
     )
 
@@ -397,7 +363,7 @@ class ExperimentalStep(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
+        show_in_edit_view=False,
         section="",
     )
 
@@ -415,7 +381,6 @@ class Storage(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General info",
     )
 
@@ -425,7 +390,6 @@ class Storage(ObjectType):
         property_label="Number of Rows",
         description="""Number of Rows""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General info",
     )
 
@@ -435,7 +399,6 @@ class Storage(ObjectType):
         property_label="Number of Columns",
         description="""Number of Columns""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General info",
     )
 
@@ -445,7 +408,6 @@ class Storage(ObjectType):
         property_label="Number of Boxes",
         description="""Allowed number of Boxes in a rack""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General info",
     )
 
@@ -455,7 +417,6 @@ class Storage(ObjectType):
         property_label="Rack Space Warning",
         description="""Number between 0 and 99, represents a percentage""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General info",
     )
 
@@ -465,7 +426,6 @@ class Storage(ObjectType):
         property_label="Box Space Warning",
         description="""Number between 0 and 99, represents a percentage""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General info",
     )
 
@@ -476,7 +436,6 @@ class Storage(ObjectType):
         property_label="Validation level",
         description="""Validation level""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General info",
     )
 
@@ -486,7 +445,6 @@ class Storage(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -496,7 +454,6 @@ class Storage(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -514,7 +471,6 @@ class StoragePosition(ObjectType):
         property_label="Storage Code",
         description="""Storage Code""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Physical Storage",
     )
 
@@ -524,7 +480,6 @@ class StoragePosition(ObjectType):
         property_label="Storage Rack Row",
         description="""Number of Rows""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Physical Storage",
     )
 
@@ -534,7 +489,6 @@ class StoragePosition(ObjectType):
         property_label="Storage Rack Column",
         description="""Number of Columns""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Physical Storage",
     )
 
@@ -544,7 +498,6 @@ class StoragePosition(ObjectType):
         property_label="Storage Box Name",
         description="""Box Name""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Physical Storage",
     )
 
@@ -555,7 +508,6 @@ class StoragePosition(ObjectType):
         property_label="Storage Box Size",
         description="""Box Size""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Physical Storage",
     )
 
@@ -565,7 +517,6 @@ class StoragePosition(ObjectType):
         property_label="Storage Box Position",
         description="""Box Position""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Physical Storage",
     )
 
@@ -575,7 +526,6 @@ class StoragePosition(ObjectType):
         property_label="Storage User Id",
         description="""Storage User Id""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Physical Storage",
     )
 
@@ -585,7 +535,6 @@ class StoragePosition(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -595,7 +544,6 @@ class StoragePosition(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -613,7 +561,6 @@ class Supplier(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -623,7 +570,6 @@ class Supplier(ObjectType):
         property_label="Company address",
         description="""Company address""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -633,7 +579,6 @@ class Supplier(ObjectType):
         property_label="Company address, line 2",
         description="""Company address, line 2""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -643,7 +588,6 @@ class Supplier(ObjectType):
         property_label="Company fax",
         description="""Company fax""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -653,7 +597,6 @@ class Supplier(ObjectType):
         property_label="Company phone",
         description="""Company phone""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -663,7 +606,6 @@ class Supplier(ObjectType):
         property_label="Company email",
         description="""Company email""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -674,7 +616,6 @@ class Supplier(ObjectType):
         property_label="Company language",
         description="""Company language""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -684,7 +625,6 @@ class Supplier(ObjectType):
         property_label="Customer number",
         description="""Customer number""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -694,7 +634,6 @@ class Supplier(ObjectType):
         property_label="Company contact name",
         description="""Company contact name""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -704,7 +643,6 @@ class Supplier(ObjectType):
         property_label="Company contact email",
         description="""Company contact email""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -715,7 +653,6 @@ class Supplier(ObjectType):
         property_label="Preferred order method",
         description="""Preferred order method""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -725,7 +662,6 @@ class Supplier(ObjectType):
         property_label="URL",
         description="""URL""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -735,7 +671,6 @@ class Supplier(ObjectType):
         property_label="Additional Information",
         description="""Additional Information""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -745,7 +680,6 @@ class Supplier(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -755,7 +689,6 @@ class Supplier(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -773,7 +706,6 @@ class Product(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -783,7 +715,6 @@ class Product(ObjectType):
         property_label="Product Secondary Names",
         description="""Product Secondary Names""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -793,7 +724,6 @@ class Product(ObjectType):
         property_label="Description",
         description="""Description""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -803,7 +733,6 @@ class Product(ObjectType):
         property_label="Company",
         description="""Company""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -813,7 +742,6 @@ class Product(ObjectType):
         property_label="Catalog Number",
         description="""Catalog Number""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -823,7 +751,6 @@ class Product(ObjectType):
         property_label="Category",
         description="""Category""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -833,7 +760,6 @@ class Product(ObjectType):
         property_label="Hazard Statement",
         description="""Hazard Statement""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -843,7 +769,6 @@ class Product(ObjectType):
         property_label="Estimated Price",
         description="""Estimated Price""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -854,7 +779,6 @@ class Product(ObjectType):
         property_label="Currency",
         description="""Currency""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -864,7 +788,6 @@ class Product(ObjectType):
         property_label="Size of Item",
         description="""Size of Item""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -874,7 +797,6 @@ class Product(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -884,7 +806,6 @@ class Product(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -902,7 +823,6 @@ class Request(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -913,7 +833,6 @@ class Request(ObjectType):
         property_label="Order Status",
         description="""Order Status""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -923,7 +842,6 @@ class Request(ObjectType):
         property_label="Project",
         description="""Project""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -933,7 +851,6 @@ class Request(ObjectType):
         property_label="Department",
         description="""Department""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -943,7 +860,6 @@ class Request(ObjectType):
         property_label="Buyer",
         description="""Buyer""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -953,7 +869,6 @@ class Request(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -971,7 +886,6 @@ class Order(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -981,7 +895,6 @@ class Order(ObjectType):
         property_label="Ship To",
         description="""Ship To""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -991,7 +904,6 @@ class Order(ObjectType):
         property_label="Bill To",
         description="""Bill To""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -1001,7 +913,6 @@ class Order(ObjectType):
         property_label="Ship Address",
         description="""Ship Address""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -1011,7 +922,6 @@ class Order(ObjectType):
         property_label="Phone",
         description="""Phone""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -1021,7 +931,6 @@ class Order(ObjectType):
         property_label="Fax",
         description="""Fax""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -1032,7 +941,6 @@ class Order(ObjectType):
         property_label="Order Status",
         description="""Order Status""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -1042,7 +950,6 @@ class Order(ObjectType):
         property_label="Price Paid",
         description="""Price Paid""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -1052,7 +959,6 @@ class Order(ObjectType):
         property_label="Additional Information",
         description="""Additional Information""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -1062,7 +968,6 @@ class Order(ObjectType):
         property_label="Order State",
         description="""Order State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -1072,7 +977,6 @@ class Order(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -1090,7 +994,6 @@ class Publication(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -1100,7 +1003,6 @@ class Publication(ObjectType):
         property_label="Organization",
         description="""Organization""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -1110,7 +1012,6 @@ class Publication(ObjectType):
         property_label="Type",
         description="""Type""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -1120,7 +1021,6 @@ class Publication(ObjectType):
         property_label="Identifier",
         description="""Identifier""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -1130,7 +1030,6 @@ class Publication(ObjectType):
         property_label="URL",
         description="""URL""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -1140,7 +1039,6 @@ class Publication(ObjectType):
         property_label="Description",
         description="""Description""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -1150,7 +1048,6 @@ class Publication(ObjectType):
         property_label="openBIS Related Identifiers",
         description="""openBIS Related Identifiers""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General",
     )
 
@@ -1160,7 +1057,6 @@ class Publication(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -1170,7 +1066,6 @@ class Publication(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -1188,7 +1083,6 @@ class Calibration(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1199,7 +1093,6 @@ class Calibration(ObjectType):
         property_label="Testing Machine or Measurement Device",
         description="""Testing machine or measurement device//Prüfmaschine oder Messgerät""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1209,7 +1102,6 @@ class Calibration(ObjectType):
         property_label="Calibration date",
         description="""Date of calibration//Datum der Kalibrierung""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1220,7 +1112,6 @@ class Calibration(ObjectType):
         property_label="Calibration provider",
         description="""Calibration provider//Kalibrierdienstleister""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1230,7 +1121,6 @@ class Calibration(ObjectType):
         property_label="Calibration Certificate Number",
         description="""Calibration Certificate Number//Kalibrierschein-Nummer""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1240,7 +1130,6 @@ class Calibration(ObjectType):
         property_label="Accredited Calibration Laboratory",
         description="""Accredited Calibration Laboratory//Akkreditiertes Kalibrierlabor""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1250,7 +1139,6 @@ class Calibration(ObjectType):
         property_label="Calibration Laboratory Accreditation Number",
         description="""Calibration Laboratory Accreditation Number//Akkreditierungszeichen des Kalibrierlabors""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1260,7 +1148,6 @@ class Calibration(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -1270,7 +1157,6 @@ class Calibration(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -1280,7 +1166,6 @@ class Calibration(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -1298,7 +1183,6 @@ class AuxiliaryMaterial(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1308,7 +1192,6 @@ class AuxiliaryMaterial(ObjectType):
         property_label="Alternative Name",
         description="""e.g. abbreviation or nickname//z.B. Abkürzung oder Spitzname""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1318,7 +1201,6 @@ class AuxiliaryMaterial(ObjectType):
         property_label="Manufacturer",
         description="""Manufacturer//Hersteller""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1328,7 +1210,6 @@ class AuxiliaryMaterial(ObjectType):
         property_label="Supplier",
         description="""Supplier//Lieferant""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1339,7 +1220,6 @@ class AuxiliaryMaterial(ObjectType):
         property_label="Auxiliary Material Type",
         description="""Auxiliary Material Type//Hilfsstofftyp""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -1349,7 +1229,6 @@ class AuxiliaryMaterial(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -1359,7 +1238,6 @@ class AuxiliaryMaterial(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -1369,7 +1247,6 @@ class AuxiliaryMaterial(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -1387,7 +1264,6 @@ class Instrument(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1397,7 +1273,6 @@ class Instrument(ObjectType):
         property_label="Alternative Name",
         description="""e.g. abbreviation or nickname//z.B. Abkürzung oder Spitzname""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1407,7 +1282,6 @@ class Instrument(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1417,7 +1291,6 @@ class Instrument(ObjectType):
         property_label="Model Name",
         description="""Manufacturer model name//Modellname bzw. Gerätebezeichnung seitens des Herstellers""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1427,7 +1300,6 @@ class Instrument(ObjectType):
         property_label="Manufacturer",
         description="""Manufacturer//Hersteller""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1437,7 +1309,6 @@ class Instrument(ObjectType):
         property_label="Supplier",
         description="""Supplier//Lieferant""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1447,7 +1318,6 @@ class Instrument(ObjectType):
         property_label="Serial Number",
         description="""Serial Number//Seriennummer""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1457,7 +1327,6 @@ class Instrument(ObjectType):
         property_label="MAC Address",
         description="""MAC address of the primary network adapter//MAC Adresse der primären Netzwerkschnittstelle""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1468,7 +1337,6 @@ class Instrument(ObjectType):
         property_label="DFG Device Code",
         description="""DFG Device Code//DFG Gerätegruppenschlüssel (GGS)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1478,7 +1346,6 @@ class Instrument(ObjectType):
         property_label="Inventory Number",
         description="""PARFIS inventory number (8-digit)//PARFIS Inventarnummer (8-stellig)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -1488,7 +1355,6 @@ class Instrument(ObjectType):
         property_label="Inventory Number Addition",
         description="""PARFIS inventory number (8-digit)//PARFIS Inventarnummer (8-stellig)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -1499,7 +1365,6 @@ class Instrument(ObjectType):
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -1510,7 +1375,6 @@ class Instrument(ObjectType):
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -1521,7 +1385,6 @@ class Instrument(ObjectType):
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -1532,7 +1395,6 @@ class Instrument(ObjectType):
         property_label="BAM Room",
         description="""BAM Room//BAM Raum""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -1543,7 +1405,6 @@ class Instrument(ObjectType):
         property_label="BAM Floor",
         description="""BAM Floor//BAM Etage""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -1554,7 +1415,6 @@ class Instrument(ObjectType):
         property_label="BAM Location",
         description="""BAM Location//BAM Liegenschaft""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -1565,7 +1425,6 @@ class Instrument(ObjectType):
         property_label="BAM House",
         description="""BAM House//BAM Haus""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -1576,7 +1435,6 @@ class Instrument(ObjectType):
         property_label="Complete BAM Location",
         description="""Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -1587,7 +1445,6 @@ class Instrument(ObjectType):
         property_label="Instrument Status",
         description="""Instrument status//Instrumentenstatus""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Status",
     )
 
@@ -1597,7 +1454,6 @@ class Instrument(ObjectType):
         property_label="Last Calibration",
         description="""Last Calibration//Letzte Kalibrierung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Status",
     )
 
@@ -1607,7 +1463,6 @@ class Instrument(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -1617,7 +1472,6 @@ class Instrument(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -1627,7 +1481,6 @@ class Instrument(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -1645,7 +1498,6 @@ class TestingMachine(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1655,7 +1507,6 @@ class TestingMachine(ObjectType):
         property_label="Alternative Name",
         description="""e.g. abbreviation or nickname//z.B. Abkürzung oder Spitzname""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1665,7 +1516,6 @@ class TestingMachine(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1675,7 +1525,6 @@ class TestingMachine(ObjectType):
         property_label="Manufacturer",
         description="""Manufacturer//Hersteller""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1685,7 +1534,6 @@ class TestingMachine(ObjectType):
         property_label="Supplier",
         description="""Supplier//Lieferant""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1695,7 +1543,6 @@ class TestingMachine(ObjectType):
         property_label="Serial Number",
         description="""Serial Number//Seriennummer""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1706,7 +1553,6 @@ class TestingMachine(ObjectType):
         property_label="DFG Device Code",
         description="""DFG Device Code//DFG Gerätegruppenschlüssel (GGS)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1716,7 +1562,6 @@ class TestingMachine(ObjectType):
         property_label="Inventory Number",
         description="""PARFIS inventory number (8-digit)//PARFIS Inventarnummer (8-stellig)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -1726,7 +1571,6 @@ class TestingMachine(ObjectType):
         property_label="Inventory Number Addition",
         description="""PARFIS inventory number (8-digit)//PARFIS Inventarnummer (8-stellig)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -1737,7 +1581,6 @@ class TestingMachine(ObjectType):
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -1748,7 +1591,6 @@ class TestingMachine(ObjectType):
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -1759,7 +1601,6 @@ class TestingMachine(ObjectType):
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -1770,7 +1611,6 @@ class TestingMachine(ObjectType):
         property_label="BAM Room",
         description="""BAM Room//BAM Raum""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -1781,7 +1621,6 @@ class TestingMachine(ObjectType):
         property_label="BAM Floor",
         description="""BAM Floor//BAM Etage""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -1792,7 +1631,6 @@ class TestingMachine(ObjectType):
         property_label="BAM House",
         description="""BAM House//BAM Haus""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -1803,7 +1641,6 @@ class TestingMachine(ObjectType):
         property_label="BAM Location",
         description="""BAM Location//BAM Liegenschaft""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -1814,7 +1651,6 @@ class TestingMachine(ObjectType):
         property_label="Complete BAM Location",
         description="""Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -1825,7 +1661,6 @@ class TestingMachine(ObjectType):
         property_label="Drive Type",
         description="""Drive Type//Antriebsart""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Machine Details",
     )
 
@@ -1836,7 +1671,6 @@ class TestingMachine(ObjectType):
         property_label="Load Type",
         description="""Load type//Belastungsart""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Machine Details",
     )
 
@@ -1846,7 +1680,6 @@ class TestingMachine(ObjectType):
         property_label="Maximum Static Load (Primary) [kN/kNm]",
         description="""Maximum static load of primary load type//Maximale statische Last der primären Belastungsart""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Machine Details",
     )
 
@@ -1856,7 +1689,6 @@ class TestingMachine(ObjectType):
         property_label="Maximum Dynamic Load (Primary) [kN/kNm]",
         description="""Maximum dynamic load of primary load type//Maximale dynamische Last der primären Belastungsart""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Machine Details",
     )
 
@@ -1866,7 +1698,6 @@ class TestingMachine(ObjectType):
         property_label="Maximum Static Load (Secondary) [kN/kNm]",
         description="""Maximum static load of secondary load type (in case of combined load-type)//Maximale statische Last der sekundären Belastungsart (falls kombinierte Antriebsart)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Machine Details",
     )
 
@@ -1876,7 +1707,6 @@ class TestingMachine(ObjectType):
         property_label="Maximum Dynamic Load (Secondary) [kN/kNm]",
         description="""Maximum dynamic load of secondary load type//Maximale dynamische Last der sekundären Belastungsart""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Machine Details",
     )
 
@@ -1886,7 +1716,6 @@ class TestingMachine(ObjectType):
         property_label="Maximum Stroke [mm]",
         description="""Maximum Stroke//Maximaler Maschinenweg""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Machine Details",
     )
 
@@ -1897,7 +1726,6 @@ class TestingMachine(ObjectType):
         property_label="Instrument Status",
         description="""Instrument status//Instrumentenstatus""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Status",
     )
 
@@ -1907,7 +1735,6 @@ class TestingMachine(ObjectType):
         property_label="Last Calibration",
         description="""Last Calibration//Letzte Kalibrierung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Status",
     )
 
@@ -1917,7 +1744,6 @@ class TestingMachine(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -1927,7 +1753,6 @@ class TestingMachine(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -1937,7 +1762,6 @@ class TestingMachine(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -1955,7 +1779,6 @@ class Document(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1966,7 +1789,6 @@ class Document(ObjectType):
         property_label="Document type",
         description="""Document Type//Dokumenten Typ""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1976,7 +1798,6 @@ class Document(ObjectType):
         property_label="Alternative Name",
         description="""e.g. abbreviation or nickname//z.B. Abkürzung oder Spitzname""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1986,7 +1807,6 @@ class Document(ObjectType):
         property_label="Author(s)",
         description="""Author(s)//Autor(en)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -1996,7 +1816,6 @@ class Document(ObjectType):
         property_label="Version",
         description="""Version""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -2006,7 +1825,6 @@ class Document(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -2016,7 +1834,6 @@ class Document(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -2026,7 +1843,6 @@ class Document(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -2044,7 +1860,6 @@ class GasBottle(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -2054,7 +1869,6 @@ class GasBottle(ObjectType):
         property_label="Supplier",
         description="""Supplier//Lieferant""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -2064,7 +1878,6 @@ class GasBottle(ObjectType):
         property_label="Gas Volume [liter]",
         description="""Gas volume in liter//Gasvolumen in liter""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -2074,7 +1887,6 @@ class GasBottle(ObjectType):
         property_label="Gas pressure [bar]",
         description="""Gas pressure (in bar)// Gasdruck der Flasche (in bar)""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -2084,7 +1896,6 @@ class GasBottle(ObjectType):
         property_label="Ar",
         description="""Volume percent of Argon//Volumenanteil von Argon""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Gas Mixture",
     )
 
@@ -2094,7 +1905,6 @@ class GasBottle(ObjectType):
         property_label="CO2",
         description="""Volume percent of CO2//Volumenanteil von CO2""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Gas Mixture",
     )
 
@@ -2104,7 +1914,6 @@ class GasBottle(ObjectType):
         property_label="O2",
         description="""Volume percent of Oxygen//Volumenanteil von Sauerstoff""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Gas Mixture",
     )
 
@@ -2114,7 +1923,6 @@ class GasBottle(ObjectType):
         property_label="He",
         description="""Volume percent of Helium//Volumenanteil von Helium""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Gas Mixture",
     )
 
@@ -2124,7 +1932,6 @@ class GasBottle(ObjectType):
         property_label="H2",
         description="""Volume percent of hydrogen//Volumenanteil von Wasserstoff""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Gas Mixture",
     )
 
@@ -2134,7 +1941,6 @@ class GasBottle(ObjectType):
         property_label="N2",
         description="""Volume percent of Nitrogen//Volumenanteil von Stickstoff""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Gas Mixture",
     )
 
@@ -2144,7 +1950,6 @@ class GasBottle(ObjectType):
         property_label="Inventory Number",
         description="""PARFIS inventory number (8-digit)//PARFIS Inventarnummer (8-stellig)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -2154,7 +1959,6 @@ class GasBottle(ObjectType):
         property_label="Inventory Number Addition",
         description="""PARFIS inventory number (8-digit)//PARFIS Inventarnummer (8-stellig)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -2165,7 +1969,6 @@ class GasBottle(ObjectType):
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -2176,7 +1979,6 @@ class GasBottle(ObjectType):
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -2187,7 +1989,6 @@ class GasBottle(ObjectType):
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -2198,7 +1999,6 @@ class GasBottle(ObjectType):
         property_label="BAM Room",
         description="""BAM Room//BAM Raum""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -2209,7 +2009,6 @@ class GasBottle(ObjectType):
         property_label="BAM Floor",
         description="""BAM Floor//BAM Etage""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -2220,7 +2019,6 @@ class GasBottle(ObjectType):
         property_label="BAM House",
         description="""BAM House//BAM Haus""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -2231,7 +2029,6 @@ class GasBottle(ObjectType):
         property_label="BAM Location",
         description="""BAM Location//BAM Liegenschaft""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -2242,7 +2039,6 @@ class GasBottle(ObjectType):
         property_label="Complete BAM Location",
         description="""Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -2252,7 +2048,6 @@ class GasBottle(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -2262,7 +2057,6 @@ class GasBottle(ObjectType):
         property_label="Last System Check",
         description="""Date of the last system check//Datum des letzten Systemchecks""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -2272,7 +2066,6 @@ class GasBottle(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -2282,7 +2075,6 @@ class GasBottle(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -2300,7 +2092,6 @@ class TestObject(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -2310,7 +2101,6 @@ class TestObject(ObjectType):
         property_label="Alternative Name",
         description="""e.g. abbreviation or nickname//z.B. Abkürzung oder Spitzname""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -2320,7 +2110,6 @@ class TestObject(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -2330,7 +2119,6 @@ class TestObject(ObjectType):
         property_label="Production Date",
         description="""Production Date//Herstellungsdatum""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -2341,7 +2129,6 @@ class TestObject(ObjectType):
         property_label="Test Object Status",
         description="""Test Object Status//Prüfkörperstatus""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -2352,7 +2139,6 @@ class TestObject(ObjectType):
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -2363,7 +2149,6 @@ class TestObject(ObjectType):
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -2374,7 +2159,6 @@ class TestObject(ObjectType):
         property_label="BAM Room",
         description="""BAM Room//BAM Raum""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -2385,7 +2169,6 @@ class TestObject(ObjectType):
         property_label="BAM Floor",
         description="""BAM Floor//BAM Etage""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -2396,7 +2179,6 @@ class TestObject(ObjectType):
         property_label="BAM House",
         description="""BAM House//BAM Haus""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -2407,7 +2189,6 @@ class TestObject(ObjectType):
         property_label="BAM Location",
         description="""BAM Location//BAM Liegenschaft""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -2418,7 +2199,6 @@ class TestObject(ObjectType):
         property_label="Complete BAM Location",
         description="""Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -2429,7 +2209,6 @@ class TestObject(ObjectType):
         property_label="Building Material",
         description="""Building Material//Werkstoff""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Specific Information",
     )
 
@@ -2439,7 +2218,6 @@ class TestObject(ObjectType):
         property_label="Test Object Length [mm]",
         description="""Test Object Length [mm]//Länge des Prüfkörpers [mm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Specific Information",
     )
 
@@ -2449,7 +2227,6 @@ class TestObject(ObjectType):
         property_label="Test Object Width [mm]",
         description="""Test Object Width [mm]//Breite des Prüfkörpers [mm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Specific Information",
     )
 
@@ -2459,7 +2236,6 @@ class TestObject(ObjectType):
         property_label="Test Object Height [mm]",
         description="""Test Object Height [mm]//Höhe des Prüfkörpers [mm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Specific Information",
     )
 
@@ -2469,7 +2245,6 @@ class TestObject(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -2479,7 +2254,6 @@ class TestObject(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -2489,7 +2263,6 @@ class TestObject(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -2507,7 +2280,6 @@ class Project(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -2517,7 +2289,6 @@ class Project(ObjectType):
         property_label="Acronym",
         description="""Acronym//Akronym""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -2527,7 +2298,6 @@ class Project(ObjectType):
         property_label="Abstract",
         description="""Abstract//Kurzzusammenfassung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -2537,7 +2307,6 @@ class Project(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -2547,7 +2316,6 @@ class Project(ObjectType):
         property_label="Homepage",
         description="""Homepage//Homepage""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -2558,7 +2326,6 @@ class Project(ObjectType):
         property_label="Project Status",
         description="""Project Status//Projektstatus""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -2568,7 +2335,6 @@ class Project(ObjectType):
         property_label="Start date",
         description="""Start date//Startdatum""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -2578,7 +2344,6 @@ class Project(ObjectType):
         property_label="End date",
         description="""End date//Enddatum""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -2588,7 +2353,6 @@ class Project(ObjectType):
         property_label="Project Leader",
         description="""Project Leader: `Last name, first name`//Projektleitung: `Name, Vorname`""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -2599,7 +2363,6 @@ class Project(ObjectType):
         property_label="Project Leader",
         description="""Project Leader at BAM//Projektleitung an der BAM""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -2610,7 +2373,6 @@ class Project(ObjectType):
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -2621,7 +2383,6 @@ class Project(ObjectType):
         property_label="BAM Focus Area",
         description="""BAM Focus Area//BAM Themenfeld""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -2632,7 +2393,6 @@ class Project(ObjectType):
         property_label="BAM Field of Activity",
         description="""BAM Field of Activity//BAM Aktivitätsfeld""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -2642,7 +2402,6 @@ class Project(ObjectType):
         property_label="BAM Partner",
         description="""BAM Partner(s)//BAM Partner""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -2652,7 +2411,6 @@ class Project(ObjectType):
         property_label="PARFIS Project Number",
         description="""PARFIS Project Number: `VhXXXX`//PARFIS Vorhabennummer: `VhXXXX`""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -2662,7 +2420,6 @@ class Project(ObjectType):
         property_label="ReSEARCH BAM ID",
         description="""ReSEARCH BAM ID//ReSEARCH BAM ID""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -2672,7 +2429,6 @@ class Project(ObjectType):
         property_label="Grant Number",
         description="""Grant Number//Förderkennzeichen""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Funding Information",
     )
 
@@ -2682,7 +2438,6 @@ class Project(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -2692,7 +2447,6 @@ class Project(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -2702,7 +2456,6 @@ class Project(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -2720,7 +2473,6 @@ class Person(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -2730,7 +2482,6 @@ class Person(ObjectType):
         property_label="Family name",
         description="""Family name//Nachname""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -2740,7 +2491,6 @@ class Person(ObjectType):
         property_label="Given name",
         description="""Given name//Nachname""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -2750,7 +2500,6 @@ class Person(ObjectType):
         property_label="Alternative Name",
         description="""e.g. abbreviation or nickname//z.B. Abkürzung oder Spitzname""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -2760,7 +2509,6 @@ class Person(ObjectType):
         property_label="Institute or company",
         description="""Institute or company//Institut oder Unternehmen""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -2770,7 +2518,6 @@ class Person(ObjectType):
         property_label="Email address",
         description="""Email address//E-Mail-Adresse""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Contact Information",
     )
 
@@ -2780,7 +2527,6 @@ class Person(ObjectType):
         property_label="Telephone number",
         description="""Telephone number//Telefonnummer""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Contact Information",
     )
 
@@ -2790,7 +2536,6 @@ class Person(ObjectType):
         property_label="Postal address",
         description="""Postal address//Anschrift""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Contact Information",
     )
 
@@ -2800,7 +2545,6 @@ class Person(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -2818,7 +2562,6 @@ class Control(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -2828,7 +2571,6 @@ class Control(ObjectType):
         property_label="Monitoring date",
         description="""Monitoring date//Datum der Überprüfung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Control Data",
     )
 
@@ -2838,7 +2580,6 @@ class Control(ObjectType):
         property_label="Monitoring value",
         description="""Monitoring value or status//Messwert oder Status""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Control Data",
     )
 
@@ -2849,7 +2590,6 @@ class Control(ObjectType):
         property_label="Acting Person",
         description="""Acting Person//Handelnde Person""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Control Data",
     )
 
@@ -2859,7 +2599,6 @@ class Control(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -2869,7 +2608,6 @@ class Control(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -2887,7 +2625,6 @@ class Task(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -2897,7 +2634,6 @@ class Task(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Task Details",
     )
 
@@ -2908,7 +2644,6 @@ class Task(ObjectType):
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Automation",
     )
 
@@ -2919,7 +2654,6 @@ class Task(ObjectType):
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Automation",
     )
 
@@ -2929,7 +2663,6 @@ class Task(ObjectType):
         property_label="Date of last check",
         description="""Date of the last check//Datum der letzten Überprüfung""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Automation",
     )
 
@@ -2939,7 +2672,6 @@ class Task(ObjectType):
         property_label="Check interval [days]",
         description="""Time interval for checks in days//Überprüfungsintervall in Tagen""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Automation",
     )
 
@@ -2949,7 +2681,6 @@ class Task(ObjectType):
         property_label="Needs to be checked?",
         description="""TRUE if task needs to be done//WAHR wenn die Aufgabe getan werden muss""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Automation",
     )
 
@@ -2959,7 +2690,6 @@ class Task(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -2969,7 +2699,6 @@ class Task(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -2987,7 +2716,6 @@ class SpecificPersonInfo(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General information",
     )
 
@@ -2998,7 +2726,6 @@ class SpecificPersonInfo(ObjectType):
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Employee Information",
     )
 
@@ -3008,7 +2735,6 @@ class SpecificPersonInfo(ObjectType):
         property_label="Person alias",
         description="""Name abbreviation of a person//Laborkürzel einer Person""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Employee Information",
     )
 
@@ -3019,7 +2745,6 @@ class SpecificPersonInfo(ObjectType):
         property_label="Person status",
         description="""Person status//Anwesenheitsstatus einer Person""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Employee Information",
     )
 
@@ -3029,7 +2754,6 @@ class SpecificPersonInfo(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -3047,7 +2771,6 @@ class Sop(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3057,7 +2780,6 @@ class Sop(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3067,7 +2789,6 @@ class Sop(ObjectType):
         property_label="ID E-Akte",
         description="""Identifier used in E-Akte//E-Akte Nummer""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3077,7 +2798,6 @@ class Sop(ObjectType):
         property_label="Link E-Akte",
         description="""Link to E-Akte//Link zum Dokument in der E-Akte""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3088,7 +2808,6 @@ class Sop(ObjectType):
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3099,7 +2818,6 @@ class Sop(ObjectType):
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3110,7 +2828,6 @@ class Sop(ObjectType):
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3120,7 +2837,6 @@ class Sop(ObjectType):
         property_label="Author(s)",
         description="""Author(s)//Autor(en)""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3130,7 +2846,6 @@ class Sop(ObjectType):
         property_label="Version",
         description="""Version""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3140,7 +2855,6 @@ class Sop(ObjectType):
         property_label="Date of last check",
         description="""Date of the last check//Datum der letzten Überprüfung""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Automation",
     )
 
@@ -3150,7 +2864,6 @@ class Sop(ObjectType):
         property_label="Check interval [days]",
         description="""Time interval for checks in days//Überprüfungsintervall in Tagen""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Automation",
     )
 
@@ -3160,7 +2873,6 @@ class Sop(ObjectType):
         property_label="Needs to be checked?",
         description="""TRUE if task needs to be done//WAHR wenn die Aufgabe getan werden muss""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Automation",
     )
 
@@ -3170,7 +2882,6 @@ class Sop(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -3180,7 +2891,6 @@ class Sop(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -3198,7 +2908,6 @@ class Sample(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3208,7 +2917,6 @@ class Sample(ObjectType):
         property_label="Alternative Name",
         description="""e.g. abbreviation or nickname//z.B. Abkürzung oder Spitzname""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3218,7 +2926,6 @@ class Sample(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3228,7 +2935,6 @@ class Sample(ObjectType):
         property_label="Sample Number",
         description="""Sample number//Probennummer""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3238,7 +2944,6 @@ class Sample(ObjectType):
         property_label="Manufacturer",
         description="""Manufacturer//Hersteller""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3248,7 +2953,6 @@ class Sample(ObjectType):
         property_label="External Barcode",
         description="""External barcode (if availabe)//Externer Barcode (falls vorhanden)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3258,7 +2962,6 @@ class Sample(ObjectType):
         property_label="Supplier",
         description="""Supplier//Lieferant""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3269,7 +2972,6 @@ class Sample(ObjectType):
         property_label="Physical State",
         description="""Physical state of a material // Physikalischer Zustand eines Materials""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Properties",
     )
 
@@ -3280,7 +2982,6 @@ class Sample(ObjectType):
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3291,7 +2992,6 @@ class Sample(ObjectType):
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3302,7 +3002,6 @@ class Sample(ObjectType):
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3313,7 +3012,6 @@ class Sample(ObjectType):
         property_label="BAM Room",
         description="""BAM Room//BAM Raum""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3324,7 +3022,6 @@ class Sample(ObjectType):
         property_label="BAM Floor",
         description="""BAM Floor//BAM Etage""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3335,7 +3032,6 @@ class Sample(ObjectType):
         property_label="BAM House",
         description="""BAM House//BAM Haus""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3346,7 +3042,6 @@ class Sample(ObjectType):
         property_label="BAM Location",
         description="""BAM Location//BAM Liegenschaft""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3357,7 +3052,6 @@ class Sample(ObjectType):
         property_label="Complete BAM Location",
         description="""Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3367,7 +3061,6 @@ class Sample(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -3377,7 +3070,6 @@ class Sample(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -3387,7 +3079,6 @@ class Sample(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -3405,7 +3096,6 @@ class Chemical(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3415,7 +3105,6 @@ class Chemical(ObjectType):
         property_label="Alternative Name",
         description="""e.g. abbreviation or nickname//z.B. Abkürzung oder Spitzname""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3425,7 +3114,6 @@ class Chemical(ObjectType):
         property_label="IUPAC Name",
         description="""IUPAC Name//IUPAC-Name""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3435,7 +3123,6 @@ class Chemical(ObjectType):
         property_label="CAS Registry Number",
         description="""CAS Registry Number (corresponds to field `CAS-No.` in the Hazardous Materials Inventory (GSM) of BAM)//CAS-Nummer (entspricht Feld `CAS-Nr.` aus dem Gefahrstoffmanagement (GSM) der BAM)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3445,7 +3132,6 @@ class Chemical(ObjectType):
         property_label="Manufacturer",
         description="""Manufacturer//Hersteller""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3455,7 +3141,6 @@ class Chemical(ObjectType):
         property_label="Supplier",
         description="""Supplier//Lieferant""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3465,7 +3150,6 @@ class Chemical(ObjectType):
         property_label="Lot/Batch Number",
         description="""Lot/Batch Number//Chargennummer""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3475,7 +3159,6 @@ class Chemical(ObjectType):
         property_label="External Barcode",
         description="""External barcode (if availabe)//Externer Barcode (falls vorhanden)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3485,7 +3168,6 @@ class Chemical(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3496,7 +3178,6 @@ class Chemical(ObjectType):
         property_label="Product Category",
         description="""Product Category (corresponds to field `Product Category` in the Hazardous Materials Inventory (GSM) of BAM)//Produktkategorie (entspricht Feld `Verwendungstypen/Produktkategorie` aus dem Gefahrstoffmanagement (GSM) der BAM))""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3506,7 +3187,6 @@ class Chemical(ObjectType):
         property_label="Hazardous Substance",
         description="""Is the chemical a  hazardous substance according to the Hazardous Substances Ordinance (GefStoffV)?//Handelt es sich bei der Chemikalie um einen Gefahrenstoff nach der Gefahrenstoffverordnung (GefStoffV)?""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3517,7 +3197,6 @@ class Chemical(ObjectType):
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3528,7 +3207,6 @@ class Chemical(ObjectType):
         property_label="BAM Room",
         description="""BAM Room//BAM Raum""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3539,7 +3217,6 @@ class Chemical(ObjectType):
         property_label="BAM Floor",
         description="""BAM Floor//BAM Etage""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3550,7 +3227,6 @@ class Chemical(ObjectType):
         property_label="BAM House",
         description="""BAM House//BAM Haus""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3561,7 +3237,6 @@ class Chemical(ObjectType):
         property_label="BAM Location",
         description="""BAM Location//BAM Liegenschaft""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3572,7 +3247,6 @@ class Chemical(ObjectType):
         property_label="Complete BAM Location",
         description="""Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3583,7 +3257,6 @@ class Chemical(ObjectType):
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3593,7 +3266,6 @@ class Chemical(ObjectType):
         property_label="Molar Mass",
         description="""Molar Mass [g/mol]//Molare Masse [g/mol]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Chemical Properties",
     )
 
@@ -3603,7 +3275,6 @@ class Chemical(ObjectType):
         property_label="Density",
         description="""Density [g/cm³]//Dichte [g/cm³]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Chemical Properties",
     )
 
@@ -3613,7 +3284,6 @@ class Chemical(ObjectType):
         property_label="Concentration",
         description="""Concentration [%] (corresponds to field `Concentration %` in the Hazardous Materials Inventory (GSM) of BAM)//Konzentration [%] (entspricht Feld `Konzentration %` aus dem Gefahrstoffmanagement (GSM) der BAM)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Chemical Properties",
     )
 
@@ -3623,7 +3293,6 @@ class Chemical(ObjectType):
         property_label="Bottling Date",
         description="""Date of Bottling//Abfülldatum""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Handling",
     )
 
@@ -3633,7 +3302,6 @@ class Chemical(ObjectType):
         property_label="Opening Date",
         description="""Opening Data//Öffnungsdatum""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Handling",
     )
 
@@ -3643,7 +3311,6 @@ class Chemical(ObjectType):
         property_label="Expiration Date",
         description="""Expiration Date//Verfallsdatum""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Handling",
     )
 
@@ -3653,7 +3320,6 @@ class Chemical(ObjectType):
         property_label="Empty",
         description="""Is the substance used up?//Ist die Substanz aufgebraucht?""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Handling",
     )
 
@@ -3663,7 +3329,6 @@ class Chemical(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -3673,7 +3338,6 @@ class Chemical(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -3683,7 +3347,6 @@ class Chemical(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -3701,7 +3364,6 @@ class Organism(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3711,7 +3373,6 @@ class Organism(ObjectType):
         property_label="Alternative Name",
         description="""e.g. abbreviation or nickname//z.B. Abkürzung oder Spitzname""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3721,7 +3382,6 @@ class Organism(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3731,7 +3391,6 @@ class Organism(ObjectType):
         property_label="Supplier",
         description="""Supplier//Lieferant""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3742,7 +3401,6 @@ class Organism(ObjectType):
         property_label="Organism Risk Group Assignement",
         description="""Organism Risk Group Assignment//Risikogruppenzuordnung des Organismus""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3753,7 +3411,6 @@ class Organism(ObjectType):
         property_label="Organism Group Assignment",
         description="""Organism group assignment according to the central comission of biological safety or category in the BAM-Biomicrosearch//Organismen Gruppenzuordnung anhand ZKBS bzw. die Kategorie in der BAM-Microsearch Datenbank database//Organismen Gruppenzuordnung anhand ZKBS bzw. die Kategorie in der BAM-Microsearch Datenbank""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3763,7 +3420,6 @@ class Organism(ObjectType):
         property_label="Organism Family Assignment",
         description="""Organism family assignment according Central Commision for Biological Safety//Organismen Familienzuordnung anhand ZKBS""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3774,7 +3430,6 @@ class Organism(ObjectType):
         property_label="ZKBS Footnote",
         description="""Central commission for biological safety Footnotes//Zentral Komission für Biologische Sicherheit ZKBS Fußnote""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3784,7 +3439,6 @@ class Organism(ObjectType):
         property_label="Central Commission for Biological Safety  Statement",
         description="""Central Commission for Biological Safety  Statement//Zentral Komission für Biologische Sicherheit ZKBS-Stellungnahme""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3794,7 +3448,6 @@ class Organism(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -3804,7 +3457,6 @@ class Organism(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -3814,7 +3466,6 @@ class Organism(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -3832,7 +3483,6 @@ class BamGentechFacility(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3842,7 +3492,6 @@ class BamGentechFacility(ObjectType):
         property_label="Alternative Name",
         description="""e.g. abbreviation or nickname//z.B. Abkürzung oder Spitzname""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3852,7 +3501,6 @@ class BamGentechFacility(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -3863,7 +3511,6 @@ class BamGentechFacility(ObjectType):
         property_label="Genetic Engineering Facility Safety Level",
         description="""BAM genetic engineering facility//BAM gentechnische Anlage""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3874,7 +3521,6 @@ class BamGentechFacility(ObjectType):
         property_label="Genetic Engineering Facility Project Leader",
         description="""BAM Project Leader according to GenTSV//BAM Project Leiter nach GenTSV""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3885,7 +3531,6 @@ class BamGentechFacility(ObjectType):
         property_label="Genetic Engineering Facility Biosafety Officer",
         description="""BAM Biosafety Officer according to GenTSV//BAM Beauftragte für biologische Sicherheit nach GenTSV""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3896,7 +3541,6 @@ class BamGentechFacility(ObjectType):
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3907,7 +3551,6 @@ class BamGentechFacility(ObjectType):
         property_label="BAM Room",
         description="""BAM Room//BAM Raum""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3918,7 +3561,6 @@ class BamGentechFacility(ObjectType):
         property_label="BAM Floor",
         description="""BAM Floor//BAM Etage""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3929,7 +3571,6 @@ class BamGentechFacility(ObjectType):
         property_label="BAM House",
         description="""BAM House//BAM Haus""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3940,7 +3581,6 @@ class BamGentechFacility(ObjectType):
         property_label="BAM Location",
         description="""BAM Location//BAM Liegenschaft""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3951,7 +3591,6 @@ class BamGentechFacility(ObjectType):
         property_label="Complete BAM Location",
         description="""Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -3961,7 +3600,6 @@ class BamGentechFacility(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -3971,7 +3609,6 @@ class BamGentechFacility(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -3981,7 +3618,6 @@ class BamGentechFacility(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -3999,7 +3635,6 @@ class GlassWare(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4009,7 +3644,6 @@ class GlassWare(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4019,7 +3653,6 @@ class GlassWare(ObjectType):
         property_label="Manufacturer",
         description="""Manufacturer//Hersteller""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4029,7 +3662,6 @@ class GlassWare(ObjectType):
         property_label="Supplier",
         description="""Supplier//Lieferant""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4039,7 +3671,6 @@ class GlassWare(ObjectType):
         property_label="Lot/Batch Number",
         description="""Lot/Batch Number//Chargennummer""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4049,7 +3680,6 @@ class GlassWare(ObjectType):
         property_label="External Barcode",
         description="""External barcode (if availabe)//Externer Barcode (falls vorhanden)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4059,7 +3689,6 @@ class GlassWare(ObjectType):
         property_label="Minimum volume",
         description="""Minimum volume in mililiter//Mindestvolumen in Milliliter""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4069,7 +3698,6 @@ class GlassWare(ObjectType):
         property_label="Maximum volume",
         description="""Maximum volume in mililiter/Maximales Volumen in Milliliter""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4080,7 +3708,6 @@ class GlassWare(ObjectType):
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -4091,7 +3718,6 @@ class GlassWare(ObjectType):
         property_label="BAM Room",
         description="""BAM Room//BAM Raum""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -4102,7 +3728,6 @@ class GlassWare(ObjectType):
         property_label="BAM Floor",
         description="""BAM Floor//BAM Etage""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -4113,7 +3738,6 @@ class GlassWare(ObjectType):
         property_label="BAM House",
         description="""BAM House//BAM Haus""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -4124,7 +3748,6 @@ class GlassWare(ObjectType):
         property_label="BAM Location",
         description="""BAM Location//BAM Liegenschaft""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -4135,7 +3758,6 @@ class GlassWare(ObjectType):
         property_label="Complete BAM Location",
         description="""Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -4145,7 +3767,6 @@ class GlassWare(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -4155,7 +3776,6 @@ class GlassWare(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -4165,7 +3785,6 @@ class GlassWare(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -4183,7 +3802,6 @@ class StorageConnector(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4193,7 +3811,6 @@ class StorageConnector(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4203,7 +3820,6 @@ class StorageConnector(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -4213,7 +3829,6 @@ class StorageConnector(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -4231,7 +3846,6 @@ class Action(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Device ID",
     )
 
@@ -4241,7 +3855,6 @@ class Action(ObjectType):
         property_label="Monitoring Date",
         description="""Action Date//Datum der Handlung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Action Data",
     )
 
@@ -4252,7 +3865,6 @@ class Action(ObjectType):
         property_label="Acting Person",
         description="""Acting Person//Handelnde Person""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Action Data",
     )
 
@@ -4262,7 +3874,6 @@ class Action(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -4272,7 +3883,6 @@ class Action(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -4290,7 +3900,6 @@ class RawMaterialCode(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4300,7 +3909,6 @@ class RawMaterialCode(ObjectType):
         property_label="Alternative Name",
         description="""e.g. abbreviation or nickname//z.B. Abkürzung oder Spitzname""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4310,7 +3918,6 @@ class RawMaterialCode(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4320,7 +3927,6 @@ class RawMaterialCode(ObjectType):
         property_label="Material number",
         description="""Material number//Werkstoffnummer""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Material Information",
     )
 
@@ -4330,7 +3936,6 @@ class RawMaterialCode(ObjectType):
         property_label="Material group",
         description="""Material group (e.g. steel group)//Materialgruppe (z.B. Stahlgruppe)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Material Information",
     )
 
@@ -4340,7 +3945,6 @@ class RawMaterialCode(ObjectType):
         property_label="Characteristics",
         description="""Characteristics//Merkmale""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Material Information",
     )
 
@@ -4350,7 +3954,6 @@ class RawMaterialCode(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -4360,7 +3963,6 @@ class RawMaterialCode(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -4370,7 +3972,6 @@ class RawMaterialCode(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -4388,7 +3989,6 @@ class ParameterSet(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4398,7 +3998,6 @@ class ParameterSet(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4408,7 +4007,6 @@ class ParameterSet(ObjectType):
         property_label="Parameter Table",
         description="""Table of parameters//Parameter-Tabelle""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -4418,7 +4016,6 @@ class ParameterSet(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -4428,7 +4025,6 @@ class ParameterSet(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -4438,7 +4034,6 @@ class ParameterSet(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -4456,7 +4051,6 @@ class EnvironmentalConditions(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4466,7 +4060,6 @@ class EnvironmentalConditions(ObjectType):
         property_label="Air Temperature [°C]",
         description="""Air Temperature in °C//Lufttemperatur in °C""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Atmospheric Conditions",
     )
 
@@ -4476,7 +4069,6 @@ class EnvironmentalConditions(ObjectType):
         property_label="Relative Air Humidity [%]",
         description="""Relative Air Humidity in %//Relative Luftfeuchte in %""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Atmospheric Conditions",
     )
 
@@ -4486,7 +4078,6 @@ class EnvironmentalConditions(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -4496,7 +4087,6 @@ class EnvironmentalConditions(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -4506,7 +4096,6 @@ class EnvironmentalConditions(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -4524,7 +4113,6 @@ class SampleNdt(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4534,7 +4122,6 @@ class SampleNdt(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Properties",
     )
 
@@ -4544,7 +4131,6 @@ class SampleNdt(ObjectType):
         property_label="Material",
         description="""NDT Material//NDT Material""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Properties",
     )
 
@@ -4554,7 +4140,6 @@ class SampleNdt(ObjectType):
         property_label="Material number",
         description="""NDT Material number//NDT Werkstoffnummer""",
         mandatory=False,
-        show_in_edit_views=False,
         section="NDT Material number",
     )
 
@@ -4564,7 +4149,6 @@ class SampleNdt(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -4574,7 +4158,6 @@ class SampleNdt(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -4584,7 +4167,6 @@ class SampleNdt(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -4602,7 +4184,6 @@ class SampleHolder(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4612,7 +4193,6 @@ class SampleHolder(ObjectType):
         property_label="Alternative Name",
         description="""e.g. abbreviation or nickname//z.B. Abkürzung oder Spitzname""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4622,7 +4202,6 @@ class SampleHolder(ObjectType):
         property_label="Manufacturer",
         description="""Manufacturer//Hersteller""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4633,7 +4212,6 @@ class SampleHolder(ObjectType):
         property_label="Holder Material",
         description="""The material of the sample envelope contributing to the measurement//Das Material des Probenbehälters, das zur Messung beiträgt""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Physical Properties",
     )
 
@@ -4643,7 +4221,6 @@ class SampleHolder(ObjectType):
         property_label="Thickness effective [mm]",
         description="""Sample Container Wall Thickness in mm//Wandstärke des Probenbehälters in mm""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Physical Properties",
     )
 
@@ -4653,7 +4230,6 @@ class SampleHolder(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -4663,7 +4239,6 @@ class SampleHolder(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -4673,7 +4248,6 @@ class SampleHolder(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -4691,7 +4265,6 @@ class SamplePretreatment(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4701,7 +4274,6 @@ class SamplePretreatment(ObjectType):
         property_label="Duration [s]",
         description="""The duration of the sample treatment in seconds//Die Dauer der Probenbehandlung in Sekunden""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Properties",
     )
 
@@ -4711,7 +4283,6 @@ class SamplePretreatment(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -4721,7 +4292,6 @@ class SamplePretreatment(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -4739,7 +4309,6 @@ class InstrumentAccessory(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4749,7 +4318,6 @@ class InstrumentAccessory(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4759,7 +4327,6 @@ class InstrumentAccessory(ObjectType):
         property_label="Effective Dimension [mm]",
         description="""Instrument specific relevant size in mm//Instrumentspezifische relevante Größe in mm""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Properties",
     )
 
@@ -4769,7 +4336,6 @@ class InstrumentAccessory(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -4779,7 +4345,6 @@ class InstrumentAccessory(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -4797,7 +4362,6 @@ class ComputationalAnalysis(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4807,7 +4371,6 @@ class ComputationalAnalysis(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4817,7 +4380,6 @@ class ComputationalAnalysis(ObjectType):
         property_label="Programming Language(s) Used",
         description="""Programming Language(s) used//Verwendete Programmiersprache(n)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Information",
     )
 
@@ -4827,7 +4389,6 @@ class ComputationalAnalysis(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -4837,7 +4398,6 @@ class ComputationalAnalysis(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -4847,7 +4407,6 @@ class ComputationalAnalysis(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -4865,7 +4424,6 @@ class CondaEnvironment(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4875,7 +4433,6 @@ class CondaEnvironment(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4885,7 +4442,6 @@ class CondaEnvironment(ObjectType):
         property_label="Conda Channels",
         description="""Conda channels used//Verwendete Conda-Kanäle""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Technical Information",
     )
 
@@ -4895,7 +4451,6 @@ class CondaEnvironment(ObjectType):
         property_label="Pip Usage?",
         description="""Is pip used to install packages?//Wird pip zur Installation von Packages verwendet?""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Information",
     )
 
@@ -4905,7 +4460,6 @@ class CondaEnvironment(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -4915,7 +4469,6 @@ class CondaEnvironment(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -4925,7 +4478,6 @@ class CondaEnvironment(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -4943,7 +4495,6 @@ class Hpc(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4953,7 +4504,6 @@ class Hpc(ObjectType):
         property_label="Alternative Name",
         description="""e.g. abbreviation or nickname//z.B. Abkürzung oder Spitzname""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4963,7 +4513,6 @@ class Hpc(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4973,7 +4522,6 @@ class Hpc(ObjectType):
         property_label="Physical Address of External HPC",
         description="""Physical address of external HPC//Adresse des externen HPC""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4983,7 +4531,6 @@ class Hpc(ObjectType):
         property_label="Email Address/Contact for External HPC",
         description="""Email address/point of contact for the external HPC//Email adresse/Kontaktstelle des externen HPC""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -4994,7 +4541,6 @@ class Hpc(ObjectType):
         property_label="Operating System",
         description="""Operating System (OS)//Betriebssystem""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Information",
     )
 
@@ -5005,7 +4551,6 @@ class Hpc(ObjectType):
         property_label="Queuing System",
         description="""Queuing System used by HPC//Warteschlangensystem des HPCs""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Information",
     )
 
@@ -5015,7 +4560,6 @@ class Hpc(ObjectType):
         property_label="CPU Node Configuration",
         description="""CPU node configuration//Konfiguration der CPU-Knoten""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Information",
     )
 
@@ -5025,7 +4569,6 @@ class Hpc(ObjectType):
         property_label="GPU Node Configuration",
         description="""GPU node configuration//Konfiguration der GPU-Knoten""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Information",
     )
 
@@ -5035,7 +4578,6 @@ class Hpc(ObjectType):
         property_label="File System Configuration",
         description="""File system configuration//Konfiguration des Dateisystems""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Information",
     )
 
@@ -5045,7 +4587,6 @@ class Hpc(ObjectType):
         property_label="References",
         description="""Useful refences""",
         mandatory=False,
-        show_in_edit_views=False,
         section="External Documentation",
     )
 
@@ -5056,7 +4597,6 @@ class Hpc(ObjectType):
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -5067,7 +4607,6 @@ class Hpc(ObjectType):
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -5077,7 +4616,6 @@ class Hpc(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -5087,7 +4625,6 @@ class Hpc(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -5097,7 +4634,6 @@ class Hpc(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -5115,7 +4651,6 @@ class InteratomicPotential(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -5125,7 +4660,6 @@ class InteratomicPotential(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -5135,7 +4669,6 @@ class InteratomicPotential(ObjectType):
         property_label="Chemical Species Addressed",
         description="""Chemical species addressed//Angesprochene chemische Arten""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Material Information",
     )
 
@@ -5146,7 +4679,6 @@ class InteratomicPotential(ObjectType):
         property_label="Interatomic Potential Style",
         description="""Interatomic Potential Style//Interatomarer Potential Stil""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Method Specific",
     )
 
@@ -5156,7 +4688,6 @@ class InteratomicPotential(ObjectType):
         property_label="Source for download",
         description="""Source/Download//Quelle/Herunterladen""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Information",
     )
 
@@ -5166,7 +4697,6 @@ class InteratomicPotential(ObjectType):
         property_label="Software Compatibility",
         description="""Software which can use this file//Software, die diese Datei verwenden kann""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Information",
     )
 
@@ -5176,7 +4706,6 @@ class InteratomicPotential(ObjectType):
         property_label="References",
         description="""Useful refences""",
         mandatory=False,
-        show_in_edit_views=False,
         section="External Documentation",
     )
 
@@ -5186,7 +4715,6 @@ class InteratomicPotential(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -5196,7 +4724,6 @@ class InteratomicPotential(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -5206,7 +4733,6 @@ class InteratomicPotential(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -5224,7 +4750,6 @@ class JupyterNotebook(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -5234,7 +4759,6 @@ class JupyterNotebook(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -5244,7 +4768,6 @@ class JupyterNotebook(ObjectType):
         property_label="Programming Language(s) Used",
         description="""Programming Language(s) used//Verwendete Programmiersprache(n)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Information",
     )
 
@@ -5254,7 +4777,6 @@ class JupyterNotebook(ObjectType):
         property_label="Modules Used",
         description="""Modules used in the notebook//Im Notebook verwendete Module""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Information",
     )
 
@@ -5264,7 +4786,6 @@ class JupyterNotebook(ObjectType):
         property_label="Headers Used (Programming)",
         description="""Headers used in the notebook//Im Notebook verwendete Headers""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Information",
     )
 
@@ -5274,7 +4795,6 @@ class JupyterNotebook(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -5284,7 +4804,6 @@ class JupyterNotebook(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -5294,7 +4813,6 @@ class JupyterNotebook(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -5312,7 +4830,6 @@ class Pseudopotential(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -5322,7 +4839,6 @@ class Pseudopotential(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -5332,7 +4848,6 @@ class Pseudopotential(ObjectType):
         property_label="Version",
         description="""Version""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -5342,7 +4857,6 @@ class Pseudopotential(ObjectType):
         property_label="License",
         description="""License//Lizenz""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -5352,7 +4866,6 @@ class Pseudopotential(ObjectType):
         property_label="Chemical Species Addressed",
         description="""Chemical species addressed//Angesprochene chemische Arten""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Material Information",
     )
 
@@ -5363,7 +4876,6 @@ class Pseudopotential(ObjectType):
         property_label="Functional Compatibility",
         description="""Functional compatibility//Funktional-Kompatibilität""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Method Specific",
     )
 
@@ -5374,7 +4886,6 @@ class Pseudopotential(ObjectType):
         property_label="Type of Pseudopotenial",
         description="""Type of pseudopotenial//Art des Pseudopotenials""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Method Specific",
     )
 
@@ -5384,7 +4895,6 @@ class Pseudopotential(ObjectType):
         property_label="Software Compatibility",
         description="""Software which can use this file//Software, die diese Datei verwenden kann""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Information",
     )
 
@@ -5394,7 +4904,6 @@ class Pseudopotential(ObjectType):
         property_label="Semicore Shells Considered as Valence",
         description="""Semicore shells considered as valence//Halbkernschalen, die als Valenz betrachtet werden""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Information",
     )
 
@@ -5404,7 +4913,6 @@ class Pseudopotential(ObjectType):
         property_label="References",
         description="""Useful refences""",
         mandatory=False,
-        show_in_edit_views=False,
         section="External Documetation",
     )
 
@@ -5414,7 +4922,6 @@ class Pseudopotential(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -5424,7 +4931,6 @@ class Pseudopotential(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -5434,7 +4940,6 @@ class Pseudopotential(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -5452,7 +4957,6 @@ class PyironJob(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -5462,7 +4966,6 @@ class PyironJob(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -5472,7 +4975,6 @@ class PyironJob(ObjectType):
         property_label="BAM username",
         description="""BAM username//BAM Benutzername""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -5482,7 +4984,6 @@ class PyironJob(ObjectType):
         property_label="Workflow Manager",
         description="""Workflow manager//Workflow-Manager""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Information",
     )
 
@@ -5492,7 +4993,6 @@ class PyironJob(ObjectType):
         property_label="Is the job finished?",
         description="""Finished = True, Aborted or incomplete = False//Beendet = Wahr, Abgebrochen oder unvollständig = Falsch""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Pyiron Information",
     )
 
@@ -5502,7 +5002,6 @@ class PyironJob(ObjectType):
         property_label="Start date",
         description="""Start date//Startdatum""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Pyiron Information",
     )
 
@@ -5512,7 +5011,6 @@ class PyironJob(ObjectType):
         property_label="Job Run Time (Walltime) [hr]",
         description="""Total job run time [hr]//Gesamtlaufzeit des Jobs [Stunden]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Pyiron Information",
     )
 
@@ -5522,7 +5020,6 @@ class PyironJob(ObjectType):
         property_label="Total Job Core Time [hr]",
         description="""Total core hours used [hr]//Gesamtkernstundenzeit des Jobs [Stunden]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Pyiron Information",
     )
 
@@ -5532,7 +5029,6 @@ class PyironJob(ObjectType):
         property_label="Number of Cores",
         description="""Number of cores used//Anzahl der Kerne""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Pyiron Information",
     )
 
@@ -5542,7 +5038,6 @@ class PyironJob(ObjectType):
         property_label="Number of GPUs",
         description="""Number of GPUs used//Anzahl der GPUs""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Pyiron Information",
     )
 
@@ -5552,7 +5047,6 @@ class PyironJob(ObjectType):
         property_label="Number of Threads",
         description="""Number of Threads used//Anzahl der Threads""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Pyiron Information",
     )
 
@@ -5562,7 +5056,6 @@ class PyironJob(ObjectType):
         property_label="HPC Job Queue",
         description="""HPC queue used//Verwendete HPC-Warteschlange""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Pyiron Information",
     )
 
@@ -5572,7 +5065,6 @@ class PyironJob(ObjectType):
         property_label="HPC Job ID",
         description="""Job ID in the HPC queue//Job-ID in der HPC-Warteschlange""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Pyiron Information",
     )
 
@@ -5582,7 +5074,6 @@ class PyironJob(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -5592,7 +5083,6 @@ class PyironJob(ObjectType):
         property_label="Conceptual Dictionary",
         description="""Conceptual dictionary associated with pyiron job//Begriffswörterbuch zu pyiron job""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Annotations",
     )
 
@@ -5602,7 +5092,6 @@ class PyironJob(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -5612,7 +5101,6 @@ class PyironJob(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -5630,7 +5118,6 @@ class SoftwareCode(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -5640,7 +5127,6 @@ class SoftwareCode(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -5650,7 +5136,6 @@ class SoftwareCode(ObjectType):
         property_label="Version",
         description="""Version""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -5660,7 +5145,6 @@ class SoftwareCode(ObjectType):
         property_label="License",
         description="""License//Lizenz""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -5670,7 +5154,6 @@ class SoftwareCode(ObjectType):
         property_label="Source for download",
         description="""Source/Download//Quelle/Herunterladen""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Information",
     )
 
@@ -5680,7 +5163,6 @@ class SoftwareCode(ObjectType):
         property_label="Software Name",
         description="""Software name//Software-Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Technical Information",
     )
 
@@ -5690,7 +5172,6 @@ class SoftwareCode(ObjectType):
         property_label="References",
         description="""Useful refences""",
         mandatory=False,
-        show_in_edit_views=False,
         section="External Documentation",
     )
 
@@ -5700,7 +5181,6 @@ class SoftwareCode(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -5710,7 +5190,6 @@ class SoftwareCode(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -5720,7 +5199,6 @@ class SoftwareCode(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -5738,7 +5216,6 @@ class WorkflowReference(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -5748,7 +5225,6 @@ class WorkflowReference(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -5758,7 +5234,6 @@ class WorkflowReference(ObjectType):
         property_label="References",
         description="""Useful refences""",
         mandatory=False,
-        show_in_edit_views=False,
         section="External Documetation",
     )
 
@@ -5768,7 +5243,6 @@ class WorkflowReference(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -5778,7 +5252,6 @@ class WorkflowReference(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -5788,7 +5261,6 @@ class WorkflowReference(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -5806,7 +5278,6 @@ class MaterialV1(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -5816,7 +5287,6 @@ class MaterialV1(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -5826,7 +5296,6 @@ class MaterialV1(ObjectType):
         property_label="Material Bonding Type",
         description="""Material bonding type//Material Atombindungstyp""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Material Information",
     )
 
@@ -5837,7 +5306,6 @@ class MaterialV1(ObjectType):
         property_label="Material Structure",
         description="""Material Structure//Materialstruktur""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Material Information",
     )
 
@@ -5847,7 +5315,6 @@ class MaterialV1(ObjectType):
         property_label="Chemical Species by weight [%]",
         description="""Chemical species involved by weight [%]//Inbegriffene chemische Spezies nach Gewicht [%]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Material Information",
     )
 
@@ -5857,7 +5324,6 @@ class MaterialV1(ObjectType):
         property_label="Chemical species involved by composition [%]",
         description="""Chemical species involved by composition [%]//Inbegriffene chemische Spezies nach Zusammensetzung [%]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Material Information",
     )
 
@@ -5867,7 +5333,6 @@ class MaterialV1(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -5877,7 +5342,6 @@ class MaterialV1(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -5887,7 +5351,6 @@ class MaterialV1(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -5905,7 +5368,6 @@ class MatSimStructure(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -5915,7 +5377,6 @@ class MatSimStructure(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -5925,7 +5386,6 @@ class MatSimStructure(ObjectType):
         property_label="Workflow Manager",
         description="""Workflow manager//Workflow-Manager""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Information",
     )
 
@@ -5935,7 +5395,6 @@ class MatSimStructure(ObjectType):
         property_label="Crystallographic Orientation",
         description="""Miller indices//Millersche Indizes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Material Information",
     )
 
@@ -5945,7 +5404,6 @@ class MatSimStructure(ObjectType):
         property_label="Simulation Cell Lengths [Å]",
         description="""Simulation cell lengths [Å]//Längen der Simulationszelle [Å]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Simulation Information",
     )
 
@@ -5955,7 +5413,6 @@ class MatSimStructure(ObjectType):
         property_label="Simulation Cell Vectors",
         description="""Simulation cell vectors//Vektoren der Simulationszelle""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Simulation Information",
     )
 
@@ -5965,7 +5422,6 @@ class MatSimStructure(ObjectType):
         property_label="Simulation Cell Angles [Degrees]",
         description="""Simulation cell angles [Degrees]//Winkel der Simulationszelle [Grad]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Simulation Information",
     )
 
@@ -5975,7 +5431,6 @@ class MatSimStructure(ObjectType):
         property_label="Simulation Cell Volume [Å^3]",
         description="""Simulation cell volume [Å^3]//Volumen der Simulationszelle [Å^3]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Simulation Information",
     )
 
@@ -5985,7 +5440,6 @@ class MatSimStructure(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -5995,7 +5449,6 @@ class MatSimStructure(ObjectType):
         property_label="Conceptual Dictionary",
         description="""Conceptual dictionary associated with pyiron job//Begriffswörterbuch zu pyiron job""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Annotations",
     )
 
@@ -6005,7 +5458,6 @@ class MatSimStructure(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -6015,7 +5467,6 @@ class MatSimStructure(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -6034,7 +5485,6 @@ class Dcpd(ExperimentalStep):
         property_label="Potential Drop Calibration",
         description="""Potential Drop Calibration//Kalibrierung des Potentialabfalls""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Setup",
     )
 
@@ -6044,7 +5494,6 @@ class Dcpd(ExperimentalStep):
         property_label="Current [A]",
         description="""DCPD Current [A]//DCPD Stromstärke [A]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Setup",
     )
 
@@ -6054,7 +5503,6 @@ class Dcpd(ExperimentalStep):
         property_label="Initial Cracklength (measured optically) [mm]",
         description="""Initial Cracklength (measured optically) [mm]// Initiale Risslänge (optisch vermessen) [mm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Setup",
     )
 
@@ -6064,7 +5512,6 @@ class Dcpd(ExperimentalStep):
         property_label="Y0 in Johnson Formula fitted for Notch Geometry [mm]",
         description="""Y0 in Johnson Formula fitted for Notch Geometry [mm]//Y0 in Johnson Formel angepasst an die Kerbgeometrie [mm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Setup",
     )
 
@@ -6074,7 +5521,6 @@ class Dcpd(ExperimentalStep):
         property_label="Equation of FEM Fit a = f(U)",
         description="""Equation of FEM Fit a = f(U)//Gleichung für FEM Fit a = f(U)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Setup",
     )
 
@@ -6084,7 +5530,6 @@ class Dcpd(ExperimentalStep):
         property_label="Output Signal proportional to Potential Drop",
         description="""Output Signal proportional to Potential Drop//Ausgangssignal proportional zum Potentialabfall""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Direct Amplification of Corrected Potential Drop",
     )
 
@@ -6094,7 +5539,6 @@ class Dcpd(ExperimentalStep):
         property_label="Initial Potential Drop (amplified) [V]",
         description="""Initial Potential Drop (amplified) [V]//Initiale Potentialabfall (verstärkt) [V]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Direct Amplification of Corrected Potential Drop",
     )
 
@@ -6104,7 +5548,6 @@ class Dcpd(ExperimentalStep):
         property_label="Amplification Factor",
         description="""Amplification Factor//Verstärkungsfaktor""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Direct Amplification of Corrected Potential Drop",
     )
 
@@ -6114,7 +5557,6 @@ class Dcpd(ExperimentalStep):
         property_label="Output Signal Proportional to Cracklength",
         description="""Output Signal Proportional to Cracklength//Ausgangssignal proportional zur Risslänge""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Output Potential Proportional to Cracklength",
     )
 
@@ -6124,7 +5566,6 @@ class Dcpd(ExperimentalStep):
         property_label="Temperature Compensation",
         description="""Temperature Compensation//Temperaturkompensation""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Temperature Compensation",
     )
 
@@ -6134,7 +5575,6 @@ class Dcpd(ExperimentalStep):
         property_label="Initial Temperature [°C]",
         description="""Initial Temperature [°C]//Anfangstemperatur [°C]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Temperature Compensation",
     )
 
@@ -6144,7 +5584,6 @@ class Dcpd(ExperimentalStep):
         property_label="Temperature Coefficient of Resistivity [°C^-1]",
         description="""Temperature Coefficient of Resistivity [°C^-1]//Temperaturkoeffizient der Resistivität [°C^-1]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Temperature Compensation",
     )
 
@@ -6162,7 +5601,6 @@ class FcgTest(ExperimentalStep):
         property_label="Test Nominal R-Ratio",
         description="""Test Nominal R-Ratio//Nominelles R-Verhältnis des Tests""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Experimental Details FCG",
     )
 
@@ -6172,7 +5610,6 @@ class FcgTest(ExperimentalStep):
         property_label="Threshold Determination",
         description="""Threshold Stress Intensity Factor Range Determination//Ermittlung des Schwellenwertes gegen Ermüdungsrissausbreitung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Experimental Details FCG",
     )
 
@@ -6182,7 +5619,6 @@ class FcgTest(ExperimentalStep):
         property_label="PARIS Parameters Determination",
         description="""PARIS Regime Parameters Determination//Ermittlung der PARIS-Parameter""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Experimental Details FCG",
     )
 
@@ -6192,7 +5628,6 @@ class FcgTest(ExperimentalStep):
         property_label="Cyclic R-Curve",
         description="""Cyclic R-Curve Determination//Ermittlung der zyklischen R-Kurve""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Experimental Details FCG",
     )
 
@@ -6202,7 +5637,6 @@ class FcgTest(ExperimentalStep):
         property_label="Threshold Stress intensity Factor Range",
         description="""Threshold Stress Intensity Factor Range//Schwellenwert gegen Ermüdungsrissausbreitung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Experimental Results",
     )
 
@@ -6212,7 +5646,6 @@ class FcgTest(ExperimentalStep):
         property_label="PARIS Parameter C",
         description="""PARIS Parameter C//PARIS Parameter C""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Experimental Results",
     )
 
@@ -6222,7 +5655,6 @@ class FcgTest(ExperimentalStep):
         property_label="PARIS Parameter m",
         description="""PARIS Parameter m//PARIS Parameter m""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Experimental Results",
     )
 
@@ -6232,7 +5664,6 @@ class FcgTest(ExperimentalStep):
         property_label="Cyclic R-Curve Parameter A",
         description="""Cyclic R-Curve Parameter A//Zyklische R-Kurve Parameter A""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Experimental Results",
     )
 
@@ -6242,7 +5673,6 @@ class FcgTest(ExperimentalStep):
         property_label="Cyclic R-Curve Parameter b",
         description="""Cyclic R-Curve Parameter b//Zyklische R-Kurve Parameter b""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Experimental Results",
     )
 
@@ -6260,7 +5690,6 @@ class RazorbladeNotching(ExperimentalStep):
         property_label="Stroke Length [mm]",
         description="""Stroke Length [mm]//Klingenhub [mm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Process Parameters",
     )
 
@@ -6270,7 +5699,6 @@ class RazorbladeNotching(ExperimentalStep):
         property_label="Stroke Speed [mm/s]",
         description="""Stroke Speed [mm/s]//Hubgeschwindigkeit [mm/s]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Process Parameters",
     )
 
@@ -6280,7 +5708,6 @@ class RazorbladeNotching(ExperimentalStep):
         property_label="Stroke Count",
         description="""Stroke Count//Anzahl der Klingenhuebe""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Process Parameters",
     )
 
@@ -6290,7 +5717,6 @@ class RazorbladeNotching(ExperimentalStep):
         property_label="Notch Depth Increase according to Gauge [µm]",
         description="""Notch Depth Increase according to Gauge [µm]//Kerbvertiefenzunahme nach Messuhr [µm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Results",
     )
 
@@ -6308,7 +5734,6 @@ class FcgStep(ExperimentalStep):
         property_label="Step No.",
         description="""Step Number//Schrittnummer""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Step Information",
     )
 
@@ -6319,7 +5744,6 @@ class FcgStep(ExperimentalStep):
         property_label="Step Type",
         description="""Step Type//Versuchsschritt-Typ""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Step Information",
     )
 
@@ -6329,7 +5753,6 @@ class FcgStep(ExperimentalStep):
         property_label="Precracking Step",
         description="""Precracking Step//Precracking-Schritt""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Step Information",
     )
 
@@ -6339,7 +5762,6 @@ class FcgStep(ExperimentalStep):
         property_label="Initial Cycle Count",
         description="""Initial Cycle Count//Initiale Zyklenzahl""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Step Initial Parameters (Manual Input)",
     )
 
@@ -6349,7 +5771,6 @@ class FcgStep(ExperimentalStep):
         property_label="Initial Cracklength [mm]",
         description="""Initial Cracklength [mm]//Initiale Risslänge [mm]""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Step Initial Parameters (Manual Input)",
     )
 
@@ -6359,7 +5780,6 @@ class FcgStep(ExperimentalStep):
         property_label="Initial R-Ratio",
         description="""Initial R-Ratio//Initiales R-Verhältnis""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Step Initial Parameters (Manual Input)",
     )
 
@@ -6369,7 +5789,6 @@ class FcgStep(ExperimentalStep):
         property_label="Initial Delta K [MPa*m^0,5]",
         description="""Initial Delta K [MPa*m^0,5]//Initiales Delta K [MPa*m^0,5]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Step Initial Parameters (Manual Input)",
     )
 
@@ -6379,7 +5798,6 @@ class FcgStep(ExperimentalStep):
         property_label="Exponent for Delta K increase or decrease [mm^-1]",
         description="""Exponent for Delta K increase or decrease [mm^-1]//Exponent für Lastabsenkung oder -erhöhung [mm^-1]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Step Initial Parameters (Manual Input)",
     )
 
@@ -6389,7 +5807,6 @@ class FcgStep(ExperimentalStep):
         property_label="Increment for da/dN calculation [mm]",
         description="""Increment for da/dN calculation [mm]//Inkrement für die Rissfortschrittsratenbestimmung [mm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Step Initial Parameters (Manual Input)",
     )
 
@@ -6399,7 +5816,6 @@ class FcgStep(ExperimentalStep):
         property_label="Final Cycle Count",
         description="""Final Cycle Count//Finale Zyklenzahl""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Step Final Parameters (Manual Input)",
     )
 
@@ -6409,7 +5825,6 @@ class FcgStep(ExperimentalStep):
         property_label="Final Cracklength [mm]",
         description="""Final Cracklength [mm]//Finale Risslänge [mm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Step Final Parameters (Manual Input)",
     )
 
@@ -6419,7 +5834,6 @@ class FcgStep(ExperimentalStep):
         property_label="Final R-Ratio",
         description="""Final R-Ratio//Finales R-Verhältnis""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Step Final Parameters (Manual Input)",
     )
 
@@ -6429,7 +5843,6 @@ class FcgStep(ExperimentalStep):
         property_label="Final Delta K [MPa*m^0,5]",
         description="""Final Delta K [MPa*m^0,5]//Finales Delta K [MPa*m^0,5]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Step Final Parameters (Manual Input)",
     )
 
@@ -6439,7 +5852,6 @@ class FcgStep(ExperimentalStep):
         property_label="Crack Propagation during Step",
         description="""Crack Propagation during Step//Risserweiterung während des Versuchschrittes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Propagation/Arrest",
     )
 
@@ -6449,7 +5861,6 @@ class FcgStep(ExperimentalStep):
         property_label="Crack Arrest during Step",
         description="""Crack Arrest during Step//Rissarrest während des Versuchschrittes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Propagation/Arrest",
     )
 
@@ -6459,7 +5870,6 @@ class FcgStep(ExperimentalStep):
         property_label="Initial K_max [MPa*m^0,5]",
         description="""Initial K_max [MPa*m^0,5]//Initiales K_max [MPa*m^0,5]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
     )
 
@@ -6469,7 +5879,6 @@ class FcgStep(ExperimentalStep):
         property_label="Initial K_min [MPa*m^0,5]",
         description="""Initial K_min [MPa*m^0,5]//Initiales K_min [MPa*m^0,5]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
     )
 
@@ -6479,7 +5888,6 @@ class FcgStep(ExperimentalStep):
         property_label="Initial K_amp [MPa*m^0,5]",
         description="""Initial K_amp [MPa*m^0,5]//Initiales K_amp [MPa*m^0,5]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
     )
 
@@ -6489,7 +5897,6 @@ class FcgStep(ExperimentalStep):
         property_label="Initial K_mean [MPa*m^0,5]",
         description="""Initial K_mean [MPa*m^0,5]//Initiales K_mean [MPa*m^0,5]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
     )
 
@@ -6499,7 +5906,6 @@ class FcgStep(ExperimentalStep):
         property_label="Initial Stress Intensity Factor Geometry Function",
         description="""Initial Stress Intensity Factor Geometry Function//Initiale Geometriefunktion des Spannungsintensitätsfaktors""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
     )
 
@@ -6509,7 +5915,6 @@ class FcgStep(ExperimentalStep):
         property_label="Initial Delta F [kN]",
         description="""Initial Delta F [kN]//Initiales Delta F [kN]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
     )
 
@@ -6519,7 +5924,6 @@ class FcgStep(ExperimentalStep):
         property_label="Initial F_max [kN]",
         description="""Initial F_max [kN]//Initiales F_max [kN]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
     )
 
@@ -6529,7 +5933,6 @@ class FcgStep(ExperimentalStep):
         property_label="Initial F_min [kN]",
         description="""Initial F_min [kN]//Initiales F_min [kN]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
     )
 
@@ -6539,7 +5942,6 @@ class FcgStep(ExperimentalStep):
         property_label="Initial F_amp [kN]",
         description="""Initial F_amp [kN]//Initiales F_amp [kN]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
     )
 
@@ -6549,7 +5951,6 @@ class FcgStep(ExperimentalStep):
         property_label="Initial F_mean [kN]",
         description="""Initial F_mean [kN]//Initiales F_mean [kN]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
     )
 
@@ -6559,7 +5960,6 @@ class FcgStep(ExperimentalStep):
         property_label="Ratio of Ligament Length to critical Ligament Length",
         description="""Ratio of Ligament Length to critical Ligament Length//Verhältnis von Ligamentlänge zu kritischer Ligamentlänge""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
     )
 
@@ -6569,7 +5969,6 @@ class FcgStep(ExperimentalStep):
         property_label="Crack Extension [mm]",
         description="""Crack Extension [mm]//Risserweiterung [mm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
     )
 
@@ -6579,7 +5978,6 @@ class FcgStep(ExperimentalStep):
         property_label="Elapsed Cycles in Step",
         description="""Elapsed Cycles in Step//Im Versuchsschritt gefahrene Zyklen""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
     )
 
@@ -6589,7 +5987,6 @@ class FcgStep(ExperimentalStep):
         property_label="Final Stress Intensity Factor Geometry Function",
         description="""Final Stress Intensity Factor Geometry Function//Finale Geometriefunktion des Spannungsintensitätsfaktors""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
     )
 
@@ -6599,7 +5996,6 @@ class FcgStep(ExperimentalStep):
         property_label="Final Delta F [kN]",
         description="""Final Delta F [kN]//Finales Delta F [kN]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
     )
 
@@ -6609,7 +6005,6 @@ class FcgStep(ExperimentalStep):
         property_label="Final F_max [kN]",
         description="""Final F_max [kN]//Finales F_max [kN]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
     )
 
@@ -6619,7 +6014,6 @@ class FcgStep(ExperimentalStep):
         property_label="Final F_min [kN]",
         description="""Final F_min [kN]//Finales F_min [kN]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
     )
 
@@ -6629,7 +6023,6 @@ class FcgStep(ExperimentalStep):
         property_label="Final F_amp [kN]",
         description="""Final F_amp [kN]//Finales F_amp [kN]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
     )
 
@@ -6639,7 +6032,6 @@ class FcgStep(ExperimentalStep):
         property_label="Final F_mean [kN]",
         description="""Final F_mean [kN]//Finales F_mean [kN]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
     )
 
@@ -6649,7 +6041,6 @@ class FcgStep(ExperimentalStep):
         property_label="Ratio of Ligament Length to critical Ligament Length",
         description="""Ratio of Ligament Length to critical Ligament Length//Verhältnis von Ligamentlänge zu kritischer Ligamentlänge""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Derived Parameters (Automatic Input)",
     )
 
@@ -6667,7 +6058,6 @@ class ForceTransducer(Instrument):
         property_label="Force Transducer Type",
         description="""Force Transducer Type Code as specified by Manufacturer//Typenbezeichnung des Herstellers für die Kraftmesseinrichtung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -6677,7 +6067,6 @@ class ForceTransducer(Instrument):
         property_label="Maximum Static Force [kN]",
         description="""Maximum Static Force in kN//Maximale statische Kraft [kN]""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -6687,7 +6076,6 @@ class ForceTransducer(Instrument):
         property_label="Maximum Dynamic Force [kN]",
         description="""Maximum Dynamic Force in kN//Maximale dynamische Kraft [kN[""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -6697,7 +6085,6 @@ class ForceTransducer(Instrument):
         property_label="Maximum Excitation Voltage [V]",
         description="""Maximum Excitation Voltage [V]//Maximale Speisespannung [V]""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -6707,7 +6094,6 @@ class ForceTransducer(Instrument):
         property_label="Calibration Interval [Months]",
         description="""Calibration Interval [Months]//Kalibrierintervall [Monate]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Status",
     )
 
@@ -6726,7 +6112,6 @@ class MicroscopyFcgFractureSurfaceCracklength(ExperimentalStep):
         property_label="Type of Cracklength measured on Fracture Surface",
         description="""Type of Cracklength measured on Fracture Surface//Art der auf der Bruchfläche gemessenen Risslänge""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Experimental Details",
     )
 
@@ -6736,7 +6121,6 @@ class MicroscopyFcgFractureSurfaceCracklength(ExperimentalStep):
         property_label="Value of Cracklength measured on Fracture Surface [mm]",
         description="""Value of Cracklength measured on Fracture Surface [mm]//Wert der auf der Bruchfläche gemessenen Risslänge [mm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Experimental Details",
     )
 
@@ -6746,7 +6130,6 @@ class MicroscopyFcgFractureSurfaceCracklength(ExperimentalStep):
         property_label="Cycle Count corresponding with Cracklength measured on Fracture Surface",
         description="""Cycle Count corresponding with Cracklength measured on Fracture Surface//Mit der auf der Bruchfläche gemessenen Länge korrespondierende Zyklenzahl""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Experimental Details",
     )
 
@@ -6765,7 +6148,6 @@ class FcgEvaluation(ExperimentalStep):
         property_label="Test Type",
         description="""Test Type//Art des Versuchs""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Experimental Details",
     )
 
@@ -6784,7 +6166,6 @@ class Fcg(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -6795,7 +6176,6 @@ class Fcg(ObjectType):
         property_label="Specimen Status",
         description="""Specimen Status//Probenstatus""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -6806,7 +6186,6 @@ class Fcg(ObjectType):
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -6817,7 +6196,6 @@ class Fcg(ObjectType):
         property_label="Fatigue Crack Growth Specimen Type",
         description="""Fatigue Crack Growth Specimen Type//Ermüdungsrisswachstums-Probentyp""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Geometry (in accordance with ISO 12108)",
     )
 
@@ -6827,7 +6205,6 @@ class Fcg(ObjectType):
         property_label="Width W [mm] (Side 2)",
         description="""Specimen Width W [mm] (Side 2)//Probenbreite W [mm] (Seite 2)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Geometry (in accordance with ISO 12108)",
     )
 
@@ -6837,7 +6214,6 @@ class Fcg(ObjectType):
         property_label="Width W [mm] (Side 1)",
         description="""Specimen Width W [mm] (Side 1)//Probenbreite W [mm] (Seite 1)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Geometry (in accordance with ISO 12108)",
     )
 
@@ -6847,7 +6223,6 @@ class Fcg(ObjectType):
         property_label="Thickness B [mm]",
         description="""Specimen Thickness B [mm]//Probendicke B [mm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Geometry (in accordance with ISO 12108)",
     )
 
@@ -6858,7 +6233,6 @@ class Fcg(ObjectType):
         property_label="Notch Type",
         description="""Notch Type//Kerbtyp""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Notch Geometry",
     )
 
@@ -6868,7 +6242,6 @@ class Fcg(ObjectType):
         property_label="Notch Length a_n [mm] (Side 1)",
         description="""Specimen Notch Length a_n [mm] (Side 1)//Kerbtiefe a_n [mm] (Seite 1)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Notch Geometry",
     )
 
@@ -6878,7 +6251,6 @@ class Fcg(ObjectType):
         property_label="Notch Length a_n [mm] (Side 2)",
         description="""Specimen Notch Length a_n [mm] (Side 2)//Kerbtiefe a_n [mm] (Seite 2)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Notch Geometry",
     )
 
@@ -6888,7 +6260,6 @@ class Fcg(ObjectType):
         property_label="Notch Length a_n [mm] (Middle, Chevron Notch only)",
         description="""Specimen Notch Length a_n [mm] (Middle, Chevron Notch only)//Kerbtiefe a_n [mm] (Mitte, nur Chevron-Kerbe)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Notch Geometry",
     )
 
@@ -6898,7 +6269,6 @@ class Fcg(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -6908,7 +6278,6 @@ class Fcg(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -6918,7 +6287,6 @@ class Fcg(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -6937,7 +6305,6 @@ class Steel(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -6947,7 +6314,6 @@ class Steel(ObjectType):
         property_label="Alternative Name",
         description="""e.g. abbreviation or nickname//z.B. Abkürzung oder Spitzname""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -6958,7 +6324,6 @@ class Steel(ObjectType):
         property_label="Material Number",
         description="""Material Number//Werkstoffnummer""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -6968,7 +6333,6 @@ class Steel(ObjectType):
         property_label="Manufacturer",
         description="""Manufacturer//Hersteller""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -6978,7 +6342,6 @@ class Steel(ObjectType):
         property_label="Supplier",
         description="""Supplier//Lieferant""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -6988,7 +6351,6 @@ class Steel(ObjectType):
         property_label="Raw Material Batch Number",
         description="""Raw Material Batch Number//Chargennummer des Rohmaterials""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -6999,7 +6361,6 @@ class Steel(ObjectType):
         property_label="First Treatment",
         description="""First Treatment//Erste Behandlung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Delivery Condition",
     )
 
@@ -7010,7 +6371,6 @@ class Steel(ObjectType):
         property_label="Second Treatment",
         description="""Second Treatment//Zweite Behandlung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Delivery Condition",
     )
 
@@ -7021,7 +6381,6 @@ class Steel(ObjectType):
         property_label="Third Treatment",
         description="""Third Treatment//Dritte Behandlung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Delivery Condition",
     )
 
@@ -7032,7 +6391,6 @@ class Steel(ObjectType):
         property_label="Fourth Treatment",
         description="""Fourth Treatment//Vierte Behandlung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Delivery Condition",
     )
 
@@ -7043,7 +6401,6 @@ class Steel(ObjectType):
         property_label="Raw Material Form",
         description="""Raw Material Form//Halbzeugart""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Geometry",
     )
 
@@ -7053,7 +6410,6 @@ class Steel(ObjectType):
         property_label="(Wall) Thickness of Raw Material [mm]",
         description="""Thickness of Raw Material [mm]//Halbzeugdicke [mm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Geometry",
     )
 
@@ -7063,7 +6419,6 @@ class Steel(ObjectType):
         property_label="Width of Raw Material [mm]",
         description="""Width of Raw Material [mm]//Halbzeugbreite [mm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Geometry",
     )
 
@@ -7073,7 +6428,6 @@ class Steel(ObjectType):
         property_label="Raw Material (outer) Diameter [mm]",
         description="""Raw Material (outer) Diameter [mm]//(Außen-)durchmesser des Halbzeugs [mm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Geometry",
     )
 
@@ -7083,7 +6437,6 @@ class Steel(ObjectType):
         property_label="Length of Raw Material [mm]",
         description="""Length of Raw Material [mm]//Halbzeuglänge [mm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Geometry",
     )
 
@@ -7093,7 +6446,6 @@ class Steel(ObjectType):
         property_label="Description of Component",
         description="""Description of Component//Beschreibung der Komponente""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Geometry",
     )
 
@@ -7103,7 +6455,6 @@ class Steel(ObjectType):
         property_label="Amount in Stock [Pieces]",
         description="""Amount in Stock [Pieces]//Anzahl auf Lager [Stück]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Stock",
     )
 
@@ -7113,7 +6464,6 @@ class Steel(ObjectType):
         property_label="Density [kg/m^3]",
         description="""Density [kg/m^3]//Dichte [kg/m^3]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7123,7 +6473,6 @@ class Steel(ObjectType):
         property_label="Young's Modulus [MPa]",
         description="""Young`s Modulus [MPa]//Elastizitätsmodul [MPa]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7133,7 +6482,6 @@ class Steel(ObjectType):
         property_label="Minimum Upper Yield Strength R_eh [MPa]",
         description="""Minimum Upper Yield Strength R_eh [MPa] //Mindestwert Obere Streckgrenze R_eh [MPa]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7143,7 +6491,6 @@ class Steel(ObjectType):
         property_label="Maximum Upper Yield Strength R_eh [MPa]",
         description="""Maximum Upper Yield Strength R_eh [MPa] //Höchsttwert Obere Streckgrenze R_eh [MPa]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7153,7 +6500,6 @@ class Steel(ObjectType):
         property_label="Minimum Lower Yield Strength R_el [MPa]",
         description="""Minimum Lower Yield Strength R_el [MPa] //Mindestwert Untere Streckgrenze R_el [MPa]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7163,7 +6509,6 @@ class Steel(ObjectType):
         property_label="Maximum Lower Yield Strength R_el [MPa]",
         description="""Maximum Lower Yield Strength R_el [MPa] //Höchstwert Untere Streckgrenze R_el [MPa]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7173,7 +6518,6 @@ class Steel(ObjectType):
         property_label="Minimum Yield Limit R_p0,2 [MPa]",
         description="""Minimum Yield Limit R_p0,2 [MPa] //Mindestwert Dehngrenze R_p0,2 [MPa]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7183,7 +6527,6 @@ class Steel(ObjectType):
         property_label="Maximum Yield Limit R_p0,2 [MPa]",
         description="""Maximum Yield Limit R_p0,2 [MPa] //Höchstwert Dehngrenze R_p0,2 [MPa]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7193,7 +6536,6 @@ class Steel(ObjectType):
         property_label="Minimum Ultimate Tensile Strength R_m [MPa]",
         description="""Minimum Ultimate Tensile Strength R_m [MPa]//Mindestwert Zugfestigkeit R_m [MPa]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7203,7 +6545,6 @@ class Steel(ObjectType):
         property_label="Maximum Ultimate Tensile Strength R_m [MPa]",
         description="""Maximum Ultimate Tensile Strength R_m [MPa]//Höchstwert Zugfestigkeit R_m [MPa]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7213,7 +6554,6 @@ class Steel(ObjectType):
         property_label="Minimum Uniform Elongation A_g [%]",
         description="""Minimum Uniform Elongation A_g [%]//Mindestwert Gleichmaßdehnung A_g [%]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7223,7 +6563,6 @@ class Steel(ObjectType):
         property_label="Maximum Uniform Elongation A_g [%]",
         description="""Maximum Uniform Elongation A_g [%]//Höchstwert Gleichmaßdehnung A_g [%]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7233,7 +6572,6 @@ class Steel(ObjectType):
         property_label="Minimum Elongation at Break A5 [%]",
         description="""Minimum Elongation at Break A5 [%]//Mindestwert Bruchdehnung A5 [%]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7243,7 +6581,6 @@ class Steel(ObjectType):
         property_label="Maximum Elongation at Break A5 [%]",
         description="""Maximum Elongation at Break A5  [%]//Höchstwert Bruchdehnung A5 [%]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7253,7 +6590,6 @@ class Steel(ObjectType):
         property_label="Minimum Elongation at Break A10 [%]",
         description="""Minimum Elongation at Break A10 [%]//Mindestwert Bruchdehnung A10 [%]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7263,7 +6599,6 @@ class Steel(ObjectType):
         property_label="Maximum Elongation at Break A10 [%]",
         description="""Maximum Elongation at Break A10 [%]//Höchstwert Bruchdehnung A10 [%]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7273,7 +6608,6 @@ class Steel(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -7283,7 +6617,6 @@ class Steel(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -7293,7 +6626,6 @@ class Steel(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -7312,7 +6644,6 @@ class Aluminium(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -7322,7 +6653,6 @@ class Aluminium(ObjectType):
         property_label="Alternative Name",
         description="""e.g. abbreviation or nickname//z.B. Abkürzung oder Spitzname""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -7333,7 +6663,6 @@ class Aluminium(ObjectType):
         property_label="Material Number",
         description="""Material Number//Werkstoffnummer""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -7343,7 +6672,6 @@ class Aluminium(ObjectType):
         property_label="Manufacturer",
         description="""Manufacturer//Hersteller""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -7353,7 +6681,6 @@ class Aluminium(ObjectType):
         property_label="Supplier",
         description="""Supplier//Lieferant""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -7363,7 +6690,6 @@ class Aluminium(ObjectType):
         property_label="Raw Material Batch Number",
         description="""Raw Material Batch Number//Chargennummer des Rohmaterials""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -7374,7 +6700,6 @@ class Aluminium(ObjectType):
         property_label="First Treatment",
         description="""First Treatment//Erste Behandlung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Delivery Condition",
     )
 
@@ -7385,7 +6710,6 @@ class Aluminium(ObjectType):
         property_label="Second Treatment",
         description="""Second Treatment//Zweite Behandlung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Delivery Condition",
     )
 
@@ -7396,7 +6720,6 @@ class Aluminium(ObjectType):
         property_label="Third Treatment",
         description="""Third Treatment//Dritte Behandlung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Delivery Condition",
     )
 
@@ -7407,7 +6730,6 @@ class Aluminium(ObjectType):
         property_label="Fourth Treatment",
         description="""Fourth Treatment//Vierte Behandlung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Delivery Condition",
     )
 
@@ -7418,7 +6740,6 @@ class Aluminium(ObjectType):
         property_label="Raw Material Form",
         description="""Raw Material Form//Halbzeugart""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Geometry",
     )
 
@@ -7428,7 +6749,6 @@ class Aluminium(ObjectType):
         property_label="(Wall) Thickness of Raw Material [mm]",
         description="""Thickness of Raw Material [mm]//Halbzeugdicke [mm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Geometry",
     )
 
@@ -7438,7 +6758,6 @@ class Aluminium(ObjectType):
         property_label="Width of Raw Material [mm]",
         description="""Width of Raw Material [mm]//Halbzeugbreite [mm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Geometry",
     )
 
@@ -7448,7 +6767,6 @@ class Aluminium(ObjectType):
         property_label="Raw Material (outer) Diameter [mm]",
         description="""Raw Material (outer) Diameter [mm]//(Außen-)durchmesser des Halbzeugs [mm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Geometry",
     )
 
@@ -7458,7 +6776,6 @@ class Aluminium(ObjectType):
         property_label="Length of Raw Material [mm]",
         description="""Length of Raw Material [mm]//Halbzeuglänge [mm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Geometry",
     )
 
@@ -7468,7 +6785,6 @@ class Aluminium(ObjectType):
         property_label="Description of Component",
         description="""Description of Component//Beschreibung der Komponente""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Geometry",
     )
 
@@ -7478,7 +6794,6 @@ class Aluminium(ObjectType):
         property_label="Amount in Stock [Pieces]",
         description="""Amount in Stock [Pieces]//Anzahl auf Lager [Stück]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Stock",
     )
 
@@ -7488,7 +6803,6 @@ class Aluminium(ObjectType):
         property_label="Density [kg/m^3]",
         description="""Density [kg/m^3]//Dichte [kg/m^3]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7498,7 +6812,6 @@ class Aluminium(ObjectType):
         property_label="Young's Modulus [MPa]",
         description="""Young`s Modulus [MPa]//Elastizitätsmodul [MPa]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7508,7 +6821,6 @@ class Aluminium(ObjectType):
         property_label="Minimum Upper Yield Strength R_eh [MPa]",
         description="""Minimum Upper Yield Strength R_eh [MPa] //Mindestwert Obere Streckgrenze R_eh [MPa]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7518,7 +6830,6 @@ class Aluminium(ObjectType):
         property_label="Maximum Upper Yield Strength R_eh [MPa]",
         description="""Maximum Upper Yield Strength R_eh [MPa] //Höchsttwert Obere Streckgrenze R_eh [MPa]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7528,7 +6839,6 @@ class Aluminium(ObjectType):
         property_label="Minimum Lower Yield Strength R_el [MPa]",
         description="""Minimum Lower Yield Strength R_el [MPa] //Mindestwert Untere Streckgrenze R_el [MPa]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7538,7 +6848,6 @@ class Aluminium(ObjectType):
         property_label="Maximum Lower Yield Strength R_el [MPa]",
         description="""Maximum Lower Yield Strength R_el [MPa] //Höchstwert Untere Streckgrenze R_el [MPa]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7548,7 +6857,6 @@ class Aluminium(ObjectType):
         property_label="Minimum Yield Limit R_p0,2 [MPa]",
         description="""Minimum Yield Limit R_p0,2 [MPa] //Mindestwert Dehngrenze R_p0,2 [MPa]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7558,7 +6866,6 @@ class Aluminium(ObjectType):
         property_label="Maximum Yield Limit R_p0,2 [MPa]",
         description="""Maximum Yield Limit R_p0,2 [MPa] //Höchstwert Dehngrenze R_p0,2 [MPa]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7568,7 +6875,6 @@ class Aluminium(ObjectType):
         property_label="Minimum Ultimate Tensile Strength R_m [MPa]",
         description="""Minimum Ultimate Tensile Strength R_m [MPa]//Mindestwert Zugfestigkeit R_m [MPa]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7578,7 +6884,6 @@ class Aluminium(ObjectType):
         property_label="Maximum Ultimate Tensile Strength R_m [MPa]",
         description="""Maximum Ultimate Tensile Strength R_m [MPa]//Höchstwert Zugfestigkeit R_m [MPa]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7588,7 +6893,6 @@ class Aluminium(ObjectType):
         property_label="Minimum Uniform Elongation A_g [%]",
         description="""Minimum Uniform Elongation A_g [%]//Mindestwert Gleichmaßdehnung A_g [%]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7598,7 +6902,6 @@ class Aluminium(ObjectType):
         property_label="Maximum Uniform Elongation A_g [%]",
         description="""Maximum Uniform Elongation A_g [%]//Höchstwert Gleichmaßdehnung A_g [%]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7608,7 +6911,6 @@ class Aluminium(ObjectType):
         property_label="Minimum Elongation at Break A5 [%]",
         description="""Minimum Elongation at Break A5 [%]//Mindestwert Bruchdehnung A5 [%]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7618,7 +6920,6 @@ class Aluminium(ObjectType):
         property_label="Maximum Elongation at Break A5 [%]",
         description="""Maximum Elongation at Break A5  [%]//Höchstwert Bruchdehnung A5 [%]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7628,7 +6929,6 @@ class Aluminium(ObjectType):
         property_label="Minimum Elongation at Break A10 [%]",
         description="""Minimum Elongation at Break A10 [%]//Mindestwert Bruchdehnung A10 [%]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7638,7 +6938,6 @@ class Aluminium(ObjectType):
         property_label="Maximum Elongation at Break A10 [%]",
         description="""Maximum Elongation at Break A10 [%]//Höchstwert Bruchdehnung A10 [%]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Mechanical Properties at Room Temperature (as provided by Supplier)",
     )
 
@@ -7648,7 +6947,6 @@ class Aluminium(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -7658,7 +6956,6 @@ class Aluminium(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -7676,7 +6973,6 @@ class HydraulicCylinder(Instrument):
         property_label="Hydraulic Cylinder Type",
         description="""Hydraulic Cylinder Type Code as specified by Manufacturer//Typenbezeichnung des Herstellers für den Hydraulikzylinder""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -7686,7 +6982,6 @@ class HydraulicCylinder(Instrument):
         property_label="Maximum Static Force [kN]",
         description="""Maximum Static Force in kN//Maximale statische Kraft [kN]""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -7696,7 +6991,6 @@ class HydraulicCylinder(Instrument):
         property_label="Maximum Dynamic Force [kN]",
         description="""Maximum Dynamic Force in kN//Maximale dynamische Kraft [kN[""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -7706,7 +7000,6 @@ class HydraulicCylinder(Instrument):
         property_label="Maximum Excitation Voltage [V]",
         description="""Maximum Excitation Voltage [V]//Maximale Speisespannung [V]""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -7716,7 +7009,6 @@ class HydraulicCylinder(Instrument):
         property_label="Calibration Interval [Months]",
         description="""Calibration Interval [Months]//Kalibrierintervall [Monate]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Status",
     )
 
@@ -7734,7 +7026,6 @@ class HydraulicMisc(Instrument):
         property_label="Type Code as specified by Manufacturer",
         description="""Type Code as specified by Manufacturer//Typenbezeichnung des Herstellers""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -7744,7 +7035,6 @@ class HydraulicMisc(Instrument):
         property_label="Calibration Interval [Months]",
         description="""Calibration Interval [Months]//Kalibrierintervall [Monate]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Status",
     )
 
@@ -7762,7 +7052,6 @@ class Servovalve(Instrument):
         property_label="Type",
         description="""Valve Type Code as specified by Manufacturer//Typenbezeichnung des Herstellers für das Servoventil""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -7772,7 +7061,6 @@ class Servovalve(Instrument):
         property_label="Model",
         description="""Valve Model Code as specified by Manufacturer//Modellbezeichnung des Herstellers für das Servoventil""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -7782,7 +7070,6 @@ class Servovalve(Instrument):
         property_label="Rated Flow [l/min]",
         description="""Rated flow [l/min]//Nenndurchfluss [l/min]""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -7792,7 +7079,6 @@ class Servovalve(Instrument):
         property_label="Maximum Operating Pressure [bar]",
         description="""Maximum Operating Pressure [bar]//Maximaler Betriebsdruck [bar]""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -7802,7 +7088,6 @@ class Servovalve(Instrument):
         property_label="Rated Power [kW]",
         description="""Rated power [kW]//Nennleistung [kW]""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -7812,7 +7097,6 @@ class Servovalve(Instrument):
         property_label="Calibration Interval [Months]",
         description="""Calibration Interval [Months]//Kalibrierintervall [Monate]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Status",
     )
 
@@ -7830,7 +7114,6 @@ class LoadFrame(Instrument):
         property_label="Load Frame Type Code as specified by Manufacturer",
         description="""Load Frame Type Code as specified by Manufacturer//Typenbezeichnung des Herstellers für den Lastrahmen""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -7840,7 +7123,6 @@ class LoadFrame(Instrument):
         property_label="Maximum Static Force [kN]",
         description="""Maximum Static Force in kN//Maximale statische Kraft [kN]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -7850,7 +7132,6 @@ class LoadFrame(Instrument):
         property_label="Maximum Dynamic Force [kN]",
         description="""Maximum Dynamic Force in kN//Maximale dynamische Kraft [kN[""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -7861,7 +7142,6 @@ class LoadFrame(Instrument):
         property_label="Load Frame Orientation",
         description="""Load Frame Orientation//Orientierung des Lastrahmens""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -7871,7 +7151,6 @@ class LoadFrame(Instrument):
         property_label="Maximum vertical space for Specimens and Grips [mm]",
         description="""Maximum vertical space for Specimens and Grips [mm]//Maximaler vertikaler Bauraum für Proben und Probenhalter [mm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -7881,7 +7160,6 @@ class LoadFrame(Instrument):
         property_label="Maximum horizontal space between Columns [mm]",
         description="""Maximum horizontal space between Columns [mm]//Maximaler horizontaler Bauraum zwischen den Säulen [mm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -7899,7 +7177,6 @@ class AlignmentFixture(Instrument):
         property_label="Maximum Static Force [kN]",
         description="""Maximum Static Force in kN//Maximale statische Kraft [kN]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -7909,7 +7186,6 @@ class AlignmentFixture(Instrument):
         property_label="Maximum Dynamic Force [kN]",
         description="""Maximum Dynamic Force in kN//Maximale dynamische Kraft [kN[""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -7928,7 +7204,6 @@ class Thermocouple(Instrument):
         property_label="Thermocouple Type",
         description="""Thermocouple Type//Thermoelement Typ""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -7938,7 +7213,6 @@ class Thermocouple(Instrument):
         property_label="Minimum Operating Temperature [°C]",
         description="""Minimum Operating Temperature [°C]//Minimale Betriebstemperatur [°C]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -7948,7 +7222,6 @@ class Thermocouple(Instrument):
         property_label="Maximum Operating Temperature [°C]",
         description="""Maximum Operating Temperature [°C]//Maximale Betriebstemperatur [°C]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -7958,7 +7231,6 @@ class Thermocouple(Instrument):
         property_label="Diameter [mm]",
         description="""Diameter [mm]//Durchmesser [mm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -7968,7 +7240,6 @@ class Thermocouple(Instrument):
         property_label="Cable Length [mm]",
         description="""Cable Length [mm]//Kabellänge [mm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -7978,7 +7249,6 @@ class Thermocouple(Instrument):
         property_label="Connector",
         description="""Connector//Stecker""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -7997,7 +7267,6 @@ class Rtd(Instrument):
         property_label="RTD Type",
         description="""RTD Type//Widerstandsthermometer Typ""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -8007,7 +7276,6 @@ class Rtd(Instrument):
         property_label="Minimum Operating Temperature [°C]",
         description="""Minimum Operating Temperature [°C]//Minimale Betriebstemperatur [°C]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -8017,7 +7285,6 @@ class Rtd(Instrument):
         property_label="Maximum Operating Temperature [°C]",
         description="""Maximum Operating Temperature [°C]//Maximale Betriebstemperatur [°C]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -8028,7 +7295,6 @@ class Rtd(Instrument):
         property_label="RTD Accuracy Class",
         description="""RTD Accuracy Class//Widerstandsthermometer Genauigkeitsklasse""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -8039,7 +7305,6 @@ class Rtd(Instrument):
         property_label="RTD Insulation Material",
         description="""RTD Insulation Material//Widerstandsthermometer Isolationsmaterial""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -8049,7 +7314,6 @@ class Rtd(Instrument):
         property_label="RTD Cover Tube Diameter [mm]",
         description="""RTD Cover Tube Diameter [mm]//Widerstandsthermometer Schutzhülsendurchmesser [mm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -8059,7 +7323,6 @@ class Rtd(Instrument):
         property_label="RTD Cover Tube Length [mm]",
         description="""RTD Cover Tube Length [mm]//Widerstandsthermometer Schutzhülsenlänge [mm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -8069,7 +7332,6 @@ class Rtd(Instrument):
         property_label="RTD Cable Length [mm]",
         description="""RTD Cable Length [mm]//Widerstandsthermometer Kabellänge [mm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -8080,7 +7342,6 @@ class Rtd(Instrument):
         property_label="RTD Connection",
         description="""RTD Connection//Widerstandsthermometer Anschlussart""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -8098,7 +7359,6 @@ class Nanovoltmeter(Instrument):
         property_label="Number of Channels",
         description="""Number of Channels//Anzahl der Kanäle""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Inputs",
     )
 
@@ -8108,7 +7368,6 @@ class Nanovoltmeter(Instrument):
         property_label="Minimum Range [V]",
         description="""Minimum Range [V]//Kleinster Messbereich [V]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Inputs",
     )
 
@@ -8118,7 +7377,6 @@ class Nanovoltmeter(Instrument):
         property_label="Resolution at minimum Range [nV]",
         description="""Resolution at minimum Range [nV]//Auflösung im kleinsten Messbereich [nV]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Inputs",
     )
 
@@ -8128,7 +7386,6 @@ class Nanovoltmeter(Instrument):
         property_label="Maximum Range [V]",
         description="""Maximum Range [V]//Größter Messbereich [V]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Inputs",
     )
 
@@ -8138,7 +7395,6 @@ class Nanovoltmeter(Instrument):
         property_label="Resolution at maximum Range [nV]",
         description="""Resolution at maximum Range [nV]//Auflösung im größten Messbereich [nV]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Inputs",
     )
 
@@ -8148,7 +7404,6 @@ class Nanovoltmeter(Instrument):
         property_label="Number of Analog Outputs",
         description="""Number of Analog Outputs//Anzahl Analoger Ausgänge""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Outputs",
     )
 
@@ -8158,7 +7413,6 @@ class Nanovoltmeter(Instrument):
         property_label="Analog Output Minimum Voltage [V]",
         description="""Analog Output Minimum Voltage [V]//Minimale Spannung am Analogen Ausgang [V]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Outputs",
     )
 
@@ -8168,7 +7422,6 @@ class Nanovoltmeter(Instrument):
         property_label="Analog Output Maximum Voltage [V]",
         description="""Analog Output Maximum Voltage [V]//Maximale Spannung am Analogen Ausgang [V]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Outputs",
     )
 
@@ -8178,7 +7431,6 @@ class Nanovoltmeter(Instrument):
         property_label="GPIB Interface",
         description="""GPIB Interface//GPIB Schnittstelle""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Command Interfaces",
     )
 
@@ -8188,7 +7440,6 @@ class Nanovoltmeter(Instrument):
         property_label="RS232 Interface",
         description="""RS232 Interface//RS232 Schnittstelle""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Command Interfaces",
     )
 
@@ -8198,7 +7449,6 @@ class Nanovoltmeter(Instrument):
         property_label="Ethernet Interface",
         description="""Ethernet Interface//Ethernet Schnittstelle""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Command Interfaces",
     )
 
@@ -8208,7 +7458,6 @@ class Nanovoltmeter(Instrument):
         property_label="USB Interface",
         description="""USB Interface//USB Schnittstelle""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Command Interfaces",
     )
 
@@ -8226,7 +7475,6 @@ class PowerSupply(Instrument):
         property_label="Number of Outputs",
         description="""Number of Outputs//Anzahl der Ausgänge""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Outputs",
     )
 
@@ -8236,7 +7484,6 @@ class PowerSupply(Instrument):
         property_label="Maximum Output Voltage [V]",
         description="""Maximum Output Voltage [V]//Maximale Ausgangsspannung [V]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Outputs",
     )
 
@@ -8246,7 +7493,6 @@ class PowerSupply(Instrument):
         property_label="Maximum Output Current [A]",
         description="""Maximum Output Current [A]//Maximaler Ausgangsstrom [A]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Outputs",
     )
 
@@ -8256,7 +7502,6 @@ class PowerSupply(Instrument):
         property_label="GPIB Interface",
         description="""GPIB Interface//GPIB Schnittstelle""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Command Interfaces",
     )
 
@@ -8266,7 +7511,6 @@ class PowerSupply(Instrument):
         property_label="RS232 Interface",
         description="""RS232 Interface//RS232 Schnittstelle""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Command Interfaces",
     )
 
@@ -8276,7 +7520,6 @@ class PowerSupply(Instrument):
         property_label="Ethernet Interface",
         description="""Ethernet Interface//Ethernet Schnittstelle""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Command Interfaces",
     )
 
@@ -8286,7 +7529,6 @@ class PowerSupply(Instrument):
         property_label="USB Interface",
         description="""USB Interface//USB Schnittstelle""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Command Interfaces",
     )
 
@@ -8305,7 +7547,6 @@ class Test(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -8315,7 +7556,6 @@ class Test(ObjectType):
         property_label="Show in project overview",
         description="""Show in project overview page""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -8326,7 +7566,6 @@ class Test(ObjectType):
         property_label="Test Setup Type",
         description="""Test Setup Type//Test Setup Typ""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -8336,7 +7575,6 @@ class Test(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -8346,7 +7584,6 @@ class Test(ObjectType):
         property_label="Start date",
         description="""Start date//Startdatum""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -8356,7 +7593,6 @@ class Test(ObjectType):
         property_label="End date",
         description="""End date//Enddatum""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -8366,7 +7602,6 @@ class Test(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -8376,7 +7611,6 @@ class Test(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -8386,7 +7620,6 @@ class Test(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="",
     )
 
@@ -8404,7 +7637,6 @@ class MeasuringAmplifier(Instrument):
         property_label="Bandwidth [Hz]",
         description="""Bandwidth [Hz]//Bandbreite [Hz]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -8415,7 +7647,6 @@ class MeasuringAmplifier(Instrument):
         property_label="Accuracy Class according to VDE 0410",
         description="""Accuracy Class according to VDE 0410//Genauigkeitsklasse anch VDE 0410""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -8425,7 +7656,6 @@ class MeasuringAmplifier(Instrument):
         property_label="Number of Inputs",
         description="""Number of Inputs//Anzahl der Eingänge""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Inputs",
     )
 
@@ -8435,7 +7665,6 @@ class MeasuringAmplifier(Instrument):
         property_label="Minimum Excitation Voltage [V]",
         description="""Minimum Excitation Voltage [V]//Minimale Speisespannung [V]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Inputs",
     )
 
@@ -8445,7 +7674,6 @@ class MeasuringAmplifier(Instrument):
         property_label="Maximum Excitation Voltage [V]",
         description="""Maximum Excitation Voltage [V]//Maximale Speisespannung [V]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Inputs",
     )
 
@@ -8455,7 +7683,6 @@ class MeasuringAmplifier(Instrument):
         property_label="Maximum Common Mode Voltage [V]",
         description="""Maximum Common Mode Voltage [V]//Maximale Gleichtaktspannung [V]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Inputs",
     )
 
@@ -8465,7 +7692,6 @@ class MeasuringAmplifier(Instrument):
         property_label="Number of Analog Outputs",
         description="""Number of Analog Outputs//Anzahl Analoger Ausgänge""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Outputs",
     )
 
@@ -8475,7 +7701,6 @@ class MeasuringAmplifier(Instrument):
         property_label="Analog Output Minimum Voltage [V]",
         description="""Analog Output Minimum Voltage [V]//Minimale Spannung am Analogen Ausgang [V]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Outputs",
     )
 
@@ -8485,7 +7710,6 @@ class MeasuringAmplifier(Instrument):
         property_label="Analog Output Maximum Voltage [V]",
         description="""Analog Output Maximum Voltage [V]//Maximale Spannung am Analogen Ausgang [V]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Outputs",
     )
 
@@ -8495,7 +7719,6 @@ class MeasuringAmplifier(Instrument):
         property_label="GPIB Interface",
         description="""GPIB Interface//GPIB Schnittstelle""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Command Interfaces",
     )
 
@@ -8505,7 +7728,6 @@ class MeasuringAmplifier(Instrument):
         property_label="RS232 Interface",
         description="""RS232 Interface//RS232 Schnittstelle""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Command Interfaces",
     )
 
@@ -8515,7 +7737,6 @@ class MeasuringAmplifier(Instrument):
         property_label="Ethernet Interface",
         description="""Ethernet Interface//Ethernet Schnittstelle""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Command Interfaces",
     )
 
@@ -8525,7 +7746,6 @@ class MeasuringAmplifier(Instrument):
         property_label="USB Interface",
         description="""USB Interface//USB Schnittstelle""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Command Interfaces",
     )
 
@@ -8535,7 +7755,6 @@ class MeasuringAmplifier(Instrument):
         property_label="Calibration Interval [Months]",
         description="""Calibration Interval [Months]//Kalibrierintervall [Monate]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Status",
     )
 
@@ -8553,7 +7772,6 @@ class ImageSeries(ExperimentalStep):
         property_label="UUID",
         description="""A Universally Unique IDentifier (UUID/GUID) according to RFC 4122//Ein Universally Unique IDentifier (UUID/GUID) nach RFC 4122""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Identifiers",
     )
 
@@ -8563,7 +7781,6 @@ class ImageSeries(ExperimentalStep):
         property_label="Horizontal resolution [pixel]",
         description="""Horizontal resolution of the image [pixel]//Horizonzale Auflösung des Bildes [Pixel]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Image Series Information",
     )
 
@@ -8573,7 +7790,6 @@ class ImageSeries(ExperimentalStep):
         property_label="Vertical resolution [pixel]",
         description="""Vertical resolution of the image [pixel]////Vertikale Auflösung des Bildes [Pixel]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Image Series Information",
     )
 
@@ -8583,7 +7799,6 @@ class ImageSeries(ExperimentalStep):
         property_label="Number of images recorded",
         description="""Number of images recorded//Anzahl der aufgenommenen Bilder""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Image Series Information",
     )
 
@@ -8601,7 +7816,6 @@ class ProfileScan(ExperimentalStep):
         property_label="UUID",
         description="""A Universally Unique IDentifier (UUID/GUID) according to RFC 4122//Ein Universally Unique IDentifier (UUID/GUID) nach RFC 4122""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Identifiers",
     )
 
@@ -8611,7 +7825,6 @@ class ProfileScan(ExperimentalStep):
         property_label="Scan line count",
         description="""Number of individual scan lines recorded//Anzahl der aufgenommenen Scanlinien""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Scan Information",
     )
 
@@ -8621,7 +7834,6 @@ class ProfileScan(ExperimentalStep):
         property_label="Scan line resolution [pixel]",
         description="""Number of pixels recorded for each scan line//Anzahl der Messpunkt einer Scanlinie""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Scan Information",
     )
 
@@ -8639,7 +7851,6 @@ class VideoRecording(ExperimentalStep):
         property_label="UUID",
         description="""A Universally Unique IDentifier (UUID/GUID) according to RFC 4122//Ein Universally Unique IDentifier (UUID/GUID) nach RFC 4122""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Identifiers",
     )
 
@@ -8649,7 +7860,6 @@ class VideoRecording(ExperimentalStep):
         property_label="Horizontal resolution [pixel]",
         description="""Horizontal resolution of the image [pixel]//Horizonzale Auflösung des Bildes [Pixel]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Video Information",
     )
 
@@ -8659,7 +7869,6 @@ class VideoRecording(ExperimentalStep):
         property_label="Vertical resolution [pixel]",
         description="""Vertical resolution of the image [pixel]////Vertikale Auflösung des Bildes [Pixel]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Video Information",
     )
 
@@ -8669,7 +7878,6 @@ class VideoRecording(ExperimentalStep):
         property_label="Average video framerate [frames per second]",
         description="""Average video framerate [frames per second]//Mittlere Bildrate (in Bilder pro Sekunde)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Video Information",
     )
 
@@ -8679,7 +7887,6 @@ class VideoRecording(ExperimentalStep):
         property_label="Video codec used during recording",
         description="""Video codec used during recording (if applicable)//Videocodec (sofern kodiert)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Video Information",
     )
 
@@ -8689,7 +7896,6 @@ class VideoRecording(ExperimentalStep):
         property_label="Dynamic video frame rate",
         description="""Flag to indicate that the video frame rate varies over time//Gibt an, dass die Bildrate des Videos nicht konstant ist""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Video Information",
     )
 
@@ -8700,7 +7906,6 @@ class VideoRecording(ExperimentalStep):
         property_label="Shutter mode",
         description="""The shutter mode used for video recording//Belichtungsprinzip des Bildsensors""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Video Information",
     )
 
@@ -8718,7 +7923,6 @@ class Weldment(ExperimentalStep):
         property_label="UUID",
         description="""A Universally Unique IDentifier (UUID/GUID) according to RFC 4122//Ein Universally Unique IDentifier (UUID/GUID) nach RFC 4122""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Identifiers",
     )
 
@@ -8728,7 +7932,6 @@ class Weldment(ExperimentalStep):
         property_label="Joint Number",
         description="""Consecutive numbering of weld joints of a workpiece or component//Fortlaufende Numerierung von Schweißnähten an Werkstücken und Bauteilen""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Identifiers",
     )
 
@@ -8738,7 +7941,6 @@ class Weldment(ExperimentalStep):
         property_label="Layer Number",
         description="""Consecutive numbering of weld layers for a parent joint//Fortlaufende Numerierung von Schweißlagen der übergeordneten Schweißnaht""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Identifiers",
     )
 
@@ -8748,7 +7950,6 @@ class Weldment(ExperimentalStep):
         property_label="Bead Number",
         description="""Consecutive numbering of weld beads or tracks for a parent layer//Fortlaufende Numerierung von Schweißraupen der übergeordneten Schweißlage""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Identifiers",
     )
 
@@ -8758,7 +7959,6 @@ class Weldment(ExperimentalStep):
         property_label="Weldment Number",
         description="""Consecutive numbering of uninterrupted weldments in a single bead//Fortlaufende Numerierung von ununterbrochenen Schweißungen einer einzelnen Schweißraupe""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Identifiers",
     )
 
@@ -8769,7 +7969,6 @@ class Weldment(ExperimentalStep):
         property_label="Type of weld",
         description="""Type of weldment made//Art der Schweißverbindung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Weldment Information",
     )
 
@@ -8788,7 +7987,6 @@ class Welding(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -8798,7 +7996,6 @@ class Welding(ObjectType):
         property_label="Alternative Name",
         description="""e.g. abbreviation or nickname//z.B. Abkürzung oder Spitzname""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -8808,7 +8005,6 @@ class Welding(ObjectType):
         property_label="Manufacturer",
         description="""Manufacturer//Hersteller""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -8818,7 +8014,6 @@ class Welding(ObjectType):
         property_label="Supplier",
         description="""Supplier//Lieferant""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -8828,7 +8023,6 @@ class Welding(ObjectType):
         property_label="Batch number",
         description="""Batch number//Chargennummer""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -8838,7 +8032,6 @@ class Welding(ObjectType):
         property_label="Inventory Number",
         description="""PARFIS inventory number (8-digit)//PARFIS Inventarnummer (8-stellig)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -8848,7 +8041,6 @@ class Welding(ObjectType):
         property_label="Inventory Number Addition",
         description="""PARFIS inventory number (8-digit)//PARFIS Inventarnummer (8-stellig)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -8859,7 +8051,6 @@ class Welding(ObjectType):
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -8870,7 +8061,6 @@ class Welding(ObjectType):
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -8881,7 +8071,6 @@ class Welding(ObjectType):
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -8891,7 +8080,6 @@ class Welding(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -8901,7 +8089,6 @@ class Welding(ObjectType):
         property_label="Last System Check",
         description="""Date of the last system check//Datum des letzten Systemchecks""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -8911,7 +8098,6 @@ class Welding(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -8921,7 +8107,6 @@ class Welding(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -8939,7 +8124,6 @@ class Camera(Instrument):
         property_label="Sensor",
         description="""Name of the image sensor model//Modellbezeichnung des Bildsensors""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Camera Information",
     )
 
@@ -8949,7 +8133,6 @@ class Camera(Instrument):
         property_label="Sensor size",
         description="""Size of the image sensor//Größenangabe des Bildsensors""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Camera Information",
     )
 
@@ -8959,7 +8142,6 @@ class Camera(Instrument):
         property_label="Horizontal sensor resolution [pixel]",
         description="""Horizontal camera resolution in pixel//Horizontale Auflösung des Sensors""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Camera Information",
     )
 
@@ -8969,7 +8151,6 @@ class Camera(Instrument):
         property_label="Vertical camera resolution [pixel]",
         description="""Vertical camera resolution in pixel//Vertikale Sensorauflösung in pixel""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Camera Information",
     )
 
@@ -8979,7 +8160,6 @@ class Camera(Instrument):
         property_label="Framerate (at max. resolution)",
         description="""Highest framerate at indicated maximum resolution//Höchste erreichbare Bildrate bei voller Auflösung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Camera Information",
     )
 
@@ -8989,7 +8169,6 @@ class Camera(Instrument):
         property_label="Lens mount",
         description="""The lens mount of a camera or lens//Art des Objektivanschluss""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Camera Information",
     )
 
@@ -8999,7 +8178,6 @@ class Camera(Instrument):
         property_label="Current firmware version",
         description="""The currently installed firmware version//Die aktuell installierte Firmware-Version""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Software Information",
     )
 
@@ -9009,7 +8187,6 @@ class Camera(Instrument):
         property_label="Last System Check",
         description="""Date of the last system check//Datum des letzten Systemchecks""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -9027,7 +8204,6 @@ class LaserLineScanner(Instrument):
         property_label="Minimum z distance [mm]",
         description="""Minimal measuring distance in z-Direction//Minimaler Messabstand in z-Richtung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Laser Sensor Information",
     )
 
@@ -9037,7 +8213,6 @@ class LaserLineScanner(Instrument):
         property_label="Maximum z distance [mm]",
         description="""Maximum measuring distance in z-Direction//Maximaler Messabstand in z-Richtung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Laser Sensor Information",
     )
 
@@ -9047,7 +8222,6 @@ class LaserLineScanner(Instrument):
         property_label="Minimum x measuring range [mm]",
         description="""Minimal measuring distance in z-Direction//Minimaler Messabstand in z-Richtung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Laser Sensor Information",
     )
 
@@ -9057,7 +8231,6 @@ class LaserLineScanner(Instrument):
         property_label="Maximum x measuring range [mm]",
         description="""Maximum measuring distance in z-Direction//Maximaler Messabstand in z-Richtung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Laser Sensor Information",
     )
 
@@ -9067,7 +8240,6 @@ class LaserLineScanner(Instrument):
         property_label="Maximum line resolution [pixel]",
         description="""Maximum resolution per laser line//Maximale Anzahl Messpunkte per Linienmessung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Laser Sensor Information",
     )
 
@@ -9077,7 +8249,6 @@ class LaserLineScanner(Instrument):
         property_label="Laser wavelength [nm]",
         description="""Wavelength of emitted laser light//Wellenlänge des Laserlichts""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Laser Sensor Information",
     )
 
@@ -9087,7 +8258,6 @@ class LaserLineScanner(Instrument):
         property_label="Laser class",
         description="""Laser class rating according to DIN EN 60825-1//Laserklasse nach DIN EN 60825-1""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Laser Sensor Information",
     )
 
@@ -9097,7 +8267,6 @@ class LaserLineScanner(Instrument):
         property_label="Current firmware version",
         description="""The currently installed firmware version//Die aktuell installierte Firmware-Version""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Software Information",
     )
 
@@ -9107,7 +8276,6 @@ class LaserLineScanner(Instrument):
         property_label="Last System Check",
         description="""Date of the last system check//Datum des letzten Systemchecks""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -9125,7 +8293,6 @@ class WeldingEquipment(Instrument):
         property_label="Last System Check",
         description="""Date of the last system check//Datum des letzten Systemchecks""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -9143,7 +8310,6 @@ class Centrifuge(Instrument):
         property_label="Maximum Centrifugation Speed (depending on rotor) [rpm]",
         description="""Maximum Centrifugation Speed (depending on rotor) [rpm]//Maximale Zentrifugationsgeschwindigkeit (rotorabhängig) [rpm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Instrument Specification",
     )
 
@@ -9153,7 +8319,6 @@ class Centrifuge(Instrument):
         property_label="Maximum Centrifugation Speed (depending on rotor) [rcf]",
         description="""Maximum Centrifugation Speed (depending on rotor) [rcf]//Maximale Zentrifugationsgeschwindigkeit (rotorabhängig) [rcf]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Instrument Specification",
     )
 
@@ -9163,7 +8328,6 @@ class Centrifuge(Instrument):
         property_label="Temperature can be set",
         description="""Centrifuge Temperature can be set//Zentrifuge ist temperierbar""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Instrument Specification",
     )
 
@@ -9173,7 +8337,6 @@ class Centrifuge(Instrument):
         property_label="Minimum Temperature [°C]",
         description="""Minimum Centrifuge Temperature [°C]//Minimale Zentrifugen-Temperatur [°C]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Instrument Specification",
     )
 
@@ -9183,7 +8346,6 @@ class Centrifuge(Instrument):
         property_label="Maximum Temperature [°C]",
         description="""Maximum Centrifuge Temperature [°C]//Maximale Zentrifugen-Temperatur [°C]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Instrument Specification",
     )
 
@@ -9193,7 +8355,6 @@ class Centrifuge(Instrument):
         property_label="Compatible Rotors",
         description="""Compatible Rotors with this Centrifuge//Kompatible Rotatoren mit dieser Zentrifuge""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Instrument Specification",
     )
 
@@ -9203,7 +8364,6 @@ class Centrifuge(Instrument):
         property_label="Requires DGUV check",
         description="""Requires checks according to DGUV Paragraph 3 Rule 100-500//Sicherheitstechnische Überprüfung gemäß DGUV Paragraph 3 Regel 100-500 vorgeschrieben""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Instrument Specification",
     )
 
@@ -9213,7 +8373,6 @@ class Centrifuge(Instrument):
         property_label="Date of last DGUV check",
         description="""Date of last checks according to DGUV Paragraph 3 Rule 100-500//Datum der letzten sicherheitstechnischen Überprüfung gemäß DGUV Paragraph 3 Regel 100-500""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Instrument Specification",
     )
 
@@ -9231,7 +8390,6 @@ class CentrifugeRotor(Instrument):
         property_label="Maximum Speed [rpm]",
         description="""Maximum Rotor Speed [rpm]//Maximale Rotor-Geschwindigkeit [rpm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Rotor Specification",
     )
 
@@ -9241,7 +8399,6 @@ class CentrifugeRotor(Instrument):
         property_label="Maximum Speed [rcf]",
         description="""Maximum Rotor Speed [rcf]//Maximale Rotor-Geschwindigkeit [rcf]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Rotor Specification",
     )
 
@@ -9251,7 +8408,6 @@ class CentrifugeRotor(Instrument):
         property_label="Maximum Capacity (Number of Vials)",
         description="""Maximum Rotor Capacity (number of vials)//Maximale Rotor-Kapazität (Anzahl an Gefäßen)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Rotor Specification",
     )
 
@@ -9261,7 +8417,6 @@ class CentrifugeRotor(Instrument):
         property_label="Maximum Capacity (Volume) [mL]",
         description="""Maximum Rotor Capacity (volume) [mL]//Maximale Rotor-Kapazität (Volumen) [mL]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Rotor Specification",
     )
 
@@ -9271,7 +8426,6 @@ class CentrifugeRotor(Instrument):
         property_label="Compatible vials (possibly with adapters)",
         description="""Compatible vials (possibly with adapters)//Kompatible Gefäße (ggf. mit Adapter)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Rotor Specification",
     )
 
@@ -9289,7 +8443,6 @@ class Ftir(ExperimentalStep):
         property_label="Instrument",
         description="""FT-IR Instrument//FT-IR Instrument""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Meaurement Parameters",
     )
 
@@ -9299,7 +8452,6 @@ class Ftir(ExperimentalStep):
         property_label="Start Wavenumber [1/cm]",
         description="""Start Wavenumber [1/cm]//Start-Wellenzahl [1/cm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Meaurement Parameters",
     )
 
@@ -9309,7 +8461,6 @@ class Ftir(ExperimentalStep):
         property_label="End Wavenumber [1/cm]",
         description="""End Wavenumber [1/cm]//End-Wellenzahl [1/cm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Meaurement Parameters",
     )
 
@@ -9319,7 +8470,6 @@ class Ftir(ExperimentalStep):
         property_label="Resolution [1/cm]",
         description="""Resolution [1/cm]//Auflösung [1/cm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Meaurement Parameters",
     )
 
@@ -9329,7 +8479,6 @@ class Ftir(ExperimentalStep):
         property_label="Number of Scans",
         description="""Number of FTIR Scans//Anzahl FTIR Scans""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Meaurement Parameters",
     )
 
@@ -9340,7 +8489,6 @@ class Ftir(ExperimentalStep):
         property_label="Accessory",
         description="""FTIR Accessory//FTIR Zubehör""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Meaurement Parameters",
     )
 
@@ -9350,7 +8498,6 @@ class Ftir(ExperimentalStep):
         property_label="Flushed with Nitrogen",
         description="""Flushed with Nitrogen//Gespült mit Sickstoff""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Meaurement Parameters",
     )
 
@@ -9368,7 +8515,6 @@ class Sem(ExperimentalStep):
         property_label="Instrument",
         description="""SEM Instrument//SEM Instrument""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9378,7 +8524,6 @@ class Sem(ExperimentalStep):
         property_label="Image Size X",
         description="""Image Size X//Bildgröße X""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9388,7 +8533,6 @@ class Sem(ExperimentalStep):
         property_label="Image Size Y",
         description="""Image Size Y//Bildgröße Y""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9398,7 +8542,6 @@ class Sem(ExperimentalStep):
         property_label="Operating Mode",
         description="""Operating Mode//Aufnahmemodus""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9408,7 +8551,6 @@ class Sem(ExperimentalStep):
         property_label="Detector",
         description="""Detector//Detektor""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9418,7 +8560,6 @@ class Sem(ExperimentalStep):
         property_label="Projector Mode",
         description="""Projector Mode//Projektionsmodus""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9428,7 +8569,6 @@ class Sem(ExperimentalStep):
         property_label="Pixel Size X",
         description="""Pixel Size X//Pixelgröße X""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9438,7 +8578,6 @@ class Sem(ExperimentalStep):
         property_label="Pixel Size Y",
         description="""Pixel Size Y//Pixelgrße Y""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9448,7 +8587,6 @@ class Sem(ExperimentalStep):
         property_label="Acceleration Voltage [keV]",
         description="""Acceleration Voltage [keV]//Beschleunigungsspannung [keV]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9458,7 +8596,6 @@ class Sem(ExperimentalStep):
         property_label="Magnification",
         description="""Magnificaiton//Vergrößerung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9468,7 +8605,6 @@ class Sem(ExperimentalStep):
         property_label="Working Distance [mm]",
         description="""Working Distance [mm]//Arbeitsabstand [mm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9486,7 +8622,6 @@ class Nmr(ExperimentalStep):
         property_label="Instrument",
         description="""NMR Instrument//NMR Instrument""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9497,7 +8632,6 @@ class Nmr(ExperimentalStep):
         property_label="Nucleus (direct)",
         description="""Nucleus (direct)//Kern (direct)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9508,7 +8642,6 @@ class Nmr(ExperimentalStep):
         property_label="Nucleus (indirect, 2D only)",
         description="""Nucleus (indirect, 2D only)//Kern (indirekt, nur 2D)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9519,7 +8652,6 @@ class Nmr(ExperimentalStep):
         property_label="Solvent",
         description="""NMR Solvent//NMR Lösungsmittel""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9529,7 +8661,6 @@ class Nmr(ExperimentalStep):
         property_label="Frequency [MHz]",
         description="""NMR Frequency [MHz]//NMR Frequenz [MHz]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9540,7 +8671,6 @@ class Nmr(ExperimentalStep):
         property_label="Experiment",
         description="""NMR Experiment//NMR Experiment""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9550,7 +8680,6 @@ class Nmr(ExperimentalStep):
         property_label="Number of Scans",
         description="""Number of NMR Scans//Anzahl NMR Scans""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9560,7 +8689,6 @@ class Nmr(ExperimentalStep):
         property_label="Start Chemical Shift [ppm]",
         description="""Start Chemical Shift [ppm]//Start Chemische Verschiebung [ppm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9570,7 +8698,6 @@ class Nmr(ExperimentalStep):
         property_label="End Chemical Shift [ppm]",
         description="""End Chemical Shift [ppm]//Ende Chemische Verschiebung [ppm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9580,7 +8707,6 @@ class Nmr(ExperimentalStep):
         property_label="Quantitative NMR",
         description="""Quantitative NMR//Quantitatives NMR""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9590,7 +8716,6 @@ class Nmr(ExperimentalStep):
         property_label="Pulse Angle [degree]",
         description="""Pulse Angle [degree]//Pulswinkel [degree]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9600,7 +8725,6 @@ class Nmr(ExperimentalStep):
         property_label="Interpulse Delay [s]",
         description="""Interpulse Delay [s]//Wartezeit zwischen Pulsen [s]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9610,7 +8734,6 @@ class Nmr(ExperimentalStep):
         property_label="Acquisition Time [s]",
         description="""Acquisition Time [s]//Akquisitionszeit [s]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9628,7 +8751,6 @@ class Tem(ExperimentalStep):
         property_label="Instrument",
         description="""TEM Instrument//TEM Instrument""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9638,7 +8760,6 @@ class Tem(ExperimentalStep):
         property_label="Image Size X",
         description="""Image Size X//Bildgröße X""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9648,7 +8769,6 @@ class Tem(ExperimentalStep):
         property_label="Image Size Y",
         description="""Image Size Y//Bildgröße Y""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9658,7 +8778,6 @@ class Tem(ExperimentalStep):
         property_label="Operating Mode",
         description="""Operating Mode//Aufnahmemodus""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9668,7 +8787,6 @@ class Tem(ExperimentalStep):
         property_label="Detector",
         description="""Detector//Detektor""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9678,7 +8796,6 @@ class Tem(ExperimentalStep):
         property_label="Projector Mode",
         description="""Projector Mode//Projektionsmodus""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9688,7 +8805,6 @@ class Tem(ExperimentalStep):
         property_label="Pixel Size X",
         description="""Pixel Size X//Pixelgröße X""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9698,7 +8814,6 @@ class Tem(ExperimentalStep):
         property_label="Pixel Size Y",
         description="""Pixel Size Y//Pixelgrße Y""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9708,7 +8823,6 @@ class Tem(ExperimentalStep):
         property_label="Acceleration Voltage  [keV]",
         description="""Acceleration Voltage [keV]//Beschleunigungsspannung [keV]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9718,7 +8832,6 @@ class Tem(ExperimentalStep):
         property_label="Magnification",
         description="""Magnification//Vergrößerung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9728,7 +8841,6 @@ class Tem(ExperimentalStep):
         property_label="Camera Length",
         description="""Camera Length//Kamera-Länge""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9738,7 +8850,6 @@ class Tem(ExperimentalStep):
         property_label="Spot Index",
         description="""Spot Index//Spot Index""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9748,7 +8859,6 @@ class Tem(ExperimentalStep):
         property_label="Gun Lens Setting",
         description="""Gun Lens Setting//Einstellung der Elektronenquellenlinse""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9758,7 +8868,6 @@ class Tem(ExperimentalStep):
         property_label="C2 Aperture",
         description="""C2 Aperture//C2 Apertur""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9768,7 +8877,6 @@ class Tem(ExperimentalStep):
         property_label="Objective Aperture",
         description="""Objective Aperture//Objektiv Apertur""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9778,7 +8886,6 @@ class Tem(ExperimentalStep):
         property_label="SAED Aperture Diameter",
         description="""SAED Aperture Diameter//SAED Apertur Durchmesser""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9788,7 +8895,6 @@ class Tem(ExperimentalStep):
         property_label="SAED Aperture Pos X",
         description="""SAED Aperture Pos X//SAED Apertur Position X""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9798,7 +8904,6 @@ class Tem(ExperimentalStep):
         property_label="SAED Aperture PosY",
         description="""SAED Aperture Pos Y//SAED Apertur Position Y""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9816,7 +8921,6 @@ class Dls(ExperimentalStep):
         property_label="Material Name",
         description="""Material Name for DLS Measurement//Materialname für DLS Messung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9826,7 +8930,6 @@ class Dls(ExperimentalStep):
         property_label="Dispersant",
         description="""Dispersant for DLS Measurement//Dispersant für DLS Messung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9836,7 +8939,6 @@ class Dls(ExperimentalStep):
         property_label="Temperature [°C]",
         description="""Temperature [°C]//Temperatur [°C]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9846,7 +8948,6 @@ class Dls(ExperimentalStep):
         property_label="Cell Description",
         description="""DLS Cell Description//DLS Messküvette""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9856,7 +8957,6 @@ class Dls(ExperimentalStep):
         property_label="Attenuator",
         description="""Attenuator for DLS Measurement//Abschwächung für DLS Messung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Parameters",
     )
 
@@ -9866,7 +8966,6 @@ class Dls(ExperimentalStep):
         property_label="Z-Average",
         description="""Z-Average//Z-Durchschnitt""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results",
     )
 
@@ -9876,7 +8975,6 @@ class Dls(ExperimentalStep):
         property_label="PDI",
         description="""Polydispersity Index//Polydispersitätsindex""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results",
     )
 
@@ -9886,7 +8984,6 @@ class Dls(ExperimentalStep):
         property_label="Zeta Potential [mV]",
         description="""Zeta Potential [mV]//Zeta Potential [mV]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results",
     )
 
@@ -9896,7 +8993,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 1 (Intensity) [nm]",
         description="""Peak 1 (Intensity) [nm]//Peak 1 (Intensität) [nm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Intensity Distribution)",
     )
 
@@ -9906,7 +9002,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 1 Width (Intensity) [nm]",
         description="""Peak 1 Width (Intensity) [nm]//Peak 1 Breite (Intensität) [nm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Intensity Distribution)",
     )
 
@@ -9916,7 +9011,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 1 Polydispersity (Intensity)",
         description="""Peak 1 Polydispersity (Intensity)//Peak 1 Polydispersität (Intensität)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Intensity Distribution)",
     )
 
@@ -9926,7 +9020,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 2 (Intensity) [nm]",
         description="""Peak 2 (Intensity) [nm]//Peak 2 (Intensität) [nm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Intensity Distribution)",
     )
 
@@ -9936,7 +9029,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 2 Width (Intensity) [nm]",
         description="""Peak 2 Width (Intensity) [nm]//Peak 2 Breite (Intensität) [nm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Intensity Distribution)",
     )
 
@@ -9946,7 +9038,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 2 Polydispersity (Intensity)",
         description="""Peak 2 Polydispersity (Intensity)//Peak 2 Polydispersität (Intensität)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Intensity Distribution)",
     )
 
@@ -9956,7 +9047,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 3 (Intensity) [nm]",
         description="""Peak 3 (Intensity) [nm]//Peak 3 (Intensität) [nm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Intensity Distribution)",
     )
 
@@ -9966,7 +9056,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 3 Width (Intensity) [nm]",
         description="""Peak 3 Width (Intensity) [nm]//Peak 3 Breite (Intensität) [nm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Intensity Distribution)",
     )
 
@@ -9976,7 +9065,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 3 Polydispersity (Intensity)",
         description="""Peak 3 Polydispersity (Intensity)//Peak 3 Polydispersität (Intensität)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Intensity Distribution)",
     )
 
@@ -9986,7 +9074,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 1 (Volume) [nm]",
         description="""Peak 1 (Volume) [nm]//Peak 1 (Volumen) [nm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Volume Distribution)",
     )
 
@@ -9996,7 +9083,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 1 Width (Volume) [nm]",
         description="""Peak 1 Width (Volume) [nm]//Peak 1 Breite (Volumen) [nm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Volume Distribution)",
     )
 
@@ -10006,7 +9092,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 1 Polydispersity (Volume)",
         description="""Peak 1 Polydispersity (Volume)//Peak 1 Polydispersität (Volumen)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Volume Distribution)",
     )
 
@@ -10016,7 +9101,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 2 (Volume) [nm]",
         description="""Peak 2 (Volume) [nm]//Peak 2 (Volumen) [nm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Volume Distribution)",
     )
 
@@ -10026,7 +9110,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 2 Width (Volume) [nm]",
         description="""Peak 2 Width (Volume) [nm]//Peak 2 Breite (Volumen) [nm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Volume Distribution)",
     )
 
@@ -10036,7 +9119,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 2 Polydispersity (Volume)",
         description="""Peak 2 Polydispersity (Volume)//Peak 2 Polydispersität (Volumen)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Volume Distribution)",
     )
 
@@ -10046,7 +9128,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 3 (Volume) [nm]",
         description="""Peak 3 (Volume) [nm]//Peak 3 (Volumen) [nm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Volume Distribution)",
     )
 
@@ -10056,7 +9137,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 3 Width (Volume) [nm]",
         description="""Peak 3 Width (Volume) [nm]//Peak 3 Breite (Volumen) [nm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Volume Distribution)",
     )
 
@@ -10066,7 +9146,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 3 Polydispersity (Volume)",
         description="""Peak 3 Polydispersity (Volume)//Peak 3 Polydispersität (Volumen)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Volume Distribution)",
     )
 
@@ -10076,7 +9155,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 1 (Number) [nm]",
         description="""Peak 1 (Number) [nm]//Peak 1 (Anzahl) [nm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Number Distribution)",
     )
 
@@ -10086,7 +9164,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 1 Width (Number) [nm]",
         description="""Peak 1 Width (Number) [nm]//Peak 1 Breite (Anzahl) [nm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Number Distribution)",
     )
 
@@ -10096,7 +9173,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 1 Polydispersity (Number)",
         description="""Peak 1 Polydispersity (Number)//Peak 1 Polydispersität (Anzahl)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Number Distribution)",
     )
 
@@ -10106,7 +9182,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 2 (Number) [nm]",
         description="""Peak 2 (Number) [nm]//Peak 2 (Anzahl) [nm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Number Distribution)",
     )
 
@@ -10116,7 +9191,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 2 Width (Number) [nm]",
         description="""Peak 2 Width (Number) [nm]//Peak 2 Breite (Anzahl) [nm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Number Distribution)",
     )
 
@@ -10126,7 +9200,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 2 Polydispersity (Number)",
         description="""Peak 2 Polydispersity (Number)//Peak 2 Polydispersität (Anzahl)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Number Distribution)",
     )
 
@@ -10136,7 +9209,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 3 (Number) [nm]",
         description="""Peak 3 (Number) [nm]//Peak 3 (Anzahl) [nm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Number Distribution)",
     )
 
@@ -10146,7 +9218,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 3 Width (Number) [nm]",
         description="""Peak 3 Width (Number) [nm]//Peak 3 Breite (Anzahl) [nm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Number Distribution)",
     )
 
@@ -10156,7 +9227,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 3 Polydispersity (Number)",
         description="""Peak 3 Polydispersity (Number)//Peak 3 Polydispersität (Anzahl)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Number Distribution)",
     )
 
@@ -10166,7 +9236,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 1 (Zeta) [mV]",
         description="""Peak 1 (Zetapotential) [mV]//Peak 1 (Zetapotential) [mV]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Zeta Potential)",
     )
 
@@ -10176,7 +9245,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 1 Width (Zeta) [mV]",
         description="""Peak 1 Width (Zetapotential) [mV]//Peak 1 Breite (Zetapotential) [mV]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Zeta Potential)",
     )
 
@@ -10186,7 +9254,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 2 (Zeta) [mV]",
         description="""Peak 2 (Zetapotential) [mV]//Peak 2 (Zetapotential) [mV]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Zeta Potential)",
     )
 
@@ -10196,7 +9263,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 2 Width (Zeta) [mV]",
         description="""Peak 2 Width (Zetapotential) [mV]//Peak 2 Breite (Zetapotential) [mV]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Zeta Potential)",
     )
 
@@ -10206,7 +9272,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 3 (Zeta) [mV]",
         description="""Peak 3 (Zetapotential) [mV]//Peak 3 (Zetapotential) [mV]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Zeta Potential)",
     )
 
@@ -10216,7 +9281,6 @@ class Dls(ExperimentalStep):
         property_label="Peak 3 Width (Zeta) [mV]",
         description="""Peak 3 Width (Zetapotential) [mV]//Peak 3 Breite (Zetapotential) [mV]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Results (Zeta Potential)",
     )
 
@@ -10226,7 +9290,6 @@ class Dls(ExperimentalStep):
         property_label="Analysis Model",
         description="""Analysis Model//Analysemodell""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Information",
     )
 
@@ -10236,7 +9299,6 @@ class Dls(ExperimentalStep):
         property_label="Measured Intercept",
         description="""Measured Intercept//Achsenabschnitt""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Information",
     )
 
@@ -10246,7 +9308,6 @@ class Dls(ExperimentalStep):
         property_label="Size Merit",
         description="""Size Merit//Güte""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Information",
     )
 
@@ -10256,7 +9317,6 @@ class Dls(ExperimentalStep):
         property_label="Cumulants Fit Error",
         description="""Cumulants Fit Error//Fehler des Kummulanten-Fits""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Information",
     )
 
@@ -10266,7 +9326,6 @@ class Dls(ExperimentalStep):
         property_label="Multimodal Fit Error",
         description="""Multimodal Fit Error//Fehler des multimodalen Fits""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Information",
     )
 
@@ -10276,7 +9335,6 @@ class Dls(ExperimentalStep):
         property_label="Fka Model",
         description="""Fka Model//Fka Modell""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Information",
     )
 
@@ -10286,7 +9344,6 @@ class Dls(ExperimentalStep):
         property_label="Measured Voltage [V]",
         description="""Measured Voltage [V]//Gemessene Spannung [V]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Information",
     )
 
@@ -10296,7 +9353,6 @@ class Dls(ExperimentalStep):
         property_label="Conductivity [mS/cm]",
         description="""Conductivity [mS/cm]//Leitfähigkeit [mS/cm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Measurement Information",
     )
 
@@ -10314,7 +9370,6 @@ class MsBatch(ExperimentalStep):
         property_label="Ionization mode",
         description="""Ionization mode (pos/neg)//Ionisierung (pos/neg)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="MS Information",
     )
 
@@ -10324,7 +9379,6 @@ class MsBatch(ExperimentalStep):
         property_label="Hyphenation method",
         description="""Hyphenation (DI, LC, GC, CE)//Probeninjektion (DI, LC, GC, CE)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="MS Information",
     )
 
@@ -10343,7 +9397,6 @@ class Bam(Person):
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -10353,7 +9406,6 @@ class Bam(Person):
         property_label="BAM username",
         description="""BAM username//BAM Benutzername""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -10363,7 +9415,6 @@ class Bam(Person):
         property_label="BAM user profile link",
         description="""BAM user profile link//BAM Link zum Benutzerprofil""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -10373,7 +9424,6 @@ class Bam(Person):
         property_label="BAM Data Store user",
         description="""BAM Data Store user//BAM Data Store-Nutzer*in""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -10392,7 +9442,6 @@ class Freezer1(Control):
         property_label="Temperature Minimum [°C]",
         description="""Minimum Temperature [°C]//Minimaltemperatur [°C]""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Control Data",
     )
 
@@ -10402,7 +9451,6 @@ class Freezer1(Control):
         property_label="Temperature Maximum [°C]",
         description="""Maximum Temperature [°C]//Maximaltemperatur [°C]""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Control Data",
     )
 
@@ -10421,7 +9469,6 @@ class Freezer2(Instrument):
         property_label="Temperature Minimum [°C]",
         description="""Minimum Temperature [°C]//Minimaltemperatur [°C]""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Freezer Details",
     )
 
@@ -10431,7 +9478,6 @@ class Freezer2(Instrument):
         property_label="Temperature Maximum [°C]",
         description="""Maximum Temperature [°C]//Maximaltemperatur [°C]""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Freezer Details",
     )
 
@@ -10450,7 +9496,6 @@ class MassSpec(Instrument):
         property_label="MS Type",
         description="""Mass Spectrometer Type//Massenspektrometer-Typ""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -10468,7 +9513,6 @@ class Scale(Instrument):
         property_label="Minimum weight",
         description="""Minimum weight (in UNIT_MASS)//Minimales Gewicht (in UNIT_MASS)""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -10478,7 +9522,6 @@ class Scale(Instrument):
         property_label="Maximum weight",
         description="""Maximum weight (in UNIT_MASS)//Maximales Gewicht (in UNIT_MASS)""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -10488,7 +9531,6 @@ class Scale(Instrument):
         property_label="Measurement precision//Messgenauigkeit",
         description="""Precision of the scale/measurement  (in UNIT_MASS)//Messgenauigkeit Waage/Messung  (in UNIT_MASS)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -10499,7 +9541,6 @@ class Scale(Instrument):
         property_label="Mass unit//Masseeinheit",
         description="""Mass unit//Masseeinheit""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Technical Details",
     )
 
@@ -10518,7 +9559,6 @@ class MsCenter(Project):
         property_label="Acting Person",
         description="""Acting Person//Handelnde Person""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -10528,7 +9568,6 @@ class MsCenter(Project):
         property_label="Sample source",
         description="""Who is the provider of the Sample?//Wer hat die Probe erzeugt/geliefert?""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Sample Information",
     )
 
@@ -10538,7 +9577,6 @@ class MsCenter(Project):
         property_label="Sample name",
         description="""What is the label on the Sample//Probenbezeichnung""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Sample Information",
     )
 
@@ -10548,7 +9586,6 @@ class MsCenter(Project):
         property_label="Date of receipt",
         description="""Date when samples arrived//Eingangsdatum der Proben""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Sample Information",
     )
 
@@ -10558,7 +9595,6 @@ class MsCenter(Project):
         property_label="Retained samples",
         description="""Location of retained samples (if any?)//Standort von Rückstellproben (wenn existent?)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Sample Information",
     )
 
@@ -10568,7 +9604,6 @@ class MsCenter(Project):
         property_label="Leftover sample",
         description="""Leftover sample or material//Restliche(s) Probe oder Material""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Sample Information",
     )
 
@@ -10578,7 +9613,6 @@ class MsCenter(Project):
         property_label="Sample matrix",
         description="""Extra Informaton about samples//Zusätzliche Information zu den Proben""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Sample Information",
     )
 
@@ -10588,7 +9622,6 @@ class MsCenter(Project):
         property_label="Analyte",
         description="""Name/ID of sought-after substance//Name/Kürzel der gesuchten Substanz""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Sample Information",
     )
 
@@ -10606,7 +9639,6 @@ class SpectrometerOptical(Instrument):
         property_label="Detection Range Min [nm]",
         description="""Minimal detectable wavelength [nm]//Minimale detektierbare Wellenlänge [nm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Specifications",
     )
 
@@ -10616,7 +9648,6 @@ class SpectrometerOptical(Instrument):
         property_label="Detection Range Max [nm]",
         description="""Maximal detectable wavelength [nm]//Maximale detektierbare Wellenlänge [nm]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Specifications",
     )
 
@@ -10627,7 +9658,6 @@ class SpectrometerOptical(Instrument):
         property_label="Spectrometer Type",
         description="""Type of spectrometer//Spektrometertyp""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Specifications",
     )
 
@@ -10645,7 +9675,6 @@ class LaserGeneral(Instrument):
         property_label="Nominal Pulse Energy [mJ]",
         description="""Nominal pulse energy in mJ//Nominale Pulsenergie in mJ""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Laser Specifications",
     )
 
@@ -10655,7 +9684,6 @@ class LaserGeneral(Instrument):
         property_label="Beam Diameter [mm]",
         description="""Output laser beam diameter in mm//Durchmesser des Ausgangslaserstrahls in mm""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Laser Specifications",
     )
 
@@ -10665,7 +9693,6 @@ class LaserGeneral(Instrument):
         property_label="Operating Wavelength(s) [nm]",
         description="""List all allowed wavelengths following the XML schema given//Auflistung aller zulässigen Wellenlängen gemäß dem angegebenen XML-Schema""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Laser Specifications",
     )
 
@@ -10675,7 +9702,6 @@ class LaserGeneral(Instrument):
         property_label="Repetition Rate [Hz]",
         description="""Maximum repetition rate (-1 for CW) in Hz//Maximale Wiederholrate (-1 für CW) in Hz""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Laser Specifications",
     )
 
@@ -10685,7 +9711,6 @@ class LaserGeneral(Instrument):
         property_label="M²",
         description="""M² (parameter which relates the beam divergence of a laser beam to the minimum focussed spot size that can be achieved)//M² (Beugungsmaßzahl, welche beschreibt, wie gut ein Laserstrahl bei einer gegebenen Divergenz fokussiert werden kann)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Laser Specifications",
     )
 
@@ -10696,7 +9721,6 @@ class LaserGeneral(Instrument):
         property_label="Laser Type",
         description="""Type of the laser//Lasertyp""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Laser Specifications",
     )
 
@@ -10714,7 +9738,6 @@ class Technikum(Sample):
         property_label="Material amount",
         description="""Mass or amount of material (potentially measured in non-SI units)//Materialmenge (ggf. in nicht SI-konformen Einheiten)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Material Details",
     )
 
@@ -10724,7 +9747,6 @@ class Technikum(Sample):
         property_label="Analyte concentration [mg/kg]",
         description="""Concentration (in mg/kg) of sought-after substance//Konzentration(in mg/kg) des zu bestimmenden Stoffes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Material Details",
     )
 
@@ -10735,7 +9757,6 @@ class Technikum(Sample):
         property_label="Material usage",
         description="""Potential material usage//Möglicher Verwendungszweck des Materials""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Material Details",
     )
 
@@ -10754,7 +9775,6 @@ class GmoDonor(Sample):
         property_label="Donor Organism",
         description="""Name of the donor organism of which the genetic information is used for generating a GMO//Name des Spenderorganismus, dessen genetische Information für die Erzeugung eines GVO verwendet wird""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -10765,7 +9785,6 @@ class GmoDonor(Sample):
         property_label="Donor Organism Risk Group",
         description="""Organism Risk Group Assignment//Risikogruppenzuordnung des Organismus""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -10776,7 +9795,6 @@ class GmoDonor(Sample):
         property_label="BAM genetic engineering installation",
         description="""BAM genetic engineering facility//BAM gentechnische Anlage""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -10795,7 +9813,6 @@ class GmoRecipient(Sample):
         property_label="Recipient Organism",
         description="""Name of the recipient organism in which the genetic information is used to generate a GMO//Name des Empfängerorganismus, in dem die genetische Information für die Erzeugung eines GVO verwendet wird""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -10806,7 +9823,6 @@ class GmoRecipient(Sample):
         property_label="Recipient Organism Risk Group Assignment",
         description="""Organism Risk Group Assignment//Risikogruppenzuordnung des Organismus""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -10817,7 +9833,6 @@ class GmoRecipient(Sample):
         property_label="Bacterial Antibiotic Resistance",
         description="""Bacterial antibiotic resistance//Bakterielle Antibiotikaresistenz zur Selektion""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -10828,7 +9843,6 @@ class GmoRecipient(Sample):
         property_label="BAM genetic engineering installation",
         description="""BAM genetic engineering facility//BAM gentechnische Anlage""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -10847,7 +9861,6 @@ class Plasmid(Sample):
         property_label="Origin of Replication",
         description="""Bacterial Origin of Replication (plasmid copy number)//Bakterieller Replikationsursprung""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -10858,7 +9871,6 @@ class Plasmid(Sample):
         property_label="Bacterial Antibiotic Resistance",
         description="""Bacterial antibiotic resistance//Bakterielle Antibiotikaresistenz zur Selektion""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -10868,7 +9880,6 @@ class Plasmid(Sample):
         property_label="Plasmid marker",
         description="""Marker to select the strain/cell line after transformation/transfection//Marker zur Selektion d. Stamm/Zelllinie nach der Transformation/Transfektion""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -10878,7 +9889,6 @@ class Plasmid(Sample):
         property_label="Plasmid other marker",
         description="""Other marker useful for selection//Andere nützliche Marker zur Selektion""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -10889,7 +9899,6 @@ class Plasmid(Sample):
         property_label="BAM genetic engineering installation",
         description="""BAM genetic engineering facility//BAM gentechnische Anlage""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -10908,7 +9917,6 @@ class Gmo(Sample):
         property_label="Vector name",
         description="""A plasmid used as a biological carrier to introduce nucleic acid segments into a new cell//Ein Plasmid, das als biologischer Träger verwendet wird, um Nukleinsäuresegmente in eine neue Zelle einzubringen""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -10919,7 +9927,6 @@ class Gmo(Sample):
         property_label="Recipient Organism",
         description="""Recipient organism in which the genetic information is used for generating a GMO//Empfängerorganismus, in dem die genetische Information für die Erzeugung eines GVO verwendet wird""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -10930,7 +9937,6 @@ class Gmo(Sample):
         property_label="Donor Organism",
         description="""Donor organism of which the genetic information is used for generating a GMO//Spenderorganismus, dessen genetische Information für die Erzeugung eines GVO verwendet wird""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -10940,7 +9946,6 @@ class Gmo(Sample):
         property_label="Production date",
         description="""Genetically modified organism produced on//Genetisch veränderter Organismus erzeugt am""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -10950,7 +9955,6 @@ class Gmo(Sample):
         property_label="Disposal date",
         description="""Genetically modified organism disposed of at//Genetisch veränderter Organismus entsorgt am""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -10960,7 +9964,6 @@ class Gmo(Sample):
         property_label="Transferred genetic material",
         description="""Name of the transferred genetic material (e.g. gene name)//Name der übertragenen Nukleinsäure (z.B. Genname)""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -10971,7 +9974,6 @@ class Gmo(Sample):
         property_label="GMO Risk Group",
         description="""Organism Risk Group Assignment of GMO according own Risk Assessment//Risikogruppenzuordnung des GVO anhand eigener Risikobewertung""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -10981,7 +9983,6 @@ class Gmo(Sample):
         property_label="Risk potential of transf. material",
         description="""Risk potential of transferred genetic material: Dangerous? Yes-No//Risikobewertung des übertragenen genetischen Materials: Gefährlich? Ja-Nein""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -10991,7 +9992,6 @@ class Gmo(Sample):
         property_label="Risk justification",
         description="""Justification of the risk assessment: A keyword is to be given, e.g: Toxin gene, oncogene, uncharacterised DNA fragment, defined gene, cDNA, genomic DNA, viral genome, replication defects of infectious viruses, etc.//Begründung der Risikobewertung: Es ist ein Stichwort anzugeben, z.B: Toxin-Gen, Onkogen, uncharakterisiertes DNA-Fragment, definiertes Gen, cDNA, genomische DNA, virales Genom, Replikationsdefekte infektiöser Viren usw.""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -11002,7 +10002,6 @@ class Gmo(Sample):
         property_label="BAM genetic engineering installation",
         description="""BAM genetic engineering facility//BAM gentechnische Anlage""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -11020,7 +10019,6 @@ class RmEthanol(ExperimentalStep):
         property_label="Purity",
         description="""Purity of the substance [ %]// Reinheit der Substanz""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -11030,7 +10028,6 @@ class RmEthanol(ExperimentalStep):
         property_label="Conductivity",
         description="""Conductivity in mili Siemens (mS)//Leitfähigkeit in Millisiemens (mS)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -11049,7 +10046,6 @@ class DeviceTraining(Action):
         property_label="Trained Person",
         description="""Trained Person//Eingewiesene Person""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Action Data",
     )
 
@@ -11067,7 +10063,6 @@ class DeviceUsage(Action):
         property_label="Start time",
         description="""Start time//Beginn""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Action Data",
     )
 
@@ -11077,7 +10072,6 @@ class DeviceUsage(Action):
         property_label="End time",
         description="""End time//Ende""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Action Data",
     )
 
@@ -11095,7 +10089,6 @@ class IrCameraAcquisition(ParameterSet):
         property_label="Integration time [µs]",
         description="""Integration time in µs//Integrationszeit in µs""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11105,7 +10098,6 @@ class IrCameraAcquisition(ParameterSet):
         property_label="Framerate [Hz]",
         description="""Framerate in Hz//Bildwiederholrate in Hz""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11115,7 +10107,6 @@ class IrCameraAcquisition(ParameterSet):
         property_label="Number of recorded frames",
         description="""Number of recorded frames//Anzahl der aufgenommenen Frames""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11125,7 +10116,6 @@ class IrCameraAcquisition(ParameterSet):
         property_label="Number of recorded pretrigger frames",
         description="""Number of recorded pretrigger frames//Anzahl der Pretrigger Frames""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11136,7 +10126,6 @@ class IrCameraAcquisition(ParameterSet):
         property_label="Subframe type",
         description="""Subframe setting//Einstellung Subframe""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11146,7 +10135,6 @@ class IrCameraAcquisition(ParameterSet):
         property_label="Height of arbitrary subframe [pix]",
         description="""Height of arbitrary subframe in pixel//Höhe des arbiträren Subframes in Pixel""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11156,7 +10144,6 @@ class IrCameraAcquisition(ParameterSet):
         property_label="Width of arbitrary subframe [pix]",
         description="""Width of arbitrary subframe in pixel//Breite des arbiträren Subframes in Pixel""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11166,7 +10153,6 @@ class IrCameraAcquisition(ParameterSet):
         property_label="Start height of arbitrary subframe [pix]",
         description="""Start height of arbitrary subframe in pixel//Starthöhe des arbiträren Subframes in Pixel""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11176,7 +10162,6 @@ class IrCameraAcquisition(ParameterSet):
         property_label="Start Width of arbitrary subframe [pix]",
         description="""Start Width of arbitrary subframe in pixel//Startbreite des arbiträren Subframes in Pixel""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11187,7 +10172,6 @@ class IrCameraAcquisition(ParameterSet):
         property_label="Trigger setting",
         description="""Trigger setting//Einstellung Kameratrigger""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11197,7 +10181,6 @@ class IrCameraAcquisition(ParameterSet):
         property_label="Number of consecutive acquisitions",
         description="""Number of consecutive acquisitions//Anzahl der konsekutiven Aufnahmen""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11207,7 +10190,6 @@ class IrCameraAcquisition(ParameterSet):
         property_label="Utilized hardware trigger input",
         description="""Utilized hardware trigger input//Genutzter Input für Hardware-Trigger""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11217,7 +10199,6 @@ class IrCameraAcquisition(ParameterSet):
         property_label="Description of AD-channel data",
         description="""Description of AD-channel data//Beschreibung der AD-Kanal Signale""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11228,7 +10209,6 @@ class IrCameraAcquisition(ParameterSet):
         property_label="NUC-performed",
         description="""NUC-performed//NUC-durchgeführt""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11238,7 +10218,6 @@ class IrCameraAcquisition(ParameterSet):
         property_label="Lower limit of utilized calibration range [°C]",
         description="""Lower limit of utilized calibration range in °C//Unteres Limit des genutzten Kalibrierbereichs in °C""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11248,7 +10227,6 @@ class IrCameraAcquisition(ParameterSet):
         property_label="Upper limit of utilized calibration range [°C]",
         description="""Upper limit of utilized calibration range in °C//Oberes Limit des genutzten Kalibrierbereichs in °C""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11266,7 +10244,6 @@ class ThermographySetup(ParameterSet):
         property_label="Distance camera -> sample [mm]",
         description="""Distance camera -> sample in mm//Abstand Kamera zu Sample in mm""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11276,7 +10253,6 @@ class ThermographySetup(ParameterSet):
         property_label="Distance heat source -> sample [mm]",
         description="""Distance heat source -> sample in mm//Abstand Wärmequelle zu Sample in mm""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11286,7 +10262,6 @@ class ThermographySetup(ParameterSet):
         property_label="Sample treatment",
         description="""Sample treatment//Oberflächenzustand des Sample""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11297,7 +10272,6 @@ class ThermographySetup(ParameterSet):
         property_label="Setup configuration",
         description="""Setup configuration//Messanordnung""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11308,7 +10282,6 @@ class ThermographySetup(ParameterSet):
         property_label="Orientation of the heat source w.r.t. the camera",
         description="""Orientation of the heat source w.r.t. the camera//Ausrichtung der Wärmequelle zur Kamera""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11327,7 +10300,6 @@ class ThermographyHeating(ParameterSet):
         property_label="Temporal Structure of the heating",
         description="""Temporal Structure of the heating//Zeitliche Struktur der Erwärmung""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11338,7 +10310,6 @@ class ThermographyHeating(ParameterSet):
         property_label="Heating Principle",
         description="""Heating Principle//Prinzip der Erwärmung""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11348,7 +10319,6 @@ class ThermographyHeating(ParameterSet):
         property_label="Power setting of the heating element [W]",
         description="""Power setting of the heating element in W//Eingestellte Erwärmungsleistung Leistung in W""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11358,7 +10328,6 @@ class ThermographyHeating(ParameterSet):
         property_label="Pulse energy setting of the heating element [J]",
         description="""Pulse energy setting of the heating element in J //Eingetragene Erwärmungsenergie in J""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11368,7 +10337,6 @@ class ThermographyHeating(ParameterSet):
         property_label="Temperature of the heating element [°C]",
         description="""Temperature of the heating element in °C//Eingestellte Temperatur der Erwärmung in °C""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11378,7 +10346,6 @@ class ThermographyHeating(ParameterSet):
         property_label="Duration of the heating [s]",
         description="""Duration of the heating in s//Dauer der Erwärmung in s""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11388,7 +10355,6 @@ class ThermographyHeating(ParameterSet):
         property_label="Frequency of the heating [Hz]",
         description="""Frequency of the heating in Hz//Frequenz der Erwärmung in Hz""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11399,7 +10365,6 @@ class ThermographyHeating(ParameterSet):
         property_label="Area of effect of the heating",
         description="""Area of effect of the heating//Effektive Erwärmungsfläche""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11409,7 +10374,6 @@ class ThermographyHeating(ParameterSet):
         property_label="Height of the heating area [mm]",
         description="""Height of the heating area in mm//Höhe der erwärmten Fläche in mm""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11419,7 +10383,6 @@ class ThermographyHeating(ParameterSet):
         property_label="Width of the heating area [mm]",
         description="""Width of the heating area in mm//Breite der erwärmten Fläche in mm""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Parameters",
     )
 
@@ -11438,7 +10401,6 @@ class BamLaboratory(EnvironmentalConditions):
         property_label="BAM Room",
         description="""BAM Room//BAM Raum""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -11449,7 +10411,6 @@ class BamLaboratory(EnvironmentalConditions):
         property_label="BAM Floor",
         description="""BAM Floor//BAM Etage""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -11460,7 +10421,6 @@ class BamLaboratory(EnvironmentalConditions):
         property_label="BAM House",
         description="""BAM House//BAM Haus""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -11471,7 +10431,6 @@ class BamLaboratory(EnvironmentalConditions):
         property_label="BAM Location",
         description="""BAM Location//BAM Liegenschaft""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -11482,7 +10441,6 @@ class BamLaboratory(EnvironmentalConditions):
         property_label="Complete BAM Location",
         description="""Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -11500,7 +10458,6 @@ class Outdoor(EnvironmentalConditions):
         property_label="Wind speed [m/s]",
         description="""Wind speed in m/s//Windgeschwindigkeit in m/s""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Atmospheric Conditions",
     )
 
@@ -11511,7 +10468,6 @@ class Outdoor(EnvironmentalConditions):
         property_label="Wind direction",
         description="""Wind direction//Windrichtung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Atmospheric Conditions",
     )
 
@@ -11521,7 +10477,6 @@ class Outdoor(EnvironmentalConditions):
         property_label="Sun irradiance [W/m^2]",
         description="""Sun irradiance in W/m^2//Sonneneinstrahlung in W/m^2""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Weather Conditions",
     )
 
@@ -11532,7 +10487,6 @@ class Outdoor(EnvironmentalConditions):
         property_label="Weather",
         description="""Weather//Wetter""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Weather Conditions",
     )
 
@@ -11542,7 +10496,6 @@ class Outdoor(EnvironmentalConditions):
         property_label="Location latitude [°]",
         description="""Location latitude in °//Breitengrad des Messortes in °""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Location",
     )
 
@@ -11552,7 +10505,6 @@ class Outdoor(EnvironmentalConditions):
         property_label="Location longitude [°]",
         description="""Location longitude in °//Längengrad des Messortes in °""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Location",
     )
 
@@ -11562,7 +10514,6 @@ class Outdoor(EnvironmentalConditions):
         property_label="Location address",
         description="""Location address//Adresse des Messortes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Location",
     )
 
@@ -11580,7 +10531,6 @@ class FlashLamp(Instrument):
         property_label="Maximum pulse energy [J]",
         description="""Maximum pulse energy in J//Maximale Pulsenergie in J""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Flash Lamp Specifics",
     )
 
@@ -11591,7 +10541,6 @@ class FlashLamp(Instrument):
         property_label="Lamp shape",
         description="""Lamp shape//Lampenform""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Flash Lamp Specifics",
     )
 
@@ -11609,7 +10558,6 @@ class ObjectiveSpacer(Instrument):
         property_label="Thickness [mm]",
         description="""Thickness of the spacer in mm//Dicke des Abstandsringes in mm""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Properties",
     )
 
@@ -11628,7 +10576,6 @@ class ThermographicMeasurement(ExperimentalStep):
         property_label="Associated project",
         description="""Associated project//Assoziiertes Projekt""",
         mandatory=False,
-        show_in_edit_views=False,
         section="References",
     )
 
@@ -11646,7 +10593,6 @@ class Named(SampleNdt):
         property_label="Sample ID",
         description="""Sample ID//Identifikationsnummer""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -11656,7 +10602,6 @@ class Named(SampleNdt):
         property_label="Material",
         description="""Material//Material""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Properties",
     )
 
@@ -11666,7 +10611,6 @@ class Named(SampleNdt):
         property_label="Defect description",
         description="""Defect Description//Beschreibung der Defekte""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Properties",
     )
 
@@ -11676,7 +10620,6 @@ class Named(SampleNdt):
         property_label="Height [mm]",
         description="""Height in mm//Höhe in mm""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Properties",
     )
 
@@ -11686,7 +10629,6 @@ class Named(SampleNdt):
         property_label="Width [mm]",
         description="""Width in mm//Breite in mm""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Properties",
     )
 
@@ -11696,7 +10638,6 @@ class Named(SampleNdt):
         property_label="Thickness [mm]",
         description="""Thickness in mm//Dicke in mm""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Properties",
     )
 
@@ -11707,7 +10648,6 @@ class Named(SampleNdt):
         property_label="Associated project",
         description="""Associated project//Assoziiertes Projekt""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Properties",
     )
 
@@ -11718,7 +10658,6 @@ class Named(SampleNdt):
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -11729,7 +10668,6 @@ class Named(SampleNdt):
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -11747,7 +10685,6 @@ class SaxsMeasurement(ExperimentalStep):
         property_label="Measurement ID",
         description="""Div. internal measurement ID//FB-interne Messdatennummer""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Experiment Details",
     )
 
@@ -11757,7 +10694,6 @@ class SaxsMeasurement(ExperimentalStep):
         property_label="Measurement Date",
         description="""Measurement Date//Messdatum""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Experiment Details",
     )
 
@@ -11767,7 +10703,6 @@ class SaxsMeasurement(ExperimentalStep):
         property_label="Cell Temperature [°C]",
         description="""Measurement cell temperature in °C // Temperatur der Messzelle in °C""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Experiment Details",
     )
 
@@ -11777,7 +10712,6 @@ class SaxsMeasurement(ExperimentalStep):
         property_label="Exposure time [s]",
         description="""Exposure time in seconds//Belichtungszeit in Sekunden""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Experiment Details",
     )
 
@@ -11787,7 +10721,6 @@ class SaxsMeasurement(ExperimentalStep):
         property_label="Number of frames",
         description="""Number of frames//Anzahl von Aufnahmen""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Experiment Details",
     )
 
@@ -11806,7 +10739,6 @@ class LocalWorkstation(Instrument):
         property_label="Operating System",
         description="""Operating System (OS)//Betriebssystem""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Technical Information",
     )
 
@@ -11825,7 +10757,6 @@ class Lammps(PyironJob):
         property_label="Atomistic Calculation Type",
         description="""Type of atomistic calculation//Art der atomistischen Berechnung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Method Specific",
     )
 
@@ -11835,7 +10766,6 @@ class Lammps(PyironJob):
         property_label="Simulation Periodicity in X-Direction",
         description="""Simulation periodicity in X-direction//Periodizität der Simulation in X-Richtung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Method Specific",
     )
 
@@ -11845,7 +10775,6 @@ class Lammps(PyironJob):
         property_label="Simulation Periodicity in Y-Direction",
         description="""Simulation periodicity in Y-direction//Periodizität der Simulation in Y-Richtung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Method Specific",
     )
 
@@ -11855,7 +10784,6 @@ class Lammps(PyironJob):
         property_label="Simulation Periodicity in Z-Direction",
         description="""Simulation periodicity in Z-direction//Periodizität der Simulation in Z-Richtung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Method Specific",
     )
 
@@ -11865,7 +10793,6 @@ class Lammps(PyironJob):
         property_label="Cell Volume Relaxation",
         description="""Degrees of freedom - Cell volume relaxation//Freiheitsgrade - Zellvolumenrelaxation""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Method Specific",
     )
 
@@ -11875,7 +10802,6 @@ class Lammps(PyironJob):
         property_label="Cell Shape Relaxation",
         description="""Degrees of freedom - Cell shape relaxation//Freiheitsgrade - Zellformrelaxation""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Method Specific",
     )
 
@@ -11885,7 +10811,6 @@ class Lammps(PyironJob):
         property_label="Atomic Position Relaxation",
         description="""Degrees of freedom - Atomic position relaxation//Freiheitsgrade - Atomare Positionsrelaxation""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Method Specific",
     )
 
@@ -11896,7 +10821,6 @@ class Lammps(PyironJob):
         property_label="Statistical Ensemble",
         description="""Statistical ensemble set in the simulation//Statistisches Ensemble in der Simulation""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Method Specific",
     )
 
@@ -11907,7 +10831,6 @@ class Lammps(PyironJob):
         property_label="Minimization Algorithm for Ionic Steps",
         description="""Minimization algorithm for ionic steps//Minimalisierungsalgorithmus zur ionischen Schritten""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Method Specific",
     )
 
@@ -11917,7 +10840,6 @@ class Lammps(PyironJob):
         property_label="Time Step Size [ps]",
         description="""Time step size [ps]//Zeitschrittweite [ps]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Input",
     )
 
@@ -11927,7 +10849,6 @@ class Lammps(PyironJob):
         property_label="Simulation Time [ps]",
         description="""Simulated timespan [ps]// Simulierte Zeitspanne [ps]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Input",
     )
 
@@ -11937,7 +10858,6 @@ class Lammps(PyironJob):
         property_label="Langevin Dynamics",
         description="""Use of Langevin dynamics//Verwendung der Langevin-Dynamik""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Input",
     )
 
@@ -11947,7 +10867,6 @@ class Lammps(PyironJob):
         property_label="Maximum Iterations",
         description="""Maximum number of iterations//Maximale Anzahl von Iterationen""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Input",
     )
 
@@ -11957,7 +10876,6 @@ class Lammps(PyironJob):
         property_label="Ionic Energy Tolerance [eV]",
         description="""Energy tolerance for ionic minimization [eV]//Energietoleranz zur ionische Minimierung [eV]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Input",
     )
 
@@ -11967,7 +10885,6 @@ class Lammps(PyironJob):
         property_label="Ionic Force Tolerance [eV/Å]",
         description="""Force tolerance for minimization [eV/Å]//Krafttoleranz für Minimierung [eV/Å]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Input",
     )
 
@@ -11977,7 +10894,6 @@ class Lammps(PyironJob):
         property_label="Initial Temperature [K]",
         description="""Initial temperature [K]//Anfangstemperatur [K]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Input",
     )
 
@@ -11987,7 +10903,6 @@ class Lammps(PyironJob):
         property_label="Initial Pressure [GPa]",
         description="""Initial pressure [GPa]//Anfangsdruck [GPa]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Input",
     )
 
@@ -11997,7 +10912,6 @@ class Lammps(PyironJob):
         property_label="Target Temperature [K]",
         description="""Target temperature [K]//Zieltemperatur [K]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Input",
     )
 
@@ -12007,7 +10921,6 @@ class Lammps(PyironJob):
         property_label="Target Pressure [GPa]",
         description="""Target pressure [GPa]//Ziel-Druck [GPa]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Input",
     )
 
@@ -12017,7 +10930,6 @@ class Lammps(PyironJob):
         property_label="N Ionic Steps",
         description="""Number of ionic steps//Anzahl der Ionischen Schritten""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Output",
     )
 
@@ -12027,7 +10939,6 @@ class Lammps(PyironJob):
         property_label="Average Temperature [K]",
         description="""Average temperature over time steps [K]//Durchschnittstemperatur [K]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Output",
     )
 
@@ -12037,7 +10948,6 @@ class Lammps(PyironJob):
         property_label="Average Pressure [GPa]",
         description="""Average pressure over time steps [GPa]//Durchschnittsdruck [GPa]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Output",
     )
 
@@ -12047,7 +10957,6 @@ class Lammps(PyironJob):
         property_label="Final Total Energy [eV]",
         description="""Final Total Energy [eV]//Letzte Gesamtenergie [eV]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Output",
     )
 
@@ -12057,7 +10966,6 @@ class Lammps(PyironJob):
         property_label="Average Total Energy [eV]",
         description="""Average Total Energy over time steps [eV]//Durchschnittsgesamtenergie [eV]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Output",
     )
 
@@ -12067,7 +10975,6 @@ class Lammps(PyironJob):
         property_label="Final Volume [Å^3]",
         description="""Final Volume [Å^3]//Letztes Volumen [Å^3]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Output",
     )
 
@@ -12077,7 +10984,6 @@ class Lammps(PyironJob):
         property_label="Average Volume [Å^3]",
         description="""Average Volume over time steps [Å^3]//Durchschnittliches Volumen [Å^3]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Output",
     )
 
@@ -12087,7 +10993,6 @@ class Lammps(PyironJob):
         property_label="Final Potential Energy [eV]",
         description="""Final Potential Energy [eV]//Letzte potenzielle Energie [eV]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Output",
     )
 
@@ -12097,7 +11002,6 @@ class Lammps(PyironJob):
         property_label="Average Potential Energy [eV]",
         description="""Average Potential Energy over time steps (eV)//Durchschnittliche potenzielle Energie [eV]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Output",
     )
 
@@ -12107,7 +11011,6 @@ class Lammps(PyironJob):
         property_label="Final Force Norm [eV/Å]",
         description="""Final Force norm [eV/Å]//Letztes Kraftnorm [eV/Å]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Output",
     )
 
@@ -12117,7 +11020,6 @@ class Lammps(PyironJob):
         property_label="Average Force Norm [eV/Å]",
         description="""Average Force norm over time steps [eV/Å]//Durchschnittskraftnorm [eV/Å]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Output",
     )
 
@@ -12127,7 +11029,6 @@ class Lammps(PyironJob):
         property_label="Final Maximum Force Component [eV/Å]",
         description="""Final maximum force component [eV/Å]//Letzte maximale Kraftkomponente [eV/Å]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Output",
     )
 
@@ -12146,7 +11047,6 @@ class Murnaghan(PyironJob):
         property_label="Equation of State",
         description="""Equation of state used for fit//Für das Fitting verwendete Zustandsgleichung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Method Specific",
     )
 
@@ -12156,7 +11056,6 @@ class Murnaghan(PyironJob):
         property_label="Fit Order (if Polynomial)",
         description="""Fit order (if polynomial)//Grad des Polynoms""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Method Specific",
     )
 
@@ -12166,7 +11065,6 @@ class Murnaghan(PyironJob):
         property_label="Strain Axes",
         description="""Axes along which cell is strained//Achsen, entlang derer die Zelle belastet wird""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Method Specific",
     )
 
@@ -12176,7 +11074,6 @@ class Murnaghan(PyironJob):
         property_label="Number of Data Points",
         description="""Number of data points//Anzahl der Datenpunkte""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Input",
     )
 
@@ -12186,7 +11083,6 @@ class Murnaghan(PyironJob):
         property_label="Volume Range (Fractional)",
         description="""Volume range (fractional)//Volumenbereich (fraktioniert)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Input",
     )
 
@@ -12196,7 +11092,6 @@ class Murnaghan(PyironJob):
         property_label="Equilibrium Bulk Modulus [GPa]",
         description="""Equilibrium bulk modulus [GPa]//Kompressionsmodul im  Gleichgewicht [GPa]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Output",
     )
 
@@ -12206,7 +11101,6 @@ class Murnaghan(PyironJob):
         property_label="Equilibrium Total Energy [eV]",
         description="""Equilibrium total energy [eV]//Gesamtenergie im Gleichgewicht [eV]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Output",
     )
 
@@ -12216,7 +11110,6 @@ class Murnaghan(PyironJob):
         property_label="Equilibrium Volume [Å^3]",
         description="""Equilibrium volume [Å^3]//Volumen im Gleichgewicht [Å^3]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Output",
     )
 
@@ -12235,7 +11128,6 @@ class Vasp(PyironJob):
         property_label="Atomistic Calculation Type",
         description="""Type of atomistic calculation//Art der atomistischen Berechnung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Method Specific",
     )
 
@@ -12245,7 +11137,6 @@ class Vasp(PyironJob):
         property_label="Wavefunctions from a previous run?",
         description="""Are the initial wavefunctions from a previous calculation?//Stammen die Anfangswellenfunktionen aus einer früheren Berechnung?""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Method Specific",
     )
 
@@ -12255,7 +11146,6 @@ class Vasp(PyironJob):
         property_label="Charge density from a previous run?",
         description="""Are the initial charge densities from a previous calculation?//Stammen die Anfangsladungsdichten aus einer früheren Berechnung?""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Method Specific",
     )
 
@@ -12265,7 +11155,6 @@ class Vasp(PyironJob):
         property_label="Cell Volume Relaxation",
         description="""Degrees of freedom - Cell volume relaxation//Freiheitsgrade - Zellvolumenrelaxation""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Method Specific",
     )
 
@@ -12275,7 +11164,6 @@ class Vasp(PyironJob):
         property_label="Cell Shape Relaxation",
         description="""Degrees of freedom - Cell shape relaxation//Freiheitsgrade - Zellformrelaxation""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Method Specific",
     )
 
@@ -12285,7 +11173,6 @@ class Vasp(PyironJob):
         property_label="Atomic Position Relaxation",
         description="""Degrees of freedom - Atomic position relaxation//Freiheitsgrade - Atomare Positionsrelaxation""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Method Specific",
     )
 
@@ -12296,7 +11183,6 @@ class Vasp(PyironJob):
         property_label="XC functional",
         description="""Exchange-correlation functional//Austausch-Korrelations-Funktional""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Method Specific",
     )
 
@@ -12306,7 +11192,6 @@ class Vasp(PyironJob):
         property_label="U Correction?",
         description="""Are U corrections included?//Sind U-Korrekturen enthalten?""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Method Specific",
     )
 
@@ -12317,7 +11202,6 @@ class Vasp(PyironJob):
         property_label="Partial Occupancies",
         description="""Partial occupancies//Teilbesetzungen""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Method Specific",
     )
 
@@ -12328,7 +11212,6 @@ class Vasp(PyironJob):
         property_label="Minimization Algorithm for Ionic Steps",
         description="""Minimization algorithm for ionic steps//Minimalisierungsalgorithmus zur ionischen Schritten""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Method Specific",
     )
 
@@ -12339,7 +11222,6 @@ class Vasp(PyironJob):
         property_label="Minimization Algorithm for Electronic Steps",
         description="""Minimization algorithm for electronic steps//Minimalisierungsalgorithmus zur elektronischen Schritten""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Method Specific",
     )
 
@@ -12349,7 +11231,6 @@ class Vasp(PyironJob):
         property_label="Calculation Spin-polarized?",
         description="""Is the calculation spin-polarized?//Ist die Berechnung spinpolarisiert?""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Method Specific",
     )
 
@@ -12359,7 +11240,6 @@ class Vasp(PyironJob):
         property_label="Non-collinear Magnetism?",
         description="""Are the magnetic moments non-collinear?//Sind die magnetischen Momente nicht kollinear?""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Method Specific",
     )
 
@@ -12370,7 +11250,6 @@ class Vasp(PyironJob):
         property_label="K-points Specification Type",
         description="""K-points specification type//K-Punkte-Spezifikation Typ""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Method Specific",
     )
 
@@ -12380,7 +11259,6 @@ class Vasp(PyironJob):
         property_label="Gamma-centered?",
         description="""Are the K-points centered around the gamma point?//Sind die k-Punkte um den Gamma-Punkt zentriert?""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Method Specific",
     )
 
@@ -12390,7 +11268,6 @@ class Vasp(PyironJob):
         property_label="Number of K-points in x-direction",
         description="""Number of K-points in x-direction//Anzahl der K-Punkte in x-Richtung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Input",
     )
 
@@ -12400,7 +11277,6 @@ class Vasp(PyironJob):
         property_label="Number of K-points in y-direction",
         description="""Number of K-points in y-direction//Anzahl der K-Punkte in y-Richtung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Input",
     )
 
@@ -12410,7 +11286,6 @@ class Vasp(PyironJob):
         property_label="Number of K-points in z-direction",
         description="""Number of K-points in z-direction//Anzahl der K-Punkte in z-Richtung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Input",
     )
 
@@ -12420,7 +11295,6 @@ class Vasp(PyironJob):
         property_label="K-spacing [1/Å]",
         description="""K-spacing value [1/Å]//K-Abstandswert""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Input",
     )
 
@@ -12430,7 +11304,6 @@ class Vasp(PyironJob):
         property_label="Full list of K-points",
         description="""Full list of K-points//Vollständige Liste der K-Punkte""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Input",
     )
 
@@ -12440,7 +11313,6 @@ class Vasp(PyironJob):
         property_label="Ionic Energy Tolerance [eV]",
         description="""Energy tolerance for ionic minimization [eV]//Energietoleranz zur ionische Minimierung [eV]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Input",
     )
 
@@ -12450,7 +11322,6 @@ class Vasp(PyironJob):
         property_label="Electronic Energy Tolerance [eV]",
         description="""Energy tolerance for electronic minimization [eV]//Energietoleranz zur elektronische Minimierung [eV]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Input",
     )
 
@@ -12460,7 +11331,6 @@ class Vasp(PyironJob):
         property_label="Ionic Force Tolerance [eV/Å]",
         description="""Force tolerance for minimization [eV/Å]//Krafttoleranz für Minimierung [eV/Å]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Input",
     )
 
@@ -12470,7 +11340,6 @@ class Vasp(PyironJob):
         property_label="Energy Cutoff [eV]",
         description="""Energy cutoff for wavefunctions [eV]//Energiegrenzwert für Wellenfunktionen [eV]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Input",
     )
 
@@ -12480,7 +11349,6 @@ class Vasp(PyironJob):
         property_label="Sigma Value [eV]",
         description="""Sigma value [eV]//Sigma-Wert [eV]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Input",
     )
 
@@ -12490,7 +11358,6 @@ class Vasp(PyironJob):
         property_label="N Ionic Steps",
         description="""Number of ionic steps//Anzahl der Ionischen Schritten""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Output",
     )
 
@@ -12500,7 +11367,6 @@ class Vasp(PyironJob):
         property_label="Final Total Energy [eV]",
         description="""Final Total Energy [eV]//Letzte Gesamtenergie [eV]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Output",
     )
 
@@ -12510,7 +11376,6 @@ class Vasp(PyironJob):
         property_label="Final Potential Energy [eV]",
         description="""Final Potential Energy [eV]//Letzte potenzielle Energie [eV]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Output",
     )
 
@@ -12520,7 +11385,6 @@ class Vasp(PyironJob):
         property_label="Final Pressure [GPa]",
         description="""Final pressure [GPa]//Letzter Druck [GPa]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Output",
     )
 
@@ -12530,7 +11394,6 @@ class Vasp(PyironJob):
         property_label="Final Volume [Å^3]",
         description="""Final Volume [Å^3]//Letztes Volumen [Å^3]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Output",
     )
 
@@ -12540,7 +11403,6 @@ class Vasp(PyironJob):
         property_label="Final Maximum Force Component [eV/Å]",
         description="""Final maximum force component [eV/Å]//Letzte maximale Kraftkomponente [eV/Å]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Output",
     )
 
@@ -12550,7 +11412,6 @@ class Vasp(PyironJob):
         property_label="Final Total Magnetic Moment [μ_B]",
         description="""Final total magnetic moment [μ_B]//Leztztes magnetisches Gesamtmoment [μ_B]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Output",
     )
 
@@ -12569,7 +11430,6 @@ class Amorphous(MatSimStructure):
         property_label="Short-range Ordering",
         description="""Chains, rings, tetrahedra etc.//Ketten, Ringe, Tetraeder usw.""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Material Information",
     )
 
@@ -12579,7 +11439,6 @@ class Amorphous(MatSimStructure):
         property_label="Chemical Species (number of atoms)",
         description="""Chemical species involved by number of atoms//Chemische Spezies nach Anzahl der Atome""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Simulation Information",
     )
 
@@ -12589,7 +11448,6 @@ class Amorphous(MatSimStructure):
         property_label="Total Number of Atoms",
         description="""Total number of atoms in sample//Gesamtzahl der Atome in der Probe""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Simulation Information",
     )
 
@@ -12599,7 +11457,6 @@ class Amorphous(MatSimStructure):
         property_label="Sample Temperature [K]",
         description="""Current temperature of sample [K]//Aktuelle Temperatur der Probe [K]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Simulation Information",
     )
 
@@ -12617,7 +11474,6 @@ class Crystal(MatSimStructure):
         property_label="Lattice Parameter (a) [Å]",
         description="""Lattice parameter (a) [Å]//Gitterparameter (a) [Å]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Material Information",
     )
 
@@ -12627,7 +11483,6 @@ class Crystal(MatSimStructure):
         property_label="Lattice Parameter (b) [Å]",
         description="""Lattice parameter (b) [Å]//Gitterparameter (b) [Å]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Material Information",
     )
 
@@ -12637,7 +11492,6 @@ class Crystal(MatSimStructure):
         property_label="Lattice Parameter (c) [Å]",
         description="""Lattice parameter (c) [Å]//Gitterparameter (c) [Å]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Material Information",
     )
 
@@ -12647,7 +11501,6 @@ class Crystal(MatSimStructure):
         property_label="Lattice Parameter (c over a)",
         description="""Lattice parameter (c over a)//Gitterparameter (c über a)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Material Information",
     )
 
@@ -12657,7 +11510,6 @@ class Crystal(MatSimStructure):
         property_label="Lattice Angle (alpha) [Degrees]",
         description="""Lattice angle (alpha) [Degrees]//Gitterwinkel (alpha) [Grad]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Material Information",
     )
 
@@ -12667,7 +11519,6 @@ class Crystal(MatSimStructure):
         property_label="Lattice Angle (beta) [Degrees]",
         description="""Lattice angle (beta) [Degrees]//Gitterwinkel (beta) [Grad]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Material Information",
     )
 
@@ -12677,7 +11528,6 @@ class Crystal(MatSimStructure):
         property_label="Lattice Angle (gamma) [Degrees]",
         description="""Lattice angle (gamma) [Degrees]//Gitterwinkel (gamma) [Grad]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Material Information",
     )
 
@@ -12687,7 +11537,6 @@ class Crystal(MatSimStructure):
         property_label="Lattice Volume [Å^3]",
         description="""Lattice volume [Å^3]//Volumen des Gitters [Å^3]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Material Information",
     )
 
@@ -12698,7 +11547,6 @@ class Crystal(MatSimStructure):
         property_label="Space Group",
         description="""Space group//Raumgruppe""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Material Information",
     )
 
@@ -12709,7 +11557,6 @@ class Crystal(MatSimStructure):
         property_label="Bravais Lattice",
         description="""Bravais lattice//Bravais-Gitter""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Material Information",
     )
 
@@ -12719,7 +11566,6 @@ class Crystal(MatSimStructure):
         property_label="Chemical Species (number of atoms)",
         description="""Chemical species involved by number of atoms//Chemische Spezies nach Anzahl der Atome""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Simulation Information",
     )
 
@@ -12729,7 +11575,6 @@ class Crystal(MatSimStructure):
         property_label="Total Number of Atoms",
         description="""Total number of atoms in sample//Gesamtzahl der Atome in der Probe""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Simulation Information",
     )
 
@@ -12750,7 +11595,6 @@ class MouseMeasurement(SaxsMeasurement):
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
-        show_in_edit_views=True,
         section="General Information",
     )
 
@@ -12760,7 +11604,6 @@ class MouseMeasurement(SaxsMeasurement):
         property_label="Sample Position // Position der Probe",
         description="""The sample position ID in the sample holder. Used to record the spatial/orientational position of the sample within the holder or setup. Different sample holders might get new names, or one-off sample holders might have a temporary ID.//Die Position der Probe (ID) im Probenhalter. Sie dient zur Erfassung der räumlichen/orientierungsmäßigen Position der Probe innerhalb des Halters oder der Versuchsanordnung. Verschiedene Probenhalter können unterschiedliche Namen erhalten, oder einmalige Probenhalter können eine temporäre ID haben.""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Experiment Details",
     )
 
@@ -12770,7 +11613,6 @@ class MouseMeasurement(SaxsMeasurement):
         property_label="Measurement Protocol // Messprotokoll",
         description="""Location of the measurement script // Ort des Messprotokollskripts""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Experiment Details",
     )
 
@@ -12781,7 +11623,6 @@ class MouseMeasurement(SaxsMeasurement):
         property_label="Measurement protocol options // Messprotokolloptionen",
         description="""JSON with key-value combinations // JSON mit Schlüssel-Werte-Paaren""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Experiment Details",
     )
 
@@ -12791,7 +11632,6 @@ class MouseMeasurement(SaxsMeasurement):
         property_label="Thickness [mm]",
         description="""Thickness in mm//Dicke in mm""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Data Processing",
     )
 
@@ -12801,7 +11641,6 @@ class MouseMeasurement(SaxsMeasurement):
         property_label="Data processing protocol // Datenverarbeitungsprotokoll",
         description="""Location of the data processing protocol // Ort des Datenverarbeitungsprotokolls""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Data Processing",
     )
 
@@ -12820,7 +11659,6 @@ class MeasurementSession(ExperimentalStep):
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -12830,7 +11668,6 @@ class MeasurementSession(ExperimentalStep):
         property_label="BAM Partner",
         description="""BAM Partner(s)//BAM Partner""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -12848,7 +11685,6 @@ class GmawBase(Weldment):
         property_label="Thickness of the workpiece [mm]",
         description="""Workpiece thickness//Bauteildicke""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Workpiece Parameters",
     )
 
@@ -12858,7 +11694,6 @@ class GmawBase(Weldment):
         property_label="Groove preparation",
         description="""Groove or Joint preparation description//Beschreibung der Nahtvorbereitung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Workpiece Parameters",
     )
 
@@ -12868,7 +11703,6 @@ class GmawBase(Weldment):
         property_label="Welding travel speed [cm/min]",
         description="""Welding travel speed//Schweißgeschwindigkeit""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Welding Parameters",
     )
 
@@ -12878,7 +11712,6 @@ class GmawBase(Weldment):
         property_label="Shielding gas flowrate [l/min]",
         description="""Shielding gas flowrate//Schutzgasflussgeschwindigkeit""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Welding Parameters",
     )
 
@@ -12888,7 +11721,6 @@ class GmawBase(Weldment):
         property_label="Arc welding process",
         description="""Name of the selected arc welding process//Name des Lichtbogenschweißprozesses""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Arc welding Parameters",
     )
 
@@ -12898,7 +11730,6 @@ class GmawBase(Weldment):
         property_label="Arc voltage [V]",
         description="""Welding arc voltage//Lichtbogenspannung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Arc welding Parameters",
     )
 
@@ -12908,7 +11739,6 @@ class GmawBase(Weldment):
         property_label="Arc current [A]",
         description="""Welding arc current//Schweißstrom""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Arc welding Parameters",
     )
 
@@ -12918,7 +11748,6 @@ class GmawBase(Weldment):
         property_label="Wire stickout [mm]",
         description="""Length of the wire stickout//Stickoutlänge des Schweißdrahtes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Arc welding Parameters",
     )
 
@@ -12928,7 +11757,6 @@ class GmawBase(Weldment):
         property_label="Wire feed rate [m/min]",
         description="""Welding wire feed rate//Drahtvorschubrate""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Arc welding Parameters",
     )
 
@@ -12946,7 +11774,6 @@ class LaserHybridMagnet(Weldment):
         property_label="Thickness of the workpiece [mm]",
         description="""Workpiece thickness//Bauteildicke""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Workpiece Parameters",
     )
 
@@ -12956,7 +11783,6 @@ class LaserHybridMagnet(Weldment):
         property_label="Groove preparation",
         description="""Groove or Joint preparation description//Beschreibung der Nahtvorbereitung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Workpiece Parameters",
     )
 
@@ -12966,7 +11792,6 @@ class LaserHybridMagnet(Weldment):
         property_label="Welding travel speed [cm/min]",
         description="""Welding travel speed//Schweißgeschwindigkeit""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Welding Parameters",
     )
 
@@ -12976,7 +11801,6 @@ class LaserHybridMagnet(Weldment):
         property_label="Shielding gas flowrate [l/min]",
         description="""Shielding gas flowrate//Schutzgasflussgeschwindigkeit""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Welding Parameters",
     )
 
@@ -12986,7 +11810,6 @@ class LaserHybridMagnet(Weldment):
         property_label="Laser distance to wire [mm]",
         description="""Distance from laser spot to wire feed//Abstand zwischen Laser und Draht""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Laser Parameters",
     )
 
@@ -12996,7 +11819,6 @@ class LaserHybridMagnet(Weldment):
         property_label="Laser power [kW]",
         description="""Laser power//Laserleistung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Laser Parameters",
     )
 
@@ -13006,7 +11828,6 @@ class LaserHybridMagnet(Weldment):
         property_label="Laser focus [mm]",
         description="""Laser focus position//Laser Fokuslage""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Laser Parameters",
     )
 
@@ -13016,7 +11837,6 @@ class LaserHybridMagnet(Weldment):
         property_label="Capacitance C [µF]",
         description="""Capacitance//Kapazität""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Magnet Parameters",
     )
 
@@ -13026,7 +11846,6 @@ class LaserHybridMagnet(Weldment):
         property_label="Frequency F [Hz]",
         description="""Frequency//Frequenz""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Magnet Parameters",
     )
 
@@ -13036,7 +11855,6 @@ class LaserHybridMagnet(Weldment):
         property_label="Current transformer HAS 50-S [mV/A]",
         description="""Current transformer HAS 50-S//Stromwandler HAS 50-S""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Magnet Parameters",
     )
 
@@ -13046,7 +11864,6 @@ class LaserHybridMagnet(Weldment):
         property_label="U_1 [mV]",
         description="""Magnet U_1 value//Magnet U_1 Wert""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Magnet Parameters",
     )
 
@@ -13056,7 +11873,6 @@ class LaserHybridMagnet(Weldment):
         property_label="I_1 [A]",
         description="""Magnet I_1 value//Magnet I_1 Wert""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Magnet Parameters",
     )
 
@@ -13066,7 +11882,6 @@ class LaserHybridMagnet(Weldment):
         property_label="Arc welding process",
         description="""Name of the selected arc welding process//Name des Lichtbogenschweißprozesses""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Arc Welding Parameters",
     )
 
@@ -13076,7 +11891,6 @@ class LaserHybridMagnet(Weldment):
         property_label="Arc voltage [V]",
         description="""Welding arc voltage//Lichtbogenspannung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Arc Welding Parameters",
     )
 
@@ -13086,7 +11900,6 @@ class LaserHybridMagnet(Weldment):
         property_label="Arc current [A]",
         description="""Welding arc current//Schweißstrom""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Arc Welding Parameters",
     )
 
@@ -13096,7 +11909,6 @@ class LaserHybridMagnet(Weldment):
         property_label="Wire stickout [mm]",
         description="""Length of the wire stickout//Stickoutlänge des Schweißdrahtes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Arc Welding Parameters",
     )
 
@@ -13106,7 +11918,6 @@ class LaserHybridMagnet(Weldment):
         property_label="Wire feed rate [m/min]",
         description="""Welding wire feed rate//Drahtvorschubrate""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Arc Welding Parameters",
     )
 
@@ -13124,7 +11935,6 @@ class LaserMagnet(Weldment):
         property_label="Material",
         description="""Material classification of the workpiece base material//Materialgruppe des verwendeten Grundwerkstoffes""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Workpiece",
     )
 
@@ -13134,7 +11944,6 @@ class LaserMagnet(Weldment):
         property_label="Material Treatments",
         description="""Additional material treatments (heat treatments, rolling etc.)//Zusätzliche Angaben zu Materialbehandlungen (Wärmebehandlungen usw.)""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Workpiece",
     )
 
@@ -13145,7 +11954,6 @@ class LaserMagnet(Weldment):
         units="mm",
         description="""Width of workpiece perpendicular to weld seam direction in [mm]//Probenbreite senkrecht zum Schweißnahtverlauf in [mm]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Workpiece",
     )
 
@@ -13156,7 +11964,6 @@ class LaserMagnet(Weldment):
         units="mm",
         description="""Length of Workpiece in weld seam direction in [mm]//Probenlänge in Richtung der Schweißnaht in [mm]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Workpiece",
     )
 
@@ -13167,7 +11974,6 @@ class LaserMagnet(Weldment):
         units="mm",
         description="""Workpiece thickness in [mm]//Probendicke in [mm]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Workpiece",
     )
 
@@ -13177,7 +11983,6 @@ class LaserMagnet(Weldment):
         property_label="Surface Preparation",
         description="""Surface preparation//Oberflächenbearbeitung""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Workpiece",
     )
 
@@ -13187,7 +11992,6 @@ class LaserMagnet(Weldment):
         property_label="Groove preparation",
         description="""Groove or Joint preparation description//Beschreibung der Nahtvorbereitung""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Joint Configuration",
     )
 
@@ -13197,7 +12001,6 @@ class LaserMagnet(Weldment):
         property_label="Full penetration",
         description="""Full penetration//Durchschweißung""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Joint Configuration",
     )
 
@@ -13208,7 +12011,6 @@ class LaserMagnet(Weldment):
         units="cm/min",
         description="""Welding travel speed in [cm/min]//Schweißgeschwindigkeit in [cm/min]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Welding Parameters",
     )
 
@@ -13219,7 +12021,6 @@ class LaserMagnet(Weldment):
         units="mm",
         description="""Weld seam length in [mm]//Länge der Schweißnaht in [mm]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Welding Parameters",
     )
 
@@ -13229,7 +12030,6 @@ class LaserMagnet(Weldment):
         property_label="Shielding gas composition",
         description="""Shielding gas composition listing all components with their volume percentage, e.g., '82% Ar, 18% CO2'//Schutzgaszusammensetzung mit Aufzählung aller Gasanteile in Volumenprozent, z.B. '82% Ar, 18% CO2'""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Welding Parameters",
     )
 
@@ -13240,7 +12040,6 @@ class LaserMagnet(Weldment):
         units="l/minute",
         description="""Shielding gas flowrate in [l/min]//Schutzgasflussrate in [l/min]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Welding Parameters",
     )
 
@@ -13251,7 +12050,6 @@ class LaserMagnet(Weldment):
         units="mm",
         description="""Shielding gas nozzle distance in vertical direction in [mm]//Senkrechter Abstand der Schutzgasdüse zur Probe in [mm]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Welding Parameters",
     )
 
@@ -13262,7 +12060,6 @@ class LaserMagnet(Weldment):
         units="deg",
         description="""Shielding gas nozzle angle in [deg]//Anstellwinkel der Schutzgasdüse in [deg]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Welding Parameters",
     )
 
@@ -13273,7 +12070,6 @@ class LaserMagnet(Weldment):
         units="kW",
         description="""Laser power in [kW]//Laserleistung in [kW]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Laser Parameters",
     )
 
@@ -13284,7 +12080,6 @@ class LaserMagnet(Weldment):
         units="deg",
         description="""Laser angle in [deg]//Laserwinkel in [deg]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Laser Parameters",
     )
 
@@ -13295,7 +12090,6 @@ class LaserMagnet(Weldment):
         units="mm",
         description="""Laser focal length in [mm]//Laser Fokuslänge in [mm]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Laser Parameters",
     )
 
@@ -13306,7 +12100,6 @@ class LaserMagnet(Weldment):
         units="mm",
         description="""Laser focal position in [mm]//Laser Fokusposition in [mm]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Laser Parameters",
     )
 
@@ -13317,7 +12110,6 @@ class LaserMagnet(Weldment):
         units="mm",
         description="""Laser focal diameter in [mm]//Laser Fokusdurchmesser in [mm]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Laser Parameters",
     )
 
@@ -13328,7 +12120,6 @@ class LaserMagnet(Weldment):
         units="mm*mrad",
         description="""Beam parameter product in [mm*mrad]//Strahlparameterprodukt [mm*mrad]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Laser Parameters",
     )
 
@@ -13339,7 +12130,6 @@ class LaserMagnet(Weldment):
         units="mm",
         description="""Rayleigh length in [mm]//Rayleighlänge in [mm]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Laser Parameters",
     )
 
@@ -13350,7 +12140,6 @@ class LaserMagnet(Weldment):
         units="mT",
         description="""Maximum flux density in [mT]//Maximale Flussdichte in [mT]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Magnet Parameters",
     )
 
@@ -13361,7 +12150,6 @@ class LaserMagnet(Weldment):
         units="Hz",
         description="""Frequency in [Hz]//Frequenz in [Hz]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Magnet Parameters",
     )
 
@@ -13372,7 +12160,6 @@ class LaserMagnet(Weldment):
         units="mV",
         description="""Voltage set in the primary magnet circuit (U_1) in [mV]//Spannung im Primärkreis des Magneten (U_1) in [mV]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Magnet Parameters",
     )
 
@@ -13383,7 +12170,6 @@ class LaserMagnet(Weldment):
         units="A",
         description="""Current measured in the primary magnet circuit (I_1) in [A]//Gemessene Stromstärke im Primärkreis des Magneten (I_1) in [A]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Magnet Parameters",
     )
 
@@ -13393,7 +12179,6 @@ class LaserMagnet(Weldment):
         property_label="Laser Program Name",
         description="""Name of the laser program used for welding//Name des Laserprogramms zum Schweißen""",
         mandatory=False,
-        show_in_edit_views=True,
         section="TLC 1005",
     )
 
@@ -13403,7 +12188,6 @@ class LaserMagnet(Weldment):
         property_label="Robot Program Name",
         description="""Name of the robot program used for welding//Name des Roboterprogramms zum Schweißen""",
         mandatory=False,
-        show_in_edit_views=True,
         section="TLC 1005",
     )
 
@@ -13413,7 +12197,6 @@ class LaserMagnet(Weldment):
         property_label="Thermocouples setup",
         description="""Structured description of all Thermocouples measurement and positioning along the workpiece//Strukturierte Beschreibung der Thermoelement-Messungen und Positionen auf der Probe""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Measurements",
     )
 
@@ -13423,7 +12206,6 @@ class LaserMagnet(Weldment):
         property_label="Camera setup",
         description="""Structured description of the Camera setup used//Strukturierte Beschreibung der verwendeten Kameras und ihrer Anordnung""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Measurements",
     )
 
@@ -13441,7 +12223,6 @@ class WireSolid(Welding):
         property_label="Diameter [mm]",
         description="""Diameter in mm//Durchmesser in mm""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Wire Information",
     )
 
@@ -13451,7 +12232,6 @@ class WireSolid(Welding):
         property_label="ISO specification",
         description="""ISO specification of the wire//ISO Klassifizierung des Zusatzwerkstoffs""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Wire Information",
     )
 
@@ -13461,7 +12241,6 @@ class WireSolid(Welding):
         property_label="ISO standard",
         description="""ISO standard providing the specification//ISO Norm o.ä. mit Angabe zur Klassifizierung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Wire Information",
     )
 
@@ -13471,7 +12250,6 @@ class WireSolid(Welding):
         property_label="AWS specification",
         description="""AWS specification of the wire//AWS Klassifizierung des Zusatzwerkstoffs""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Wire Information",
     )
 
@@ -13481,7 +12259,6 @@ class WireSolid(Welding):
         property_label="AWS standard",
         description="""AWS standard providing the specification//AWS Standard mit Angabe zur Klassifizierung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Wire Information",
     )
 
@@ -13491,7 +12268,6 @@ class WireSolid(Welding):
         property_label="Weight [kg]",
         description="""Weight of the wire package as delivered//Gesamtgewicht des Drahtes bei Lieferung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Wire Information",
     )
 
@@ -13509,7 +12285,6 @@ class Lens(Camera):
         property_label="Focal length [mm]",
         description="""Focal length of optical lens [mm]//Brennweite der Kameralinse [mm]""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Lens Information",
     )
 
@@ -13519,7 +12294,6 @@ class Lens(Camera):
         property_label="Maximum Aperture [f/]",
         description="""Maximum Aperture [f/]//Maximale Blendenöffnung [f/]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Lens Information",
     )
 
@@ -13529,7 +12303,6 @@ class Lens(Camera):
         property_label="Minimum Aperture [f/]",
         description="""Minimum Aperture [f/]//Minimale Blendenzahl [f/]""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Lens Information",
     )
 
@@ -13539,7 +12312,6 @@ class Lens(Camera):
         property_label="Confocal",
         description="""Confocal optics//Konfokale Linse""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Lens Information",
     )
 
@@ -13558,7 +12330,6 @@ class GmawTorch(WeldingEquipment):
         property_label="Type",
         description="""type of welding torch//Art des Schweißbrenners""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -13576,7 +12347,6 @@ class GmawWeldingPowerSource(WeldingEquipment):
         property_label="Arc current minimum [A]",
         description="""Minimum arc current//Minimaler Schweißstrom""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Power Source Information",
     )
 
@@ -13586,7 +12356,6 @@ class GmawWeldingPowerSource(WeldingEquipment):
         property_label="Arc current maximum [A]",
         description="""Maximum arc current//Maximaler Schweißstrom""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Power Source Information",
     )
 
@@ -13596,7 +12365,6 @@ class GmawWeldingPowerSource(WeldingEquipment):
         property_label="Maximum continuous arc current [A]",
         description="""Maximum continuous arc current at 100% duty cycle//Maximaler Schweißstrom bei 100% Einschaltdauer""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Power Source Information",
     )
 
@@ -13606,7 +12374,6 @@ class GmawWeldingPowerSource(WeldingEquipment):
         property_label="Current firmware version",
         description="""The currently installed firmware version//Die aktuell installierte Firmware-Version""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Software Information",
     )
 
@@ -13625,7 +12392,6 @@ class Positioner(WeldingEquipment):
         property_label="Positioner type",
         description="""Positioner type//Art des Positionierers""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Positioner Information",
     )
 
@@ -13635,7 +12401,6 @@ class Positioner(WeldingEquipment):
         property_label="Number of axis",
         description="""The number of controllable axis of the positioner (a value of 0 indicates static positioner)//""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Positioner Information",
     )
 
@@ -13645,7 +12410,6 @@ class Positioner(WeldingEquipment):
         property_label="Maximum payload [kg]",
         description="""The maximum payload to be handled by the positioner//Maximal zulässige Traglast""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Positioner Information",
     )
 
@@ -13663,7 +12427,6 @@ class RobotController(WeldingEquipment):
         property_label="Number of robot axis",
         description="""The number of robot axis the controller can operate//Anzahl der Roboterachsen die von der Steuerung angesteuert werden können""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Controller Information",
     )
 
@@ -13673,7 +12436,6 @@ class RobotController(WeldingEquipment):
         property_label="Number of external axis",
         description="""The number of external axis the controller can operate//Anzahl der zusätzlichen externen Achsen die von der Steuerung angesteuert werden können""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Controller Information",
     )
 
@@ -13683,7 +12445,6 @@ class RobotController(WeldingEquipment):
         property_label="Current firmware version",
         description="""The currently installed firmware version//Die aktuell installierte Firmware-Version""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Software Information",
     )
 
@@ -13702,7 +12463,6 @@ class Robot(WeldingEquipment):
         property_label="Type of Robot",
         description="""Type of Robot//Roboterart""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Robot Information",
     )
 
@@ -13712,7 +12472,6 @@ class Robot(WeldingEquipment):
         property_label="Robot maximum payload [kg]",
         description="""The maximum allowable payload of the robot//Die maximal zulässig Traglast des Roboters""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Robot Information",
     )
 
@@ -13722,7 +12481,6 @@ class Robot(WeldingEquipment):
         property_label="Maximum working range [mm]",
         description="""The maximum specified working range of the robot (in mm)//Größe des maximal angegegebenen Arbeitsbereiches (in mm)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Robot Information",
     )
 
@@ -13732,7 +12490,6 @@ class Robot(WeldingEquipment):
         property_label="Number of robot axis",
         description="""The number of a axis on the robot//Anzahl der Roboterachsen""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Robot Information",
     )
 
@@ -13752,7 +12509,6 @@ class StationLayout1(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General information",
     )
 
@@ -13762,7 +12518,6 @@ class StationLayout1(ObjectType):
         property_label="Alternative Name",
         description="""e.g. abbreviation or nickname//z.B. Abkürzung oder Spitzname""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General information",
     )
 
@@ -13772,7 +12527,6 @@ class StationLayout1(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General information",
     )
 
@@ -13782,7 +12536,6 @@ class StationLayout1(ObjectType):
         property_label="Model Name",
         description="""Manufacturer model name//Modellname bzw. Gerätebezeichnung seitens des Herstellers""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General information",
     )
 
@@ -13792,7 +12545,6 @@ class StationLayout1(ObjectType):
         property_label="Manufacturer",
         description="""Manufacturer//Hersteller""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General information",
     )
 
@@ -13802,7 +12554,6 @@ class StationLayout1(ObjectType):
         property_label="Supplier",
         description="""Supplier//Lieferant""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General information",
     )
 
@@ -13812,7 +12563,6 @@ class StationLayout1(ObjectType):
         property_label="Serial Number",
         description="""Serial Number//Seriennummer""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General information",
     )
 
@@ -13823,7 +12573,6 @@ class StationLayout1(ObjectType):
         property_label="DFG Device Code",
         description="""DFG Device Code//DFG Gerätegruppenschlüssel (GGS)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General information",
     )
 
@@ -13833,7 +12582,6 @@ class StationLayout1(ObjectType):
         property_label="Inventory Number",
         description="""PARFIS inventory number (8-digit)//PARFIS Inventarnummer (8-stellig)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM information",
     )
 
@@ -13843,7 +12591,6 @@ class StationLayout1(ObjectType):
         property_label="Inventory Number Addition",
         description="""PARFIS inventory number (8-digit)//PARFIS Inventarnummer (8-stellig)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM information",
     )
 
@@ -13854,7 +12601,6 @@ class StationLayout1(ObjectType):
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM information",
     )
 
@@ -13865,7 +12611,6 @@ class StationLayout1(ObjectType):
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM information",
     )
 
@@ -13876,7 +12621,6 @@ class StationLayout1(ObjectType):
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM information",
     )
 
@@ -13887,7 +12631,6 @@ class StationLayout1(ObjectType):
         property_label="BAM Room",
         description="""BAM Room//BAM Raum""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM information",
     )
 
@@ -13898,7 +12641,6 @@ class StationLayout1(ObjectType):
         property_label="BAM Floor",
         description="""BAM Floor//BAM Etage""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM information",
     )
 
@@ -13909,7 +12651,6 @@ class StationLayout1(ObjectType):
         property_label="BAM House",
         description="""BAM House//BAM Haus""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM information",
     )
 
@@ -13920,7 +12661,6 @@ class StationLayout1(ObjectType):
         property_label="BAM Location",
         description="""BAM Location//BAM Liegenschaft""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM information",
     )
 
@@ -13931,7 +12671,6 @@ class StationLayout1(ObjectType):
         property_label="Complete BAM Location",
         description="""Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM information",
     )
 
@@ -13941,7 +12680,6 @@ class StationLayout1(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Details",
     )
 
@@ -13951,7 +12689,6 @@ class StationLayout1(ObjectType):
         property_label="Last System Check",
         description="""Date of the last system check//Datum des letzten Systemchecks""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Details",
     )
 
@@ -13961,7 +12698,6 @@ class StationLayout1(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -13971,7 +12707,6 @@ class StationLayout1(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -14000,7 +12735,6 @@ class StationLayout3(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -14010,7 +12744,6 @@ class StationLayout3(ObjectType):
         property_label="Alternative Name",
         description="""e.g. abbreviation or nickname//z.B. Abkürzung oder Spitzname""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -14020,7 +12753,6 @@ class StationLayout3(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -14030,7 +12762,6 @@ class StationLayout3(ObjectType):
         property_label="Model Name",
         description="""Manufacturer model name//Modellname bzw. Gerätebezeichnung seitens des Herstellers""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -14040,7 +12771,6 @@ class StationLayout3(ObjectType):
         property_label="Manufacturer",
         description="""Manufacturer//Hersteller""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -14050,7 +12780,6 @@ class StationLayout3(ObjectType):
         property_label="Supplier",
         description="""Supplier//Lieferant""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -14060,7 +12789,6 @@ class StationLayout3(ObjectType):
         property_label="Serial Number",
         description="""Serial Number//Seriennummer""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -14071,7 +12799,6 @@ class StationLayout3(ObjectType):
         property_label="DFG Device Code",
         description="""DFG Device Code//DFG Gerätegruppenschlüssel (GGS)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -14081,7 +12808,6 @@ class StationLayout3(ObjectType):
         property_label="Inventory Number",
         description="""PARFIS inventory number (8-digit)//PARFIS Inventarnummer (8-stellig)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -14091,7 +12817,6 @@ class StationLayout3(ObjectType):
         property_label="Inventory Number Addition",
         description="""PARFIS inventory number (8-digit)//PARFIS Inventarnummer (8-stellig)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -14102,7 +12827,6 @@ class StationLayout3(ObjectType):
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -14113,7 +12837,6 @@ class StationLayout3(ObjectType):
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -14124,7 +12847,6 @@ class StationLayout3(ObjectType):
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -14135,7 +12857,6 @@ class StationLayout3(ObjectType):
         property_label="BAM Room",
         description="""BAM Room//BAM Raum""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -14146,7 +12867,6 @@ class StationLayout3(ObjectType):
         property_label="BAM Floor",
         description="""BAM Floor//BAM Etage""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -14157,7 +12877,6 @@ class StationLayout3(ObjectType):
         property_label="BAM House",
         description="""BAM House//BAM Haus""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -14168,7 +12887,6 @@ class StationLayout3(ObjectType):
         property_label="BAM Location",
         description="""BAM Location//BAM Liegenschaft""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -14179,7 +12897,6 @@ class StationLayout3(ObjectType):
         property_label="Complete BAM Location",
         description="""Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -14189,7 +12906,6 @@ class StationLayout3(ObjectType):
         property_label="Last System Check",
         description="""Date of the last system check//Datum des letzten Systemchecks""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -14199,7 +12915,6 @@ class StationLayout3(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -14209,7 +12924,6 @@ class StationLayout3(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -14219,7 +12933,6 @@ class StationLayout3(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -14239,7 +12952,6 @@ class LaserDiffPSDMeasurement(ExperimentalStep):
         property_label="Sample ID",
         description="""Sample ID//Identifikationsnummer""",
         mandatory=False,
-        show_in_edit_views=True,
         section="General Information",
     )
 
@@ -14249,7 +12961,6 @@ class LaserDiffPSDMeasurement(ExperimentalStep):
         property_label="Measurement ID",
         description="""Div. internal measurement ID//FB-interne Messdatennummer""",
         mandatory=False,
-        show_in_edit_views=True,
         section="General Information",
     )
 
@@ -14261,7 +12972,6 @@ class LaserDiffPSDMeasurement(ExperimentalStep):
         property_label="Operator",
         description="""Name of the person or user performing the measurement//Name der Person oder des Benutzers, der die Messung durchführt""",
         mandatory=True,
-        show_in_edit_views=True,
         section="General Information",
     )
 
@@ -14271,7 +12981,6 @@ class LaserDiffPSDMeasurement(ExperimentalStep):
         property_label="Dispersing medium",
         description="""Medium in which the particles are dispersed for the measurement. Could be a liquid solvent (water, ethanol) or air. If the solvent contains additional dispersing agent, the respective type and concentration can also be stored in this field.//Medium, in dem die Partikel für die Messung dispergiert werden. Dies kann ein flüssiges Lösungsmittel (Wasser, Ethanol) oder Luft sein. Enthält das Lösungsmittel ein zusätzliches Dispergiermittel, können dessen Art und Konzentration ebenfalls in diesem Feld gespeichert werden.""",
         mandatory=True,
-        show_in_edit_views=True,
         section="Experimental Details",
     )
 
@@ -14282,7 +12991,6 @@ class LaserDiffPSDMeasurement(ExperimentalStep):
         property_label="Light scattering model",
         description="""Light scattering model for the analysis of particle size by laser diffraction methods according to ISO 13220. Could be Mie or Fraunhofer, depending on the actual particle size.//Lichtstreuungsmodell zur Analyse der Partikelgröße mittels Laserbeugungsmethoden gemäß ISO 13220. Je nach tatsächlicher Partikelgröße kann es sich um das Mie- oder das Fraunhofer-Modell handeln.""",
         mandatory=True,
-        show_in_edit_views=True,
         section="Experimental Details",
     )
 
@@ -14292,7 +13000,6 @@ class LaserDiffPSDMeasurement(ExperimentalStep):
         property_label="Optical parameters designation",
         description="""Designation of the dataset of optical parameters of the sample//Bezeichnung des Datensatzes der optischen Parameter der Probe""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Experimental Details",
     )
 
@@ -14302,7 +13009,6 @@ class LaserDiffPSDMeasurement(ExperimentalStep):
         property_label="Refractive index of sample",
         description="""Refractive index of the sample//Brechungsindex der Probe""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Experimental Details",
     )
 
@@ -14312,7 +13018,6 @@ class LaserDiffPSDMeasurement(ExperimentalStep):
         property_label="Absorption coefficient of sample",
         description="""Absorption coefficient of the sample for blue light, if the measuring device has such a second light source//Absorptionskoeffizient der Probe für blaues Licht, wenn das Messgerät eine derartige zweite Lichtquelle aufweist""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Experimental Details",
     )
 
@@ -14322,7 +13027,6 @@ class LaserDiffPSDMeasurement(ExperimentalStep):
         property_label="Refractive index for blue light of sample",
         description="""Refractive index of the sample for blue light, if the measuring device has such a second light source//Brechungsindex der Probe für blaues Licht, wenn das Messgerät eine derartige zweite Lichtquelle aufweist""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Experimental Details",
     )
 
@@ -14332,7 +13036,6 @@ class LaserDiffPSDMeasurement(ExperimentalStep):
         property_label="Absorption coefficient for blue light of sample",
         description="""Absorption coefficient of the sample for blue light//Absorptionskoeffizient der Probe für blaues Licht""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Experimental Details",
     )
 
@@ -14342,7 +13045,6 @@ class LaserDiffPSDMeasurement(ExperimentalStep):
         property_label="Laser obscuration",
         description="""Laser obscuration//Laserabschattung""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Results",
     )
 
@@ -14352,7 +13054,6 @@ class LaserDiffPSDMeasurement(ExperimentalStep):
         property_label="Laser transmission",
         description="""Laser transmission//Transmission des Lasers""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Results",
     )
 
@@ -14362,7 +13063,6 @@ class LaserDiffPSDMeasurement(ExperimentalStep):
         property_label="Weighted deviation of fit",
         description="""In the context of fitted data, the weighted deviation describes how much the individual measurement points deviate from the curve predicted by the model, taking into account their respective weights (e.g. uncertainties or relevance).//Im Zusammenhang mit gefitteten Daten beschreibt die gewichtete Abweichung, wie stark die einzelnen Messpunkte von der durch das Modell vorhergesagten Kurve abweichen - unter Berücksichtigung ihrer jeweiligen Gewichte (z.B. Unsicherheiten oder Relevanz).""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Results",
     )
 
@@ -14372,7 +13072,6 @@ class LaserDiffPSDMeasurement(ExperimentalStep):
         property_label="Absolute deviation of fit",
         description="""The absolute deviation for fitted data describes the sum (or mean value) of the differences in magnitude between the measured values and the values predicted by the model without squaring and without weighting.//Die absolute Abweichung bei gefitteten Daten beschreibt die Summe (oder den Mittelwert) der betragsmäßigen Unterschiede zwischen den gemessenen Werten und den durch das Modell vorhergesagten Werten ohne Quadrieren und ohne Gewichtung.""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Results",
     )
 
@@ -14382,7 +13081,6 @@ class LaserDiffPSDMeasurement(ExperimentalStep):
         property_label="Temperature of dispersing medium [°C]",
         description="""Temperature of measurement medium in °C//Temperatur des Messmediums in °C""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Results",
     )
 
@@ -14392,7 +13090,6 @@ class LaserDiffPSDMeasurement(ExperimentalStep):
         property_label="Particle size D_10 [µm]",
         description="""Particle size D_10 in µm//Partikelgröße D_10 in µm""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Results",
     )
 
@@ -14402,7 +13099,6 @@ class LaserDiffPSDMeasurement(ExperimentalStep):
         property_label="Particle size D_50 [µm]",
         description="""Particle size D_50 in µm//Partikelgröße D_50 in µm""",
         mandatory=True,
-        show_in_edit_views=True,
         section="Results",
     )
 
@@ -14412,7 +13108,6 @@ class LaserDiffPSDMeasurement(ExperimentalStep):
         property_label="Particle size D_90 [µm]",
         description="""Particle size D_90 in µm//Partikelgröße D_90 in µm""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Results",
     )
 
@@ -14422,7 +13117,6 @@ class LaserDiffPSDMeasurement(ExperimentalStep):
         property_label="Number of modes",
         description="""Number of modes//Anzahl der Modalwerte""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Results",
     )
 
@@ -14444,7 +13138,6 @@ class PowderXRDMeasurement(ExperimentalStep):
         units="s",
         description="""Time per step in seconds//Zeit pro Schritt in Sekunden""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Experimental Details",
     )
 
@@ -14455,7 +13148,6 @@ class PowderXRDMeasurement(ExperimentalStep):
         units="rpm",
         description="""Sample rotation speed in revolutions per minute (rpm)//Rotationsgeschwindigkeit der Probe in Umdrehungen pro Minute (rpm)""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Experimental Details",
     )
 
@@ -14466,7 +13158,6 @@ class PowderXRDMeasurement(ExperimentalStep):
         units="kV",
         description="""Acceleration voltage of the X-ray tube in kilovolts (kV)//Beschleunigungsspannung der Röntgenröhre in Kilovolt (kV)""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Experimental Details",
     )
 
@@ -14477,7 +13168,6 @@ class PowderXRDMeasurement(ExperimentalStep):
         units="mA",
         description="""Tube current of the X-ray source in milliamperes (mA)//Röhrenstrom der Röntgenquelle in Milliampere (mA)""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Experimental Details",
     )
 
@@ -14488,7 +13178,6 @@ class PowderXRDMeasurement(ExperimentalStep):
         property_label="X-ray tube material",
         description="""Material of the X-ray tube anode (e.g. Cu, Co, Mo)//Material der Anode der Röntgenröhre (z.B. Cu, Co, Mo)""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Experimental Details",
     )
 
@@ -14502,7 +13191,6 @@ class PowderXRDMeasurement(ExperimentalStep):
         der Röntgenstrahlung in Angstrom (Å). Diese Wellenlänge ist mit der Röhre verbunden und kann sich je nach
         Röhrenkonfiguration auf alpha 1 oder den Durchschnitt beziehen""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Experimental Details",
     )
 
@@ -14512,7 +13200,6 @@ class PowderXRDMeasurement(ExperimentalStep):
         property_label="X-ray tube configuration",
         description="""Instrument-specific X-ray tube configuration identifier//Gerätespezifischer Konfigurationsbezeichner der Röntgenröhre""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Experimental Details",
     )
 
@@ -14522,7 +13209,6 @@ class PowderXRDMeasurement(ExperimentalStep):
         property_label="Goniometer type",
         description="""Type of goniometer used for the measurement//Typ des für die Messung verwendeten Goniometers""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Experimental Details",
     )
 
@@ -14533,7 +13219,6 @@ class PowderXRDMeasurement(ExperimentalStep):
         units="degree",
         description="""Starting angle of the 2Theta range in degrees//Startwinkel des 2Theta-Bereichs in Grad""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Experimental Details",
     )
 
@@ -14544,7 +13229,6 @@ class PowderXRDMeasurement(ExperimentalStep):
         units="degree",
         description="""Ending angle of the 2Theta range in degrees//Endwinkel des 2Theta-Bereichs in Grad""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Experimental Details",
     )
 
@@ -14555,6 +13239,5 @@ class PowderXRDMeasurement(ExperimentalStep):
         units="degree",
         description="""Step size of the 2Theta range in degrees//Schrittgröße des 2Theta-Bereichs in Grad""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Experimental Details",
     )
