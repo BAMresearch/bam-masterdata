@@ -10,6 +10,8 @@ from bam_masterdata.utils import (
     listdir_py_modules,
 )
 
+CLASS_DEFINITION_PATTERN = re.compile(r"^\s*class\s+(\w+)\s*\(.*\):")
+
 
 class EntitiesDict:
     """
@@ -21,6 +23,65 @@ class EntitiesDict:
         self.python_path = python_path
         self.logger = kwargs.get("logger", logger)
         self.data: dict = {}
+
+    @staticmethod
+    def _read_module_source(module_path: str) -> list[str]:
+        with open(module_path, encoding="utf-8") as module_file:
+            return module_file.readlines()
+
+    @staticmethod
+    def _collect_class_locations(module_source: list[str]) -> dict[str, int]:
+        return {
+            match.group(1): line_number
+            for line_number, line in enumerate(module_source, start=1)
+            if (match := CLASS_DEFINITION_PATTERN.match(line))
+        }
+
+    @staticmethod
+    def _collect_member_locations(
+        module_source: list[str], constructor_name: str
+    ) -> dict[str, dict[str, int]]:
+        member_pattern = re.compile(rf"^\s*(\w+)\s*=\s*{re.escape(constructor_name)}\(")
+        member_locations: dict[str, dict[str, int]] = {}
+        current_class = None
+
+        for line_number, line in enumerate(module_source, start=1):
+            class_match = CLASS_DEFINITION_PATTERN.match(line)
+            if class_match:
+                current_class = class_match.group(1)
+                continue
+
+            member_match = member_pattern.search(line)
+            if member_match and current_class:
+                member_name = member_match.group(1)
+                member_locations.setdefault(current_class, {})[member_name] = (
+                    line_number
+                )
+
+        return member_locations
+
+    @staticmethod
+    def _code_to_attribute_name(code: str, *, strip_dollar: bool = False) -> str:
+        normalized_code = code.lower().replace(".", "_")
+        if strip_dollar:
+            normalized_code = normalized_code.replace("$", "")
+        return normalized_code
+
+    @classmethod
+    def _assign_row_locations(
+        cls,
+        entity_name: str,
+        items: list[dict],
+        member_locations: dict[str, dict[str, int]],
+        *,
+        strip_dollar: bool = False,
+    ) -> None:
+        entity_locations = member_locations.get(entity_name, {})
+        for item in items:
+            attr_name = cls._code_to_attribute_name(
+                item["code"], strip_dollar=strip_dollar
+            )
+            item["row_location"] = entity_locations.get(attr_name)
 
     def to_dict(self, module_path: str) -> dict:
         """
@@ -40,47 +101,14 @@ class EntitiesDict:
         data: dict = {}
 
         # Read the module source code and store line numbers
-        with open(module_path, encoding="utf-8") as f:
-            module_source = f.readlines()
-
-        # Detect class definitions (entity types)
-        class_locations = {
-            match.group(1): i + 1  # Store line number (1-based index)
-            for i, line in enumerate(module_source)
-            if (match := re.match(r"^\s*class\s+(\w+)\s*\(.*\):", line))
-        }
-
-        # Detect property assignments (`PropertyTypeAssignment(...)`) with class context
-        property_locations: dict = {}
-        current_class = None
-
-        for i, line in enumerate(module_source):
-            class_match = re.match(r"^\s*class\s+(\w+)\s*\(.*\):", line)
-            if class_match:
-                current_class = class_match.group(1)
-
-            prop_match = re.search(r"^\s*(\w+)\s*=\s*PropertyTypeAssignment\(", line)
-            if prop_match and current_class:
-                property_name = prop_match.group(1)
-                if current_class not in property_locations:
-                    property_locations[current_class] = {}
-                property_locations[current_class][property_name] = i + 1
-
-        # Detect vocabulary terms (`VocabularyTerm(...)`) with class context
-        vocabulary_term_locations: dict = {}
-        current_vocab_class = None
-
-        for i, line in enumerate(module_source):
-            class_match = re.match(r"^\s*class\s+(\w+)\s*\(.*\):", line)
-            if class_match:
-                current_vocab_class = class_match.group(1)
-
-            term_match = re.search(r"^\s*(\w+)\s*=\s*VocabularyTerm\(", line)
-            if term_match and current_vocab_class:
-                term_name = term_match.group(1)
-                if current_vocab_class not in vocabulary_term_locations:
-                    vocabulary_term_locations[current_vocab_class] = {}
-                vocabulary_term_locations[current_vocab_class][term_name] = i + 1
+        module_source = self._read_module_source(module_path)
+        class_locations = self._collect_class_locations(module_source)
+        property_locations = self._collect_member_locations(
+            module_source, "PropertyTypeAssignment"
+        )
+        vocabulary_term_locations = self._collect_member_locations(
+            module_source, "VocabularyTerm"
+        )
 
         # Process all classes in the module
         for name, obj in inspect.getmembers(module, inspect.isclass):
@@ -91,38 +119,17 @@ class EntitiesDict:
                 obj_data["defs"]["row_location"] = class_locations.get(name, None)
 
                 if "properties" in obj_data:
-                    # Processing standard properties (PropertyTypeAssignment)
-                    for prop in obj_data["properties"]:
-                        prop_id = (
-                            prop["code"].lower().replace(".", "_").replace("$", "")
-                        )
-                        matched_key = next(
-                            (
-                                key
-                                for key in property_locations.get(name, {})
-                                if key == prop_id
-                            ),
-                            None,
-                        )
-                        prop["row_location"] = property_locations.get(name, {}).get(
-                            matched_key, None
-                        )
+                    self._assign_row_locations(
+                        name,
+                        obj_data["properties"],
+                        property_locations,
+                        strip_dollar=True,
+                    )
 
                 elif "terms" in obj_data:
-                    # Processing vocabulary terms (VocabularyTerm)
-                    for term in obj_data["terms"]:
-                        term_id = term["code"].lower().replace(".", "_")
-                        matched_key = next(
-                            (
-                                key
-                                for key in vocabulary_term_locations.get(name, {})
-                                if key == term_id
-                            ),
-                            None,
-                        )
-                        term["row_location"] = vocabulary_term_locations.get(
-                            name, {}
-                        ).get(matched_key, None)
+                    self._assign_row_locations(
+                        name, obj_data["terms"], vocabulary_term_locations
+                    )
 
                 data[obj.defs.code] = obj_data
             except Exception as err:

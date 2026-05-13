@@ -44,6 +44,8 @@ The **Explanations** offer theoretical insights into the core concepts.
 
 - [Parsing Structure](explanations/parsing_structure.md)
 - [Schema Definitions](explanations/schema_defs.md)
+- [Metadata Definitions Module](explanations/metadata_definitions.md)
+- [Metadata Entities Module](explanations/metadata_entities.md)
 
 </div>
 

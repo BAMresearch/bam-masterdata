@@ -17,6 +17,8 @@ nav:
   - Explanations:
     - Parsing Structure: explanations/parsing_structure.md
     - Schema Definitions: explanations/schema_defs.md
+    - Metadata Definitions Module: explanations/metadata_definitions.md
+    - Metadata Entities Module: explanations/metadata_entities.md
   - References:
     - Glossary: references/glossary.md
     - API Reference: references/api.md

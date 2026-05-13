@@ -111,6 +111,64 @@ class TestEntityDef:
         )
         assert entity.description == "Valid description"
 
+    def test_validate_iri(self):
+        entity = EntityDef(
+            code="EXPERIMENTAL_STEP",
+            description="Valid description",
+            iri="http://purl.obolibrary.org/bam-masterdata/Instrument:1.0.0",
+        )
+        assert (
+            entity.iri == "http://purl.obolibrary.org/bam-masterdata/Instrument:1.0.0"
+        )
+
+        with pytest.raises(ValueError):
+            EntityDef(
+                code="EXPERIMENTAL_STEP",
+                description="Valid description",
+                iri="https://example.org/not-bam/Instrument:1.0.0",
+            )
+
+    @pytest.mark.parametrize(
+        "entity, expected_name",
+        [
+            (
+                CollectionTypeDef(code="COLLECTION", description="Collection"),
+                "EXPERIMENT_TYPE",
+            ),
+            (DatasetTypeDef(code="RAW_DATA", description="Raw data"), "DATASET_TYPE"),
+            (ObjectTypeDef(code="INSTRUMENT", description="Instrument"), "SAMPLE_TYPE"),
+            (
+                VocabularyTypeDef(code="DOCUMENT_TYPE", description="Document type"),
+                "VOCABULARY_TYPE",
+            ),
+            (
+                PropertyTypeDef(
+                    code="PROPERTY_CODE",
+                    description="Property",
+                    property_label="Property",
+                    data_type=DataType.VARCHAR,
+                ),
+                None,
+            ),
+        ],
+    )
+    def test_excel_name(self, entity, expected_name):
+        assert entity.excel_name == expected_name
+
+    def test_excel_headers_map_excludes_internal_fields(self):
+        entity = ObjectTypeDef(
+            code="INSTRUMENT",
+            description="Instrument",
+            validation_script="validate.instrument",
+        )
+        assert entity.excel_headers_map == {
+            "code": "Code",
+            "description": "Description",
+            "validation_script": "Validation script",
+            "generated_code_prefix": "Generated code prefix",
+            "auto_generate_codes": "Auto generate codes",
+        }
+
 
 class TestBaseObjectTypeDef:
     def test_fields(self):
@@ -316,6 +374,15 @@ class TestPropertyTypeDef:
                 data_type=DataType.REAL,
                 units="meter",
             )
+
+    def test_model_id_uses_property_conversion(self):
+        prop = PropertyTypeDef(
+            code="$STORAGE.STORAGE_VALIDATION_LEVEL",
+            description="Validation level",
+            property_label="Validation level",
+            data_type=DataType.VARCHAR,
+        )
+        assert prop.id == "StorageStorageValidationLevel"
 
 
 class TestPropertyTypeAssignment:
