@@ -1,4 +1,4 @@
-# Explanation: `metadata/entities.py`
+# Metadata Entities Module
 
 This page explains the role of [`bam_masterdata/metadata/entities.py`](../../bam_masterdata/metadata/entities.py), which is the runtime counterpart to `definitions.py`.
 

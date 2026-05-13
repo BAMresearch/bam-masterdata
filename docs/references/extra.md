@@ -235,7 +235,7 @@ else:
 
 ### How to Import from Excel Files
 
-*[Image placeholder: Excel spreadsheet template showing the correct structure for masterdata import with headers, entity types, properties, and sample data rows.]*
+*Image placeholder: Excel spreadsheet template showing the correct structure for masterdata import with headers, entity types, properties, and sample data rows.*
 
 ```python
 from bam_masterdata.excel.excel_to_entities import MasterdataExcelExtractor
@@ -348,7 +348,7 @@ print(f"Storage format terms: {list(storage_formats.get('terms', {}).keys())}")
 
 ### How to Push Data to OpenBIS
 
-*[Image placeholder: Screenshot of OpenBIS interface showing uploaded masterdata with entity browser and property views.]*
+*Image placeholder: Screenshot of OpenBIS interface showing uploaded masterdata with entity browser and property views.*
 
 ```python
 # Create entities in OpenBIS

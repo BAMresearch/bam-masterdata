@@ -1,4 +1,4 @@
-# How-to: Extend the Current Masterdata
+# Extend the Current Masterdata
 
 This guide describes the recommended contribution workflow for extending BAM masterdata definitions.
 

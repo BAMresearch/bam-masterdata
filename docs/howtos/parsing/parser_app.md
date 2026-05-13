@@ -1,4 +1,4 @@
-# How-to: Use the Parser App
+# Use the Parser App
 
 This how-to guide explains how to use the Parser App in your browser to upload files, run the parser, and transfer parsed metadata to the Data Store. It is intended for users who want a step-by-step walkthrough of the main app functions.
 

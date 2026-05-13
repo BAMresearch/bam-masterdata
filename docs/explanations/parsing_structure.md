@@ -1,4 +1,4 @@
-# Explanation: Parsing and ETL Structure in the Parser App
+# Parsing Structure
 
 ## Concept
 

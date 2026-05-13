@@ -1,4 +1,4 @@
-# Explanation: Schema and Masterdata Definitions
+# Schema Definitions
 
 This page explains what "schema/Masterdata definitions" mean in openBIS and how they are represented in `bam-masterdata`.
 

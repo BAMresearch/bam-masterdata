@@ -1,4 +1,4 @@
-# Explanation: `metadata/definitions.py`
+# Metadata Definitions Module
 
 This page explains the role of [`bam_masterdata/metadata/definitions.py`](../../bam_masterdata/metadata/definitions.py) and how it models the static schema layer of BAM masterdata.
 
