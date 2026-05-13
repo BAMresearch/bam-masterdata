@@ -871,7 +871,6 @@ class ObjectType(BaseEntity):
         return data
 
     def to_openbis(self, logger: "BoundLoggerLazyProxy", openbis: "Openbis") -> None:
-
         def _assign_property(prop, entity, openbis) -> None:
             """
             Assign the property to the entity, adding the `vocabulary` parameter if the `vocabulary_code`

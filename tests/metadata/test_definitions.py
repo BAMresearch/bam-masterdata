@@ -118,8 +118,7 @@ class TestEntityDef:
             iri="http://purl.obolibrary.org/bam-masterdata/Instrument:1.0.0",
         )
         assert (
-            entity.iri
-            == "http://purl.obolibrary.org/bam-masterdata/Instrument:1.0.0"
+            entity.iri == "http://purl.obolibrary.org/bam-masterdata/Instrument:1.0.0"
         )
 
         with pytest.raises(ValueError):
@@ -142,12 +141,15 @@ class TestEntityDef:
                 VocabularyTypeDef(code="DOCUMENT_TYPE", description="Document type"),
                 "VOCABULARY_TYPE",
             ),
-            (PropertyTypeDef(
-                code="PROPERTY_CODE",
-                description="Property",
-                property_label="Property",
-                data_type=DataType.VARCHAR,
-            ), None),
+            (
+                PropertyTypeDef(
+                    code="PROPERTY_CODE",
+                    description="Property",
+                    property_label="Property",
+                    data_type=DataType.VARCHAR,
+                ),
+                None,
+            ),
         ],
     )
     def test_excel_name(self, entity, expected_name):

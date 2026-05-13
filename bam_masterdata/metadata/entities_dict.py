@@ -41,9 +41,7 @@ class EntitiesDict:
     def _collect_member_locations(
         module_source: list[str], constructor_name: str
     ) -> dict[str, dict[str, int]]:
-        member_pattern = re.compile(
-            rf"^\s*(\w+)\s*=\s*{re.escape(constructor_name)}\("
-        )
+        member_pattern = re.compile(rf"^\s*(\w+)\s*=\s*{re.escape(constructor_name)}\(")
         member_locations: dict[str, dict[str, int]] = {}
         current_class = None
 
@@ -56,7 +54,9 @@ class EntitiesDict:
             member_match = member_pattern.search(line)
             if member_match and current_class:
                 member_name = member_match.group(1)
-                member_locations.setdefault(current_class, {})[member_name] = line_number
+                member_locations.setdefault(current_class, {})[member_name] = (
+                    line_number
+                )
 
         return member_locations
 

@@ -4,7 +4,6 @@ from functools import wraps
 
 def deprecated(reason: str):
     def decorator(func):
-
         @wraps(func)
         def wrapper(*args, **kwargs):
             warnings.warn(
