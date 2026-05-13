@@ -43,7 +43,6 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-  "mypy==1.0.1",
   "ruff",
   "pytest",
   "pytest-timeout",
@@ -129,13 +128,6 @@ indent-style = "space"
 skip-magic-trailing-comma = false
 # Like Black, automatically detect the appropriate line ending.
 line-ending = "auto"
-
-[tool.mypy]
-strict = false
-ignore_missing_imports = true
-follow_imports = "silent"
-no_strict_optional = true
-disable_error_code = "import, annotation-unchecked"
 
 [tool.setuptools.packages.find]
 where = ["."]

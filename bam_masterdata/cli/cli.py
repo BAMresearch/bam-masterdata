@@ -680,14 +680,11 @@ def parser(files_parser, project_name, collection_name, space_name, collection_t
     )
 
 
-def update_entity():
-    pass
-
-
 @cli.command(
     name="update_openbis_masterdata",
     help=(
-        "Updates the current Masterdata definitions in openBIS with the `--entity` defined in `--file-path`."
+        "Updates the current Masterdata definitions in openBIS with the `--entity` defined in `--file-path`. "
+        "If `--entity` is not defined, it will update all the entities defined in `--file-path`."
     ),
 )
 @click.option(
@@ -695,18 +692,18 @@ def update_entity():
     "file_path",  # alias
     type=click.Path(exists=True),
     required=True,
-    help="""The path to the file  containing Python modules with the entity definitions.""",
+    help="""The path to the file containing Python modules with the entity definitions.""",
 )
 @click.option(
     "--entity",
-    "entity",  # alias
+    "entity",
     type=str,
     required=False,
     help="""The name of the entity to be updated in openBIS. If not specified, all entities in the `--file-path` will be updated.""",
 )
 @click.option(
     "--check",
-    "check",  # alias
+    "check",
     type=bool,
     default=True,
     help="""Whether to run the `checker` before pushing to openBIS. Default is `True`.""",
@@ -736,6 +733,7 @@ def update_openbis_masterdata(file_path, entity, check):
                 logger.error(
                     f"Entity {entity} not found in the module {file_path} or it does not have the method `to_openbis`."
                 )
+    # TODO implement `checker` logic
 
 
 if __name__ == "__main__":
