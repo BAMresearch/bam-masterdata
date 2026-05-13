@@ -17,7 +17,6 @@ class Welding(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -27,7 +26,6 @@ class Welding(ObjectType):
         property_label="Alternative Name",
         description="""e.g. abbreviation or nickname//z.B. Abkürzung oder Spitzname""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -37,7 +35,6 @@ class Welding(ObjectType):
         property_label="Manufacturer",
         description="""Manufacturer//Hersteller""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -47,7 +44,6 @@ class Welding(ObjectType):
         property_label="Supplier",
         description="""Supplier//Lieferant""",
         mandatory=False,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -57,7 +53,6 @@ class Welding(ObjectType):
         property_label="Batch number",
         description="""Batch number//Chargennummer""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -67,7 +62,6 @@ class Welding(ObjectType):
         property_label="Inventory Number",
         description="""PARFIS inventory number (8-digit)//PARFIS Inventarnummer (8-stellig)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -77,7 +71,6 @@ class Welding(ObjectType):
         property_label="Inventory Number Addition",
         description="""PARFIS inventory number (8-digit)//PARFIS Inventarnummer (8-stellig)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -88,7 +81,6 @@ class Welding(ObjectType):
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=True,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -99,7 +91,6 @@ class Welding(ObjectType):
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -110,7 +101,6 @@ class Welding(ObjectType):
         property_label="Co-responsible person",
         description="""Co-responsible person//Weitere verantwortliche Person""",
         mandatory=False,
-        show_in_edit_views=False,
         section="BAM Information",
     )
 
@@ -120,7 +110,6 @@ class Welding(ObjectType):
         property_label="Notes",
         description="""Notes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -130,7 +119,6 @@ class Welding(ObjectType):
         property_label="Last System Check",
         description="""Date of the last system check//Datum des letzten Systemchecks""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -140,7 +128,6 @@ class Welding(ObjectType):
         property_label="Comments",
         description="""Comments log""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -150,7 +137,6 @@ class Welding(ObjectType):
         property_label="Annotations State",
         description="""Annotations State""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Comments",
     )
 
@@ -173,7 +159,6 @@ class WeldingEquipment(Instrument):
         property_label="Last System Check",
         description="""Date of the last system check//Datum des letzten Systemchecks""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Additional Information",
     )
 
@@ -192,7 +177,6 @@ class GmawTorch(WeldingEquipment):
         property_label="Type",
         description="""type of welding torch//Art des Schweißbrenners""",
         mandatory=True,
-        show_in_edit_views=False,
         section="General Information",
     )
 
@@ -210,7 +194,6 @@ class GmawWeldingPowerSource(WeldingEquipment):
         property_label="Arc current minimum [A]",
         description="""Minimum arc current//Minimaler Schweißstrom""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Power Source Information",
     )
 
@@ -220,7 +203,6 @@ class GmawWeldingPowerSource(WeldingEquipment):
         property_label="Arc current maximum [A]",
         description="""Maximum arc current//Maximaler Schweißstrom""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Power Source Information",
     )
 
@@ -230,7 +212,6 @@ class GmawWeldingPowerSource(WeldingEquipment):
         property_label="Maximum continuous arc current [A]",
         description="""Maximum continuous arc current at 100% duty cycle//Maximaler Schweißstrom bei 100% Einschaltdauer""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Power Source Information",
     )
 
@@ -240,7 +221,6 @@ class GmawWeldingPowerSource(WeldingEquipment):
         property_label="Current firmware version",
         description="""The currently installed firmware version//Die aktuell installierte Firmware-Version""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Software Information",
     )
 
@@ -259,7 +239,6 @@ class Positioner(WeldingEquipment):
         property_label="Positioner type",
         description="""Positioner type//Art des Positionierers""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Positioner Information",
     )
 
@@ -269,7 +248,6 @@ class Positioner(WeldingEquipment):
         property_label="Number of axis",
         description="""The number of controllable axis of the positioner (a value of 0 indicates static positioner)//""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Positioner Information",
     )
 
@@ -279,7 +257,6 @@ class Positioner(WeldingEquipment):
         property_label="Maximum payload [kg]",
         description="""The maximum payload to be handled by the positioner//Maximal zulässige Traglast""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Positioner Information",
     )
 
@@ -297,7 +274,6 @@ class RobotController(WeldingEquipment):
         property_label="Number of robot axis",
         description="""The number of robot axis the controller can operate//Anzahl der Roboterachsen die von der Steuerung angesteuert werden können""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Controller Information",
     )
 
@@ -307,7 +283,6 @@ class RobotController(WeldingEquipment):
         property_label="Number of external axis",
         description="""The number of external axis the controller can operate//Anzahl der zusätzlichen externen Achsen die von der Steuerung angesteuert werden können""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Controller Information",
     )
 
@@ -317,7 +292,6 @@ class RobotController(WeldingEquipment):
         property_label="Current firmware version",
         description="""The currently installed firmware version//Die aktuell installierte Firmware-Version""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Software Information",
     )
 
@@ -336,7 +310,6 @@ class Robot(WeldingEquipment):
         property_label="Type of Robot",
         description="""Type of Robot//Roboterart""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Robot Information",
     )
 
@@ -346,7 +319,6 @@ class Robot(WeldingEquipment):
         property_label="Robot maximum payload [kg]",
         description="""The maximum allowable payload of the robot//Die maximal zulässig Traglast des Roboters""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Robot Information",
     )
 
@@ -356,7 +328,6 @@ class Robot(WeldingEquipment):
         property_label="Maximum working range [mm]",
         description="""The maximum specified working range of the robot (in mm)//Größe des maximal angegegebenen Arbeitsbereiches (in mm)""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Robot Information",
     )
 
@@ -366,7 +337,6 @@ class Robot(WeldingEquipment):
         property_label="Number of robot axis",
         description="""The number of a axis on the robot//Anzahl der Roboterachsen""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Robot Information",
     )
 
@@ -397,7 +367,6 @@ class Weldment(ExperimentalStep):
         property_label="UUID",
         description="""A Universally Unique IDentifier (UUID/GUID) according to RFC 4122//Ein Universally Unique IDentifier (UUID/GUID) nach RFC 4122""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Identifiers",
     )
 
@@ -407,7 +376,6 @@ class Weldment(ExperimentalStep):
         property_label="Joint Number",
         description="""Consecutive numbering of weld joints of a workpiece or component//Fortlaufende Numerierung von Schweißnähten an Werkstücken und Bauteilen""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Identifiers",
     )
 
@@ -417,7 +385,6 @@ class Weldment(ExperimentalStep):
         property_label="Layer Number",
         description="""Consecutive numbering of weld layers for a parent joint//Fortlaufende Numerierung von Schweißlagen der übergeordneten Schweißnaht""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Identifiers",
     )
 
@@ -427,7 +394,6 @@ class Weldment(ExperimentalStep):
         property_label="Bead Number",
         description="""Consecutive numbering of weld beads or tracks for a parent layer//Fortlaufende Numerierung von Schweißraupen der übergeordneten Schweißlage""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Identifiers",
     )
 
@@ -437,7 +403,6 @@ class Weldment(ExperimentalStep):
         property_label="Weldment Number",
         description="""Consecutive numbering of uninterrupted weldments in a single bead//Fortlaufende Numerierung von ununterbrochenen Schweißungen einer einzelnen Schweißraupe""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Identifiers",
     )
 
@@ -448,7 +413,6 @@ class Weldment(ExperimentalStep):
         property_label="Type of weld",
         description="""Type of weldment made//Art der Schweißverbindung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Weldment Information",
     )
 
@@ -466,7 +430,6 @@ class GmawBase(Weldment):
         property_label="Thickness of the workpiece [mm]",
         description="""Workpiece thickness//Bauteildicke""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Workpiece Parameters",
     )
 
@@ -476,7 +439,6 @@ class GmawBase(Weldment):
         property_label="Groove preparation",
         description="""Groove or Joint preparation description//Beschreibung der Nahtvorbereitung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Workpiece Parameters",
     )
 
@@ -486,7 +448,6 @@ class GmawBase(Weldment):
         property_label="Welding travel speed [cm/min]",
         description="""Welding travel speed//Schweißgeschwindigkeit""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Welding Parameters",
     )
 
@@ -496,7 +457,6 @@ class GmawBase(Weldment):
         property_label="Shielding gas flowrate [l/min]",
         description="""Shielding gas flowrate//Schutzgasflussgeschwindigkeit""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Welding Parameters",
     )
 
@@ -506,7 +466,6 @@ class GmawBase(Weldment):
         property_label="Arc welding process",
         description="""Name of the selected arc welding process//Name des Lichtbogenschweißprozesses""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Arc Welding Parameters",
     )
 
@@ -516,7 +475,6 @@ class GmawBase(Weldment):
         property_label="Arc voltage [V]",
         description="""Welding arc voltage//Lichtbogenspannung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Arc Welding Parameters",
     )
 
@@ -526,7 +484,6 @@ class GmawBase(Weldment):
         property_label="Arc current [A]",
         description="""Welding arc current//Schweißstrom""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Arc Welding Parameters",
     )
 
@@ -536,7 +493,6 @@ class GmawBase(Weldment):
         property_label="Wire stickout [mm]",
         description="""Length of the wire stickout//Stickoutlänge des Schweißdrahtes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Arc Welding Parameters",
     )
 
@@ -546,7 +502,6 @@ class GmawBase(Weldment):
         property_label="Wire feed rate [m/min]",
         description="""Welding wire feed rate//Drahtvorschubrate""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Arc Welding Parameters",
     )
 
@@ -564,7 +519,6 @@ class LaserHybridMagnet(Weldment):
         property_label="Thickness of the workpiece [mm]",
         description="""Workpiece thickness//Bauteildicke""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Workpiece Parameters",
     )
 
@@ -574,7 +528,6 @@ class LaserHybridMagnet(Weldment):
         property_label="Groove preparation",
         description="""Groove or Joint preparation description//Beschreibung der Nahtvorbereitung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Workpiece Parameters",
     )
 
@@ -584,7 +537,6 @@ class LaserHybridMagnet(Weldment):
         property_label="Welding travel speed [cm/min]",
         description="""Welding travel speed//Schweißgeschwindigkeit""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Welding Parameters",
     )
 
@@ -594,7 +546,6 @@ class LaserHybridMagnet(Weldment):
         property_label="Shielding gas flowrate [l/min]",
         description="""Shielding gas flowrate//Schutzgasflussgeschwindigkeit""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Welding Parameters",
     )
 
@@ -604,7 +555,6 @@ class LaserHybridMagnet(Weldment):
         property_label="Laser distance to wire [mm]",
         description="""Distance from laser spot to wire feed//Abstand zwischen Laser und Draht""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Laser Parameters",
     )
 
@@ -614,7 +564,6 @@ class LaserHybridMagnet(Weldment):
         property_label="Laser power [kW]",
         description="""Laser power//Laserleistung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Laser Parameters",
     )
 
@@ -624,7 +573,6 @@ class LaserHybridMagnet(Weldment):
         property_label="Laser focus [mm]",
         description="""Laser focus position//Laser Fokuslage""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Laser Parameters",
     )
 
@@ -634,7 +582,6 @@ class LaserHybridMagnet(Weldment):
         property_label="Capacitance C [µF]",
         description="""Capacitance//Kapazität""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Magnet Parameters",
     )
 
@@ -644,7 +591,6 @@ class LaserHybridMagnet(Weldment):
         property_label="Frequency F [Hz]",
         description="""Frequency//Frequenz""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Magnet Parameters",
     )
 
@@ -654,7 +600,6 @@ class LaserHybridMagnet(Weldment):
         property_label="Current transformer HAS 50-S [mV/A]",
         description="""Current transformer HAS 50-S//Stromwandler HAS 50-S""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Magnet Parameters",
     )
 
@@ -664,7 +609,6 @@ class LaserHybridMagnet(Weldment):
         property_label="U_1 [mV]",
         description="""Magnet U_1 value//Magnet U_1 Wert""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Magnet Parameters",
     )
 
@@ -674,7 +618,6 @@ class LaserHybridMagnet(Weldment):
         property_label="I_1 [A]",
         description="""Magnet I_1 value//Magnet I_1 Wert""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Magnet Parameters",
     )
 
@@ -684,7 +627,6 @@ class LaserHybridMagnet(Weldment):
         property_label="Arc welding process",
         description="""Name of the selected arc welding process//Name des Lichtbogenschweißprozesses""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Arc Welding Parameters",
     )
 
@@ -694,7 +636,6 @@ class LaserHybridMagnet(Weldment):
         property_label="Arc voltage [V]",
         description="""Welding arc voltage//Lichtbogenspannung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Arc Welding Parameters",
     )
 
@@ -704,7 +645,6 @@ class LaserHybridMagnet(Weldment):
         property_label="Arc current [A]",
         description="""Welding arc current//Schweißstrom""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Arc Welding Parameters",
     )
 
@@ -714,7 +654,6 @@ class LaserHybridMagnet(Weldment):
         property_label="Wire stickout [mm]",
         description="""Length of the wire stickout//Stickoutlänge des Schweißdrahtes""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Arc Welding Parameters",
     )
 
@@ -724,7 +663,6 @@ class LaserHybridMagnet(Weldment):
         property_label="Wire feed rate [m/min]",
         description="""Welding wire feed rate//Drahtvorschubrate""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Arc Welding Parameters",
     )
 
@@ -742,7 +680,6 @@ class LaserMagnet(Weldment):
         property_label="Material",
         description="""Material classification of the workpiece base material//Materialgruppe des verwendeten Grundwerkstoffes""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Workpiece",
     )
 
@@ -752,7 +689,6 @@ class LaserMagnet(Weldment):
         property_label="Material Treatments",
         description="""Additional material treatments (heat treatments, rolling etc.)//Zusätzliche Angaben zu Materialbehandlungen (Wärmebehandlungen usw.)""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Workpiece",
     )
 
@@ -763,7 +699,6 @@ class LaserMagnet(Weldment):
         units="mm",
         description="""Width of workpiece perpendicular to weld seam direction in [mm]//Probenbreite senkrecht zum Schweißnahtverlauf in [mm]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Workpiece",
     )
 
@@ -774,7 +709,6 @@ class LaserMagnet(Weldment):
         units="mm",
         description="""Length of Workpiece in weld seam direction in [mm]//Probenlänge in Richtung der Schweißnaht in [mm]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Workpiece",
     )
 
@@ -785,7 +719,6 @@ class LaserMagnet(Weldment):
         units="mm",
         description="""Workpiece thickness in [mm]//Probendicke in [mm]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Workpiece",
     )
 
@@ -795,7 +728,6 @@ class LaserMagnet(Weldment):
         property_label="Surface Preparation",
         description="""Surface preparation//Oberflächenbearbeitung""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Workpiece",
     )
 
@@ -805,7 +737,6 @@ class LaserMagnet(Weldment):
         property_label="Groove preparation",
         description="""Groove or Joint preparation description//Beschreibung der Nahtvorbereitung""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Joint Configuration",
     )
 
@@ -815,7 +746,6 @@ class LaserMagnet(Weldment):
         property_label="Full penetration",
         description="""Full penetration//Durchschweißung""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Joint Configuration",
     )
 
@@ -826,7 +756,6 @@ class LaserMagnet(Weldment):
         units="cm/min",
         description="""Welding travel speed in [cm/min]//Schweißgeschwindigkeit in [cm/min]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Welding Parameters",
     )
 
@@ -837,7 +766,6 @@ class LaserMagnet(Weldment):
         units="mm",
         description="""Weld seam length in [mm]//Länge der Schweißnaht in [mm]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Welding Parameters",
     )
 
@@ -847,7 +775,6 @@ class LaserMagnet(Weldment):
         property_label="Shielding gas composition",
         description="""Shielding gas composition listing all components with their volume percentage, e.g., '82% Ar, 18% CO2'//Schutzgaszusammensetzung mit Aufzählung aller Gasanteile in Volumenprozent, z.B. '82% Ar, 18% CO2'""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Welding Parameters",
     )
 
@@ -858,7 +785,6 @@ class LaserMagnet(Weldment):
         units="l/minute",
         description="""Shielding gas flowrate in [l/min]//Schutzgasflussrate in [l/min]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Welding Parameters",
     )
 
@@ -869,7 +795,6 @@ class LaserMagnet(Weldment):
         units="mm",
         description="""Shielding gas nozzle distance in vertical direction in [mm]//Senkrechter Abstand der Schutzgasdüse zur Probe in [mm]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Welding Parameters",
     )
 
@@ -880,7 +805,6 @@ class LaserMagnet(Weldment):
         units="deg",
         description="""Shielding gas nozzle angle in [deg]//Anstellwinkel der Schutzgasdüse in [deg]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Welding Parameters",
     )
 
@@ -891,7 +815,6 @@ class LaserMagnet(Weldment):
         units="kW",
         description="""Laser power in [kW]//Laserleistung in [kW]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Laser Parameters",
     )
 
@@ -902,7 +825,6 @@ class LaserMagnet(Weldment):
         units="deg",
         description="""Laser angle in [deg]//Laserwinkel in [deg]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Laser Parameters",
     )
 
@@ -913,7 +835,6 @@ class LaserMagnet(Weldment):
         units="mm",
         description="""Laser focal length in [mm]//Laser Fokuslänge in [mm]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Laser Parameters",
     )
 
@@ -924,7 +845,6 @@ class LaserMagnet(Weldment):
         units="mm",
         description="""Laser focal position in [mm]//Laser Fokusposition in [mm]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Laser Parameters",
     )
 
@@ -935,7 +855,6 @@ class LaserMagnet(Weldment):
         units="mm",
         description="""Laser focal diameter in [mm]//Laser Fokusdurchmesser in [mm]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Laser Parameters",
     )
 
@@ -946,7 +865,6 @@ class LaserMagnet(Weldment):
         units="mm*mrad",
         description="""Beam parameter product in [mm*mrad]//Strahlparameterprodukt [mm*mrad]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Laser Parameters",
     )
 
@@ -957,7 +875,6 @@ class LaserMagnet(Weldment):
         units="mm",
         description="""Rayleigh length in [mm]//Rayleighlänge in [mm]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Laser Parameters",
     )
 
@@ -968,7 +885,6 @@ class LaserMagnet(Weldment):
         units="mT",
         description="""Maximum flux density in [mT]//Maximale Flussdichte in [mT]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Magnet Parameters",
     )
 
@@ -979,7 +895,6 @@ class LaserMagnet(Weldment):
         units="Hz",
         description="""Frequency in [Hz]//Frequenz in [Hz]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Magnet Parameters",
     )
 
@@ -990,7 +905,6 @@ class LaserMagnet(Weldment):
         units="mV",
         description="""Voltage set in the primary magnet circuit (U_1) in [mV]//Spannung im Primärkreis des Magneten (U_1) in [mV]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Magnet Parameters",
     )
 
@@ -1001,7 +915,6 @@ class LaserMagnet(Weldment):
         units="A",
         description="""Current measured in the primary magnet circuit (I_1) in [A]//Gemessene Stromstärke im Primärkreis des Magneten (I_1) in [A]""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Magnet Parameters",
     )
 
@@ -1011,7 +924,6 @@ class LaserMagnet(Weldment):
         property_label="Laser Program Name",
         description="""Name of the laser program used for welding//Name des Laserprogramms zum Schweißen""",
         mandatory=False,
-        show_in_edit_views=True,
         section="TLC 1005",
     )
 
@@ -1021,7 +933,6 @@ class LaserMagnet(Weldment):
         property_label="Robot Program Name",
         description="""Name of the robot program used for welding//Name des Roboterprogramms zum Schweißen""",
         mandatory=False,
-        show_in_edit_views=True,
         section="TLC 1005",
     )
 
@@ -1031,7 +942,6 @@ class LaserMagnet(Weldment):
         property_label="Thermocouples setup",
         description="""Structured description of all Thermocouples measurement and positioning along the workpiece//Strukturierte Beschreibung der Thermoelement-Messungen und Positionen auf der Probe""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Measurements",
     )
 
@@ -1041,7 +951,6 @@ class LaserMagnet(Weldment):
         property_label="Camera setup",
         description="""Structured description of the Camera setup used//Strukturierte Beschreibung der verwendeten Kameras und ihrer Anordnung""",
         mandatory=False,
-        show_in_edit_views=True,
         section="Measurements",
     )
 
@@ -1059,7 +968,6 @@ class WireSolid(Welding):
         property_label="Diameter [mm]",
         description="""Diameter in mm//Durchmesser in mm""",
         mandatory=True,
-        show_in_edit_views=False,
         section="Wire Information",
     )
 
@@ -1069,7 +977,6 @@ class WireSolid(Welding):
         property_label="ISO specification",
         description="""ISO specification of the wire//ISO Klassifizierung des Zusatzwerkstoffs""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Wire Information",
     )
 
@@ -1079,7 +986,6 @@ class WireSolid(Welding):
         property_label="ISO standard",
         description="""ISO standard providing the specification//ISO Norm o.ä. mit Angabe zur Klassifizierung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Wire Information",
     )
 
@@ -1089,7 +995,6 @@ class WireSolid(Welding):
         property_label="AWS specification",
         description="""AWS specification of the wire//AWS Klassifizierung des Zusatzwerkstoffs""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Wire Information",
     )
 
@@ -1099,7 +1004,6 @@ class WireSolid(Welding):
         property_label="AWS standard",
         description="""AWS standard providing the specification//AWS Standard mit Angabe zur Klassifizierung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Wire Information",
     )
 
@@ -1109,6 +1013,5 @@ class WireSolid(Welding):
         property_label="Weight [kg]",
         description="""Weight of the wire package as delivered//Gesamtgewicht des Drahtes bei Lieferung""",
         mandatory=False,
-        show_in_edit_views=False,
         section="Wire Information",
     )
