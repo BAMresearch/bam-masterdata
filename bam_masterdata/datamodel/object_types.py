@@ -14429,10 +14429,10 @@ class LaserDiffPSDMeasurement(ExperimentalStep):
 
 class PowderXRDMeasurement(ExperimentalStep):
     defs = ObjectTypeDef(
-        code="EXPERIMENTAL_STEP.POWDER_XRD_MEASUREMENT",
-        description="""Measurement of powder X-ray diffraction (XRD) pattern//Messung eines Pulverröntgendiffraktogramms""",
+        code="EXPERIMENTAL_STEP.PXRD_MEASUREMENT",
+        description="""Measurement of powder X-ray diffraction (PXRD) pattern//Messung eines Pulverröntgendiffraktogramms""",
         auto_generate_codes=True,
-        generated_code_prefix="EXP.POW_XRD_MEAS",
+        generated_code_prefix="EXP.PXRD_MEAS",
     )
 
     # TODO check if adding `radiation_type` (e.g. Cu Kα, Co Kα), `detector_type` (e.g. LynxEye, SSD160)
