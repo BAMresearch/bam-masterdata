@@ -1,6 +1,157 @@
 from bam_masterdata.metadata.definitions import VocabularyTerm, VocabularyTypeDef
 from bam_masterdata.metadata.entities import VocabularyType
 
+#changes
+
+class IonizationType(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="IONIZATION_TYPE",
+        description="""Ionization Type//Ionenquelle""",
+    )
+
+    esi = VocabularyTerm(
+        code="ESI",
+        label="ESI",
+        description="""Electrospray Ionization//Electrospray Ionisierung""",
+    )
+
+    ei = VocabularyTerm(
+        code="EI",
+        label="EI",
+        description="""Electron Impact Ionization//Elektronenstossionisierung""",
+    )
+
+    ci = VocabularyTerm(
+        code="CI",
+        label="CI",
+        description="""Chemical Ionization//Chemische Ionisierung""",
+    )
+
+    apci = VocabularyTerm(
+        code="APCI",
+        label="APCI",
+        description="""Athmospheric Pressure Chemical Ionization//Athmosphärendruck Chemische Ionisierung""",
+    )
+
+class ChromatographyType(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="CHROMATOGRAPHY_TYPE",
+        description="""Separator Type//Trennverfahren""",
+    )
+
+    lc = VocabularyTerm(
+        code="LC",
+        label="LC",
+        description="""Liquid Chromatography//Flüssigchromatographie""",
+    )
+
+    hplc = VocabularyTerm(
+        code="HPLC",
+        label="HPLC",
+        description="""High-Performance Liquid Chromatography//Hochleistungsflüssigchromatographie""",
+    )
+
+    uplc = VocabularyTerm(
+        code="UPLC",
+        label="UPLC",
+        description="""Ultra-High-Performance Liquid Chromatography//Ultrahochleistungsflüssigchromatographie""",
+    )
+
+    gc = VocabularyTerm(
+        code="GC",
+        label="GC",
+        description="""Gas Chromatography//Gaschromatographie""",
+    )
+
+    sfc = VocabularyTerm(
+        code="SFC",
+        label="SFC",
+        description="""Supercritical Fluid Chromatography//Überkritische Fluidchromatographie""",
+    )
+
+    ic = VocabularyTerm(
+        code="IC",
+        label="IC",
+        description="""Ion Chromatography//Ionenchromatographie""",
+    )
+
+    none = VocabularyTerm(
+        code="NONE",
+        label="none",
+        description="""Without Chromatography//Keine Chromatography""",
+    )
+
+class DetectorType(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="DETECTOR_TYPE",
+        description="""Detector Type//Analysator""",
+    )
+
+    fid = VocabularyTerm(
+        code="FID",
+        label="FID",
+        description="""Flame Ionization Detector//Flammenionisationsdetektor""",
+    )
+
+    ecd = VocabularyTerm(
+        code="ECD",
+        label="ECD",
+        description="""Electron Capture Detector//Elektroneneinfangdetektor""",
+    )
+
+    ms_ms = VocabularyTerm(
+        code="MS/MS",
+        label="MS/MS",
+        description="""Tandem Mass Spectrometer//Tandem-Massenspektrometer""",
+    )
+
+    dad = VocabularyTerm(
+        code="DAD",
+        label="DAD",
+        description="""Diode Array Detector//Diodenarraydetektor""",
+    )
+
+    uv = VocabularyTerm(
+        code="UV",
+        label="UV",
+        description="""Ultraviolet Absorbance Detector//UV-Absorptionsdetektor""",
+    )
+
+    qtof = VocabularyTerm(
+        code="QTOF",
+        label="QTOF",
+        description="""Quadrupole Time-of-Flight Mass Spectrometer//Quadrupol-Flugzeit-Massenspektrometer""",
+    )
+
+    q = VocabularyTerm(
+        code="Q",
+        label="Quadrupol",
+        description="""Quadrupol//Quadrupol""",
+    )
+
+    qqq = VocabularyTerm(
+        code="QQQ",
+        label="Triple Quad",
+        description="""Triple Quad//Triple Quad""",
+    )
+
+    qtof_alt = VocabularyTerm(
+        code="QTOF",
+        label="Quadrupol-Time Of Flight",
+        description="""Quadrupol-Time Of Flight//Quadrupol-Time Of Flight""",
+    )
+
+    tof = VocabularyTerm(
+        code="TOF",
+        label="Time Of Flight",
+        description="""Time Of Flight//Time Of Flight""",
+    )
+
+    fld = VocabularyTerm(
+        code="FLD",
+        label="FLD",
+        description="""Fluorescence Detector//Fluoreszenzdetektor""",
+    )
 
 class DefaultCollectionViews(VocabularyType):
     defs = VocabularyTypeDef(
