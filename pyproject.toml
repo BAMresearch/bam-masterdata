@@ -45,6 +45,7 @@ dev = [
   "pre-commit",
   "detect-secrets",
   "zensical>=0.0.41",
+  "pymdown-extensions>=10.21.3",
 ]
 
 [project.urls]
