@@ -26,6 +26,7 @@ classifiers = [
 ]
 dependencies = [
   "pybis~=1.37.4",
+  "idna>=3.15",
   "pydantic>=2.10,<3",
   "h5py>=3.12,<4",
   "structlog==24.4.0",
@@ -45,6 +46,7 @@ dev = [
   "pre-commit",
   "detect-secrets",
   "zensical>=0.0.41",
+  "pymdown-extensions>=10.21.3",
 ]
 
 [project.urls]

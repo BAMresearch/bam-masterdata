@@ -506,7 +506,7 @@ def checker(file_path, mode, datamodel_path):
 @cli.command(
     name="push_to_openbis",
     help=(
-        "[DEPRECATED] Use `update_openbis_masterdata` instead.\n\n"
+        "[DEPRECATED] Use `masterdata_sync` instead.\n\n"
         "Uploads to openBIS the entities contained in the file specified in the tag `--file-path` "
         "after passing correctly all the checks from the `checker`."
     ),
@@ -681,10 +681,11 @@ def parser(files_parser, project_name, collection_name, space_name, collection_t
 
 
 @cli.command(
-    name="update_openbis_masterdata",
+    name="masterdata_sync",
     help=(
-        "Updates the current Masterdata definitions in openBIS with the `--entity` defined in `--file-path`. "
+        "Apply/update schema state in openBIS from the Python definition (ground truth) with the `--entity` defined in `--file-path`. "
         "If `--entity` is not defined, it will update all the entities defined in `--file-path`."
+        "NOTE: here 'sync' refers to the unidirectional synchronization from BAM Masterdata to openBIS."
     ),
 )
 @click.option(
@@ -708,13 +709,13 @@ def parser(files_parser, project_name, collection_name, space_name, collection_t
     default=True,
     help="""Whether to run the `checker` before pushing to openBIS. Default is `True`.""",
 )
-def update_openbis_masterdata(file_path, entity, check):
+def masterdata_sync(file_path, entity, check):
     openbis = ologin(url=URL)
     click.echo(f"Using the openBIS instance: {URL}\n")
 
     if not check:
         logger.warning(
-            "Updating without checking the consistency of the incoming model. Make sure the entity "
+            "Synchronizing without checking the consistency of the incoming model. Make sure the entity "
             "definitions are correct before pushing to openBIS!"
         )
 
