@@ -683,8 +683,9 @@ def parser(files_parser, project_name, collection_name, space_name, collection_t
 @cli.command(
     name="masterdata_sync",
     help=(
-        "Synchronizes the current Masterdata definitions in openBIS with the `--entity` defined in `--file-path`. "
+        "Apply/update schema state in openBIS from the Python definition (ground truth) with the `--entity` defined in `--file-path`. "
         "If `--entity` is not defined, it will update all the entities defined in `--file-path`."
+        "NOTE: here 'sync' refers to the unidirectional synchronization from BAM Masterdata to openBIS."
     ),
 )
 @click.option(
