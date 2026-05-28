@@ -1,7 +1,8 @@
 from bam_masterdata.metadata.definitions import VocabularyTerm, VocabularyTypeDef
 from bam_masterdata.metadata.entities import VocabularyType
 
-#changes
+# changes
+
 
 class IonizationType(VocabularyType):
     defs = VocabularyTypeDef(
@@ -32,6 +33,7 @@ class IonizationType(VocabularyType):
         label="APCI",
         description="""Athmospheric Pressure Chemical Ionization//Athmosphärendruck Chemische Ionisierung""",
     )
+
 
 class ChromatographyType(VocabularyType):
     defs = VocabularyTypeDef(
@@ -80,6 +82,7 @@ class ChromatographyType(VocabularyType):
         label="none",
         description="""Without Chromatography//Keine Chromatography""",
     )
+
 
 class DetectorType(VocabularyType):
     defs = VocabularyTypeDef(
@@ -153,6 +156,7 @@ class DetectorType(VocabularyType):
         description="""Fluorescence Detector//Fluoreszenzdetektor""",
     )
 
+
 class MsAcquisitionMode(VocabularyType):
     defs = VocabularyTypeDef(
         code="MS_ACQUISITION_MODE",
@@ -189,6 +193,7 @@ class MsAcquisitionMode(VocabularyType):
         description="""Single Ion Monitoring//Single Ion Monitoring""",
     )
 
+
 class MsIonPolarity(VocabularyType):
     defs = VocabularyTypeDef(
         code="MS_ION_POLARITY",
@@ -212,7 +217,8 @@ class MsIonPolarity(VocabularyType):
         label="Positive/Negative",
         description="""Positive and Negative Ions//Positive und Negative Ionen""",
     )
-   
+
+
 class DefaultCollectionViews(VocabularyType):
     defs = VocabularyTypeDef(
         code="$DEFAULT_COLLECTION_VIEWS",

@@ -9146,16 +9146,16 @@ class MsBatch(ExperimentalStep):
         generated_code_prefix="EXP.MSB",
     )
 
-#changes
+    # changes
     # I would remove this property, as it is redundant with MS_ION_POLARITY. However should it be in use already, I would keep this one and not establish MS_ION_POLARITY.
-    #ms_ionization_mode = PropertyTypeAssignment(
+    # ms_ionization_mode = PropertyTypeAssignment(
     #    code="MS_IONIZATION_MODE",
     #    data_type="VARCHAR",
     #    property_label="Ionization mode",
     #    description="""Ionization mode (pos/neg)//Ionisierung (pos/neg)""",
     #    mandatory=False,
     #    section="MS Information",
-    #)
+    # )
 
     ms_hyphenation_method = PropertyTypeAssignment(
         code="MS_HYPHENATION_METHOD",
@@ -9190,7 +9190,8 @@ class MsBatch(ExperimentalStep):
         property_label="Scan rate",
         description="""Scan rate//Scan-Rate""",
         mandatory=False,
-        section="MS Parameters",)
+        section="MS Parameters",
+    )
 
     ms_acquisition_mode = PropertyTypeAssignment(
         code="MS_ACQUISITION_MODE",
@@ -9199,7 +9200,8 @@ class MsBatch(ExperimentalStep):
         property_label="Aquisition mode",
         description="""Aquisition mode//Aufnahme-Modus""",
         mandatory=False,
-        section="MS Parameters",)
+        section="MS Parameters",
+    )
 
     ms_ion_polarity = PropertyTypeAssignment(
         code="MS_ION_POLARITY",
@@ -9208,7 +9210,8 @@ class MsBatch(ExperimentalStep):
         property_label="Polarity",
         description="""Ionization Polarity//Polarität der Ionisierung""",
         mandatory=False,
-        section="MS Parameters",)
+        section="MS Parameters",
+    )
 
     ms_massrange = PropertyTypeAssignment(
         code="MS_MASSRANGE",
@@ -9216,7 +9219,9 @@ class MsBatch(ExperimentalStep):
         property_label="Mass range",
         description="""Mass range//Massenbereich""",
         mandatory=False,
-        section="MS Parameters",)
+        section="MS Parameters",
+    )
+
 
 class Bam(Person):
     defs = ObjectTypeDef(
@@ -9334,7 +9339,7 @@ class MassSpec(Instrument):
         section="Technical Details",
     )
 
-#changes
+    # changes
     ion_source = PropertyTypeAssignment(
         code="IONIZATION_TYPE",
         data_type="CONTROLLEDVOCABULARY",
@@ -9343,7 +9348,7 @@ class MassSpec(Instrument):
         description="""Ionization Type//Ionenquelle""",
         mandatory=False,
         section="Technical Details",
-        )
+    )
 
     chromatography = PropertyTypeAssignment(
         code="CHROMATOGRAPHY_TYPE",
@@ -9353,7 +9358,7 @@ class MassSpec(Instrument):
         description="""Separator Type//Trennverfahren""",
         mandatory=False,
         section="Technical Details",
-        )
+    )
 
     detector = PropertyTypeAssignment(
         code="DETECTOR_TYPE",
@@ -9363,7 +9368,8 @@ class MassSpec(Instrument):
         description="""Detector Type//Analysator""",
         mandatory=False,
         section="Technical Details",
-        )
+    )
+
 
 class LcSystem(Instrument):
     defs = ObjectTypeDef(
@@ -9380,7 +9386,6 @@ class LcSystem(Instrument):
         description="""Detector Type//Analysator""",
         mandatory=False,
         section="Technical Details",
-        vocabulary_code="DETECTOR_TYPE",
     )
 
     detector_type_secondary = PropertyTypeAssignment(
@@ -9391,8 +9396,8 @@ class LcSystem(Instrument):
         description="""Detector Type//Analysator""",
         mandatory=False,
         section="Technical Details",
-        vocabulary_code="DETECTOR_TYPE",
     )
+
 
 class GcSystem(Instrument):
     defs = ObjectTypeDef(
@@ -9409,7 +9414,6 @@ class GcSystem(Instrument):
         description="""Detector Type//Analysator""",
         mandatory=False,
         section="Technical Details",
-        vocabulary_code="DETECTOR_TYPE",
     )
 
     detector_type_secondary = PropertyTypeAssignment(
@@ -9420,8 +9424,8 @@ class GcSystem(Instrument):
         description="""Detector Type//Analysator""",
         mandatory=False,
         section="Technical Details",
-        vocabulary_code="DETECTOR_TYPE",
     )
+
 
 class Scale(Instrument):
     defs = ObjectTypeDef(
