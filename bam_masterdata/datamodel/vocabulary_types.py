@@ -103,7 +103,7 @@ class DetectorType(VocabularyType):
     )
 
     ms_ms = VocabularyTerm(
-        code="MS/MS",
+        code="MSMS",
         label="MS/MS",
         description="""Tandem Mass Spectrometer//Tandem-Massenspektrometer""",
     )
