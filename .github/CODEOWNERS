@@ -1,0 +1,10 @@
+# These owners will be the default owners for everything in
+# the repo (unless a later match takes precedence)
+# *       @JosePizarro3
+
+# General datamodel
+/bam_masterdata/datamodel/ @JosePizarro3
+
+# Specific datamodel subfolders
+# Owners of individual datamodel directories and its subdirectories
+/bam_masterdata/datamodel/welding/ @CagtayFabry
