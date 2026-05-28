@@ -164,7 +164,7 @@ class MsAcquisitionMode(VocabularyType):
     )
 
     fullscan = VocabularyTerm(
-        code="Full Scan",
+        code="FULL_SCAN",
         label="Full Scan",
         description="""Full Scan//Full Scan""",
     )
