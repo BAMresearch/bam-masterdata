@@ -9146,14 +9146,16 @@ class MsBatch(ExperimentalStep):
         generated_code_prefix="EXP.MSB",
     )
 
-    ms_ionization_mode = PropertyTypeAssignment(
-        code="MS_IONIZATION_MODE",
-        data_type="VARCHAR",
-        property_label="Ionization mode",
-        description="""Ionization mode (pos/neg)//Ionisierung (pos/neg)""",
-        mandatory=False,
-        section="MS Information",
-    )
+#changes
+    # I would remove this property, as it is redundant with MS_ION_POLARITY. However should it be in use already, I would keep this one and not establish MS_ION_POLARITY.
+    #ms_ionization_mode = PropertyTypeAssignment(
+    #    code="MS_IONIZATION_MODE",
+    #    data_type="VARCHAR",
+    #    property_label="Ionization mode",
+    #    description="""Ionization mode (pos/neg)//Ionisierung (pos/neg)""",
+    #    mandatory=False,
+    #    section="MS Information",
+    #)
 
     ms_hyphenation_method = PropertyTypeAssignment(
         code="MS_HYPHENATION_METHOD",
@@ -9161,24 +9163,23 @@ class MsBatch(ExperimentalStep):
         property_label="Hyphenation method",
         description="""Hyphenation (DI, LC, GC, CE)//Probeninjektion (DI, LC, GC, CE)""",
         mandatory=False,
-        section="MS Information",
+        section="MS Parameters",
     )
 
-#changes
     ms_resolution = PropertyTypeAssignment(
         code="MS_RESOLUTION",
-        data_type="VARCHAR",
+        data_type="REAL",
         property_label="Resolution",
-        description="""Resolution//Auflösung""",
+        description="""Approximate Resolution//Ungefähre Auflösung""",
         mandatory=False,
         section="MS Parameters",
     )
 
-    ms_dynamic_range = PropertyTypeAssignment(
-        code="MS_DYNAMIC_RANGE",
+    ms_intensity_range = PropertyTypeAssignment(
+        code="MS_INTENSITY_RANGE",
         data_type="VARCHAR",
-        property_label="Dynamic range",
-        description="""Dynamic range//Dynamischer Bereich""",
+        property_label="Intensity range",
+        description="""Ion intensity range//Ionen-Intensitätsbereich""",
         mandatory=False,
         section="MS Parameters",
     )
@@ -9193,7 +9194,8 @@ class MsBatch(ExperimentalStep):
 
     ms_acquisition_mode = PropertyTypeAssignment(
         code="MS_ACQUISITION_MODE",
-        data_type="VARCHAR",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="MS_ACQUISITION_MODE",
         property_label="Aquisition mode",
         description="""Aquisition mode//Aufnahme-Modus""",
         mandatory=False,
@@ -9201,9 +9203,10 @@ class MsBatch(ExperimentalStep):
 
     ms_ion_polarity = PropertyTypeAssignment(
         code="MS_ION_POLARITY",
-        data_type="VARCHAR",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="MS_ION_POLARITY",
         property_label="Polarity",
-        description="""Polarity//Polarität""",
+        description="""Ionization Polarity//Polarität der Ionisierung""",
         mandatory=False,
         section="MS Parameters",)
 
@@ -9335,6 +9338,7 @@ class MassSpec(Instrument):
     ion_source = PropertyTypeAssignment(
         code="IONIZATION_TYPE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="IONIZATION_TYPE",
         property_label="Ion source",
         description="""Ionization Type//Ionenquelle""",
         mandatory=False,
@@ -9344,6 +9348,7 @@ class MassSpec(Instrument):
     chromatography = PropertyTypeAssignment(
         code="CHROMATOGRAPHY_TYPE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="CHROMATOGRAPHY_TYPE",
         property_label="Chromatography",
         description="""Separator Type//Trennverfahren""",
         mandatory=False,
@@ -9353,6 +9358,7 @@ class MassSpec(Instrument):
     detector = PropertyTypeAssignment(
         code="DETECTOR_TYPE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="DETECTOR_TYPE",
         property_label="Detector",
         description="""Detector Type//Analysator""",
         mandatory=False,
@@ -9362,13 +9368,14 @@ class MassSpec(Instrument):
 class LcSystem(Instrument):
     defs = ObjectTypeDef(
         code="INSTRUMENT.LC_SYSTEM",
-        description="""GC-System//GC-System""",
-        generated_code_prefix="INS.MS",
+        description="""LC-System//LC-System""",
+        generated_code_prefix="INS.LC",
     )
 
     detector_type = PropertyTypeAssignment(
         code="DETECTOR_TYPE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="DETECTOR_TYPE",
         property_label="Detector",
         description="""Detector Type//Analysator""",
         mandatory=False,
@@ -9379,6 +9386,7 @@ class LcSystem(Instrument):
     detector_type_secondary = PropertyTypeAssignment(
         code="DETECTOR_TYPE_SECONDARY",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="DETECTOR_TYPE",
         property_label="Detector",
         description="""Detector Type//Analysator""",
         mandatory=False,
@@ -9390,12 +9398,13 @@ class GcSystem(Instrument):
     defs = ObjectTypeDef(
         code="INSTRUMENT.GC_SYSTEM",
         description="""GC-System//GC-System""",
-        generated_code_prefix="INS.MS",
+        generated_code_prefix="INS.GC",
     )
 
     detector_type = PropertyTypeAssignment(
         code="DETECTOR_TYPE",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="DETECTOR_TYPE",
         property_label="Detector",
         description="""Detector Type//Analysator""",
         mandatory=False,
@@ -9406,6 +9415,7 @@ class GcSystem(Instrument):
     detector_type_secondary = PropertyTypeAssignment(
         code="DETECTOR_TYPE_SECONDARY",
         data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="DETECTOR_TYPE",
         property_label="Detector",
         description="""Detector Type//Analysator""",
         mandatory=False,

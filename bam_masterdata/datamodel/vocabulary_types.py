@@ -153,6 +153,66 @@ class DetectorType(VocabularyType):
         description="""Fluorescence Detector//Fluoreszenzdetektor""",
     )
 
+class MsAcquisitionMode(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="MS_ACQUISITION_MODE",
+        description="""Acquisition mode//Aufnahmemodus""",
+    )
+
+    fullscan = VocabularyTerm(
+        code="Full Scan",
+        label="Full Scan",
+        description="""Full Scan//Full Scan""",
+    )
+
+    ida = VocabularyTerm(
+        code="IDA",
+        label="IDA",
+        description="""Information dependent acquisition//Informationsabhängige Aufnahme""",
+    )
+
+    swath = VocabularyTerm(
+        code="SWATH",
+        label="SWATH",
+        description="""SWATH//SWATH""",
+    )
+
+    mrm = VocabularyTerm(
+        code="MRM",
+        label="MRM",
+        description="""Multiple Reaction Monitoring//Multiple Reaction Monitoring""",
+    )
+
+    sim = VocabularyTerm(
+        code="SIM",
+        label="SIM",
+        description="""Single Ion Monitoring//Single Ion Monitoring""",
+    )
+
+class MsIonPolarity(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="MS_ION_POLARITY",
+        description="""Ion polarity//Ionenpolarität""",
+    )
+
+    pos = VocabularyTerm(
+        code="POS",
+        label="Positive",
+        description="""Positive Ion//Positive Ionen""",
+    )
+
+    neg = VocabularyTerm(
+        code="NEG",
+        label="Negative",
+        description="""Negative Ion//Negative Ionen""",
+    )
+
+    posneg = VocabularyTerm(
+        code="POSNEG",
+        label="Positive/Negative",
+        description="""Positive and Negative Ions//Positive und Negative Ionen""",
+    )
+   
 class DefaultCollectionViews(VocabularyType):
     defs = VocabularyTypeDef(
         code="$DEFAULT_COLLECTION_VIEWS",
