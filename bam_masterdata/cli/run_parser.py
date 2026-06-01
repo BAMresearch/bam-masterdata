@@ -462,11 +462,11 @@ def run_parser_with_transactions(
     # TODO (May 2026) if later transactions support datasets change it to transaction.
     for object_instance in collection.attached_objects.values():
         try:
-            if object_instance.dataset != []:
+            if object_instance.datasets != []:
                 attached_datasets = openbis.new_dataset(
                     type="RAW_DATA",
                     sample=identifier,
-                    files=object_instance.dataset,
+                    files=object_instance.datasets,
                 )
 
                 attached_datasets.save()
@@ -504,23 +504,48 @@ def run_parser_with_transactions(
 
     # ---- RELATIONSHIPS IN TRANSACTION ----
     for parent_id, child_id in collection.relationships.values():
-        if parent_id not in openbis_id_map or child_id not in openbis_id_map:
-            continue
+        if not isinstance(parent_id, dict) and not isinstance(child_id, dict):
+            if parent_id not in openbis_id_map or child_id not in openbis_id_map:
+                logger.warning(
+                    f"Skipping relationship with parent_id {parent_id} and child_id {child_id} because one of them is not found attached or in OpenBIS."
+                )
+                continue
+        if not isinstance(parent_id, dict) and not isinstance(child_id, dict):
+            parent_identifier = openbis_id_map[parent_id]
+            child_identifier = openbis_id_map[child_id]
 
-        parent_identifier = openbis_id_map[parent_id]
-        child_identifier = openbis_id_map[child_id]
+            parent = openbis.get_object(parent_identifier)
+            child = openbis.get_object(child_identifier)
 
-        parent_identifier
-        child_identifier
-        parent = openbis.get_object(parent_identifier)
-        child = openbis.get_object(child_identifier)
+            child.add_parents(parent)
+            rel_transaction.add(child)
 
-        child.add_parents(parent)
-        rel_transaction.add(child)
+            logger.info(
+                f"Prepared relationship: {child_identifier} -> parent {parent_identifier}"
+            )
+        else:
+            if isinstance(parent_id, dict):
+                try:
+                    parent = openbis.get_object(**parent_id)
+                except Exception as e:
+                    logger.warning(f"Error occurred while fetching parent object: {e}")
+            else:
+                parent_identifier = openbis_id_map[parent_id]
+                parent = openbis.get_object(parent_identifier)
+            if isinstance(child_id, dict):
+                try:
+                    child = openbis.get_object(**child_id)
+                except Exception as e:
+                    logger.warning(f"Error occurred while fetching child object: {e}")
+            else:
+                child_identifier = openbis_id_map[child_id]
+                child = openbis.get_object(child_identifier)
+            child.add_parents(parent)
+            rel_transaction.add(child)
 
-        logger.info(
-            f"Prepared relationship: {child_identifier} -> parent {parent_identifier}"
-        )
+            logger.info(
+                f"Prepared relationship: {child.identifier} -> parent {parent.identifier}"
+            )
 
     try:
         rel_transaction.commit()
