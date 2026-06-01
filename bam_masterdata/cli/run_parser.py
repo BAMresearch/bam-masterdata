@@ -531,6 +531,7 @@ def run_parser_with_transactions(
                     logger.warning(f"Error occurred while fetching parent object: {e}")
             else:
                 parent_identifier = openbis_id_map[parent_id]
+                parent = openbis.get_object(parent_identifier)
             if isinstance(child_id, dict):
                 try:
                     child = openbis.get_object(**child_id)
