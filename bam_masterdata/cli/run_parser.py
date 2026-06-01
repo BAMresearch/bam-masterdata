@@ -197,7 +197,7 @@ def _load_object_props(
             # Not an OBJECT type, handle normally
             obj_props[property_metadata.code.lower()] = value
 
-        return obj_props
+    return obj_props
 
 
 def make_unique_code(code: str, seen_codes: dict) -> str:
@@ -459,6 +459,25 @@ def run_parser_with_transactions(
         logger.error(f"Failed to commit object transaction: {e}")
         return None
 
+    # TODO (May 2026) if later transactions support datasets change it to transaction.
+    for object_instance in collection.attached_objects.values():
+        try:
+            if object_instance.dataset != []:
+                attached_datasets = openbis.new_dataset(
+                    type="RAW_DATA",
+                    sample=identifier,
+                    files=object_instance.dataset,
+                )
+
+                attached_datasets.save()
+                logger.info(
+                    f"Dataset for files {attached_datasets.files} saved successfully"
+                )
+        except Exception as e:
+            logger.warning(
+                f"Error saving dataset for files {attached_datasets.files}: {e}"
+            )
+
     rel_transaction = openbis.new_transaction()
 
     # ---- DATASETS IN TRANSACTION ----
@@ -477,7 +496,7 @@ def run_parser_with_transactions(
                     project=project,
                 )
 
-            rel_transaction.add(dataset)
+            dataset.save()
             logger.info(f"Dataset for files {files} added to transaction")
 
         except Exception as e:

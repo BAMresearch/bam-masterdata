@@ -652,6 +652,14 @@ class ObjectType(BaseEntity):
         """,
     )
 
+    datasets: list[str] = Field(
+        default_factory=list,
+        exclude=True,
+        description="""
+        List of file paths attached to this object as datasets. Useful for attaching data or plots directly to objects.
+        """,
+    )
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
@@ -744,7 +752,13 @@ class ObjectType(BaseEntity):
         if not hasattr(self, "_property_metadata"):
             return object.__setattr__(self, key, value)
 
-        if key in ["_property_metadata", "_properties", "code"]:
+        if key in [
+            "_property_metadata",
+            "_properties",
+            "code",
+            "properties",
+            "datasets",
+        ]:
             super().__setattr__(key, value)
             return
 
@@ -967,6 +981,13 @@ class ObjectType(BaseEntity):
 
         entity.save()
         return entity
+
+    def dataset(self):
+        # nur lesbar von außen
+        return self.datasets
+
+    def add_dataset(self, file):
+        self.datasets.append(file)
 
 
 UUID_SUFFIX_LENGTH = 8
