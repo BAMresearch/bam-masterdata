@@ -1029,6 +1029,19 @@ def generate_object_relationship_id(parent_id: str, child_id: str) -> str:
     return f"{parent_id}>>{child_id}"
 
 
+def generate_dict_id(dict: dict) -> str:
+    """
+    Generate a unique identifier for a dictionary .
+
+    Args:
+        dict (dict): The dictionary for which to generate the identifier.
+
+    Returns:
+        str: A unique identifier string for the dictionary.
+    """
+    return f"{hash(frozenset(dict.items()))}"
+
+
 class CollectionType(ObjectType):
     model_config = ConfigDict(
         ignored_types=(
@@ -1155,13 +1168,13 @@ class CollectionType(ObjectType):
             )
         del self.attached_objects[object_id]
 
-    def add_relationship(self, parent_id: str, child_id: str) -> str:
+    def add_relationship(self, parent_id: str | dict, child_id: str | dict) -> str:
         """
         Add a relationship between two object types in the collection type.
 
         Args:
-            parent_id (str): The unique identifier of the parent object type.
-            child_id (str): The unique identifier of the child object type.
+            parent_id (str | dict): The unique identifier of the parent object type.
+            child_id (str | dict): The unique identifier of the child object type.
 
         Returns:
             str: The unique identifier of the relationship created, which is a concatenation of the parent
@@ -1171,15 +1184,27 @@ class CollectionType(ObjectType):
             raise ValueError(
                 "Both `parent_id` and `child_id` must be provided to add a relationship."
             )
-        if (
-            parent_id not in self.attached_objects.keys()
-            or child_id not in self.attached_objects.keys()
-        ):
-            raise ValueError(
-                "Both `parent_id` and `child_id` must be assigned to objects attached to the collection."
+        for obj_id in (parent_id, child_id):
+            if not isinstance(obj_id, dict) and obj_id not in self.attached_objects:
+                raise ValueError(
+                    "Both `parent_id` and `child_id` must be assigned to objects attached to the collection or existing in the system."
+                )
+        if not isinstance(parent_id, dict) and not isinstance(child_id, dict):
+            relationship_id = generate_object_relationship_id(parent_id, child_id)
+            self.relationships[relationship_id] = (parent_id, child_id)
+        else:
+            parent = (
+                generate_dict_id(parent_id)
+                if isinstance(parent_id, dict)
+                else parent_id
             )
-        relationship_id = generate_object_relationship_id(parent_id, child_id)
-        self.relationships[relationship_id] = (parent_id, child_id)
+
+            child = (
+                generate_dict_id(child_id) if isinstance(child_id, dict) else child_id
+            )
+
+            relationship_id = generate_object_relationship_id(parent, child)
+            self.relationships[relationship_id] = (parent_id, child_id)
         return relationship_id
 
     def remove_relationship(self, relationship_id: str) -> None:
