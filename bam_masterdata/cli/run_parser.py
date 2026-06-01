@@ -459,7 +459,7 @@ def run_parser_with_transactions(
         logger.error(f"Failed to commit object transaction: {e}")
         return None
 
-    # TODO if later transactions support datasets change it to transaction.
+    # TODO (May 2026) if later transactions support datasets change it to transaction.
     for object_instance in collection.attached_objects.values():
         try:
             if object_instance.dataset != []:

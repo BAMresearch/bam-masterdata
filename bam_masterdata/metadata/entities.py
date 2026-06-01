@@ -982,7 +982,6 @@ class ObjectType(BaseEntity):
         entity.save()
         return entity
 
-    @property
     def dataset(self):
         # nur lesbar von außen
         return self.datasets
