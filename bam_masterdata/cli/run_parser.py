@@ -219,6 +219,36 @@ def make_unique_code(code: str, seen_codes: dict) -> str:
     return f"{code}__dup{seen_codes[code]}"
 
 
+def _get_entity(
+    openbis,
+    openbis_id_map: dict[str, str],
+    obj: str | dict,
+    object_role: str,
+):
+    """
+    Resolve an object reference to an OpenBIS object.
+
+    Args:
+        openbis: OpenBIS connection instance.
+        openbis_id_map: Mapping from internal IDs to OpenBIS identifiers.
+        obj: Either an internal object ID or a dictionary that can be passed directly to `openbis.get_object`.
+        object_role: Used for logging (e.g. "parent" or "child").
+
+    Returns:
+        OpenBIS object instance.
+    """
+
+    if isinstance(obj, dict):
+        try:
+            return openbis.get_object(**obj)
+        except Exception as e:
+            logger.warning(f"Error occurred while fetching {object_role} object: {e}")
+            raise
+
+    identifier = openbis_id_map[obj]
+    return openbis.get_object(identifier)
+
+
 def run_parser(
     openbis: Openbis | None = None,
     space_name: str = "",
@@ -462,11 +492,11 @@ def run_parser_with_transactions(
     # TODO (May 2026) if later transactions support datasets change it to transaction.
     for object_instance in collection.attached_objects.values():
         try:
-            if object_instance.dataset != []:
+            if object_instance.datasets != []:
                 attached_datasets = openbis.new_dataset(
                     type="RAW_DATA",
                     sample=identifier,
-                    files=object_instance.dataset,
+                    files=object_instance.datasets,
                 )
 
                 attached_datasets.save()
@@ -503,23 +533,39 @@ def run_parser_with_transactions(
             logger.warning(f"Error preparing dataset {files}: {e}")
 
     # ---- RELATIONSHIPS IN TRANSACTION ----
-    for parent_id, child_id in collection.relationships.values():
-        if parent_id not in openbis_id_map or child_id not in openbis_id_map:
+    for parent, child in collection.relationships.values():
+        if (
+            not isinstance(parent, dict)
+            and not isinstance(child, dict)
+            and (parent not in openbis_id_map or child not in openbis_id_map)
+        ):
+            logger.warning(
+                f"Skipping relationship with parent {parent} and child {child} "
+                "because one of them is not found attached or in OpenBIS."
+            )
+            continue
+        parent_obj = _get_entity(
+            openbis,
+            openbis_id_map,
+            parent,
+            "parent",
+        )
+        child_obj = _get_entity(
+            openbis,
+            openbis_id_map,
+            child,
+            "child",
+        )
+
+        if parent_obj is None or child_obj is None:
             continue
 
-        parent_identifier = openbis_id_map[parent_id]
-        child_identifier = openbis_id_map[child_id]
-
-        parent_identifier
-        child_identifier
-        parent = openbis.get_object(parent_identifier)
-        child = openbis.get_object(child_identifier)
-
-        child.add_parents(parent)
-        rel_transaction.add(child)
+        child_obj.add_parents(parent_obj)
+        rel_transaction.add(child_obj)
 
         logger.info(
-            f"Prepared relationship: {child_identifier} -> parent {parent_identifier}"
+            f"Prepared relationship: "
+            f"{child_obj.identifier} -> parent {parent_obj.identifier}"
         )
 
     try:

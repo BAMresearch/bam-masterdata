@@ -490,7 +490,7 @@ class TestCollectionType:
 
         with pytest.raises(
             ValueError,
-            match="Both `parent_id` and `child_id` must be provided to add a relationship.",
+            match="Both `parent` and `child` must be provided to add a relationship.",
         ):
             collection.add_relationship("", "")
 
@@ -499,7 +499,7 @@ class TestCollectionType:
 
         with pytest.raises(
             ValueError,
-            match="Both `parent_id` and `child_id` must be assigned to objects attached to the collection.",
+            match="Both `parent` and `child` must be assigned to objects attached to the collection.",
         ):
             collection.add_relationship(parent_id, "NOT_A_CHILD_ID")
 
