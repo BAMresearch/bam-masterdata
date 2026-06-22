@@ -219,6 +219,36 @@ def make_unique_code(code: str, seen_codes: dict) -> str:
     return f"{code}__dup{seen_codes[code]}"
 
 
+def _get_entity(
+    openbis,
+    openbis_id_map: dict[str, str],
+    obj: str | dict,
+    object_role: str,
+):
+    """
+    Resolve an object reference to an OpenBIS object.
+
+    Args:
+        openbis: OpenBIS connection instance.
+        openbis_id_map: Mapping from internal IDs to OpenBIS identifiers.
+        obj: Either an internal object ID or a dictionary that can be passed directly to `openbis.get_object`.
+        object_role: Used for logging (e.g. "parent" or "child").
+
+    Returns:
+        OpenBIS object instance.
+    """
+
+    if isinstance(obj, dict):
+        try:
+            return openbis.get_object(**obj)
+        except Exception as e:
+            logger.warning(f"Error occurred while fetching {object_role} object: {e}")
+            raise
+
+    identifier = openbis_id_map[obj]
+    return openbis.get_object(identifier)
+
+
 def run_parser(
     openbis: Openbis | None = None,
     space_name: str = "",
@@ -503,49 +533,40 @@ def run_parser_with_transactions(
             logger.warning(f"Error preparing dataset {files}: {e}")
 
     # ---- RELATIONSHIPS IN TRANSACTION ----
-    for parent_id, child_id in collection.relationships.values():
-        if not isinstance(parent_id, dict) and not isinstance(child_id, dict):
-            if parent_id not in openbis_id_map or child_id not in openbis_id_map:
-                logger.warning(
-                    f"Skipping relationship with parent_id {parent_id} and child_id {child_id} because one of them is not found attached or in OpenBIS."
-                )
-                continue
-        if not isinstance(parent_id, dict) and not isinstance(child_id, dict):
-            parent_identifier = openbis_id_map[parent_id]
-            child_identifier = openbis_id_map[child_id]
-
-            parent = openbis.get_object(parent_identifier)
-            child = openbis.get_object(child_identifier)
-
-            child.add_parents(parent)
-            rel_transaction.add(child)
-
-            logger.info(
-                f"Prepared relationship: {child_identifier} -> parent {parent_identifier}"
+    for parent, child in collection.relationships.values():
+        if (
+            not isinstance(parent, dict)
+            and not isinstance(child, dict)
+            and (parent not in openbis_id_map or child not in openbis_id_map)
+        ):
+            logger.warning(
+                f"Skipping relationship with parent {parent} and child {child} "
+                "because one of them is not found attached or in OpenBIS."
             )
-        else:
-            if isinstance(parent_id, dict):
-                try:
-                    parent = openbis.get_object(**parent_id)
-                except Exception as e:
-                    logger.warning(f"Error occurred while fetching parent object: {e}")
-            else:
-                parent_identifier = openbis_id_map[parent_id]
-                parent = openbis.get_object(parent_identifier)
-            if isinstance(child_id, dict):
-                try:
-                    child = openbis.get_object(**child_id)
-                except Exception as e:
-                    logger.warning(f"Error occurred while fetching child object: {e}")
-            else:
-                child_identifier = openbis_id_map[child_id]
-                child = openbis.get_object(child_identifier)
-            child.add_parents(parent)
-            rel_transaction.add(child)
+            continue
+        parent_obj = _get_entity(
+            openbis,
+            openbis_id_map,
+            parent,
+            "parent",
+        )
+        child_obj = _get_entity(
+            openbis,
+            openbis_id_map,
+            child,
+            "child",
+        )
 
-            logger.info(
-                f"Prepared relationship: {child.identifier} -> parent {parent.identifier}"
-            )
+        if parent_obj is None or child_obj is None:
+            continue
+
+        child_obj.add_parents(parent_obj)
+        rel_transaction.add(child_obj)
+
+        logger.info(
+            f"Prepared relationship: "
+            f"{child_obj.identifier} -> parent {parent_obj.identifier}"
+        )
 
     try:
         rel_transaction.commit()
