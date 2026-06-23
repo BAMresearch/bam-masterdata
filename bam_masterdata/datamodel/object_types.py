@@ -2529,15 +2529,6 @@ class Person(ObjectType):
         section="Contact Information",
     )
 
-    annotations_state = PropertyTypeAssignment(
-        code="$ANNOTATIONS_STATE",
-        data_type="XML",
-        property_label="Annotations State",
-        description="""Annotations State""",
-        mandatory=False,
-        section="",
-    )
-
 
 class Control(ObjectType):
     defs = ObjectTypeDef(
