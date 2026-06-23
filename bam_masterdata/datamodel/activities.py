@@ -1886,17 +1886,6 @@ class LaserDiffPSDMeasurement(ExperimentalStep):
         section="General Information",
     )
 
-    # TODO check this property: this refers to the DATA_CREATOR during an activity/experimental step
-    # TODO it can be a BAM user, an external, or any person. We should have the possibility of creating a list of PERSON in the inventory besides BAM.PERSON
-    operator = PropertyTypeAssignment(
-        code="OPERATOR",
-        data_type="VARCHAR",
-        property_label="Operator",
-        description="""Name of the person or user performing the measurement//Name der Person oder des Benutzers, der die Messung durchführt""",
-        mandatory=True,
-        section="General Information",
-    )
-
     dispersing_medium = PropertyTypeAssignment(
         code="DISPERSING_MEDIUM",
         data_type="VARCHAR",
