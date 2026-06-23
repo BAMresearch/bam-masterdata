@@ -357,16 +357,6 @@ class ExperimentalStep(ObjectType):
         section="Comments",
     )
 
-    annotations_state = PropertyTypeAssignment(
-        code="$ANNOTATIONS_STATE",
-        data_type="XML",
-        property_label="Annotations State",
-        description="""Annotations State""",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="",
-    )
-
 
 class Storage(ObjectType):
     defs = ObjectTypeDef(
