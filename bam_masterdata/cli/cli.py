@@ -722,6 +722,8 @@ def masterdata_sync(file_path, entity, check):
         module = import_module(module_path=file_path)
         if not entity:
             for _, obj in inspect.getmembers(module, inspect.isclass):
+                if obj.__module__ != module.__name__:  # skipping imported classes
+                    continue
                 if hasattr(obj, "defs") and callable(getattr(obj, "to_openbis")):
                     obj_instance = obj()
                     obj_instance.to_openbis(openbis=openbis, logger=logger)

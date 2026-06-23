@@ -30,6 +30,7 @@ from bam_masterdata.metadata._maps import (
 from bam_masterdata.metadata.definitions import (
     CollectionTypeDef,
     DatasetTypeDef,
+    DataType,
     ObjectTypeDef,
     PropertyTypeAssignment,
     VocabularyTerm,
@@ -897,7 +898,7 @@ class ObjectType(BaseEntity):
             """
             # Handle special case for OBJECT data type to map into the legacy name
             if prop.data_type == "OBJECT":
-                prop.data_type = "SAMPLE"
+                prop.data_type = DataType.SAMPLE
 
             # If property does not exist in openBIS, create it before assigning to the entity
             if not openbis.get_property_types(prop.code):
