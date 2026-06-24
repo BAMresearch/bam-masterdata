@@ -1,4 +1,12 @@
-from bam_masterdata.datamodel.object_types import ExperimentalStep, Instrument, Sample
+from bam_masterdata.datamodel.object_types import (
+    ComputationalAnalysis,
+    EnvironmentalConditions,
+    ExperimentalStep,
+    Instrument,
+    InstrumentAccessory,
+    Sample,
+    TestingMachine,
+)
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
 from bam_masterdata.metadata.entities import ObjectType
 
@@ -42,45 +50,9 @@ class CreepTest(MechanicalTest):
     link_test_machine = PropertyTypeAssignment(
         code="CREEP_TEST_LINK_TEST_MACHINE",
         data_type="OBJECT",
-        object_code="INSTRUMENT.CREEP_TEST_TEST_MACHINE",
+        object_code="TESTING_MACHINE.CREEP_TEST_TEST_MACHINE",
         property_label="Test machine",
         description="""Linked object: Test machine""",
-        mandatory=False,
-        section="Linked objects",
-    )
-    link_test_machine_heating_system = PropertyTypeAssignment(
-        code="CREEP_TEST_LINK_TEST_MACHINE_HEATING_SYSTEM",
-        data_type="OBJECT",
-        object_code="INSTRUMENT.CREEP_TEST_TEST_MACHINE_HEATING_SYSTEM",
-        property_label="Heating system",
-        description="""Linked object: Heating system""",
-        mandatory=False,
-        section="Linked objects",
-    )
-    link_test_machine_holder_system = PropertyTypeAssignment(
-        code="CREEP_TEST_LINK_TEST_MACHINE_HOLDER_SYSTEM",
-        data_type="OBJECT",
-        object_code="INSTRUMENT.CREEP_TEST_TEST_PIECE_HOLDER_SYSTEM",
-        property_label="Test piece holder system",
-        description="""Linked object: Test piece holder system""",
-        mandatory=False,
-        section="Linked objects",
-    )
-    link_test_machine_loading_system = PropertyTypeAssignment(
-        code="CREEP_TEST_LINK_TEST_MACHINE_LOADING_SYSTEM",
-        data_type="OBJECT",
-        object_code="INSTRUMENT.CREEP_TEST_TEST_MACHINE_LOADING_SYSTEM",
-        property_label="Loading system",
-        description="""Linked object: Loading system""",
-        mandatory=False,
-        section="Linked objects",
-    )
-    link_test_machine_data_acquisition = PropertyTypeAssignment(
-        code="CREEP_TEST_LINK_TEST_MACHINE_DATA_ACQUISITION",
-        data_type="OBJECT",
-        object_code="INSTRUMENT.CREEP_TEST_TEST_MACHINE_DATA_ACQUISITION",
-        property_label="Data acquisition (test machine)",
-        description="""Linked object: Data acquisition (test machine)""",
         mandatory=False,
         section="Linked objects",
     )
@@ -94,11 +66,10 @@ class CreepTest(MechanicalTest):
         mandatory=False,
         section="Linked objects",
     )
-    # ? is this necessary? only a boolean inside CREEP_TEST_LINK_LOAD_MEASURING_DATA_ACQUISITION
     link_load_measuring_data_acquisition = PropertyTypeAssignment(
         code="CREEP_TEST_LINK_LOAD_MEASURING_DATA_ACQUISITION",
         data_type="OBJECT",
-        object_code="INSTRUMENT.CREEP_TEST_LOAD_DATA_ACQUISITION",
+        object_code="CREEP_TEST_LOAD_DATA_ACQUISITION",
         property_label="Load measuring system data acquisition",
         description="""Linked object: Load measuring system data acquisition""",
         mandatory=False,
@@ -108,7 +79,7 @@ class CreepTest(MechanicalTest):
     link_laboratory_conditions = PropertyTypeAssignment(
         code="CREEP_TEST_LINK_LABORATORY_CONDITIONS",
         data_type="OBJECT",
-        object_code="INSTRUMENT.CREEP_TEST_LABORATORY_CONDITIONS",
+        object_code="ENVIRONMENTAL_CONDITIONS.CREEP_TEST_LABORATORY_CONDITIONS",
         property_label="Laboratory conditions",
         description="""Linked object: Laboratory conditions""",
         mandatory=False,
@@ -175,7 +146,7 @@ class CreepTest(MechanicalTest):
     link_data_processing = PropertyTypeAssignment(
         code="CREEP_TEST_LINK_DATA_PROCESSING",
         data_type="OBJECT",
-        object_code="CREEP_TEST_DATA_PROCESSING_PROCEDURES",
+        object_code="COMPUTATIONAL_ANALYSIS.CREEP_TEST_DATA_PROCESSING_PROCEDURES",
         property_label="Data processing procedures",
         description="""Linked object: Data processing procedures""",
         mandatory=False,
@@ -249,12 +220,12 @@ class CreepTest(MechanicalTest):
         mandatory=True,
         section="Test job details",
     )
-    # ? check if this is abstract enough for EXPERIMENTAL_STEP
     creep_test_project_id = PropertyTypeAssignment(
-        code="CREEP_TEST_PROJECT_ID",
-        data_type="VARCHAR",
+        code="CREEP_TEST_LINK_PROJECT",
+        data_type="OBJECT",
+        object_code="PROJECT",
         property_label="Project",
-        description="""Project identifier (name, unique id, etc.)""",
+        description="""Linked object: Project associated with this creep test // Verknüpftes Objekt: Projekt, dem dieser Kriechversuch zugeordnet ist""",
         mandatory=False,
         section="Test job details",
     )
@@ -664,7 +635,8 @@ class CreepTestMaterialHistoryAndCondition(ObjectType):
     )
     creep_test_measured_condition = PropertyTypeAssignment(
         code="CREEP_TEST_MEASURED_CONDITION",
-        data_type="VARCHAR",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="CREEP_TEST_MEASURED_CONDITION",
         property_label="Measured condition",
         description="""Measured condition - E.g., as-manufactured, heat-treated, before testing, after testing // Gemessener Zustand - z. B. wie hergestellt, wärmebehandelt, vor der Prüfung, nach der Prüfung""",
         mandatory=True,
@@ -822,7 +794,6 @@ class CreepTestMaterialHistoryAndCondition(ObjectType):
 
 
 class CreepTestChemicalCompositionNominal(ObjectType):
-    # ? check its relation with Chemical
     defs = ObjectTypeDef(
         code="CREEP_TEST_CHEMICAL_COMPOSITION_NOMINAL",
         description="""Material history and condition / Chemical composition (NOMINAL) // Materialhistorie und Zustand / Chemische Zusammensetzung (NOMINAL)""",
@@ -855,8 +826,8 @@ class CreepTestChemicalCompositionNominal(ObjectType):
         section="Chemical composition",
     )
     creep_test_chemical_composition_nominal = PropertyTypeAssignment(
-        code="CHEM_SPECIES_BY_COMP_IN_PCT",  # ? check this code (why compacting it?)
-        data_type="REAL",
+        code="CHEM_SPECIES_BY_COMP_IN_PCT",
+        data_type="VARCHAR",
         property_label="Chemical composition - nominal [wt.-% / at.-%]",
         units="%",
         description="""Chemical composition - nominal - Link to file, preferably with machine-readable (meta)data or add the wt.-% value of for each element // Chemische Zusammensetzung - nominal [wt.-% / at.-%] - Link zu einer Datei, vorzugsweise mit maschinenlesbaren (Meta-)Daten, oder geben Sie für jedes Element den Gewichts-%-Wert an.""",
@@ -866,7 +837,6 @@ class CreepTestChemicalCompositionNominal(ObjectType):
 
 
 class CreepTestChemicalCompositionMeasured(ObjectType):
-    # ? check its relation with Chemical
     defs = ObjectTypeDef(
         code="CREEP_TEST_CHEMICAL_COMPOSITION_MEASURED",
         description="""Material history and condition / Chemical composition (MEASURED) // Materialhistorie und Zustand / Chemische Zusammensetzung (MEASURED)""",
@@ -899,8 +869,8 @@ class CreepTestChemicalCompositionMeasured(ObjectType):
         section="Chemical composition",
     )
     creep_test_chemical_composition_measured = PropertyTypeAssignment(
-        code="CHEM_SPECIES_BY_COMP_IN_PCT",  # ? check this code (why compacting it?)
-        data_type="REAL",
+        code="CHEM_SPECIES_BY_COMP_IN_PCT",
+        data_type="VARCHAR",
         property_label="Chemical composition - measured [wt.-% / at.-%]",
         units="%",
         description="""Chemical composition - measured - Include precision, if available. Link to file, preferably with machine-readable (meta)data or add the wt.-% value of for each element // Chemische Zusammensetzung - gemessen [wt.-% / at.-%] - Geben Sie, falls verfügbar, die Präzision an. Link zu einer Datei, vorzugsweise mit maschinenlesbaren (Meta-)Daten, oder geben Sie für jedes Element den Gewichts-%-Wert an.""",
@@ -910,7 +880,6 @@ class CreepTestChemicalCompositionMeasured(ObjectType):
 
 
 class CreepTestMaterialHistoryNDTResults(ObjectType):
-    # ? check if we need to define Results object type
     defs = ObjectTypeDef(
         code="CREEP_TEST_MATERIAL_HISTORY_NDT_RESULTS",
         description="""Material history and condition / NDT Results // Materialhistorie und Zustand / ZfP-Ergebnisse""",
@@ -936,7 +905,6 @@ class CreepTestMaterialHistoryNDTResults(ObjectType):
 
 
 class CreepTestMaterialHistoryMechanicalTestsResults(ObjectType):
-    # ? check if we need to define Results object type
     defs = ObjectTypeDef(
         code="CREEP_TEST_MATERIAL_HISTORY_MECHANICAL_TESTS_RESULTS",
         description="""Material history and condition / Mechanical tests results // Materialhistorie und Zustand / Ergebnisse mechanischer Prüfungen""",
@@ -972,7 +940,6 @@ class CreepTestMaterialHistoryMechanicalTestsResults(ObjectType):
 
 
 class CreepTestTestPiece(Sample):
-    # ? check its relation with Sample
     defs = ObjectTypeDef(
         code="SAMPLE.CREEP_TEST_TEST_PIECE",
         description="""Test piece // Probekörper""",
@@ -1064,19 +1031,18 @@ class CreepTestTestPiece(Sample):
     )
 
 
-class CreepTestTestMachine(Instrument):
-    # ? check its relation with Instrument
+class CreepTestTestMachine(TestingMachine):
     defs = ObjectTypeDef(
-        code="INSTRUMENT.CREEP_TEST_TEST_MACHINE",
+        code="TESTING_MACHINE.CREEP_TEST_TEST_MACHINE",
         description="""Measuring and test equipment / Test machine // Mess- und Prüfmittel / Prüfmaschine""",
-        generated_code_prefix="INS.CREEP_MACHI",
+        generated_code_prefix="TM.CREEP_MACHI",
     )
 
     # --- Links to test machine sub-systems (OBJECT properties) ---
     link_heating_system = PropertyTypeAssignment(
         code="CREEP_TEST_TEST_MACHINE_LINK_HEATING_SYSTEM",
         data_type="OBJECT",
-        object_code="CREEP_TEST_TEST_MACHINE_HEATING_SYSTEM",
+        object_code="INSTRUMENT.CREEP_TEST_TEST_MACHINE_HEATING_SYSTEM",
         property_label="Heating system",
         description="""Linked object: Heating system""",
         mandatory=False,
@@ -1085,7 +1051,7 @@ class CreepTestTestMachine(Instrument):
     link_holder_system = PropertyTypeAssignment(
         code="CREEP_TEST_TEST_MACHINE_LINK_HOLDER_SYSTEM",
         data_type="OBJECT",
-        object_code="CREEP_TEST_TEST_PIECE_HOLDER_SYSTEM",
+        object_code="INSTRUMENT_ACCESSORY.CREEP_TEST_TEST_PIECE_HOLDER_SYSTEM",
         property_label="Test piece holder system",
         description="""Linked object: Test piece holder system""",
         mandatory=False,
@@ -1094,7 +1060,7 @@ class CreepTestTestMachine(Instrument):
     link_loading_system = PropertyTypeAssignment(
         code="CREEP_TEST_TEST_MACHINE_LINK_LOADING_SYSTEM",
         data_type="OBJECT",
-        object_code="CREEP_TEST_TEST_MACHINE_LOADING_SYSTEM",
+        object_code="INSTRUMENT.CREEP_TEST_TEST_MACHINE_LOADING_SYSTEM",
         property_label="Loading system",
         description="""Linked object: Loading system""",
         mandatory=False,
@@ -1103,7 +1069,7 @@ class CreepTestTestMachine(Instrument):
     link_data_acquisition = PropertyTypeAssignment(
         code="CREEP_TEST_TEST_MACHINE_LINK_DATA_ACQUISITION",
         data_type="OBJECT",
-        object_code="CREEP_TEST_TEST_MACHINE_DATA_ACQUISITION",
+        object_code="INSTRUMENT.CREEP_TEST_TEST_MACHINE_DATA_ACQUISITION",
         property_label="Data acquisition",
         description="""Linked object: Data acquisition""",
         mandatory=False,
@@ -1172,7 +1138,6 @@ class CreepTestTestMachine(Instrument):
 
 
 class CreepTestTestMachineHeatingSystem(Instrument):
-    # ? probably this is related with Furnace metainformation
     defs = ObjectTypeDef(
         code="INSTRUMENT.CREEP_TEST_TEST_MACHINE_HEATING_SYSTEM",
         description="""Measuring and test equipment / Test machine / Heating system // Mess- und Prüfmittel / Prüfmaschine / Heizsystem""",
@@ -1189,12 +1154,11 @@ class CreepTestTestMachineHeatingSystem(Instrument):
     )
 
 
-class CreepTestTestPieceHolderSystem(Instrument):
-    # ? probably this is related with Holder metainformation
+class CreepTestTestPieceHolderSystem(InstrumentAccessory):
     defs = ObjectTypeDef(
-        code="INSTRUMENT.CREEP_TEST_TEST_PIECE_HOLDER_SYSTEM",
+        code="INSTRUMENT_ACCESSORY.CREEP_TEST_TEST_PIECE_HOLDER_SYSTEM",
         description="""Measuring and test equipment / Test machine / Test piece holder system // Mess- und Prüfmittel / Prüfmaschine / Probenhaltersystem""",
-        generated_code_prefix="INS.CREEP_PIECE_HOLDE",
+        generated_code_prefix="INS_ACC.CREEP_PIECE_HOLDE",
     )
     creep_test_fixing_technique = PropertyTypeAssignment(
         code="CREEP_TEST_FIXING_TECHNIQUE",
@@ -1208,7 +1172,6 @@ class CreepTestTestPieceHolderSystem(Instrument):
 
 
 class CreepTestTestMachineLoadingSystem(Instrument):
-    # ? is this Calibration metainformation?
     defs = ObjectTypeDef(
         code="INSTRUMENT.CREEP_TEST_TEST_MACHINE_LOADING_SYSTEM",
         description="""Measuring and test equipment / Test machine / Loading system // Mess- und Prüfmittel / Prüfmaschine / Belastungssystem""",
@@ -1225,7 +1188,7 @@ class CreepTestTestMachineLoadingSystem(Instrument):
     )
     creep_test_calibration_certificate = PropertyTypeAssignment(
         code="CALIBRATION_CERTIFICATE_NUMBER",
-        data_type="REAL",
+        data_type="VARCHAR",
         property_label="Calibration certificate",
         description="""Calibration certificate - Link to file, preferably with machine-readable (meta)data. Please specify which device/feature/part of the test machine was calibrated. // Kalibrierzertifikat - Link zu einer Datei, vorzugsweise mit maschinenlesbaren (Meta-)Daten. Bitte geben Sie an, welches Gerät/Feature/welcher Teil der Prüfmaschine kalibriert wurde.""",
         mandatory=False,
@@ -1248,7 +1211,7 @@ class CreepTestTestMachineLoadingSystem(Instrument):
         section="Loading system",
     )
     creep_test_calibration_standard = PropertyTypeAssignment(
-        code="CREEP_TEST_LOAD_SYSTEM_CALIBRATION_STANDARD",
+        code="CREEP_TEST_LOADING_SYSTEM_CALIBRATION_STANDARD",
         data_type="CONTROLLEDVOCABULARY",
         vocabulary_code="CREEP_TEST_LOAD_SYSTEM_CALIBRATION_STANDARD",
         property_label="Calibration standard",
@@ -1292,7 +1255,6 @@ class CreepTestTestMachineLoadingSystem(Instrument):
 
 
 class CreepTestTestMachineDataAcquisition(Instrument):
-    # ? this is possibly related with Software metainformation
     defs = ObjectTypeDef(
         code="INSTRUMENT.CREEP_TEST_TEST_MACHINE_DATA_ACQUISITION",
         description="""Measuring and test equipment / Test machine / Data acquisition // Mess- und Prüfmittel / Prüfmaschine / Datenerfassung""",
@@ -1342,7 +1304,6 @@ class CreepTestTestMachineDataAcquisition(Instrument):
 
 
 class CreepTestLoadSensor(Instrument):
-    # ? why is this different from CREEP_TEST_TEST_MACHINE_LOADING_SYSTEM?
     defs = ObjectTypeDef(
         code="INSTRUMENT.CREEP_TEST_LOAD_SENSOR",
         description="""Measuring and test equipment / Load-measuring system / Load sensor // Mess- und Prüfmittel / Kraftmesssystem / Kraftsensor""",
@@ -1367,7 +1328,7 @@ class CreepTestLoadSensor(Instrument):
     )
     creep_test_calibration_certificate = PropertyTypeAssignment(
         code="CALIBRATION_CERTIFICATE_NUMBER",
-        data_type="REAL",
+        data_type="VARCHAR",
         property_label="Calibration certificate",
         description="""Calibration certificate - Link to file, preferably with machine-readable (meta)data. // Kalibrierzertifikat - Link to file, preferably with machine-readable (meta)data.""",
         mandatory=False,
@@ -1389,10 +1350,10 @@ class CreepTestLoadSensor(Instrument):
         mandatory=True,
         section="Load sensor",
     )
-    # ? sometimes this CALIBRATION_STANDARD is a REAL, sometimes a CONTROLLEDVOCABULARY. Check this.
     creep_test_calibration_standard = PropertyTypeAssignment(
-        code="CREEP_TEST_CALIBRATION_STANDARD",
-        data_type="REAL",
+        code="CREEP_TEST_LOAD_SENSOR_CALIBRATION_STANDARD",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="CREEP_TEST_LOAD_SYSTEM_CALIBRATION_STANDARD",
         property_label="Calibration standard",
         description="""Calibration standard // Kalibrierstandard""",
         mandatory=True,
@@ -1417,13 +1378,11 @@ class CreepTestLoadSensor(Instrument):
     )
 
 
-class CreepTestLoadDataAcquisition(Instrument):
-    # ? is this necessary?
-    # ? is this an Instrument?
+class CreepTestLoadDataAcquisition(ObjectType):
     defs = ObjectTypeDef(
-        code="INSTRUMENT.CREEP_TEST_LOAD_DATA_ACQUISITION",
+        code="CREEP_TEST_LOAD_DATA_ACQUISITION",
         description="""Measuring and test equipment / Load-measuring system / Data acquisition // Mess- und Prüfmittel / Kraftmesssystem / Datenerfassung""",
-        generated_code_prefix="INS.CREEP_LOAD_DATA_ACQU",
+        generated_code_prefix="CREEP_LOAD_DATA_ACQU",
     )
     creep_test_force_recording = PropertyTypeAssignment(
         code="CREEP_TEST_FORCE_RECORDING",
@@ -1435,12 +1394,11 @@ class CreepTestLoadDataAcquisition(Instrument):
     )
 
 
-class CreepTestLaboratoryConditions(Instrument):
-    # ? is this an Instrument?
+class CreepTestLaboratoryConditions(EnvironmentalConditions):
     defs = ObjectTypeDef(
-        code="INSTRUMENT.CREEP_TEST_LABORATORY_CONDITIONS",
-        description="""Metadata / Measuring and test equipment / Laboratory conditions // Metadaten / Mess- und Prüfmittel / Laborbedingungen""",
-        generated_code_prefix="INS.CREEP_LABOR_CONDI",
+        code="ENVIRONMENTAL_CONDITIONS.CREEP_TEST_LABORATORY_CONDITIONS",
+        description="""Metadata / Environmental conditions / Laboratory conditions during creep test // Metadaten / Umgebungsbedingungen / Laborbedingungen während des Kriechversuchs""",
+        generated_code_prefix="ENV.CREEP_LABOR_CONDI",
     )
     creep_test_room_temperature = PropertyTypeAssignment(
         code="CREEP_TEST_ROOM_TEMPERATURE",
@@ -1536,17 +1494,17 @@ class CreepTestTemperatureSensor(Instrument):
         mandatory=False,
         section="Temperature sensor",
     )
-    # ? extend this status to a CONTROLLEDVOCABULARY eventually
     creep_test_calibration_status = PropertyTypeAssignment(
         code="CREEP_TEST_CALIBRATION_STATUS",
-        data_type="BOOLEAN",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="CREEP_TEST_CALIBRATION_STATUS",
         property_label="Is/are the thermocouples calibrated?",
         description="""Calibration status - Is/are the thermocouples calibrated? // Kalibrierstatus - Ist/sind das/die Thermoelement(e) kalibriert?""",
         mandatory=True,
         section="Temperature sensor",
     )
     creep_test_calibration_method = PropertyTypeAssignment(
-        code="CREEP_TEST_CALIBRATION_METHOD",
+        code="CREEP_TEST_TEMPERATURE_SENSOR_CALIBRATION_METHOD",
         data_type="CONTROLLEDVOCABULARY",
         vocabulary_code="CREEP_TEST_THERMOCOUPLE_CALIBRATION_METHOD",
         property_label="Calibration method",
@@ -1555,7 +1513,7 @@ class CreepTestTemperatureSensor(Instrument):
         section="Temperature sensor",
     )
     creep_test_calibration_standard = PropertyTypeAssignment(
-        code="CREEP_TEST_THERMOCOUPLE_CALIBRATION_STANDARD",
+        code="CREEP_TEST_TEMPERATURE_SENSOR_CALIBRATION_STANDARD",
         data_type="CONTROLLEDVOCABULARY",
         vocabulary_code="CREEP_TEST_THERMOCOUPLE_CALIBRATION_STANDARD",
         property_label="Calibration standard",
@@ -1565,7 +1523,7 @@ class CreepTestTemperatureSensor(Instrument):
     )
     creep_test_calibration_certificate = PropertyTypeAssignment(
         code="CALIBRATION_CERTIFICATE_NUMBER",
-        data_type="REAL",
+        data_type="VARCHAR",
         property_label="Calibration certificate",
         description="""Calibration certificate - Link to file, preferably with machine-readable (meta)data. // Kalibrierzertifikat - Link zu einer Datei, vorzugsweise mit maschinenlesbaren (Meta-)Daten.""",
         mandatory=False,
@@ -1643,7 +1601,8 @@ class CreepTestTemperatureDataAcquisition(Instrument):
 
     creep_test_calibration_status = PropertyTypeAssignment(
         code="CREEP_TEST_CALIBRATION_STATUS",
-        data_type="BOOLEAN",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="CREEP_TEST_CALIBRATION_STATUS",
         property_label="Is/are the data acquisition unit calibrated?",
         description="""Calibration status - Is/are the data acquisition unit calibrated? // Kalibrierstatus - Ist/sind die Datenerfassungseinheit(en) kalibriert?""",
         mandatory=True,
@@ -1660,7 +1619,7 @@ class CreepTestTemperatureDataAcquisition(Instrument):
     )
     creep_test_calibration_certificate = PropertyTypeAssignment(
         code="CALIBRATION_CERTIFICATE_NUMBER",
-        data_type="REAL",
+        data_type="VARCHAR",
         property_label="Calibration certificate",
         description="""Calibration certificate - Link to file, preferably with machine-readable (meta)data. // Kalibrierzertifikat - Link zu einer Datei, vorzugsweise mit maschinenlesbaren (Meta-)Daten.""",
         mandatory=False,
@@ -1682,17 +1641,16 @@ class CreepTestTemperatureDataAcquisition(Instrument):
         mandatory=True,
         section="Data acquisition",
     )
-    # ? sometimes the METHOD is a REAL, sometimes is a CONTROLLEDVOCABULARY
     creep_test_calibration_method = PropertyTypeAssignment(
-        code="CREEP_TEST_CALIBRATION_METHOD",
-        data_type="REAL",
+        code="CREEP_TEST_TEMPERATURE_DAQ_CALIBRATION_METHOD",
+        data_type="VARCHAR",
         property_label="Calibration method",
         description="""Calibration method // Kalibriermethode""",
         mandatory=True,
         section="Data acquisition",
     )
     creep_test_calibration_standard = PropertyTypeAssignment(
-        code="CREEP_TEST_DATA_ACQUISITION_CALIBRATION_STANDARD",
+        code="CREEP_TEST_TEMPERATURE_DAQ_CALIBRATION_STANDARD",
         data_type="CONTROLLEDVOCABULARY",
         vocabulary_code="CREEP_TEST_DATA_ACQUISITION_CALIBRATION_STANDARD",
         property_label="Calibration standard",
@@ -1702,7 +1660,7 @@ class CreepTestTemperatureDataAcquisition(Instrument):
     )
     creep_test_temperature_deviation = PropertyTypeAssignment(
         code="CREEP_TEST_TEMPERATURE_DEVIATION",
-        data_type="REAL",
+        data_type="VARCHAR",
         property_label="Temperature deviation",
         units="degC",
         description="""Temperature deviation - Measurement deviation detected during calibration // Temperaturabweichung [°C] - Bei der Kalibrierung festgestellte Messabweichung""",
@@ -1868,7 +1826,7 @@ class CreepTestExtensionValuesContactingExtensometer(Instrument):
     )
     creep_test_calibration_certificate = PropertyTypeAssignment(
         code="CALIBRATION_CERTIFICATE_NUMBER",
-        data_type="REAL",
+        data_type="VARCHAR",
         property_label="Calibration certificate",
         description="""Calibration certificate - Link to file, preferably with machine-readable (meta)data. // Kalibrierzertifikat - Link zu einer Datei, vorzugsweise mit maschinenlesbaren (Meta-)Daten.""",
         mandatory=False,
@@ -1908,8 +1866,8 @@ class CreepTestExtensionValuesContactingExtensometer(Instrument):
         section="Contacting extensometer",
     )
     creep_test_calibration_standard = PropertyTypeAssignment(
-        code="CREEP_TEST_CALIBRATION_STANDARD",
-        data_type="REAL",
+        code="CREEP_TEST_EXTENSOMETER_CALIBRATION_STANDARD",
+        data_type="VARCHAR",
         property_label="Calibration standard",
         description="""Calibration standard // Kalibrierstandard""",
         mandatory=True,
@@ -1977,7 +1935,8 @@ class CreepTestElongationValuesAndCrossSectionalDimensions(Instrument):
     )
     creep_test_calibration_status = PropertyTypeAssignment(
         code="CREEP_TEST_CALIBRATION_STATUS",
-        data_type="BOOLEAN",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="CREEP_TEST_CALIBRATION_STATUS",
         property_label="Is the measuring equipment calibrated?",
         description="""Calibration status - Is the measuring equipment calibrated? // Kalibrierstatus - Sind/Waren die Messgeräte kalibriert?""",
         mandatory=True,
@@ -1985,7 +1944,7 @@ class CreepTestElongationValuesAndCrossSectionalDimensions(Instrument):
     )
     creep_test_calibration_certificate = PropertyTypeAssignment(
         code="CALIBRATION_CERTIFICATE_NUMBER",
-        data_type="REAL",
+        data_type="VARCHAR",
         property_label="Calibration certificate",
         description="""Calibration certificate - Link to file, preferably with machine-readable (meta)data. // Kalibrierzertifikat - Link zu einer Datei, vorzugsweise mit maschinenlesbaren (Meta-)Daten.""",
         mandatory=False,
@@ -2025,8 +1984,8 @@ class CreepTestElongationValuesAndCrossSectionalDimensions(Instrument):
         section="Elongation values and cross-sectional dimensions",
     )
     creep_test_calibration_standard = PropertyTypeAssignment(
-        code="CREEP_TEST_CALIBRATION_STANDARD",
-        data_type="REAL",
+        code="CREEP_TEST_ELONGATION_MEASURING_EQUIPMENT_CALIBRATION_STANDARD",
+        data_type="VARCHAR",
         property_label="Calibration standard",
         description="""Calibration standard // Kalibrierstandard""",
         mandatory=True,
@@ -2034,11 +1993,11 @@ class CreepTestElongationValuesAndCrossSectionalDimensions(Instrument):
     )
 
 
-class CreepTestDataProcessingProcedures(ObjectType):
+class CreepTestDataProcessingProcedures(ComputationalAnalysis):
     defs = ObjectTypeDef(
-        code="CREEP_TEST_DATA_PROCESSING_PROCEDURES",
+        code="COMPUTATIONAL_ANALYSIS.CREEP_TEST_DATA_PROCESSING_PROCEDURES",
         description="""Metadata / Data processing procedures // Metadaten / Datenverarbeitungsverfahren""",
-        generated_code_prefix="CREEP_DATA_PROCE",
+        generated_code_prefix="COMP.CREEP_DATA_PROCE",
     )
 
     creep_test_primary_data_series = PropertyTypeAssignment(

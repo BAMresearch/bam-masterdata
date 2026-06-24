@@ -977,3 +977,90 @@ class CreepTestFracturePosition(VocabularyType):
         label="Outside the extensometer the extensometer gauge length and the parallel length",
         description="""Outside the extensometer the extensometer gauge length and the parallel length // außerhalb der Extensometer-Messlänge und der parallelen Länge""",
     )
+
+
+class CreepTestCalibrationStatus(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="CREEP_TEST_CALIBRATION_STATUS",
+        description="""Calibration status for creep-test instruments and measuring equipment // Kalibrierstatus für Kriechversuchsgeräte und Messmittel""",
+    )
+    calibrated = VocabularyTerm(
+        code="CALIBRATED",
+        label="Calibrated",
+        description="""Calibrated // kalibriert""",
+    )
+    not_calibrated = VocabularyTerm(
+        code="NOT_CALIBRATED",
+        label="Not calibrated",
+        description="""Not calibrated // nicht kalibriert""",
+    )
+    expired = VocabularyTerm(
+        code="EXPIRED",
+        label="Expired",
+        description="""Calibration expired // Kalibrierung abgelaufen""",
+    )
+    unknown = VocabularyTerm(
+        code="UNKNOWN",
+        label="Unknown",
+        description="""Unknown // unbekannt""",
+    )
+    not_applicable = VocabularyTerm(
+        code="NOT_APPLICABLE",
+        label="Not applicable",
+        description="""Not applicable // nicht zutreffend""",
+    )
+
+
+class ThermocoupleType(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="THERMOCOUPLE_TYPE",
+        description="""Thermocouple type // Thermoelementtyp""",
+    )
+    type_k = VocabularyTerm(
+        code="TYPE_K",
+        label="Type K",
+        description="""Type K // Typ K""",
+    )
+    type_n = VocabularyTerm(
+        code="TYPE_N",
+        label="Type N",
+        description="""Type N // Typ N""",
+    )
+    type_s = VocabularyTerm(
+        code="TYPE_S",
+        label="Type S",
+        description="""Type S // Typ S""",
+    )
+    type_r = VocabularyTerm(
+        code="TYPE_R",
+        label="Type R",
+        description="""Type R // Typ R""",
+    )
+    other_specify = VocabularyTerm(
+        code="OTHER_SPECIFY",
+        label="Other (Specify)",
+        description="""Other (Specify) // andere (bitte angeben)""",
+    )
+
+
+class CreepTestNumberOfThermocouples(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="CREEP_TEST_NUMBER_OF_THERMOCOUPLES",
+        description="""Number of thermocouples used in the creep-test temperature measurement // Anzahl der im Kriechversuch verwendeten Thermoelemente""",
+    )
+    one = VocabularyTerm(
+        code="ONE",
+        label="1",
+        description="""One thermocouple // ein Thermoelement""",
+    )
+    two = VocabularyTerm(
+        code="TWO",
+        label="2",
+        description="""Two thermocouples // zwei Thermoelemente""",
+    )
+    three = VocabularyTerm(
+        code="THREE",
+        label="3",
+        description="""Three thermocouples // drei Thermoelemente""",
+    )
+
