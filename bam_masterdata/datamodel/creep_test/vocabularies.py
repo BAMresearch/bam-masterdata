@@ -1063,4 +1063,3 @@ class CreepTestNumberOfThermocouples(VocabularyType):
         label="3",
         description="""Three thermocouples // drei Thermoelemente""",
     )
-
