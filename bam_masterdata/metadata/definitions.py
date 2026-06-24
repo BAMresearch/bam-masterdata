@@ -612,3 +612,12 @@ class VocabularyTerm(VocabularyTypeDef):
         True,
         description="""""",
     )
+
+    @field_validator("code")
+    @classmethod
+    def validate_code_length(cls, value: str) -> str:
+        if len(value) > 50:
+            raise ValueError(
+                f"VocabularyTerm code must not exceed 50 characters (got {len(value)} characters)."
+            )
+        return value
