@@ -9,7 +9,7 @@ class CreepTestStandard(VocabularyType):
     )
 
     iso_204 = VocabularyTerm(
-        code="DIN EN ISO_204",
+        code="DIN_EN_ISO_204",
         label="DIN EN ISO 204",
         description="""DIN EN ISO 204 - Metallic materials - Uniaxial creep testing in tension - Method of test // DIN EN ISO 204 - Metallische Werkstoffe - Einachsiger Zeitstandversuch unter Zugbeanspruchung - Prüfverfahren""",
     )
@@ -77,20 +77,20 @@ class CreepTestType(VocabularyType):
         description="""Test Type (Metadata, Test info, Test parameters) // Test-Typ (Metadaten, Test-Information, Test-Parameter)""",
     )
 
-    uninterrupted_creep_tests_with_continuous_monitoring_of_extension = VocabularyTerm(
-        code="UNINTERRUPTED_CREEP_TESTS_WITH_CONTINUOUS_MONITORING_OF_EXTENSION",
+    uninterrupted_creep_tests_continuous_extension = VocabularyTerm(
+        code="UNINTERRUPTED_CREEP_TESTS_CONTINUOUS_EXTENSION",
         label="Uninterrupted creep tests with continuous monitoring of extension",
         description="""Uninterrupted creep tests with continuous monitoring of extension // Ununterbrochene Kriechprüfungen mit kontinuierlicher Überwachung der Verlängerung""",
     )
 
-    interrupted_creep_tests_with_periodic_measurement_of_elongation = VocabularyTerm(
-        code="INTERRUPTED_CREEP_TESTS_WITH_PERIODIC_MEASUREMENT_OF_ELONGATION",
+    interrupted_creep_tests_periodic_elongation = VocabularyTerm(
+        code="INTERRUPTED_CREEP_TESTS_PERIODIC_ELONGATION",
         label="Interrupted creep tests with periodic measurement of elongation",
         description="""Interrupted creep tests with periodic measurement of elongation // Unterbrochene Kriechprüfungen mit periodischer Messung der Verlängerung""",
     )
 
-    stress_rupture_tests_where_normally_only_the_time_to_fracture_is_measured = VocabularyTerm(
-        code="STRESS_RUPTURE_TESTS_WHERE_NORMALLY_ONLY_THE_TIME_TO_FRACTURE_IS_MEASURED",
+    stress_rupture_tests_time_to_fracture_measured = VocabularyTerm(
+        code="STRESS_RUPTURE_TESTS_TIME_TO_FRACTURE_MEASURED",
         label="Stress rupture tests where normally only the time to fracture is measured",
         description="""Stress rupture tests where normally only the time to fracture is measured // Spannungsbruchprüfungen, bei denen normalerweise nur die Zeit bis zum Bruch gemessen wird""",
     )
@@ -972,8 +972,8 @@ class CreepTestFracturePosition(VocabularyType):
         description="""Outside the extensometer gauge length // außerhalb der Extensometer-Messlänge""",
     )
 
-    outside_the_extensometer_the_extensometer_gauge_length_and_the_parallel_length = VocabularyTerm(
-        code="OUTSIDE_THE_EXTENSOMETER_THE_EXTENSOMETER_GAUGE_LENGTH_AND_THE_PARALLEL_LENGTH",
+    outside_extensometer_gauge_and_parallel_length = VocabularyTerm(
+        code="OUTSIDE_EXTENSOMETER_GAUGE_AND_PARALLEL_LENGTH",
         label="Outside the extensometer the extensometer gauge length and the parallel length",
         description="""Outside the extensometer the extensometer gauge length and the parallel length // außerhalb der Extensometer-Messlänge und der parallelen Länge""",
     )
