@@ -8,3 +8,4 @@
 # Specific datamodel subfolders
 # Owners of individual datamodel directories and its subdirectories
 /bam_masterdata/datamodel/welding/ @CagtayFabry
+/bam_masterdata/datamodel/creep_test/ @MarkusSchilling
