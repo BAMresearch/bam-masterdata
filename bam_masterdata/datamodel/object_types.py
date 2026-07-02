@@ -364,8 +364,9 @@ class ExperimentalStep(ObjectType):
         data_type="VARCHAR",
         property_label="Operator",
         description="""Name of the person or user performing the measurement//Name der Person oder des Benutzers, der die Messung durchführt""",
-        mandatory=True,
+        mandatory=False,
         section="General Information",
+        ordinal=6,
     )
 
 

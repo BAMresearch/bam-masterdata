@@ -428,6 +428,13 @@ class PropertyTypeDef(EntityDef):
         description="""""",
     )
 
+    ordinal: int | None = Field(
+        default=None,
+        description="""
+        Ordinal of the property type. This is used to order the properties in the inventory view
+        """,
+    )
+
     @field_validator("units")
     @classmethod
     def validate_units(cls, value: str | None) -> str | None:

@@ -208,6 +208,7 @@ class BaseEntity(BaseModel):
                                 mandatory=prop.mandatory,
                                 showInEditView=prop.show_in_edit_views,
                                 vocabulary=prop.vocabulary_code,
+                                ordinal=prop.ordinal,
                             )
                         else:
                             entity.assign_property(
@@ -215,6 +216,7 @@ class BaseEntity(BaseModel):
                                 section=prop.section,
                                 mandatory=prop.mandatory,
                                 showInEditView=prop.show_in_edit_views,
+                                ordinal=prop.ordinal,
                             )
 
             if not new_properties_added:
@@ -247,6 +249,7 @@ class BaseEntity(BaseModel):
                     section=prop.section,
                     mandatory=prop.mandatory,
                     showInEditView=prop.show_in_edit_views,
+                    ordinal=prop.ordinal,
                 )
         else:
             # Transform the list of VocabularyTerm objects into the desired format
@@ -927,6 +930,7 @@ class ObjectType(BaseEntity):
                     section=prop.section,
                     mandatory=prop.mandatory,
                     showInEditView=prop.show_in_edit_views,
+                    ordinal=prop.ordinal,
                 )
             else:
                 entity.assign_property(
@@ -934,6 +938,7 @@ class ObjectType(BaseEntity):
                     section=prop.section,
                     mandatory=prop.mandatory,
                     showInEditView=prop.show_in_edit_views,
+                    ordinal=prop.ordinal,
                 )
 
         # Get all existing entities from openBIS
