@@ -1,7 +1,7 @@
+from bam_masterdata.datamodel.activities import MechanicalTest
 from bam_masterdata.datamodel.object_types import (
     ComputationalAnalysis,
     EnvironmentalConditions,
-    ExperimentalStep,
     Instrument,
     InstrumentAccessory,
     Sample,
@@ -9,14 +9,6 @@ from bam_masterdata.datamodel.object_types import (
 )
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
 from bam_masterdata.metadata.entities import ObjectType
-
-
-class MechanicalTest(ExperimentalStep):
-    defs = ObjectTypeDef(
-        code="EXPERIMENTAL_STEP.MECHANICAL_TEST",
-        description="""Mechanical test (experimental step) // Mechanischer Test (Versuchsschritt)""",
-        generated_code_prefix="EXP.MECH_TEST",
-    )
 
 
 class CreepTest(MechanicalTest):

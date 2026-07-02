@@ -2218,3 +2218,11 @@ class MouseMeasurement(SaxsMeasurement):
         mandatory=False,
         section="Data Processing",
     )
+
+
+class MechanicalTest(ExperimentalStep):
+    defs = ObjectTypeDef(
+        code="EXPERIMENTAL_STEP.MECHANICAL_TEST",
+        description="""Mechanical test (experimental step) // Mechanischer Test (Versuchsschritt)""",
+        generated_code_prefix="EXP.MECH_TEST",
+    )
