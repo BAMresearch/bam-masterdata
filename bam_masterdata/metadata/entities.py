@@ -238,7 +238,7 @@ class BaseEntity(BaseModel):
             # Assign properties to the new entity
             properties = getattr(self, "properties", [])
             for prop in properties:
-                logger.info(f"Adding new property {prop.code} to {defs.code}.")
+                logger.info(f"Adding new property '{prop.code}' to '{defs.code}'.")
                 # Handle special case for OBJECT or SAMPLE data types
                 if prop.data_type == "OBJECT" or prop.data_type == "SAMPLE":
                     prop.data_type = "SAMPLE"
@@ -262,7 +262,7 @@ class BaseEntity(BaseModel):
                 for term in getattr(self, "terms", [])
             ]
             term_codes = ", ".join([term.code for term in getattr(self, "terms", [])])
-            logger.info(f"Adding new terms {term_codes} to {defs.code}.")
+            logger.info(f"Adding new terms {term_codes} to '{defs.code}'.")
             entity = create_type(openbis, defs, terms)
             entity.save()
 
@@ -584,7 +584,7 @@ class VocabularyType(BaseEntity):
             for term in self.terms:
                 if term.code not in obis_term_codes:
                     logger.info(
-                        f"Adding new term {term.code}' to vocabulary '{self.defs.code}'."
+                        f"Adding new term '{term.code}' to vocabulary '{self.defs.code}'."
                     )
                     new_terms_added = True
 
@@ -957,7 +957,7 @@ class ObjectType(BaseEntity):
             for prop in self.properties:
                 if prop.code not in obis_property_codes:
                     logger.info(
-                        f"Adding new property {prop.code}' to object type '{self.defs.code}'."
+                        f"Adding new property '{prop.code}' to object type '{self.defs.code}'."
                     )
                     new_properties_added = True
                     _assign_property(prop, entity, openbis)
@@ -981,7 +981,7 @@ class ObjectType(BaseEntity):
             # Assign properties to the new entity
             for prop in self.properties:
                 logger.info(
-                    f"Adding new property {prop.code} to object type {self.defs.code}."
+                    f"Adding new property '{prop.code}' to object type '{self.defs.code}'."
                 )
                 _assign_property(prop, entity, openbis)
 
