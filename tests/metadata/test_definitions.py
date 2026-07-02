@@ -319,6 +319,7 @@ class TestPropertyTypeDef:
             "object_code",
             "metadata",
             "dynamic_script",
+            "ordinal",
         ]
         assert field_types == [
             str,
@@ -333,6 +334,7 @@ class TestPropertyTypeDef:
             str | None,
             dict | None,
             str | None,
+            int | None,
         ]
 
     def test_units_append_to_label(self):
@@ -405,6 +407,7 @@ class TestPropertyTypeAssignment:
             "object_code",
             "metadata",
             "dynamic_script",
+            "ordinal",
             "mandatory",
             "show_in_edit_views",
             "section",
@@ -424,6 +427,7 @@ class TestPropertyTypeAssignment:
             str | None,
             dict | None,
             str | None,
+            int | None,
             bool,
             bool,
             str,
