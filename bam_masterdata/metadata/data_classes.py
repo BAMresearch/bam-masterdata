@@ -1,10 +1,10 @@
 import json
 from collections.abc import Callable
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
 from lxml import etree
+from pydantic.dataclasses import dataclass
 
 
 class Resource:
