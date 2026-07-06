@@ -31,27 +31,6 @@ def _parser_init(
     Returns:
         tuple: A tuple containing (collection, space, project, collection_openbis) if successful, None otherwise.
     """
-    # Ensure openbis is provided
-    if openbis is None:
-        logger.error("An instance of Openbis must be provided for the parser to run.")
-        return
-    # Ensure the space, project, and collection are set
-    if not project_name:
-        logger.error("The Project name must be specified for the parser to run.")
-        return
-    # Ensure the files_parser is not empty
-    if not files_parser:
-        logger.error(
-            "No files or parsers to parse. Please provide valid file paths or contact an Admin to add missing parser."
-        )
-        return
-    # Ensure collection_type is valid
-    if collection_type not in ["COLLECTION", "DEFAULT_EXPERIMENT"]:
-        logger.error(
-            f"Invalid collection_type '{collection_type}'. Must be either 'COLLECTION' or 'DEFAULT_EXPERIMENT'."
-        )
-        return
-
     # Specify the space
     try:
         space = openbis.get_space(space_name)
@@ -277,6 +256,26 @@ def run_parser(
         files_parser (dict): A dictionary where keys are parser instances and values are lists of file paths to be parsed. E.g., {MasterdataParserExample(): ["path/to/file.json", "path/to/another_file.json"]}
         collection_type (str): The type of collection to create in openBIS. Options are "COLLECTION" or "DEFAULT_EXPERIMENT". Defaults to "COLLECTION".
     """
+    if openbis is None:
+        logger.error("An instance of Openbis must be provided for the parser to run.")
+        return
+    # Ensure the space, project, and collection are set
+    if not project_name:
+        logger.error("The Project name must be specified for the parser to run.")
+        return
+    # Ensure the files_parser is not empty
+    if not files_parser:
+        logger.error(
+            "No files or parsers to parse. Please provide valid file paths or contact an Admin to add missing parser."
+        )
+        return
+    # Ensure collection_type is valid
+    if collection_type not in ["COLLECTION", "DEFAULT_EXPERIMENT"]:
+        logger.error(
+            f"Invalid collection_type '{collection_type}'. Must be either 'COLLECTION' or 'DEFAULT_EXPERIMENT'."
+        )
+        return
+
     collection, space, project, collection_openbis = _parser_init(
         openbis=openbis,
         space_name=space_name,
@@ -416,6 +415,26 @@ def run_parser_with_transactions(
         files_parser (dict): A dictionary where keys are parser instances and values are lists of file paths to be parsed. E.g., {MasterdataParserExample(): ["path/to/file.json", "path/to/another_file.json"]}
         collection_type (str): The type of collection to create in openBIS. Options are "COLLECTION" or "DEFAULT_EXPERIMENT". Defaults to "COLLECTION".
     """
+    if openbis is None:
+        logger.error("An instance of Openbis must be provided for the parser to run.")
+        return
+    # Ensure the space, project, and collection are set
+    if not project_name:
+        logger.error("The Project name must be specified for the parser to run.")
+        return
+    # Ensure the files_parser is not empty
+    if not files_parser:
+        logger.error(
+            "No files or parsers to parse. Please provide valid file paths or contact an Admin to add missing parser."
+        )
+        return
+    # Ensure collection_type is valid
+    if collection_type not in ["COLLECTION", "DEFAULT_EXPERIMENT"]:
+        logger.error(
+            f"Invalid collection_type '{collection_type}'. Must be either 'COLLECTION' or 'DEFAULT_EXPERIMENT'."
+        )
+        return
+
     collection, space, project, collection_openbis = _parser_init(
         openbis=openbis,
         space_name=space_name,
