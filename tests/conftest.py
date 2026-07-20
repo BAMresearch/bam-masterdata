@@ -194,6 +194,33 @@ def mock_openbis():
     mock_openbis._objects = []
     mock_openbis.new_object.side_effect = new_object
 
+    # Mock transaction for adding objects
+    obj_transaction = MagicMock()
+    rel_transaction = MagicMock()
+
+    mock_openbis.new_transaction.side_effect = [
+        obj_transaction,
+        rel_transaction,
+    ]
+
+    obj_transaction.objects = []
+    rel_transaction.relationships = []
+
+    def add_obj(obj):
+        obj_transaction.objects.append(obj)
+
+    def add_rel(rel):
+        rel_transaction.relationships.append(rel)
+
+    obj_transaction.add.side_effect = add_obj
+    rel_transaction.add.side_effect = add_rel
+
+    mock_openbis.obj_transaction = obj_transaction
+    mock_openbis.rel_transaction = rel_transaction
+
+    # No Object initially uploaded
+    mock_openbis.get_object.return_value = None
+
     # # Create the mock openbis instance
     # openbis = Openbis(url="https://test.openbis.ch")
     # openbis.username = "testuser"

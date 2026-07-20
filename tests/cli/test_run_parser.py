@@ -70,8 +70,15 @@ def test_run_parser_with_test_parser(cleared_log_storage, mock_openbis):
         collection_type="COLLECTION",
     )
 
+    assert mock_openbis.obj_transaction.commit.called
+    assert mock_openbis.rel_transaction.commit.called
+
+    assert mock_openbis.obj_transaction.add.call_count == 1
+
+    mock_openbis.obj_transaction.commit.assert_called_once()
+
     # Check that objects were created in openbis
-    assert len(mock_openbis._objects) == 1
+    assert len(mock_openbis.obj_transaction.objects) == 1
 
     # Check logs for success messages
     # logs = log_storage  # log_storage is already a list
@@ -110,7 +117,7 @@ def test_run_parser_with_object_reference(cleared_log_storage, mock_openbis):
     )
 
     # Only 2 instruments are created (the person is referenced but not persisted)
-    assert len(mock_openbis._objects) == 2
+    assert len(mock_openbis.obj_transaction.objects) == 3
 
     # Check logs for success messages
     assert any("Added person object" in log["event"] for log in cleared_log_storage)
@@ -164,4 +171,4 @@ def test_run_parser_defaults_to_collection_type(cleared_log_storage, mock_openbi
     assert any("Added test object" in log["event"] for log in cleared_log_storage)
 
 
-# TODO add other tests for the different situations in `run_parser()` and parsers from `conftest.py`
+# TODO add other tests for the different situations in `run_parser_with_transactions()` and parsers from `conftest.py`
