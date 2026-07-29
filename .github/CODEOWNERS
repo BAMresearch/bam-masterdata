@@ -9,3 +9,4 @@
 # Owners of individual datamodel directories and its subdirectories
 /bam_masterdata/datamodel/welding/ @CagtayFabry
 /bam_masterdata/datamodel/creep_test/ @MarkusSchilling
+/bam_masterdata/datamodel/mass_spectrometry/ @janlisec @caro-demi

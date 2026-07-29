@@ -7525,24 +7525,6 @@ class Freezer2(Instrument):
     )
 
 
-class MassSpec(Instrument):
-    defs = ObjectTypeDef(
-        code="INSTRUMENT.MASS_SPEC",
-        description="""Mass Spectrometer//Massenspektrometer""",
-        generated_code_prefix="INS.MS",
-    )
-
-    mass_spec_type = PropertyTypeAssignment(
-        code="MASS_SPEC_TYPE",
-        data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="MASS_SPEC_TYPE",
-        property_label="MS Type",
-        description="""Mass Spectrometer Type//Massenspektrometer-Typ""",
-        mandatory=False,
-        section="Technical Details",
-    )
-
-
 class Scale(Instrument):
     defs = ObjectTypeDef(
         code="INSTRUMENT.SCALE",

@@ -28111,55 +28111,6 @@ class LoadFrameOrientation(VocabularyType):
     )
 
 
-class MassSpecType(VocabularyType):
-    defs = VocabularyTypeDef(
-        code="MASS_SPEC_TYPE",
-        description="""Mass Spec Type//Typ des Massenspektrometers""",
-    )
-
-    icp = VocabularyTerm(
-        code="ICP",
-        label="ICP",
-        description="""ICP//ICP""",
-    )
-
-    maldi = VocabularyTerm(
-        code="MALDI",
-        label="MALDI",
-        description="""MALDI//MALDI""",
-    )
-
-    q = VocabularyTerm(
-        code="Q",
-        label="Quadrupol",
-        description="""Quadrupol//Quadrupol""",
-    )
-
-    qqq = VocabularyTerm(
-        code="QQQ",
-        label="Triple Quad",
-        description="""Triple Quad//Triple Quad""",
-    )
-
-    qtof = VocabularyTerm(
-        code="QTOF",
-        label="Quadrupol-Time Of Flight",
-        description="""Quadrupol-Time Of Flight//Quadrupol-Time Of Flight""",
-    )
-
-    tof = VocabularyTerm(
-        code="TOF",
-        label="Time Of Flight",
-        description="""Time Of Flight//Time Of Flight""",
-    )
-
-    trap = VocabularyTerm(
-        code="TRAP",
-        label="Orbitrap",
-        description="""Orbitrap//Orbitrap""",
-    )
-
-
 class MaterialUsageTechnikum(VocabularyType):
     defs = VocabularyTypeDef(
         code="MATERIAL_USAGE_TECHNIKUM",

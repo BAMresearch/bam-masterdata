@@ -1709,32 +1709,6 @@ class Dls(ExperimentalStep):
     )
 
 
-class MsBatch(ExperimentalStep):
-    defs = ObjectTypeDef(
-        code="EXPERIMENTAL_STEP.MS_BATCH",
-        description="""MS sample batch with attached raw data//MS Proben-Batch mit verknüpften Rohdaten""",
-        generated_code_prefix="EXP.MSB",
-    )
-
-    ms_ionization_mode = PropertyTypeAssignment(
-        code="MS_IONIZATION_MODE",
-        data_type="VARCHAR",
-        property_label="Ionization mode",
-        description="""Ionization mode (pos/neg)//Ionisierung (pos/neg)""",
-        mandatory=False,
-        section="MS Information",
-    )
-
-    ms_hyphenation_method = PropertyTypeAssignment(
-        code="MS_HYPHENATION_METHOD",
-        data_type="VARCHAR",
-        property_label="Hyphenation method",
-        description="""Hyphenation (DI, LC, GC, CE)//Probeninjektion (DI, LC, GC, CE)""",
-        mandatory=False,
-        section="MS Information",
-    )
-
-
 class RmEthanol(ExperimentalStep):
     defs = ObjectTypeDef(
         code="EXPERIMENTAL_STEP.RM_ETHANOL",
