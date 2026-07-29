@@ -120,7 +120,7 @@ class DetectorType(VocabularyType):
 
     qtof = VocabularyTerm(
         code="QTOF",
-        label="QTOF",
+        label="Quadrupol-Time Of Flight Alternative",
         description="""Quadrupole Time-of-Flight Mass Spectrometer//Quadrupol-Flugzeit-Massenspektrometer""",
     )
 
@@ -137,9 +137,9 @@ class DetectorType(VocabularyType):
     )
 
     qtof_alt = VocabularyTerm(
-        code="QTOF",
-        label="Quadrupol-Time Of Flight",
-        description="""Quadrupol-Time Of Flight//Quadrupol-Time Of Flight""",
+        code="QTOF_ALT",
+        label="Quadrupol-Time Of Flight Alternative",
+        description="""Quadrupol-Time Of Flight Alternative//Quadrupol-Time Of Flight Alternative""",
     )
 
     tof = VocabularyTerm(
