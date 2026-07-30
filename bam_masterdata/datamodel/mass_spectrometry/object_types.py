@@ -172,3 +172,131 @@ class GcSystem(Instrument):
         mandatory=False,
         section="Technical Details",
     )
+
+
+class SIMS(ExperimentalStep):
+    defs = ObjectTypeDef(
+        code="EXPERIMENTAL_STEP.SIMS",
+        description="""Experimental step for a Time-of-Flight Secondary-Ion-Mass-Spectrometry (ToF-SIMS) analysis in spectrometry, depth profiling or imaging mode//Experimenteller Schritt für eine Time-of-Flight Sekundärionen-Massenspektrometrie (ToF-SIMS) Analyse im Spektrometrie-, Tiefenprofil- oder Imaging-Modus""",
+        generated_code_prefix="EXP.SIMS",
+    )
+
+    # TODO check if this property should be moved to the ExperimentalStep type
+    customer = PropertyTypeAssignment(
+        code="CUSTOMER",
+        data_type="VARCHAR",
+        property_label="Customer",
+        description="""Name of the person for whom the measurement is performed""",
+        mandatory=False,
+        section="General Information",
+    )
+
+    sims_lmig_setting = PropertyTypeAssignment(
+        code="SIMS_LMIG_SETTING",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="SIMS_LMIG_SETTING",
+        property_label="LMIG Setting",
+        description="""LMIG setting used for measurement""",
+        mandatory=False,
+        section="Experimental Settings",
+    )
+
+    sims_primary_ion = PropertyTypeAssignment(
+        code="SIMS_PRIMARY_ION",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="SIMS_PRIMARY_ION",
+        property_label="Primary Ion",
+        description="""Primary ion used for analysis""",
+        mandatory=False,
+        section="Experimental Settings",
+    )
+
+    sims_polarity = PropertyTypeAssignment(
+        code="SIMS_POLARITY",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="MS_ION_POLARITY",
+        property_label="Polarity",
+        description="""Polarity""",
+        mandatory=False,
+        section="Experimental Settings",
+    )
+
+    sims_lmig_voltage_dc = PropertyTypeAssignment(
+        code="SIMS_LMIG_VOLTAGE_DC",
+        data_type="REAL",
+        units="nA",
+        property_label="LMIG Voltage DC",
+        description="""LMIG Voltage direct current (DC) in nA""",
+        mandatory=False,
+        section="Experimental Settings",
+    )
+
+    sims_lmig_voltage_p = PropertyTypeAssignment(
+        code="SIMS_LMIG_VOLTAGE_P",
+        data_type="REAL",
+        units="pA",
+        property_label="LMIG Voltage P",
+        description="""LMIG Voltage pulsed (P) in pA""",
+        mandatory=False,
+        section="Experimental Settings",
+    )
+
+    sims_lmig_pulse_width = PropertyTypeAssignment(
+        code="SIMS_LMIG_PULSE_WIDTH",
+        data_type="REAL",
+        units="ns",
+        property_label="Primary ion beam pulse width",
+        description="""Primary ion beam pulse width in ns""",
+        mandatory=False,
+        section="Experimental Settings",
+    )
+
+    sims_lmig_raster_size = PropertyTypeAssignment(
+        code="SIMS_LMIG_RASTER_SIZE",
+        data_type="REAL",
+        units="µm",
+        property_label="Primary ion beam raster size",
+        description="""Primary ion beam raster size in µm""",
+        mandatory=False,
+        section="Experimental Settings",
+    )
+
+    sims_sputter_source = PropertyTypeAssignment(
+        code="SIMS_SPUTTER_SOURCE",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="SIMS_SPUTTER_SOURCE",
+        property_label="Sputter Source",
+        description="""Sputter Source""",
+        mandatory=False,
+        section="Experimental Settings",
+    )
+
+    sims_dsc_voltage = PropertyTypeAssignment(
+        code="SIMS_DSC_VOLTAGE",
+        data_type="REAL",
+        units="nA",
+        property_label="DSC Voltage",
+        description="""DSC Voltage in nA""",
+        mandatory=False,
+        section="Experimental Settings",
+    )
+
+    sims_dsc_raster_size = PropertyTypeAssignment(
+        code="SIMS_DSC_RASTER_SIZE",
+        data_type="REAL",
+        units="µm",
+        property_label="Secondary ion beam raster size",
+        description="""Secondary (Sputter) ion beam raster size in µm""",
+        mandatory=False,
+        section="Experimental Settings",
+    )
+
+    sims_charge_compensation = PropertyTypeAssignment(
+        code="SIMS_CHARGE_COMPENSATION",
+        data_type="REAL",
+        units="V",
+        property_label="Charge compensation",
+        description="""Charge compensation in V""",
+        mandatory=False,
+        section="Experimental Settings",
+    )
