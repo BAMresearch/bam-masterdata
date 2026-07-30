@@ -181,6 +181,7 @@ class SIMS(ExperimentalStep):
         generated_code_prefix="EXP.SIMS",
     )
 
+    # TODO check if this property should be moved to the ExperimentalStep type
     customer = PropertyTypeAssignment(
         code="CUSTOMER",
         data_type="VARCHAR",
