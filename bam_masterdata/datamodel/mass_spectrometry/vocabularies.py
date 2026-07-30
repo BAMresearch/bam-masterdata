@@ -264,3 +264,120 @@ class MassSpecType(VocabularyType):
         label="Orbitrap",
         description="""Orbitrap//Orbitrap""",
     )
+
+
+class SIMSPrimaryIon(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="SIMS_PRIMARY_ION",
+        description="""Type of Primary Ion""",
+    )
+
+    Bi1 = VocabularyTerm(
+        code="BI1",
+        label="Bi+",
+        description="""Bi+""",
+    )
+
+    Bi2 = VocabularyTerm(
+        code="BI2",
+        label="Bi2+",
+        description="""Bi2+""",
+    )
+
+    Bi3 = VocabularyTerm(
+        code="BI3",
+        label="Bi3+",
+        description="""Bi3+""",
+    )
+
+    Bi4 = VocabularyTerm(
+        code="BI4",
+        label="Bi4+",
+        description="""Bi4+""",
+    )
+
+    Bi5 = VocabularyTerm(
+        code="BI5",
+        label="Bi5+",
+        description="""Bi5+""",
+    )
+
+    Bi6 = VocabularyTerm(
+        code="BI6",
+        label="Bi6+",
+        description="""Bi6+""",
+    )
+
+    Bi7 = VocabularyTerm(
+        code="BI7",
+        label="Bi7+",
+        description="""Bi7+""",
+    )
+
+    Bi1pp = VocabularyTerm(
+        code="BI1PP",
+        label="Bi1++",
+        description="""Bi1++""",
+    )
+
+    Bi3pp = VocabularyTerm(
+        code="BI3PP",
+        label="Bi3++",
+        description="""Bi3++""",
+    )
+
+    Bi5pp = VocabularyTerm(
+        code="BI5PP",
+        label="Bi5++",
+        description="""Bi5++""",
+    )
+
+    Bi7pp = VocabularyTerm(
+        code="BI7PP",
+        label="Bi7++",
+        description="""Bi7++""",
+    )
+
+
+class SIMSLMIGSetting(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="SIMS_LMIG_SETTING",
+        description="""Type of LMIG Setting file""",
+    )
+
+    spectrometry = VocabularyTerm(
+        code="SPECTROMETRY",
+        label="Spectrometry",
+        description="""Spectrometry""",
+    )
+
+    fast_imaging = VocabularyTerm(
+        code="FAST_IMAGING",
+        label="Fast Imaging",
+        description="""Fast Imaging""",
+    )
+
+    ultimate_imaging = VocabularyTerm(
+        code="ULTIMATE_IMAGING",
+        label="Ultimate Imaging+",
+        description="""Ultimate Imaging""",
+    )
+
+
+class SIMSSputterSource(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="SIMS_SPUTTER_SOURCE",
+        description="""Sputter Source used""",
+    )
+
+    oxygen = VocabularyTerm(
+        code="OXYGEN",
+        label="O2",
+        description="""Oxygen""",
+    )
+
+    cesium = VocabularyTerm(
+        code="CESIUM",
+        label="Cs",
+        description="""Cesium""",
+    )
