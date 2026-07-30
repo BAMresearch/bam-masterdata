@@ -177,7 +177,7 @@ class GcSystem(Instrument):
 class SIMS(ExperimentalStep):
     defs = ObjectTypeDef(
         code="EXPERIMENTAL_STEP.SIMS",
-        description="""Experimental Step (ToF-SIMS)//Experimenteller Schritt (ToF-SIMS)""",
+        description="""Experimental step for a Time-of-Flight Secondary-Ion-Mass-Spectrometry (ToF-SIMS) analysis in spectrometry, depth profiling or imaging mode//Experimenteller Schritt für eine Time-of-Flight Sekundärionen-Massenspektrometrie (ToF-SIMS) Analyse im Spektrometrie-, Tiefenprofil- oder Imaging-Modus""",
         generated_code_prefix="EXP.SIMS",
     )
 
@@ -221,37 +221,31 @@ class SIMS(ExperimentalStep):
         section="Experimental Settings",
     )
 
-    sims_charge_compensation = PropertyTypeAssignment(
-        code="SIMS_CHARGE_COMPENSATION",
-        data_type="BOOLEAN",
-        property_label="Is there charge compensation?",
-        description="""Is there charge compensation being used?""",
-        mandatory=False,
-        section="Experimental Settings",
-    )
-
     sims_lmig_voltage_dc = PropertyTypeAssignment(
         code="SIMS_LMIG_VOLTAGE_DC",
-        data_type="VARCHAR",
+        data_type="REAL",
+        units="nA",
         property_label="LMIG Voltage DC",
-        description="""LMIG Voltage in nA, direct current (DC)""",
+        description="""LMIG Voltage direct current (DC) in nA""",
         mandatory=False,
         section="Experimental Settings",
     )
 
     sims_lmig_voltage_p = PropertyTypeAssignment(
         code="SIMS_LMIG_VOLTAGE_P",
-        data_type="VARCHAR",
+        data_type="REAL",
+        units="pA",
         property_label="LMIG Voltage P",
-        description="""LMIG Voltage in pA, pulsed (P)""",
+        description="""LMIG Voltage pulsed (P) in pA""",
         mandatory=False,
         section="Experimental Settings",
     )
 
     sims_lmig_pulse_width = PropertyTypeAssignment(
         code="SIMS_LMIG_PULSE_WIDTH",
-        data_type="VARCHAR",
-        property_label="Primary ion beam pulse width [ns]",
+        data_type="REAL",
+        units="ns",
+        property_label="Primary ion beam pulse width",
         description="""Primary ion beam pulse width in ns""",
         mandatory=False,
         section="Experimental Settings",
@@ -259,9 +253,10 @@ class SIMS(ExperimentalStep):
 
     sims_lmig_raster_size = PropertyTypeAssignment(
         code="SIMS_LMIG_RASTER_SIZE",
-        data_type="VARCHAR",
-        property_label="Primary ion beam raster size [µm]",
-        description="""Primary ion beam raster size [µm]""",
+        data_type="REAL",
+        units="µm",
+        property_label="Primary ion beam raster size",
+        description="""Primary ion beam raster size in µm""",
         mandatory=False,
         section="Experimental Settings",
     )
@@ -278,7 +273,8 @@ class SIMS(ExperimentalStep):
 
     sims_dsc_voltage = PropertyTypeAssignment(
         code="SIMS_DSC_VOLTAGE",
-        data_type="VARCHAR",
+        data_type="REAL",
+        units="nA",
         property_label="DSC Voltage",
         description="""DSC Voltage in nA""",
         mandatory=False,
@@ -287,9 +283,20 @@ class SIMS(ExperimentalStep):
 
     sims_dsc_raster_size = PropertyTypeAssignment(
         code="SIMS_DSC_RASTER_SIZE",
-        data_type="VARCHAR",
-        property_label="Secondary ion beam raster size [µm]",
-        description="""Secondary (Sputter) ion beam raster size [µm]""",
+        data_type="REAL",
+        units="µm",
+        property_label="Secondary ion beam raster size",
+        description="""Secondary (Sputter) ion beam raster size in µm""",
+        mandatory=False,
+        section="Experimental Settings",
+    )
+
+    sims_charge_compensation = PropertyTypeAssignment(
+        code="SIMS_CHARGE_COMPENSATION",
+        data_type="REAL",
+        units="V",
+        property_label="Charge compensation",
+        description="""Charge compensation in V""",
         mandatory=False,
         section="Experimental Settings",
     )
