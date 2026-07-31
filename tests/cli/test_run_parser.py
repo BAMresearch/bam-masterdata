@@ -1,6 +1,6 @@
 from unittest.mock import MagicMock
 
-from bam_masterdata.cli.run_parser import run_parser
+from bam_masterdata.cli.run_parser import run_parser, run_parser_with_transactions
 from bam_masterdata.logger import log_storage
 from tests.conftest import (
     TestParser,
@@ -12,7 +12,7 @@ from tests.conftest import (
 
 def test_run_parser_missing_openbis(cleared_log_storage):
     """Test that `run_parser` returns early if openbis is None"""
-    run_parser(
+    run_parser_with_transactions(
         openbis=None,
         space_name="TEST_SPACE",
         project_name="TEST_PROJECT",
@@ -20,14 +20,14 @@ def test_run_parser_missing_openbis(cleared_log_storage):
         files_parser={},
     )
     assert any(
-        "instance of Openbis must be provided" in log["event"]
+        "An instance of Openbis must be provided for the parser to run." in log["event"]
         for log in cleared_log_storage
     )
 
 
 def test_run_parser_missing_project_name(cleared_log_storage, mock_openbis):
     """Test that `run_parser` returns early if project_name is empty"""
-    run_parser(
+    run_parser_with_transactions(
         openbis=mock_openbis,
         space_name="TEST_SPACE",
         project_name="",
@@ -43,7 +43,7 @@ def test_run_parser_empty_files_parser(cleared_log_storage, mock_openbis):
     """Test that run_parser returns early if files_parser is empty"""
     log_storage.clear()
 
-    run_parser(
+    run_parser_with_transactions(
         openbis=mock_openbis,
         space_name="TEST_SPACE",
         project_name="TEST_PROJECT",
@@ -61,7 +61,7 @@ def test_run_parser_with_test_parser(cleared_log_storage, mock_openbis):
     """Test run_parser with `TestParser`."""
     file = "./tests/data/cli/test_parser.txt"
     files_parser = {TestParser(): [file]}
-    run_parser(
+    run_parser_with_transactions(
         openbis=mock_openbis,
         space_name="USERNAME_SPACE",
         project_name="TEST_PROJECT",
@@ -70,8 +70,15 @@ def test_run_parser_with_test_parser(cleared_log_storage, mock_openbis):
         collection_type="COLLECTION",
     )
 
+    assert mock_openbis.obj_transaction.commit.called
+    assert mock_openbis.rel_transaction.commit.called
+
+    assert mock_openbis.obj_transaction.add.call_count == 1
+
+    mock_openbis.obj_transaction.commit.assert_called_once()
+
     # Check that objects were created in openbis
-    assert len(mock_openbis._objects) == 1
+    assert len(mock_openbis.obj_transaction.objects) == 1
 
     # Check logs for success messages
     # logs = log_storage  # log_storage is already a list
@@ -100,7 +107,7 @@ def test_run_parser_with_object_reference(cleared_log_storage, mock_openbis):
 
     file = "./tests/data/cli/test_parser.txt"
     files_parser = {TestParserWithObjectReference(): [file]}
-    run_parser(
+    run_parser_with_transactions(
         openbis=mock_openbis,
         space_name="TEST_SPACE",
         project_name="TEST_PROJECT",
@@ -110,7 +117,7 @@ def test_run_parser_with_object_reference(cleared_log_storage, mock_openbis):
     )
 
     # Only 2 instruments are created (the person is referenced but not persisted)
-    assert len(mock_openbis._objects) == 2
+    assert len(mock_openbis.obj_transaction.objects) == 3
 
     # Check logs for success messages
     assert any("Added person object" in log["event"] for log in cleared_log_storage)
@@ -128,7 +135,7 @@ def test_run_parser_with_default_experiment_type(cleared_log_storage, mock_openb
     """Test run_parser with DEFAULT_EXPERIMENT collection type."""
     file = "./tests/data/cli/test_parser.txt"
     files_parser = {TestParser(): [file]}
-    run_parser(
+    run_parser_with_transactions(
         openbis=mock_openbis,
         space_name="USERNAME_SPACE",
         project_name="TEST_PROJECT",
@@ -149,7 +156,7 @@ def test_run_parser_defaults_to_collection_type(cleared_log_storage, mock_openbi
     file = "./tests/data/cli/test_parser.txt"
     files_parser = {TestParser(): [file]}
     # Call without specifying collection_type - should default to "COLLECTION"
-    run_parser(
+    run_parser_with_transactions(
         openbis=mock_openbis,
         space_name="USERNAME_SPACE",
         project_name="TEST_PROJECT",
@@ -164,4 +171,4 @@ def test_run_parser_defaults_to_collection_type(cleared_log_storage, mock_openbi
     assert any("Added test object" in log["event"] for log in cleared_log_storage)
 
 
-# TODO add other tests for the different situations in `run_parser()` and parsers from `conftest.py`
+# TODO add other tests for the different situations in `run_parser_with_transactions()` and parsers from `conftest.py`
