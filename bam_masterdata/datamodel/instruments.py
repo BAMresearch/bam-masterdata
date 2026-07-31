@@ -29,7 +29,7 @@ class Ellipsometer(Instrument):
 
     elli_spectral_range_lower = PropertyTypeAssignment(
         code="ELLI_SPECTRAL_RANGE_LOWER",
-        data_type="INTEGER",
+        data_type="FLOAT",
         property_label="Low end of spectral range",
         description="""Low end of spectral range//Spektralbereich kleinste Zahl""",
         mandatory=False,
@@ -38,7 +38,7 @@ class Ellipsometer(Instrument):
 
     elli_spectral_range_upper = PropertyTypeAssignment(
         code="ELLI_SPECTRAL_RANGE_UPPER",
-        data_type="INTEGER",
+        data_type="FLOAT",
         property_label="High end of spectral range",
         description="""High end of spectral range//Spektralbereich größte Zahl""",
         mandatory=False,
@@ -56,7 +56,7 @@ class Ellipsometer(Instrument):
 
     elli_aoi_range_lower = PropertyTypeAssignment(
         code="ELLI_AOI_RANGE_LOWER",
-        data_type="INTEGER",
+        data_type="FLOAT",
         property_label="Low end of angle of incidence (AOI) range",
         units="degrees",
         description="""Low end of angle of incidence (AOI) range//AOI Bereich kleinste Zahl""",
@@ -66,7 +66,7 @@ class Ellipsometer(Instrument):
 
     elli_aoi_range_upper = PropertyTypeAssignment(
         code="ELLI_AOI_RANGE_UPPER",
-        data_type="INTEGER",
+        data_type="FLOAT",
         property_label="High end of angle of incidence (AOI) range",
         units="degrees",
         description="""High end of angle of incidence (AOI) range//AOI Bereich größte Zahl""",
