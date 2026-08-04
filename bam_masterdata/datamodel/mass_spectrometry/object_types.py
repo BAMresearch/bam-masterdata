@@ -221,22 +221,22 @@ class SIMS(ExperimentalStep):
         section="Experimental Settings",
     )
 
-    sims_lmig_voltage_dc = PropertyTypeAssignment(
-        code="SIMS_LMIG_VOLTAGE_DC",
+    sims_lmig_current_dc = PropertyTypeAssignment(
+        code="SIMS_LMIG_CURRENT_DC",
         data_type="REAL",
         units="nA",
-        property_label="LMIG Voltage DC",
-        description="""LMIG Voltage direct current (DC) in nA""",
+        property_label="LMIG Current DC",
+        description="""LMIG Current direct current (DC) in nA""",
         mandatory=False,
         section="Experimental Settings",
     )
 
-    sims_lmig_voltage_p = PropertyTypeAssignment(
-        code="SIMS_LMIG_VOLTAGE_P",
+    sims_lmig_current_p = PropertyTypeAssignment(
+        code="SIMS_LMIG_CURRENT_P",
         data_type="REAL",
         units="pA",
-        property_label="LMIG Voltage P",
-        description="""LMIG Voltage pulsed (P) in pA""",
+        property_label="LMIG Current P",
+        description="""LMIG Current pulsed (P) in pA""",
         mandatory=False,
         section="Experimental Settings",
     )
@@ -274,9 +274,19 @@ class SIMS(ExperimentalStep):
     sims_dsc_voltage = PropertyTypeAssignment(
         code="SIMS_DSC_VOLTAGE",
         data_type="REAL",
-        units="nA",
+        units="kV",
         property_label="DSC Voltage",
-        description="""DSC Voltage in nA""",
+        description="""DSC Voltage in kV""",
+        mandatory=False,
+        section="Experimental Settings",
+    )
+
+    sims_dsc_current = PropertyTypeAssignment(
+        code="SIMS_DSC_CURRENT",
+        data_type="REAL",
+        units="nA",
+        property_label="DSC Current",
+        description="""DSC Current in nA""",
         mandatory=False,
         section="Experimental Settings",
     )
