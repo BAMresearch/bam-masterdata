@@ -98,6 +98,7 @@ This command converts Excel masterdata into Python `*_types.py` modules that can
 
 !!! note
     You can also export an existing model to Excel first (for templating/comparison) with:
+
     ```bash
     bam_masterdata export_to_excel --export-dir ./artifacts
     ```

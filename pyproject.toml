@@ -46,6 +46,7 @@ dev = [
   "pre-commit",
   "detect-secrets",
   "zensical>=0.0.41",
+  "mkdocstrings-python",
   "pymdown-extensions>=11.0.0",
 ]
 

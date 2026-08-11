@@ -60,7 +60,7 @@ requires-dist = [
     { name = "pre-commit", marker = "extra == 'dev'" },
     { name = "pybis", specifier = "~=1.37.4" },
     { name = "pydantic", specifier = ">=2.10,<3" },
-    { name = "pymdown-extensions", marker = "extra == 'dev'", specifier = ">=10.21.3" },
+    { name = "pymdown-extensions", marker = "extra == 'dev'", specifier = ">=11.0.0" },
     { name = "pytest", marker = "extra == 'dev'" },
     { name = "pytest-cov", marker = "extra == 'dev'" },
     { name = "pytest-timeout", marker = "extra == 'dev'" },

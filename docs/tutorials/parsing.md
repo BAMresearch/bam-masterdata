@@ -147,6 +147,7 @@ for obj_id, obj in test_collection.attached_objects.items():
 ```
 
 This will output something like:
+
 ```
 Objects added: 2
 EXP12345678: ExperimentalStep(name='Tensile Test 001', start_date=datetime.date(2024, 10, 15))
@@ -287,6 +288,7 @@ class ExperimentWithSamplesParser(AbstractParser):
 ```
 
 Example JSON file structure:
+
 ```json
 {
   "experiment_name": "Batch Processing 2024-10",
@@ -349,6 +351,7 @@ class SampleUpdateParser(AbstractParser):
 ```
 
 Example JSON for updating:
+
 ```json
 {
   "sample_name": "Updated Sample Name",

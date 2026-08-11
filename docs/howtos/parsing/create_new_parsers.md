@@ -14,11 +14,13 @@ This allows you to bring custom or third-party data sources into the existing ma
 1. Go to [masterdata-parser-example](https://github.com/BAMresearch/masterdata-parser-example).
 2. Either **fork** it (keep your own version) or **use it as a template** to start a new repository.
 3. Clone your fork/template locally:
+
     ```sh
     git clone [your repository link]
     ```
 4. Verify the folder structure includes `src/`, `tests/`, `pyproject.toml`, and `README.md`:
-    ```sh
+
+    ```text
     [your repo name]
     ├── LICENSE
     ├── pyproject.toml
@@ -48,6 +50,7 @@ This allows you to bring custom or third-party data sources into the existing ma
 ## Set up a Virtual Environment
 
 It is recommended to create a virtual environment named `.venv` (already included in `.gitignore`) to manage dependencies. In the terminal, do:
+
 ```sh
 cd [your repo name]
 ```
@@ -55,12 +58,14 @@ cd [your repo name]
 You have two options to create a virtual environment:
 
 1. Using venv
+
     ```sh
     python -m venv .venv
     source .venv/bin/activate  # on Linux/macOS
     .\.venv\Scripts\activate  # on Windows
     ```
 2. Using conda
+
     ```sh
     conda create --prefix .venv python=3.10
     conda activate .venv
@@ -78,6 +83,7 @@ You should see all tests passing before you start customizing.
 
 ??? tip "Faster pip installation"
     We recommend installing `uv` before installing the package by doing:
+
     ```sh
     pip install --upgrade pip
     pip install uv
@@ -119,6 +125,7 @@ For the purpose of this guide, we will rename everything using a ficticious code
 ## Add parser logic
 
 Open the `src/.../parser.py` file. After renaming your parser class to `SupercodeXParser`, you should have:
+
 ```python
 from bam_masterdata.datamodel.object_types import ExperimentalStep
 from bam_masterdata.parsing import AbstractParser
@@ -148,6 +155,7 @@ Optionally, you can add log messages (`info`, `warning`, `error`, or `critical`)
 ### Example
 
 As an example, imagine we are expecting to pass a `super.json` file to our `SupercodeXParser` to read certain metadata. The file contents are:
+
 ```json
 {
     "program_name": "SupercodeX",
@@ -161,6 +169,7 @@ We recommend moving files in which you are testing the parser to a `tests/data/`
 #### Step 1: Import necessary classes
 
 At the top of `parser.py`, ensure you import:
+
 ```python
 # Step 1: import necessary classes
 import json
@@ -310,10 +319,7 @@ You can have multiple scenarios when deciding if setting up `code` or not:
 
 ### Tips
 
-* Use the logger to provide useful messages during parsing, but bear in mind this can clutter the app if you plan to parse hundreds or more files.
-  ```python
-  logger.info("Parsing file XYZ")
-  ```
+* Use the logger to provide useful messages during parsing, but bear in mind this can clutter the app if you plan to parse hundreds or more files. For example, `logger.info("Parsing file XYZ")`.
 * Test your parser incrementally by adding one object at a time to the collection and verifying results. You can test this by modifying the `tests/test_parser.py` testing file.
 * When updating existing objects, log which objects are being updated to help with debugging and traceability.
 

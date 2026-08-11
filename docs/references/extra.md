@@ -120,7 +120,6 @@ The system supports several data types for properties:
 - `TIMESTAMP`: Date and time values
 - `CONTROLLEDVOCABULARY`: Values from controlled vocabularies
 - `XML`: Structured XML data
-```
 
 ## Configuration
 

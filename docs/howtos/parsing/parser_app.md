@@ -18,7 +18,7 @@ This how-to guide explains how to use the Parser App in your browser to upload f
     <div class="click-zoom">
         <label>
             <input type="checkbox">
-            <img src="../../../assets/parsing/LoginParserApp.jpg" alt="Login in the Parser App." width="50%" title="Click to zoom in">
+            <img src="../../assets/parsing/LoginParserApp.jpg" alt="Login in the Parser App." width="50%" title="Click to zoom in">
         </label>
     </div>
 
@@ -38,7 +38,7 @@ This how-to guide explains how to use the Parser App in your browser to upload f
 <div class="click-zoom">
     <label>
         <input type="checkbox">
-        <img src="../../../assets/parsing/Card1ParserApp.jpg" alt="Card 1 in the Parser App." width="50%" title="Click to zoom in">
+        <img src="../../assets/parsing/Card1ParserApp.jpg" alt="Card 1 in the Parser App." width="50%" title="Click to zoom in">
     </label>
 </div>
 
@@ -52,7 +52,7 @@ This how-to guide explains how to use the Parser App in your browser to upload f
 <div class="click-zoom">
     <label>
         <input type="checkbox">
-        <img src="../../../assets/parsing/Card2.jpg" alt="Card 2 in the Parser App." width="50%" title="Click to zoom in">
+        <img src="../../assets/parsing/Card2.jpg" alt="Card 2 in the Parser App." width="50%" title="Click to zoom in">
     </label>
 </div>
 
@@ -64,7 +64,7 @@ This how-to guide explains how to use the Parser App in your browser to upload f
 <div class="click-zoom">
     <label>
         <input type="checkbox">
-        <img src="../../../assets/parsing/Card3Logs.jpg" alt="Card 3 in the Parser App." width="50%" title="Click to zoom in">
+        <img src="../../assets/parsing/Card3Logs.jpg" alt="Card 3 in the Parser App." width="50%" title="Click to zoom in">
     </label>
 </div>
 
