@@ -40,7 +40,7 @@ instrument_id = collection.add(instrument)
 !!! warning "Object must have a code"
     When referencing an object instance, it **must** have a `code` attribute set. If not, you'll get a `ValueError`:
 
-    ```
+    ```sh
     ValueError: Object instance for 'responsible_person' must have a 'code' attribute set
     ```
 
@@ -76,6 +76,7 @@ You can mix both approaches in the same parser:
 ```python
 from bam_masterdata.parsing import AbstractParser
 from bam_masterdata.datamodel.object_types import Person, Instrument
+
 
 class InstrumentParser(AbstractParser):
     def parse(self, files, collection, logger):

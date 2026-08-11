@@ -30,6 +30,7 @@ The `bam-masterdata` provides you with tools to:
 ### Create an empty test directory
 
 We will test the basic functionalities of `bam-masterdata` in an empty directory. Open your terminal and type:
+
 ```bash
 mkdir test_bm
 cd test_bm/
@@ -40,12 +41,14 @@ cd test_bm/
 We strongly recommend using a virtual environment to avoid conflicts with other packages.
 
 **Using venv:**
+
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 ```
 
 **Using conda:**
+
 ```bash
 conda create --name .venv python=3.10  # or any version 3.10 <= python <= 3.12
 conda activate .venv
@@ -54,6 +57,7 @@ conda activate .venv
 ### Install the Package
 
 `bam-masterdata` is part of the PyPI registry and can be installed via pip:
+
 ```bash
 pip install --upgrade pip
 pip install bam-masterdata
@@ -61,6 +65,7 @@ pip install bam-masterdata
 
 !!! tip "Faster Installation"
     For faster installation, you can use [`uv`](https://docs.astral.sh/uv/):
+
     ```bash
     pip install uv
     uv pip install bam-masterdata
@@ -69,14 +74,16 @@ pip install bam-masterdata
 ### Verify Installation
 
 You can verify that the installation was successful. Open a Python script and write:
+
 ```python
 from importlib.metadata import version
 
 
-print(f"BAM Masterdata version: {version("bam_masterdata")}")
+print(f"BAM Masterdata version: {version('bam_masterdata')}")
 ```
 
 And running in your terminal:
+
 ```bash
 python <path-to-Python-script>
 ```
@@ -108,6 +115,7 @@ The central ingredients for defining data models associated with a research acti
 
 All accessible object types are defined as Python classes in [`bam_masterdata/datamodel/object_types.py`](https://github.com/BAMresearch/bam-masterdata/tree/main/bam_masterdata/datamodel/object_types.py).
 Each object type has a set of assigned properties (metadata fields), some of which are **mandatory** and some are **optional**. For example:
+
 ```python
 class Chemical(ObjectType):
     defs = ObjectTypeDef(
@@ -159,6 +167,7 @@ print(step) # prints the object type and its assigned properties
 ```
 
 This will print:
+
 ```bash
 SEM measurement:ExperimentalStep(name="SEM measurement", finished_flag=True)
 ```
@@ -169,16 +178,21 @@ You can assign values to other properties after instantiation as well:
 step.show_in_project_overview = True
 print(step)
 ```
+
 This will print:
+
 ```bash
 SEM measurement:ExperimentalStep(name="SEM measurement", show_in_project_overview=True, finished_flag=True)
 ```
 
 If the type of the property does not match the expected type, an error will be shown. For example, `ExperimentalStep.show_in_project_overview` is a boolean, hence:
+
 ```python
 step.show_in_project_overview = 2
 ```
+
 will return:
+
 ```bash
 TypeError: Invalid type for 'show_in_project_overview': Expected bool, got int
 ```
@@ -193,7 +207,9 @@ from bam_masterdata.datamodel.object_types import ExperimentalStep
 step = ExperimentalStep()
 print(list(step._property_metadata.keys()))
 ```
+
 will return:
+
 ```bash
 ['name', 'show_in_project_overview', 'finished_flag', 'start_date', ...]
 ```
@@ -222,18 +238,22 @@ The data types for each assigned property are defined according to openBIS. Thes
 ## Working with controlled vocabularies
 
 Many object types have fields that only accept certain values (controlled vocabularies). Use the value codes found in [bam_masterdata/datamodel/vocabulary_types.py](https://github.com/BAMresearch/bam-masterdata/blob/main/bam_masterdata/datamodel/vocabulary_types.py) or check the class directly:
+
 ```python
 from bam_masterdata.datamodel.vocabulary_types import StorageValidationLevel
 
 
 print([term.code for term in StorageValidationLevel().terms])
 ```
+
 will return:
+
 ```bash
 ['BOX', 'BOX_POSITION', 'RACK']
 ```
 
 Thus we can assign only:
+
 ```python
 from bam_masterdata.datamodel.object_types import Storage
 
@@ -327,6 +347,7 @@ collection.add(instrument2)
 
 Most usecases end with saving the Object Types and their field values in a colletion for further use.
 This can be done by adding those Object Types in a `CollectionType` like:
+
 ```python
 from bam_masterdata.metadata.entities import CollectionType
 from bam_masterdata.datamodel.object_types import ExperimentalStep
@@ -340,11 +361,13 @@ print(collection)
 ```
 
 This will return the `CollectionType` with the attached objects:
+
 ```bash
 CollectionType(attached_objects={'EXP8f78245b': ExperimentalStep(name='Step 1')}, relationships={})
 ```
 
 You can also add relationships between objects by using their ids when attached to the `CollectionType`:
+
 ```python
 from bam_masterdata.metadata.entities import CollectionType
 from bam_masterdata.datamodel.object_types import ExperimentalStep
@@ -359,7 +382,9 @@ step_2_id = collection.add(step_2)
 _ = collection.add_relationship(parent_id=step_1_id, child_id=step_2_id)
 print(collection)
 ```
+
 will return:
+
 ```bash
 CollectionType(attached_objects={'EXP3e6f674e': ExperimentalStep(name='Step 1'), 'EXP87b64b62': ExperimentalStep(name='Step 2')}, relationships={'EXP3e6f674e>>EXP87b64b62': ('EXP3e6f674e', 'EXP87b64b62')})
 ```
@@ -372,6 +397,7 @@ The package supports various export formats for working with Object Types. These
 - Exporting the data model: this is done using the methods `to_<format()>`.
 
 For example:
+
 ```python
 # Convert data model to dictionary
 step_dict = step.to_dict()
@@ -406,10 +432,13 @@ bam_masterdata fill_masterdata
 ```
 
 A comprehensive explanation of all options can be found in the terminal when adding the `--help` flag at the end of the command. For example:
+
 ```bash
 bam_masterdata export_to_json --help
 ```
+
 will produce:
+
 ```sh
 Usage: bam_masterdata export_to_json [OPTIONS]
 

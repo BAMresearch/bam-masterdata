@@ -2,6 +2,7 @@
 site_name = "BAM Masterdata"
 site_description = "Documentation page for the BAM Masterdata."
 site_author = "BAM Data Store"
+site_url = "https://bamresearch.github.io/bam-masterdata/"
 
 copyright = """
 Copyright &copy; 2026 BAM Data Store
@@ -41,7 +42,6 @@ extra_css = [
 extra_javascript = [
   "https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js",
   "https://unpkg.com/cytoscape@3.19.1/dist/cytoscape.min.js",
-  "https://unpkg.com/mermaid@10.9.0/dist/mermaid.min.js",
 ]
 
 [project.theme]
@@ -109,3 +109,5 @@ pygments_lang_class = true
 name = "mermaid"
 class = "mermaid"
 format = "pymdownx.superfences.fence_code_format"
+
+[project.plugins.mkdocstrings.handlers.python]
