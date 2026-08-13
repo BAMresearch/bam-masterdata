@@ -5412,8 +5412,8 @@ class MatSimStructure(ObjectType):
     sim_cell_angles_in_deg = PropertyTypeAssignment(
         code="SIM_CELL_ANGLES_IN_DEG",
         data_type="VARCHAR",
-        property_label="Simulation Cell Angles [Degrees]",
-        description="""Simulation cell angles [Degrees]//Winkel der Simulationszelle [Grad]""",
+        property_label="Simulation Cell Angles [degrees]",
+        description="""Simulation cell angles [degrees]//Winkel der Simulationszelle [Grad]""",
         mandatory=False,
         section="Simulation Information",
     )
@@ -5764,8 +5764,8 @@ class Steel(ObjectType):
     raw_mat_amount_in_stock = PropertyTypeAssignment(
         code="RAW_MAT_AMOUNT_IN_STOCK",
         data_type="INTEGER",
-        property_label="Amount in Stock [Pieces]",
-        description="""Amount in Stock [Pieces]//Anzahl auf Lager [Stück]""",
+        property_label="Amount in Stock [count]",
+        description="""Amount in Stock [count]//Anzahl auf Lager [Stück]""",
         mandatory=False,
         section="Stock",
     )
@@ -6103,8 +6103,8 @@ class Aluminium(ObjectType):
     raw_mat_amount_in_stock = PropertyTypeAssignment(
         code="RAW_MAT_AMOUNT_IN_STOCK",
         data_type="INTEGER",
-        property_label="Amount in Stock [Pieces]",
-        description="""Amount in Stock [Pieces]//Anzahl auf Lager [Stück]""",
+        property_label="Amount in Stock [count]",
+        description="""Amount in Stock [count]//Anzahl auf Lager [Stück]""",
         mandatory=False,
         section="Stock",
     )
@@ -8139,8 +8139,8 @@ class Crystal(MatSimStructure):
     lattice_angalpha_in_deg = PropertyTypeAssignment(
         code="LATTICE_ANGALPHA_IN_DEG",
         data_type="REAL",
-        property_label="Lattice Angle (alpha) [Degrees]",
-        description="""Lattice angle (alpha) [Degrees]//Gitterwinkel (alpha) [Grad]""",
+        property_label="Lattice Angle (alpha) [degrees]",
+        description="""Lattice angle (alpha) [degrees]//Gitterwinkel (alpha) [Grad]""",
         mandatory=False,
         section="Material Information",
     )
@@ -8148,8 +8148,8 @@ class Crystal(MatSimStructure):
     lattice_angbeta_in_deg = PropertyTypeAssignment(
         code="LATTICE_ANGBETA_IN_DEG",
         data_type="REAL",
-        property_label="Lattice Angle (beta) [Degrees]",
-        description="""Lattice angle (beta) [Degrees]//Gitterwinkel (beta) [Grad]""",
+        property_label="Lattice Angle (beta) [degrees]",
+        description="""Lattice angle (beta) [degrees]//Gitterwinkel (beta) [Grad]""",
         mandatory=False,
         section="Material Information",
     )
@@ -8157,8 +8157,8 @@ class Crystal(MatSimStructure):
     lattice_anggamma_in_deg = PropertyTypeAssignment(
         code="LATTICE_ANGGAMMA_IN_DEG",
         data_type="REAL",
-        property_label="Lattice Angle (gamma) [Degrees]",
-        description="""Lattice angle (gamma) [Degrees]//Gitterwinkel (gamma) [Grad]""",
+        property_label="Lattice Angle (gamma) [degrees]",
+        description="""Lattice angle (gamma) [degrees]//Gitterwinkel (gamma) [Grad]""",
         mandatory=False,
         section="Material Information",
     )
