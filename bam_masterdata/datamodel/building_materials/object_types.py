@@ -1,6 +1,5 @@
 from bam_masterdata.datamodel.object_types import Sample
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
-from bam_masterdata.metadata.entities import ObjectType
 
 
 class BuildingMaterialsSpecimen(Sample):
