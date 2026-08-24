@@ -732,16 +732,21 @@ class ObjectType(BaseEntity):
             raise ValueError(
                 f"Property '{key}' of type CONTROLLEDVOCABULARY must have a vocabulary_code defined."
             )
-        vocab_path = None
+        vocab_paths = []
         for file in listdir_py_modules(DATAMODEL_DIR):
-            if "vocabulary_types.py" in file:
-                vocab_path = file
-                break
-        if vocab_path is None:
+            if "vocabulary_types.py" in file or "vocabularies.py" in file:
+                vocab_paths.append(file)
+        if not vocab_paths:
             raise FileNotFoundError(
-                f"The file 'vocabulary_types.py' was not found in the directory specified by {DATAMODEL_DIR}."
+                f"No file 'vocabularies.py' was not found in the directory and sub-directories specified by {DATAMODEL_DIR}."
             )
-        vocabulary_class = self.get_vocabulary_class(vocabulary_code, vocab_path)
+
+        # Scan all vocabularies.py files
+        vocabulary_class = None
+        for vocab_path in vocab_paths:
+            vocabulary_class = self.get_vocabulary_class(vocabulary_code, vocab_path)
+            if vocabulary_class is not None:
+                break
         if vocabulary_class is None:
             raise ValueError(
                 f"No matching vocabulary class found for vocabulary_code '{vocabulary_code}'."
