@@ -33,9 +33,6 @@ class RunParsers:
             files_parser (dict[AbstractParser, list[str]]): A dictionary mapping parsers to lists of file paths. Defaults to {}.
             logger (_type_, optional): The logger instance. Defaults to logger.
             collection_type (str, optional): The type of the collection. Defaults to "COLLECTION".
-
-        Returns:
-            _type_: _description_
         """
         if openbis is None:
             logger.error(
