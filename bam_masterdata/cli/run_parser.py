@@ -1,3 +1,5 @@
+from collections import Counter
+
 from pybis import Openbis
 
 from bam_masterdata.logger import logger
@@ -21,149 +23,199 @@ class RunParsers:
         collection_type: str = "COLLECTION",
         **kwargs,
     ):
-        """
-        Initialize the RunParsers class.
+        """Class to run parsers and create objects in openBIS.
+
+        Args:
+            openbis (Openbis | None, optional): The instance of openBIS. Defaults to None.
+            space_name (str): The name of the space in openBIS. Defaults to "".
+            project_name (str): The name of the project to create or get. Defaults to "PROJECT".
+            collection_name (str, optional): The name of the collection to create or get. Defaults to "".
+            files_parser (dict[AbstractParser, list[str]]): A dictionary mapping parsers to lists of file paths. Defaults to {}.
+            logger (_type_, optional): The logger instance. Defaults to logger.
+            collection_type (str, optional): The type of the collection. Defaults to "COLLECTION".
+
+        Returns:
+            _type_: _description_
         """
         if openbis is None:
             logger.error(
                 "An instance of Openbis must be provided for the parser to run."
             )
-            raise ValueError(
-                "An instance of Openbis must be provided for the parser to run."
-            )
+            return None
         # Ensure the space, project, and collection are set
+        if not space_name:
+            logger.error("The Space name must be specified for the parser to run.")
+            return None
         if not project_name:
             logger.error("The Project name must be specified for the parser to run.")
-            raise ValueError(
-                "The Project name must be specified for the parser to run."
-            )
+            return None
         # Ensure the files_parser is not empty
         if not files_parser:
             logger.error(
                 "No files or parsers to parse. Please provide valid file paths or contact an Admin to add missing parser."
             )
-            raise ValueError(
-                "No files or parsers to parse. Please provide valid file paths or contact an Admin to add missing parser."
-            )
+            return None
         # Ensure collection_type is valid
         if collection_type not in ["COLLECTION", "DEFAULT_EXPERIMENT"]:
             logger.error(
                 f"Invalid collection_type '{collection_type}'. Must be either 'COLLECTION' or 'DEFAULT_EXPERIMENT'."
             )
-            raise ValueError(
-                "Invalid collection_type. Must be either 'COLLECTION' or 'DEFAULT_EXPERIMENT'."
-            )
-        self.space_name = space_name
+            return None
+
         self.logger = logger
         self.openbis = openbis
-        self.project_name = project_name
         self.collection_name = collection_name
-        self.collection_type = collection_type
         self.files_parser = files_parser
-        self._openbis_init()
-        self.parsing()
+        self._openbis_init(space_name, project_name, collection_name, collection_type)
 
-    def _openbis_init(self):
-        self._openbis_space()
-        self._openbis_project()
-        self._openbis_collection()
-        self._bam_masterdata_collection()
+    def _openbis_init(self, space_name, project_name, collection_name, collection_type):
+        self.space = self._get_space(space_name)
+        self.project = self._get_project(project_name)
+        self.collection_openbis = self._get_collection(
+            collection_name, space_name, project_name, collection_type
+        )
+        self.collection = CollectionType()
 
-    def _openbis_space(self):
+    def _get_space(self, space_name: str):
+        """
+        Gets the OpenBis space.
+
+        Args:
+            space_name (str): The name of the space in openBIS. Defaults to "".
+
+        Returns:
+            Space: The retrieved space.
+        """
+        space = None
         try:
-            self.space = self.openbis.get_space(self.space_name)
+            space = self.openbis.get_space(space_name)
         except Exception:
-            self.space = None
-        # If space is not found, use the user space
-        if self.space is None:
-            # user name as default space
-            for s in self.openbis.get_spaces():
-                if s.code.endswith(self.openbis.username.upper()):
-                    self.space = s
+            pass
+
+        if space is None:
+            username = self.openbis.username.upper()
+            for openbis_space in self.openbis.get_spaces():
+                if openbis_space.code.endswith(username):
                     self.logger.warning(
-                        f"Space {self.space_name} does not exist in openBIS. "
-                        f"Loading space for {self.openbis.username}."
+                        f"No space specified, using default space: {openbis_space.code}"
                     )
-                    break
-            # no space found
-            if self.space is None:
-                self.logger.error(
-                    f"No usable Space for {self.openbis.username} in openBIS. Please create it first or notify an Admin."
-                )
-                raise ValueError(
-                    f"No usable Space for {self.openbis.username} in openBIS. Please create it first or notify an Admin."
-                )
+                    return space
 
-    def _openbis_project(self):
-        # Get project if `project_name` already exists under the space or create a new one if it does not
-        if self.project_name.upper() in [p.code for p in self.space.get_projects()]:
-            self.project = self.space.get_project(self.project_name)
-        else:
-            self.logger.info("Replacing project code with uppercase and underscores.")
-            self.project = self.space.new_project(
-                code=self.project_name.replace(" ", "_").upper(),
-                description="New project created via automated parsing with `bam_masterdata`.",
+            self.logger.error(
+                "No usable space for the user found. Please specify a valid space."
             )
-        self.project.save()
+        return space
 
-    def _openbis_collection(self):
+    def _get_project(self, project_name: str):
+        """
+        Gets or creates a project in the specified space.
+
+        Args:
+            project_name (str): The name of the project to create or get.
+
+        Returns:
+            Project: The created or retrieved project.
+        """
+        project = None
+        # Get project if `project_name` already exists under the space or create a new one if it does not
+        try:
+            project = self.space.get_project(project_name)
+        except Exception:
+            pass
+        if project is None:
+            self.logger.info(
+                f"Project {project_name} not found. Creating a new project."
+            )
+            project = self.space.new_project(
+                code=project_name.replace(" ", "_").upper(),
+                description=f"New project named {project_name.replace(' ', '_').upper()} created via automated parsing with `bam_masterdata`.",
+            )
+            project.save()
+            return project
+        return project
+
+    def _get_collection(
+        self,
+        collection_name: str,
+        space_name: str,
+        project_name: str,
+        collection_type: str = "COLLECTION",
+    ):
+        """
+        Creates or gets the OpenBis collection or defaults to the project if no collection name is provided.
+
+        Args:
+            collection_name (str): The name of the collection to create or get.
+            space_name (str): The name of the space in openBIS. Defaults to "".
+            project_name (str): The name of the project in openBIS. Defaults to "".
+            collection_type (str, optional): The type of the collection. Defaults to "COLLECTION".
+
+        Returns:
+            collection/project: The created or retrieved collection or the project.
+        """
         # Create a new pybis `COLLECTION` to store the generated objects
+        collection = None
         if not self.collection_name:
             self.logger.info(
                 "No Collection name specified. Attaching objects directly to Project."
             )
-            self.collection_openbis = self.project
+            if self.project is None:
+                self.logger.error(
+                    "Project not found. Cannot attach objects directly to Project."
+                )
+                return collection
+            collection = self.project
+            return collection
         else:
             if self.collection_name.upper() in [
                 c.code for c in self.project.get_collections()
             ]:
-                self.collection_openbis = self.space.get_collection(
-                    f"/{self.space_name}/{self.project_name}/{self.collection_name}".upper()
+                collection = self.space.get_collection(
+                    f"/{space_name}/{project_name}/{collection_name}".upper()
                 )
+                return collection
             else:
-                self.logger.info(
-                    "Replacing collection code with uppercase and underscores."
-                )
-                self.collection_openbis = self.openbis.new_collection(
-                    code=self.collection_name.replace(" ", "_").upper(),
-                    type=self.collection_type,
+                self.logger.info("Creating new collection.")
+                collection = self.openbis.new_collection(
+                    code=collection_name.replace(" ", "_").upper(),
+                    type=collection_type,
                     project=self.project,
                 )
-            self.collection_openbis.save()
-
-    def _bam_masterdata_collection(self):
-        # Create a bam_masterdata CollectionType instance for storing parsed results
-        self.collection = CollectionType()
+            collection.save()
+            return collection
 
     def parsing(self):
-        # Iterate over each parser and its associated files and store them in `collection`
+        """
+        Runs the Parser specific parsing function the linked files.
+
+        Returns:
+            collection: The collection containing the parsed objects.
+        """
         for parser, files in self.files_parser.items():
             parser.parse(files, self.collection, logger=self.logger)
 
-        return self.collection, self.space, self.project, self.collection_openbis
+        return self.collection
 
-    def _make_unique_code(self, code: str, seen_codes: dict) -> str:
+    def _make_unique_code(self, code: str, seen_codes: Counter) -> str:
         """
         Generate a unique code by appending a duplicate counter if the code has already been seen.
 
         Args:
             code (str): The original code to make unique.
-            seen_codes (dict): A dictionary tracking codes and their occurrence counts.
+            seen_codes (Counter): A counter tracking codes and their occurrence counts.
 
         Returns:
             str: The unique code, either the original code or the code with a duplicate suffix.
         """
-        if code not in seen_codes:
-            seen_codes[code] = 0
+        seen_codes[code] += 1
+
+        if seen_codes[code] == 1:
             return code
 
-        seen_codes[code] += 1
-        return f"{code}__dup{seen_codes[code]}"
+        return f"{code}__dup{seen_codes[code] - 1}"
 
     def _get_entity(
         self,
-        openbis,
-        openbis_id_map: dict[str, str],
         obj: str | dict,
         object_role: str,
     ):
@@ -182,32 +234,23 @@ class RunParsers:
 
         if isinstance(obj, dict):
             try:
-                return openbis.get_object(**obj)
+                return self.openbis.get_object(**obj)
             except Exception as e:
                 self.logger.warning(
                     f"Error occurred while fetching {object_role} object: {e}"
                 )
-                raise
+                return None
 
-        identifier = openbis_id_map[obj]
-        return openbis.get_object(identifier)
+        identifier = self.openbis_id_map[obj]
+        return self.openbis.get_object(identifier)
 
     def _load_object_props(self, object_id, object_instance):
         """
         Load and map object properties, resolving OBJECT type references to openBIS identifiers.
 
         Args:
-            object_id: The local identifier of the object.
-            object_instance: The ObjectType instance containing properties to load.
-            openbis: An instance of the Openbis class from pyBIS.
-            collection: The CollectionType instance managing parsed results.
-            openbis_id_map (dict): A mapping from local object IDs to openBIS identifiers.
-            collection_name (str): The name of the collection in openBIS.
-            space_name (str): The name of the space in openBIS.
-            project_name (str): The name of the project in openBIS.
-
-        Returns:
-            dict: A dictionary of object properties with resolved references.
+            object_id: The internal ID of the object.
+            object_instance: The object instance containing properties.
         """
         # Map PropertyTypeAssignment to pybis props dictionary
         obj_props = {}
@@ -250,10 +293,10 @@ class RunParsers:
                         # Assume it's in the same space/project as the current object
                         if not self.collection.name:
                             referenced_identifier = (
-                                f"/{self.space_name}/{self.project_name}/{value.code}"
+                                f"/{self.space.code}/{self.project.code}/{value.code}"
                             )
                         else:
-                            referenced_identifier = f"/{self.space_name}/{self.project_name}/{self.collection.name}/{value.code}"
+                            referenced_identifier = f"/{self.space.code}/{self.project.code}/{self.collection.name}/{value.code}"
                     obj_props[property_metadata.code.lower()] = referenced_identifier
                 else:
                     # Unexpected type, skip
@@ -268,6 +311,16 @@ class RunParsers:
         return obj_props
 
     def _get_relationships(self, parent, child):
+        """
+        Links object to referenced objects or new ones.
+
+        Args:
+            parent (object | dict): Parent object or identifier.
+            child (object | dict): Child object or identifier.
+
+        Returns:
+            Tuple[Optional[object], Optional[object]]: A tuple containing the parent and child objects, or None for either if not found.
+        """
         if (
             not isinstance(parent, dict)
             and not isinstance(child, dict)
@@ -279,14 +332,10 @@ class RunParsers:
             )
             pass
         parent_obj = self._get_entity(
-            self.openbis,
-            self.openbis_id_map,
             parent,
             "parent",
         )
         child_obj = self._get_entity(
-            self.openbis,
-            self.openbis_id_map,
             child,
             "child",
         )
@@ -296,6 +345,9 @@ class RunParsers:
         return parent_obj, child_obj
 
     def _attach_datasets(self):
+        """
+        Attaches files to the collection/project in openBIS for each parser and its associated files.
+        """
         for files in self.files_parser.values():
             try:
                 if not self.collection_name:
@@ -316,10 +368,17 @@ class RunParsers:
                 logger.warning(f"Error uploading files {files} to openBIS: {e}")
                 continue
             logger.info(
-                f"Files uploaded to openBIS collection {self.collection_openbis.name}."
+                f"Files uploaded to openBIS collection {self.collection_openbis.code}."
             )
 
     def _save_datasets(self, object_instance, identifier):
+        """
+        Saves attached dataset to objects.
+
+        Args:
+            object_instance: Object from collection
+            identifier (str): Identifier of the object in openBIS to which the dataset should be attached.
+        """
         try:
             if object_instance.datasets != []:
                 attached_datasets = self.openbis.new_dataset(
@@ -337,6 +396,15 @@ class RunParsers:
             )
 
     def _identifier(self, object_instance):
+        """
+        Checks for duplicate local codes and generates a unique identifier for the object in openBIS.
+
+        Args:
+            object_instance : The object instance for which to generate an identifier.
+
+        Returns:
+            identifier (str): The unique identifier for the object in openBIS, ensuring no duplicates.
+        """
         original_code = object_instance.code
         unique_code = self._make_unique_code(original_code, self.code_counter)
         if unique_code != original_code:
@@ -345,15 +413,21 @@ class RunParsers:
             )
             object_instance.code = unique_code  # Update the code in the object instance
         identifier = (
-            f"/{self.space_name}/{self.project_name}/{unique_code}"
+            f"/{self.space.code}/{self.project.code}/{unique_code}"
             if not self.collection_name
-            else f"/{self.space_name}/{self.project_name}/{self.collection_name}/{unique_code}"
+            else f"/{self.space.code}/{self.project.code}/{self.collection_name}/{unique_code}"
         )
         return identifier
 
     def run(self):
+        """
+        1. Uploads each object in the collection
+        2. Attaches datasets to the objects if any are attached
+        3. Creates relationships between objects in the collection based on the relationships defined in the collection
+        """
+        self.parsing()
         self.openbis_id_map = {}
-        self.code_counter = {}
+        self.code_counter = Counter()
         for object_id, object_instance in self.collection.attached_objects.items():
             obj_props = self._load_object_props(
                 object_id,
@@ -363,32 +437,20 @@ class RunParsers:
 
             # Check if object already exists in openBIS, and if so, notify and get for updating properties
             if not object_instance.code:
-                if not self.collection.name:
-                    object_openbis = self.openbis.new_object(
-                        type=object_instance.defs.code,
-                        space=self.space,
-                        project=self.project,
-                        props=obj_props,
-                    )
-                else:
-                    object_openbis = self.openbis.new_object(
-                        type=object_instance.defs.code,
-                        space=self.space,
-                        project=self.project,
-                        collection=self.collection_openbis,
-                        props=obj_props,
-                    )
-                object_openbis.save()
+                logger.warning(
+                    f"Object with code {object_instance.code} has no code, skipping creation in openBIS."
+                )
+                continue
             else:
                 try:
                     object_openbis = self.openbis.get_object(identifier)
-                    object_openbis.set_props(obj_props)  # update properties
                     logger.info(
                         f"Object {identifier} already exists in openBIS, updating properties."
                     )
+                    object_openbis.set_props(obj_props)  # update properties
                 except Exception:
                     logger.info(
-                        f"Object with code {object_instance.code} does not exist in openBIS, creating new one."
+                        f"Creating new Object with code {object_instance.code}."
                     )
                     if not self.collection_name:
                         object_openbis = self.openbis.new_object(
@@ -440,6 +502,9 @@ class RunParsersWithTransactions(RunParsers):
         collection_type: str = "COLLECTION",
         **kwargs,
     ):
+        """
+        Same as RunParsers but uses transactions for object and relationship creation in openBIS.
+        """
         super().__init__(
             openbis,
             space_name,
@@ -454,8 +519,9 @@ class RunParsersWithTransactions(RunParsers):
         self.obj_transaction = self.openbis.new_transaction()
 
     def run(self):
+        self.parsing()
         self.openbis_id_map = {}
-        self.code_counter = {}
+        self.code_counter = Counter()
 
         for object_id, object_instance in self.collection.attached_objects.items():
             obj_props = self._load_object_props(
@@ -466,13 +532,13 @@ class RunParsersWithTransactions(RunParsers):
             identifier = self._identifier(object_instance)
 
             try:
-                object = self.openbis.get_object(identifier)
+                object_openbis = self.openbis.get_object(identifier)
             except Exception:
-                object = None
+                object_openbis = None
             # if object exists branch in updating
 
-            if object:
-                obj = object
+            if object_openbis is not None:
+                obj = object_openbis
                 obj.set_props(obj_props)
                 self.obj_transaction.add(obj)
                 self.logger.info(f"{identifier} will be UPDATED in transaction")
