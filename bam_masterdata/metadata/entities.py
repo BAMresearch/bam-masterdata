@@ -846,7 +846,7 @@ class ObjectType(BaseEntity):
         module = import_module(vocab_path)
         vocabulary_class = None
         for name, obj in inspect.getmembers(module, inspect.isclass):
-            if name == code_to_class_name(vocabulary_code):
+            if obj.defs.code == vocabulary_code:
                 vocabulary_class = obj()
                 break
 
