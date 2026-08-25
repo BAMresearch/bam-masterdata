@@ -191,12 +191,11 @@ class SIMS(ExperimentalStep):
         section="General Information",
     )
 
-    sims_lmig_setting = PropertyTypeAssignment(
-        code="SIMS_LMIG_SETTING",
-        data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="SIMS_LMIG_SETTING",
-        property_label="LMIG Setting",
-        description="""LMIG setting used for measurement""",
+    sims_mode = PropertyTypeAssignment(
+        code="SIMS_MODE",
+        data_type="VARCHAR",
+        property_label="SIMS Mode",
+        description="""Was the measurement done in Imaging, Profiling or Spectrometry mode?""",
         mandatory=False,
         section="Experimental Settings",
     )

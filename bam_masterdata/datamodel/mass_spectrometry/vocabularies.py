@@ -339,31 +339,6 @@ class SIMSPrimaryIon(VocabularyType):
     )
 
 
-class SIMSLMIGSetting(VocabularyType):
-    defs = VocabularyTypeDef(
-        code="SIMS_LMIG_SETTING",
-        description="""Type of LMIG Setting file""",
-    )
-
-    spectrometry = VocabularyTerm(
-        code="SPECTROMETRY",
-        label="Spectrometry",
-        description="""Spectrometry""",
-    )
-
-    fast_imaging = VocabularyTerm(
-        code="FAST_IMAGING",
-        label="Fast Imaging",
-        description="""Fast Imaging""",
-    )
-
-    ultimate_imaging = VocabularyTerm(
-        code="ULTIMATE_IMAGING",
-        label="Ultimate Imaging+",
-        description="""Ultimate Imaging""",
-    )
-
-
 class SIMSSputterSource(VocabularyType):
     defs = VocabularyTypeDef(
         code="SIMS_SPUTTER_SOURCE",
