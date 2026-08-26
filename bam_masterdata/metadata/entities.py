@@ -1023,6 +1023,13 @@ class ObjectType(BaseEntity):
         return prop.data_type.value
 
     def _create_object_type(self, openbis: "Openbis", result: SyncResult) -> None:
+        """
+        Creates a new object type using the `new_object_type()` method from pyBIS.
+
+        Args:
+            openbis (Openbis): The openBIS instance to create the object type.
+            result (SyncResult): The result metadata of the synchronization process.
+        """
         obj_type = openbis.new_object_type(
             code=self.defs.code,
             description=self.defs.description,
@@ -1047,6 +1054,13 @@ class ObjectType(BaseEntity):
         obj_type: "SampleType",
         result: SyncResult,
     ) -> None:
+        """
+        Synchronizes an object type definition in the openBIS instance.
+
+        Args:
+            obj_type (SampleType): The object type to be synchronized.
+            result (SyncResult): The result metadata of the synchronization process.
+        """
         if obj_type.description != self.defs.description:
             old_value = obj_type.description
             obj_type.description = self.defs.description
@@ -1068,70 +1082,22 @@ class ObjectType(BaseEntity):
                 new_value=self.defs.generated_code_prefix,
             )
 
-    def _sync_property_type(
-        self,
-        prop: PropertyTypeAssignment,
-        property_type: "PropertyType",
-        result: SyncResult,
-    ) -> None:
-        expected_data_type = self._openbis_data_type(prop)
-
-        if property_type.dataType != expected_data_type:
-            result.rejected(
-                target=SyncTarget.PROPERTY_TYPE,
-                code=prop.code,
-                field="data_type",
-                old_value=property_type.dataType,
-                new_value=expected_data_type,
-            )
-            return None
-
-        if property_type.label != prop.property_label:
-            old_value = property_type.label
-            property_type.label = prop.property_label
-
-            result.modified(
-                target=SyncTarget.PROPERTY_TYPE,
-                code=prop.code,
-                field="property_label",
-                old_value=old_value,
-                new_value=prop.property_label,
-            )
-
-        if property_type.description != prop.description:
-            old_value = property_type.description
-            property_type.description = prop.description
-
-            result.modified(
-                target=SyncTarget.PROPERTY_TYPE,
-                code=prop.code,
-                field="description",
-                old_value=old_value,
-                new_value=prop.description,
-            )
-
-        if prop.data_type == DataType.CONTROLLEDVOCABULARY:
-            current_vocab = getattr(property_type, "vocabulary", None)
-
-            if current_vocab != prop.vocabulary_code:
-                result.rejected(
-                    target=SyncTarget.PROPERTY_TYPE,
-                    code=prop.code,
-                    field="vocabulary_code",
-                    old_value=current_vocab,
-                    new_value=prop.vocabulary_code,
-                )
-                return None
-
-        property_type.save()
-
-    def _sync_existing_property(
+    def _update_existing_property(
         self,
         prop: PropertyTypeAssignment,
         obj_type: "SampleType",
         openbis: "Openbis",
         result: SyncResult,
     ) -> None:
+        """
+        Updates an existing property type and its assignment metadata.
+
+        Args:
+            prop (PropertyTypeAssignment): The property type to be updated.
+            obj_type (SampleType): The object type where the property is assigned to.
+            openbis (Openbis): The openBIS instance where entities exists.
+            result (SyncResult): The result metadata of the synchronization process.
+        """
         if prop.code.startswith("$"):
             result.add(
                 action=SyncAction.UNCHANGED,
@@ -1258,13 +1224,6 @@ class ObjectType(BaseEntity):
             )
 
         if assignment_modified:
-            # result.add(
-            #     action=SyncAction.IGNORED,
-            #     target=SyncTarget.PROPERTY_ASSIGNMENT,
-            #     code=prop.code,
-            #     parent_code=self.defs.code,
-            #     message="Modification of existing property assignments is not supported yet.",
-            # )
             obj_type.assign_property(
                 prop=prop.code,
                 section=prop.section,
@@ -1280,6 +1239,16 @@ class ObjectType(BaseEntity):
         openbis: "Openbis",
         result: SyncResult,
     ) -> None:
+        """
+        Creates (optionally, if property type does not exist already in openBIS) and assigns
+        the property `prop` to the object type `obj_type`.
+
+        Args:
+            prop (PropertyTypeAssignment): The property type to be (optionally) created and assigned.
+            obj_type (SampleType): The object type where the property is assigned to.
+            openbis (Openbis): The openBIS instance where the entity definitions exists.
+            result (SyncResult): The result metadata of the synchronization process.
+        """
         try:
             _ = openbis.get_property_type(prop.code)
         except ValueError:
@@ -1319,6 +1288,14 @@ class ObjectType(BaseEntity):
         openbis: "Openbis",
         result: SyncResult,
     ) -> None:
+        """
+        Synchronizes the property assignemtns to the object type specified in `obj_type`.
+
+        Args:
+            obj_type (SampleType): The object type where properties are assigned and synchronized.
+            openbis (Openbis): The openBIS instance where the defintions (both of object type and property type) exists.
+            result (SyncResult): The result metadata of the synchronization process.
+        """
         # openBIS property assigned codes
         openbis_assignments = obj_type.get_property_assignments()
         openbis_codes = set(openbis_assignments.df["code"])
@@ -1342,7 +1319,7 @@ class ObjectType(BaseEntity):
 
         # Modifying existing assigned properties
         for code in existing_codes:
-            self._sync_existing_property(
+            self._update_existing_property(
                 prop=model_props[code],
                 obj_type=obj_type,
                 openbis=openbis,
@@ -1361,7 +1338,7 @@ class ObjectType(BaseEntity):
 
     def to_openbis_sync(self, openbis: "Openbis") -> SyncResult:
         """
-        Synchronizes this ObjectType definition and its PropertyTypeAssignment with openBIS.
+        Synchronizes this ObjectType definition and its PropertyTypeAssignment with the `openbis` instance.
 
         Supported operations:
         - create new object types
@@ -1380,8 +1357,7 @@ class ObjectType(BaseEntity):
             openbis (Openbis): The openBIS instance to synchronize this object type to.
 
         Returns:
-            (SyncResult): The result of the synchronization process. Useful for `bam_masterdata/cli/cli.py:masterdata_sync`
-            operations.
+            (SyncResult): The result of the synchronization process. Useful for structuring logging.
         """
         result = SyncResult()
 

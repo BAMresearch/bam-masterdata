@@ -683,9 +683,10 @@ def parser(files_parser, project_name, collection_name, space_name, collection_t
 @cli.command(
     name="masterdata_sync",
     help=(
-        "Apply/update schema state in openBIS from the Python definition (ground truth) with the `--entity` defined in `--file-path`. "
-        "If `--entity` is not defined, it will update all the entities defined in `--file-path`."
-        "NOTE: here 'sync' refers to the unidirectional synchronization from BAM Masterdata to openBIS."
+        "Apply/update schema state in openBIS from the Python masterdata definitions (ground truth) with the "
+        "`--entity` defined in `--file-path`. If `--entity` is not defined, it will update all the entities "
+        "defined in `--file-path`."
+        "NOTE: here 'sync' refers to the unidirectional synchronization from the Python masterdata definitions to openBIS."
     ),
 )
 @click.option(
@@ -721,7 +722,7 @@ def masterdata_sync(file_path, entity):
             result = cls_instance.to_openbis_sync(openbis=openbis)
         else:
             logger.error(
-                f"Entity {entity} not found in the module {file_path} or it does not have the method `to_openbis`."
+                f"Entity {entity} not found in the module {file_path} or it does not have the method `to_openbis_sync()`."
             )
 
     # Logging messages from SyncResult
