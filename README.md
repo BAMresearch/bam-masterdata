@@ -33,24 +33,32 @@ git clone https://github.com/BAMresearch/bam-masterdata.git
 cd bam-masterdata
 ```
 
-Create a virtual environment (you can use Python>3.9) in your workspace:
+We recommend using `uv` to manage your virtual environment and the dependencies, as well as using
+Python 3.14:
 
 ```sh
-python3 -m venv .venv
-source .venv/bin/activate
+uv venv --python 3.14
 ```
 
-Run the following script depending on your OS:
-- *Linux/MacOS*:
+Activate the environment:
+
+- *Linux/MacOS*
+
   ```sh
-  ./tools/scripts/install_python_dependencies.sh
-  ```
-- *Windows*:
-  ```sh
-  tools/scripts/install_python_dependencies.bat
+  source .venv/bin/activate
   ```
 
-**Note**: This script installs the required dependencies for development, testing, and documentation, using `uv` and `pip`.
+- *Windows*
+
+  ```sh
+  .venv\Scripts\activate
+  ```
+
+With the virtual environment activated, make sure to install the optional dependencies:
+
+```sh
+uv sync --all-extras
+```
 
 ### Run the tests
 
@@ -109,13 +117,7 @@ detect-secrets scan > .secrets.baseline
 
 ### Documentation on Github pages
 
-To view the documentation locally, make sure to have installed the extra packages (this is part of the `tools/scripts/install_python_dependencies.*`, so if you ran this script before, you don't need to do it again now):
-
-```sh
-uv pip install -e '[dev]'
-```
-
-**Note**: This command installs the `zensical` dependency.
+To view the documentation locally, make sure to have installed the extra packages with the setup commands explained above (especifically, `uv sync --all-extras`). This command installs the `zensical` dependency.
 
 The first time, build the server:
 
