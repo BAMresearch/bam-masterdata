@@ -142,6 +142,7 @@ class BaseEntity(BaseModel):
         logger: "BoundLoggerLazyProxy",
         openbis: "Openbis",
         type: str,
+        *,
         type_map: dict,
         get_type: Callable[..., Any],
         create_type: Callable[..., Any],
