@@ -683,9 +683,10 @@ def parser(files_parser, project_name, collection_name, space_name, collection_t
 @cli.command(
     name="masterdata_sync",
     help=(
-        "Apply/update schema state in openBIS from the Python definition (ground truth) with the `--entity` defined in `--file-path`. "
-        "If `--entity` is not defined, it will update all the entities defined in `--file-path`."
-        "NOTE: here 'sync' refers to the unidirectional synchronization from BAM Masterdata to openBIS."
+        "Apply/update schema state in openBIS from the Python masterdata definitions (ground truth) with the "
+        "`--entity` defined in `--file-path`. If `--entity` is not defined, it will update all the entities "
+        "defined in `--file-path`."
+        "NOTE: here 'sync' refers to the unidirectional synchronization from the Python masterdata definitions to openBIS."
     ),
 )
 @click.option(
@@ -702,41 +703,30 @@ def parser(files_parser, project_name, collection_name, space_name, collection_t
     required=False,
     help="""The name of the entity to be updated in openBIS. If not specified, all entities in the `--file-path` will be updated.""",
 )
-@click.option(
-    "--check",
-    "check",
-    type=bool,
-    default=True,
-    help="""Whether to run the `checker` before pushing to openBIS. Default is `True`.""",
-)
-def masterdata_sync(file_path, entity, check):
+def masterdata_sync(file_path, entity):
     openbis = ologin(url=URL)
     click.echo(f"Using the openBIS instance: {URL}\n")
 
-    if not check:
-        logger.warning(
-            "Synchronizing without checking the consistency of the incoming model. Make sure the entity "
-            "definitions are correct before pushing to openBIS!"
-        )
-
-        module = import_module(module_path=file_path)
-        if not entity:
-            for _, obj in inspect.getmembers(module, inspect.isclass):
-                if obj.__module__ != module.__name__:  # skipping imported classes
-                    continue
-                if hasattr(obj, "defs") and callable(getattr(obj, "to_openbis")):
-                    obj_instance = obj()
-                    obj_instance.to_openbis(openbis=openbis, logger=logger)
+    module = import_module(module_path=file_path)
+    if not entity:
+        for _, cls in inspect.getmembers(module, inspect.isclass):
+            if cls.__module__ != module.__name__:  # skipping imported classes
+                continue
+            if hasattr(cls, "defs") and callable(getattr(cls, "to_openbis_sync")):
+                cls_instance = cls()
+                result = cls_instance.to_openbis_sync(openbis=openbis)
+    else:
+        cls = getattr(module, entity, None)
+        if cls and hasattr(cls, "defs") and callable(getattr(cls, "to_openbis_sync")):
+            cls_instance = cls()
+            result = cls_instance.to_openbis_sync(openbis=openbis)
         else:
-            obj = getattr(module, entity, None)
-            if obj and hasattr(obj, "defs") and callable(getattr(obj, "to_openbis")):
-                obj_instance = obj()
-                obj_instance.to_openbis(openbis=openbis, logger=logger)
-            else:
-                logger.error(
-                    f"Entity {entity} not found in the module {file_path} or it does not have the method `to_openbis`."
-                )
-    # TODO implement `checker` logic
+            logger.error(
+                f"Entity {entity} not found in the module {file_path} or it does not have the method `to_openbis_sync()`."
+            )
+
+    # Logging messages from SyncResult
+    result.log_sync_result(logger=logger)
 
 
 if __name__ == "__main__":

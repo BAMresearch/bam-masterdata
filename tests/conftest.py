@@ -1,6 +1,7 @@
 import os
 from unittest.mock import MagicMock
 
+import pandas as pd
 import pytest
 from pydantic import ConfigDict
 
@@ -338,3 +339,24 @@ class TestParserWithObjectReference(AbstractParser):
         )
         instrument2_id = collection.add(instrument2)
         logger.info(f"Added instrument2 with path reference, ID {instrument2_id}")
+
+
+@pytest.fixture
+def mock_openbis_sync():
+    """Mock openBIS instance to be used to test `masterdata_sync`-related functionalities."""
+    openbis = MagicMock()
+    openbis.url = "https://example.openbis"
+
+    obj_type = MagicMock()
+    obj_type.code = "MOCKED_OBJECT_TYPE"
+    obj_type.description = "Mockup for an object type definition"
+    obj_type.generatedCodePrefix = "MOCKOBJTYPE"
+
+    assignments = MagicMock()
+    assignments.df = pd.DataFrame({"code": []})
+    obj_type.get_property_assignments.return_value = assignments
+
+    openbis.get_object_type.return_value = obj_type
+    openbis.new_object_type.return_value = obj_type
+
+    return openbis, obj_type

@@ -17,6 +17,7 @@ from bam_masterdata.metadata.entities import (
     generate_object_id,
     generate_object_relationship_id,
 )
+from bam_masterdata.openbis import SyncAction, SyncResult, SyncTarget
 from tests.conftest import (
     InstrumentObjectType,
     PersonObjectType,
@@ -509,3 +510,246 @@ class TestCollectionType:
         assert len(ids) == 2
         assert ids[0] == parent_id
         assert ids[1] == child_id
+
+
+class TestObjectTypeSync:
+    @patch("bam_masterdata.metadata.entities.OpenbisEntities")
+    def test_sync_creates_missing_object_type(
+        self,
+        mocked_openbis_entities,
+        mock_openbis_sync,
+    ):
+        openbis, obj_type = mock_openbis_sync
+
+        mocked_openbis_entities.return_value.get_object_dict.return_value = {}
+
+        openbis.get_property_type.side_effect = ValueError
+
+        property_type = MagicMock()
+        openbis.new_property_type.return_value = property_type
+
+        entity = generate_object_type()
+
+        result = entity.to_openbis_sync(openbis=openbis)
+
+        openbis.new_object_type.assert_called_once()
+        obj_type.save.assert_called()
+
+        assert any(
+            change.action == SyncAction.CREATED
+            and change.target == SyncTarget.OBJECT_TYPE
+            for change in result.changes
+        )
+
+    @patch("bam_masterdata.metadata.entities.OpenbisEntities")
+    def test_sync_updates_object_description(
+        self,
+        mocked_openbis_entities,
+        mock_openbis_sync,
+    ):
+        openbis, obj_type = mock_openbis_sync
+
+        mocked_openbis_entities.return_value.get_object_dict.return_value = {
+            "MOCKED_OBJECT_TYPE": True
+        }
+
+        obj_type.description = "Old description"
+
+        entity = generate_object_type()
+        entity.properties = []
+
+        result = entity.to_openbis_sync(openbis=openbis)
+
+        assert obj_type.description == entity.defs.description
+
+        change = result.changes[0]
+        assert change.action == SyncAction.MODIFIED
+        assert change.target == SyncTarget.OBJECT_TYPE
+        assert change.field == "description"
+        assert change.old_value == "Old description"
+
+    @patch("bam_masterdata.metadata.entities.OpenbisEntities")
+    def test_sync_rejects_generated_code_prefix_change(
+        self,
+        mocked_openbis_entities,
+        mock_openbis_sync,
+    ):
+        openbis, obj_type = mock_openbis_sync
+
+        mocked_openbis_entities.return_value.get_object_dict.return_value = {
+            "MOCKED_OBJECT_TYPE": True
+        }
+
+        obj_type.generatedCodePrefix = "OLD_PREFIX"
+
+        entity = generate_object_type()
+        entity.properties = []
+
+        result = entity.to_openbis_sync(openbis=openbis)
+
+        change = result.changes[0]
+
+        assert change.action == SyncAction.REJECTED
+        assert change.target == SyncTarget.OBJECT_TYPE
+        assert change.field == "generated_code_prefix"
+        assert change.old_value == "OLD_PREFIX"
+        assert change.new_value == "MOCKOBJTYPE"
+
+    def test_update_existing_property_rejects_data_type_change(self):
+        entity = generate_object_type()
+
+        prop = next(prop for prop in entity.properties if prop.code == "ALIAS")
+
+        property_type = MagicMock()
+        property_type.dataType = "INTEGER"
+
+        openbis = MagicMock()
+        openbis.get_property_type.return_value = property_type
+
+        obj_type = MagicMock()
+        result = SyncResult()
+
+        entity._update_existing_property(
+            prop=prop,
+            obj_type=obj_type,
+            openbis=openbis,
+            result=result,
+        )
+
+        property_type.save.assert_not_called()
+
+        change = result.changes[0]
+
+        assert change.action == SyncAction.REJECTED
+        assert change.target == SyncTarget.PROPERTY_TYPE
+        assert change.field == "data_type"
+
+    def test_update_existing_property_modifies_label(self):
+        entity = generate_object_type()
+
+        prop = next(prop for prop in entity.properties if prop.code == "ALIAS")
+
+        property_type = MagicMock()
+        property_type.dataType = "VARCHAR"
+        property_type.label = "Old alias"
+        property_type.description = prop.description
+
+        assignment = MagicMock()
+        assignment.code = "ALIAS"
+        assignment.section = prop.section
+        assignment.mandatory = prop.mandatory
+        assignment.showInEditView = prop.show_in_edit_views
+        assignment.ordinal = prop.ordinal
+
+        obj_type = MagicMock()
+        obj_type.get_property_assignments.return_value = [assignment]
+
+        openbis = MagicMock()
+        openbis.get_property_type.return_value = property_type
+
+        result = SyncResult()
+
+        entity._update_existing_property(
+            prop=prop,
+            obj_type=obj_type,
+            openbis=openbis,
+            result=result,
+        )
+
+        assert property_type.label == prop.property_label
+        property_type.save.assert_called_once()
+
+        assert any(
+            change.action == SyncAction.MODIFIED
+            and change.target == SyncTarget.PROPERTY_TYPE
+            and change.field == "property_label"
+            for change in result.changes
+        )
+
+    def test_update_internal_property_is_unchanged(self):
+        entity = generate_object_type()
+
+        prop = next(prop for prop in entity.properties if prop.code.startswith("$"))
+
+        openbis = MagicMock()
+        obj_type = MagicMock()
+        result = SyncResult()
+
+        entity._update_existing_property(
+            prop=prop,
+            obj_type=obj_type,
+            openbis=openbis,
+            result=result,
+        )
+
+        openbis.get_property_type.assert_not_called()
+
+        change = result.changes[0]
+
+        assert change.action == SyncAction.UNCHANGED
+        assert change.target == SyncTarget.PROPERTY_ASSIGNMENT
+
+    def test_create_property_assignment_creates_missing_property_type(self):
+        entity = generate_object_type()
+
+        prop = next(prop for prop in entity.properties if prop.code == "ALIAS")
+
+        openbis = MagicMock()
+        openbis.get_property_type.side_effect = ValueError
+
+        property_type = MagicMock()
+        openbis.new_property_type.return_value = property_type
+
+        obj_type = MagicMock()
+        result = SyncResult()
+
+        entity._create_property_assignment(
+            prop=prop,
+            obj_type=obj_type,
+            openbis=openbis,
+            result=result,
+        )
+
+        openbis.new_property_type.assert_called_once()
+        property_type.save.assert_called_once()
+
+        obj_type.assign_property.assert_called_once_with(
+            prop="ALIAS",
+            section=prop.section,
+            mandatory=prop.mandatory,
+            showInEditView=prop.show_in_edit_views,
+            ordinal=prop.ordinal,
+        )
+
+        assert any(
+            change.action == SyncAction.CREATED
+            and change.target == SyncTarget.PROPERTY_TYPE
+            for change in result.changes
+        )
+
+        assert any(
+            change.action == SyncAction.CREATED
+            and change.target == SyncTarget.PROPERTY_ASSIGNMENT
+            for change in result.changes
+        )
+
+    def test_create_property_assignment_reuses_existing_property_type(self):
+        entity = generate_object_type()
+
+        prop = next(prop for prop in entity.properties if prop.code == "ALIAS")
+
+        openbis = MagicMock()
+        openbis.get_property_type.return_value = MagicMock()
+
+        obj_type = MagicMock()
+        result = SyncResult()
+
+        entity._create_property_assignment(
+            prop=prop,
+            obj_type=obj_type,
+            openbis=openbis,
+            result=result,
+        )
+
+        openbis.new_property_type.assert_not_called()
+        obj_type.assign_property.assert_called_once()
