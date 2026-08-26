@@ -18,7 +18,7 @@ The `bam-masterdata` provides you with tools to:
 
 !!! note "Prerequisites"
     - Basic Python and openBIS knowledge.
-    - A system with Python 3.10 or higher.
+    - A system with Python 3.11 or higher.
     - Knowledge of virtual environments, CLI usage, IDEs such as VSCode, and GitHub.
 
 !!! warning
@@ -43,14 +43,14 @@ We strongly recommend using a virtual environment to avoid conflicts with other 
 **Using venv:**
 
 ```bash
-python3 -m venv .venv
+python3.14 -m venv .venv
 source .venv/bin/activate
 ```
 
 **Using conda:**
 
 ```bash
-conda create --name .venv python=3.10  # or any version 3.10 <= python <= 3.12
+conda create --name .venv python=3.14  # or any version python>=3.11
 conda activate .venv
 ```
 
@@ -67,7 +67,6 @@ pip install bam-masterdata
     For faster installation, you can use [`uv`](https://docs.astral.sh/uv/):
 
     ```bash
-    pip install uv
     uv pip install bam-masterdata
     ```
 
@@ -163,7 +162,7 @@ step = ExperimentalStep(
     name="SEM measurement",
     finished_flag=True,
 )
-print(step) # prints the object type and its assigned properties
+print(step)  # prints the object type and its assigned properties
 ```
 
 This will print:
@@ -301,7 +300,9 @@ If the object already exists in openBIS, you can reference it using its identifi
 instrument = Instrument(name="Microscope B")
 
 # Path format: /{space}/{project}/{collection}/{object}
-instrument.responsible_person = "/LAB_SPACE/PEOPLE_LIST_PROJECT/STAFF_COLLECTION/PERSON_001"
+instrument.responsible_person = (
+    "/LAB_SPACE/PEOPLE_LIST_PROJECT/STAFF_COLLECTION/PERSON_001"
+)
 
 # Or without collection: /{space}/{project}/{object}
 instrument.responsible_person = "/LAB_SPACE/PEOPLE_LIST_PROJECT/PERSON_001"
@@ -404,7 +405,9 @@ step_dict = step.to_dict()
 # Convert schema to dictionary
 step_schema_dict = step.model_to_dict()
 print(step_dict)  # print: {'name': 'SEM measurement', 'finished_flag': True}
-print(step_schema_dict)  # print: {'properties': [{...}, {...}, {...}, {...}, {...}, {...}, {...}, {...}, {...}, {...}, {...}, {...}, {...}, {...}], 'defs': {'code': 'EXPERIMENTAL_STEP', 'description': 'Experimental Step (generic)//Experimenteller Schritt (allgemein)', 'iri': None, 'id': 'ExperimentalStep', 'row_location': None, 'validation_script': None, 'generated_code_prefix': 'EXP', 'auto_generate_codes': True}}
+print(
+    step_schema_dict
+)  # print: {'properties': [{...}, {...}, {...}, {...}, {...}, {...}, {...}, {...}, {...}, {...}, {...}, {...}, {...}, {...}], 'defs': {'code': 'EXPERIMENTAL_STEP', 'description': 'Experimental Step (generic)//Experimenteller Schritt (allgemein)', 'iri': None, 'id': 'ExperimentalStep', 'row_location': None, 'validation_script': None, 'generated_code_prefix': 'EXP', 'auto_generate_codes': True}}
 
 # Convert to JSON
 step_json = step.to_json()
@@ -475,9 +478,6 @@ If you want to contribute or modify the package:
 ```bash
 git clone https://github.com/BAMresearch/bam-masterdata.git
 cd bam-masterdata
-python3 -m venv .venv
-source .venv/bin/activate
-./scripts/install_python_dependencies.sh
 ```
 
-Read the `README.md` for more details.
+Read the [`README.md`](https://github.com/BAMresearch/bam-masterdata/blob/main/README.md) for more details about setting up your virtual environment and the required dependencies.
