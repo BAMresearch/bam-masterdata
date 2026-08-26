@@ -1132,7 +1132,6 @@ class ObjectType(BaseEntity):
         openbis: "Openbis",
         result: SyncResult,
     ) -> None:
-
         if prop.code.startswith("$"):
             result.add(
                 action=SyncAction.UNCHANGED,
