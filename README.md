@@ -138,13 +138,3 @@ No issues found
 ```
 
 Simply click on `http://localhost:8000`. The changes in the `md` files of the documentation are immediately reflected when the files are saved (the local web will automatically refresh).
-
-## Main contributors
-
-The main code developers are:
-
-| Name                | E-mail                                                       |
-| ------------------- | ------------------------------------------------------------ |
-| Carlos Madariaga    | [carlos.madariaga@bam.de](mailto:carlos.madariaga@bam.de)       |
-| Lucas Zimmermann    | [lucas.zimmermann@bam.de](mailto:lucas.zimmermann@bam.de)       |
-| Dr. Jose M. Pizarro | [jose.pizarro-blanco@bam.de](mailto:jose.pizarro-blanco@bam.de) |
