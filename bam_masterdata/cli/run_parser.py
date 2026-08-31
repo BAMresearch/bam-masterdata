@@ -231,7 +231,19 @@ class RunParsers:
 
         if isinstance(obj, dict):
             try:
-                return self.openbis.get_object(**obj)
+                identifier = next(
+                    value
+                    for key, value in obj.items()
+                    if key in {"permId", "code", "identifier"}
+                )
+                return self.openbis.get_object(identifier)
+
+            except StopIteration:
+                self.logger.warning(
+                    f"No valid identifier found for {object_role} object: {obj}"
+                )
+                return None
+
             except Exception as e:
                 self.logger.warning(
                     f"Error occurred while fetching {object_role} object: {e}"
@@ -480,6 +492,12 @@ class RunParsers:
         for parent, child in self.collection.relationships.values():
             # RELATIONSHIPS
             parent_obj, child_obj = self._get_relationships(parent, child)
+            if parent_obj is None or child_obj is None:
+                self.logger.warning(
+                    f"Skipping relationship with parent {parent} and child {child} "
+                    "because one of them is not found attached or in OpenBIS."
+                )
+                continue
             child_obj.add_parents(parent_obj)
             child_obj.save()
             self.logger.info(
