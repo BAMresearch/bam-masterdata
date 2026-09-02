@@ -16,7 +16,8 @@ from bam_masterdata.utils.decorators import deprecated
 
 if TYPE_CHECKING:
     from pybis import Openbis
-    from pybis.entity_type import PropertyType, SampleType
+    from pybis.entity_type import SampleType
+    from pybis.vocabulary import Vocabulary
     from rdflib import Graph, Namespace, URIRef
     from structlog._config import BoundLoggerLazyProxy
 
@@ -571,6 +572,10 @@ class VocabularyType(BaseEntity):
 
         return data
 
+    @deprecated(
+        "This method will soon be deprecated and will be removed in a future major release. "
+        "The push to openbis and synchronization happens in `to_openbis_sync()` instead."
+    )
     def to_openbis(self, logger: "BoundLoggerLazyProxy", openbis: "Openbis") -> None:
         openbis_entities = OpenbisEntities(url=openbis.url).get_vocabulary_dict()
 
@@ -628,6 +633,246 @@ class VocabularyType(BaseEntity):
             )
         entity.save()
         return entity
+
+    def _create_vocabulary(
+        self,
+        openbis: "Openbis",
+        result: SyncResult,
+    ) -> None:
+        """
+        Creates the vocabulary and all terms defined in the model.
+
+        Args:
+            openbis (Openbis): The openBIS instance to synchronize this vocabulary to.
+            result (SyncResult): Metadata describing the synchronization operations.
+        """
+        # Append all terms to the vocabulary in the format required by openBIS
+        obis_terms = []
+        for term in self.terms:
+            obis_terms.append(
+                {
+                    "code": term.code,
+                    "label": term.label,
+                    "description": term.description,
+                    # 'official': term.official,
+                }
+            )
+
+        vocabulary = openbis.new_vocabulary(
+            code=self.defs.code,
+            description=self.defs.description,
+            terms=obis_terms,
+        )
+        vocabulary.save()
+
+        result.created(
+            target=SyncTarget.VOCABULARY,
+            code=self.defs.code,
+        )
+
+    def _sync_vocabulary_definition(
+        self,
+        vocabulary: "Vocabulary",
+        result: SyncResult,
+    ) -> None:
+        """
+        Synchronizes the fields of an existing vocabulary that are allowed
+        to be modified.
+
+        Currently only the description can be modified.
+        """
+        if vocabulary.description != self.defs.description:
+            old_value = vocabulary.description
+            vocabulary.description = self.defs.description
+
+            result.modified(
+                target=SyncTarget.VOCABULARY,
+                code=self.defs.code,
+                field="description",
+                old_value=old_value,
+                new_value=self.defs.description,
+            )
+
+            vocabulary.save()
+
+    def _update_existing_vocabulary_term(
+        self,
+        term: VocabularyTerm,
+        openbis_term,
+        result: SyncResult,
+    ) -> None:
+        """
+        Synchronizes an existing vocabulary term.
+
+        Supported modifications:
+        - label
+        - description
+
+        All other term metadata is immutable.
+        """
+        modified = False
+
+        # Supported: label
+        if openbis_term.label != term.label:
+            old_value = openbis_term.label
+            openbis_term.label = term.label
+            modified = True
+
+            result.modified(
+                target=SyncTarget.VOCABULARY_TERM,
+                code=term.code,
+                parent_code=self.defs.code,
+                field="label",
+                old_value=old_value,
+                new_value=term.label,
+            )
+
+        # Supported: description
+        if openbis_term.description != term.description:
+            old_value = openbis_term.description
+            openbis_term.description = term.description
+            modified = True
+
+            result.modified(
+                target=SyncTarget.VOCABULARY_TERM,
+                code=term.code,
+                parent_code=self.defs.code,
+                field="description",
+                old_value=old_value,
+                new_value=term.description,
+            )
+
+        # Forbidden: official
+        current_official = getattr(openbis_term, "official", False)
+        if current_official != term.official:
+            result.rejected(
+                target=SyncTarget.VOCABULARY_TERM,
+                code=term.code,
+                parent_code=self.defs.code,
+                field="official",
+                old_value=current_official,
+                new_value=term.official,
+            )
+
+        if modified:
+            openbis_term.save()
+
+    def _sync_vocabulary_terms(
+        self,
+        vocabulary: "Vocabulary",
+        openbis: "Openbis",
+        result: SyncResult,
+    ) -> None:
+        """
+        Synchronizes the vocabulary terms.
+
+        Supported operations:
+        - add new terms
+        - modify label
+        - modify description
+
+        Deleting existing terms is explicitly forbidden.
+        """
+        openbis_terms = vocabulary.get_terms()
+        openbis_terms_by_code = openbis_terms.df["code"]
+        openbis_codes = set(openbis_terms_by_code)
+
+        model_terms = {term.code: term for term in self.terms}
+        model_codes = set(model_terms)
+
+        new_codes = model_codes - openbis_codes
+        existing_codes = model_codes & openbis_codes
+        missing_codes = openbis_codes - model_codes
+
+        # Add new terms
+        for code in new_codes:
+            term = openbis.new_term(
+                code=model_terms[code].code,
+                vocabularyCode=self.defs.code,
+                label=model_terms[code].label,
+                description=model_terms[code].description,
+            )
+            term.save()
+            result.created(
+                target=SyncTarget.VOCABULARY_TERM,
+                code=code,
+                parent_code=self.defs.code,
+            )
+
+        # Synchronize allowed fields of existing terms
+        for code in existing_codes:
+            self._update_existing_vocabulary_term(
+                term=model_terms[code],
+                openbis_term=openbis_terms[code],
+                result=result,
+            )
+
+        # Terms existing in openBIS but missing from the model would imply deletion.
+        # Deletion is explicitly forbidden.
+        for code in missing_codes:
+            result.rejected(
+                target=SyncTarget.VOCABULARY_TERM,
+                code=code,
+                parent_code=self.defs.code,
+                field="code",
+                old_value=code,
+                new_value=None,
+                message="Deletion of vocabulary terms is not allowed.",
+            )
+
+    def to_openbis_sync(self, openbis: "Openbis") -> SyncResult:
+        """
+        Synchronizes this VocabularyType definition and its VocabularyTerms
+        with the openBIS instance.
+
+        Supported operations:
+        - create new vocabularies
+        - modify vocabulary descriptions
+        - add new vocabulary terms
+        - modify vocabulary term labels
+        - modify vocabulary term descriptions
+
+        Forbidden operations:
+        - delete vocabularies
+        - delete vocabulary terms
+        - modify vocabulary codes
+        - modify vocabulary term codes
+        - modify other vocabulary term metadata, such as `official`
+
+        Args:
+            openbis (Openbis):The openBIS instance to synchronize this vocabulary to.
+
+        Returns:
+            SyncResult: Metadata describing the synchronization operations.
+        """
+        result = SyncResult()
+
+        openbis_vocabularies = OpenbisEntities(url=openbis).get_vocabulary_dict()
+
+        # Create vocabulary and terms if missing
+        if self.defs.code not in openbis_vocabularies:
+            self._create_vocabulary(
+                openbis=openbis,
+                result=result,
+            )
+            return result
+
+        vocabulary = openbis.get_vocabulary(self.defs.code)
+
+        # Synchronize vocabulary metadata
+        self._sync_vocabulary_definition(
+            vocabulary=vocabulary,
+            result=result,
+        )
+
+        # Synchronize terms
+        self._sync_vocabulary_terms(
+            vocabulary=vocabulary,
+            openbis=openbis,
+            result=result,
+        )
+
+        return result
 
 
 class ObjectType(BaseEntity):
@@ -1362,7 +1607,7 @@ class ObjectType(BaseEntity):
         result = SyncResult()
 
         # Get all existing object types from openBIS
-        openbis_object_types = OpenbisEntities(url=openbis.url).get_object_dict()
+        openbis_object_types = OpenbisEntities(url=openbis).get_object_dict()
 
         # Create object type if missing in openBIS
         if self.defs.code not in openbis_object_types:

@@ -753,3 +753,364 @@ class TestObjectTypeSync:
 
         openbis.new_property_type.assert_not_called()
         obj_type.assign_property.assert_called_once()
+
+
+class TestVocabularyTypeSync:
+    @patch("bam_masterdata.metadata.entities.OpenbisEntities")
+    def test_sync_creates_missing_vocabulary(
+        self,
+        mocked_openbis_entities,
+    ):
+        mocked_openbis_entities.return_value.get_vocabulary_dict.return_value = {}
+
+        openbis = MagicMock()
+        vocabulary = MagicMock()
+        openbis.new_vocabulary.return_value = vocabulary
+
+        entity = generate_vocabulary_type()
+
+        result = entity.to_openbis_sync(openbis=openbis)
+
+        openbis.new_vocabulary.assert_called_once_with(
+            code="MOCKED_VOCABULARY_TYPE",
+            description=entity.defs.description,
+            terms=[
+                {
+                    "code": "OPTION_A",
+                    "label": "Option A",
+                    "description": "Option A from two possible options in the vocabulary",
+                },
+                {
+                    "code": "OPTION_B",
+                    "label": "Option B",
+                    "description": "Option B from two possible options in the vocabulary",
+                },
+            ],
+        )
+
+        vocabulary.save.assert_called_once()
+
+        assert len(result.changes) == 1
+
+        change = result.changes[0]
+        assert change.action == SyncAction.CREATED
+        assert change.target == SyncTarget.VOCABULARY
+        assert change.code == "MOCKED_VOCABULARY_TYPE"
+
+    def test_sync_vocabulary_definition_updates_description(self):
+        entity = generate_vocabulary_type()
+
+        vocabulary = MagicMock()
+        vocabulary.description = "Old description"
+
+        result = SyncResult()
+
+        entity._sync_vocabulary_definition(
+            vocabulary=vocabulary,
+            result=result,
+        )
+
+        assert vocabulary.description == entity.defs.description
+        vocabulary.save.assert_called_once()
+
+        assert len(result.changes) == 1
+
+        change = result.changes[0]
+        assert change.action == SyncAction.MODIFIED
+        assert change.target == SyncTarget.VOCABULARY
+        assert change.code == entity.defs.code
+        assert change.field == "description"
+        assert change.old_value == "Old description"
+        assert change.new_value == entity.defs.description
+
+    def test_sync_vocabulary_definition_does_nothing_when_unchanged(self):
+        entity = generate_vocabulary_type()
+
+        vocabulary = MagicMock()
+        vocabulary.description = entity.defs.description
+
+        result = SyncResult()
+
+        entity._sync_vocabulary_definition(
+            vocabulary=vocabulary,
+            result=result,
+        )
+
+        vocabulary.save.assert_not_called()
+        assert result.changes == []
+
+    def test_update_existing_vocabulary_term_modifies_label(self):
+        entity = generate_vocabulary_type()
+        term = next(term for term in entity.terms if term.code == "OPTION_A")
+
+        openbis_term = MagicMock()
+        openbis_term.label = "Old label"
+        openbis_term.description = term.description
+        openbis_term.official = term.official
+
+        result = SyncResult()
+
+        entity._update_existing_vocabulary_term(
+            term=term,
+            openbis_term=openbis_term,
+            result=result,
+        )
+
+        assert openbis_term.label == term.label
+        openbis_term.save.assert_called_once()
+
+        assert len(result.changes) == 1
+
+        change = result.changes[0]
+        assert change.action == SyncAction.MODIFIED
+        assert change.target == SyncTarget.VOCABULARY_TERM
+        assert change.code == "OPTION_A"
+        assert change.parent_code == entity.defs.code
+        assert change.field == "label"
+        assert change.old_value == "Old label"
+        assert change.new_value == term.label
+
+    def test_update_existing_vocabulary_term_modifies_description(self):
+        entity = generate_vocabulary_type()
+        term = next(term for term in entity.terms if term.code == "OPTION_A")
+
+        openbis_term = MagicMock()
+        openbis_term.label = term.label
+        openbis_term.description = "Old description"
+        openbis_term.official = term.official
+
+        result = SyncResult()
+
+        entity._update_existing_vocabulary_term(
+            term=term,
+            openbis_term=openbis_term,
+            result=result,
+        )
+
+        assert openbis_term.description == term.description
+        openbis_term.save.assert_called_once()
+
+        assert len(result.changes) == 1
+
+        change = result.changes[0]
+        assert change.action == SyncAction.MODIFIED
+        assert change.target == SyncTarget.VOCABULARY_TERM
+        assert change.field == "description"
+        assert change.old_value == "Old description"
+        assert change.new_value == term.description
+
+    def test_update_existing_vocabulary_term_modifies_label_and_description(self):
+        entity = generate_vocabulary_type()
+        term = next(term for term in entity.terms if term.code == "OPTION_A")
+
+        openbis_term = MagicMock()
+        openbis_term.label = "Old label"
+        openbis_term.description = "Old description"
+        openbis_term.official = term.official
+
+        result = SyncResult()
+
+        entity._update_existing_vocabulary_term(
+            term=term,
+            openbis_term=openbis_term,
+            result=result,
+        )
+
+        openbis_term.save.assert_called_once()
+
+        assert len(result.changes) == 2
+
+        fields = {change.field for change in result.changes}
+        assert fields == {"label", "description"}
+
+        assert all(
+            change.action == SyncAction.MODIFIED
+            and change.target == SyncTarget.VOCABULARY_TERM
+            and change.code == "OPTION_A"
+            for change in result.changes
+        )
+
+    def test_update_existing_vocabulary_term_rejects_official_change(self):
+        entity = generate_vocabulary_type()
+        term = next(term for term in entity.terms if term.code == "OPTION_A")
+
+        openbis_term = MagicMock()
+        openbis_term.label = term.label
+        openbis_term.description = term.description
+        openbis_term.official = not term.official
+
+        result = SyncResult()
+
+        entity._update_existing_vocabulary_term(
+            term=term,
+            openbis_term=openbis_term,
+            result=result,
+        )
+
+        # `official` is forbidden, so the term must not be saved.
+        openbis_term.save.assert_not_called()
+
+        assert len(result.changes) == 1
+
+        change = result.changes[0]
+        assert change.action == SyncAction.REJECTED
+        assert change.target == SyncTarget.VOCABULARY_TERM
+        assert change.code == "OPTION_A"
+        assert change.parent_code == entity.defs.code
+        assert change.field == "official"
+        assert change.old_value == openbis_term.official
+        assert change.new_value == term.official
+
+    def test_update_existing_vocabulary_term_does_nothing_when_unchanged(self):
+        entity = generate_vocabulary_type()
+        term = next(term for term in entity.terms if term.code == "OPTION_A")
+
+        openbis_term = MagicMock()
+        openbis_term.label = term.label
+        openbis_term.description = term.description
+        openbis_term.official = term.official
+
+        result = SyncResult()
+
+        entity._update_existing_vocabulary_term(
+            term=term,
+            openbis_term=openbis_term,
+            result=result,
+        )
+
+        openbis_term.save.assert_not_called()
+        assert result.changes == []
+
+    def test_sync_vocabulary_terms_creates_missing_term(self):
+        entity = generate_vocabulary_type()
+
+        # Only OPTION_A exists in openBIS.
+        openbis_term_a = MagicMock()
+        openbis_term_a.label = entity.terms[0].label
+        openbis_term_a.description = entity.terms[0].description
+        openbis_term_a.official = entity.terms[0].official
+
+        openbis_terms = MagicMock()
+        openbis_terms.df.__getitem__.return_value = ["OPTION_A"]
+        openbis_terms.__getitem__.return_value = openbis_term_a
+
+        vocabulary = MagicMock()
+        vocabulary.get_terms.return_value = openbis_terms
+
+        openbis = MagicMock()
+        created_term = MagicMock()
+        openbis.new_term.return_value = created_term
+
+        result = SyncResult()
+
+        entity._sync_vocabulary_terms(
+            vocabulary=vocabulary,
+            openbis=openbis,
+            result=result,
+        )
+
+        openbis.new_term.assert_called_once_with(
+            code="OPTION_B",
+            vocabularyCode="MOCKED_VOCABULARY_TYPE",
+            label="Option B",
+            description="Option B from two possible options in the vocabulary",
+        )
+        created_term.save.assert_called_once()
+
+        assert any(
+            change.action == SyncAction.CREATED
+            and change.target == SyncTarget.VOCABULARY_TERM
+            and change.code == "OPTION_B"
+            and change.parent_code == entity.defs.code
+            for change in result.changes
+        )
+
+    def test_sync_vocabulary_terms_rejects_deletion(self):
+        entity = generate_vocabulary_type()
+
+        openbis_term_a = MagicMock()
+        openbis_term_a.label = entity.terms[0].label
+        openbis_term_a.description = entity.terms[0].description
+        openbis_term_a.official = entity.terms[0].official
+
+        openbis_term_b = MagicMock()
+        openbis_term_b.label = entity.terms[1].label
+        openbis_term_b.description = entity.terms[1].description
+        openbis_term_b.official = entity.terms[1].official
+
+        extra_term = MagicMock()
+
+        openbis_terms = MagicMock()
+        openbis_terms.df.__getitem__.return_value = [
+            "OPTION_A",
+            "OPTION_B",
+            "OPTION_C",
+        ]
+
+        openbis_terms.__getitem__.side_effect = lambda code: {
+            "OPTION_A": openbis_term_a,
+            "OPTION_B": openbis_term_b,
+            "OPTION_C": extra_term,
+        }[code]
+
+        vocabulary = MagicMock()
+        vocabulary.get_terms.return_value = openbis_terms
+
+        openbis = MagicMock()
+        result = SyncResult()
+
+        entity._sync_vocabulary_terms(
+            vocabulary=vocabulary,
+            openbis=openbis,
+            result=result,
+        )
+
+        openbis.new_term.assert_not_called()
+
+        rejected = [
+            change for change in result.changes if change.action == SyncAction.REJECTED
+        ]
+
+        assert len(rejected) == 1
+
+        change = rejected[0]
+        assert change.target == SyncTarget.VOCABULARY_TERM
+        assert change.code == "OPTION_C"
+        assert change.parent_code == entity.defs.code
+        assert change.field == "code"
+        assert change.old_value == "OPTION_C"
+        assert change.new_value is None
+
+    @patch("bam_masterdata.metadata.entities.OpenbisEntities")
+    def test_sync_existing_vocabulary(
+        self,
+        mocked_openbis_entities,
+    ):
+        mocked_openbis_entities.return_value.get_vocabulary_dict.return_value = {
+            "MOCKED_VOCABULARY_TYPE": True
+        }
+
+        entity = generate_vocabulary_type()
+
+        openbis = MagicMock()
+        vocabulary = MagicMock()
+        openbis.get_vocabulary.return_value = vocabulary
+
+        with (
+            patch.object(entity, "_sync_vocabulary_definition") as sync_definition,
+            patch.object(entity, "_sync_vocabulary_terms") as sync_terms,
+        ):
+            result = entity.to_openbis_sync(openbis=openbis)
+
+        openbis.get_vocabulary.assert_called_once_with("MOCKED_VOCABULARY_TYPE")
+
+        sync_definition.assert_called_once_with(
+            vocabulary=vocabulary,
+            result=result,
+        )
+
+        sync_terms.assert_called_once_with(
+            vocabulary=vocabulary,
+            openbis=openbis,
+            result=result,
+        )

@@ -16,14 +16,14 @@ def ologin(url: str | Openbis = "") -> Openbis:
     Returns:
         Openbis: Openbis object for the specific openBIS instance defined in `URL`.
     """
-    if not isinstance(url, Openbis):
-        o = Openbis(url)
+    if isinstance(url, Openbis):
+        return url
 
-    if not o.is_session_active():
-        o.login(
-            environ("OPENBIS_USERNAME"),
-            environ("OPENBIS_PASSWORD"),
-            save_token=True,
-        )
+    o = Openbis(url)
+    o.login(
+        environ("OPENBIS_USERNAME"),
+        environ("OPENBIS_PASSWORD"),
+        save_token=True,
+    )
 
     return o
