@@ -93,7 +93,7 @@ class RunParsers:
         self.collection_openbis = self._get_collection(collection_name, collection_type)
         self.collection = CollectionType()
 
-    def _get_space(self, space_name: str = "") -> "Space" | None:
+    def _get_space(self, space_name: str = "") -> "Space":
         """
         Gets the OpenBis space from the specified `space_name`. If no space name is provided, it attempts to find a default space for the username.
 
@@ -101,7 +101,7 @@ class RunParsers:
             space_name (str): The name of the space in openBIS. Defaults to "".
 
         Returns:
-            (Space | None): The retrieved space.
+            (Space): The retrieved space.
         """
         try:
             return self.openbis.get_space(space_name)
@@ -119,7 +119,7 @@ class RunParsers:
             "No space found for the specified name or default username. Please provide a valid space name."
         )
 
-    def _get_project(self, project_name: str) -> "Project" | None:
+    def _get_project(self, project_name: str) -> "Project":
         """
         Gets project if `project_name` exists in the space in openBIS. Otherwise, creates a new project with the specified name.
 
@@ -127,7 +127,7 @@ class RunParsers:
             project_name (str): The name of the project to create or get.
 
         Returns:
-            (Project | None): The created or retrieved project.
+            (Project): The created or retrieved project.
         """
         try:
             return self.space.get_project(project_name)
@@ -147,7 +147,7 @@ class RunParsers:
         self,
         collection_name: str,
         collection_type: str = "COLLECTION",
-    ) -> "Experiment" | "Project" | None:
+    ) -> "Experiment" | "Project":
         """
         Gets or creates an openBIS collection. If no collection name is provided, objects are
         attached directly to the project.
@@ -157,7 +157,7 @@ class RunParsers:
             collection_type (str): openBIS collection type. Defaults to "COLLECTION".
 
         Returns:
-            (Experiment | Project | None): The created or retrieved collection, or the project if no `collection_name` is provided.
+            (Experiment | Project): The created or retrieved collection, or the project if no `collection_name` is provided.
         """
         if not collection_name:
             self.logger.info(
@@ -222,7 +222,7 @@ class RunParsers:
             return f"/{self.space.code}/{self.project.code}/{code}"
         return f"/{self.space.code}/{self.project.code}/{self.collection_openbis.code}/{code}"
 
-    def _identifier(self, object_instance: ObjectType) -> str | None:
+    def _identifier(self, object_instance: ObjectType) -> str:
         """
         Generates a unique identifier for the given object instance in openBIS. If the object has a specified `code`,
         it uses that code. If not, it generates a code by combining the `generated_code_prefix` and a hash of the object's content.
@@ -231,7 +231,7 @@ class RunParsers:
             object_instance (ObjectType): The object instance for which to generate an identifier.
 
         Returns:
-            identifier (str | None): The unique identifier for the object in openBIS, ensuring no duplicates.
+            identifier (str): The unique identifier for the object in openBIS, ensuring no duplicates.
         """
         code = object_instance.code
 
@@ -560,8 +560,6 @@ class RunParsersWithTransactions(RunParsers):
             logger=logger,
             collection_type=collection_type,
         )
-        self.rel_transaction = self.openbis.new_transaction()
-        self.obj_transaction = self.openbis.new_transaction()
 
     def run(self) -> None:
         """
