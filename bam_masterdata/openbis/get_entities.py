@@ -1,3 +1,5 @@
+from pybis import Openbis
+
 from bam_masterdata.openbis.login import ologin
 
 
@@ -7,7 +9,7 @@ class OpenbisEntities:
     Python modules of `bam_masterdata/datamodel/`.
     """
 
-    def __init__(self, url: str = ""):
+    def __init__(self, url: str | Openbis = ""):
         self.openbis = ologin(url=url)
 
     def _get_formatted_dict(self, entity_name: str):
