@@ -16,11 +16,10 @@ def ologin(url: str | Openbis = "") -> Openbis:
     Returns:
         Openbis: Openbis object for the specific openBIS instance defined in `URL`.
     """
-    if not isinstance(url, Openbis):
-        o = Openbis(url)
-    else:
-        o = url
+    if isinstance(url, Openbis):
+        return url
 
+    o = Openbis(url)
     o.login(
         environ("OPENBIS_USERNAME"),
         environ("OPENBIS_PASSWORD"),

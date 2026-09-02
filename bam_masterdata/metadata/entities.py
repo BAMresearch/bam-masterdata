@@ -686,7 +686,7 @@ class VocabularyType(BaseEntity):
             vocabulary.description = self.defs.description
 
             result.modified(
-                target=SyncTarget.VOCABULARY_TYPE,
+                target=SyncTarget.VOCABULARY,
                 code=self.defs.code,
                 field="description",
                 old_value=old_value,
@@ -793,6 +793,11 @@ class VocabularyType(BaseEntity):
                 description=model_terms[code].description,
             )
             term.save()
+            result.created(
+                target=SyncTarget.VOCABULARY_TERM,
+                code=code,
+                parent_code=self.defs.code,
+            )
 
         # Synchronize allowed fields of existing terms
         for code in existing_codes:
@@ -809,6 +814,9 @@ class VocabularyType(BaseEntity):
                 target=SyncTarget.VOCABULARY_TERM,
                 code=code,
                 parent_code=self.defs.code,
+                field="code",
+                old_value=code,
+                new_value=None,
                 message="Deletion of vocabulary terms is not allowed.",
             )
 

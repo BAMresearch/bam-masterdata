@@ -728,6 +728,8 @@ def masterdata_sync(file_path, entity):
     # Logging messages from SyncResult
     result.log_sync_result(logger=logger)
 
+    openbis.logout()
+
 
 if __name__ == "__main__":
     cli()
