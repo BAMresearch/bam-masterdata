@@ -3006,6 +3006,7 @@ class Sample(ObjectType):
         description="""BAM Room//BAM Raum""",
         mandatory=False,
         section="BAM Information",
+        show_in_edit_views=False,
     )
 
     bam_floor = PropertyTypeAssignment(
@@ -3016,6 +3017,7 @@ class Sample(ObjectType):
         description="""BAM Floor//BAM Etage""",
         mandatory=False,
         section="BAM Information",
+        show_in_edit_views=False,
     )
 
     bam_house = PropertyTypeAssignment(
@@ -3026,6 +3028,7 @@ class Sample(ObjectType):
         description="""BAM House//BAM Haus""",
         mandatory=False,
         section="BAM Information",
+        show_in_edit_views=False,
     )
 
     bam_location = PropertyTypeAssignment(
@@ -3036,6 +3039,7 @@ class Sample(ObjectType):
         description="""BAM Location//BAM Liegenschaft""",
         mandatory=False,
         section="BAM Information",
+        show_in_edit_views=False,
     )
 
     bam_location_complete = PropertyTypeAssignment(

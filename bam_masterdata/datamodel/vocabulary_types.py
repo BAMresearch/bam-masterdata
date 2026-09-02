@@ -637,37 +637,6 @@ class BravaisLattice(VocabularyType):
     )
 
 
-class BuildingMaterialType(VocabularyType):
-    defs = VocabularyTypeDef(
-        code="BUILDING_MATERIAL_TYPE",
-        description="""Building Material Type//Baustofftyp""",
-    )
-
-    bituminous = VocabularyTerm(
-        code="BITUMINOUS",
-        label="Bituminous Material",
-        description="""Bituminous Material//Bituminöses Material""",
-    )
-
-    mineral = VocabularyTerm(
-        code="MINERAL",
-        label="Mineral Material",
-        description="""Mineral Material//Mineralischer Baustoff""",
-    )
-
-    plastic = VocabularyTerm(
-        code="PLASTIC",
-        label="Plastic Material",
-        description="""Plastic Material//Kunststoff""",
-    )
-
-    wood = VocabularyTerm(
-        code="WOOD",
-        label="Wood-based Material",
-        description="""Wood-based Material//Holzwerkstoff""",
-    )
-
-
 class CalibrationProvider(VocabularyType):
     defs = VocabularyTypeDef(
         code="CALIBRATION_PROVIDER",
@@ -32147,4 +32116,54 @@ class ScatteringModelPSDLD(VocabularyType):
         code="FRAUNHOFER",
         label="Fraunhofer diffraction for particles",
         description="""In the context of the laser light scattering method for particle size determination, Fraunhofer scattering refers to a simplified mathematical description of light scattering that is used for relatively large particles (significantly larger than the wavelength of light). For particles > 50 µm // Im Kontext des Laserstreulichtverfahrens zur Partikelgrößenbestimmung bezieht sich die Fraunhofer-Brechung auf eine vereinfachte mathematische Beschreibung der Lichtstreuung, die für relativ große Partikel (deutlich größer als die Lichtwellenlänge) verwendet wird. Für Partikelgrößen größer als 50 µm""",
+    )
+
+
+class SampleGeometry(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="SAMPLE_GEOMETRY",
+        description="""Sample geometry//Probengeometrie""",
+    )
+
+    cube = VocabularyTerm(
+        code="CUBE",
+        label="Cube",
+        description="""Cube//Würfel""",
+    )
+
+    prism = VocabularyTerm(
+        code="PRISM",
+        label="Prism",
+        description="""Prism//Prisma""",
+    )
+
+    cylinder = VocabularyTerm(
+        code="CYLINDER",
+        label="Cylinder",
+        description="""Cylinder//Zylinder""",
+    )
+
+    drill_core = VocabularyTerm(
+        code="DRILL_CORE",
+        label="Drill core",
+        description="""Drill core//Bohrkern""",
+    )
+
+
+class SampleOrigin(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="SAMPLE_ORIGIN",
+        description="""Sample origin//Herkunft des Prüfkörpers""",
+    )
+
+    bam_lab = VocabularyTerm(
+        code="BAM_LAB",
+        label="BAM Laboratory//BAM-Labor",
+        description="""BAM Laboratory//BAM-Labor""",
+    )
+
+    structure = VocabularyTerm(
+        code="STRUCTURE",
+        label="Structure//Bauwerk",
+        description="""Structure//Bauwerk""",
     )
