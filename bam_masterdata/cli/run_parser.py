@@ -1,5 +1,4 @@
 import hashlib
-from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 
 from bam_masterdata.logger import logger
