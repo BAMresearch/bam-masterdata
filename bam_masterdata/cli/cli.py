@@ -708,25 +708,41 @@ def masterdata_sync(file_path, entity):
     click.echo(f"Using the openBIS instance: {URL}\n")
 
     module = import_module(module_path=file_path)
-    if not entity:
-        for _, cls in inspect.getmembers(module, inspect.isclass):
-            if cls.__module__ != module.__name__:  # skipping imported classes
-                continue
-            if hasattr(cls, "defs") and callable(getattr(cls, "to_openbis_sync")):
-                cls_instance = cls()
-                result = cls_instance.to_openbis_sync(openbis=openbis)
-    else:
+
+    if entity:
         cls = getattr(module, entity, None)
-        if cls and hasattr(cls, "defs") and callable(getattr(cls, "to_openbis_sync")):
-            cls_instance = cls()
-            result = cls_instance.to_openbis_sync(openbis=openbis)
-        else:
+
+        if not (
+            cls
+            and hasattr(cls, "defs")
+            and callable(getattr(cls, "to_openbis_sync", None))
+        ):
             logger.error(
                 f"Entity {entity} not found in the module {file_path} or it does not have the method `to_openbis_sync()`."
             )
+            return
 
-    # Logging messages from SyncResult
-    result.log_sync_result(logger=logger)
+        cls_instance = cls()
+        result = cls_instance.to_openbis_sync(openbis=openbis)
+        result.log_sync_result(logger=logger)
+
+        openbis.logout()
+
+        return
+
+    for _, cls in inspect.getmembers(module, inspect.isclass):
+        if cls.__module__ != module.__name__:
+            continue
+
+        if not (
+            hasattr(cls, "defs") and callable(getattr(cls, "to_openbis_sync", None))
+        ):
+            continue
+
+        cls_instance = cls()
+        result = cls_instance.to_openbis_sync(openbis=openbis)
+
+        result.log_sync_result(logger=logger)
 
     openbis.logout()
 

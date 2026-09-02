@@ -1549,8 +1549,15 @@ class ObjectType(BaseEntity):
         model_codes = set(model_props)
 
         # Comparison
-        new_codes = model_codes - openbis_codes
-        existing_codes = model_codes & openbis_codes
+        # Preserve the order defined in self.properties
+        new_codes = [
+            prop.code for prop in self.properties if prop.code not in openbis_codes
+        ]
+
+        existing_codes = [
+            prop.code for prop in self.properties if prop.code in openbis_codes
+        ]
+        # Order here is less important because these are only reported as missing.
         missing_codes = openbis_codes - model_codes
 
         # Creating and assigning properties
