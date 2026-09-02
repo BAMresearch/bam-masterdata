@@ -360,3 +360,90 @@ def mock_openbis_sync():
     openbis.new_object_type.return_value = obj_type
 
     return openbis, obj_type
+
+
+def openbis_runner_mock():
+    """Stateful openBIS mock for RunParsers integration tests."""
+    openbis = MagicMock()
+    openbis.username = "testuser"
+
+    space = MagicMock()
+    space.code = "TEST_SPACE"
+
+    project = MagicMock()
+    project.code = "TEST_PROJECT"
+    project.get_collections.return_value = []
+
+    collection = MagicMock()
+    collection.code = "TEST_COLLECTION"
+
+    space.get_project.return_value = project
+    openbis.get_space.return_value = space
+    openbis.get_spaces.return_value = [space]
+
+    openbis.new_collection.return_value = collection
+
+    registry: dict[str, MagicMock] = {}
+    transactions: list[MagicMock] = []
+    datasets: list[MagicMock] = []
+
+    def get_object(identifier):
+        if identifier not in registry:
+            raise KeyError(identifier)
+        return registry[identifier]
+
+    def new_object(**kwargs):
+        code = kwargs["code"]
+        if kwargs.get("collection") is not None:
+            identifier = f"/{space.code}/{project.code}/{collection.code}/{code}"
+        else:
+            identifier = f"/{space.code}/{project.code}/{code}"
+
+        obj = MagicMock()
+        obj.identifier = identifier
+        obj.code = code
+        obj.props = kwargs.get("props", {})
+
+        def save():
+            registry[identifier] = obj
+
+        obj.save.side_effect = save
+        return obj
+
+    def new_dataset(**kwargs):
+        dataset = MagicMock()
+        dataset.files = kwargs["files"]
+        dataset.kwargs = kwargs
+        datasets.append(dataset)
+        return dataset
+
+    def new_transaction():
+        transaction = MagicMock()
+        transaction.objects = []
+
+        def add(obj):
+            transaction.objects.append(obj)
+
+        def commit():
+            for obj in transaction.objects:
+                if getattr(obj, "identifier", None):
+                    registry[obj.identifier] = obj
+
+        transaction.add.side_effect = add
+        transaction.commit.side_effect = commit
+        transactions.append(transaction)
+        return transaction
+
+    openbis.get_object.side_effect = get_object
+    openbis.new_object.side_effect = new_object
+    openbis.new_dataset.side_effect = new_dataset
+    openbis.new_transaction.side_effect = new_transaction
+
+    openbis._space = space
+    openbis._project = project
+    openbis._collection = collection
+    openbis._registry = registry
+    openbis._transactions = transactions
+    openbis._datasets = datasets
+
+    return openbis
