@@ -32119,10 +32119,10 @@ class ScatteringModelPSDLD(VocabularyType):
     )
 
 
-class SpecimenGeometry(VocabularyType):
+class SampleGeometry(VocabularyType):
     defs = VocabularyTypeDef(
-        code="SPECIMEN_GEOMETRY",
-        description="""Specimen Geometry//Prüfkörpergeometrie""",
+        code="SAMPLE_GEOMETRY",
+        description="""Sample geometry//Probengeometrie""",
     )
 
     cube = VocabularyTerm(
@@ -32147,4 +32147,23 @@ class SpecimenGeometry(VocabularyType):
         code="DRILL_CORE",
         label="Drill core",
         description="""Drill core//Bohrkern""",
+    )
+
+
+class SampleOrigin(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="SAMPLE_ORIGIN",
+        description="""Sample origin//Herkunft des Prüfkörpers""",
+    )
+
+    bam_lab = VocabularyTerm(
+        code="BAM_LAB",
+        label="BAM Laboratory//BAM-Labor",
+        description="""BAM Laboratory//BAM-Labor""",
+    )
+
+    structure = VocabularyTerm(
+        code="STRUCTURE",
+        label="Structure//Bauwerk",
+        description="""Structure//Bauwerk""",
     )
