@@ -250,7 +250,6 @@ class Ellipsometry(ExperimentalStep):
         code="ELLI_SPECTRAL_LOW",
         data_type="REAL",
         property_label="Lowest spectral value used",
-        units="...",
         description=(
             "Lowest spectral value used for this measurement"
             "//Niedrigster für diese Messung verwendeter Spektralwert"
@@ -263,7 +262,6 @@ class Ellipsometry(ExperimentalStep):
         code="ELLI_SPECTRAL_HIGH",
         data_type="REAL",
         property_label="Highest spectral value used",
-        units="...",
         description=(
             "Highest spectral value used for this measurement"
             "//Höchster für diese Messung verwendeter Spektralwert"
