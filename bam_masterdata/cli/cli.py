@@ -15,10 +15,11 @@ from bam_masterdata.checker import MasterdataChecker
 from bam_masterdata.cli.entities_to_excel import entities_to_excel
 from bam_masterdata.cli.entities_to_rdf import entities_to_rdf
 from bam_masterdata.cli.fill_masterdata import MasterdataCodeGenerator
-from bam_masterdata.cli.run_parser import run_parser
+from bam_masterdata.cli.run_parser import RunParsers, RunParsersWithTransactions
 from bam_masterdata.logger import logger
 from bam_masterdata.metadata.entities_dict import EntitiesDict
 from bam_masterdata.openbis.login import ologin
+from bam_masterdata.parsing import AbstractParser
 from bam_masterdata.utils import (
     DATAMODEL_DIR,
     delete_and_create_dir,
@@ -625,9 +626,9 @@ def push_to_openbis(file_path, datamodel_path):
     "files_parser",  # alias
     multiple=True,
     type=click.Tuple(
-        [str, click.Path()],
+        [str, click.Path(exists=True, dir_okay=False)],
     ),
-    help="Parser name and file path tuple: 'ExampleParser file1.txt'",
+    help="Parser name and file path tuple: 'ExampleParser data.txt'",
 )
 @click.option(
     "--project-name",
@@ -657,27 +658,45 @@ def push_to_openbis(file_path, datamodel_path):
     default="COLLECTION",
     help="Type of collection to create in openBIS. Options are 'COLLECTION' or 'DEFAULT_EXPERIMENT'. Defaults to 'COLLECTION'.",
 )
-def parser(files_parser, project_name, collection_name, space_name, collection_type):
+@click.option(
+    "--transaction",
+    is_flag=True,
+    default=False,
+    help="Use openBIS transactions for object and relationship creation.",
+)
+def parser(
+    files_parser,
+    project_name,
+    collection_name,
+    space_name,
+    collection_type,
+    transaction,
+):
     parser_map = {}  # TODO load from configuration from yaml file
-    parse_file_dict = {}
-    for parser_key, filepath in files_parser:
-        if parser_key not in parser_map:
-            logger.warning(
-                f"Parser {parser_key} not found. Available parsers are: {', '.join(parser_map.keys())}"
+
+    parser_files: dict[AbstractParser, list[str]] = {}
+
+    for parser_name, filepath in files_parser:
+        parser_cls = parser_map.get(parser_name)
+        if parser_cls is None:
+            raise click.UsageError(
+                f"Unknown parser '{parser_name}'. Available parsers: {', '.join(parser_map.keys())}"
             )
 
-            continue
-        parser_cls = parser_map[parser_key]
-        parse_file_dict[parser_cls].append(filepath)
+        parser_instance = parser_cls()
+        parser_files.setdefault(parser_instance, []).append(filepath)
 
-    run_parser(
-        openbis=ologin(url=environ("OPENBIS_URL")),
+    openbis = ologin(environ("OPENBIS_URL"))
+    runner_cls = RunParsersWithTransactions if transaction else RunParsers
+    runner = runner_cls(
+        openbis=openbis,
         space_name=space_name,
         project_name=project_name,
         collection_name=collection_name,
-        files_parser=parse_file_dict,
+        files_parser=parser_files,
         collection_type=collection_type.upper(),
     )
+    runner.run()
 
 
 @cli.command(

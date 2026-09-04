@@ -327,7 +327,7 @@ class BaseEntity(BaseModel):
             if isinstance(value, PropertyTypeAssignment):
                 continue
             data[key] = value
-        return json.dumps(data, indent=indent)
+        return json.dumps(data, indent=indent, sort_keys=True)
 
     def to_dict(self) -> dict:
         """
