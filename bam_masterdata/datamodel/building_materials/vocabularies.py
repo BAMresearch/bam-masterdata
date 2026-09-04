@@ -32,6 +32,30 @@ class BuildingMaterialType(VocabularyType):
         description="""Wood-based Material//Holzwerkstoff""",
     )
 
+    concrete = VocabularyTerm(
+        code="CONCRETE",
+        label="Concrete Material",
+        description="""Concrete Material//Beton""",
+    )
+
+    clay = VocabularyTerm(
+        code="CLAY",
+        label="Clay Material",
+        description="""Clay Material//Lehmbaustoff""",
+    )
+
+    natural_stone = VocabularyTerm(
+        code="NATURAL_STONE",
+        label="Natural Stone Material",
+        description="""Natural Stone Material//Naturstein""",
+    )
+
+    other = VocabularyTerm(
+        code="OTHER",
+        label="Other Material Types",
+        description="""Other Material Types//Anderer Materialtyp""",
+    )
+
 
 class BuildingMaterialsTestMachine(VocabularyType):
     defs = VocabularyTypeDef(
