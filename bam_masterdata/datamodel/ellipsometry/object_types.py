@@ -276,7 +276,7 @@ class Ellipsometry(ExperimentalStep):
         property_label="Spectral range units",
         description="""Spectral range units (eV, nm, cm-1, meV...)//Spektralbereich Einheiten (eV, nm, cm-1, meV...)""",
         mandatory=False,
-        section="Ellipsometer Information",
+        section="Ellipsometry Details",
     )
 
     elli_n_spectral_points = PropertyTypeAssignment(
