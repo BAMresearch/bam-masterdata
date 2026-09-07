@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import hashlib
 from typing import TYPE_CHECKING
 
@@ -32,12 +34,12 @@ class RunParsers:
 
     def __init__(
         self,
-        openbis: "Openbis" | None = None,
+        openbis: Openbis | None = None,
         space_name: str = "",
         project_name: str = "PROJECT",
         collection_name: str = "",
         files_parser: dict[AbstractParser, list[str]] | None = None,
-        logger: "BoundLoggerLazyProxy" = logger,
+        logger: BoundLoggerLazyProxy = logger,
         collection_type: str = "COLLECTION",
     ):
         # Initial checks
@@ -93,7 +95,7 @@ class RunParsers:
         self.collection_openbis = self._get_collection(collection_name, collection_type)
         self.collection = CollectionType()
 
-    def _get_space(self, space_name: str = "") -> "Space":
+    def _get_space(self, space_name: str = "") -> Space:
         """
         Gets the OpenBis space from the specified `space_name`. If no space name is provided, it attempts to find a default space for the username.
 
@@ -119,7 +121,7 @@ class RunParsers:
             "No space found for the specified name or default username. Please provide a valid space name."
         )
 
-    def _get_project(self, project_name: str) -> "Project":
+    def _get_project(self, project_name: str) -> Project:
         """
         Gets project if `project_name` exists in the space in openBIS. Otherwise, creates a new project with the specified name.
 
@@ -147,7 +149,7 @@ class RunParsers:
         self,
         collection_name: str,
         collection_type: str = "COLLECTION",
-    ) -> "Experiment" | "Project":
+    ) -> Experiment | Project:
         """
         Gets or creates an openBIS collection. If no collection name is provided, objects are
         attached directly to the project.
@@ -392,7 +394,7 @@ class RunParsers:
         self,
         obj: str | dict,
         object_role: str,
-    ) -> "Sample" | None:
+    ) -> Sample | None:
         """
         Gets the openBIS object based on the provided identifier or dictionary. If the object is not found, it logs a warning.
 
@@ -439,7 +441,7 @@ class RunParsers:
 
     def _load_relationship_objs(
         self, parent: str | dict, child: str | dict
-    ) -> tuple["Sample" | None, "Sample" | None]:
+    ) -> tuple[Sample | None, Sample | None]:
         """
         Loads the parent and child objects for a relationship based on the provided identifiers or dictionaries.
         If either object is not found, it logs a warning.
@@ -543,12 +545,12 @@ class RunParsersWithTransactions(RunParsers):
 
     def __init__(
         self,
-        openbis: "Openbis" | None = None,
+        openbis: Openbis | None = None,
         space_name: str = "",
         project_name: str = "PROJECT",
         collection_name: str = "",
         files_parser: dict[AbstractParser, list[str]] | None = None,
-        logger: "BoundLoggerLazyProxy" = logger,
+        logger: BoundLoggerLazyProxy = logger,
         collection_type: str = "COLLECTION",
     ):
         super().__init__(
