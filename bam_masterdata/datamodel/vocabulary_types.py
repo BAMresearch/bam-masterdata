@@ -32167,3 +32167,28 @@ class SampleOrigin(VocabularyType):
         label="Structure//Bauwerk",
         description="""Structure//Bauwerk""",
     )
+
+
+class ToolWorkOutput(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="TOOL_WORK_OUTPUT",
+        description="""Tool Work Output//Arbeitsergebnis des Werkzeugs""",
+    )
+
+    cut = VocabularyTerm(
+        code="CUT",
+        label="Schneiden",
+        description="""Cutting//Schneiden""",
+    )
+
+    drill = VocabularyTerm(
+        code="DRILL",
+        label="Bohren",
+        description="""Drilling//Bohren""",
+    )
+
+    scan = VocabularyTerm(
+        code="SCAN",
+        label="Scannen",
+        description="""Scanning//Scannen""",
+    )
