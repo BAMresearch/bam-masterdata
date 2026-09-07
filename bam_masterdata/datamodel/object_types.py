@@ -1257,7 +1257,7 @@ class Tool(ObjectType):
     defs = ObjectTypeDef(
         code="TOOL",
         description="""Tool//Werkzeug""",
-        generated_code_prefix="S",
+        generated_code_prefix="TOOL",
         auto_generate_codes=False,
     )
 
@@ -1267,7 +1267,7 @@ class Tool(ObjectType):
         property_label="Name",
         description="""Name""",
         mandatory=True,
-        section="General",
+        section="General Information",
     )
 
     description = PropertyTypeAssignment(
@@ -1276,7 +1276,7 @@ class Tool(ObjectType):
         property_label="Description",
         description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
         mandatory=False,
-        section="General",
+        section="General Information",
     )
 
     manufacturer = PropertyTypeAssignment(
@@ -1285,7 +1285,7 @@ class Tool(ObjectType):
         property_label="Manufacturer",
         description="""Manufacturer//Hersteller""",
         mandatory=False,
-        section="Equipment",
+        section="Equipment Details",
     )
 
     bam_location_complete = PropertyTypeAssignment(
@@ -1295,7 +1295,7 @@ class Tool(ObjectType):
         property_label="Complete BAM Location",
         description="""Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)""",
         mandatory=False,
-        section="Equipment",
+        section="Equipment Details",
     )
 
     bam_oe = PropertyTypeAssignment(
@@ -1305,7 +1305,7 @@ class Tool(ObjectType):
         property_label="BAM Organizational Entity",
         description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
         mandatory=False,
-        section="Organisation",
+        section="Equipment Details",
     )
 
     model_name = PropertyTypeAssignment(
@@ -1314,7 +1314,7 @@ class Tool(ObjectType):
         property_label="Model Name",
         description="""Modellbezeichnung//Modellbezeichnung""",
         mandatory=False,
-        section="Equipment",
+        section="Equipment Details",
     )
 
     serial_number = PropertyTypeAssignment(
@@ -1323,7 +1323,7 @@ class Tool(ObjectType):
         property_label="Serial Number",
         description="""Serial Number//Seriennummer""",
         mandatory=True,
-        section="Equipment",
+        section="Equipment Details",
     )
 
     bam_inventory_number = PropertyTypeAssignment(
@@ -1332,7 +1332,7 @@ class Tool(ObjectType):
         property_label="BAM Inventory Number",
         description="""BAM-Inventarnummer//BAM-Inventarnummer""",
         mandatory=False,
-        section="Equipment",
+        section="Equipment Details",
     )
 
     equipment_status = PropertyTypeAssignment(
@@ -1342,7 +1342,7 @@ class Tool(ObjectType):
         property_label="Status",
         description="""Status des Geräts oder Werkzeugs//Status des Geräts oder Werkzeugs""",
         mandatory=True,
-        section="Status",
+        section="Equipment Details",
     )
 
     responsible_person = PropertyTypeAssignment(
@@ -1352,7 +1352,7 @@ class Tool(ObjectType):
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
         mandatory=False,
-        section="Responsibility",
+        section="Equipment Details",
     )
 
     calibration_certification = PropertyTypeAssignment(
@@ -1361,7 +1361,7 @@ class Tool(ObjectType):
         property_label="Calibration / Certification",
         description="""Kalibrierung bzw. Zertifizierung//Kalibrierung bzw. Zertifizierung""",
         mandatory=False,
-        section="Calibration",
+        section="Equipment Details",
     )
 
     last_calibration_date = PropertyTypeAssignment(
@@ -1370,17 +1370,17 @@ class Tool(ObjectType):
         property_label="Last Calibration",
         description="""Letzte Kalibrierung//Letzte Kalibrierung""",
         mandatory=False,
-        section="Calibration",
+        section="Equipment Details",
     )
 
-    tool_work_output = PropertyTypeAssignment(
-        code="TOOL_WORK_OUTPUT",
+    tool_purpose = PropertyTypeAssignment(
+        code="TOOL_PURPOSE",
         data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="TOOL_WORK_OUTPUT",
-        property_label="Work Output",
-        description="""Arbeitsergebnis//Arbeitsergebnis""",
+        vocabulary_code="TOOL_PURPOSE",
+        property_label="Tool Purpose",
+        description="""Tool purpose//Verwendungszweck des Werkzeugs""",
         mandatory=True,
-        section="Classification",
+        section="Equipment Details",
     )
 
 

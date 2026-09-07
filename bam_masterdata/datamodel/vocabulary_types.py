@@ -32169,10 +32169,10 @@ class SampleOrigin(VocabularyType):
     )
 
 
-class ToolWorkOutput(VocabularyType):
+class ToolPurpose(VocabularyType):
     defs = VocabularyTypeDef(
-        code="TOOL_WORK_OUTPUT",
-        description="""Tool Work Output//Arbeitsergebnis des Werkzeugs""",
+        code="TOOL_PURPOSE",
+        description="""Tool Purpose//Verwendungszweck des Werkzeugs""",
     )
 
     cut = VocabularyTerm(
