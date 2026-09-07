@@ -1253,6 +1253,137 @@ class AuxiliaryMaterial(ObjectType):
     )
 
 
+class Tool(ObjectType):
+    defs = ObjectTypeDef(
+        code="TOOL",
+        description="""Tool//Werkzeug""",
+        generated_code_prefix="TOOL",
+        auto_generate_codes=False,
+    )
+
+    name = PropertyTypeAssignment(
+        code="$NAME",
+        data_type="VARCHAR",
+        property_label="Name",
+        description="""Name""",
+        mandatory=True,
+        section="General Information",
+    )
+
+    description = PropertyTypeAssignment(
+        code="DESCRIPTION",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Description",
+        description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
+        mandatory=False,
+        section="General Information",
+    )
+
+    manufacturer = PropertyTypeAssignment(
+        code="MANUFACTURER",
+        data_type="VARCHAR",
+        property_label="Manufacturer",
+        description="""Manufacturer//Hersteller""",
+        mandatory=False,
+        section="Equipment Details",
+    )
+
+    bam_location_complete = PropertyTypeAssignment(
+        code="BAM_LOCATION_COMPLETE",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_LOCATION_COMPLETE",
+        property_label="Complete BAM Location",
+        description="""Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)""",
+        mandatory=False,
+        section="Equipment Details",
+    )
+
+    bam_oe = PropertyTypeAssignment(
+        code="BAM_OE",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_OE",
+        property_label="BAM Organizational Entity",
+        description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
+        mandatory=False,
+        section="Equipment Details",
+    )
+
+    model_name = PropertyTypeAssignment(
+        code="MODEL_NAME",
+        data_type="VARCHAR",
+        property_label="Model Name",
+        description="""Modellbezeichnung//Modellbezeichnung""",
+        mandatory=False,
+        section="Equipment Details",
+    )
+
+    serial_number = PropertyTypeAssignment(
+        code="SERIAL_NUMBER",
+        data_type="VARCHAR",
+        property_label="Serial Number",
+        description="""Serial Number//Seriennummer""",
+        mandatory=True,
+        section="Equipment Details",
+    )
+
+    bam_inventory_number = PropertyTypeAssignment(
+        code="BAM_INVENTORY_NUMBER",
+        data_type="VARCHAR",
+        property_label="BAM Inventory Number",
+        description="""BAM-Inventarnummer//BAM-Inventarnummer""",
+        mandatory=False,
+        section="Equipment Details",
+    )
+
+    equipment_status = PropertyTypeAssignment(
+        code="EQUIPMENT_STATUS",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="INSTRUMENT_STATUS",
+        property_label="Status",
+        description="""Status des Geräts oder Werkzeugs//Status des Geräts oder Werkzeugs""",
+        mandatory=True,
+        section="Equipment Details",
+    )
+
+    responsible_person = PropertyTypeAssignment(
+        code="RESPONSIBLE_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON.BAM",
+        property_label="Responsible person",
+        description="""Responsible person//Verantwortliche Person""",
+        mandatory=False,
+        section="Equipment Details",
+    )
+
+    calibration_certification = PropertyTypeAssignment(
+        code="CALIBRATION_CERTIFICATION",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Calibration / Certification",
+        description="""Kalibrierung bzw. Zertifizierung//Kalibrierung bzw. Zertifizierung""",
+        mandatory=False,
+        section="Equipment Details",
+    )
+
+    last_calibration_date = PropertyTypeAssignment(
+        code="LAST_CALIBRATION_DATE",
+        data_type="DATE",
+        property_label="Last Calibration",
+        description="""Letzte Kalibrierung//Letzte Kalibrierung""",
+        mandatory=False,
+        section="Equipment Details",
+    )
+
+    tool_purpose = PropertyTypeAssignment(
+        code="TOOL_PURPOSE",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="TOOL_PURPOSE",
+        property_label="Tool Purpose",
+        description="""Tool purpose//Verwendungszweck des Werkzeugs""",
+        mandatory=True,
+        section="Equipment Details",
+    )
+
+
 class Instrument(ObjectType):
     defs = ObjectTypeDef(
         code="INSTRUMENT",
