@@ -48,8 +48,8 @@ class ForceTransducer(Instrument):
     calibration_interval = PropertyTypeAssignment(
         code="CALIBRATION_INTERVAL",
         data_type="INTEGER",
-        property_label="Calibration Interval [Months]",
-        description="""Calibration Interval [Months]//Kalibrierintervall [Monate]""",
+        property_label="Calibration Interval [months]",
+        description="""Calibration Interval [months]//Kalibrierintervall [Monate]""",
         mandatory=False,
         section="Status",
     )
@@ -101,8 +101,8 @@ class HydraulicCylinder(Instrument):
     calibration_interval = PropertyTypeAssignment(
         code="CALIBRATION_INTERVAL",
         data_type="INTEGER",
-        property_label="Calibration Interval [Months]",
-        description="""Calibration Interval [Months]//Kalibrierintervall [Monate]""",
+        property_label="Calibration Interval [months]",
+        description="""Calibration Interval [months]//Kalibrierintervall [Monate]""",
         mandatory=False,
         section="Status",
     )
@@ -127,8 +127,8 @@ class HydraulicMisc(Instrument):
     calibration_interval = PropertyTypeAssignment(
         code="CALIBRATION_INTERVAL",
         data_type="INTEGER",
-        property_label="Calibration Interval [Months]",
-        description="""Calibration Interval [Months]//Kalibrierintervall [Monate]""",
+        property_label="Calibration Interval [months]",
+        description="""Calibration Interval [months]//Kalibrierintervall [Monate]""",
         mandatory=False,
         section="Status",
     )
@@ -189,8 +189,8 @@ class Servovalve(Instrument):
     calibration_interval = PropertyTypeAssignment(
         code="CALIBRATION_INTERVAL",
         data_type="INTEGER",
-        property_label="Calibration Interval [Months]",
-        description="""Calibration Interval [Months]//Kalibrierintervall [Monate]""",
+        property_label="Calibration Interval [months]",
+        description="""Calibration Interval [months]//Kalibrierintervall [Monate]""",
         mandatory=False,
         section="Status",
     )
@@ -756,8 +756,8 @@ class MeasuringAmplifier(Instrument):
     calibration_interval = PropertyTypeAssignment(
         code="CALIBRATION_INTERVAL",
         data_type="INTEGER",
-        property_label="Calibration Interval [Months]",
-        description="""Calibration Interval [Months]//Kalibrierintervall [Monate]""",
+        property_label="Calibration Interval [months]",
+        description="""Calibration Interval [months]//Kalibrierintervall [Monate]""",
         mandatory=False,
         section="Status",
     )
@@ -871,7 +871,7 @@ class Centrifuge(Instrument):
     centrifuge_maximum_speed_rcf = PropertyTypeAssignment(
         code="CENTRIFUGE.MAXIMUM_SPEED_RCF",
         data_type="INTEGER",
-        property_label="Maximum Centrifugation Speed (depending on rotor) [rcf]",
+        property_label="Maximum Centrifugation Speed (depending on rotor) [rcf]",  # ToDo: not a valid pint unit
         description="""Maximum Centrifugation Speed (depending on rotor) [rcf]//Maximale Zentrifugationsgeschwindigkeit (rotorabhängig) [rcf]""",
         mandatory=False,
         section="Instrument Specification",
@@ -951,7 +951,7 @@ class CentrifugeRotor(Instrument):
     centrifuge_rotor_maximum_speed_rcf = PropertyTypeAssignment(
         code="CENTRIFUGE_ROTOR.MAXIMUM_SPEED_RCF",
         data_type="INTEGER",
-        property_label="Maximum Speed [rcf]",
+        property_label="Maximum Speed [rcf]",  # ToDo: not a valid pint unit
         description="""Maximum Rotor Speed [rcf]//Maximale Rotor-Geschwindigkeit [rcf]""",
         mandatory=False,
         section="Rotor Specification",
@@ -1317,7 +1317,7 @@ class Lens(Camera):
     lens_aperture_max = PropertyTypeAssignment(
         code="LENS_APERTURE_MAX",
         data_type="REAL",
-        property_label="Maximum Aperture [f/]",
+        property_label="Maximum Aperture [f/]",  # ToDo: not a valid pint unit
         description="""Maximum Aperture [f/]//Maximale Blendenöffnung [f/]""",
         mandatory=False,
         section="Lens Information",
@@ -1326,7 +1326,7 @@ class Lens(Camera):
     lens_aperture_min = PropertyTypeAssignment(
         code="LENS_APERTURE_MIN",
         data_type="REAL",
-        property_label="Minimum Aperture [f/]",
+        property_label="Minimum Aperture [f/]",  # ToDo: not a valid pint unit
         description="""Minimum Aperture [f/]//Minimale Blendenzahl [f/]""",
         mandatory=False,
         section="Lens Information",
