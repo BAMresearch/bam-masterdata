@@ -1270,15 +1270,6 @@ class Tool(ObjectType):
         section="General Information",
     )
 
-    description = PropertyTypeAssignment(
-        code="DESCRIPTION",
-        data_type="MULTILINE_VARCHAR",
-        property_label="Description",
-        description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
-        mandatory=False,
-        section="General Information",
-    )
-
     manufacturer = PropertyTypeAssignment(
         code="MANUFACTURER",
         data_type="VARCHAR",
@@ -1351,24 +1342,6 @@ class Tool(ObjectType):
         object_code="PERSON.BAM",
         property_label="Responsible person",
         description="""Responsible person//Verantwortliche Person""",
-        mandatory=False,
-        section="Equipment Details",
-    )
-
-    calibration_certification = PropertyTypeAssignment(
-        code="CALIBRATION_CERTIFICATION",
-        data_type="MULTILINE_VARCHAR",
-        property_label="Calibration / Certification",
-        description="""Kalibrierung bzw. Zertifizierung//Kalibrierung bzw. Zertifizierung""",
-        mandatory=False,
-        section="Equipment Details",
-    )
-
-    last_calibration_date = PropertyTypeAssignment(
-        code="LAST_CALIBRATION_DATE",
-        data_type="DATE",
-        property_label="Last Calibration",
-        description="""Letzte Kalibrierung//Letzte Kalibrierung""",
         mandatory=False,
         section="Equipment Details",
     )
