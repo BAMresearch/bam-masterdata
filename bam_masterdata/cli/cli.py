@@ -28,8 +28,6 @@ from bam_masterdata.utils import (
     listdir_py_modules,
 )
 
-URL = environ("OPENBIS_URL")
-
 
 @click.group(help="Entry point to run `bam_masterdata` CLI commands.")
 def cli():
@@ -722,9 +720,19 @@ def parser(
     required=False,
     help="""The name of the entity to be updated in openBIS. If not specified, all entities in the `--file-path` will be updated.""",
 )
-def masterdata_sync(file_path, entity):
-    openbis = ologin(url=URL)
-    click.echo(f"Using the openBIS instance: {URL}\n")
+@click.option(
+    "--url",
+    "url",
+    type=str,
+    required=False,
+    help="""The URL of the openBIS instance to connect to.""",
+)
+def masterdata_sync(file_path, entity, url):
+    if url:
+        openbis = ologin(url=url)
+    else:
+        openbis = ologin(environ("OPENBIS_URL"))
+    click.echo(f"Using the openBIS instance: {url}\n")
 
     module = import_module(module_path=file_path)
 
