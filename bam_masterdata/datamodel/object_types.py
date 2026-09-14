@@ -1270,6 +1270,16 @@ class Tool(ObjectType):
         section="General Information",
     )
 
+    description = PropertyTypeAssignment(
+        code="DESCRIPTION",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Description",
+        description="""Short description and/or purpose//Kurzbeschreibung und/oder Zweck""",
+        mandatory=False,
+        show_in_edit_views=False,
+        section="General Information",
+    )
+
     manufacturer = PropertyTypeAssignment(
         code="MANUFACTURER",
         data_type="VARCHAR",
