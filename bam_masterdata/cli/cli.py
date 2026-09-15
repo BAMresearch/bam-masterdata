@@ -28,8 +28,6 @@ from bam_masterdata.utils import (
     listdir_py_modules,
 )
 
-URL = environ("OPENBIS_URL")
-
 
 @click.group(help="Entry point to run `bam_masterdata` CLI commands.")
 def cli():
@@ -664,6 +662,14 @@ def push_to_openbis(file_path, datamodel_path):
     default=False,
     help="Use openBIS transactions for object and relationship creation.",
 )
+@click.option(
+    "--url",
+    "url",
+    default=environ("OPENBIS_URL"),
+    type=str,
+    required=False,
+    help="""The URL of the openBIS instance to connect to.""",
+)
 def parser(
     files_parser,
     project_name,
@@ -671,6 +677,7 @@ def parser(
     space_name,
     collection_type,
     transaction,
+    url,
 ):
     parser_map = {}  # TODO load from configuration from yaml file
 
@@ -686,7 +693,7 @@ def parser(
         parser_instance = parser_cls()
         parser_files.setdefault(parser_instance, []).append(filepath)
 
-    openbis = ologin(environ("OPENBIS_URL"))
+    openbis = ologin(url)
     runner_cls = RunParsersWithTransactions if transaction else RunParsers
     runner = runner_cls(
         openbis=openbis,
@@ -722,9 +729,17 @@ def parser(
     required=False,
     help="""The name of the entity to be updated in openBIS. If not specified, all entities in the `--file-path` will be updated.""",
 )
-def masterdata_sync(file_path, entity):
-    openbis = ologin(url=URL)
-    click.echo(f"Using the openBIS instance: {URL}\n")
+@click.option(
+    "--url",
+    "url",
+    default=environ("OPENBIS_URL"),
+    type=str,
+    required=False,
+    help="""The URL of the openBIS instance to connect to.""",
+)
+def masterdata_sync(file_path, entity, url):
+    openbis = ologin(url)
+    click.echo(f"Using the openBIS instance: {url}\n")
 
     module = import_module(module_path=file_path)
 
