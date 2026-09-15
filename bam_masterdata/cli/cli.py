@@ -665,7 +665,6 @@ def push_to_openbis(file_path, datamodel_path):
 @click.option(
     "--url",
     "url",
-    default=environ("OPENBIS_URL"),
     type=str,
     required=False,
     help="""The URL of the openBIS instance to connect to.""",
@@ -693,7 +692,10 @@ def parser(
         parser_instance = parser_cls()
         parser_files.setdefault(parser_instance, []).append(filepath)
 
+    if url is None:
+        url = environ("OPENBIS_URL")
     openbis = ologin(url)
+
     runner_cls = RunParsersWithTransactions if transaction else RunParsers
     runner = runner_cls(
         openbis=openbis,
@@ -732,14 +734,15 @@ def parser(
 @click.option(
     "--url",
     "url",
-    default=environ("OPENBIS_URL"),
     type=str,
     required=False,
     help="""The URL of the openBIS instance to connect to.""",
 )
 def masterdata_sync(file_path, entity, url):
-    openbis = ologin(url)
+    if url is None:
+        url = environ("OPENBIS_URL")
     click.echo(f"Using the openBIS instance: {url}\n")
+    openbis = ologin(url)
 
     module = import_module(module_path=file_path)
 
