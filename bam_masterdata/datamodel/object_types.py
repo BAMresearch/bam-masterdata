@@ -1882,6 +1882,49 @@ class TestingMachine(ObjectType):
     )
 
 
+class ProjectDescription(ObjectType):
+    defs = ObjectTypeDef(
+        code="PROJECT_DESCRIPTION",
+        description="Project Description//Projektbeschreibung",
+        generated_code_prefix="PRODES",
+    )
+
+    name = PropertyTypeAssignment(
+        code="$NAME",
+        data_type="VARCHAR",
+        property_label="Name",
+        description="Name",
+        mandatory=True,
+        section="General Information",
+    )
+
+    description = PropertyTypeAssignment(
+        code="DESCRIPTION",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Description",
+        description="Short description and/or purpose//Kurzbeschreibung und/oder Zweck",
+        mandatory=True,
+        section="General Information",
+    )
+
+
+class ProjectDocumentation(ObjectType):
+    defs = ObjectTypeDef(
+        code="PROJECT_DOCUMENTATION",
+        description="Project Documentation//Projektdokumentation",
+        generated_code_prefix="PRODOC",
+    )
+
+    name = PropertyTypeAssignment(
+        code="$NAME",
+        data_type="VARCHAR",
+        property_label="Name",
+        description="Name",
+        mandatory=True,
+        section="General Information",
+    )
+
+
 class Document(ObjectType):
     defs = ObjectTypeDef(
         code="DOCUMENT",
