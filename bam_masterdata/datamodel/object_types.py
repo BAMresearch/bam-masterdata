@@ -2383,6 +2383,145 @@ class TestObject(ObjectType):
     )
 
 
+class TestObjectExt(ObjectType):
+    defs = ObjectTypeDef(
+        code="TEST_OBJECT_EXT",
+        description="External test object//Externes Prüfobjekt",
+        generated_code_prefix="TESTO.EXT",
+    )
+
+    name = PropertyTypeAssignment(
+        code="$NAME",
+        data_type="VARCHAR",
+        property_label="Name",
+        description="Name",
+        mandatory=True,
+        section="General Information",
+    )
+
+    owner = PropertyTypeAssignment(
+        code="OWNER",
+        data_type="VARCHAR",
+        property_label="Owner",
+        description="Owner of the external test object//Eigentümer des externen Prüfobjekts",
+        mandatory=True,
+        section="General Information",
+    )
+
+    owner_code = PropertyTypeAssignment(
+        code="OWNER_CODE",
+        data_type="VARCHAR",
+        property_label="Owner's Code",
+        description="Object identifier in the owner's database//Objektkennung in der Datenbank des Eigentümers",
+        mandatory=False,
+        section="General Information",
+    )
+
+    building_year = PropertyTypeAssignment(
+        code="BUILDING_YEAR",
+        data_type="INTEGER",
+        property_label="Building Year",
+        description="Year of construction//Baujahr",
+        mandatory=False,
+        section="General Information",
+    )
+
+    building_number = PropertyTypeAssignment(
+        code="BUILDING_NUMBER",
+        data_type="VARCHAR",
+        property_label="Building Number",
+        description="Building or structure identifier//Bauwerksnummer",
+        mandatory=False,
+        section="General Information",
+    )
+
+    description = PropertyTypeAssignment(
+        code="DESCRIPTION",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Description",
+        description="Short description and/or purpose//Kurzbeschreibung und/oder Zweck",
+        mandatory=False,
+        section="General Information",
+    )
+
+    test_obj_material = PropertyTypeAssignment(
+        code="TEST_OBJ_MATERIAL",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BUILDING_MATERIAL_TYPE",
+        property_label="Building Material",
+        description="Building Material//Werkstoff",
+        mandatory=True,
+        section="Structure And Location",
+    )
+
+    construction_type = PropertyTypeAssignment(
+        code="CONSTRUCTION_TYPE",
+        data_type="VARCHAR",
+        property_label="Construction Type",
+        description="Type of construction, e.g. prestressed concrete//Konstruktionstyp, z. B. Spannbeton",
+        mandatory=False,
+        section="Structure And Location",
+    )
+
+    location = PropertyTypeAssignment(
+        code="LOCATION",
+        data_type="VARCHAR",
+        property_label="Location",
+        description="Location, e.g. city, river, state or road number//Ort, z. B. Stadt, Fluss, Bundesland oder Straßennummer",
+        mandatory=True,
+        section="Structure And Location",
+    )
+
+    gis_coordinates = PropertyTypeAssignment(
+        code="GIS_COORDINATES",
+        data_type="VARCHAR",
+        property_label="GIS Coordinates",
+        description="Coordinates of the external test object//Koordinaten des externen Prüfobjekts",
+        mandatory=False,
+        section="Structure And Location",
+    )
+
+    test_obj_ext_length = PropertyTypeAssignment(
+        code="TEST_OBJ_EXT_LENGTH",
+        data_type="REAL",
+        property_label="Length in [m]",
+        units="m",
+        description="Length of the external test object [m]//Länge des externen Prüfobjekts [m]",
+        mandatory=False,
+        section="Dimensions",
+    )
+
+    test_obj_ext_width = PropertyTypeAssignment(
+        code="TEST_OBJ_EXT_WIDTH",
+        data_type="REAL",
+        property_label="Width in [m]",
+        units="m",
+        description="Width of the external test object [m]//Breite des externen Prüfobjekts [m]",
+        mandatory=False,
+        section="Dimensions",
+    )
+
+    test_obj_ext_height = PropertyTypeAssignment(
+        code="TEST_OBJ_EXT_HEIGHT",
+        data_type="REAL",
+        property_label="Height in [m]",
+        units="m",
+        description="Height of the external test object [m]//Höhe des externen Prüfobjekts [m]",
+        mandatory=False,
+        section="Dimensions",
+    )
+
+    test_obj_ext_weight = PropertyTypeAssignment(
+        code="TEST_OBJ_EXT_WEIGHT",
+        data_type="REAL",
+        property_label="Weight in [kg]",
+        units="kg",
+        description="Test object weight [kg]//Gewicht des Prüfobjekts [kg]",
+        mandatory=False,
+        section="Dimensions",
+    )
+
+
 class Project(ObjectType):
     defs = ObjectTypeDef(
         code="PROJECT",
