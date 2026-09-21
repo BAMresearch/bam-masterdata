@@ -74,7 +74,7 @@ from pybis import Openbis
 
 from bam_masterdata.cli.run_parser import RunParsers
 from bam_masterdata.logger import logger
-from <package_name>.parser import <ParserClass>
+from src.<parser> import <ParserClass>
 
 parser = <ParserClass>()
 ```
@@ -83,7 +83,7 @@ For example, a parser package named `supercode_x` with a class named
 `SupercodeXParser` is imported as follows:
 
 ```python
-from supercode_x.parser import SupercodeXParser
+from src.supercode_x import SupercodeXParser
 
 parser = SupercodeXParser()
 ```
