@@ -273,16 +273,16 @@ class SIMS(ExperimentalStep):
     delayed_extraction = PropertyTypeAssignment(
         code="DELAYED_EXTRACTION",
         data_type="BOOLEAN",
-        property_label="Delayed Extraction",
+        property_label="Was delayed extraction used?",
         description="""Indicates whether delayed extraction is used""",
         mandatory=False,
         section="Experimental Settings",
     )
 
     gas_flooding = PropertyTypeAssignment(
-        code="GAS_FLODDING",
+        code="GAS_FLOODING",
         data_type="BOOLEAN",
-        property_label="Gas Flooding",
+        property_label="Was gas flooding used?",
         description="""Indicates whether gas flooding is used""",
         mandatory=False,
         section="Experimental Settings",
@@ -295,15 +295,6 @@ class SIMS(ExperimentalStep):
         description="""Stop condition for acquisition""",
         mandatory=False,
         section="Experimental Settings",
-    )
-
-    sputter_source = PropertyTypeAssignment(
-        code="SPUTTER_SOURCE",
-        data_type="VARCHAR",
-        property_label="Sputter Source",
-        description="""Sputter Source""",
-        mandatory=False,
-        section="Depth Profiling",
     )
 
     sims_dsc_voltage = PropertyTypeAssignment(
@@ -334,6 +325,15 @@ class SIMS(ExperimentalStep):
         description="""Secondary (Sputter) ion beam raster size in µm""",
         mandatory=False,
         section="Experimental Settings",
+    )
+
+    sputter_source = PropertyTypeAssignment(
+        code="SPUTTER_SOURCE",
+        data_type="VARCHAR",
+        property_label="Sputter Source",
+        description="""Sputter Source""",
+        mandatory=False,
+        section="Depth Profiling",
     )
 
     stitching = PropertyTypeAssignment(
