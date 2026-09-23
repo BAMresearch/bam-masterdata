@@ -11,6 +11,7 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 from rdflib import BNode, Literal
 from rdflib.namespace import DC, OWL, RDF, RDFS
 
+from bam_masterdata.metadata.destination import Destination
 from bam_masterdata.utils import DATAMODEL_DIR, import_module, listdir_py_modules
 from bam_masterdata.utils.decorators import deprecated
 
@@ -26,8 +27,6 @@ import uuid
 from bam_masterdata.metadata._maps import (
     COLLECTION_TYPE_MAP,
     DATASET_TYPE_MAP,
-    OBJECT_TYPE_MAP,
-    VOCABULARY_TYPE_MAP,
 )
 from bam_masterdata.metadata.definitions import (
     CollectionTypeDef,
@@ -1706,6 +1705,30 @@ class CollectionType(ObjectType):
         """,
     )
 
+    destinations: dict[str, Destination] = Field(
+        default_factory=dict,
+        exclude=True,
+        description="""
+        Dictionary containing destination overrides for objects attached to the collection type.
+
+        The keys correspond to object identifiers in `attached_objects`. Objects without an entry
+        use the default destination configured in `RunParsers`, e.g.:
+
+        ```python
+        attached_objects = {
+            "OBJ123": sample,
+            "OBJ456": step,
+        }
+
+        destinations = {
+            "OBJ123": Destination(
+                project="OTHER_PROJECT",
+            ),
+        }
+        ```
+        """,
+    )
+
     relationships: dict[str, tuple[str, str]] = Field(
         default_factory=dict,
         exclude=True,
@@ -1717,7 +1740,13 @@ class CollectionType(ObjectType):
     )
 
     def __repr__(self):
-        return f"{self.base_name}(attached_objects={self.attached_objects}, relationships={self.relationships})"
+        return (
+            f"{self.base_name}("
+            f"attached_objects={self.attached_objects}, "
+            f"destinations={self.destinations}, "
+            f"relationships={self.relationships}"
+            f")"
+        )
 
     @property
     def base_name(self) -> str:
@@ -1765,12 +1794,18 @@ class CollectionType(ObjectType):
             create_type=create_type,
         )
 
-    def add(self, object_type: ObjectType) -> str:
+    def add(
+        self,
+        object_type: ObjectType,
+        destination: Destination | None = None,
+    ) -> str:
         """
         Add an object type to the collection type.
 
         Args:
             object_type (ObjectType): The object type to add to the collection type.
+            destination (Destination | None): Optional openBIS destination override for this object.
+                If omitted, the default destination configured in RunParsers is used.
 
         Returns:
             str: The unique identifier of the object type assigned in openBIS.
@@ -1794,6 +1829,8 @@ class CollectionType(ObjectType):
 
         object_id = generate_object_id(object_type)
         self.attached_objects[object_id] = object_type
+        if destination is not None:
+            self.destinations[object_id] = destination
         return object_id
 
     def remove(self, object_id: str = "") -> None:
@@ -1812,6 +1849,7 @@ class CollectionType(ObjectType):
                 f"Object with ID '{object_id}' does not exist in the collection."
             )
         del self.attached_objects[object_id]
+        self.destinations.pop(object_id, None)
 
     def add_relationship(self, parent: str | dict, child: str | dict) -> str:
         """
