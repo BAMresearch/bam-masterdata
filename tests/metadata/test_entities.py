@@ -5,15 +5,14 @@ from unittest.mock import MagicMock, patch
 import h5py
 import pytest
 
+from bam_masterdata.metadata import Destination
 from bam_masterdata.metadata.definitions import (
     ObjectTypeDef,
     PropertyTypeAssignment,
-    VocabularyTypeDef,
 )
 from bam_masterdata.metadata.entities import (
     CollectionType,
     ObjectType,
-    VocabularyType,
     generate_object_id,
     generate_object_relationship_id,
 )
@@ -426,13 +425,15 @@ class TestCollectionType:
         """Test the method `__repr__` from the class `CollectionType`."""
         collection = CollectionType()
         assert (
-            repr(collection) == "CollectionType(attached_objects={}, relationships={})"
+            repr(collection)
+            == "CollectionType(attached_objects={}, destinations={}, relationships={})"
         )
 
         obj_id = collection.add(generate_object_type())
         assert (
             repr(collection)
-            == f"CollectionType(attached_objects={{'{obj_id}': Mandatory name:MockedObjectType(name='Mandatory name')}}, relationships={{}})"
+            == f"CollectionType(attached_objects={{'{obj_id}': Mandatory name:MockedObjectType(name='Mandatory name')}}, "
+            f"destinations={{}}, relationships={{}})"
         )
 
         obj_id_2 = collection.add(generate_object_type())
@@ -440,7 +441,29 @@ class TestCollectionType:
         assert (
             repr(collection)
             == f"CollectionType(attached_objects={{'{obj_id}': Mandatory name:MockedObjectType(name='Mandatory name'), "
-            f"'{obj_id_2}': Mandatory name:MockedObjectType(name='Mandatory name')}}, relationships={{'{relation_id}': ('{obj_id}', '{obj_id_2}')}})"
+            f"'{obj_id_2}': Mandatory name:MockedObjectType(name='Mandatory name')}}, "
+            f"destinations={{}}, "
+            f"relationships={{'{relation_id}': ('{obj_id}', '{obj_id_2}')}})"
+        )
+
+    def test_repr_with_destination(self):
+        collection = CollectionType()
+
+        destination = Destination(
+            project="PROJECT_A",
+            collection="COLLECTION_A",
+        )
+
+        obj_id = collection.add(
+            generate_object_type(),
+            destination=destination,
+        )
+
+        assert (
+            repr(collection)
+            == f"CollectionType(attached_objects={{'{obj_id}': Mandatory name:MockedObjectType(name='Mandatory name')}}, "
+            f"destinations={{'{obj_id}': Destination(space=None, project='PROJECT_A', collection='COLLECTION_A')}}, "
+            f"relationships={{}})"
         )
 
     def test_add(self):
@@ -462,12 +485,33 @@ class TestCollectionType:
         entity_id = collection.add(generate_object_type())
         assert entity_id.startswith("MOCKOBJTYPE")
         assert entity_id in collection.attached_objects.keys()
+        assert entity_id not in collection.destinations
+
+        destination = Destination(
+            project="PROJECT_A",
+        )
+        entity_with_destination = generate_object_type()
+        entity_with_destination_id = collection.add(
+            entity_with_destination,
+            destination=destination,
+        )
+        assert entity_with_destination_id in collection.attached_objects
+        assert entity_with_destination_id in collection.destinations
+        assert collection.destinations[entity_with_destination_id] == destination
 
     def test_remove(self):
         """Test the method `remove` from the class `CollectionType`."""
         collection = CollectionType()
         entity_type = generate_object_type()
-        entity_id = collection.add(entity_type)
+
+        destination = Destination(
+            project="PROJECT_A",
+        )
+
+        entity_id = collection.add(
+            entity_type,
+            destination=destination,
+        )
 
         with pytest.raises(
             ValueError,
@@ -481,8 +525,12 @@ class TestCollectionType:
         ):
             collection.remove("NOT_AN_ENTITY_ID")
 
+        assert entity_id in collection.attached_objects
+        assert entity_id in collection.destinations
+
         collection.remove(entity_id)
         assert entity_id not in collection.attached_objects
+        assert entity_id not in collection.destinations
 
     def test_add_relationship(self):
         collection = CollectionType()
