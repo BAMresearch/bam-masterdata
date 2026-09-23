@@ -191,11 +191,11 @@ class SIMS(ExperimentalStep):
         section="General Information",
     )
 
-    sims_mode = PropertyTypeAssignment(
-        code="SIMS_MODE",
+    measurement_mode = PropertyTypeAssignment(
+        code="MEASUREMENT_MODE",
         data_type="VARCHAR",
-        property_label="SIMS Mode",
-        description="""Was the measurement done in Imaging, Profiling or Spectrometry mode?""",
+        property_label="Measurement Mode",
+        description="""Which measurement mode was used?""",
         mandatory=False,
         section="Experimental Settings",
     )
@@ -260,12 +260,39 @@ class SIMS(ExperimentalStep):
         section="Experimental Settings",
     )
 
-    sims_sputter_source = PropertyTypeAssignment(
-        code="SIMS_SPUTTER_SOURCE",
-        data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="SIMS_SPUTTER_SOURCE",
-        property_label="Sputter Source",
-        description="""Sputter Source""",
+    charge_compensation = PropertyTypeAssignment(
+        code="CHARGE_COMPENSATION",
+        data_type="REAL",
+        units="V",
+        property_label="Charge compensation",
+        description="""Charge compensation in V""",
+        mandatory=False,
+        section="Experimental Settings",
+    )
+
+    delayed_extraction = PropertyTypeAssignment(
+        code="DELAYED_EXTRACTION",
+        data_type="BOOLEAN",
+        property_label="Was delayed extraction used?",
+        description="""Indicates whether delayed extraction is used""",
+        mandatory=False,
+        section="Experimental Settings",
+    )
+
+    gas_flooding = PropertyTypeAssignment(
+        code="GAS_FLOODING",
+        data_type="BOOLEAN",
+        property_label="Was gas flooding used?",
+        description="""Indicates whether gas flooding is used""",
+        mandatory=False,
+        section="Experimental Settings",
+    )
+
+    stop_condition = PropertyTypeAssignment(
+        code="STOP_CONDITION",
+        data_type="VARCHAR",
+        property_label="Stop Condition",
+        description="""Stop condition for acquisition""",
         mandatory=False,
         section="Experimental Settings",
     )
@@ -300,12 +327,48 @@ class SIMS(ExperimentalStep):
         section="Experimental Settings",
     )
 
-    sims_charge_compensation = PropertyTypeAssignment(
-        code="SIMS_CHARGE_COMPENSATION",
-        data_type="REAL",
-        units="V",
-        property_label="Charge compensation",
-        description="""Charge compensation in V""",
+    sputter_source = PropertyTypeAssignment(
+        code="SPUTTER_SOURCE",
+        data_type="VARCHAR",
+        property_label="Sputter Source",
+        description="""Sputter Source""",
         mandatory=False,
-        section="Experimental Settings",
+        section="Depth Profiling",
+    )
+
+    stitching = PropertyTypeAssignment(
+        code="STITCHING",
+        data_type="BOOLEAN",
+        property_label="Stitching",
+        description="""Indicates whether the image was acquired by stitching""",
+        mandatory=False,
+        section="Imaging",
+    )
+
+    stitching_total_area = PropertyTypeAssignment(
+        code="STITCHING_TOTAL_AREA",
+        data_type="VARCHAR",
+        property_label="Total stitching area [mm x mm]",
+        description="""Total area of the stitched image in mm x mm""",
+        mandatory=False,
+        section="Imaging",
+    )
+
+    stitching_frames_per_patch = PropertyTypeAssignment(
+        code="STITCHING_FRAMES_PER_PATCH",
+        data_type="INTEGER",
+        property_label="Frames per Patch",
+        description="""Number of frames acquired for each patch""",
+        mandatory=False,
+        section="Imaging",
+    )
+
+    stitching_pixel_density = PropertyTypeAssignment(
+        code="STITCHING_PIXEL_DENSITY",
+        data_type="REAL",
+        units="pixel/mm",
+        property_label="Pixel Density",
+        description="""Pixel density of the stitched image in pixel/mm""",
+        mandatory=False,
+        section="Imaging",
     )
