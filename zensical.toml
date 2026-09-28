@@ -21,6 +21,7 @@ nav = [
       { Parsing = [
           "howtos/parsing/parser_app.md",
           "howtos/parsing/create_new_parsers.md",
+          "howtos/parsing/run_parsers.md,
       ]},
   ]},
   { Explanations = [
