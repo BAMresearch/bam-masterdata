@@ -107,6 +107,33 @@ class Entry(ObjectType):
     )
 
 
+class TestMethod(ObjectType):
+    defs = ObjectTypeDef(
+        code="TEST_METHOD",
+        description="Test Method//Prüfverfahren",
+        generated_code_prefix="TESTM",
+    )
+
+    method = PropertyTypeAssignment(
+        code="METHOD",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="TEST_METHOD",
+        property_label="Test Method",
+        description="Test method classification, e.g. radar//Prüfverfahren-Klasse, z. B. Radar",
+        mandatory=True,
+        section="General Information",
+    )
+
+    notes = PropertyTypeAssignment(
+        code="NOTES",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Notes",
+        description="Notes",
+        mandatory=False,
+        section="General Information",
+    )
+
+
 class GeneralProtocol(ObjectType):
     defs = ObjectTypeDef(
         code="GENERAL_PROTOCOL",
