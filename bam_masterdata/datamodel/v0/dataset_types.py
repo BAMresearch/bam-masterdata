@@ -39,6 +39,59 @@ class ElnPreview(DatasetType):
     )
 
 
+class RawDataFb82(DatasetType):
+    defs = DatasetTypeDef(
+        code="RAW_DATA.FB82",
+        description="Raw Research Data (FB 8.2)//Rohdaten (FB 8.2)",
+    )
+
+    name = PropertyTypeAssignment(
+        code="$NAME",
+        data_type="VARCHAR",
+        property_label="Name",
+        description="Name",
+        mandatory=True,
+        section="General Information",
+    )
+
+    author_person = PropertyTypeAssignment(
+        code="AUTHOR_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON.BAM",
+        property_label="Corresponding Author (BAM)",
+        description="Corresponding author referenced as a BAM person//Verantwortlicher Autor als Referenz auf eine BAM-Person",
+        mandatory=False,
+        section="Dataset Details",
+    )
+
+    file_format = PropertyTypeAssignment(
+        code="FILE_FORMAT",
+        data_type="VARCHAR",
+        property_label="File format",
+        description="File format//Dateiformat",
+        mandatory=True,
+        section="Dataset Details",
+    )
+
+    dataset_date = PropertyTypeAssignment(
+        code="DATASET_DATE",
+        data_type="DATE",
+        property_label="Dataset Date",
+        description="Dataset date//Datensatzdatum",
+        mandatory=False,
+        section="Dataset Details",
+    )
+
+    description = PropertyTypeAssignment(
+        code="DESCRIPTION",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Description",
+        description="Short description and/or purpose//Kurzbeschreibung und/oder Zweck",
+        mandatory=False,
+        section="Dataset Details",
+    )
+
+
 class RawData(DatasetType):
     defs = DatasetTypeDef(
         code="RAW_DATA",
@@ -73,6 +126,59 @@ class RawData(DatasetType):
         mandatory=False,
         show_in_edit_views=False,
         section="",
+    )
+
+
+class ProcessedDataFb82(DatasetType):
+    defs = DatasetTypeDef(
+        code="PROCESSED_DATA.FB82",
+        description="Processed Research Data (FB 8.2)//Aufbereitete Daten (FB 8.2)",
+    )
+
+    name = PropertyTypeAssignment(
+        code="$NAME",
+        data_type="VARCHAR",
+        property_label="Name",
+        description="Name",
+        mandatory=True,
+        section="General Information",
+    )
+
+    author_person = PropertyTypeAssignment(
+        code="AUTHOR_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON.BAM",
+        property_label="Corresponding Author (BAM)",
+        description="Corresponding author referenced as a BAM person//Verantwortlicher Autor als Referenz auf eine BAM-Person",
+        mandatory=False,
+        section="Dataset Details",
+    )
+
+    file_format = PropertyTypeAssignment(
+        code="FILE_FORMAT",
+        data_type="VARCHAR",
+        property_label="File format",
+        description="File format//Dateiformat",
+        mandatory=True,
+        section="Dataset Details",
+    )
+
+    dataset_date = PropertyTypeAssignment(
+        code="DATASET_DATE",
+        data_type="DATE",
+        property_label="Dataset Date",
+        description="Dataset date//Datensatzdatum",
+        mandatory=False,
+        section="Dataset Details",
+    )
+
+    description = PropertyTypeAssignment(
+        code="DESCRIPTION",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Description",
+        description="Short description and/or purpose//Kurzbeschreibung und/oder Zweck",
+        mandatory=False,
+        section="Dataset Details",
     )
 
 
