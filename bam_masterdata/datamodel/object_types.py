@@ -4211,6 +4211,32 @@ class EnvironmentalConditions(ObjectType):
     )
 
 
+class Measurement(ObjectType):
+    defs = ObjectTypeDef(
+        code="MEASUREMENT",
+        description="Measurement / Measurement field//Messung / Messfeld",
+        generated_code_prefix="MEA",
+    )
+
+    name = PropertyTypeAssignment(
+        code="$NAME",
+        data_type="VARCHAR",
+        property_label="Name",
+        description="Name",
+        mandatory=True,
+        section="General Information",
+    )
+
+    description = PropertyTypeAssignment(
+        code="DESCRIPTION",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Description",
+        description="Short description and/or purpose//Kurzbeschreibung und/oder Zweck",
+        mandatory=False,
+        section="General Information",
+    )
+
+
 class SampleNdt(ObjectType):
     defs = ObjectTypeDef(
         code="SAMPLE_NDT",
