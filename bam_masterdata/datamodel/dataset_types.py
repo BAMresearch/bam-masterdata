@@ -345,6 +345,104 @@ class PublicationData(DatasetType):
     )
 
 
+class Documentation(DatasetType):
+    defs = DatasetTypeDef(
+        code="DOCUMENTATION",
+        description="Descriptive Documentation//Beschreibende Dokumentation",
+    )
+
+    name = PropertyTypeAssignment(
+        code="$NAME",
+        data_type="VARCHAR",
+        property_label="Name",
+        description="Name",
+        mandatory=True,
+        section="General Information",
+    )
+
+    documentation_type = PropertyTypeAssignment(
+        code="DOCUMENTATION_TYPE",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="DOCUMENTATION_TYPE",
+        property_label="Documentation Type",
+        description="Documentation type//Dokumentationsart",
+        mandatory=True,
+        section="General Information",
+    )
+
+    description = PropertyTypeAssignment(
+        code="DESCRIPTION",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Description",
+        description="Short description and/or purpose//Kurzbeschreibung und/oder Zweck",
+        mandatory=False,
+        section="General Information",
+    )
+
+
+class ResearchDocument(DatasetType):
+    defs = DatasetTypeDef(
+        code="RESEARCH_DOCUMENT",
+        description="Research Document//Forschungsdokument",
+    )
+
+    name = PropertyTypeAssignment(
+        code="$NAME",
+        data_type="VARCHAR",
+        property_label="Name",
+        description="Name",
+        mandatory=True,
+        section="General Information",
+    )
+
+    research_document_type = PropertyTypeAssignment(
+        code="RESEARCH_DOCUMENT_TYPE",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="RESEARCH_DOCUMENT_TYPE",
+        property_label="Research Document Type",
+        description="Research document type//Forschungsdokumenttyp",
+        mandatory=True,
+        section="General Information",
+    )
+
+    author_person = PropertyTypeAssignment(
+        code="AUTHOR_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON.BAM",
+        property_label="Corresponding Author (BAM)",
+        description="Corresponding author referenced as a BAM person//Verantwortlicher Autor als Referenz auf eine BAM-Person",
+        mandatory=False,
+        section="General Information",
+    )
+
+    version = PropertyTypeAssignment(
+        code="VERSION",
+        data_type="VARCHAR",
+        property_label="Version",
+        description="Version",
+        mandatory=False,
+        section="General Information",
+    )
+
+    document_id = PropertyTypeAssignment(
+        code="DOCUMENT_ID",
+        data_type="VARCHAR",
+        property_label="Document ID",
+        description="Document identifier//Dokument-ID",
+        mandatory=False,
+        section="General Information",
+    )
+
+    document_link = PropertyTypeAssignment(
+        code="DOCUMENT_LINK",
+        data_type="HYPERLINK",
+        property_label="Document Link",
+        description="Link to the document//Link zum Dokument",
+        mandatory=False,
+        section="General Information",
+    )
+
+
 class Document(DatasetType):
     defs = DatasetTypeDef(
         code="DOCUMENT",
