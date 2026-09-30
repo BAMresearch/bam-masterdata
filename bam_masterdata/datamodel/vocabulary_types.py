@@ -31326,6 +31326,43 @@ class TemporalHeatingStructure(VocabularyType):
     )
 
 
+class MeasurementValue(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="MEASUREMENT_VALUE",
+        description="Measurement Value//Messgröße",
+    )
+
+    temperature = VocabularyTerm(
+        code="TEMPERATURE",
+        label="Temperatur",
+        description="Temperature//Temperatur",
+    )
+
+    moisture = VocabularyTerm(
+        code="MOISTURE",
+        label="Feuchte",
+        description="Moisture//Feuchte",
+    )
+
+    weight = VocabularyTerm(
+        code="WEIGHT",
+        label="Gewicht",
+        description="Weight//Gewicht",
+    )
+
+    length = VocabularyTerm(
+        code="LENGTH",
+        label="Länge",
+        description="Length//Länge",
+    )
+
+    pressure = VocabularyTerm(
+        code="PRESSURE",
+        label="Druck",
+        description="Pressure//Druck",
+    )
+
+
 class TestingMachineDriveType(VocabularyType):
     defs = VocabularyTypeDef(
         code="TESTING_MACHINE_DRIVE_TYPE",
