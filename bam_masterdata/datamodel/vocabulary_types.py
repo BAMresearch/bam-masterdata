@@ -27951,6 +27951,43 @@ class HeatingPrinciple(VocabularyType):
     )
 
 
+class MeasuringInstrumentClassification(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="MEASURING_INSTRUMENT_CLASSIFICATION",
+        description="Measuring Instrument Classification//Klassifizierung des Messprinzips",
+    )
+
+    mechanical = VocabularyTerm(
+        code="MECHANICAL",
+        label="Mechanische Energie",
+        description="Mechanical energy//Mechanische Energie",
+    )
+
+    electromagnetic = VocabularyTerm(
+        code="ELECTROMAGNETIC",
+        label="Elektromagnetische Energie",
+        description="Electromagnetic energy//Elektromagnetische Energie",
+    )
+
+    electrochemical = VocabularyTerm(
+        code="ELECTROCHEMICAL",
+        label="Elektrochemische Energie",
+        description="Electrochemical energy//Elektrochemische Energie",
+    )
+
+    magnetic = VocabularyTerm(
+        code="MAGNETIC",
+        label="Magnetische Energie",
+        description="Magnetic energy//Magnetische Energie",
+    )
+
+    spectroscopic = VocabularyTerm(
+        code="SPECTROSCOPIC",
+        label="Spektroskopisches Verfahren",
+        description="Spectroscopic method//Spektroskopisches Verfahren",
+    )
+
+
 class InstrumentStatus(VocabularyType):
     defs = VocabularyTypeDef(
         code="INSTRUMENT_STATUS",
