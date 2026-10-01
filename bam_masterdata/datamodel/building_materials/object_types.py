@@ -132,9 +132,18 @@ class BuildingMaterialsSpecimen(Sample):
         section="Specimen Information",
     )
 
+    building_materials_test_quantity = PropertyTypeAssignment(
+        code="BUILDING_MATERIALS_TEST_QUANTITY",
+        data_type="VARCHAR",
+        property_label="Measured quantity",
+        description="""Name and unit of the measured quantity from the building-material test.//Name und Einheit des Ergebnisses der durchgeführten Baustoffprüfung.""",
+        mandatory=True,
+        section="Specimen Information",
+    )
+
     building_materials_test_result = PropertyTypeAssignment(
         code="BUILDING_MATERIALS_TEST_RESULT",
-        data_type="MULTILINE_VARCHAR",
+        data_type="REAL",
         property_label="Test result",
         description="""Result or summary of the result obtained from the building-material test.//Ergebnis bzw. Zusammenfassung des Ergebnisses der durchgeführten Baustoffprüfung.""",
         mandatory=True,
