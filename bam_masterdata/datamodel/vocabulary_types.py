@@ -27516,62 +27516,6 @@ class DfgDeviceCode(VocabularyType):
     )
 
 
-class DocumentationType(VocabularyType):
-    defs = VocabularyTypeDef(
-        code="DOCUMENTATION_TYPE",
-        description="Documentation Type//Dokumentationsart",
-    )
-
-    tecdocument = VocabularyTerm(
-        code="TECDOCUMENT",
-        label="Technical Document",
-        description="Technical Document//Technisches Dokument",
-    )
-
-    photography = VocabularyTerm(
-        code="PHOTOGRAPHY",
-        label="Photography",
-        description="Photography//Fotografie",
-    )
-
-    video = VocabularyTerm(
-        code="VIDEO",
-        label="Video",
-        description="Video//Video",
-    )
-
-
-class ResearchDocumentType(VocabularyType):
-    defs = VocabularyTypeDef(
-        code="RESEARCH_DOCUMENT_TYPE",
-        description="Research Document Type//Forschungsdokumenttyp",
-    )
-
-    proposal = VocabularyTerm(
-        code="PROPOSAL",
-        label="Proposal",
-        description="Proposal//Antrag",
-    )
-
-    idea = VocabularyTerm(
-        code="IDEA",
-        label="Idea",
-        description="Idea//Idee",
-    )
-
-    report = VocabularyTerm(
-        code="REPORT",
-        label="Report",
-        description="Report//Bericht",
-    )
-
-    publication = VocabularyTerm(
-        code="PUBLICATION",
-        label="Publication",
-        description="Publication//Publikation",
-    )
-
-
 class DocumentType(VocabularyType):
     defs = VocabularyTypeDef(
         code="DOCUMENT_TYPE",
@@ -27720,6 +27664,42 @@ class DocumentType(VocabularyType):
         code="USER_MANUAL",
         label="User Manual",
         description="""User Manual//Bedienungsanleitung""",
+    )
+
+    technical_document = VocabularyTerm(
+        code="TECHNICAL_DOCUMENT",
+        label="Technical Document",
+        description="Technical Document//Technisches Dokument",
+    )
+
+    video = VocabularyTerm(
+        code="VIDEO",
+        label="Video",
+        description="Video//Video",
+    )
+
+    proposal = VocabularyTerm(
+        code="PROPOSAL",
+        label="Proposal",
+        description="Proposal//Antrag",
+    )
+
+    idea = VocabularyTerm(
+        code="IDEA",
+        label="Idea",
+        description="Idea//Idee",
+    )
+
+    report = VocabularyTerm(
+        code="REPORT",
+        label="Report",
+        description="Report//Bericht",
+    )
+
+    publication = VocabularyTerm(
+        code="PUBLICATION",
+        label="Publication",
+        description="Publication//Publikation",
     )
 
 
