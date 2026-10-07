@@ -1963,6 +1963,70 @@ class Document(ObjectType):
     )
 
 
+class DataPackageFb82(ObjectType):
+    defs = ObjectTypeDef(
+        code="DATA_PACKAGE.FB82",
+        description="Research data package (FB 8.2)//Forschungsdatenpaket (FB 8.2)",
+        generated_code_prefix="DP82",
+    )
+
+    name = PropertyTypeAssignment(
+        code="$NAME",
+        data_type="VARCHAR",
+        property_label="Name",
+        description="Name",
+        mandatory=True,
+        section="General Information",
+    )
+
+    data_package_kind = PropertyTypeAssignment(
+        code="DATA_PACKAGE_KIND",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="DATA_PACKAGE_KIND",
+        property_label="Data package kind",
+        description="Raw or processed research data//Rohdaten oder aufbereitete Forschungsdaten",
+        mandatory=True,
+        section="Data Package Details",
+    )
+
+    author_person = PropertyTypeAssignment(
+        code="AUTHOR_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON.BAM",
+        property_label="Corresponding Author (BAM)",
+        description="Corresponding author referenced as a BAM person//Verantwortlicher Autor als Referenz auf eine BAM-Person",
+        mandatory=False,
+        section="Data Package Details",
+    )
+
+    file_format = PropertyTypeAssignment(
+        code="FILE_FORMAT",
+        data_type="VARCHAR",
+        property_label="File format",
+        description="File format//Dateiformat",
+        mandatory=True,
+        section="Data Package Details",
+    )
+
+    data_package_date = PropertyTypeAssignment(
+        code="DATA_PACKAGE_DATE",
+        data_type="DATE",
+        property_label="Data package date",
+        description="Date of the research data package//Datum des Forschungsdatenpakets",
+        mandatory=False,
+        section="Data Package Details",
+    )
+
+    description = PropertyTypeAssignment(
+        code="DESCRIPTION",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Description",
+        description="Short description and/or purpose//Kurzbeschreibung und/oder Zweck",
+        mandatory=False,
+        section="Data Package Details",
+    )
+
+
 class GasBottle(ObjectType):
     defs = ObjectTypeDef(
         code="GAS_BOTTLE",
