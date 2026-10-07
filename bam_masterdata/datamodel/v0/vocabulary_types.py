@@ -27516,6 +27516,25 @@ class DfgDeviceCode(VocabularyType):
     )
 
 
+class DataPackageKind(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="DATA_PACKAGE_KIND",
+        description="Data package kind//Art des Datenpakets",
+    )
+
+    raw = VocabularyTerm(
+        code="RAW",
+        label="Raw data",
+        description="Raw research data//Rohdaten",
+    )
+
+    processed = VocabularyTerm(
+        code="PROCESSED",
+        label="Processed data",
+        description="Processed research data//Aufbereitete Forschungsdaten",
+    )
+
+
 class DocumentType(VocabularyType):
     defs = VocabularyTypeDef(
         code="DOCUMENT_TYPE",
