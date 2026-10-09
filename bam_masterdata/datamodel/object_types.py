@@ -2195,6 +2195,173 @@ class GasBottle(ObjectType):
     )
 
 
+class TestObjectBam(ObjectType):
+    defs = ObjectTypeDef(
+        code="TEST_OBJECT_BAM",
+        description="BAM Test Object//BAM-Prüfobjekt",
+        generated_code_prefix="TESTO.BAM",
+    )
+
+    name = PropertyTypeAssignment(
+        code="$NAME",
+        data_type="VARCHAR",
+        property_label="Name",
+        description="Name",
+        mandatory=True,
+        section="General Information",
+    )
+
+    alias = PropertyTypeAssignment(
+        code="ALIAS",
+        data_type="VARCHAR",
+        property_label="Alternative Name",
+        description="e.g. abbreviation or nickname//z.B. Abkürzung oder Spitzname",
+        mandatory=False,
+        section="General Information",
+    )
+
+    old_db_name = PropertyTypeAssignment(
+        code="OLD_DB_NAME",
+        data_type="VARCHAR",
+        property_label="Old Database Name",
+        description="Name in the previous database//Name in der bisherigen Datenbank",
+        mandatory=False,
+        section="General Information",
+    )
+
+    production_date = PropertyTypeAssignment(
+        code="PRODUCTION_DATE",
+        data_type="DATE",
+        property_label="Production Date",
+        description="Production Date//Herstellungsdatum",
+        mandatory=True,
+        section="General Information",
+    )
+
+    test_obj_status = PropertyTypeAssignment(
+        code="TEST_OBJ_STATUS",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="TEST_OBJECT_STATUS",
+        property_label="Test Object Status",
+        description="Test Object Status//Prüfkörperstatus",
+        mandatory=True,
+        section="General Information",
+    )
+
+    test_obj_material = PropertyTypeAssignment(
+        code="TEST_OBJ_MATERIAL",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BUILDING_MATERIAL_TYPE",
+        property_label="Building Material",
+        description="Building Material//Werkstoff",
+        mandatory=True,
+        section="General Information",
+    )
+
+    bam_oe = PropertyTypeAssignment(
+        code="BAM_OE",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_OE",
+        property_label="BAM Organizational Entity",
+        description="BAM Organizational Entity//BAM Organisationseinheit (OE)",
+        mandatory=True,
+        section="General Information",
+    )
+
+    responsible_person = PropertyTypeAssignment(
+        code="RESPONSIBLE_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON.BAM",
+        property_label="Responsible person",
+        description="Responsible person//Verantwortliche Person",
+        mandatory=False,
+        section="General Information",
+    )
+
+    bam_location_complete = PropertyTypeAssignment(
+        code="BAM_LOCATION_COMPLETE",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_LOCATION_COMPLETE",
+        property_label="Complete BAM Location",
+        description="Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)",
+        mandatory=False,
+        section="General Information",
+    )
+
+    notes = PropertyTypeAssignment(
+        code="NOTES",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Notes",
+        description="Notes",
+        mandatory=False,
+        section="General Information",
+    )
+
+    project_name = PropertyTypeAssignment(
+        code="PROJECT_NAME",
+        data_type="VARCHAR",
+        property_label="Originating Project Name",
+        description="Name of the originating research project//Name des fachlichen Herkunftsprojekts",
+        mandatory=True,
+        section="Project Information",
+    )
+
+    parfis_project_no = PropertyTypeAssignment(
+        code="PARFIS_PROJECT_NO",
+        data_type="VARCHAR",
+        property_label="PARFIS Project Number",
+        description="PARFIS Project Number: `VhXXXX`//PARFIS Vorhabennummer: `VhXXXX`",
+        mandatory=False,
+        section="Project Information",
+    )
+
+    funding_grant_no = PropertyTypeAssignment(
+        code="FUNDING_GRANT_NO",
+        data_type="VARCHAR",
+        property_label="Grant Number",
+        description="Grant Number//Förderkennzeichen",
+        mandatory=False,
+        section="Project Information",
+    )
+
+    test_obj_length = PropertyTypeAssignment(
+        code="TEST_OBJ_LENGTH",
+        data_type="INTEGER",
+        property_label="Test Object Length [mm]",
+        description="Test Object Length [mm]//Länge des Prüfkörpers [mm]",
+        mandatory=False,
+        section="Dimensions",
+    )
+
+    test_obj_width = PropertyTypeAssignment(
+        code="TEST_OBJ_WIDTH",
+        data_type="INTEGER",
+        property_label="Test Object Width [mm]",
+        description="Test Object Width [mm]//Breite des Prüfkörpers [mm]",
+        mandatory=False,
+        section="Dimensions",
+    )
+
+    test_obj_height = PropertyTypeAssignment(
+        code="TEST_OBJ_HEIGHT",
+        data_type="INTEGER",
+        property_label="Test Object Height [mm]",
+        description="Test Object Height [mm]//Höhe des Prüfkörpers [mm]",
+        mandatory=False,
+        section="Dimensions",
+    )
+
+    test_obj_weight = PropertyTypeAssignment(
+        code="TEST_OBJ_WEIGHT",
+        data_type="REAL",
+        property_label="Test Object Weight in [kg]",
+        units="kg",
+        description="Test object weight [kg]//Gewicht des Prüfobjekts [kg]",
+        mandatory=False,
+        section="Dimensions",
+    )
+
+
 class TestObject(ObjectType):
     defs = ObjectTypeDef(
         code="TEST_OBJECT",
