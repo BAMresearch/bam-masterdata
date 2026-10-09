@@ -31449,6 +31449,79 @@ class TestFileType(VocabularyType):
     )
 
 
+class TestMethod(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="TEST_METHOD",
+        description="Test Method//Prüfverfahren",
+    )
+
+    radar = VocabularyTerm(
+        code="RADAR",
+        label="Radar",
+        description="Radar//Radar",
+    )
+
+    ultrasonic = VocabularyTerm(
+        code="ULTRASONIC",
+        label="UT - Ultrasonic",
+        description="Ultrasonic testing (UT)//Ultraschallprüfung (UT)",
+    )
+
+    rebound_hammer = VocabularyTerm(
+        code="REBOUND_HAMMER",
+        label="Rückprallhammer",
+        description="Rebound Hammer//Rückprallhammer",
+    )
+
+    impact_echo = VocabularyTerm(
+        code="IMPACT_ECHO",
+        label="Impakt-Echo",
+        description="Impact Echo//Impakt-Echo",
+    )
+
+    libs = VocabularyTerm(
+        code="LIBS",
+        label="LIBS",
+        description="Laser Induced Breakdown Spectroscopy//Laserinduzierte Breakdown-Spektroskopie",
+    )
+
+    nmr = VocabularyTerm(
+        code="NMR",
+        label="NMR",
+        description="Nuclear Magnetic Resonance//Kernspinresonanz",
+    )
+
+    terahertz = VocabularyTerm(
+        code="TERAHERTZ",
+        label="Terahertz",
+        description="Terahertz//Terahertz",
+    )
+
+    x_ray = VocabularyTerm(
+        code="X_RAY",
+        label="RT - X-Ray",
+        description="X-ray radiographic testing (RT)//Röntgen-Durchstrahlungsprüfung (RT)",
+    )
+
+    half_cell_potential = VocabularyTerm(
+        code="HALF_CELL_POTENTIAL",
+        label="Potentialfeldmessung",
+        description="Half-Cell Potential//Potentialfeldmessung",
+    )
+
+    magnetic_inductive = VocabularyTerm(
+        code="MAGNETIC_INDUCTIVE",
+        label="ET - Eddy Current",
+        description="Eddy current testing (ET)//Wirbelstromprüfung (ET)",
+    )
+
+    other = VocabularyTerm(
+        code="OTHER",
+        label="Sonstiges Prüfverfahren",
+        description="Other test method//Sonstiges Prüfverfahren",
+    )
+
+
 class TestObjectStatus(VocabularyType):
     defs = VocabularyTypeDef(
         code="TEST_OBJECT_STATUS",
