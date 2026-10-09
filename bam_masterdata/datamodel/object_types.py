@@ -2865,6 +2865,180 @@ class SpecificPersonInfo(ObjectType):
     )
 
 
+class OperatingProcedure(ObjectType):
+    defs = ObjectTypeDef(
+        code="OPERATING_PROCEDURE",
+        description="Operating Procedure//Arbeitsanweisung",
+        generated_code_prefix="OPE",
+    )
+
+    name = PropertyTypeAssignment(
+        code="$NAME",
+        data_type="VARCHAR",
+        property_label="Name",
+        description="Name",
+        mandatory=True,
+        section="General Information",
+    )
+
+    version = PropertyTypeAssignment(
+        code="VERSION",
+        data_type="VARCHAR",
+        property_label="Version",
+        description="Version",
+        mandatory=True,
+        section="General Information",
+    )
+
+    description = PropertyTypeAssignment(
+        code="DESCRIPTION",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Description",
+        description="Short description and/or purpose//Kurzbeschreibung und/oder Zweck",
+        mandatory=True,
+        section="General Information",
+    )
+
+    notes = PropertyTypeAssignment(
+        code="NOTES",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Notes",
+        description="Notes",
+        mandatory=False,
+        section="General Information",
+    )
+
+    responsible_person = PropertyTypeAssignment(
+        code="RESPONSIBLE_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON.BAM",
+        property_label="Responsible person",
+        description="Responsible person//Verantwortliche Person",
+        mandatory=False,
+        section="Responsibility And References",
+    )
+
+    author_person = PropertyTypeAssignment(
+        code="AUTHOR_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON.BAM",
+        property_label="Corresponding Author (BAM)",
+        description="Corresponding author referenced as a BAM person//Verantwortlicher Autor als Referenz auf eine BAM-Person",
+        mandatory=False,
+        section="Responsibility And References",
+    )
+
+    link_eakte = PropertyTypeAssignment(
+        code="LINK_EAKTE",
+        data_type="HYPERLINK",
+        property_label="Link E-Akte",
+        description="Link to E-Akte//Link zum Dokument in der E-Akte",
+        mandatory=False,
+        section="Responsibility And References",
+    )
+
+    id_eakte = PropertyTypeAssignment(
+        code="ID_EAKTE",
+        data_type="VARCHAR",
+        property_label="ID E-Akte",
+        description="Identifier used in E-Akte//E-Akte Nummer",
+        mandatory=False,
+        section="Responsibility And References",
+    )
+
+
+class TestProcedure(ObjectType):
+    defs = ObjectTypeDef(
+        code="TEST_PROCEDURE",
+        description="Test Procedure//Prüfanweisung",
+        generated_code_prefix="TESTP",
+    )
+
+    name = PropertyTypeAssignment(
+        code="$NAME",
+        data_type="VARCHAR",
+        property_label="Name",
+        description="Name",
+        mandatory=True,
+        section="General Information",
+    )
+
+    version = PropertyTypeAssignment(
+        code="VERSION",
+        data_type="VARCHAR",
+        property_label="Version",
+        description="Version",
+        mandatory=True,
+        section="General Information",
+    )
+
+    description = PropertyTypeAssignment(
+        code="DESCRIPTION",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Description",
+        description="Short description and/or purpose//Kurzbeschreibung und/oder Zweck",
+        mandatory=True,
+        section="General Information",
+    )
+
+    notes = PropertyTypeAssignment(
+        code="NOTES",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Notes",
+        description="Notes",
+        mandatory=False,
+        section="General Information",
+    )
+
+    responsible_person = PropertyTypeAssignment(
+        code="RESPONSIBLE_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON.BAM",
+        property_label="Responsible person",
+        description="Responsible person//Verantwortliche Person",
+        mandatory=False,
+        section="Responsibility And References",
+    )
+
+    author_person = PropertyTypeAssignment(
+        code="AUTHOR_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON.BAM",
+        property_label="Corresponding Author (BAM)",
+        description="Corresponding author referenced as a BAM person//Verantwortlicher Autor als Referenz auf eine BAM-Person",
+        mandatory=False,
+        section="Responsibility And References",
+    )
+
+    link_eakte = PropertyTypeAssignment(
+        code="LINK_EAKTE",
+        data_type="HYPERLINK",
+        property_label="Link E-Akte",
+        description="Link to E-Akte//Link zum Dokument in der E-Akte",
+        mandatory=False,
+        section="Responsibility And References",
+    )
+
+    id_eakte = PropertyTypeAssignment(
+        code="ID_EAKTE",
+        data_type="VARCHAR",
+        property_label="ID E-Akte",
+        description="Identifier used in E-Akte//E-Akte Nummer",
+        mandatory=False,
+        section="Responsibility And References",
+    )
+
+    standard_operating_procedure = PropertyTypeAssignment(
+        code="STANDARD_OPERATING_PROCEDURE",
+        data_type="OBJECT",
+        object_code="OPERATING_PROCEDURE",
+        property_label="Operating Procedure",
+        description="Associated operating procedure//Zugehörige Arbeitsanweisung",
+        mandatory=False,
+        section="Responsibility And References",
+    )
+
+
 class Sop(ObjectType):
     defs = ObjectTypeDef(
         code="SOP",
