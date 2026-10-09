@@ -2719,6 +2719,60 @@ class Control(ObjectType):
     )
 
 
+class DataTransfer(ObjectType):
+    defs = ObjectTypeDef(
+        code="DATA_TRANSFER",
+        description="Data Transfer//Datentransfer",
+        generated_code_prefix="DATAT",
+    )
+
+    name = PropertyTypeAssignment(
+        code="$NAME",
+        data_type="VARCHAR",
+        property_label="Name",
+        description="Name",
+        mandatory=True,
+        section="General Information",
+    )
+
+    description = PropertyTypeAssignment(
+        code="DESCRIPTION",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Description",
+        description="Short description and/or purpose//Kurzbeschreibung und/oder Zweck",
+        mandatory=True,
+        section="General Information",
+    )
+
+    notes = PropertyTypeAssignment(
+        code="NOTES",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Notes",
+        description="Notes",
+        mandatory=False,
+        section="General Information",
+    )
+
+    author_person = PropertyTypeAssignment(
+        code="AUTHOR_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON.BAM",
+        property_label="Corresponding Author (BAM)",
+        description="Corresponding author referenced as a BAM person//Verantwortlicher Autor als Referenz auf eine BAM-Person",
+        mandatory=False,
+        section="Transfer Details",
+    )
+
+    file_format = PropertyTypeAssignment(
+        code="FILE_FORMAT",
+        data_type="VARCHAR",
+        property_label="File format",
+        description="File format//Dateiformat",
+        mandatory=True,
+        section="Transfer Details",
+    )
+
+
 class Task(ObjectType):
     defs = ObjectTypeDef(
         code="TASK",
