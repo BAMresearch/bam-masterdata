@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from bam_masterdata.logger import logger
@@ -18,6 +19,20 @@ if TYPE_CHECKING:
     from pybis.sample import Sample
     from pybis.space import Space
     from structlog._config import BoundLoggerLazyProxy
+
+
+@dataclass(frozen=True)
+class ResolvedDestination:
+    """
+    Runtime openBIS destination for an object.
+
+    Unlike `Destination` in `bam_masterdata/metadata/destination.py`, this contains resolved pybis entities and is used
+    internally by `RunParsers` only.
+    """
+
+    space: Space
+    project: Project
+    collection: Experiment | None = None
 
 
 class RunParsers:
@@ -188,6 +203,118 @@ class RunParsers:
         collection.save()
         return collection
 
+    def _get_existing_space(self, space_name: str) -> Space:
+        """
+        Retrieve an existing openBIS space without fallback or creation. This is used for parser-defined
+        destinations.
+
+        Args:
+            space_name (str): The name of the space in openBIS.
+
+        Returns:
+            Space: The retrieved space.
+        """
+        try:
+            return self.openbis.get_space(space_name)
+        except Exception:
+            raise ValueError(f"Destination space '{space_name}' does not exist.")
+
+    def _get_existing_project(self, space: Space, project_name: str) -> Project:
+        """
+        Retrieve an existing project from `space` without creating it.
+
+        Args:
+            space (Space): The space where the project resides.
+            project_name (str): The name of the project to create or get.
+
+        Returns:
+            (Project): The retrieved project.
+        """
+        try:
+            return space.get_project(project_name)
+        except Exception:
+            raise ValueError(
+                f"Destination project '{project_name}' does not exist in space '{space.code}'."
+            )
+
+    def _get_existing_collection(
+        self,
+        project: Project,
+        collection_name: str,
+    ) -> Experiment:
+        """
+        Retrieve an existing collection from `project` without creating it.
+
+        Args:
+            project (Project): The project where the collection resides.
+            collection_name (str): The name of the collection to create or retrieve.
+
+        Returns:
+            (Experiment | Project): The retrieved collection.
+        """
+        existing_collections = {
+            collection.code: collection for collection in project.get_collections()
+        }
+
+        try:
+            return existing_collections[collection_name]
+        except KeyError:
+            raise ValueError(
+                f"Destination collection '{collection_name}' does not exist in project '{project.code}'."
+            )
+
+    def _resolve_destination(self, object_id: str) -> ResolvedDestination:
+        """
+        Resolve the openBIS destination for an attached object.
+
+        Objects without an explicit Destination use the complete default RunParsers destination.
+
+        An explicit Destination overrides object placement. Missing space or project values inherit
+        from the runner, while an omitted collection means that the object is stored directly under
+        the resolved project.
+
+        Args:
+            object_id (str): The object id of an attached object during parsing.
+
+        Returns:
+            (ResolvedDestination): The resolved destination for the object
+        """
+        destination = self.collection.destinations.get(object_id)
+
+        # No override: preserve the existing runner destination.
+        if destination is None:
+            return ResolvedDestination(
+                space=self.space,
+                project=self.project,
+                collection=(self.collection_openbis if self.collection_name else None),
+            )
+
+        # Resolve space.
+        if destination.space is None:
+            space = self.space
+        else:
+            space = self._get_existing_space(destination.space)
+
+        # Resolve project.
+        if destination.project is None:
+            if space is self.space:
+                project = self.project
+            else:
+                project = self._get_existing_project(space, self.project.code)
+        else:
+            project = self._get_existing_project(space, destination.project)
+
+        # An explicit Destination without a collection means project-level storage.
+        collection = None
+        if destination.collection is not None:
+            collection = self._get_existing_collection(project, destination.collection)
+
+        return ResolvedDestination(
+            space=space,
+            project=project,
+            collection=collection,
+        )
+
     def parsing(self) -> None:
         """
         Runs the parser specific class for each of the files specified in `self.files_parser` and adds them to the collection.
@@ -210,27 +337,36 @@ class RunParsers:
         serialized_payload = object_instance.to_json()
         return hashlib.sha256(serialized_payload.encode("utf-8")).hexdigest()[:length]
 
-    def _identifier_from_code(self, code: str) -> str:
+    def _identifier_from_code(self, code: str, destination: ResolvedDestination) -> str:
         """
-        Generates an identifier for the given code in openBIS.
+        Generate an openBIS identifier for `code` at the given destination.
+
+        If no destination is provided, the default RunParsers destination is used. This preserves
+        the existing behavior for callers that have not yet been migrated to per-object destinations.
 
         Args:
             code (str): The code for which to generate an identifier.
+            destination (ResolvedDestination): Resolved destination for the object.
 
         Returns:
             str: The generated identifier.
         """
-        if not self.collection_name:
-            return f"/{self.space.code}/{self.project.code}/{code}"
-        return f"/{self.space.code}/{self.project.code}/{self.collection_openbis.code}/{code}"
+        if destination.collection is None:
+            return f"/{destination.space.code}/{destination.project.code}/{code}"
+        return f"/{destination.space.code}/{destination.project.code}/{destination.collection.code}/{code}"
 
-    def _identifier(self, object_instance: ObjectType) -> str:
+    def _identifier(
+        self,
+        object_instance: ObjectType,
+        destination: ResolvedDestination,
+    ) -> str:
         """
         Generates a unique identifier for the given object instance in openBIS. If the object has a specified `code`,
         it uses that code. If not, it generates a code by combining the `generated_code_prefix` and a hash of the object's content.
 
         Args:
             object_instance (ObjectType): The object instance for which to generate an identifier.
+            destination (ResolvedDestination): Resolved destination for the object.
 
         Returns:
             identifier (str): The unique identifier for the object in openBIS, ensuring no duplicates.
@@ -247,10 +383,12 @@ class RunParsers:
             code = f"{prefix}_{hash_suffix}"
             object_instance.code = code  # Update the code in the object instance
 
-        return self._identifier_from_code(code)
+        return self._identifier_from_code(code, destination)
 
     def _resolve_object_reference(
-        self, property_name: str, value: str | ObjectType
+        self,
+        property_name: str,
+        value: str | ObjectType,
     ) -> str | None:
         """
         Resolves an OBJECT type property reference to an openBIS identifier.
@@ -293,7 +431,19 @@ class RunParsers:
             # If not, construct identifier from the object's code
             # Assume it's in the same space/project as the current object
             if not referenced_identifier:
-                referenced_identifier = self._identifier_from_code(value.code)
+                # this is a special case where the object is anyway in the selected RunParsers destination
+                default_destination = (
+                    ResolvedDestination(
+                        space=self.space,
+                        project=self.project,
+                        collection=(
+                            self.collection_openbis if self.collection_name else None
+                        ),
+                    ),
+                )
+                referenced_identifier = self._identifier_from_code(
+                    value.code, default_destination
+                )
 
             return referenced_identifier
 
@@ -478,7 +628,8 @@ class RunParsers:
         # Storing objects in openBIS and creating a mapping of local IDs to openBIS identifiers for later use in relationships.
         self.openbis_id_map = {}
         for object_id, object_instance in self.collection.attached_objects.items():
-            identifier = self._identifier(object_instance)
+            resolved_destination = self._resolve_destination(object_id)
+            identifier = self._identifier(object_instance, resolved_destination)
             obj_props = self._load_openbis_props(object_instance)
 
             try:
@@ -489,23 +640,18 @@ class RunParsers:
                 object_openbis.set_props(obj_props)  # update properties
             except Exception:
                 self.logger.info(f"Creating new object '{object_instance.code}'.")
-                if not self.collection_name:
-                    object_openbis = self.openbis.new_object(
-                        type=object_instance.defs.code,
-                        code=object_instance.code,
-                        space=self.space,
-                        project=self.project,
-                        props=obj_props,
-                    )
-                else:
-                    object_openbis = self.openbis.new_object(
-                        type=object_instance.defs.code,
-                        code=object_instance.code,
-                        space=self.space,
-                        project=self.project,
-                        collection=self.collection_openbis,
-                        props=obj_props,
-                    )
+                object_openbis = self.openbis.new_object(
+                    type=object_instance.defs.code,
+                    code=object_instance.code,
+                    space=resolved_destination.space,
+                    project=resolved_destination.project,
+                    collection=(
+                        resolved_destination.collection
+                        if self.collection_name
+                        else None
+                    ),
+                    props=obj_props,
+                )
             object_openbis.save()
 
             # save local and openbis IDs to map parent-child relationships
@@ -579,7 +725,8 @@ class RunParsersWithTransactions(RunParsers):
         # Create or update objects in openBIS within a single transaction
         obj_transaction = self.openbis.new_transaction()
         for object_id, object_instance in self.collection.attached_objects.items():
-            identifier = self._identifier(object_instance)
+            resolved_destination = self._resolve_destination(object_id)
+            identifier = self._identifier(object_instance, resolved_destination)
             obj_props = self._load_openbis_props(object_instance)
 
             try:
@@ -598,10 +745,12 @@ class RunParsersWithTransactions(RunParsers):
                 object_openbis = self.openbis.new_object(
                     type=object_instance.defs.code,
                     code=object_instance.code,
-                    space=self.space,
-                    project=self.project,
+                    space=resolved_destination.space,
+                    project=resolved_destination.project,
                     collection=(
-                        self.collection_openbis if self.collection_name else None
+                        resolved_destination.collection
+                        if self.collection_name
+                        else None
                     ),
                     props=obj_props,
                 )

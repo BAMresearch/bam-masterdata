@@ -222,8 +222,7 @@ class SupercodeXParser(AbstractParser):
 
             # Step 3: Instantiate and populate classes metadata
             software = SoftwareCode(
-                name=data.get("program_name"),
-                version=data.get("program_version")
+                name=data.get("program_name"), version=data.get("program_version")
             )
 ```
 
@@ -249,8 +248,7 @@ class SupercodeXParser(AbstractParser):
 
             # Step 3: Instantiate and populate classes metadata
             software = SoftwareCode(
-                name=data.get("program_name"),
-                version=data.get("program_version")
+                name=data.get("program_name"), version=data.get("program_version")
             )
 
             # Step 4: Add to collection
@@ -258,6 +256,68 @@ class SupercodeXParser(AbstractParser):
             logger.info(f"Added SoftwareCode with ID {software_id}")
 ```
 
+### Storing an object in a different openBIS destination
+
+By default, objects added with:
+
+```python
+collection.add(sample)
+```
+
+are stored in the space/project/collection configured in `RunParsers`.
+
+A parser can optionally override the destination of an individual object by passing a Destination:
+
+```python
+from bam_masterdata.metadata import Destination
+
+sample_id = collection.add(
+    sample,
+    destination=Destination(
+        project="SAMPLES_PROJECT",
+    ),
+)
+```
+
+This stores the object directly under `SAMPLES_PROJECT` in the space specified in `RunParsers`, while other objects without an explicit destination
+continue to use the default destination of `RunParsers`.
+
+A collection can also be specified:
+
+```python
+sample_id = collection.add(
+    sample,
+    destination=Destination(
+        project="SAMPLES_PROJECT",
+        collection="SAMPLES",
+    ),
+)
+```
+
+Or even a different space:
+
+```python
+sample_id = collection.add(
+    sample,
+    destination=Destination(
+        space="OTHER_SPACE",
+        project="SAMPLES_PROJECT",
+    ),
+)
+```
+
+Destination fields must be openBIS codes.
+
+!!! warning
+    Destinations declared by parsers must already exist in openBIS.
+    `RunParsers` does not create spaces, projects, or collections specified
+    through `Destination`.
+
+!!! note
+    `Destination(project="PROJECT")` means that the object is stored directly
+    under the project. If no `Destination` is supplied at all, the object uses
+    the complete default destination configured in `RunParsers`, including its
+    collection if one was selected.
 
 ### Referencing Existing Objects in OpenBIS
 
@@ -282,8 +342,7 @@ class SupercodeXParser(AbstractParser):
 
             # Step 3
             software = SoftwareCode(
-                name=data.get("program_name"),
-                version=data.get("program_version")
+                name=data.get("program_name"), version=data.get("program_version")
             )
 
             # Reference an existing object by setting its `code`

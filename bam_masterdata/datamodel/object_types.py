@@ -2383,6 +2383,60 @@ class TestObject(ObjectType):
     )
 
 
+class TestObjectBam(TestObject):
+    defs = ObjectTypeDef(
+        code="TEST_OBJECT_BAM",
+        description="BAM Test Object//BAM-Prüfobjekt",
+        generated_code_prefix="TESTO.BAM",
+    )
+
+    old_db_name = PropertyTypeAssignment(
+        code="OLD_DB_NAME",
+        data_type="VARCHAR",
+        property_label="Old Database Name",
+        description="Name in the previous database//Name in der bisherigen Datenbank",
+        mandatory=False,
+        section="General Information",
+    )
+
+    project_name = PropertyTypeAssignment(
+        code="PROJECT_NAME",
+        data_type="VARCHAR",
+        property_label="Originating Project Name",
+        description="Name of the originating research project//Name des fachlichen Herkunftsprojekts",
+        mandatory=True,
+        section="Project Information",
+    )
+
+    parfis_project_no = PropertyTypeAssignment(
+        code="PARFIS_PROJECT_NO",
+        data_type="VARCHAR",
+        property_label="PARFIS Project Number",
+        description="PARFIS Project Number: `VhXXXX`//PARFIS Vorhabennummer: `VhXXXX`",
+        mandatory=False,
+        section="Project Information",
+    )
+
+    funding_grant_no = PropertyTypeAssignment(
+        code="FUNDING_GRANT_NO",
+        data_type="VARCHAR",
+        property_label="Grant Number",
+        description="Grant Number//Förderkennzeichen",
+        mandatory=False,
+        section="Project Information",
+    )
+
+    test_obj_weight = PropertyTypeAssignment(
+        code="TEST_OBJ_WEIGHT",
+        data_type="REAL",
+        property_label="Test Object Weight in [kg]",
+        units="kg",
+        description="Test object weight [kg]//Gewicht des Prüfobjekts [kg]",
+        mandatory=False,
+        section="Dimensions",
+    )
+
+
 class TestObjectExt(ObjectType):
     defs = ObjectTypeDef(
         code="TEST_OBJECT_EXT",
@@ -2404,15 +2458,6 @@ class TestObjectExt(ObjectType):
         data_type="VARCHAR",
         property_label="Owner",
         description="Owner of the external test object//Eigentümer des externen Prüfobjekts",
-        mandatory=True,
-        section="General Information",
-    )
-
-    owner_code = PropertyTypeAssignment(
-        code="OWNER_CODE",
-        data_type="VARCHAR",
-        property_label="Owner's Code",
-        description="Object identifier in the owner's database//Objektkennung in der Datenbank des Eigentümers",
         mandatory=False,
         section="General Information",
     )

@@ -4,7 +4,12 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from bam_masterdata.cli.run_parser import RunParsers, RunParsersWithTransactions
+from bam_masterdata.cli.run_parser import (
+    ResolvedDestination,
+    RunParsers,
+    RunParsersWithTransactions,
+)
+from bam_masterdata.metadata.destination import Destination
 from tests.conftest import (
     InstrumentObjectType,
     PersonObjectType,
@@ -34,6 +39,14 @@ def make_runner(
         collection_name=collection_name,
         files_parser={parser: [str(TEST_FILE)]},
         collection_type=collection_type,
+    )
+
+
+def default_destination(runner):
+    return ResolvedDestination(
+        space=runner.space,
+        project=runner.project,
+        collection=(runner.collection_openbis if runner.collection_name else None),
     )
 
 
@@ -176,6 +189,169 @@ def test_missing_collection_is_created_with_normalized_code(openbis_runner_mock)
 
 
 # -----------------------------------------------------------------------------
+# Destination resolution
+# -----------------------------------------------------------------------------
+
+
+def test_get_existing_space_returns_requested_space(openbis_runner_mock):
+    runner = make_runner(openbis_runner_mock)
+
+    assert runner._get_existing_space("TEST_SPACE") is runner.space
+
+
+def test_get_existing_space_raises_without_fallback(openbis_runner_mock):
+    runner = make_runner(openbis_runner_mock)
+    openbis_runner_mock.get_space.side_effect = RuntimeError("not found")
+
+    with pytest.raises(
+        ValueError,
+        match="Destination space 'MISSING_SPACE' does not exist",
+    ):
+        runner._get_existing_space("MISSING_SPACE")
+
+
+def test_get_existing_project_returns_requested_project(openbis_runner_mock):
+    runner = make_runner(openbis_runner_mock)
+
+    assert runner._get_existing_project(runner.space, "TEST_PROJECT") is runner.project
+
+
+def test_get_existing_project_raises_without_creating(openbis_runner_mock):
+    runner = make_runner(openbis_runner_mock)
+    runner.space.get_project.side_effect = RuntimeError("not found")
+
+    with pytest.raises(
+        ValueError,
+        match="Destination project 'MISSING_PROJECT' does not exist",
+    ):
+        runner._get_existing_project(runner.space, "MISSING_PROJECT")
+
+    runner.space.new_project.assert_not_called()
+
+
+def test_get_existing_collection_returns_requested_collection(openbis_runner_mock):
+    runner = make_runner(openbis_runner_mock)
+    runner.project.get_collections.return_value = [runner.collection_openbis]
+
+    assert (
+        runner._get_existing_collection(runner.project, "TEST_COLLECTION")
+        is runner.collection_openbis
+    )
+
+
+def test_get_existing_collection_raises_without_creating(openbis_runner_mock):
+    runner = make_runner(openbis_runner_mock)
+    runner.project.get_collections.return_value = []
+
+    with pytest.raises(
+        ValueError,
+        match="Destination collection 'MISSING_COLLECTION' does not exist",
+    ):
+        runner._get_existing_collection(runner.project, "MISSING_COLLECTION")
+
+    openbis_runner_mock.new_collection.assert_not_called()
+
+
+def test_resolve_destination_without_override_uses_runner_destination(
+    openbis_runner_mock,
+):
+    runner = make_runner(openbis_runner_mock)
+    object_id = runner.collection.add(generate_object_type(code="OBJ_1"))
+
+    destination = runner._resolve_destination(object_id)
+
+    assert destination.space is runner.space
+    assert destination.project is runner.project
+    assert destination.collection is runner.collection_openbis
+
+
+def test_resolve_destination_without_override_uses_project_when_no_collection(
+    openbis_runner_mock,
+):
+    runner = make_runner(openbis_runner_mock, collection_name="")
+    object_id = runner.collection.add(generate_object_type(code="OBJ_1"))
+
+    destination = runner._resolve_destination(object_id)
+
+    assert destination.space is runner.space
+    assert destination.project is runner.project
+    assert destination.collection is None
+
+
+def test_resolve_destination_with_project_override_uses_project_root(
+    openbis_runner_mock,
+):
+    runner = make_runner(openbis_runner_mock)
+    other_project = MagicMock()
+    other_project.code = "OTHER_PROJECT"
+    other_project.get_collections.return_value = []
+    runner.space.get_project.return_value = other_project
+
+    object_id = runner.collection.add(
+        generate_object_type(code="OBJ_1"),
+        destination=Destination(project="OTHER_PROJECT"),
+    )
+
+    destination = runner._resolve_destination(object_id)
+
+    assert destination.space is runner.space
+    assert destination.project is other_project
+    assert destination.collection is None
+    runner.space.get_project.assert_called_with("OTHER_PROJECT")
+
+
+def test_resolve_destination_with_collection_override(openbis_runner_mock):
+    runner = make_runner(openbis_runner_mock)
+    other_project = MagicMock()
+    other_project.code = "OTHER_PROJECT"
+    other_collection = MagicMock()
+    other_collection.code = "OTHER_COLLECTION"
+    other_project.get_collections.return_value = [other_collection]
+    runner.space.get_project.return_value = other_project
+
+    object_id = runner.collection.add(
+        generate_object_type(code="OBJ_1"),
+        destination=Destination(
+            project="OTHER_PROJECT",
+            collection="OTHER_COLLECTION",
+        ),
+    )
+
+    destination = runner._resolve_destination(object_id)
+
+    assert destination.space is runner.space
+    assert destination.project is other_project
+    assert destination.collection is other_collection
+
+
+def test_resolve_destination_with_space_and_project_override(openbis_runner_mock):
+    runner = make_runner(openbis_runner_mock)
+    other_space = MagicMock()
+    other_space.code = "OTHER_SPACE"
+    other_project = MagicMock()
+    other_project.code = "OTHER_PROJECT"
+    other_space.get_project.return_value = other_project
+
+    openbis_runner_mock.get_space.side_effect = lambda code: (
+        other_space if code == "OTHER_SPACE" else runner.space
+    )
+
+    object_id = runner.collection.add(
+        generate_object_type(code="OBJ_1"),
+        destination=Destination(
+            space="OTHER_SPACE",
+            project="OTHER_PROJECT",
+        ),
+    )
+
+    destination = runner._resolve_destination(object_id)
+
+    assert destination.space is other_space
+    assert destination.project is other_project
+    assert destination.collection is None
+
+
+# -----------------------------------------------------------------------------
 # Parsing, hashing and identifiers
 # -----------------------------------------------------------------------------
 
@@ -208,7 +384,7 @@ def test_identifier_uses_explicit_code(openbis_runner_mock):
     obj = generate_object_type(code="EXPLICIT_CODE")
 
     assert (
-        runner._identifier(obj)
+        runner._identifier(obj, default_destination(runner))
         == "/TEST_SPACE/TEST_PROJECT/TEST_COLLECTION/EXPLICIT_CODE"
     )
     assert obj.code == "EXPLICIT_CODE"
@@ -219,7 +395,7 @@ def test_identifier_generates_code_from_prefix_and_content_hash(openbis_runner_m
     obj = generate_object_type(name="Generated")
     expected_hash = runner._content_hash(obj)
 
-    identifier = runner._identifier(obj)
+    identifier = runner._identifier(obj, default_destination(runner))
 
     assert obj.code == f"MOCKOBJTYPE_{expected_hash}"
     assert identifier == (
@@ -232,14 +408,53 @@ def test_generated_identifier_is_deterministic_for_same_content(openbis_runner_m
     first = generate_object_type(name="Same")
     second = generate_object_type(name="Same")
 
-    assert runner._identifier(first) == runner._identifier(second)
+    assert runner._identifier(first, default_destination(runner)) == runner._identifier(
+        second, default_destination(runner)
+    )
 
 
 def test_identifier_without_collection_uses_project_path(openbis_runner_mock):
     runner = make_runner(openbis_runner_mock, collection_name="")
     obj = generate_object_type(code="OBJ_1")
 
-    assert runner._identifier(obj) == "/TEST_SPACE/TEST_PROJECT/OBJ_1"
+    assert (
+        runner._identifier(obj, default_destination(runner))
+        == "/TEST_SPACE/TEST_PROJECT/OBJ_1"
+    )
+
+
+def test_identifier_uses_resolved_destination(openbis_runner_mock):
+    runner = make_runner(openbis_runner_mock)
+    other_space = MagicMock()
+    other_space.code = "OTHER_SPACE"
+    other_project = MagicMock()
+    other_project.code = "OTHER_PROJECT"
+    other_collection = MagicMock()
+    other_collection.code = "OTHER_COLLECTION"
+    destination = ResolvedDestination(
+        space=other_space,
+        project=other_project,
+        collection=other_collection,
+    )
+    obj = generate_object_type(code="OBJ_1")
+
+    assert runner._identifier(obj, destination) == (
+        "/OTHER_SPACE/OTHER_PROJECT/OTHER_COLLECTION/OBJ_1"
+    )
+
+
+def test_identifier_uses_resolved_project_root(openbis_runner_mock):
+    runner = make_runner(openbis_runner_mock)
+    other_project = MagicMock()
+    other_project.code = "OTHER_PROJECT"
+    destination = ResolvedDestination(
+        space=runner.space,
+        project=other_project,
+        collection=None,
+    )
+    obj = generate_object_type(code="OBJ_1")
+
+    assert runner._identifier(obj, destination) == ("/TEST_SPACE/OTHER_PROJECT/OBJ_1")
 
 
 # -----------------------------------------------------------------------------
@@ -466,6 +681,15 @@ def test_load_relationship_objs_returns_none_pair_if_one_is_missing(
     assert runner._load_relationship_objs("p", "missing") == (None, None)
 
 
+class DestinationParser(TestParserWithExistingCode):
+    def __init__(self, destination):
+        self.destination = destination
+
+    def parse(self, files, collection, logger):
+        obj = generate_object_type(code="EXISTING_OBJ_0001")
+        collection.add(obj, destination=self.destination)
+
+
 # -----------------------------------------------------------------------------
 # RunParsers workflow
 # -----------------------------------------------------------------------------
@@ -506,9 +730,57 @@ def test_run_without_collection_creates_object_under_project(openbis_runner_mock
     runner.run()
 
     kwargs = openbis_runner_mock.new_object.call_args.kwargs
-    assert "collection" not in kwargs
+    assert kwargs["collection"] is None
     assert kwargs["space"] is runner.space
     assert kwargs["project"] is runner.project
+
+
+def test_run_uses_explicit_project_destination(openbis_runner_mock):
+    other_project = MagicMock()
+    other_project.code = "OTHER_PROJECT"
+    other_project.get_collections.return_value = []
+    openbis_runner_mock._space.get_project.return_value = other_project
+
+    runner = make_runner(
+        openbis_runner_mock,
+        parser=DestinationParser(Destination(project="OTHER_PROJECT")),
+    )
+
+    runner.run()
+
+    identifier = "/TEST_SPACE/OTHER_PROJECT/EXISTING_OBJ_0001"
+    assert identifier in runner.openbis_id_map.values()
+    kwargs = openbis_runner_mock.new_object.call_args.kwargs
+    assert kwargs["space"] is runner.space
+    assert kwargs["project"] is other_project
+    assert kwargs["collection"] is None
+
+
+def test_run_uses_explicit_collection_destination(openbis_runner_mock):
+    other_project = MagicMock()
+    other_project.code = "OTHER_PROJECT"
+    other_collection = MagicMock()
+    other_collection.code = "OTHER_COLLECTION"
+    other_project.get_collections.return_value = [other_collection]
+    openbis_runner_mock._space.get_project.return_value = other_project
+
+    runner = make_runner(
+        openbis_runner_mock,
+        parser=DestinationParser(
+            Destination(
+                project="OTHER_PROJECT",
+                collection="OTHER_COLLECTION",
+            )
+        ),
+    )
+
+    runner.run()
+
+    identifier = "/TEST_SPACE/OTHER_PROJECT/OTHER_COLLECTION/EXISTING_OBJ_0001"
+    assert identifier in runner.openbis_id_map.values()
+    kwargs = openbis_runner_mock.new_object.call_args.kwargs
+    assert kwargs["project"] is other_project
+    assert kwargs["collection"] is other_collection
 
 
 def test_run_creates_parent_child_relationship(openbis_runner_mock):
@@ -579,6 +851,29 @@ def test_transactional_run_creates_new_object_in_object_transaction(
     identifier = "/TEST_SPACE/TEST_PROJECT/TEST_COLLECTION/EXISTING_OBJ_0001"
     assert identifier in runner.openbis_id_map.values()
     assert identifier in openbis_runner_mock._registry
+
+
+def test_transactional_run_uses_explicit_project_destination(
+    openbis_runner_mock,
+):
+    other_project = MagicMock()
+    other_project.code = "OTHER_PROJECT"
+    other_project.get_collections.return_value = []
+    openbis_runner_mock._space.get_project.return_value = other_project
+
+    runner = make_runner(
+        openbis_runner_mock,
+        parser=DestinationParser(Destination(project="OTHER_PROJECT")),
+        cls=RunParsersWithTransactions,
+    )
+
+    runner.run()
+
+    identifier = "/TEST_SPACE/OTHER_PROJECT/EXISTING_OBJ_0001"
+    assert identifier in runner.openbis_id_map.values()
+    kwargs = openbis_runner_mock.new_object.call_args.kwargs
+    assert kwargs["project"] is other_project
+    assert kwargs["collection"] is None
 
 
 def test_transactional_run_updates_existing_object(openbis_runner_mock):
