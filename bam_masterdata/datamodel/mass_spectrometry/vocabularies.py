@@ -356,3 +356,75 @@ class SIMSSputterSource(VocabularyType):
         label="Cs",
         description="""Cesium""",
     )
+
+class STANDARD_ORGANIZATION(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="STANDARD_ORGANIZATION",
+        description="""Standard Organization//Normorganisator""",
+    )
+
+    ISO = VocabularyTerm(
+        code="ISO",
+        label="ISO",
+        description="""International Organization for Standardization//Internationale Organisation für Normung""",
+    )
+
+    DIN = VocabularyTerm(
+        code="DIN",
+        label="DIN",
+        description="""German Institute for Standardization//Deutsches Institut für Normung e.V.""",
+    )
+
+    EPA = VocabularyTerm(
+        code="EPA",
+        label="EPA",
+        description="""U. S. Environmental Protection Agency//Umweltschutzbehörde der Vereinigten Staaten""",
+    )
+
+    LAGA = VocabularyTerm(
+        code="LAGA",
+        label="LAGA",
+        description="""German waste management guidance//Bundes- und Länder-Arbeitsgemeinschaft Abfall""",
+    )
+
+    BVL = VocabularyTerm(
+        code="BVL",
+        label="BVL",
+        description="""German Federal Office of Consumer Protection and Food Safety//Bundesamt für Verbraucherschutz und Lebensmittelsicherheit""",
+    )
+
+    NORDTEST = VocabularyTerm(
+        code="NORDTEST",
+        label="NORDTEST",
+        description="""NORDTEST//NORDTEST""",
+    )
+
+class SOP_TYPE(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="SOP_TYPE",
+        description="""SOP Type//StAA Typ""",
+    )
+
+    TESTING_EQUIPMENT = VocabularyTerm(
+        code="TESTING_EQUIPMENT",
+        label="Testing Equipment",
+        description="""SOPs covering the use, calibration, verification, and maintenance of testing and measuring equipment//Standardarbeitsanweisungen (SOPs) für die Verwendung, Kalibrierung, Überprüfung und Wartung von Prüf- und Messmitteln.""",
+    )
+
+    IN-HOUSE_METHODE = VocabularyTerm(
+        code="IN-HOUSE_METHOD",
+        label="In-House Method",
+        description="""In-house method//Hausverfahren""",
+    )
+
+    PROCEDURE = VocabularyTerm(
+        code="PROCEDURE",
+        label="Procedure",
+        description="""Procedure SOP//Verfahrensanweisung""",
+    )
+
+    STANDARD = VocabularyTerm(
+        code="STANDARD",
+        label="Standard",
+        description="""Standard SOP//Norm""",
+    )

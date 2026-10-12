@@ -1,4 +1,5 @@
-from bam_masterdata.datamodel.activities import ExperimentalStep
+#from bam_masterdata.datamodel.activities import ExperimentalStep
+from bam_masterdata.datamodel.object_types import Document, ExperimentalStep, SOP, Sop
 from bam_masterdata.datamodel.object_types import Instrument
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
 
@@ -371,4 +372,240 @@ class SIMS(ExperimentalStep):
         description="""Pixel density of the stitched image in pixel/mm""",
         mandatory=False,
         section="Imaging",
+    )
+
+class Norm(Document):
+    defs = ObjectTypeDef(
+        code="DOCUMENT.NORM",
+        description="""ISO, DIN, EPA, LAGA norms // ISO, DIN, EPA, LAGA Normen""",
+        generated_code_prefix="DOC.NORM",
+    )
+
+    name = PropertyTypeAssignment(
+        code="$NAME",
+        data_type="VARCHAR",
+        property_label="Name",
+        description="""Name""",
+        mandatory=True,
+        section="General Information",
+    )
+
+    standard_number = PropertyTypeAssignment(
+        code="STANDARD_NUMBER",
+        data_type="VARCHAR",
+        property_label="Standard number",
+        description="""Standard number//Normnummer""",
+        mandatory=True,
+        section="General Information",
+    )
+
+    standard_organization = PropertyTypeAssignment(
+        code="STANDARD_ORGANIZATION",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="STANDARD_ORGANIZATION",
+        property_label="Standard organization",
+        description="""Standard organization//Normorganisator""",
+        mandatory=True,
+        section="General Information",
+    )
+
+    publication_year = PropertyTypeAssignment(
+        code="PUBLICATION_YEAR",
+        data_type="INTEGER",
+        property_label="Publication year",
+        description="""Publication year//Publikationsjahr""",
+        mandatory=False,
+        section="General Information",
+    )
+
+    test_parameter = PropertyTypeAssignment(
+        code="TEST_PARAMETER",
+        data_type="VARCHAR",
+        property_label="Test parameter",
+        description="""Test parameter//Prüfparameter""",
+        mandatory=False,
+        section="General Information",
+    )
+
+    test_group = PropertyTypeAssignment(
+        code="TEST_GROUP",
+        data_type="VARCHAR",
+        property_label="Test group",
+        description="""Test group//Prüfgruppe""",
+        mandatory=False,
+        section="General Information",
+    )
+
+    document_url = PropertyTypeAssignment(
+        code="DOCUMENT_URL",
+        data_type="HYPERLINK",
+        property_label="Document URL",
+        description="""URL of the document//Adresse des Dokuments""",
+        mandatory=False,
+        section="General Information",
+    )
+
+    responsible_person = PropertyTypeAssignment(
+        code="RESPONSIBLE_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON.BAM",
+        property_label="Responsible person",
+        description="""Responsible person//Verantwortliche Person""",
+        mandatory=False,
+        section="BAM Information",
+    )
+
+    notes = PropertyTypeAssignment(
+        code="NOTES",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Notes",
+        description="""Notes""",
+        mandatory=False,
+        section="Additional Information",
+    )
+
+    xmlcomments = PropertyTypeAssignment(
+        code="$XMLCOMMENTS",
+        data_type="XML",
+        property_label="Comments",
+        description="""Comments log""",
+        mandatory=False,
+        section="Comments",
+    )
+
+# for now, defined new object type, which spoused to be inherited from SOP, a lot of new properties are added and some are deleted.
+class Parser(Sop):
+    defs = ObjectTypeDef(
+        code="SOP.PARSER",
+        description="""Standard Operating Procedure (SOP) for the parser in division 1.7//Standardarbeitsanweisung (StAA) für den Parser im Fachbereich 1.7""",
+        generated_code_prefix="SOP",
+    )
+
+    name = PropertyTypeAssignment(
+        code="$NAME",
+        data_type="VARCHAR",
+        property_label="Name",
+        description="""Name""",
+        mandatory=True,
+        section="General Information",
+    )
+
+    sop_number = PropertyTypeAssignment(
+        code="SOP_NUMBER",
+        data_type="VARCHAR",
+        property_label="SOP Number",
+        description="""SOP Number // StAA Nummer""",
+        mandatory=True,
+        section="General Information",
+    )
+
+    sop_type = PropertyTypeAssignment(
+        code="SOP_TYPE",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="SOP_TYPE",
+        property_label="SOP Type",
+        description="""SOP Type // StAA Typ""",
+        mandatory=True,
+        section="General Information",
+    )
+
+    accredited = PropertyTypeAssignment(
+        code="ACCREDITED",
+        data_type="BOOLEAN",
+        property_label="Accredited?",
+        description="""TRUE if the SOP is accredited//WAHR wenn die StAA akkreditiert ist""",
+        mandatory=False,
+        section="General Information",
+    )
+
+    publication_date = PropertyTypeAssignment(
+        code="PUBLICATION_DATE",
+        data_type="DATE",
+        property_label="Publication date",
+        description="""Publication date//Publikationsdatum""",
+        mandatory=False,
+        section="General Information",
+    )
+
+    status = PropertyTypeAssignment(
+        code="STATUS",
+        data_type="VARCHAR",
+        property_label="Current status",
+        description="""Current status of the SOP. Active, not active, or deprecated.//Aktueller Status von StAA. Aktiv, Inaktiv, nicht mehr aktualisiert.""",
+        mandatory=False,
+        section="BAM Information",
+    )
+
+    id_eakte = PropertyTypeAssignment(
+        code="ID_EAKTE",
+        data_type="VARCHAR",
+        property_label="ID E-Akte",
+        description="""Identifier used in E-Akte//E-Akte Nummer""",
+        mandatory=True,
+        section="BAM Information",
+    )
+
+    link_eakte = PropertyTypeAssignment(
+        code="LINK_EAKTE",
+        data_type="HYPERLINK",
+        property_label="Link E-Akte",
+        description="""Link to E-Akte//Link zum Dokument in der E-Akte""",
+        mandatory=True,
+        section="BAM Information",
+    )
+
+    responsible_person = PropertyTypeAssignment(
+        code="RESPONSIBLE_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON.BAM",
+        property_label="Responsible person",
+        description="""Responsible person//Verantwortliche Person""",
+        mandatory=True,
+        section="BAM Information",
+    )
+
+    sop_version = PropertyTypeAssignment(
+        code="SOP_VERSION",
+        data_type="VARCHAR",
+        property_label="SOP Version",
+        description="""SOP Version or revision number//StAA Version oder Revisionsnummer""",
+        mandatory=True,
+        section="BAM Information",
+    )
+
+    last_check = PropertyTypeAssignment(
+        code="LAST_CHECK",
+        data_type="DATE",
+        property_label="Date of last check",
+        description="""Date of the last check//Datum der letzten Überprüfung""",
+        mandatory=True,
+        section="BAM Information",
+    )
+
+    bam_oe = PropertyTypeAssignment(
+        code="BAM_OE",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_OE",
+        property_label="BAM Organizational Entity",
+        description="""BAM Organizational Entity//BAM Organisationseinheit (OE)""",
+        mandatory=True,
+        section="BAM Information",
+    )
+
+    notes = PropertyTypeAssignment(
+        code="NOTES",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Notes",
+        description="""Notes""",
+        mandatory=False,
+        section="Additional Information",
+    )
+
+    xmlcomments = PropertyTypeAssignment(
+        code="$XMLCOMMENTS",
+        data_type="XML",
+        property_label="Comments",
+        description="""Comments log""",
+        mandatory=False,
+        section="Comments",
     )
