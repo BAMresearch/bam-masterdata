@@ -411,9 +411,9 @@ class SOP_TYPE(VocabularyType):
         description="""SOPs covering the use, calibration, verification, and maintenance of testing and measuring equipment//Standardarbeitsanweisungen (SOPs) für die Verwendung, Kalibrierung, Überprüfung und Wartung von Prüf- und Messmitteln.""",
     )
 
-    IN-HOUSE_METHODE = VocabularyTerm(
-        code="IN-HOUSE_METHOD",
-        label="In-House Method",
+    IN_HOUSE_METHOD = VocabularyTerm(
+        code="IN_HOUSE_METHOD",
+        label="In-house method",
         description="""In-house method//Hausverfahren""",
     )
 
