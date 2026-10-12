@@ -31511,7 +31511,7 @@ class TestMethod(VocabularyType):
 
     magnetic_inductive = VocabularyTerm(
         code="MAGNETIC_INDUCTIVE",
-        label="ET - Eddy Current",
+        label="Magnetic-Inductive",
         description="Eddy current testing (ET)//Wirbelstromprüfung (ET)",
     )
 
@@ -32264,4 +32264,78 @@ class ToolPurpose(VocabularyType):
         code="SCAN",
         label="Scannen",
         description="""Scanning//Scannen""",
+    )
+
+
+class MeasuringInstrumentClassification(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="MEASURING_INSTRUMENT_CLASSIFICATION",
+        description="Measuring Instrument Classification//Klassifizierung des Messprinzips",
+    )
+
+    mechanical = VocabularyTerm(
+        code="MECHANICAL",
+        label="Mechanische Energie",
+        description="Mechanical energy//Mechanische Energie",
+    )
+
+    electromagnetic = VocabularyTerm(
+        code="ELECTROMAGNETIC",
+        label="Elektromagnetische Energie",
+        description="Electromagnetic energy//Elektromagnetische Energie",
+    )
+
+    electrochemical = VocabularyTerm(
+        code="ELECTROCHEMICAL",
+        label="Elektrochemische Energie",
+        description="Electrochemical energy//Elektrochemische Energie",
+    )
+
+    magnetic = VocabularyTerm(
+        code="MAGNETIC",
+        label="Magnetische Energie",
+        description="Magnetic energy//Magnetische Energie",
+    )
+
+    spectroscopic = VocabularyTerm(
+        code="SPECTROSCOPIC",
+        label="Spektroskopisches Verfahren",
+        description="Spectroscopic method//Spektroskopisches Verfahren",
+    )
+
+
+class MeasurementQuantity(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="MEASUREMENT_QUANTITY",
+        description="Measurement Quantity//Messgröße",
+    )
+
+    temperature = VocabularyTerm(
+        code="TEMPERATURE",
+        label="Temperatur",
+        description="Temperature//Temperatur",
+    )
+
+    moisture = VocabularyTerm(
+        code="MOISTURE",
+        label="Feuchte",
+        description="Moisture//Feuchte",
+    )
+
+    weight = VocabularyTerm(
+        code="WEIGHT",
+        label="Gewicht",
+        description="Weight//Gewicht",
+    )
+
+    length = VocabularyTerm(
+        code="LENGTH",
+        label="Länge",
+        description="Length//Länge",
+    )
+
+    pressure = VocabularyTerm(
+        code="PRESSURE",
+        label="Druck",
+        description="Pressure//Druck",
     )

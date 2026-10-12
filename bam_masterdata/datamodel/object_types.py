@@ -111,11 +111,11 @@ class TestMethod(ObjectType):
     defs = ObjectTypeDef(
         code="TEST_METHOD",
         description="Test Method//Prüfverfahren",
-        generated_code_prefix="TESTM",
+        generated_code_prefix="TEST_METHOD",
     )
 
-    method = PropertyTypeAssignment(
-        code="METHOD",
+    test_method = PropertyTypeAssignment(
+        code="TEST_METHOD",
         data_type="CONTROLLEDVOCABULARY",
         vocabulary_code="TEST_METHOD",
         property_label="Test Method",
@@ -1628,6 +1628,56 @@ class Instrument(ObjectType):
     )
 
 
+class InstrumentFb82(Instrument):
+    defs = ObjectTypeDef(
+        code="INSTRUMENT.FB82",
+        description="Measuring Instrument (FB 8.2)//Messinstrument (FB 8.2)",
+        generated_code_prefix="INS.FB82",
+    )
+
+    manufacturer = Instrument.manufacturer.model_copy(update={"mandatory": False})
+    bam_oe = Instrument.bam_oe.model_copy(update={"mandatory": False})
+    bam_location_complete = Instrument.bam_location_complete.model_copy(
+        update={"mandatory": False}
+    )
+    serial_number = Instrument.serial_number.model_copy(update={"mandatory": True})
+    instrument_status = Instrument.instrument_status.model_copy(
+        update={"mandatory": True}
+    )
+    inventory_no = Instrument.inventory_no.model_copy(
+        update={"mandatory": False, "show_in_edit_views": False}
+    )
+
+    bam_inventory_number = PropertyTypeAssignment(
+        code="BAM_INVENTORY_NUMBER",
+        data_type="VARCHAR",
+        property_label="BAM Inventory Number",
+        description="BAM-Inventarnummer//BAM-Inventarnummer",
+        mandatory=False,
+        section="Equipment Details",
+    )
+
+    instrument_method = PropertyTypeAssignment(
+        code="INSTRUMENT_METHOD",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="TEST_METHOD",
+        property_label="Measurement Method",
+        description="Measurement method used by the instrument//Messverfahren des Instruments",
+        mandatory=True,
+        section="Classification",
+    )
+
+    instrument_classification = PropertyTypeAssignment(
+        code="INSTRUMENT_CLASSIFICATION",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="MEASURING_INSTRUMENT_CLASSIFICATION",
+        property_label="Measurement Principle",
+        description="Classification of the measurement principle//Klassifizierung des Messprinzips",
+        mandatory=True,
+        section="Classification",
+    )
+
+
 class TestingMachine(ObjectType):
     defs = ObjectTypeDef(
         code="TESTING_MACHINE",
@@ -1906,6 +1956,58 @@ class TestingMachine(ObjectType):
         description="""Annotations State""",
         mandatory=False,
         section="",
+    )
+
+
+class TestingMachineFb82(TestingMachine):
+    defs = ObjectTypeDef(
+        code="TESTING_MACHINE.FB82",
+        description="Testing Equipment (FB 8.2)//Prüfgerät (FB 8.2)",
+        generated_code_prefix="TMACH.FB82",
+    )
+
+    manufacturer = TestingMachine.manufacturer.model_copy(update={"mandatory": False})
+    bam_oe = TestingMachine.bam_oe.model_copy(update={"mandatory": False})
+    bam_location_complete = TestingMachine.bam_location_complete.model_copy(
+        update={"mandatory": False}
+    )
+    serial_number = TestingMachine.serial_number.model_copy(update={"mandatory": True})
+    instrument_status = TestingMachine.instrument_status.model_copy(
+        update={"mandatory": True}
+    )
+    inventory_no = TestingMachine.inventory_no.model_copy(
+        update={"mandatory": False, "show_in_edit_views": False}
+    )
+    testing_machine_drive_type = TestingMachine.testing_machine_drive_type.model_copy(
+        update={"mandatory": False, "show_in_edit_views": False}
+    )
+    testing_machine_load_type = TestingMachine.testing_machine_load_type.model_copy(
+        update={"mandatory": False, "show_in_edit_views": False}
+    )
+    max_load_static_primary = TestingMachine.max_load_static_primary.model_copy(
+        update={"mandatory": False, "show_in_edit_views": False}
+    )
+    max_load_dynamic_primary = TestingMachine.max_load_dynamic_primary.model_copy(
+        update={"mandatory": False, "show_in_edit_views": False}
+    )
+
+    bam_inventory_number = PropertyTypeAssignment(
+        code="BAM_INVENTORY_NUMBER",
+        data_type="VARCHAR",
+        property_label="BAM Inventory Number",
+        description="BAM-Inventarnummer//BAM-Inventarnummer",
+        mandatory=False,
+        section="Equipment Details",
+    )
+
+    measurement_quantity = PropertyTypeAssignment(
+        code="MEASUREMENT_QUANTITY",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="MEASUREMENT_QUANTITY",
+        property_label="Measurement Quantity",
+        description="Quantity associated with the testing machine//Messgröße der Prüfmaschine",
+        mandatory=True,
+        section="Classification",
     )
 
 

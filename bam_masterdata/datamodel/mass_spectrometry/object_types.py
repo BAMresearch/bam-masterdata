@@ -297,6 +297,15 @@ class SIMS(ExperimentalStep):
         section="Experimental Settings",
     )
 
+    sputter_source = PropertyTypeAssignment(
+        code="SPUTTER_SOURCE",
+        data_type="VARCHAR",
+        property_label="Sputter Source",
+        description="""Sputter Source""",
+        mandatory=False,
+        section="Depth Profiling",
+    )
+
     sims_dsc_voltage = PropertyTypeAssignment(
         code="SIMS_DSC_VOLTAGE",
         data_type="REAL",
@@ -304,7 +313,7 @@ class SIMS(ExperimentalStep):
         property_label="DSC Voltage",
         description="""DSC Voltage in kV""",
         mandatory=False,
-        section="Experimental Settings",
+        section="Depth Profiling",
     )
 
     sims_dsc_current = PropertyTypeAssignment(
@@ -314,7 +323,7 @@ class SIMS(ExperimentalStep):
         property_label="DSC Current",
         description="""DSC Current in nA""",
         mandatory=False,
-        section="Experimental Settings",
+        section="Depth Profiling",
     )
 
     sims_dsc_raster_size = PropertyTypeAssignment(
@@ -323,15 +332,6 @@ class SIMS(ExperimentalStep):
         units="µm",
         property_label="Secondary ion beam raster size",
         description="""Secondary (Sputter) ion beam raster size in µm""",
-        mandatory=False,
-        section="Experimental Settings",
-    )
-
-    sputter_source = PropertyTypeAssignment(
-        code="SPUTTER_SOURCE",
-        data_type="VARCHAR",
-        property_label="Sputter Source",
-        description="""Sputter Source""",
         mandatory=False,
         section="Depth Profiling",
     )

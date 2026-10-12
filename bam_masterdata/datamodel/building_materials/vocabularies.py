@@ -56,6 +56,12 @@ class BuildingMaterialType(VocabularyType):
         description="""Other Material Types//Anderer Materialtyp""",
     )
 
+    metal = VocabularyTerm(
+        code="METAL",
+        label="Metallic Material",
+        description="Metallic Material//Metallischer Baustoff",
+    )
+
 
 class BuildingMaterialsTestMachine(VocabularyType):
     defs = VocabularyTypeDef(
