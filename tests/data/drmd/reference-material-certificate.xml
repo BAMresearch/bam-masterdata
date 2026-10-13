@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Worked example: a complete Reference Material Certificate (CRM profile).
+
+  This file is part of the DRMD test suite. It is valid against drmd.xsd and raises no
+  assertion of any severity from drmd-business-rules.sch. Every element required by
+  ISO 33401:2024, Table 1 for an RM certificate is present, and the recommended entries
+  (health and safety information, measurement procedures, property identifiers) are present too.
+
+  The material, the producer and the values are fictitious and are here to show the structure.
+-->
+<drmd:digitalReferenceMaterialDocument
+    xmlns:drmd="urn:drmd:schema"
+    xmlns:dcc="https://ptb.de/dcc"
+    xmlns:si="https://ptb.de/si"
+    schemaVersion="1.0.0">
+
+  <drmd:administrativeData>
+
+    <drmd:coreData>
+      <drmd:titleOfTheDocument>referenceMaterialCertificate</drmd:titleOfTheDocument>
+      <drmd:uniqueIdentifier>84d58aee-4f81-460f-993e-a594ce3a8d60</drmd:uniqueIdentifier>
+      <drmd:documentVersion>2.0</drmd:documentVersion>
+
+      <drmd:documentIdentifiers>
+        <drmd:documentIdentifier id="docid_doi" refType="basic_certificateIdentification">
+          <drmd:scheme>DOI</drmd:scheme>
+          <drmd:value>10.5555/example-crm-alloy-1-v2</drmd:value>
+          <drmd:link>https://doi.org/10.5555/example-crm-alloy-1-v2</drmd:link>
+        </drmd:documentIdentifier>
+      </drmd:documentIdentifiers>
+
+      <drmd:validity>
+        <drmd:specificTime>2032-12-31</drmd:specificTime>
+      </drmd:validity>
+    </drmd:coreData>
+
+    <drmd:referenceMaterialProducer>
+      <drmd:name>
+        <dcc:content lang="en">Example Institute for Materials Testing</dcc:content>
+        <dcc:content lang="de">Beispielinstitut fuer Materialpruefung</dcc:content>
+      </drmd:name>
+      <drmd:contact>
+        <dcc:name>
+          <dcc:content lang="en">Reference Materials Sales</dcc:content>
+        </dcc:name>
+        <dcc:eMail>reference.materials@example.org</dcc:eMail>
+        <dcc:phone>+49 30 0000 0000</dcc:phone>
+        <dcc:link>https://www.example.org/</dcc:link>
+        <dcc:location>
+          <dcc:street>Example Street</dcc:street>
+          <dcc:streetNo>11</dcc:streetNo>
+          <dcc:postCode>12489</dcc:postCode>
+          <dcc:city>Berlin</dcc:city>
+          <dcc:countryCode>DE</dcc:countryCode>
+        </dcc:location>
+      </drmd:contact>
+      <drmd:cryptElectronicSeal>true</drmd:cryptElectronicSeal>
+      <drmd:organizationIdentifiers>
+        <drmd:organizationIdentifier>
+          <drmd:scheme>ROR</drmd:scheme>
+          <drmd:value>05h9t7c48</drmd:value>
+          <drmd:link>https://ror.org/05h9t7c48</drmd:link>
+        </drmd:organizationIdentifier>
+      </drmd:organizationIdentifiers>
+    </drmd:referenceMaterialProducer>
+
+    <!-- ISO 33401:2024, 5.3.5, name AND function of the approving officer.
+         RMC-010 requires this list; RMC-012 requires the function (dcc:role). -->
+    <drmd:respPersons>
+      <dcc:respPerson id="respPerson_approving">
+        <dcc:person>
+          <dcc:name>
+            <dcc:content lang="en">Dr A. Musterfrau</dcc:content>
+          </dcc:name>
+          <dcc:eMail>a.musterfrau@example.org</dcc:eMail>
+        </dcc:person>
+        <dcc:role>Head of Division, Inorganic Reference Materials</dcc:role>
+        <dcc:mainSigner>true</dcc:mainSigner>
+        <dcc:cryptElectronicSignature>true</dcc:cryptElectronicSignature>
+      </dcc:respPerson>
+      <dcc:respPerson id="respPerson_technical">
+        <dcc:person>
+          <dcc:name>
+            <dcc:content lang="en">Dr B. Mustermann</dcc:content>
+          </dcc:name>
+        </dcc:person>
+        <dcc:role>Technical Reviewer</dcc:role>
+        <dcc:mainSigner>false</dcc:mainSigner>
+      </dcc:respPerson>
+    </drmd:respPersons>
+
+  </drmd:administrativeData>
+
+  <drmd:materials>
+    <drmd:material>
+      <drmd:name>
+        <dcc:content lang="en">Aluminium alloy disc EXA-1a</dcc:content>
+        <dcc:content lang="de">Aluminiumlegierungsscheibe EXA-1a</dcc:content>
+      </drmd:name>
+
+      <!-- Mandatory for a certificate (RMC-011) -->
+      <drmd:description>
+        <dcc:content lang="en">Cast aluminium alloy supplied as discs of approximately 65 mm
+          diameter and 30 mm height, with one face machined flat. The matrix is an
+          aluminium-silicon-copper alloy. No analytes were added by spiking; all certified
+          elements are present from the melt.</dcc:content>
+      </drmd:description>
+
+      <drmd:materialClass>
+        <drmd:reference>UNS</drmd:reference>
+        <drmd:classID>A03190</drmd:classID>
+      </drmd:materialClass>
+
+      <!-- ISO 33401:2024, 5.2.7 (DRMD-008) -->
+      <drmd:minimumSampleSize>
+        <dcc:itemQuantity>
+          <dcc:name>
+            <dcc:content lang="en">Minimum sample mass for wet chemical analysis</dcc:content>
+          </dcc:name>
+          <si:real>
+            <si:quantityTypeQUDT>Mass</si:quantityTypeQUDT>
+            <si:value>0.2</si:value>
+            <si:unit>\gram</si:unit>
+          </si:real>
+        </dcc:itemQuantity>
+      </drmd:minimumSampleSize>
+
+      <drmd:itemQuantities>
+        <dcc:itemQuantity>
+          <dcc:name><dcc:content lang="en">Disc diameter</dcc:content></dcc:name>
+          <si:real>
+            <si:quantityTypeQUDT>Diameter</si:quantityTypeQUDT>
+            <si:value>65</si:value>
+            <si:unit>\milli\metre</si:unit>
+          </si:real>
+        </dcc:itemQuantity>
+      </drmd:itemQuantities>
+
+      <!-- ISO 33401:2024, 5.2.3, unique identifier of the RM (DRMD-016).
+           Product code plus batch number, exactly as printed on the label. -->
+      <drmd:materialIdentifiers>
+        <drmd:materialIdentifier id="matid_product">
+          <drmd:scheme>ProductCode</drmd:scheme>
+          <drmd:value>EXA-1a</drmd:value>
+        </drmd:materialIdentifier>
+        <drmd:materialIdentifier id="matid_batch">
+          <drmd:scheme>Batch</drmd:scheme>
+          <drmd:value>2026-03-017</drmd:value>
+        </drmd:materialIdentifier>
+      </drmd:materialIdentifiers>
+    </drmd:material>
+  </drmd:materials>
+
+  <drmd:propertiesList>
+
+    <!-- Certified values. RMC-002 requires at least one such block in a certificate. -->
+    <drmd:properties id="props_certified" refId="matid_product" isCertified="true">
+      <drmd:name>
+        <dcc:content lang="en">Certified values</dcc:content>
+      </drmd:name>
+      <drmd:description>
+        <dcc:content lang="en">U is the expanded uncertainty of the certified value, calculated
+          with a coverage factor k = 2, corresponding to a coverage probability of approximately
+          95 percent.</dcc:content>
+      </drmd:description>
+
+      <!-- ISO 33401:2024, 5.2.14 and 5.4.2 (DRMD-014, RMC-005) -->
+      <drmd:procedures>
+        <dcc:usedMethod id="method_icpoes">
+          <dcc:name>
+            <dcc:content lang="en">ICP-OES</dcc:content>
+          </dcc:name>
+          <dcc:description>
+            <dcc:content lang="en">Inductively coupled plasma optical emission spectrometry after
+              acid digestion. Used to assign the certified values.</dcc:content>
+          </dcc:description>
+          <dcc:norm>ISO 11885</dcc:norm>
+        </dcc:usedMethod>
+      </drmd:procedures>
+
+      <drmd:results>
+        <drmd:result id="result_massfraction" refType="basic_measuredValue">
+          <drmd:name>
+            <dcc:content lang="en">Mass fraction of alloying elements</dcc:content>
+          </drmd:name>
+          <drmd:data>
+            <drmd:list>
+
+              <drmd:quantity id="q_si">
+                <dcc:name><dcc:content lang="en">Silicon</dcc:content></dcc:name>
+                <si:real>
+                  <si:label>Mass fraction of Si</si:label>
+                  <si:quantityTypeQUDT>MassFraction</si:quantityTypeQUDT>
+                  <si:value>6.42</si:value>
+                  <si:unit>\percent</si:unit>
+                  <si:measurementUncertaintyUnivariate>
+                    <si:expandedMU>
+                      <si:valueExpandedMU>0.08</si:valueExpandedMU>
+                      <si:coverageFactor>2</si:coverageFactor>
+                      <si:coverageProbability>0.95</si:coverageProbability>
+                      <si:distribution>normal</si:distribution>
+                    </si:expandedMU>
+                  </si:measurementUncertaintyUnivariate>
+                </si:real>
+                <drmd:propertyIdentifiers>
+                  <drmd:propertyIdentifier>
+                    <drmd:scheme>CAS</drmd:scheme>
+                    <drmd:value>7440-21-3</drmd:value>
+                    <drmd:link>https://commonchemistry.cas.org/detail?cas_rn=7440-21-3</drmd:link>
+                  </drmd:propertyIdentifier>
+                </drmd:propertyIdentifiers>
+              </drmd:quantity>
+
+              <drmd:quantity id="q_cu">
+                <dcc:name><dcc:content lang="en">Copper</dcc:content></dcc:name>
+                <si:real>
+                  <si:label>Mass fraction of Cu</si:label>
+                  <si:quantityTypeQUDT>MassFraction</si:quantityTypeQUDT>
+                  <si:value>3.15</si:value>
+                  <si:unit>\percent</si:unit>
+                  <si:measurementUncertaintyUnivariate>
+                    <si:expandedMU>
+                      <si:valueExpandedMU>0.06</si:valueExpandedMU>
+                      <si:coverageFactor>2</si:coverageFactor>
+                      <si:coverageProbability>0.95</si:coverageProbability>
+                      <si:distribution>normal</si:distribution>
+                    </si:expandedMU>
+                  </si:measurementUncertaintyUnivariate>
+                </si:real>
+                <drmd:propertyIdentifiers>
+                  <drmd:propertyIdentifier>
+                    <drmd:scheme>CAS</drmd:scheme>
+                    <drmd:value>7440-50-8</drmd:value>
+                  </drmd:propertyIdentifier>
+                </drmd:propertyIdentifiers>
+              </drmd:quantity>
+
+            </drmd:list>
+          </drmd:data>
+        </drmd:result>
+      </drmd:results>
+
+      <drmd:measurementMetaData>
+        <dcc:metaData>
+          <dcc:name>
+            <dcc:content lang="en">Metrological traceability of the certified values</dcc:content>
+          </dcc:name>
+          <dcc:traceable>true</dcc:traceable>
+          <dcc:reference>SI, through gravimetrically prepared calibration solutions</dcc:reference>
+        </dcc:metaData>
+      </drmd:measurementMetaData>
+    </drmd:properties>
+
+    <!-- Indicative values (ISO 33401:2024, 5.4.5). Optional, and never marked certified.
+         The si:hybrid below shows how a non-SI unit is reported: the first si:real gives the
+         value in a machine-readable SI unit; the second gives the same value in the unit the
+         field expects. dcc:nonSIUnit in the metadata defines that unit. -->
+    <drmd:properties id="props_indicative" refId="matid_product" isCertified="false">
+      <drmd:name>
+        <dcc:content lang="en">Indicative values</dcc:content>
+      </drmd:name>
+      <drmd:description>
+        <dcc:content lang="en">The values below are indicative. They are not certified: they do not
+          carry a statement of metrological traceability and must not be used for calibration.</dcc:content>
+      </drmd:description>
+
+      <drmd:procedures>
+        <dcc:usedMethod id="method_hardness">
+          <dcc:name>
+            <dcc:content lang="en">Brinell hardness test</dcc:content>
+          </dcc:name>
+          <dcc:norm>ISO 6506-1</dcc:norm>
+        </dcc:usedMethod>
+      </drmd:procedures>
+
+      <drmd:results>
+        <drmd:result id="result_hardness">
+          <drmd:name>
+            <dcc:content lang="en">Brinell hardness</dcc:content>
+          </drmd:name>
+          <drmd:data>
+            <drmd:quantity id="q_hardness">
+              <dcc:name><dcc:content lang="en">Hardness HBW 2.5/62.5</dcc:content></dcc:name>
+              <si:hybrid>
+                <si:real>
+                  <si:label>Brinell hardness, expressed in SI units</si:label>
+                  <si:value>1.03e9</si:value>
+                  <si:unit>\pascal</si:unit>
+                </si:real>
+                <si:real>
+                  <si:label>Brinell hardness, expressed in the conventional hardness scale</si:label>
+                  <si:value>105</si:value>
+                  <si:unit>HBW 2.5/62.5</si:unit>
+                </si:real>
+              </si:hybrid>
+            </drmd:quantity>
+          </drmd:data>
+        </drmd:result>
+      </drmd:results>
+
+      <drmd:measurementMetaData>
+        <dcc:metaData>
+          <dcc:name>
+            <dcc:content lang="en">Definition of the non-SI unit used above</dcc:content>
+          </dcc:name>
+          <dcc:nonSIDefinition>Brinell hardness measured with a 2.5 mm tungsten carbide ball at a
+            test force of 62.5 kgf (612.9 N), reported on the conventional HBW scale as defined in
+            ISO 6506-1. The SI-encoded sibling quantity states the same result in pascal.</dcc:nonSIDefinition>
+          <dcc:nonSIUnit>HBW 2.5/62.5</dcc:nonSIUnit>
+        </dcc:metaData>
+      </drmd:measurementMetaData>
+    </drmd:properties>
+
+  </drmd:propertiesList>
+
+  <drmd:statements>
+    <drmd:intendedUse>
+      <dcc:content lang="en">This certified reference material is intended for the calibration and
+        performance checking of spark optical emission spectrometry and X-ray fluorescence methods
+        used for aluminium alloys of a similar matrix. It is not intended for use as a primary
+        standard for gravimetric preparation, and it is not suitable for methods that require a
+        homogeneous distribution below the stated minimum sample size.</dcc:content>
+    </drmd:intendedUse>
+
+    <drmd:commutability>
+      <dcc:content lang="en">Commutability has not been assessed for this material. Use is
+        restricted to the measurement procedures validated for this matrix and stated under
+        intended use.</dcc:content>
+    </drmd:commutability>
+
+    <drmd:storageInformation>
+      <dcc:content lang="en">Store the disc in its original sealed container at 15 degrees Celsius
+        to 25 degrees Celsius in a dry environment. Protect from corrosive atmospheres and avoid
+        condensation on the machined face.</dcc:content>
+    </drmd:storageInformation>
+
+    <drmd:instructionsForHandlingAndUse>
+      <dcc:content lang="en">Before each measurement, clean the machined face with ethanol and a
+        lint-free tissue and allow it to dry. Where the surface has been re-machined, remove at
+        least 0.5 mm of material and re-clean. Do not handle the measurement face with bare hands.
+        The certified values apply only to test portions of at least the stated minimum sample
+        size.</dcc:content>
+    </drmd:instructionsForHandlingAndUse>
+
+    <!-- Mandatory for a certificate (RMC-001) -->
+    <drmd:metrologicalTraceability>
+      <dcc:content lang="en">The certified mass fractions are metrologically traceable to the SI.
+        Traceability is established through calibration solutions prepared gravimetrically from
+        pure metals of stated purity, using balances calibrated against national mass standards.
+        The measurement procedure used for each certified value is stated in the certified values
+        section, and the full chain of comparisons is described in the certification
+        report.</dcc:content>
+    </drmd:metrologicalTraceability>
+
+    <drmd:healthAndSafetyInformation>
+      <dcc:content lang="en">A safety data sheet is available from the producer on request. The
+        material is a solid metal alloy and presents no hazard in the supplied form. If the
+        material is machined or ground, avoid inhalation of the dust and use local exhaust
+        ventilation and eye protection.</dcc:content>
+    </drmd:healthAndSafetyInformation>
+
+    <drmd:legalNotice>
+      <dcc:content lang="en">The producer's liability is limited to replacement of the material.
+        Use of the material is subject to the producer's terms and conditions of sale.</dcc:content>
+    </drmd:legalNotice>
+
+    <drmd:referenceToCertificationReport>
+      <dcc:content lang="en">Certification report EXA-1a-CR-2026, available from the producer on
+        request at https://www.example.org/reports/EXA-1a-CR-2026.</dcc:content>
+    </drmd:referenceToCertificationReport>
+  </drmd:statements>
+
+</drmd:digitalReferenceMaterialDocument>
