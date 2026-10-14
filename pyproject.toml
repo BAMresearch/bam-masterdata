@@ -49,6 +49,7 @@ dev = [
   "zensical>=0.0.41",
   "mkdocstrings-python",
   "pymdown-extensions>=11.0.1",
+  "virtualenv>=21.7.13"
 ]
 
 [project.urls]
