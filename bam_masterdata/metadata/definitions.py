@@ -116,7 +116,7 @@ class EntityDef(BaseModel):
         ...,
         description="""
         Description of the entity. This is the human-readable text for the object and must be
-        as complete and concise as possible. .
+        as complete and concise as possible.
         """,
     )
 
@@ -209,51 +209,6 @@ class EntityDef(BaseModel):
 
         if len(value) != len(set(value)):
             raise ValueError("`prev_versions` contains duplicate references.")
-
-        return value
-
-    @field_validator("iri")
-    @classmethod
-    def validate_iri(
-        cls,
-        value: list[str] | None,
-    ) -> list[str] | None:
-        """Validate ontology references."""
-
-        if value is None:
-            return None
-
-        if not value:
-            raise ValueError("`iri` cannot be an empty list.")
-
-        for reference in value:
-            if not reference or reference != reference.strip():
-                raise ValueError(f"Invalid ontology reference: {reference!r}")
-
-            # Accept OBO-style identifiers.
-            if _ONTOLOGY_ID_PATTERN.fullmatch(reference):
-                continue
-
-            # Otherwise, require an absolute HTTP(S) IRI.
-            try:
-                parsed = urlsplit(reference)
-                valid_url = (
-                    parsed.scheme in {"http", "https"}
-                    and bool(parsed.hostname)
-                    and not any(char.isspace() for char in reference)
-                )
-            except ValueError:
-                valid_url = False
-
-            if not valid_url:
-                raise ValueError(
-                    f"Invalid ontology reference: {reference!r}. "
-                    "Expected an HTTP(S) IRI or an ontology identifier "
-                    "such as 'BFO_0000001'."
-                )
-
-        if len(value) != len(set(value)):
-            raise ValueError("`iri` contains duplicate references.")
 
         return value
 
