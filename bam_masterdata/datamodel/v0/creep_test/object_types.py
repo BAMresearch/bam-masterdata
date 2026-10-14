@@ -1,5 +1,5 @@
-from bam_masterdata.datamodel.activities import MechanicalTest
-from bam_masterdata.datamodel.object_types import (
+from bam_masterdata.datamodel.v0.activities import MechanicalTest
+from bam_masterdata.datamodel.v0.object_types import (
     ComputationalAnalysis,
     EnvironmentalConditions,
     Instrument,
