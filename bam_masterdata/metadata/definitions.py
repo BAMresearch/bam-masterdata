@@ -2,6 +2,7 @@ import datetime
 import re
 from enum import Enum
 from typing import Any
+from urllib.parse import parse_qs, urlparse
 
 from pint import DefinitionSyntaxError, UndefinedUnitError, UnitRegistry
 from pydantic import BaseModel, Field, field_validator, model_validator
@@ -60,7 +61,10 @@ _EXCEL_NAME_MAP = {
     "ObjectTypeDef": "SAMPLE_TYPE",
     "VocabularyTypeDef": "VOCABULARY_TYPE",
 }
-_EXCLUDED_EXCEL_HEADER_FIELDS = frozenset({"iri", "id", "row_location"})
+_CODE_PATTERN = re.compile(r"^[\w_\$\.\-\+]+$")
+_EXCLUDED_EXCEL_HEADER_FIELDS = frozenset(
+    {"iri", "id", "row_location", "prev_version", "ontodefs"}
+)
 
 
 def _format_excel_header(field_name: str) -> str:
@@ -95,11 +99,45 @@ class EntityDef(BaseModel):
         ...,
         description="""
         Description of the entity. This is the human-readable text for the object and must be
-        as complete and concise as possible. The German description can be added after the English
-        description separated by a double slash (//), e.g. `'Chemical Substance//Chemische Substanz'`.
+        as complete and concise as possible. .
         """,
     )
 
+    description_de: str | None = Field(
+        None,
+        description="""
+        Description of the entity. This is the human-readable text for the object and must be
+        as complete and concise as possible in German.
+        """,
+    )
+
+    prev_version: list[str] | None = Field(
+        default=None,
+        description="""
+        List of codes of the entities which this entity supersedes in a previous version of the
+        datamodel, e.g. `['EXPERIMENTAL_STEP']` for the v1 `ACTIVITY` object type. Each code follows
+        the same rules as `code`. It is used to trace how the datamodel evolved across versions and
+        is not pushed to openBIS.
+        """,
+    )
+
+    ontodefs: list[str] | None = Field(
+        default=None,
+        description="""
+        List of IRIs of the concepts in external ontologies which this entity corresponds to, e.g.
+        `['http://purl.obolibrary.org/obo/BFO_0000015', 'http://www.w3.org/ns/prov#Activity']` for
+        the v1 `ACTIVITY` object type.
+
+        Note this is distinct from `iri`, which identifies the entity *inside* the BAM masterdata
+        ontology; `ontodefs` links it *out* to concepts defined elsewhere.
+
+        Use the canonical term IRI rather than the URL of an ontology browser. Browser URLs which
+        carry the term in an `iri` query parameter, e.g.
+        `https://ontobee.org/ontology/BFO?iri=http://purl.obolibrary.org/obo/BFO_0000015`, are
+        unwrapped to the term IRI automatically; other browser URLs are stored as given.
+        """,
+    )
+    '''
     # TODO: check if it is necessary to add something like `ontology_annotation_id` in the future
     iri: str | None = Field(
         default=None,
@@ -109,7 +147,7 @@ class EntityDef(BaseModel):
         Example: "http://purl.obolibrary.org/bam-masterdata/Instrument:1.0.0".
         """,
     )
-
+    '''
     id: str | None = Field(
         default=None,
         description="""
@@ -144,7 +182,7 @@ class EntityDef(BaseModel):
         Raises:
             ValueError: If the code is empty or contains invalid characters.
         """
-        if not value or not re.match(r"^[\w_\$\.\-\+]+$", value):
+        if not value or not _CODE_PATTERN.match(value):
             raise ValueError(
                 "`code` must follow the rules specified in the description: 1) Must be uppercase, "
                 "2) separated by underscores, 3) start with a dollar sign if native to openBIS, "
@@ -152,6 +190,73 @@ class EntityDef(BaseModel):
             )
         return value
 
+    @field_validator("prev_version")
+    @classmethod
+    def validate_prev_version(cls, value: list[str] | None) -> list[str] | None:
+        """
+        Validate the codes of the superseded entities, dropping duplicates.
+
+        Args:
+            value: Candidate list of codes, or None.
+
+        Returns:
+            The validated codes (or None).
+
+        Raises:
+            ValueError: If any code does not follow the `code` format.
+        """
+        if not value:
+            return value
+        codes: list[str] = []
+        for entry in value:
+            code = entry.strip()
+            if not _CODE_PATTERN.match(code):
+                raise ValueError(
+                    f"`prev_version` entry '{entry}' must follow the same rules as `code`: "
+                    "1) Must be uppercase, 2) separated by underscores, 3) start with a dollar "
+                    "sign if native to openBIS, 4) separated by dots if there is inheritance."
+                )
+            if code not in codes:
+                codes.append(code)
+        return codes
+
+    @field_validator("ontodefs")
+    @classmethod
+    def validate_ontodefs(cls, value: list[str] | None) -> list[str] | None:
+        """
+        Validate the external ontology IRIs, unwrapping ontology-browser URLs and dropping
+        duplicates.
+
+        Args:
+            value: Candidate list of IRIs, or None.
+
+        Returns:
+            The validated IRIs (or None).
+
+        Raises:
+            ValueError: If any entry is not an absolute HTTP(S) IRI.
+        """
+        if not value:
+            return value
+        ontodefs: list[str] = []
+        for entry in value:
+            iri = entry.strip()
+            parsed = urlparse(iri)
+            if parsed.scheme not in ("http", "https") or not parsed.netloc:
+                raise ValueError(
+                    f"`ontodefs` entry '{entry}' must be an absolute IRI starting with 'http://' "
+                    "or 'https://'. Example: "
+                    "'http://purl.obolibrary.org/obo/BFO_0000015'."
+                )
+            # Unwrap ontology-browser URLs which carry the term IRI in an `iri` query parameter.
+            wrapped = parse_qs(parsed.query).get("iri", [])
+            if wrapped and wrapped[0].strip():
+                iri = wrapped[0].strip()
+            if iri not in ontodefs:
+                ontodefs.append(iri)
+        return ontodefs
+
+    '''
     @field_validator("iri")
     @classmethod
     def validate_iri(cls, value: str | None) -> str | None:
@@ -178,6 +283,7 @@ class EntityDef(BaseModel):
                 "Example: 'http://purl.obolibrary.org/bam-masterdata/Instrument:1.0.0'."
             )
         return value
+    '''
 
     @field_validator("description")
     @classmethod

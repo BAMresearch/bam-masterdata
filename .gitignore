@@ -182,3 +182,9 @@ tmp/
 bam_masterdata/test.py
 
 bam_masterdata/datamodel/vocabulary_types_internal.py
+
+# Claude session logs
+claude_session_log
+
+CLAUDE.md
+story.md
