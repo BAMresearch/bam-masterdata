@@ -116,8 +116,7 @@ class EntityDef(BaseModel):
         ...,
         description="""
         Description of the entity. This is the human-readable text for the object and must be
-        as complete and concise as possible. The German description can be added after the English
-        description separated by a double slash (//), e.g. `'Chemical Substance//Chemische Substanz'`.
+        as complete and concise as possible. .
         """,
     )
 
