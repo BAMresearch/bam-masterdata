@@ -4215,7 +4215,7 @@ class Measurement(ObjectType):
     defs = ObjectTypeDef(
         code="MEASUREMENT",
         description="Measurement / Measurement field//Messung / Messfeld",
-        generated_code_prefix="MEA",
+        generated_code_prefix="MEASUR",
     )
 
     name = PropertyTypeAssignment(
