@@ -2383,7 +2383,8 @@ class TestObject(ObjectType):
     )
 
 
-class TestObjectBam(TestObject):
+# TODO use 2 objects instead of 3 to classify TestObjects
+class TestObjectBAM(TestObject):
     defs = ObjectTypeDef(
         code="TEST_OBJECT_BAM",
         description="BAM Test Object//BAM-Prüfobjekt",
@@ -2429,7 +2430,7 @@ class TestObjectBam(TestObject):
     test_obj_weight = PropertyTypeAssignment(
         code="TEST_OBJ_WEIGHT",
         data_type="REAL",
-        property_label="Test Object Weight in [kg]",
+        property_label="Test Object Weight",
         units="kg",
         description="Test object weight [kg]//Gewicht des Prüfobjekts [kg]",
         mandatory=False,
@@ -2437,20 +2438,11 @@ class TestObjectBam(TestObject):
     )
 
 
-class TestObjectExt(ObjectType):
+class TestObjectExternal(TestObject):
     defs = ObjectTypeDef(
-        code="TEST_OBJECT_EXT",
+        code="TEST_OBJECT_EXTERNAL",
         description="External test object//Externes Prüfobjekt",
         generated_code_prefix="TESTO.EXT",
-    )
-
-    name = PropertyTypeAssignment(
-        code="$NAME",
-        data_type="VARCHAR",
-        property_label="Name",
-        description="Name",
-        mandatory=True,
-        section="General Information",
     )
 
     owner = PropertyTypeAssignment(
@@ -2529,7 +2521,7 @@ class TestObjectExt(ObjectType):
     test_obj_ext_length = PropertyTypeAssignment(
         code="TEST_OBJ_EXT_LENGTH",
         data_type="REAL",
-        property_label="Length in [m]",
+        property_label="Length",
         units="m",
         description="Length of the external test object [m]//Länge des externen Prüfobjekts [m]",
         mandatory=False,
@@ -2539,7 +2531,7 @@ class TestObjectExt(ObjectType):
     test_obj_ext_width = PropertyTypeAssignment(
         code="TEST_OBJ_EXT_WIDTH",
         data_type="REAL",
-        property_label="Width in [m]",
+        property_label="Width",
         units="m",
         description="Width of the external test object [m]//Breite des externen Prüfobjekts [m]",
         mandatory=False,
@@ -2549,7 +2541,7 @@ class TestObjectExt(ObjectType):
     test_obj_ext_height = PropertyTypeAssignment(
         code="TEST_OBJ_EXT_HEIGHT",
         data_type="REAL",
-        property_label="Height in [m]",
+        property_label="Height",
         units="m",
         description="Height of the external test object [m]//Höhe des externen Prüfobjekts [m]",
         mandatory=False,
@@ -2559,7 +2551,7 @@ class TestObjectExt(ObjectType):
     test_obj_ext_weight = PropertyTypeAssignment(
         code="TEST_OBJ_EXT_WEIGHT",
         data_type="REAL",
-        property_label="Weight in [kg]",
+        property_label="Weight",
         units="kg",
         description="Test object weight [kg]//Gewicht des Prüfobjekts [kg]",
         mandatory=False,
