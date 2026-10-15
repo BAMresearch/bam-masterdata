@@ -2438,11 +2438,20 @@ class TestObjectBAM(TestObject):
     )
 
 
-class TestObjectExternal(TestObject):
+class TestObjectExternal(ObjectType):
     defs = ObjectTypeDef(
         code="TEST_OBJECT_EXTERNAL",
         description="External test object//Externes Prüfobjekt",
         generated_code_prefix="TESTO.EXT",
+    )
+
+    name = PropertyTypeAssignment(
+        code="$NAME",
+        data_type="VARCHAR",
+        property_label="Name",
+        description="Name",
+        mandatory=True,
+        section="General Information",
     )
 
     owner = PropertyTypeAssignment(
