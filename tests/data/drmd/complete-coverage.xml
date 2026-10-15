@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Test document for the DRMD datamodel: a reference material certificate that uses every part of
+  drmd.xsd v1.0.0 the datamodel holds, so that one round trip (XML -> objects -> XML) covers the
+  whole mapping table in bam_masterdata/datamodel/drmd/README.md.
+
+  It is valid against drmd.xsd and raises no assertion from drmd-business-rules.sch.
+  The producer, the materials, the persons, the values and the embedded files are fictitious.
+
+  Covered beyond the examples of the schema repository: two languages, timeAfterDispatch,
+  postal address with coordinates, contact description data, persons with address and @refId,
+  material classes, rich content with embedded files, si:realListXMLList, si:constant,
+  coverage intervals, standard uncertainties, dcc:noQuantity, dcc:charsXMLList, used method
+  quantities, complete measurement metadata, catch-all statements with heading, file and formula,
+  drmd:comment and an embedded document.
+-->
+<drmd:digitalReferenceMaterialDocument xmlns:drmd="urn:drmd:schema" xmlns:dcc="https://ptb.de/dcc" xmlns:si="https://ptb.de/si" schemaVersion="1.0.0">
+  <drmd:administrativeData>
+    <drmd:coreData>
+      <drmd:titleOfTheDocument>referenceMaterialCertificate</drmd:titleOfTheDocument>
+      <drmd:uniqueIdentifier>3f1c6a52-8d0e-4b7a-9c1d-2e5f7a9b0c13</drmd:uniqueIdentifier>
+      <drmd:documentVersion>1.1</drmd:documentVersion>
+      <drmd:documentIdentifiers>
+        <drmd:documentIdentifier id="docid_doi" refType="basic_certificateIdentification">
+          <drmd:scheme>DOI</drmd:scheme>
+          <drmd:value>10.5555/example-crm-n1-v1.1</drmd:value>
+          <drmd:link>https://doi.org/10.5555/example-crm-n1-v1.1</drmd:link>
+        </drmd:documentIdentifier>
+        <drmd:documentIdentifier>
+          <drmd:scheme>CertificateNumber</drmd:scheme>
+          <drmd:value>EXA-N1-2026-001</drmd:value>
+        </drmd:documentIdentifier>
+      </drmd:documentIdentifiers>
+      <drmd:validity>
+        <drmd:timeAfterDispatch>
+          <drmd:dispatchDate>2026-04-15</drmd:dispatchDate>
+          <drmd:period>P2Y</drmd:period>
+        </drmd:timeAfterDispatch>
+      </drmd:validity>
+    </drmd:coreData>
+    <drmd:referenceMaterialProducer>
+      <drmd:name>
+        <dcc:content lang="en">Example Institute for Materials Testing</dcc:content>
+        <dcc:content lang="de">Beispielinstitut für Materialprüfung</dcc:content>
+      </drmd:name>
+      <drmd:contact>
+        <dcc:name>
+          <dcc:content lang="en">Reference Materials Sales</dcc:content>
+          <dcc:content lang="de">Vertrieb Referenzmaterialien</dcc:content>
+        </dcc:name>
+        <dcc:eMail>reference.materials@example.org</dcc:eMail>
+        <dcc:phone>+49 30 0000 0000</dcc:phone>
+        <dcc:fax>+49 30 0000 0001</dcc:fax>
+        <dcc:link>https://www.example.org/</dcc:link>
+        <dcc:location>
+          <dcc:street>Example Street</dcc:street>
+          <dcc:streetNo>11</dcc:streetNo>
+          <dcc:postOfficeBox>12 34</dcc:postOfficeBox>
+          <dcc:postCode>12489</dcc:postCode>
+          <dcc:city>Berlin</dcc:city>
+          <dcc:state>Berlin</dcc:state>
+          <dcc:countryCode>DE</dcc:countryCode>
+          <dcc:further>
+            <dcc:content lang="en">Building 8, goods receipt</dcc:content>
+            <dcc:content lang="de">Haus 8, Warenannahme</dcc:content>
+          </dcc:further>
+          <dcc:positionCoordinates>
+            <dcc:positionCoordinateSystem>WGS84</dcc:positionCoordinateSystem>
+            <dcc:positionCoordinate1>
+              <si:label>latitude</si:label>
+              <si:value>52.4316</si:value>
+              <si:unit>\degree</si:unit>
+            </dcc:positionCoordinate1>
+            <dcc:positionCoordinate2>
+              <si:label>longitude</si:label>
+              <si:value>13.5306</si:value>
+              <si:unit>\degree</si:unit>
+            </dcc:positionCoordinate2>
+          </dcc:positionCoordinates>
+        </dcc:location>
+        <dcc:descriptionData>
+          <dcc:name>
+            <dcc:content lang="en">Contact card</dcc:content>
+          </dcc:name>
+          <dcc:fileName>reference-materials-sales.vcf</dcc:fileName>
+          <dcc:mimeType>text/vcard</dcc:mimeType>
+          <dcc:dataBase64>QkVHSU46VkNBUkQKVkVSU0lPTjo0LjAKRk46UmVmZXJlbmNlIE1hdGVyaWFscyBTYWxlcwpFTkQ6VkNBUkQK</dcc:dataBase64>
+        </dcc:descriptionData>
+      </drmd:contact>
+      <drmd:cryptElectronicSeal>true</drmd:cryptElectronicSeal>
+      <drmd:cryptElectronicSignature>true</drmd:cryptElectronicSignature>
+      <drmd:cryptElectronicTimeStamp>false</drmd:cryptElectronicTimeStamp>
+      <drmd:organizationIdentifiers>
+        <drmd:organizationIdentifier id="orgid_ror">
+          <drmd:scheme>ROR</drmd:scheme>
+          <drmd:value>00example00</drmd:value>
+          <drmd:link>https://ror.org/00example00</drmd:link>
+        </drmd:organizationIdentifier>
+      </drmd:organizationIdentifiers>
+    </drmd:referenceMaterialProducer>
+    <drmd:respPersons>
+      <dcc:respPerson id="respPerson_1" refType="basic_certificateIdentification">
+        <dcc:person>
+          <dcc:name>
+            <dcc:content lang="en">Dr A. Musterfrau</dcc:content>
+          </dcc:name>
+          <dcc:eMail>a.musterfrau@example.org</dcc:eMail>
+          <dcc:phone>+49 30 0000 1000</dcc:phone>
+          <dcc:link>https://www.example.org/staff/musterfrau</dcc:link>
+          <dcc:location>
+            <dcc:city>Berlin</dcc:city>
+            <dcc:countryCode>DE</dcc:countryCode>
+          </dcc:location>
+        </dcc:person>
+        <dcc:description>
+          <dcc:content lang="en">Approving officer for nanoparticle reference materials</dcc:content>
+          <dcc:content lang="de">Freigebende Person für Nanopartikel-Referenzmaterialien</dcc:content>
+        </dcc:description>
+        <dcc:role>Head of Division, Particle Reference Materials</dcc:role>
+        <dcc:mainSigner>true</dcc:mainSigner>
+        <dcc:cryptElectronicSeal>false</dcc:cryptElectronicSeal>
+        <dcc:cryptElectronicSignature>true</dcc:cryptElectronicSignature>
+        <dcc:cryptElectronicTimeStamp>true</dcc:cryptElectronicTimeStamp>
+      </dcc:respPerson>
+      <dcc:respPerson id="respPerson_2" refId="respPerson_1">
+        <dcc:person>
+          <dcc:name>
+            <dcc:content lang="en">Dr B. Mustermann</dcc:content>
+          </dcc:name>
+        </dcc:person>
+        <dcc:role>Technical Reviewer</dcc:role>
+        <dcc:mainSigner>false</dcc:mainSigner>
+      </dcc:respPerson>
+    </drmd:respPersons>
+  </drmd:administrativeData>
+  <drmd:materials>
+    <drmd:material>
+      <drmd:name>
+        <dcc:content lang="en">Polypropylene nanoparticles in water EXA-N1</dcc:content>
+        <dcc:content lang="de">Polypropylen-Nanopartikel in Wasser EXA-N1</dcc:content>
+      </drmd:name>
+      <drmd:description>
+        <dcc:content lang="en">Aqueous suspension of polypropylene nanoparticles, supplied in sealed glass ampoules of 10 mL.</dcc:content>
+        <dcc:content lang="de">Wässrige Suspension von Polypropylen-Nanopartikeln, geliefert in verschlossenen Glasampullen zu 10 mL.</dcc:content>
+        <dcc:file>
+          <dcc:fileName>EXA-N1-ampoule-drawing.pdf</dcc:fileName>
+          <dcc:mimeType>application/pdf</dcc:mimeType>
+          <dcc:dataBase64>JVBERi0xLjQKJSBGaWN0aXRpb3VzIHRlY2huaWNhbCBkcmF3aW5nCiUlRU9GCg==</dcc:dataBase64>
+        </dcc:file>
+      </drmd:description>
+      <drmd:materialClass>
+        <drmd:reference>ISO/TS 80004-1</drmd:reference>
+        <drmd:classID>nanoparticle</drmd:classID>
+      </drmd:materialClass>
+      <drmd:materialClass id="class_polymer" refType="basic_measuredValue">
+        <drmd:reference>Polymer class</drmd:reference>
+        <drmd:classID>PP</drmd:classID>
+        <drmd:link>https://www.example.org/classes/PP</drmd:link>
+      </drmd:materialClass>
+      <drmd:minimumSampleSize>
+        <dcc:itemQuantity>
+          <dcc:name>
+            <dcc:content lang="en">Minimum sample volume</dcc:content>
+          </dcc:name>
+          <si:real>
+            <si:quantityTypeQUDT>Volume</si:quantityTypeQUDT>
+            <si:value>0.5</si:value>
+            <si:unit>\milli\litre</si:unit>
+            <si:significantDigit>-1</si:significantDigit>
+          </si:real>
+        </dcc:itemQuantity>
+      </drmd:minimumSampleSize>
+      <drmd:itemQuantities>
+        <dcc:itemQuantity>
+          <dcc:name>
+            <dcc:content lang="en">Nominal volume per ampoule</dcc:content>
+          </dcc:name>
+          <si:real>
+            <si:quantityTypeQUDT>Volume</si:quantityTypeQUDT>
+            <si:value>10</si:value>
+            <si:unit>\milli\litre</si:unit>
+          </si:real>
+        </dcc:itemQuantity>
+        <dcc:itemQuantity>
+          <dcc:name>
+            <dcc:content lang="en">Container</dcc:content>
+          </dcc:name>
+          <dcc:charsXMLList>glass ampoule</dcc:charsXMLList>
+        </dcc:itemQuantity>
+      </drmd:itemQuantities>
+      <drmd:materialIdentifiers>
+        <drmd:materialIdentifier id="matid_n1">
+          <drmd:scheme>ProductCode</drmd:scheme>
+          <drmd:value>EXA-N1</drmd:value>
+        </drmd:materialIdentifier>
+        <drmd:materialIdentifier id="matid_n1_batch">
+          <drmd:scheme>Batch</drmd:scheme>
+          <drmd:value>2026-02-004</drmd:value>
+        </drmd:materialIdentifier>
+      </drmd:materialIdentifiers>
+    </drmd:material>
+    <drmd:material>
+      <drmd:name>
+        <dcc:content lang="en">Dispersion medium EXA-N1-B</dcc:content>
+      </drmd:name>
+      <drmd:description>
+        <dcc:content lang="en">Particle-free dispersion medium of EXA-N1 for blank measurements.</dcc:content>
+      </drmd:description>
+      <drmd:minimumSampleSize>
+        <dcc:itemQuantity>
+          <si:real>
+            <si:value>1</si:value>
+            <si:unit>\milli\litre</si:unit>
+          </si:real>
+        </dcc:itemQuantity>
+      </drmd:minimumSampleSize>
+      <drmd:materialIdentifiers>
+        <drmd:materialIdentifier id="matid_blank">
+          <drmd:scheme>ProductCode</drmd:scheme>
+          <drmd:value>EXA-N1-B</drmd:value>
+        </drmd:materialIdentifier>
+      </drmd:materialIdentifiers>
+    </drmd:material>
+  </drmd:materials>
+  <drmd:propertiesList>
+    <drmd:properties id="props_certified" refId="matid_n1" refType="basic_measuredValue" isCertified="true">
+      <drmd:name>
+        <dcc:content lang="en">Certified values</dcc:content>
+        <dcc:content lang="de">Zertifizierte Werte</dcc:content>
+      </drmd:name>
+      <drmd:description>
+        <dcc:content lang="en">The certified values apply to the particles in the suspension as supplied.</dcc:content>
+      </drmd:description>
+      <drmd:procedures>
+        <dcc:usedMethod id="method_dls" refType="sizeMethod">
+          <dcc:name>
+            <dcc:content lang="en">Dynamic light scattering</dcc:content>
+          </dcc:name>
+          <dcc:description>
+            <dcc:content lang="en">Cumulants analysis of the intensity autocorrelation function.</dcc:content>
+          </dcc:description>
+          <dcc:norm>ISO 22412</dcc:norm>
+          <dcc:norm>ISO 13321</dcc:norm>
+          <dcc:reference>Certification report EXA-N1-CR-2026, section 4</dcc:reference>
+          <dcc:link>https://www.example.org/methods/dls</dcc:link>
+          <dcc:usedMethodQuantities>
+            <dcc:usedMethodQuantity>
+              <dcc:name>
+                <dcc:content lang="en">Measurement temperature</dcc:content>
+              </dcc:name>
+              <si:real>
+                <si:quantityTypeQUDT>Temperature</si:quantityTypeQUDT>
+                <si:value>25.0</si:value>
+                <si:unit>\degreeCelsius</si:unit>
+                <si:significantDigit>-1</si:significantDigit>
+              </si:real>
+            </dcc:usedMethodQuantity>
+            <dcc:usedMethodQuantity>
+              <dcc:name>
+                <dcc:content lang="en">Boltzmann constant used in the Stokes-Einstein equation</dcc:content>
+              </dcc:name>
+              <si:constant>
+                <si:label>k_B</si:label>
+                <si:value>1.380649e-23</si:value>
+                <si:unit>\joule\kelvin\tothe{-1}</si:unit>
+                <si:valueStandardMU>0</si:valueStandardMU>
+                <si:distribution>exact</si:distribution>
+              </si:constant>
+            </dcc:usedMethodQuantity>
+          </dcc:usedMethodQuantities>
+        </dcc:usedMethod>
+      </drmd:procedures>
+      <drmd:results>
+        <drmd:result id="result_size" refType="basic_measuredValue">
+          <drmd:name>
+            <dcc:content lang="en">Particle size</dcc:content>
+          </drmd:name>
+          <drmd:description>
+            <dcc:content lang="en">Intensity-weighted harmonic mean diameter and polydispersity.</dcc:content>
+          </drmd:description>
+          <drmd:data>
+            <drmd:list>
+              <drmd:quantity id="q_diameter" refType="basic_measuredValue sizeRow">
+                <dcc:name>
+                  <dcc:content lang="en">Z-average diameter</dcc:content>
+                  <dcc:content lang="de">Z-Durchschnittsdurchmesser</dcc:content>
+                </dcc:name>
+                <si:real>
+                  <si:label>z-average</si:label>
+                  <si:quantityTypeQUDT>Diameter</si:quantityTypeQUDT>
+                  <si:value>182.4</si:value>
+                  <si:unit>\nano\metre</si:unit>
+                  <si:significantDigit>-1</si:significantDigit>
+                  <si:dateTime>2026-03-01T10:00:00Z</si:dateTime>
+                  <si:measurementUncertaintyUnivariate>
+                    <si:expandedMU>
+                      <si:valueExpandedMU>4.6</si:valueExpandedMU>
+                      <si:coverageFactor>2</si:coverageFactor>
+                      <si:coverageProbability>0.95</si:coverageProbability>
+                      <si:distribution>normal</si:distribution>
+                    </si:expandedMU>
+                  </si:measurementUncertaintyUnivariate>
+                </si:real>
+                <drmd:propertyIdentifiers>
+                  <drmd:propertyIdentifier>
+                    <drmd:scheme>Measurand</drmd:scheme>
+                    <drmd:value>z-average diameter</drmd:value>
+                  </drmd:propertyIdentifier>
+                </drmd:propertyIdentifiers>
+              </drmd:quantity>
+              <drmd:quantity>
+                <dcc:name>
+                  <dcc:content lang="en">Polydispersity index</dcc:content>
+                </dcc:name>
+                <si:real>
+                  <si:quantityTypeQUDT>Dimensionless</si:quantityTypeQUDT>
+                  <si:value>0.50</si:value>
+                  <si:unit>\one</si:unit>
+                  <si:significantDigit>-2</si:significantDigit>
+                  <si:measurementUncertaintyUnivariate>
+                    <si:standardMU>
+                      <si:valueStandardMU>0.03</si:valueStandardMU>
+                    </si:standardMU>
+                  </si:measurementUncertaintyUnivariate>
+                </si:real>
+              </drmd:quantity>
+              <drmd:quantity>
+                <dcc:name>
+                  <dcc:content lang="en">Number concentration</dcc:content>
+                </dcc:name>
+                <si:real>
+                  <si:quantityTypeQUDT>NumberDensity</si:quantityTypeQUDT>
+                  <si:value>2.4e15</si:value>
+                  <si:unit>\metre\tothe{-3}</si:unit>
+                  <si:measurementUncertaintyUnivariate>
+                    <si:coverageIntervalMU>
+                      <si:valueStandardMU>1.5e14</si:valueStandardMU>
+                      <si:intervalMin>2.1e15</si:intervalMin>
+                      <si:intervalMax>2.8e15</si:intervalMax>
+                      <si:coverageProbability>0.95</si:coverageProbability>
+                      <si:distribution>lognormal</si:distribution>
+                    </si:coverageIntervalMU>
+                  </si:measurementUncertaintyUnivariate>
+                </si:real>
+              </drmd:quantity>
+            </drmd:list>
+          </drmd:data>
+        </drmd:result>
+        <drmd:result id="result_stability">
+          <drmd:name>
+            <dcc:content lang="en">Diameter after storage</dcc:content>
+          </drmd:name>
+          <drmd:data>
+            <drmd:quantity>
+              <dcc:name>
+                <dcc:content lang="en">Z-average diameter at 4, 8 and 12 months</dcc:content>
+              </dcc:name>
+              <si:realListXMLList>
+                <si:labelXMLList>month_4 month_8 month_12</si:labelXMLList>
+                <si:quantityTypeQUDTXMLList>Diameter</si:quantityTypeQUDTXMLList>
+                <si:valueXMLList>182.1 182.9 181.8</si:valueXMLList>
+                <si:unitXMLList>\nano\metre \nano\metre \nano\metre</si:unitXMLList>
+                <si:significantDigitXMLList>-1 -1 -1</si:significantDigitXMLList>
+                <si:dateTimeXMLList>2026-07-01T10:00:00Z 2026-11-01T10:00:00Z 2027-03-01T10:00:00Z</si:dateTimeXMLList>
+                <si:measurementUncertaintyUnivariateXMLList>
+                  <si:standardMUXMLList>
+                    <si:valueStandardMUXMLList>1.2 1.3 1.2</si:valueStandardMUXMLList>
+                    <si:distributionXMLList>normal normal normal</si:distributionXMLList>
+                  </si:standardMUXMLList>
+                </si:measurementUncertaintyUnivariateXMLList>
+              </si:realListXMLList>
+            </drmd:quantity>
+          </drmd:data>
+        </drmd:result>
+        <drmd:result>
+          <drmd:name>
+            <dcc:content lang="en">Mass concentration of polypropylene</dcc:content>
+          </drmd:name>
+          <drmd:data>
+            <drmd:quantity>
+              <si:hybrid>
+                <si:real>
+                  <si:quantityTypeQUDT>MassConcentration</si:quantityTypeQUDT>
+                  <si:value>1.25</si:value>
+                  <si:unit>\kilogram\metre\tothe{-3}</si:unit>
+                  <si:significantDigit>-2</si:significantDigit>
+                  <si:measurementUncertaintyUnivariate>
+                    <si:expandedMU>
+                      <si:valueExpandedMU>0.05</si:valueExpandedMU>
+                      <si:coverageFactor>2</si:coverageFactor>
+                      <si:coverageProbability>0.95</si:coverageProbability>
+                    </si:expandedMU>
+                  </si:measurementUncertaintyUnivariate>
+                </si:real>
+                <si:real>
+                  <si:quantityTypeQUDT>MassConcentration</si:quantityTypeQUDT>
+                  <si:value>1.25</si:value>
+                  <si:unit>\milli\gram\milli\litre\tothe{-1}</si:unit>
+                  <si:significantDigit>-2</si:significantDigit>
+                  <si:measurementUncertaintyUnivariate>
+                    <si:expandedMU>
+                      <si:valueExpandedMU>0.05</si:valueExpandedMU>
+                      <si:coverageFactor>2</si:coverageFactor>
+                      <si:coverageProbability>0.95</si:coverageProbability>
+                    </si:expandedMU>
+                  </si:measurementUncertaintyUnivariate>
+                </si:real>
+              </si:hybrid>
+            </drmd:quantity>
+          </drmd:data>
+        </drmd:result>
+      </drmd:results>
+      <drmd:measurementMetaData>
+        <dcc:metaData id="meta_traceability" refType="traceability">
+          <dcc:name>
+            <dcc:content lang="en">Metrological traceability</dcc:content>
+          </dcc:name>
+          <dcc:description>
+            <dcc:content lang="en">Traceability of the size values to the SI metre.</dcc:content>
+          </dcc:description>
+          <dcc:convention>GUM</dcc:convention>
+          <dcc:traceable>true</dcc:traceable>
+          <dcc:norm>ISO 17034</dcc:norm>
+          <dcc:reference>SI metre through certified size standards</dcc:reference>
+          <dcc:link>https://www.example.org/traceability</dcc:link>
+          <dcc:declaration>
+            <dcc:content lang="en">The size scale was calibrated with certified spherical size standards.</dcc:content>
+          </dcc:declaration>
+          <dcc:valid>true</dcc:valid>
+          <dcc:date>2026-03-31</dcc:date>
+          <dcc:period>P2Y</dcc:period>
+          <dcc:conformity>pass</dcc:conformity>
+        </dcc:metaData>
+      </drmd:measurementMetaData>
+    </drmd:properties>
+    <drmd:properties id="props_blank" refId="matid_blank" isCertified="false">
+      <drmd:name>
+        <dcc:content lang="en">Informative values of the dispersion medium</dcc:content>
+      </drmd:name>
+      <drmd:procedures>
+        <dcc:usedMethod>
+          <dcc:name>
+            <dcc:content lang="en">Nanoparticle tracking analysis</dcc:content>
+          </dcc:name>
+        </dcc:usedMethod>
+      </drmd:procedures>
+      <drmd:results>
+        <drmd:result refId="q_diameter">
+          <drmd:name>
+            <dcc:content lang="en">Particle content of the blank</dcc:content>
+          </drmd:name>
+          <drmd:data>
+            <drmd:list>
+              <drmd:quantity>
+                <dcc:name>
+                  <dcc:content lang="en">Particle number concentration</dcc:content>
+                </dcc:name>
+                <dcc:noQuantity>
+                  <dcc:content lang="en">Below the limit of detection of the method.</dcc:content>
+                  <dcc:content lang="de">Unterhalb der Nachweisgrenze des Verfahrens.</dcc:content>
+                </dcc:noQuantity>
+              </drmd:quantity>
+              <drmd:quantity>
+                <dcc:name>
+                  <dcc:content lang="en">Appearance</dcc:content>
+                </dcc:name>
+                <dcc:charsXMLList>clear colourless</dcc:charsXMLList>
+              </drmd:quantity>
+            </drmd:list>
+          </drmd:data>
+        </drmd:result>
+      </drmd:results>
+    </drmd:properties>
+  </drmd:propertiesList>
+  <drmd:statements>
+    <drmd:intendedUse>
+      <dcc:content lang="en">Calibration and performance checking of particle sizing instruments for polymer nanoparticles in water.</dcc:content>
+      <dcc:content lang="de">Kalibrierung und Leistungsprüfung von Partikelgrößenmessgeräten für Polymer-Nanopartikel in Wasser.</dcc:content>
+    </drmd:intendedUse>
+    <drmd:commutability>
+      <dcc:content lang="en">Commutability was not assessed.</dcc:content>
+    </drmd:commutability>
+    <drmd:storageInformation>
+      <dcc:content lang="en">Store the ampoules upright at 2 °C to 8 °C. Do not freeze.</dcc:content>
+    </drmd:storageInformation>
+    <drmd:instructionsForHandlingAndUse>
+      <dcc:content lang="en">Bring the ampoule to room temperature and invert it gently ten times before opening.</dcc:content>
+
+      <dcc:content lang="en">Use the content within one hour after opening.</dcc:content>
+    </drmd:instructionsForHandlingAndUse>
+    <drmd:metrologicalTraceability>
+      <dcc:content lang="en">The certified diameters are traceable to the SI metre.</dcc:content>
+    </drmd:metrologicalTraceability>
+    <drmd:healthAndSafetyInformation>
+      <dcc:content lang="en">See the attached safety data sheet.</dcc:content>
+      <dcc:file>
+        <dcc:name>
+          <dcc:content lang="en">Safety data sheet</dcc:content>
+        </dcc:name>
+        <dcc:fileName>EXA-N1-SDS.pdf</dcc:fileName>
+        <dcc:mimeType>application/pdf</dcc:mimeType>
+        <dcc:dataBase64>JVBERi0xLjQKJSBGaWN0aXRpb3VzIHNhZmV0eSBkYXRhIHNoZWV0CiUlRU9GCg==</dcc:dataBase64>
+      </dcc:file>
+    </drmd:healthAndSafetyInformation>
+    <drmd:subcontractors>
+      <dcc:content lang="en">The stability study was carried out by Example Partner Laboratory.</dcc:content>
+    </drmd:subcontractors>
+    <drmd:legalNotice>
+      <dcc:content lang="en">The producer's liability is limited to replacement of the material.</dcc:content>
+    </drmd:legalNotice>
+    <drmd:referenceToCertificationReport>
+      <dcc:content lang="en">Certification report EXA-N1-CR-2026.</dcc:content>
+    </drmd:referenceToCertificationReport>
+    <drmd:statement id="statement_homogeneity" refType="homogeneity">
+      <dcc:name>
+        <dcc:content lang="en">Homogeneity</dcc:content>
+        <dcc:content lang="de">Homogenität</dcc:content>
+      </dcc:name>
+      <dcc:content lang="en">Between-unit homogeneity was assessed on 15 ampoules.</dcc:content>
+      <dcc:content lang="de">Die Homogenität zwischen den Einheiten wurde an 15 Ampullen untersucht.</dcc:content>
+      <dcc:file>
+        <dcc:fileName>EXA-N1-homogeneity.txt</dcc:fileName>
+        <dcc:mimeType>text/plain</dcc:mimeType>
+        <dcc:dataBase64>RmljdGl0aW91cyBob21vZ2VuZWl0eSBzdHVkeSBzdW1tYXJ5Cg==</dcc:dataBase64>
+      </dcc:file>
+      <dcc:formula>
+        <dcc:latex>u_{bb} = \sqrt{\frac{MS_{between} - MS_{within}}{n}}</dcc:latex>
+      </dcc:formula>
+    </drmd:statement>
+    <drmd:statement>
+      <dcc:name>
+        <dcc:content lang="en">Uncertainty definition</dcc:content>
+      </dcc:name>
+      <dcc:formula>
+        <dcc:latex>U = k \cdot u_c</dcc:latex>
+      </dcc:formula>
+    </drmd:statement>
+  </drmd:statements>
+  <drmd:comment>This document is a test fixture of the DRMD datamodel.</drmd:comment>
+  <drmd:document id="doc_certificate_pdf">
+    <dcc:name>
+      <dcc:content lang="en">Certificate PDF</dcc:content>
+      <dcc:content lang="de">Zertifikat (PDF)</dcc:content>
+    </dcc:name>
+    <dcc:description>
+      <dcc:content lang="en">Human-readable rendition of this certificate.</dcc:content>
+    </dcc:description>
+    <dcc:fileName>EXA-N1-certificate.pdf</dcc:fileName>
+    <dcc:mimeType>application/pdf</dcc:mimeType>
+    <dcc:dataBase64>JVBERi0xLjQKJSBGaWN0aXRpb3VzIGNlcnRpZmljYXRlIHJlbmRpdGlvbiB1c2VkIGluIHRoZSBEUk1EIGRhdGFtb2RlbCB0ZXN0cwolJUVPRgo=</dcc:dataBase64>
+  </drmd:document>
+</drmd:digitalReferenceMaterialDocument>

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Worked example: a complete Product Information Sheet (RM profile).
+
+  This file is part of the DRMD test suite. It is valid against drmd.xsd and raises no
+  assertion of any severity from drmd-business-rules.sch.
+
+  A product information sheet accompanies a reference material that is NOT a certified
+  reference material (ISO 33401:2024, 3.3). Its values are real measurement results, not
+  estimates, but they are not certified, so no properties block may carry isCertified="true"
+  (PIS-001, PIS-003), and neither a metrological traceability statement nor a stated
+  uncertainty is required. Both are included here anyway, which ISO 33401:2024 permits
+  (Table 1 lists them as Optional for a product information sheet) and which makes the
+  document more useful without changing its status.
+
+  The material, the producer and the values are fictitious.
+-->
+<drmd:digitalReferenceMaterialDocument
+    xmlns:drmd="urn:drmd:schema"
+    xmlns:dcc="https://ptb.de/dcc"
+    xmlns:si="https://ptb.de/si"
+    schemaVersion="1.0.0">
+
+  <drmd:administrativeData>
+
+    <drmd:coreData>
+      <drmd:titleOfTheDocument>productInformationSheet</drmd:titleOfTheDocument>
+      <drmd:uniqueIdentifier>0f2c9b71-5a30-4c8e-9f47-2b1d6e0a55c3</drmd:uniqueIdentifier>
+      <drmd:documentVersion>1.1</drmd:documentVersion>
+      <drmd:validity>
+        <drmd:timeAfterDispatch>
+          <drmd:period>P2Y</drmd:period>
+        </drmd:timeAfterDispatch>
+      </drmd:validity>
+    </drmd:coreData>
+
+    <drmd:referenceMaterialProducer>
+      <drmd:name>
+        <dcc:content lang="en">Example Institute for Materials Testing</dcc:content>
+      </drmd:name>
+      <drmd:contact>
+        <dcc:name>
+          <dcc:content lang="en">Reference Materials Sales</dcc:content>
+        </dcc:name>
+        <dcc:eMail>reference.materials@example.org</dcc:eMail>
+        <dcc:location>
+          <dcc:city>Berlin</dcc:city>
+          <dcc:countryCode>DE</dcc:countryCode>
+        </dcc:location>
+      </drmd:contact>
+    </drmd:referenceMaterialProducer>
+
+    <!-- Optional for this profile (ISO 33401:2024, Table 1, 5.3.5). Included as good practice. -->
+    <drmd:respPersons>
+      <dcc:respPerson id="respPerson_qm">
+        <dcc:person>
+          <dcc:name>
+            <dcc:content lang="en">Dr C. Beispiel</dcc:content>
+          </dcc:name>
+        </dcc:person>
+        <dcc:role>Quality Manager</dcc:role>
+      </dcc:respPerson>
+    </drmd:respPersons>
+
+  </drmd:administrativeData>
+
+  <drmd:materials>
+    <drmd:material>
+      <drmd:name>
+        <dcc:content lang="en">Quality control soil EXA-QC-7</dcc:content>
+      </drmd:name>
+
+      <!-- Recommended, not mandatory, for this profile (PIS-005 raises a warning if absent) -->
+      <drmd:description>
+        <dcc:content lang="en">Air-dried, sieved topsoil from an agricultural site, ground to pass
+          a 250 micrometre sieve and homogenised by mixing. Supplied in 50 g amber glass jars with
+          a screw cap.</dcc:content>
+      </drmd:description>
+
+      <drmd:minimumSampleSize>
+        <dcc:itemQuantity>
+          <dcc:name>
+            <dcc:content lang="en">Minimum test portion</dcc:content>
+          </dcc:name>
+          <si:real>
+            <si:quantityTypeQUDT>Mass</si:quantityTypeQUDT>
+            <si:value>0.5</si:value>
+            <si:unit>\gram</si:unit>
+          </si:real>
+        </dcc:itemQuantity>
+      </drmd:minimumSampleSize>
+
+      <!-- ISO 33401:2024, 5.2.3 (DRMD-016) -->
+      <drmd:materialIdentifiers>
+        <drmd:materialIdentifier id="matid_qc7">
+          <drmd:scheme>ProductCode</drmd:scheme>
+          <drmd:value>EXA-QC-7</drmd:value>
+        </drmd:materialIdentifier>
+        <drmd:materialIdentifier>
+          <drmd:scheme>Lot</drmd:scheme>
+          <drmd:value>L-2026-004</drmd:value>
+        </drmd:materialIdentifier>
+      </drmd:materialIdentifiers>
+    </drmd:material>
+  </drmd:materials>
+
+  <drmd:propertiesList>
+    <!-- isCertified is omitted, which is equivalent to "false". Setting it to "true" in a
+         product information sheet is a hard error (PIS-001, PIS-003). -->
+    <drmd:properties id="props_values" refId="matid_qc7">
+      <drmd:name>
+        <dcc:content lang="en">Assigned values</dcc:content>
+      </drmd:name>
+      <drmd:description>
+        <dcc:content lang="en">The values below are assigned values for quality control use. They
+          are not certified values. U is the expanded uncertainty with a coverage factor
+          k = 2.</dcc:content>
+      </drmd:description>
+
+      <drmd:procedures>
+        <dcc:usedMethod id="method_aquaregia">
+          <dcc:name>
+            <dcc:content lang="en">Aqua regia extractable content by ICP-MS</dcc:content>
+          </dcc:name>
+          <dcc:description>
+            <dcc:content lang="en">The measurand is operationally defined: the result is the content
+              extractable under the conditions of the stated digestion procedure, and is comparable
+              only with results obtained by the same procedure.</dcc:content>
+          </dcc:description>
+          <dcc:norm>ISO 54321</dcc:norm>
+        </dcc:usedMethod>
+      </drmd:procedures>
+
+      <drmd:results>
+        <drmd:result id="result_trace_metals">
+          <drmd:name>
+            <dcc:content lang="en">Aqua regia extractable trace elements</dcc:content>
+          </drmd:name>
+          <drmd:data>
+            <drmd:list>
+              <drmd:quantity id="q_pb">
+                <dcc:name><dcc:content lang="en">Lead</dcc:content></dcc:name>
+                <si:real>
+                  <si:label>Aqua regia extractable Pb</si:label>
+                  <si:quantityTypeQUDT>MassFraction</si:quantityTypeQUDT>
+                  <si:value>32.4</si:value>
+                  <si:unit>\milli\gram\kilo\gram\tothe{-1}</si:unit>
+                  <si:measurementUncertaintyUnivariate>
+                    <si:expandedMU>
+                      <si:valueExpandedMU>2.6</si:valueExpandedMU>
+                      <si:coverageFactor>2</si:coverageFactor>
+                      <si:coverageProbability>0.95</si:coverageProbability>
+                    </si:expandedMU>
+                  </si:measurementUncertaintyUnivariate>
+                </si:real>
+                <drmd:propertyIdentifiers>
+                  <drmd:propertyIdentifier>
+                    <drmd:scheme>CAS</drmd:scheme>
+                    <drmd:value>7439-92-1</drmd:value>
+                  </drmd:propertyIdentifier>
+                </drmd:propertyIdentifiers>
+              </drmd:quantity>
+
+              <drmd:quantity id="q_cd">
+                <dcc:name><dcc:content lang="en">Cadmium</dcc:content></dcc:name>
+                <si:real>
+                  <si:label>Aqua regia extractable Cd</si:label>
+                  <si:quantityTypeQUDT>MassFraction</si:quantityTypeQUDT>
+                  <si:value>0.41</si:value>
+                  <si:unit>\milli\gram\kilo\gram\tothe{-1}</si:unit>
+                  <si:measurementUncertaintyUnivariate>
+                    <si:expandedMU>
+                      <si:valueExpandedMU>0.05</si:valueExpandedMU>
+                      <si:coverageFactor>2</si:coverageFactor>
+                      <si:coverageProbability>0.95</si:coverageProbability>
+                    </si:expandedMU>
+                  </si:measurementUncertaintyUnivariate>
+                </si:real>
+                <drmd:propertyIdentifiers>
+                  <drmd:propertyIdentifier>
+                    <drmd:scheme>CAS</drmd:scheme>
+                    <drmd:value>7440-43-9</drmd:value>
+                  </drmd:propertyIdentifier>
+                </drmd:propertyIdentifiers>
+              </drmd:quantity>
+            </drmd:list>
+          </drmd:data>
+        </drmd:result>
+      </drmd:results>
+    </drmd:properties>
+  </drmd:propertiesList>
+
+  <drmd:statements>
+    <drmd:intendedUse>
+      <dcc:content lang="en">This material is intended for day-to-day quality control of aqua regia
+        extraction procedures for trace elements in soil. It is not a certified reference material
+        and must not be used to establish metrological traceability or to calibrate a measurement
+        system.</dcc:content>
+    </drmd:intendedUse>
+
+    <drmd:commutability>
+      <dcc:content lang="en">The assigned values are operationally defined and apply only to the
+        digestion procedure stated in the assigned values section. Commutability with other
+        extraction procedures has not been assessed and must not be assumed.</dcc:content>
+    </drmd:commutability>
+
+    <drmd:storageInformation>
+      <dcc:content lang="en">Store the closed jar at 15 degrees Celsius to 25 degrees Celsius, away
+        from direct sunlight. Keep the jar closed between uses to prevent moisture uptake.</dcc:content>
+    </drmd:storageInformation>
+
+    <drmd:instructionsForHandlingAndUse>
+      <dcc:content lang="en">Shake the closed jar for at least 30 seconds before removing a test
+        portion, so that any settling during transport is reversed. Take the test portion with a
+        clean, dry spatula. Determine the dry mass correction on a separate portion dried at 105
+        degrees Celsius to constant mass; the assigned values refer to dry mass.</dcc:content>
+    </drmd:instructionsForHandlingAndUse>
+
+    <drmd:healthAndSafetyInformation>
+      <dcc:content lang="en">A safety data sheet is available from the producer on request. The
+        material is a natural soil containing trace elements including lead and cadmium. Avoid
+        inhalation of the dust, wear gloves, and wash hands after handling.</dcc:content>
+    </drmd:healthAndSafetyInformation>
+  </drmd:statements>
+
+  <drmd:comment>Example instance for the DRMD test suite. Not a real product.</drmd:comment>
+
+</drmd:digitalReferenceMaterialDocument>
