@@ -1935,6 +1935,34 @@ class Document(ObjectType):
         section="General Information",
     )
 
+    author_person = PropertyTypeAssignment(
+        code="AUTHOR_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON.BAM",
+        property_label="Corresponding Author (BAM)",
+        description="Corresponding author referenced as a BAM person//Verantwortlicher Autor als Referenz auf eine BAM-Person",
+        mandatory=False,
+        section="General Information",
+    )
+
+    document_id = PropertyTypeAssignment(
+        code="DOCUMENT_ID",
+        data_type="VARCHAR",
+        property_label="Document ID",
+        description="Document identifier//Dokument-ID",
+        mandatory=False,
+        section="General Information",
+    )
+
+    document_link = PropertyTypeAssignment(
+        code="DOCUMENT_LINK",
+        data_type="HYPERLINK",
+        property_label="Document Link",
+        description="Link to the document//Link zum Dokument",
+        mandatory=False,
+        section="General Information",
+    )
+
     notes = PropertyTypeAssignment(
         code="NOTES",
         data_type="MULTILINE_VARCHAR",
