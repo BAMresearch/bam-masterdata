@@ -21,6 +21,80 @@ class DefaultCollectionViews(VocabularyType):
     )
 
 
+class MeasurementQuantity(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="MEASUREMENT_QUANTITY",
+        description="Measurement Quantity//Messgröße",
+    )
+
+    temperature = VocabularyTerm(
+        code="TEMPERATURE",
+        label="Temperature",
+        description="e.g. Thermometer//Thermometer",
+    )
+
+    moisture = VocabularyTerm(
+        code="MOISTURE",
+        label="Moisture",
+        description="e.g. Climate Chamber//Klimakammer",
+    )
+
+    weight = VocabularyTerm(
+        code="WEIGHT",
+        label="Weight",
+        description="e.g. Scales//Waage",
+    )
+
+    length = VocabularyTerm(
+        code="LENGTH",
+        label="Lenght",
+        description="e.g. Laser Distance Meter//Laser-Entfernungsmesser",
+    )
+
+    pressure = VocabularyTerm(
+        code="PRESSURE",
+        label="Pressure",
+        description="e.g Concrete Testing Machine//Betonprüfmaschine",
+    )
+
+
+class MeasuringInstrumentClassification(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="MEASURING_INSTRUMENT_CLASSIFICATION",
+        description="Measuring Instrument Classification//Klassifizierung des Messprinzips",
+    )
+
+    mechanical = VocabularyTerm(
+        code="MECHANICAL",
+        label="Mechanical Energy",
+        description="e.g. Reboud Hammer, Ultrasonic, Impact-Echo//Rückprallhammer, Ultraschall, Impakt-Echo",
+    )
+
+    electromagnetic = VocabularyTerm(
+        code="ELECTROMAGNETIC",
+        label="Electomagnetic Energy",
+        description="e.g. Radar, Thermography, Radiography//Radar, Thermografie, Radiografie",
+    )
+
+    electrochemical = VocabularyTerm(
+        code="ELECTROCHEMICAL",
+        label="Electrochemical Energy",
+        description="e.g. Half-Cell Potential//Potentialfeldmessung",
+    )
+
+    magnetic = VocabularyTerm(
+        code="MAGNETIC",
+        label="Magnetical Energy",
+        description="e.g. Residual Magnetism//Remanenzmagnetismus",
+    )
+
+    spectroscopic = VocabularyTerm(
+        code="SPECTROSCOPIC",
+        label="Spectroscopy",
+        description="e.g LIBS//LIBS",
+    )
+
+
 class StorageFormat(VocabularyType):
     defs = VocabularyTypeDef(
         code="$STORAGE_FORMAT",
@@ -27666,6 +27740,42 @@ class DocumentType(VocabularyType):
         description="""User Manual//Bedienungsanleitung""",
     )
 
+    technical_document = VocabularyTerm(
+        code="TECHNICAL_DOCUMENT",
+        label="Technical Document",
+        description="Technical Document//Technisches Dokument",
+    )
+
+    video = VocabularyTerm(
+        code="VIDEO",
+        label="Video",
+        description="Video//Video",
+    )
+
+    proposal = VocabularyTerm(
+        code="PROPOSAL",
+        label="Proposal",
+        description="Proposal//Antrag",
+    )
+
+    idea = VocabularyTerm(
+        code="IDEA",
+        label="Idea",
+        description="Idea//Idee",
+    )
+
+    report = VocabularyTerm(
+        code="REPORT",
+        label="Report",
+        description="Report//Bericht",
+    )
+
+    publication = VocabularyTerm(
+        code="PUBLICATION",
+        label="Publication",
+        description="Publication//Publikation",
+    )
+
 
 class ElectronicSmearing(VocabularyType):
     defs = VocabularyTypeDef(
@@ -31326,6 +31436,79 @@ class TemporalHeatingStructure(VocabularyType):
     )
 
 
+class TestMethod(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="TEST_METHOD",
+        description="Test Method//Prüfverfahren",
+    )
+
+    radar = VocabularyTerm(
+        code="RADAR",
+        label="Radar",
+        description="Radar//Radar",
+    )
+
+    ultrasonic = VocabularyTerm(
+        code="ULTRASONIC",
+        label="Ultrasonic",
+        description="Ultrasonic//Ultraschall",
+    )
+
+    rebound_hammer = VocabularyTerm(
+        code="REBOUND_HAMMER",
+        label="Reboundhammer",
+        description="Reboundhammer//Rückprallhammer",
+    )
+
+    impact_echo = VocabularyTerm(
+        code="IMPACT_ECHO",
+        label="Impact Echo",
+        description="Impact Echo//Impakt-Echo",
+    )
+
+    libs = VocabularyTerm(
+        code="LIBS",
+        label="LIBS",
+        description="Laser Induced Breakdown Spectroskopy//Laserinduzierte Breakdown Spektroskopie",
+    )
+
+    nmr = VocabularyTerm(
+        code="NMR",
+        label="NMR",
+        description="Nuclear Magnetic Resonance//Kernspinresonanz",
+    )
+
+    terahertz = VocabularyTerm(
+        code="TERAHERTZ",
+        label="Terrahertz",
+        description="Terrahertz//Terrahertz",
+    )
+
+    x_ray = VocabularyTerm(
+        code="X_RAY",
+        label="X-Ray",
+        description="X-Ray//Röntgen",
+    )
+
+    half_cell_potential = VocabularyTerm(
+        code="HALF_CELL_POTENTIAL",
+        label="Half-Cell Potential",
+        description="Half-Cell Potential//Potentialfeldmessung",
+    )
+
+    magnetic_inductive = VocabularyTerm(
+        code="MAGNETIC_INDUCTIVE",
+        label="Magnetic-Inductive",
+        description="Eddy Current//Wirbelstrom",
+    )
+
+    other = VocabularyTerm(
+        code="OTHER",
+        label="Others",
+        description="e.g. Compressive Strength//Druckfestigkeit",
+    )
+
+
 class TestingMachineDriveType(VocabularyType):
     defs = VocabularyTypeDef(
         code="TESTING_MACHINE_DRIVE_TYPE",
@@ -31446,79 +31629,6 @@ class TestFileType(VocabularyType):
         code="TEST_ZIP_ARCHIVE",
         label="Test ZIP Archive",
         description="""Test ZIP Archive//Test ZIP-Archiv""",
-    )
-
-
-class TestMethod(VocabularyType):
-    defs = VocabularyTypeDef(
-        code="TEST_METHOD",
-        description="Test Method//Prüfverfahren",
-    )
-
-    radar = VocabularyTerm(
-        code="RADAR",
-        label="Radar",
-        description="Radar//Radar",
-    )
-
-    ultrasonic = VocabularyTerm(
-        code="ULTRASONIC",
-        label="UT - Ultrasonic",
-        description="Ultrasonic testing (UT)//Ultraschallprüfung (UT)",
-    )
-
-    rebound_hammer = VocabularyTerm(
-        code="REBOUND_HAMMER",
-        label="Rückprallhammer",
-        description="Rebound Hammer//Rückprallhammer",
-    )
-
-    impact_echo = VocabularyTerm(
-        code="IMPACT_ECHO",
-        label="Impakt-Echo",
-        description="Impact Echo//Impakt-Echo",
-    )
-
-    libs = VocabularyTerm(
-        code="LIBS",
-        label="LIBS",
-        description="Laser Induced Breakdown Spectroscopy//Laserinduzierte Breakdown-Spektroskopie",
-    )
-
-    nmr = VocabularyTerm(
-        code="NMR",
-        label="NMR",
-        description="Nuclear Magnetic Resonance//Kernspinresonanz",
-    )
-
-    terahertz = VocabularyTerm(
-        code="TERAHERTZ",
-        label="Terahertz",
-        description="Terahertz//Terahertz",
-    )
-
-    x_ray = VocabularyTerm(
-        code="X_RAY",
-        label="RT - X-Ray",
-        description="X-ray radiographic testing (RT)//Röntgen-Durchstrahlungsprüfung (RT)",
-    )
-
-    half_cell_potential = VocabularyTerm(
-        code="HALF_CELL_POTENTIAL",
-        label="Potentialfeldmessung",
-        description="Half-Cell Potential//Potentialfeldmessung",
-    )
-
-    magnetic_inductive = VocabularyTerm(
-        code="MAGNETIC_INDUCTIVE",
-        label="Magnetic-Inductive",
-        description="Eddy current testing (ET)//Wirbelstromprüfung (ET)",
-    )
-
-    other = VocabularyTerm(
-        code="OTHER",
-        label="Sonstiges Prüfverfahren",
-        description="Other test method//Sonstiges Prüfverfahren",
     )
 
 
@@ -32264,78 +32374,4 @@ class ToolPurpose(VocabularyType):
         code="SCAN",
         label="Scannen",
         description="""Scanning//Scannen""",
-    )
-
-
-class MeasuringInstrumentClassification(VocabularyType):
-    defs = VocabularyTypeDef(
-        code="MEASURING_INSTRUMENT_CLASSIFICATION",
-        description="Measuring Instrument Classification//Klassifizierung des Messprinzips",
-    )
-
-    mechanical = VocabularyTerm(
-        code="MECHANICAL",
-        label="Mechanische Energie",
-        description="Mechanical energy//Mechanische Energie",
-    )
-
-    electromagnetic = VocabularyTerm(
-        code="ELECTROMAGNETIC",
-        label="Elektromagnetische Energie",
-        description="Electromagnetic energy//Elektromagnetische Energie",
-    )
-
-    electrochemical = VocabularyTerm(
-        code="ELECTROCHEMICAL",
-        label="Elektrochemische Energie",
-        description="Electrochemical energy//Elektrochemische Energie",
-    )
-
-    magnetic = VocabularyTerm(
-        code="MAGNETIC",
-        label="Magnetische Energie",
-        description="Magnetic energy//Magnetische Energie",
-    )
-
-    spectroscopic = VocabularyTerm(
-        code="SPECTROSCOPIC",
-        label="Spektroskopisches Verfahren",
-        description="Spectroscopic method//Spektroskopisches Verfahren",
-    )
-
-
-class MeasurementQuantity(VocabularyType):
-    defs = VocabularyTypeDef(
-        code="MEASUREMENT_QUANTITY",
-        description="Measurement Quantity//Messgröße",
-    )
-
-    temperature = VocabularyTerm(
-        code="TEMPERATURE",
-        label="Temperatur",
-        description="Temperature//Temperatur",
-    )
-
-    moisture = VocabularyTerm(
-        code="MOISTURE",
-        label="Feuchte",
-        description="Moisture//Feuchte",
-    )
-
-    weight = VocabularyTerm(
-        code="WEIGHT",
-        label="Gewicht",
-        description="Weight//Gewicht",
-    )
-
-    length = VocabularyTerm(
-        code="LENGTH",
-        label="Länge",
-        description="Length//Länge",
-    )
-
-    pressure = VocabularyTerm(
-        code="PRESSURE",
-        label="Druck",
-        description="Pressure//Druck",
     )

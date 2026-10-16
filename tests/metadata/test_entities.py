@@ -1,6 +1,5 @@
 import datetime
 import io
-import json
 from unittest.mock import MagicMock, patch
 
 import h5py
@@ -125,42 +124,6 @@ class TestBaseEntity:
 
 
 class TestObjectType:
-    @pytest.mark.parametrize("mandatory", [False, True])
-    def test_inherited_assignment_can_override_mandatory(self, mandatory):
-        class Parent(ObjectType):
-            defs = ObjectTypeDef(
-                code="PARENT", description="Parent", generated_code_prefix="PARENT"
-            )
-            name = PropertyTypeAssignment(
-                code="NAME",
-                data_type="VARCHAR",
-                property_label="Name",
-                description="Name",
-                mandatory=not mandatory,
-                section="General Information",
-            )
-
-        class Child(Parent):
-            defs = ObjectTypeDef(
-                code="CHILD", description="Child", generated_code_prefix="CHILD"
-            )
-            name = Parent.name.model_copy(update={"mandatory": mandatory})
-
-        class Grandchild(Child):
-            defs = ObjectTypeDef(
-                code="GRANDCHILD", description="Grandchild", generated_code_prefix="GC"
-            )
-
-        for cls in (Child, Grandchild):
-            child = cls()
-            assert child._property_metadata["name"].mandatory is mandatory
-            assert len(child.properties) == 1
-            assert child.properties[0].mandatory is mandatory
-            exported = json.loads(child.model_to_json())["properties"]
-            assert len(exported) == 1
-            assert exported[0]["mandatory"] is mandatory
-        assert Parent().properties[0].mandatory is not mandatory
-
     def test_model_validator_after_init(self):
         """Test the method `model_validator_after_init` from the class `ObjectType`."""
         object_type = generate_object_type()

@@ -114,8 +114,8 @@ class TestMethod(ObjectType):
         generated_code_prefix="TEST_METHOD",
     )
 
-    test_method = PropertyTypeAssignment(
-        code="TEST_METHOD",
+    test_method_kind = PropertyTypeAssignment(
+        code="TEST_METHOD_KIND",
         data_type="CONTROLLEDVOCABULARY",
         vocabulary_code="TEST_METHOD",
         property_label="Test Method",
@@ -1628,24 +1628,67 @@ class Instrument(ObjectType):
     )
 
 
-class InstrumentFb82(Instrument):
+class MeasuringInstrument(ObjectType):
     defs = ObjectTypeDef(
-        code="INSTRUMENT.FB82",
-        description="Measuring Instrument (FB 8.2)//Messinstrument (FB 8.2)",
-        generated_code_prefix="INS.FB82",
+        code="MEASURING_INSTRUMENT",
+        description="Instrument classified by measurement method and principle//Nach Messverfahren und Messprinzip klassifiziertes Messinstrument",
+        generated_code_prefix="MEAS_INS",
     )
 
-    manufacturer = Instrument.manufacturer.model_copy(update={"mandatory": False})
-    bam_oe = Instrument.bam_oe.model_copy(update={"mandatory": False})
-    bam_location_complete = Instrument.bam_location_complete.model_copy(
-        update={"mandatory": False}
+    name = PropertyTypeAssignment(
+        code="$NAME",
+        data_type="VARCHAR",
+        property_label="Name",
+        description="Name",
+        mandatory=True,
+        section="General Information",
     )
-    serial_number = Instrument.serial_number.model_copy(update={"mandatory": True})
-    instrument_status = Instrument.instrument_status.model_copy(
-        update={"mandatory": True}
+
+    manufacturer = PropertyTypeAssignment(
+        code="MANUFACTURER",
+        data_type="VARCHAR",
+        property_label="Manufacturer",
+        description="Manufacturer//Hersteller",
+        mandatory=False,
+        section="General Information",
     )
-    inventory_no = Instrument.inventory_no.model_copy(
-        update={"mandatory": False, "show_in_edit_views": False}
+
+    bam_location_complete = PropertyTypeAssignment(
+        code="BAM_LOCATION_COMPLETE",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_LOCATION_COMPLETE",
+        property_label="Complete BAM Location",
+        description="Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)",
+        mandatory=False,
+        section="BAM Information",
+    )
+
+    bam_oe = PropertyTypeAssignment(
+        code="BAM_OE",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_OE",
+        property_label="BAM Organizational Entity",
+        description="BAM Organizational Entity//BAM Organisationseinheit (OE)",
+        mandatory=False,
+        section="BAM Information",
+    )
+
+    device_model_name = PropertyTypeAssignment(
+        code="DEVICE_MODEL_NAME",
+        data_type="VARCHAR",
+        property_label="Model Name",
+        description="Manufacturer model name//Modellname bzw. Gerätebezeichnung seitens des Herstellers",
+        mandatory=False,
+        section="General Information",
+    )
+
+    serial_number = PropertyTypeAssignment(
+        code="SERIAL_NUMBER",
+        data_type="VARCHAR",
+        property_label="Serial Number",
+        description="Serial Number//Seriennummer",
+        mandatory=True,
+        section="General Information",
     )
 
     bam_inventory_number = PropertyTypeAssignment(
@@ -1657,14 +1700,14 @@ class InstrumentFb82(Instrument):
         section="Equipment Details",
     )
 
-    instrument_method = PropertyTypeAssignment(
-        code="INSTRUMENT_METHOD",
+    test_method_kind = PropertyTypeAssignment(
+        code="TEST_METHOD_KIND",
         data_type="CONTROLLEDVOCABULARY",
         vocabulary_code="TEST_METHOD",
-        property_label="Measurement Method",
-        description="Measurement method used by the instrument//Messverfahren des Instruments",
+        property_label="Test Method",
+        description="Test method classification, e.g. radar//Prüfverfahren-Klasse, z. B. Radar",
         mandatory=True,
-        section="Classification",
+        section="General Information",
     )
 
     instrument_classification = PropertyTypeAssignment(
@@ -1675,6 +1718,26 @@ class InstrumentFb82(Instrument):
         description="Classification of the measurement principle//Klassifizierung des Messprinzips",
         mandatory=True,
         section="Classification",
+    )
+
+    instrument_status = PropertyTypeAssignment(
+        code="INSTRUMENT_STATUS",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="INSTRUMENT_STATUS",
+        property_label="Instrument Status",
+        description="Instrument status//Instrumentenstatus",
+        mandatory=True,
+        section="Status",
+    )
+
+    responsible_person = PropertyTypeAssignment(
+        code="RESPONSIBLE_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON.BAM",
+        property_label="Responsible person",
+        description="Responsible person//Verantwortliche Person",
+        mandatory=False,
+        section="BAM Information",
     )
 
 
@@ -1959,36 +2022,67 @@ class TestingMachine(ObjectType):
     )
 
 
-class TestingMachineFb82(TestingMachine):
+class TestingEquipment(ObjectType):
     defs = ObjectTypeDef(
-        code="TESTING_MACHINE.FB82",
-        description="Testing Equipment (FB 8.2)//Prüfgerät (FB 8.2)",
-        generated_code_prefix="TMACH.FB82",
+        code="TESTING_EQUIPMENT",
+        description="Equipment classified by measurement quantity, including scales, thermometers and climate chambers//Nach Messgröße klassifiziertes Prüfgerät, z. B. Waage, Thermometer oder Klimakammer",
+        generated_code_prefix="TEST_EQ",
     )
 
-    manufacturer = TestingMachine.manufacturer.model_copy(update={"mandatory": False})
-    bam_oe = TestingMachine.bam_oe.model_copy(update={"mandatory": False})
-    bam_location_complete = TestingMachine.bam_location_complete.model_copy(
-        update={"mandatory": False}
+    name = PropertyTypeAssignment(
+        code="$NAME",
+        data_type="VARCHAR",
+        property_label="Name",
+        description="Name",
+        mandatory=True,
+        section="General Information",
     )
-    serial_number = TestingMachine.serial_number.model_copy(update={"mandatory": True})
-    instrument_status = TestingMachine.instrument_status.model_copy(
-        update={"mandatory": True}
+
+    manufacturer = PropertyTypeAssignment(
+        code="MANUFACTURER",
+        data_type="VARCHAR",
+        property_label="Manufacturer",
+        description="Manufacturer//Hersteller",
+        mandatory=False,
+        section="General Information",
     )
-    inventory_no = TestingMachine.inventory_no.model_copy(
-        update={"mandatory": False, "show_in_edit_views": False}
+
+    bam_location_complete = PropertyTypeAssignment(
+        code="BAM_LOCATION_COMPLETE",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_LOCATION_COMPLETE",
+        property_label="Complete BAM Location",
+        description="Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)",
+        mandatory=False,
+        section="BAM Information",
     )
-    testing_machine_drive_type = TestingMachine.testing_machine_drive_type.model_copy(
-        update={"mandatory": False, "show_in_edit_views": False}
+
+    bam_oe = PropertyTypeAssignment(
+        code="BAM_OE",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_OE",
+        property_label="BAM Organizational Entity",
+        description="BAM Organizational Entity//BAM Organisationseinheit (OE)",
+        mandatory=False,
+        section="BAM Information",
     )
-    testing_machine_load_type = TestingMachine.testing_machine_load_type.model_copy(
-        update={"mandatory": False, "show_in_edit_views": False}
+
+    device_model_name = PropertyTypeAssignment(
+        code="DEVICE_MODEL_NAME",
+        data_type="VARCHAR",
+        property_label="Model Name",
+        description="Manufacturer model name//Modellname bzw. Gerätebezeichnung seitens des Herstellers",
+        mandatory=False,
+        section="General Information",
     )
-    max_load_static_primary = TestingMachine.max_load_static_primary.model_copy(
-        update={"mandatory": False, "show_in_edit_views": False}
-    )
-    max_load_dynamic_primary = TestingMachine.max_load_dynamic_primary.model_copy(
-        update={"mandatory": False, "show_in_edit_views": False}
+
+    serial_number = PropertyTypeAssignment(
+        code="SERIAL_NUMBER",
+        data_type="VARCHAR",
+        property_label="Serial Number",
+        description="Serial Number//Seriennummer",
+        mandatory=True,
+        section="General Information",
     )
 
     bam_inventory_number = PropertyTypeAssignment(
@@ -2005,9 +2099,29 @@ class TestingMachineFb82(TestingMachine):
         data_type="CONTROLLEDVOCABULARY",
         vocabulary_code="MEASUREMENT_QUANTITY",
         property_label="Measurement Quantity",
-        description="Quantity associated with the testing machine//Messgröße der Prüfmaschine",
+        description="Quantity associated with the equipment//Messgröße des Prüfgeräts",
         mandatory=True,
         section="Classification",
+    )
+
+    instrument_status = PropertyTypeAssignment(
+        code="INSTRUMENT_STATUS",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="INSTRUMENT_STATUS",
+        property_label="Instrument Status",
+        description="Instrument status//Instrumentenstatus",
+        mandatory=True,
+        section="Status",
+    )
+
+    responsible_person = PropertyTypeAssignment(
+        code="RESPONSIBLE_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON.BAM",
+        property_label="Responsible person",
+        description="Responsible person//Verantwortliche Person",
+        mandatory=False,
+        section="BAM Information",
     )
 
 
@@ -2060,6 +2174,34 @@ class Document(ObjectType):
         data_type="VARCHAR",
         property_label="Version",
         description="""Version""",
+        mandatory=False,
+        section="General Information",
+    )
+
+    author_person = PropertyTypeAssignment(
+        code="AUTHOR_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON.BAM",
+        property_label="Corresponding Author (BAM)",
+        description="Corresponding author referenced as a BAM person//Verantwortlicher Autor als Referenz auf eine BAM-Person",
+        mandatory=False,
+        section="General Information",
+    )
+
+    document_id = PropertyTypeAssignment(
+        code="DOCUMENT_ID",
+        data_type="VARCHAR",
+        property_label="Document ID",
+        description="Document identifier//Dokument-ID",
+        mandatory=False,
+        section="General Information",
+    )
+
+    document_link = PropertyTypeAssignment(
+        code="DOCUMENT_LINK",
+        data_type="HYPERLINK",
+        property_label="Document Link",
+        description="Link to the document//Link zum Dokument",
         mandatory=False,
         section="General Information",
     )
@@ -2509,6 +2651,191 @@ class TestObject(ObjectType):
         description="""Annotations State""",
         mandatory=False,
         section="",
+    )
+
+
+# TODO use 2 objects instead of 3 to classify TestObjects
+class TestObjectBAM(TestObject):
+    defs = ObjectTypeDef(
+        code="TEST_OBJECT_BAM",
+        description="BAM Test Object//BAM-Prüfobjekt",
+        generated_code_prefix="TESTO.BAM",
+    )
+
+    old_db_name = PropertyTypeAssignment(
+        code="OLD_DB_NAME",
+        data_type="VARCHAR",
+        property_label="Old Database Name",
+        description="Name in the previous database//Name in der bisherigen Datenbank",
+        mandatory=False,
+        section="General Information",
+    )
+
+    project_name = PropertyTypeAssignment(
+        code="PROJECT_NAME",
+        data_type="VARCHAR",
+        property_label="Originating Project Name",
+        description="Name of the originating research project//Name des fachlichen Herkunftsprojekts",
+        mandatory=True,
+        section="Project Information",
+    )
+
+    parfis_project_no = PropertyTypeAssignment(
+        code="PARFIS_PROJECT_NO",
+        data_type="VARCHAR",
+        property_label="PARFIS Project Number",
+        description="PARFIS Project Number: `VhXXXX`//PARFIS Vorhabennummer: `VhXXXX`",
+        mandatory=False,
+        section="Project Information",
+    )
+
+    funding_grant_no = PropertyTypeAssignment(
+        code="FUNDING_GRANT_NO",
+        data_type="VARCHAR",
+        property_label="Grant Number",
+        description="Grant Number//Förderkennzeichen",
+        mandatory=False,
+        section="Project Information",
+    )
+
+    test_obj_weight = PropertyTypeAssignment(
+        code="TEST_OBJ_WEIGHT",
+        data_type="REAL",
+        property_label="Test Object Weight",
+        units="kg",
+        description="Test object weight [kg]//Gewicht des Prüfobjekts [kg]",
+        mandatory=False,
+        section="Dimensions",
+    )
+
+
+class TestObjectExternal(ObjectType):
+    defs = ObjectTypeDef(
+        code="TEST_OBJECT_EXTERNAL",
+        description="External test object//Externes Prüfobjekt",
+        generated_code_prefix="TESTO.EXT",
+    )
+
+    name = PropertyTypeAssignment(
+        code="$NAME",
+        data_type="VARCHAR",
+        property_label="Name",
+        description="Name",
+        mandatory=True,
+        section="General Information",
+    )
+
+    owner = PropertyTypeAssignment(
+        code="OWNER",
+        data_type="VARCHAR",
+        property_label="Owner",
+        description="Owner of the external test object//Eigentümer des externen Prüfobjekts",
+        mandatory=False,
+        section="General Information",
+    )
+
+    building_year = PropertyTypeAssignment(
+        code="BUILDING_YEAR",
+        data_type="INTEGER",
+        property_label="Building Year",
+        description="Year of construction//Baujahr",
+        mandatory=False,
+        section="General Information",
+    )
+
+    building_number = PropertyTypeAssignment(
+        code="BUILDING_NUMBER",
+        data_type="VARCHAR",
+        property_label="Building Number",
+        description="Building or structure identifier//Bauwerksnummer",
+        mandatory=False,
+        section="General Information",
+    )
+
+    description = PropertyTypeAssignment(
+        code="DESCRIPTION",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Description",
+        description="Short description and/or purpose//Kurzbeschreibung und/oder Zweck",
+        mandatory=False,
+        section="General Information",
+    )
+
+    test_obj_material = PropertyTypeAssignment(
+        code="TEST_OBJ_MATERIAL",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BUILDING_MATERIAL_TYPE",
+        property_label="Building Material",
+        description="Building Material//Werkstoff",
+        mandatory=True,
+        section="Structure And Location",
+    )
+
+    construction_type = PropertyTypeAssignment(
+        code="CONSTRUCTION_TYPE",
+        data_type="VARCHAR",
+        property_label="Construction Type",
+        description="Type of construction, e.g. prestressed concrete//Konstruktionstyp, z. B. Spannbeton",
+        mandatory=False,
+        section="Structure And Location",
+    )
+
+    location = PropertyTypeAssignment(
+        code="LOCATION",
+        data_type="VARCHAR",
+        property_label="Location",
+        description="Location, e.g. city, river, state or road number//Ort, z. B. Stadt, Fluss, Bundesland oder Straßennummer",
+        mandatory=True,
+        section="Structure And Location",
+    )
+
+    gis_coordinates = PropertyTypeAssignment(
+        code="GIS_COORDINATES",
+        data_type="VARCHAR",
+        property_label="GIS Coordinates",
+        description="Coordinates of the external test object//Koordinaten des externen Prüfobjekts",
+        mandatory=False,
+        section="Structure And Location",
+    )
+
+    test_obj_ext_length = PropertyTypeAssignment(
+        code="TEST_OBJ_EXT_LENGTH",
+        data_type="REAL",
+        property_label="Length",
+        units="m",
+        description="Length of the external test object [m]//Länge des externen Prüfobjekts [m]",
+        mandatory=False,
+        section="Dimensions",
+    )
+
+    test_obj_ext_width = PropertyTypeAssignment(
+        code="TEST_OBJ_EXT_WIDTH",
+        data_type="REAL",
+        property_label="Width",
+        units="m",
+        description="Width of the external test object [m]//Breite des externen Prüfobjekts [m]",
+        mandatory=False,
+        section="Dimensions",
+    )
+
+    test_obj_ext_height = PropertyTypeAssignment(
+        code="TEST_OBJ_EXT_HEIGHT",
+        data_type="REAL",
+        property_label="Height",
+        units="m",
+        description="Height of the external test object [m]//Höhe des externen Prüfobjekts [m]",
+        mandatory=False,
+        section="Dimensions",
+    )
+
+    test_obj_ext_weight = PropertyTypeAssignment(
+        code="TEST_OBJ_EXT_WEIGHT",
+        data_type="REAL",
+        property_label="Weight",
+        units="kg",
+        description="Test object weight [kg]//Gewicht des Prüfobjekts [kg]",
+        mandatory=False,
+        section="Dimensions",
     )
 
 
@@ -4337,6 +4664,32 @@ class EnvironmentalConditions(ObjectType):
         description="""Annotations State""",
         mandatory=False,
         section="Comments",
+    )
+
+
+class Measurement(ObjectType):
+    defs = ObjectTypeDef(
+        code="MEASUREMENT",
+        description="Measurement / Measurement field//Messung / Messfeld",
+        generated_code_prefix="MEASUR",
+    )
+
+    name = PropertyTypeAssignment(
+        code="$NAME",
+        data_type="VARCHAR",
+        property_label="Name",
+        description="Name",
+        mandatory=True,
+        section="General Information",
+    )
+
+    description = PropertyTypeAssignment(
+        code="DESCRIPTION",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Description",
+        description="Short description and/or purpose//Kurzbeschreibung und/oder Zweck",
+        mandatory=False,
+        section="General Information",
     )
 
 
