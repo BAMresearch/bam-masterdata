@@ -2,6 +2,25 @@ from bam_masterdata.metadata.definitions import VocabularyTerm, VocabularyTypeDe
 from bam_masterdata.metadata.entities import VocabularyType
 
 
+class DataPackageKind(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="DATA_PACKAGE_KIND",
+        description="Data package kind//Art des Datenpakets",
+    )
+
+    raw = VocabularyTerm(
+        code="RAW",
+        label="Raw Data",
+        description="Raw data//Rohdaten",
+    )
+
+    processed = VocabularyTerm(
+        code="PROCESSED",
+        label="Processed Data",
+        description="Processed Data//Prozessierte Daten",
+    )
+
+
 class DefaultCollectionViews(VocabularyType):
     defs = VocabularyTypeDef(
         code="$DEFAULT_COLLECTION_VIEWS",
@@ -27516,25 +27535,6 @@ class DfgDeviceCode(VocabularyType):
     )
 
 
-class DataPackageKind(VocabularyType):
-    defs = VocabularyTypeDef(
-        code="DATA_PACKAGE_KIND",
-        description="Data package kind//Art des Datenpakets",
-    )
-
-    raw = VocabularyTerm(
-        code="RAW",
-        label="Raw data",
-        description="Raw research data//Rohdaten",
-    )
-
-    processed = VocabularyTerm(
-        code="PROCESSED",
-        label="Processed data",
-        description="Processed research data//Aufbereitete Forschungsdaten",
-    )
-
-
 class DocumentType(VocabularyType):
     defs = VocabularyTypeDef(
         code="DOCUMENT_TYPE",
@@ -27683,6 +27683,42 @@ class DocumentType(VocabularyType):
         code="USER_MANUAL",
         label="User Manual",
         description="""User Manual//Bedienungsanleitung""",
+    )
+
+    technical_document = VocabularyTerm(
+        code="TECHNICAL_DOCUMENT",
+        label="Technical Document",
+        description="Technical Document//Technisches Dokument",
+    )
+
+    video = VocabularyTerm(
+        code="VIDEO",
+        label="Video",
+        description="Video//Video",
+    )
+
+    proposal = VocabularyTerm(
+        code="PROPOSAL",
+        label="Proposal",
+        description="Proposal//Antrag",
+    )
+
+    idea = VocabularyTerm(
+        code="IDEA",
+        label="Idea",
+        description="Idea//Idee",
+    )
+
+    report = VocabularyTerm(
+        code="REPORT",
+        label="Report",
+        description="Report//Bericht",
+    )
+
+    publication = VocabularyTerm(
+        code="PUBLICATION",
+        label="Publication",
+        description="Publication//Publikation",
     )
 
 
