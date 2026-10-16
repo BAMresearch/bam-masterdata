@@ -1,4 +1,5 @@
-from bam_masterdata.datamodel.activities import ExperimentalStep
+#from bam_masterdata.datamodel.activities import ExperimentalStep
+from bam_masterdata.datamodel.object_types import Document, ExperimentalStep, SOP, Sop
 from bam_masterdata.datamodel.object_types import Instrument
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
 
@@ -371,4 +372,103 @@ class SIMS(ExperimentalStep):
         description="""Pixel density of the stitched image in pixel/mm""",
         mandatory=False,
         section="Imaging",
+    )
+
+class Norm(Document):
+    defs = ObjectTypeDef(
+        code="DOCUMENT.NORM",
+        description="""ISO, DIN, EPA, LAGA norms // ISO, DIN, EPA, LAGA Normen""",
+        generated_code_prefix="DOC.NORM",
+    )
+
+    name = PropertyTypeAssignment(
+        code="$NAME",
+        data_type="VARCHAR",
+        property_label="Name",
+        description="""Name""",
+        mandatory=True,
+        section="General Information",
+    )
+
+    test_parameter = PropertyTypeAssignment(
+        code="TEST_PARAMETER",
+        data_type="VARCHAR",
+        property_label="Test parameter",
+        description="""Test parameter//Prüfparameter""",
+        mandatory=False,
+        section="General Information",
+    )
+
+    test_group = PropertyTypeAssignment(
+        code="TEST_GROUP",
+        data_type="VARCHAR",
+        property_label="Test group",
+        description="""Test group//Prüfgruppe""",
+        mandatory=False,
+        section="General Information",
+    )
+
+    standard_number = PropertyTypeAssignment(
+        code="STANDARD_NUMBER",
+        data_type="VARCHAR",
+        property_label="Standard number",
+        description="""Standard number//Normnummer""",
+        mandatory=True,
+        section="General Information",
+    )
+
+    standard_organization = PropertyTypeAssignment(
+        code="STANDARD_ORGANIZATION",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="STANDARD_ORGANIZATION",
+        property_label="Standard organization",
+        description="""Standard organization//Normorganisator""",
+        mandatory=True,
+        section="General Information",
+    )
+
+    publication_year = PropertyTypeAssignment(
+        code="PUBLICATION_YEAR",
+        data_type="INTEGER",
+        property_label="Publication year",
+        description="""Publication year//Publikationsjahr""",
+        mandatory=False,
+        section="General Information",
+    )
+
+    document_url = PropertyTypeAssignment(
+        code="DOCUMENT_URL",
+        data_type="HYPERLINK",
+        property_label="Document URL",
+        description="""URL of the document//Adresse des Dokuments""",
+        mandatory=False,
+        section="General Information",
+    )
+
+    responsible_person = PropertyTypeAssignment(
+        code="RESPONSIBLE_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON.BAM",
+        property_label="Responsible person",
+        description="""Responsible person//Verantwortliche Person""",
+        mandatory=False,
+        section="BAM Information",
+    )
+
+    notes = PropertyTypeAssignment(
+        code="NOTES",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Notes",
+        description="""Notes""",
+        mandatory=False,
+        section="Additional Information",
+    )
+
+    xmlcomments = PropertyTypeAssignment(
+        code="$XMLCOMMENTS",
+        data_type="XML",
+        property_label="Comments",
+        description="""Comments log""",
+        mandatory=False,
+        section="Comments",
     )
