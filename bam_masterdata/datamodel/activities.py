@@ -112,8 +112,8 @@ class Dcpd(ExperimentalStep):
     dcpd_temp_coeff = PropertyTypeAssignment(
         code="DCPD_TEMP_COEFF",
         data_type="REAL",
-        property_label="Temperature Coefficient of Resistivity [°C^-1]",
-        description="""Temperature Coefficient of Resistivity [°C^-1]//Temperaturkoeffizient der Resistivität [°C^-1]""",
+        property_label="Temperature Coefficient of Resistivity [K^-1]",
+        description="""Temperature Coefficient of Resistivity [K^-1]//Temperaturkoeffizient der Resistivität [K^-1]""",
         mandatory=False,
         section="Temperature Compensation",
     )
@@ -746,8 +746,8 @@ class VideoRecording(ExperimentalStep):
     video_frame_per_seconds = PropertyTypeAssignment(
         code="VIDEO_FRAME_PER_SECONDS",
         data_type="INTEGER",
-        property_label="Average video framerate [frames per second]",
-        description="""Average video framerate [frames per second]//Mittlere Bildrate (in Bilder pro Sekunde)""",
+        property_label="Average video framerate [count per second]",
+        description="""Average video framerate [count per second]//Mittlere Bildrate [Bilder pro Sekunde]""",
         mandatory=False,
         section="Video Information",
     )
