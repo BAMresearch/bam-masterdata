@@ -57,6 +57,7 @@ The **Explanations** offer theoretical insights into the core concepts.
 The **References** include a glossary of terms and the automatically generated API documentation.
 
 - [Glossary](references/glossary.md)
+- [List of available parsers](references/available_parsers.md)
 - [API Reference](references/api.md)
 - [Extra](references/extra.md)
 

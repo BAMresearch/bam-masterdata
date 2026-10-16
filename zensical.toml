@@ -32,6 +32,7 @@ nav = [
   ]},
   { References = [
       "references/glossary.md",
+      "references/available_parsers.md",
       "references/api.md" ,
   ]},
 ]
