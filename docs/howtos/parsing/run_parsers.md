@@ -88,17 +88,10 @@ from src.supercode_x import SupercodeXParser
 parser = SupercodeXParser()
 ```
 
-If the parser package exports the class from `__init__.py`, importing from the
-package itself is also possible:
-
-```python
-from supercode_x import SupercodeXParser
-```
-
 ### 2. Select the files to parse
 
 Use paths relative to the notebook (normally the repository root), or use
-absolute paths. Keep test input files in a dedicated directory such as
+absolute paths. We also recommend using `pathlib` for file path management. Keep test input files in a dedicated directory such as
 `tests/data/`, as described in [Create New Parsers](create_new_parsers.md).
 
 ```python
@@ -129,8 +122,9 @@ password = getpass("Password: ")
 openbis.login(username, password, save_token=True)
 ```
 
-Only use `save_token=True` on a trusted local machine. Never write a password
-or an access token into a notebook or commit it to the parser repository.
+!!! warning "Never share secrets!"
+    Only use `save_token=True` on a trusted local machine. Never write a password
+    or an access token into a notebook or commit it to the parser repository.
 
 ### 4. Define the openBIS destination
 
@@ -214,12 +208,14 @@ for object_id, obj in test_collection.attached_objects.items():
 
 This check is useful for debugging file handling, object creation, and
 relationships. It does not authenticate with openBIS, create destinations, or
-upload datasets. Keep the automated tests in `tests/` as the authoritative
+upload datasets. You can keep these testing in `tests/` for the authoritative
 regression check and run them with:
 
 ```sh
 pytest tests
 ```
+
+This is also run by the GitHub Actions once you push changes into the GitHub repository.
 
 ## Troubleshooting
 

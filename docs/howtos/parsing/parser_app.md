@@ -23,17 +23,17 @@ The openBIS Upload Helper is distributed as a pre-built desktop application thro
 
 2. Select the latest release.
 
-3. Download the package for your operating system.
+3. Download the package for your operating system (e.g., `.exe` for Windows or `.AppImage` for Linux).
 
 4. Install the application using the downloaded package.
 
 5. Start the **openBIS Upload Helper** from your applications or Start menu.
 
-!!! note
+??? note
 
     Users of the released application do not need Python or the development dependencies of the project installed separately.
 
-!!! note "Updating"
+!!! info "Updating"
 
     When a new version is released, download and install the newer package from the [GitHub Releases page](https://github.com/BAMresearch/openbis-upload-helper/releases).
 
@@ -43,7 +43,7 @@ The openBIS Upload Helper is distributed as a pre-built desktop application thro
 
 The following example shows the complete workflow from logging in to verifying that the parsing operation completed successfully.
 
-For this example, assume that:
+For this example, we assume that:
 
 * the application is installed;
 * you have access to an openBIS instance;
@@ -85,12 +85,11 @@ After logging in, select where the parsed data should be stored in openBIS.
 </div>
 
 1. Select the **Space**.
-2. Select or enter the **Project**.
-3. Optionally, select or enter a **Collection**.
-
+2. Select an existing **Project** in that space, or start typing to create a new one.
+3. Optionally, select an existing or create a new **Collection**.
     Leave the Collection empty if the data should be stored directly in the Project.
 
-The destination determines where the parsed data will be written in openBIS.
+The destination determines where the parsed data (objects and raw files attached) will be written in openBIS.
 
 ---
 
@@ -114,7 +113,7 @@ You can use the following buttons:
 
 After selecting your source data, verify that the expected files are displayed.
 
-!!! note
+!!! note "Processed files"
 
     Files are selected from your local computer. They are not uploaded to openBIS merely by selecting them. The actual transfer takes place when the processing operation is started.
 
@@ -137,15 +136,13 @@ The **Assign parsers** screen is used to determine which parser should process e
 
 3. Use **Ignore** when a file or subtree should not be processed.
 
-4. Check the summary at the bottom of the screen.
-
-    It shows the number of assigned files, ignored files, unassigned files, jobs, and parsers.
+4. Check the summary at the bottom of the screen. It shows the number of assigned files, ignored files, unassigned files, jobs, and parsers.
 
 !!! warning
 
     Make sure that every file you want to process has a suitable parser assigned before continuing. Unassigned files will not be included in a parser job.
 
-The available parsers depend on the parsers included in the current release of the application. If the file format you want to process is not supported by an available parser, open an issue in the [openBIS Upload Helper GitHub repository](https://github.com/BAMresearch/openbis-upload-helper/issues) to request a new parser.
+The available parsers depend on the parsers included in the current release of the application. If the file format you want to process is not supported by an available parser, open an issue in the [openBIS Upload Helper GitHub repository](https://github.com/BAMresearch/openbis-upload-helper/issues) to request a new parser or add one in the app.
 
 See [How-to: Create new parsers](create_new_parsers.md#referencing-existing-objects-in-openbis) for details on implementing custom parsers.
 
@@ -170,7 +167,7 @@ Check the following information:
 
 If the information is correct, press **Process & upload**.
 
-!!! warning
+!!! warning "Before processing & uploading"
 
     This starts the actual processing operation. The selected files are parsed and the resulting metadata and data are written to openBIS.
 
@@ -244,10 +241,9 @@ In particular:
 * Selecting files does **not** immediately upload them.
 * Parsing is performed locally by the bundled parser.
 * A connection to the configured openBIS server is required for authentication and for writing the resulting data.
-* The application does not require a separate web server or browser.
-* Credentials and Personal Access Tokens are used for the current session.
+* Credentials and Personal Access Tokens are used for the current session and not stored anywhere (you have to type them again each time you launch the app).
 
-!!! note
+!!! info "Parsers are key for metadata creation and upload"
 
     The exact files and metadata uploaded depend on the parser being used. A parser can extract metadata, create openBIS objects, and upload associated files as datasets.
 
@@ -266,7 +262,7 @@ In general, a parser can:
 
 When an existing object is reused or updated, the processing log provides information about the operation.
 
-!!! note
+??? note
 
     Object matching is determined by the parser and the underlying BAM data model. Therefore, users should check the processing logs when importing data that may already exist in openBIS.
 
