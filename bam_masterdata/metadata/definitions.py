@@ -1,6 +1,6 @@
 import datetime
 import re
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 from pint import DefinitionSyntaxError, UndefinedUnitError, UnitRegistry
@@ -9,7 +9,7 @@ from pydantic import BaseModel, Field, field_validator, model_validator
 from bam_masterdata.utils import code_to_class_name
 
 
-class DataType(str, Enum):
+class DataType(StrEnum):
     """Enumeration of the data types available in openBIS."""
 
     BOOLEAN = "BOOLEAN"
@@ -60,7 +60,12 @@ _EXCEL_NAME_MAP = {
     "ObjectTypeDef": "SAMPLE_TYPE",
     "VocabularyTypeDef": "VOCABULARY_TYPE",
 }
-_EXCLUDED_EXCEL_HEADER_FIELDS = frozenset({"iri", "id", "row_location"})
+_EXCLUDED_EXCEL_HEADER_FIELDS = frozenset(
+    {"iri", "id", "row_location", "prev_versions"}
+)
+_PREV_VERSION_PATTERN = re.compile(
+    r"^[A-Za-z0-9_$.]+:v[0-9]+$"
+)  # example: "EXPERIMENTAL_STEP:v0"
 
 
 def _format_excel_header(field_name: str) -> str:
@@ -124,6 +129,18 @@ class EntityDef(BaseModel):
         Row in the Excel at which the entity type field is defined. It is a string with the format `"<row-letter><row_number>"`.
         Example: "A1" ot "A107". This field is useful when checking the consistency of Excel files with multiple entity
         types defined to quickly locate the specific Excel cell which logs a message when applying the `checker` CLI.
+        """,
+    )
+
+    prev_versions: list[str] | None = Field(
+        default=None,
+        description="""
+        references to previous versions of this entity.
+
+        Each reference follows the format `"<code>:<version>"`, where `<code>` is the code of the entity and `<version>` is the version number.
+
+        Examples:
+            ["EXPERIMENTAL_STEP:v0", "EXPERIMENT:v1"]
         """,
     )
 
@@ -192,6 +209,26 @@ class EntityDef(BaseModel):
             The trimmed description.
         """
         return value.strip()
+
+    @field_validator("prev_versions")
+    @classmethod
+    def strip_prev_versions(cls, value: list[str] | None) -> list[str] | None:
+        if value is None:
+            return value
+
+        if not value:
+            raise ValueError("`prev_versions` must not be an empty list.")
+
+        for reference in value:
+            if not _PREV_VERSION_PATTERN.fullmatch(reference):
+                raise ValueError(
+                    f"Invalid previous version reference: {reference}. Must follow the format '<code>:v<version>', e.g. 'EXPERIMENTAL_STEP:v0'."
+                )
+
+        if len(value) != len(set(value)):
+            raise ValueError("`prev_versions` contains duplicate references.")
+
+        return value
 
     @property
     def name(self) -> str:

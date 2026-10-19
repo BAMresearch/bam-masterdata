@@ -1,6 +1,7 @@
 import datetime
 
 import pytest
+from pydantic import ValidationError
 
 from bam_masterdata.metadata.definitions import (
     BaseObjectTypeDef,
@@ -49,8 +50,22 @@ class TestEntityDef:
         """Test the existing defined fields of the `EntityDef` class."""
         names = list(EntityDef.model_fields.keys())
         field_types = [val.annotation for val in list(EntityDef.model_fields.values())]
-        assert names == ["code", "description", "iri", "id", "row_location"]
-        assert field_types == [str, str, str | None, str | None, str | None]
+        assert names == [
+            "code",
+            "description",
+            "iri",
+            "id",
+            "row_location",
+            "prev_versions",
+        ]
+        assert field_types == [
+            str,
+            str,
+            str | None,
+            str | None,
+            str | None,
+            list[str] | None,
+        ]
 
     @pytest.mark.parametrize(
         "code, description, id, is_valid",
@@ -183,6 +198,7 @@ class TestBaseObjectTypeDef:
             "iri",
             "id",
             "row_location",
+            "prev_versions",
             "validation_script",
         ]
         assert field_types == [
@@ -191,6 +207,7 @@ class TestBaseObjectTypeDef:
             str | None,
             str | None,
             str | None,
+            list[str] | None,
             str | None,
         ]
 
@@ -208,6 +225,7 @@ class TestCollectionTypeDef:
             "iri",
             "id",
             "row_location",
+            "prev_versions",
             "validation_script",
         ]
         assert field_types == [
@@ -216,6 +234,7 @@ class TestCollectionTypeDef:
             str | None,
             str | None,
             str | None,
+            list[str] | None,
             str | None,
         ]
 
@@ -233,6 +252,7 @@ class TestDatasetTypeDef:
             "iri",
             "id",
             "row_location",
+            "prev_versions",
             "validation_script",
             "main_dataset_pattern",
             "main_dataset_path",
@@ -243,6 +263,7 @@ class TestDatasetTypeDef:
             str | None,
             str | None,
             str | None,
+            list[str] | None,
             str | None,
             str | None,
             str | None,
@@ -262,6 +283,7 @@ class TestObjectTypeDef:
             "iri",
             "id",
             "row_location",
+            "prev_versions",
             "validation_script",
             "generated_code_prefix",
             "auto_generate_codes",
@@ -272,6 +294,7 @@ class TestObjectTypeDef:
             str | None,
             str | None,
             str | None,
+            list[str] | None,
             str | None,
             str | None,
             bool,
@@ -312,6 +335,7 @@ class TestPropertyTypeDef:
             "iri",
             "id",
             "row_location",
+            "prev_versions",
             "property_label",
             "units",
             "data_type",
@@ -327,6 +351,7 @@ class TestPropertyTypeDef:
             str | None,
             str | None,
             str | None,
+            list[str] | None,
             str,
             str | None,
             DataType,
@@ -400,6 +425,7 @@ class TestPropertyTypeAssignment:
             "iri",
             "id",
             "row_location",
+            "prev_versions",
             "property_label",
             "units",
             "data_type",
@@ -420,6 +446,7 @@ class TestPropertyTypeAssignment:
             str | None,
             str | None,
             str | None,
+            list[str] | None,
             str,
             str | None,
             DataType,
@@ -449,6 +476,7 @@ class TestVocabularyTypeDef:
             "iri",
             "id",
             "row_location",
+            "prev_versions",
             "url_template",
         ]
         assert field_types == [
@@ -457,6 +485,7 @@ class TestVocabularyTypeDef:
             str | None,
             str | None,
             str | None,
+            list[str] | None,
             str | None,
         ]
 
@@ -474,6 +503,7 @@ class TestVocabularyTerm:
             "iri",
             "id",
             "row_location",
+            "prev_versions",
             "url_template",
             "label",
             "official",
@@ -484,7 +514,100 @@ class TestVocabularyTerm:
             str | None,
             str | None,
             str | None,
+            list[str] | None,
             str | None,
             str,
             bool,
         ]
+
+
+class TestPreviousVersions:
+    """Tests for EntityDef.prev_versions validation."""
+
+    @pytest.mark.parametrize(
+        "prev_versions",
+        [
+            None,
+            ["EXPERIMENTAL_STEP:v0"],
+            ["EXPERIMENT:v1"],
+            ["EXPERIMENTAL_STEP:v0", "EXPERIMENT:v1"],
+            ["INSTRUMENT.DEVICE:v0"],
+            ["TEMPERATURE_1:v2"],
+            ["EXPERIMENT:v12"],
+            ["$NAME:v0"],
+        ],
+    )
+    def test_valid_prev_versions(self, prev_versions):
+        entity = EntityDef(
+            code="TEST_ENTITY",
+            description="Test entity",
+            prev_versions=prev_versions,
+        )
+
+        assert entity.prev_versions == prev_versions
+
+    @pytest.mark.parametrize(
+        "prev_versions",
+        [
+            [],
+            [""],
+            ["EXPERIMENT"],
+            ["EXPERIMENT:0"],
+            ["EXPERIMENT:v"],
+            ["EXPERIMENT:vX"],
+            ["EXPERIMENT:v1.0"],
+            ["EXPERIMENT:v-1"],
+            ["EXPERIMENT:v0:extra"],
+            ["EXPERIMENT:v0 "],
+            [" EXPERIMENT:v0"],
+            ["EXPERIMENT:v0", "INVALID"],
+            ["EXPERIMENT:v0", "EXPERIMENT:v0"],
+            ["MATERIAL-ENTITY:v0"],
+        ],
+    )
+    def test_invalid_prev_versions(self, prev_versions):
+        with pytest.raises(ValidationError):
+            EntityDef(
+                code="TEST_ENTITY",
+                description="Test entity",
+                prev_versions=prev_versions,
+            )
+
+    def test_prev_versions_default_none(self):
+        entity = EntityDef(
+            code="TEST_ENTITY",
+            description="Test entity",
+        )
+
+        assert entity.prev_versions is None
+
+    def test_prev_versions_preserves_order(self):
+        versions = [
+            "EXPERIMENTAL_STEP:v0",
+            "EXPERIMENT:v1",
+            "EXPERIMENT:v2",
+        ]
+
+        entity = EntityDef(
+            code="TEST_ENTITY",
+            description="Test entity",
+            prev_versions=versions,
+        )
+
+        assert entity.prev_versions == versions
+
+    def test_prev_versions_serialization(self):
+        versions = [
+            "EXPERIMENTAL_STEP:v0",
+            "EXPERIMENT:v1",
+        ]
+
+        entity = EntityDef(
+            code="TEST_ENTITY",
+            description="Test entity",
+            prev_versions=versions,
+        )
+
+        serialized = entity.model_dump()
+
+        assert serialized["prev_versions"] == versions
