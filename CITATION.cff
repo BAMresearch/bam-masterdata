@@ -1,0 +1,45 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: bam-masterdata
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file. Please, note the NOTICE 
+  file in the bam-masterdata repository for the full
+  list of authors / contributors.
+type: software
+authors:
+  - given-names: José M.
+    family-names: Pizarro
+    email: jose.pizarro-blanco@bam.de
+    affiliation: >-
+      Federal Institute for Materials Research and Testing
+      (BAM)
+    orcid: 'https://orcid.org/0000-0002-6751-8192'
+  - name: "BAM Data Store development team"
+identifiers:
+  - type: doi
+    value: ""
+    description: "zenodo"
+repository-code: 'https://github.com/BAMresearch/bam-masterdata'
+url: 'https://BAMresearch.github.io/bam-masterdata/'
+abstract: >-
+  bam-masterdata is an open-source Python package for defining, 
+  managing, validating, and exchanging metadata schemas used in 
+  the BAM Data Store, an institutional research data management 
+  infrastructure at the Federal Institute for Materials Research 
+  and Testing (BAM). The package provides reusable definitions 
+  of research objects, property types, and controlled vocabularies 
+  for materials science and engineering workflows. It supports 
+  version-controlled schema management, validation, and export 
+  to machine-readable formats, including JSON and RDF, as well as
+  integration with openBIS. The project aims to facilitate 
+  metadata harmonization, interoperability, and FAIR-oriented 
+  research data management across heterogeneous scientific workflows.
+keywords:
+  - research data management
+  - metadata
+  - materials science
+  - openBIS
+license: MIT
