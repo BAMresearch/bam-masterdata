@@ -1,22 +1,25 @@
-The following files are excluded from the MIT license:
-- ./bam_masterdata/datamodel/*
+# Licensing and attribution
 
-These are proprietary and subject to separate CC BY 4.0 licensing (see ./LICENSE.datamodel).
+Copyright © Bundesanstalt für Materialforschung und -prüfung (BAM).
 
-The main contributors of the datamodel are:
+The `bam-masterdata` repository contains two separately licensed components:
 
-- Angela Ariza de Schellenberger
-- Ingo Bressler
-- Rukeia El-Athman
-- Çağtay Fabry
-- Tobias Fritsch
-- Ralf Herrmann
-- Zoltán Konthur
-- Julius Kruse
-- Pavlina Kruzikova
-- Tarakeshwar Lakshmipathy
-- Julien Lecompagnon
-- Jan Lisec
-- José M. Pizarro
-- Mathias Röllig
-- Bastian Rühle
+**Software**
+
+The Python software, utilities and associated code are distributed under the MIT License. See `LICENSE`.
+
+**Scientific datamodel**
+
+The metadata definitions, object types, property types and controlled vocabularies located in `bam_masterdata/datamodel/` are distributed under the Creative Commons Attribution 4.0 International License (CC BY 4.0). See `LICENSE.datamodel`.
+
+**Contributors**
+
+The software citation authors are documented in `CITATION.cff`. Contributions to the development and maintenance of the software and scientific datamodel are also documented in the repository's Git history.
+
+Historical contributors to the BAM masterdata model include:
+
+Angela Ariza de Schellenberger, Ingo Bressler, Rukeia El-Athman, Çağtay Fabry, Tobias Fritsch, Ralf Herrmann, Zoltán Konthur, Julius Kruse, Pavlina Kruzikova, Tarakeshwar Lakshmipathy, Julien Lecompagnon, Jan Lisec, José M. Pizarro, Mathias Röllig, and Bastian Rühle.
+
+This acknowledgement does not necessarily represent an exhaustive list of contributors.
+
+The original copyright notices and attribution requirements applicable to the respective components remain in effect.
