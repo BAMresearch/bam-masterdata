@@ -45,28 +45,85 @@ class TestDataType:
         assert data_type.pytype == result
 
 
-class TestEntityDef:
-    def test_fields(self):
-        """Test the existing defined fields of the `EntityDef` class."""
-        names = list(EntityDef.model_fields.keys())
-        field_types = [val.annotation for val in list(EntityDef.model_fields.values())]
-        assert names == [
-            "code",
-            "description",
-            "iri",
-            "id",
-            "row_location",
-            "prev_versions",
-        ]
-        assert field_types == [
-            str,
-            str,
-            str | None,
-            str | None,
-            str | None,
-            list[str] | None,
-        ]
+@pytest.mark.parametrize(
+    "model, expected_fields",
+    [
+        (
+            EntityDef,
+            {
+                "code": str,
+                "description": str,
+                "prev_versions": list[str] | None,
+                "iri": list[str] | None,
+                "id": str | None,
+                "row_location": str | None,
+            },
+        ),
+        (
+            BaseObjectTypeDef,
+            {
+                "validation_script": str | None,
+            },
+        ),
+        (
+            DatasetTypeDef,
+            {
+                "main_dataset_pattern": str | None,
+                "main_dataset_path": str | None,
+            },
+        ),
+        (
+            ObjectTypeDef,
+            {
+                "generated_code_prefix": str | None,
+                "auto_generate_codes": bool,
+            },
+        ),
+        (
+            PropertyTypeDef,
+            {
+                "property_label": str,
+                "units": str | None,
+                "data_type": DataType,
+                "vocabulary_code": str | None,
+                "object_code": str | None,
+                "metadata": dict | None,
+                "dynamic_script": str | None,
+                "ordinal": int | None,
+            },
+        ),
+        (
+            PropertyTypeAssignment,
+            {
+                "mandatory": bool,
+                "show_in_edit_views": bool,
+                "section": str,
+                "unique": str | None,
+                "internal_assignment": str | None,
+            },
+        ),
+        (
+            VocabularyTypeDef,
+            {
+                "url_template": str | None,
+            },
+        ),
+        (
+            VocabularyTerm,
+            {
+                "label": str,
+                "official": bool,
+            },
+        ),
+    ],
+)
+def test_definition_fields(model, expected_fields):
+    for name, expected_type in expected_fields.items():
+        assert name in model.model_fields
+        assert model.model_fields[name].annotation == expected_type
 
+
+class TestEntityDef:
     @pytest.mark.parametrize(
         "code, description, id, is_valid",
         [
@@ -126,23 +183,6 @@ class TestEntityDef:
         )
         assert entity.description == "Valid description"
 
-    def test_validate_iri(self):
-        entity = EntityDef(
-            code="EXPERIMENTAL_STEP",
-            description="Valid description",
-            iri="http://purl.obolibrary.org/bam-masterdata/Instrument:1.0.0",
-        )
-        assert (
-            entity.iri == "http://purl.obolibrary.org/bam-masterdata/Instrument:1.0.0"
-        )
-
-        with pytest.raises(ValueError):
-            EntityDef(
-                code="EXPERIMENTAL_STEP",
-                description="Valid description",
-                iri="https://example.org/not-bam/Instrument:1.0.0",
-            )
-
     @pytest.mark.parametrize(
         "entity, expected_name",
         [
@@ -185,121 +225,7 @@ class TestEntityDef:
         }
 
 
-class TestBaseObjectTypeDef:
-    def test_fields(self):
-        """Test the existing defined fields of the `BaseObjectTypeDef` class."""
-        names = list(BaseObjectTypeDef.model_fields.keys())
-        field_types = [
-            val.annotation for val in list(BaseObjectTypeDef.model_fields.values())
-        ]
-        assert names == [
-            "code",
-            "description",
-            "iri",
-            "id",
-            "row_location",
-            "prev_versions",
-            "validation_script",
-        ]
-        assert field_types == [
-            str,
-            str,
-            str | None,
-            str | None,
-            str | None,
-            list[str] | None,
-            str | None,
-        ]
-
-
-class TestCollectionTypeDef:
-    def test_fields(self):
-        """Test the existing defined fields of the `CollectionTypeDef` class."""
-        names = list(CollectionTypeDef.model_fields.keys())
-        field_types = [
-            val.annotation for val in list(CollectionTypeDef.model_fields.values())
-        ]
-        assert names == [
-            "code",
-            "description",
-            "iri",
-            "id",
-            "row_location",
-            "prev_versions",
-            "validation_script",
-        ]
-        assert field_types == [
-            str,
-            str,
-            str | None,
-            str | None,
-            str | None,
-            list[str] | None,
-            str | None,
-        ]
-
-
-class TestDatasetTypeDef:
-    def test_fields(self):
-        """Test the existing defined fields of the `DatasetTypeDef` class."""
-        names = list(DatasetTypeDef.model_fields.keys())
-        field_types = [
-            val.annotation for val in list(DatasetTypeDef.model_fields.values())
-        ]
-        assert names == [
-            "code",
-            "description",
-            "iri",
-            "id",
-            "row_location",
-            "prev_versions",
-            "validation_script",
-            "main_dataset_pattern",
-            "main_dataset_path",
-        ]
-        assert field_types == [
-            str,
-            str,
-            str | None,
-            str | None,
-            str | None,
-            list[str] | None,
-            str | None,
-            str | None,
-            str | None,
-        ]
-
-
 class TestObjectTypeDef:
-    def test_fields(self):
-        """Test the existing defined fields of the `ObjectTypeDef` class."""
-        names = list(ObjectTypeDef.model_fields.keys())
-        field_types = [
-            val.annotation for val in list(ObjectTypeDef.model_fields.values())
-        ]
-        assert names == [
-            "code",
-            "description",
-            "iri",
-            "id",
-            "row_location",
-            "prev_versions",
-            "validation_script",
-            "generated_code_prefix",
-            "auto_generate_codes",
-        ]
-        assert field_types == [
-            str,
-            str,
-            str | None,
-            str | None,
-            str | None,
-            list[str] | None,
-            str | None,
-            str | None,
-            bool,
-        ]
-
     @pytest.mark.parametrize(
         "code, generated_code_prefix, result",
         [
@@ -323,45 +249,6 @@ class TestObjectTypeDef:
 
 
 class TestPropertyTypeDef:
-    def test_fields(self):
-        """Test the existing defined fields of the `PropertyTypeDef` class."""
-        names = list(PropertyTypeDef.model_fields.keys())
-        field_types = [
-            val.annotation for val in list(PropertyTypeDef.model_fields.values())
-        ]
-        assert names == [
-            "code",
-            "description",
-            "iri",
-            "id",
-            "row_location",
-            "prev_versions",
-            "property_label",
-            "units",
-            "data_type",
-            "vocabulary_code",
-            "object_code",
-            "metadata",
-            "dynamic_script",
-            "ordinal",
-        ]
-        assert field_types == [
-            str,
-            str,
-            str | None,
-            str | None,
-            str | None,
-            list[str] | None,
-            str,
-            str | None,
-            DataType,
-            str | None,
-            str | None,
-            dict | None,
-            str | None,
-            int | None,
-        ]
-
     def test_units_append_to_label(self):
         prop = PropertyTypeDef(
             code="LENGTH",
@@ -410,115 +297,6 @@ class TestPropertyTypeDef:
             data_type=DataType.VARCHAR,
         )
         assert prop.id == "StorageStorageValidationLevel"
-
-
-class TestPropertyTypeAssignment:
-    def test_fields(self):
-        """Test the existing defined fields of the `PropertyTypeAssignment` class."""
-        names = list(PropertyTypeAssignment.model_fields.keys())
-        field_types = [
-            val.annotation for val in list(PropertyTypeAssignment.model_fields.values())
-        ]
-        assert names == [
-            "code",
-            "description",
-            "iri",
-            "id",
-            "row_location",
-            "prev_versions",
-            "property_label",
-            "units",
-            "data_type",
-            "vocabulary_code",
-            "object_code",
-            "metadata",
-            "dynamic_script",
-            "ordinal",
-            "mandatory",
-            "show_in_edit_views",
-            "section",
-            "unique",
-            "internal_assignment",
-        ]
-        assert field_types == [
-            str,
-            str,
-            str | None,
-            str | None,
-            str | None,
-            list[str] | None,
-            str,
-            str | None,
-            DataType,
-            str | None,
-            str | None,
-            dict | None,
-            str | None,
-            int | None,
-            bool,
-            bool,
-            str,
-            str | None,
-            str | None,
-        ]
-
-
-class TestVocabularyTypeDef:
-    def test_fields(self):
-        """Test the existing defined fields of the `VocabularyTypeDef` class."""
-        names = list(VocabularyTypeDef.model_fields.keys())
-        field_types = [
-            val.annotation for val in list(VocabularyTypeDef.model_fields.values())
-        ]
-        assert names == [
-            "code",
-            "description",
-            "iri",
-            "id",
-            "row_location",
-            "prev_versions",
-            "url_template",
-        ]
-        assert field_types == [
-            str,
-            str,
-            str | None,
-            str | None,
-            str | None,
-            list[str] | None,
-            str | None,
-        ]
-
-
-class TestVocabularyTerm:
-    def test_fields(self):
-        """Test the existing defined fields of the `VocabularyTerm` class."""
-        names = list(VocabularyTerm.model_fields.keys())
-        field_types = [
-            val.annotation for val in list(VocabularyTerm.model_fields.values())
-        ]
-        assert names == [
-            "code",
-            "description",
-            "iri",
-            "id",
-            "row_location",
-            "prev_versions",
-            "url_template",
-            "label",
-            "official",
-        ]
-        assert field_types == [
-            str,
-            str,
-            str | None,
-            str | None,
-            str | None,
-            list[str] | None,
-            str | None,
-            str,
-            bool,
-        ]
 
 
 class TestPreviousVersions:
@@ -611,3 +389,113 @@ class TestPreviousVersions:
         serialized = entity.model_dump()
 
         assert serialized["prev_versions"] == versions
+
+
+class TestIRI:
+    """Tests for EntityDef.iri validation."""
+
+    @pytest.mark.parametrize(
+        "iri",
+        [
+            None,
+            ["BFO_0000001"],
+            ["CHEBI_15377"],
+            ["ENVO_00002006"],
+            ["https://w3id.org/pmd/co/PMD_0000001"],
+            ["http://purl.obolibrary.org/obo/BFO_0000001"],
+            ["https://example.org/ontology#Instrument"],
+            ["https://example.org/ontology/Instrument"],
+            [
+                "BFO_0000001",
+                "CHEBI_15377",
+            ],
+            [
+                "https://w3id.org/pmd/co/PMD_0000001",
+                "BFO_0000001",
+            ],
+        ],
+    )
+    def test_valid_iri(self, iri):
+        entity = EntityDef(
+            code="TEST_ENTITY",
+            description="Test entity",
+            iri=iri,
+        )
+
+        assert entity.iri == iri
+
+    @pytest.mark.parametrize(
+        "iri",
+        [
+            [],
+            [""],
+            [" "],
+            ["not an IRI"],
+            ["BFO_ABC"],
+            ["BFO_"],
+            ["BFO_123 456"],
+            ["ftp://example.org/ontology"],
+            ["http://"],
+            ["https://"],
+            ["https://example.org/ontology with spaces"],
+            ["BFO_0000001", "BFO_0000001"],
+            [
+                "https://example.org/Instrument",
+                "https://example.org/Instrument",
+            ],
+        ],
+    )
+    def test_invalid_iri(self, iri):
+        with pytest.raises(ValidationError):
+            EntityDef(
+                code="TEST_ENTITY",
+                description="Test entity",
+                iri=iri,
+            )
+
+    def test_iri_rejects_single_string(self):
+        with pytest.raises(ValidationError):
+            EntityDef(
+                code="TEST_ENTITY",
+                description="Test entity",
+                iri="BFO_0000001",
+            )
+
+    def test_iri_default_none(self):
+        entity = EntityDef(
+            code="TEST_ENTITY",
+            description="Test entity",
+        )
+
+        assert entity.iri is None
+
+    def test_iri_preserves_order(self):
+        references = [
+            "BFO_0000001",
+            "CHEBI_15377",
+            "https://w3id.org/pmd/co/PMD_0000001",
+        ]
+
+        entity = EntityDef(
+            code="TEST_ENTITY",
+            description="Test entity",
+            iri=references,
+        )
+
+        assert entity.iri == references
+
+    def test_iri_serialization(self):
+        references = [
+            "BFO_0000001",
+            "https://w3id.org/pmd/co/PMD_0000001",
+        ]
+
+        entity = EntityDef(
+            code="TEST_ENTITY",
+            description="Test entity",
+            iri=references,
+        )
+
+        serialized = entity.model_dump()
+
+        assert serialized["iri"] == references

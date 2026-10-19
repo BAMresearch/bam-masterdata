@@ -2,6 +2,7 @@ import datetime
 import re
 from enum import StrEnum
 from typing import Any
+from urllib.parse import urlsplit
 
 from pint import DefinitionSyntaxError, UndefinedUnitError, UnitRegistry
 from pydantic import BaseModel, Field, field_validator, model_validator
@@ -66,6 +67,9 @@ _EXCLUDED_EXCEL_HEADER_FIELDS = frozenset(
 _PREV_VERSION_PATTERN = re.compile(
     r"^[A-Za-z0-9_$.]+:v[0-9]+$"
 )  # example: "EXPERIMENTAL_STEP:v0"
+_ONTOLOGY_ID_PATTERN = re.compile(
+    r"^[A-Za-z][A-Za-z0-9]*_[0-9]+$"
+)  # example: "BFO_0000001", "CHEBI_12345"
 
 
 def _format_excel_header(field_name: str) -> str:
@@ -105,16 +109,32 @@ class EntityDef(BaseModel):
         """,
     )
 
-    # TODO: check if it is necessary to add something like `ontology_annotation_id` in the future
-    iri: str | None = Field(
+    prev_versions: list[str] | None = Field(
         default=None,
         description="""
-        IRI (Internationalized Resource Identifier) of the entity. This is a unique identifier for the entity
-        and is used to link the entity to an ontology. It is a string with the format `"<ontology_id>:<ontology_version>"`.
-        Example: "http://purl.obolibrary.org/bam-masterdata/Instrument:1.0.0".
+        references to previous versions of this entity.
+
+        Each reference follows the format `"<code>:<version>"`, where `<code>` is the code of the entity and `<version>` is the version number.
+
+        Examples:
+            ["EXPERIMENTAL_STEP:v0", "EXPERIMENT:v1"]
         """,
     )
 
+    iri: list[str] | None = Field(
+        default=None,
+        description="""
+        List of ontology references associated with the entity.
+
+        Each reference can be either:
+        - An absolute HTTP(S) IRI, e.g. "https://w3id.org/pmd/co/PMD_0000001".
+        - An OBO-style ontology identifier, e.g. "BFO_0000001".
+
+        Duplicate references and empty lists are not allowed.
+        """,
+    )
+
+    # INTERNAL FIELDS
     id: str | None = Field(
         default=None,
         description="""
@@ -132,35 +152,10 @@ class EntityDef(BaseModel):
         """,
     )
 
-    prev_versions: list[str] | None = Field(
-        default=None,
-        description="""
-        references to previous versions of this entity.
-
-        Each reference follows the format `"<code>:<version>"`, where `<code>` is the code of the entity and `<version>` is the version number.
-
-        Examples:
-            ["EXPERIMENTAL_STEP:v0", "EXPERIMENT:v1"]
-        """,
-    )
-
-    # TODO check ontology_id, ontology_version, ontology_annotation_id, internal (found in the openBIS docu)
-
     @field_validator("code")
     @classmethod
     def validate_code(cls, value: str) -> str:
-        """
-        Validate entity codes against the allowed openBIS format.
-
-        Args:
-            value: Candidate code string.
-
-        Returns:
-            The validated code.
-
-        Raises:
-            ValueError: If the code is empty or contains invalid characters.
-        """
+        """Validate entity codes against the allowed openBIS format."""
         if not value or not re.match(r"^[\w_\$\.\-\+]+$", value):
             raise ValueError(
                 "`code` must follow the rules specified in the description: 1) Must be uppercase, "
@@ -169,50 +164,16 @@ class EntityDef(BaseModel):
             )
         return value
 
-    @field_validator("iri")
-    @classmethod
-    def validate_iri(cls, value: str | None) -> str | None:
-        """
-        Validate the optional ontology IRI against the expected BAM pattern.
-
-        Args:
-            value: Candidate IRI string, or None.
-
-        Returns:
-            The validated IRI (or None).
-
-        Raises:
-            ValueError: If the IRI does not match the required pattern.
-        """
-        if not value:
-            return value
-        if not re.match(
-            r"^http://purl.obolibrary.org/bam-masterdata/[\w_]+:[\d.]+$", value
-        ):
-            raise ValueError(
-                "`iri` must follow the rules specified in the description: 1) Must start with 'http://purl.obolibrary.org/bam-masterdata/', "
-                "2) followed by the entity name, 3) separated by a colon, 4) followed by the semantic versioning number. "
-                "Example: 'http://purl.obolibrary.org/bam-masterdata/Instrument:1.0.0'."
-            )
-        return value
-
     @field_validator("description")
     @classmethod
     def strip_description(cls, value: str) -> str:
-        """
-        Strip leading and trailing whitespace from descriptions.
-
-        Args:
-            value: Description string.
-
-        Returns:
-            The trimmed description.
-        """
+        """Strip leading and trailing whitespace from descriptions."""
         return value.strip()
 
     @field_validator("prev_versions")
     @classmethod
-    def strip_prev_versions(cls, value: list[str] | None) -> list[str] | None:
+    def validate_prev_versions(cls, value: list[str] | None) -> list[str] | None:
+        """Validate previous version references against the allowed openBIS format."""
         if value is None:
             return value
 
@@ -227,6 +188,51 @@ class EntityDef(BaseModel):
 
         if len(value) != len(set(value)):
             raise ValueError("`prev_versions` contains duplicate references.")
+
+        return value
+
+    @field_validator("iri")
+    @classmethod
+    def validate_iri(
+        cls,
+        value: list[str] | None,
+    ) -> list[str] | None:
+        """Validate ontology references."""
+
+        if value is None:
+            return None
+
+        if not value:
+            raise ValueError("`iri` cannot be an empty list.")
+
+        for reference in value:
+            if not reference or reference != reference.strip():
+                raise ValueError(f"Invalid ontology reference: {reference!r}")
+
+            # Accept OBO-style identifiers.
+            if _ONTOLOGY_ID_PATTERN.fullmatch(reference):
+                continue
+
+            # Otherwise, require an absolute HTTP(S) IRI.
+            try:
+                parsed = urlsplit(reference)
+                valid_url = (
+                    parsed.scheme in {"http", "https"}
+                    and bool(parsed.hostname)
+                    and not any(char.isspace() for char in reference)
+                )
+            except ValueError:
+                valid_url = False
+
+            if not valid_url:
+                raise ValueError(
+                    f"Invalid ontology reference: {reference!r}. "
+                    "Expected an HTTP(S) IRI or an ontology identifier "
+                    "such as 'BFO_0000001'."
+                )
+
+        if len(value) != len(set(value)):
+            raise ValueError("`iri` contains duplicate references.")
 
         return value
 
