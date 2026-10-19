@@ -90,6 +90,7 @@ class TestDataType:
                 "data_type": DataType,
                 "vocabulary_code": str | None,
                 "object_code": str | None,
+                "multivalued": bool,
                 "metadata": dict | None,
                 "dynamic_script": str | None,
                 "ordinal": int | None,
@@ -332,6 +333,54 @@ class TestPropertyTypeDef:
                 property_label="JSON metadata",
                 data_type="JSON_INVALID",
             )
+
+    def test_multivalued_default(self):
+        prop = PropertyTypeDef(
+            code="TEST",
+            description="Test property",
+            property_label="Test",
+            data_type=DataType.VARCHAR,
+        )
+
+        assert prop.multivalued is False
+
+    def test_multivalued_true(self):
+        prop = PropertyTypeDef(
+            code="TEST",
+            description="Test property",
+            property_label="Test",
+            data_type=DataType.VARCHAR,
+            multivalued=True,
+        )
+
+        assert prop.multivalued is True
+
+    @pytest.mark.parametrize(
+        "value",
+        [1, 0, "true", "false", "yes", None, []],
+    )
+    def test_multivalued_invalid(self, value):
+        with pytest.raises(ValidationError):
+            PropertyTypeDef(
+                code="TEST",
+                description="Test property",
+                property_label="Test",
+                data_type=DataType.VARCHAR,
+                multivalued=value,
+            )
+
+    def test_multivalued_property_assignment(self):
+        prop = PropertyTypeAssignment(
+            code="TEST",
+            description="Test property",
+            property_label="Test",
+            data_type=DataType.VARCHAR,
+            multivalued=True,
+            mandatory=False,
+            section="General",
+        )
+
+        assert prop.multivalued is True
 
 
 class TestPreviousVersions:

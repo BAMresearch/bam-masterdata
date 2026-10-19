@@ -66,6 +66,7 @@ _EXCLUDED_EXCEL_HEADER_FIELDS = frozenset(
         "description_de",
         "property_label_de",
         "label_de",
+        "multivalued",
     }
 )
 _PREV_VERSION_PATTERN = re.compile(
@@ -484,6 +485,14 @@ class PropertyTypeDef(EntityDef):
         description="""
         String identifying the object type used for the data type of the property. This is only
         relevant if `data_type == 'OBJECT'`.
+        """,
+    )
+
+    multivalued: bool = Field(
+        default=False,
+        strict=True,
+        description="""
+        Whether the property can contain multiple values. Defaults to False.
         """,
     )
 
