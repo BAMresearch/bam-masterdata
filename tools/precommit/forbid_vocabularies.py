@@ -12,7 +12,7 @@ FORBIDDEN_CODES = {
     # Add more here...
 }
 
-TARGET_FILE = Path("bam_masterdata/datamodel/vocabulary_types.py")
+TARGET_FILE = Path("bam_masterdata/datamodel/v0/vocabulary_types.py")
 
 
 def iter_vocabularytypedef_codes(tree: ast.AST) -> Iterable[tuple[str, int]]:
