@@ -20,7 +20,7 @@ authors:
   - name: "BAM Data Store development team"
 identifiers:
   - type: doi
-    value: ""
+    value: 10.5281/zenodo.23474778
     description: "zenodo"
 repository-code: 'https://github.com/BAMresearch/bam-masterdata'
 url: 'https://BAMresearch.github.io/bam-masterdata/'
