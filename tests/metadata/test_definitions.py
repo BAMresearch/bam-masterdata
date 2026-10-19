@@ -38,6 +38,7 @@ class TestDataType:
             ),  # Update this once the mapping is implemented
             (DataType.VARCHAR, str),
             (DataType.XML, None),  # Update this once the mapping is implemented
+            (DataType.JSON, None),  # Update this once the mapping is implemented
         ],
     )
     def test_pytype(self, data_type: DataType, result: type):
@@ -300,6 +301,37 @@ class TestPropertyTypeDef:
             data_type=DataType.VARCHAR,
         )
         assert prop.id == "StorageStorageValidationLevel"
+
+    def test_json_data_type(self):
+        prop = PropertyTypeDef(
+            code="JSON_METADATA",
+            description="Structured metadata",
+            property_label="JSON metadata",
+            data_type=DataType.JSON,
+        )
+
+        assert prop.data_type == DataType.JSON
+        assert prop.data_type.value == "JSON"
+        assert prop.data_type.pytype is None
+
+    def test_json_data_type_from_string(self):
+        prop = PropertyTypeDef(
+            code="JSON_METADATA",
+            description="Structured metadata",
+            property_label="JSON metadata",
+            data_type="JSON",
+        )
+
+        assert prop.data_type is DataType.JSON
+
+    def test_invalid_json_data_type(self):
+        with pytest.raises(ValidationError):
+            PropertyTypeDef(
+                code="JSON_METADATA",
+                description="Structured metadata",
+                property_label="JSON metadata",
+                data_type="JSON_INVALID",
+            )
 
 
 class TestPreviousVersions:

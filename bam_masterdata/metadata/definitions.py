@@ -18,7 +18,6 @@ class DataType(StrEnum):
     DATE = "DATE"
     HYPERLINK = "HYPERLINK"
     INTEGER = "INTEGER"
-    # MATERIAL = "MATERIAL"  # ! deprecated
     MULTILINE_VARCHAR = "MULTILINE_VARCHAR"
     OBJECT = "OBJECT"
     SAMPLE = "SAMPLE"
@@ -26,6 +25,7 @@ class DataType(StrEnum):
     TIMESTAMP = "TIMESTAMP"
     VARCHAR = "VARCHAR"
     XML = "XML"
+    JSON = "JSON"
 
     @property
     def pytype(self) -> type:
@@ -35,19 +35,15 @@ class DataType(StrEnum):
         Returns:
             type: The native Python type of the openBIS data type.
         """
-        # TODO check the other data types
         mapping = {
             "BOOLEAN": bool,
-            # 'CONTROLLEDVOCABULARY': ,
             "DATE": datetime.date,
             "HYPERLINK": str,
             "INTEGER": int,
             "MULTILINE_VARCHAR": str,
-            # 'OBJECT': ,
             "REAL": float,
             "TIMESTAMP": datetime.datetime,
             "VARCHAR": str,
-            # 'XML': ,
         }
         return mapping.get(self, None)
 
