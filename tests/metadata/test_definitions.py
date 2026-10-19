@@ -53,6 +53,7 @@ class TestDataType:
             {
                 "code": str,
                 "description": str,
+                "description_de": str | None,
                 "prev_versions": list[str] | None,
                 "iri": list[str] | None,
                 "id": str | None,
@@ -83,6 +84,7 @@ class TestDataType:
             PropertyTypeDef,
             {
                 "property_label": str,
+                "property_label_de": str | None,
                 "units": str | None,
                 "data_type": DataType,
                 "vocabulary_code": str | None,
@@ -112,6 +114,7 @@ class TestDataType:
             VocabularyTerm,
             {
                 "label": str,
+                "label_de": str | None,
                 "official": bool,
             },
         ),
@@ -499,3 +502,60 @@ class TestIRI:
         serialized = entity.model_dump()
 
         assert serialized["iri"] == references
+
+
+class TestOpenbisTranslations:
+    def test_english_only(self):
+        entity = EntityDef(
+            code="INSTRUMENT",
+            description="Instrument",
+        )
+
+        assert entity.openbis_description == "Instrument"
+
+    def test_english_and_german(self):
+        entity = EntityDef(
+            code="INSTRUMENT",
+            description="Instrument",
+            description_de="Messgerät",
+        )
+
+        assert entity.openbis_description == "Instrument//Messgerät"
+
+    def test_legacy_format(self):
+        entity = EntityDef(
+            code="INSTRUMENT",
+            description="Instrument//Messgerät",
+        )
+
+        assert entity.openbis_description == "Instrument//Messgerät"
+
+    def test_no_duplicate_translation(self):
+        entity = EntityDef(
+            code="INSTRUMENT",
+            description="Instrument//Messgerät",
+            description_de="Gerät",
+        )
+
+        assert entity.openbis_description == "Instrument//Messgerät"
+
+    def test_property_label(self):
+        prop = PropertyTypeDef(
+            code="LENGTH",
+            description="Length",
+            property_label="Length",
+            property_label_de="Länge",
+            data_type=DataType.REAL,
+        )
+
+        assert prop.openbis_property_label == "Length//Länge"
+
+    def test_vocabulary_label(self):
+        term = VocabularyTerm(
+            code="SOLID",
+            description="Solid",
+            label="Solid",
+            label_de="Fest",
+        )
+
+        assert term.openbis_label == "Solid//Fest"

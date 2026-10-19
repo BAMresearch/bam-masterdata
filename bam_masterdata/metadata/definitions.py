@@ -62,7 +62,15 @@ _EXCEL_NAME_MAP = {
     "VocabularyTypeDef": "VOCABULARY_TYPE",
 }
 _EXCLUDED_EXCEL_HEADER_FIELDS = frozenset(
-    {"iri", "id", "row_location", "prev_versions"}
+    {
+        "iri",
+        "id",
+        "row_location",
+        "prev_versions",
+        "description_de",
+        "property_label_de",
+        "label_de",
+    }
 )
 _PREV_VERSION_PATTERN = re.compile(
     r"^[A-Za-z0-9_$.]+:v[0-9]+$"
@@ -80,6 +88,13 @@ def _format_excel_header(field_name: str) -> str:
 def _entity_type_for_model_id(model_name: str) -> str:
     """Map a definition model name to the entity family used by `code_to_class_name`."""
     return "property" if "PropertyType" in model_name else "object"
+
+
+def _combine_translations(english: str, german: str | None) -> str:
+    if "//" in english or not german:
+        return english
+
+    return f"{english}//{german}"
 
 
 class EntityDef(BaseModel):
@@ -106,6 +121,16 @@ class EntityDef(BaseModel):
         Description of the entity. This is the human-readable text for the object and must be
         as complete and concise as possible. The German description can be added after the English
         description separated by a double slash (//), e.g. `'Chemical Substance//Chemische Substanz'`.
+        """,
+    )
+
+    description_de: str | None = Field(
+        default=None,
+        description="""
+        Optional German description of the entity.
+
+        Note: The main `description` field is considered English. German translations should be provided
+        separately instead of using the legacy 'English//German' format.
         """,
     )
 
@@ -164,11 +189,11 @@ class EntityDef(BaseModel):
             )
         return value
 
-    @field_validator("description")
+    @field_validator("description", "description_de")
     @classmethod
-    def strip_description(cls, value: str) -> str:
+    def strip_description(cls, value: str | None) -> str | None:
         """Strip leading and trailing whitespace from descriptions."""
-        return value.strip()
+        return value.strip() if value is not None else None
 
     @field_validator("prev_versions")
     @classmethod
@@ -257,6 +282,11 @@ class EntityDef(BaseModel):
             for field_name in self.model_fields.keys()
             if field_name not in _EXCLUDED_EXCEL_HEADER_FIELDS
         }
+
+    @property
+    def openbis_description(self) -> str:
+        """Return the description in the format expected by openBIS."""
+        return _combine_translations(self.description, self.description_de)
 
     @model_validator(mode="after")
     @classmethod
@@ -404,6 +434,11 @@ class PropertyTypeDef(EntityDef):
         """,
     )
 
+    property_label_de: str | None = Field(
+        default=None,
+        description="Optional German label of the property.",
+    )
+
     units: str | None = Field(
         default=None,
         description="""
@@ -500,6 +535,10 @@ class PropertyTypeDef(EntityDef):
         except (UndefinedUnitError, DefinitionSyntaxError) as exc:
             raise ValueError(f"Invalid units format: {value}") from exc
         return value
+
+    @property
+    def openbis_property_label(self) -> str:
+        return _combine_translations(self.property_label, self.property_label_de)
 
     @model_validator(mode="after")
     @classmethod
@@ -658,6 +697,11 @@ class VocabularyTerm(VocabularyTypeDef):
         description="""""",
     )
 
+    label_de: str | None = Field(
+        default=None,
+        description="Optional German label of the vocabulary term.",
+    )
+
     official: bool = Field(
         True,
         description="""""",
@@ -671,3 +715,7 @@ class VocabularyTerm(VocabularyTypeDef):
                 f"VocabularyTerm code must not exceed 50 characters (got {len(value)} characters)."
             )
         return value
+
+    @property
+    def openbis_label(self) -> str:
+        return _combine_translations(self.label, self.label_de)
