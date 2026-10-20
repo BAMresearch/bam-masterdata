@@ -112,7 +112,7 @@ The central ingredients for defining data models associated with a research acti
 - `defs`: The definitions of the Object Type. These attributes do not change when filling with data the object.
 - `properties`: The list of properties assigned to an object. These attributes are filled when assigning data to the object.
 
-All accessible object types are defined as Python classes in [`bam_masterdata/datamodel/object_types.py`](https://github.com/BAMresearch/bam-masterdata/tree/main/bam_masterdata/datamodel/object_types.py).
+All accessible object types are defined as Python classes in [`bam_masterdata/datamodel/`](https://github.com/BAMresearch/bam-masterdata/tree/main/bam_masterdata/datamodel/).
 Each object type has a set of assigned properties (metadata fields), some of which are **mandatory** and some are **optional**. For example:
 
 ```python
@@ -154,7 +154,7 @@ You can read more in [Schema Definitions](../explanations/schema_defs.md) to lea
 Let's create/instantiate a simple experimental step object:
 
 ```python
-from bam_masterdata.datamodel.object_types import ExperimentalStep
+from bam_masterdata.datamodel.v0.object_types import ExperimentalStep
 
 
 # Create a new experimental step instance
@@ -201,7 +201,7 @@ TypeError: Invalid type for 'show_in_project_overview': Expected bool, got int
 To explore which attributes are available for a given type, check its `_property_metadata`.
 
 ```python
-from bam_masterdata.datamodel.object_types import ExperimentalStep
+from bam_masterdata.datamodel.v0.object_types import ExperimentalStep
 
 step = ExperimentalStep()
 print(list(step._property_metadata.keys()))
@@ -254,7 +254,7 @@ will return:
 Thus we can assign only:
 
 ```python
-from bam_masterdata.datamodel.object_types import Storage
+from bam_masterdata.datamodel.v0.object_types import Storage
 
 
 store = Storage()
@@ -277,7 +277,7 @@ There are two ways to assign object references:
 If you're creating objects in the same batch, you can directly reference the object instance.
 
 ```python
-from bam_masterdata.datamodel.object_types import Instrument
+from bam_masterdata.datamodel.v0.object_types import Instrument
 
 # Create a person object
 person = Person(name="Dr. Jane Smith")
@@ -351,7 +351,7 @@ This can be done by adding those Object Types in a `CollectionType` like:
 
 ```python
 from bam_masterdata.metadata.entities import CollectionType
-from bam_masterdata.datamodel.object_types import ExperimentalStep
+from bam_masterdata.datamodel.v0.object_types import ExperimentalStep
 
 
 step_1 = ExperimentalStep(name="Step 1")
@@ -371,7 +371,7 @@ You can also add relationships between objects by using their ids when attached 
 
 ```python
 from bam_masterdata.metadata.entities import CollectionType
-from bam_masterdata.datamodel.object_types import ExperimentalStep
+from bam_masterdata.datamodel.v0.object_types import ExperimentalStep
 
 
 step_1 = ExperimentalStep(name="Step 1")

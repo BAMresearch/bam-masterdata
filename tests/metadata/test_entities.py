@@ -1,5 +1,6 @@
 import datetime
 import io
+import json
 from unittest.mock import MagicMock, patch
 
 import h5py
@@ -87,10 +88,7 @@ class TestBaseEntity:
     def test_model_to_json(self):
         """Test the method `model_to_json` from the class `BaseEntity`."""
         entity = generate_base_entity()
-        assert (
-            entity.model_to_json()
-            == '{"code": null, "defs": {"code": "MOCKED_ENTITY", "description": "Mockup for an entity definition//Mockup f\\u00fcr eine Entit\\u00e4tsdefinition", "iri": null, "id": "MockedEntity", "row_location": null, "validation_script": null, "generated_code_prefix": "MOCKENT", "auto_generate_codes": true}}'
-        )
+        assert json.loads(entity.model_to_json()) == entity.model_to_dict()
 
     def test_model_to_dict(self):
         """Test the method `model_to_dict` from the class `BaseEntity`."""
@@ -100,6 +98,8 @@ class TestBaseEntity:
             "defs": {
                 "code": "MOCKED_ENTITY",
                 "description": "Mockup for an entity definition//Mockup für eine Entitätsdefinition",
+                "description_de": None,
+                "prev_versions": None,
                 "iri": None,
                 "id": "MockedEntity",
                 "row_location": None,
