@@ -1,36 +1,6 @@
 from bam_masterdata.metadata.definitions import VocabularyTerm, VocabularyTypeDef
 from bam_masterdata.metadata.entities import VocabularyType
 
-class TensileTestStandard(VocabularyType):
-    defs = VocabularyTypeDef(
-        code="TENSILE_TEST_STANDARD",
-        description="""Controlled vocabulary for tensile-test metadata // Kontrolliertes Vokabular fuer Zugversuchsmetadaten""",
-    )
-    din_en_iso_6892_1_2019 = VocabularyTerm(
-        code="DIN_EN_ISO_6892_1_2019",
-        label="DIN EN ISO 6892-1:2019",
-        description="""DIN EN ISO 6892-1:2019 // DIN EN ISO 6892-1:2019""",
-    )
-    din_en_iso_6892_2_2020 = VocabularyTerm(
-        code="DIN_EN_ISO_6892_2_2020",
-        label="DIN EN ISO 6892-2:2020",
-        description="""DIN EN ISO 6892-2:2020 // DIN EN ISO 6892-2:2020""",
-    )
-    astm_e8_e8m = VocabularyTerm(
-        code="ASTM_E8_E8M",
-        label="ASTM E8/E8M",
-        description="""ASTM E8/E8M // ASTM E8/E8M""",
-    )
-    astm_e21 = VocabularyTerm(
-        code="ASTM_E21",
-        label="ASTM E21",
-        description="""ASTM E21 // ASTM E21""",
-    )
-    other_specify = VocabularyTerm(
-        code="OTHER_SPECIFY",
-        label="Other (specify)",
-        description="""Other (specify) // Other (specify)""",
-    )
 
 class TensileTestTypeOfLoading(VocabularyType):
     defs = VocabularyTypeDef(
@@ -633,4 +603,3 @@ class TensileTestForceRecording(VocabularyType):
         label="Periodically",
         description="""Periodically // Periodically""",
     )
-
