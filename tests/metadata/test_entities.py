@@ -124,6 +124,71 @@ class TestBaseEntity:
 
 
 class TestObjectType:
+    @pytest.mark.parametrize("copy_assignment", [False, True])
+    def test_subtype_can_override_required_field_without_changing_parent(
+        self, copy_assignment
+    ):
+        parent = type(generate_object_type())
+        optional = (
+            parent.name.model_copy(update={"mandatory": False})
+            if copy_assignment
+            else PropertyTypeAssignment(
+                code="$NAME",
+                data_type="VARCHAR",
+                property_label="Name",
+                description="Name",
+                mandatory=False,
+                section="General information",
+            )
+        )
+
+        class OptionalName(parent):
+            name = optional
+
+        record = OptionalName()
+        assert not record.get_property_metadata()["name"].mandatory
+        assert CollectionType().add(record)
+        assert [p.code for p in record.properties].count("$NAME") == 1
+        assert not next(p for p in record.properties if p.code == "$NAME").mandatory
+        assert [p.code for p in record.properties].index("$NAME") == [
+            p.code for p in parent().properties
+        ].index("$NAME")
+        assert parent.name.mandatory
+        with pytest.raises(ValueError, match="name"):
+            CollectionType().add(parent())
+
+        class RequiredAgain(OptionalName):
+            name = optional.model_copy(update={"mandatory": True})
+
+        with pytest.raises(ValueError, match="name"):
+            CollectionType().add(RequiredAgain())
+        assert RequiredAgain().get_property_metadata()["name"].mandatory
+        assert CollectionType().add(RequiredAgain(name="Restored requirement"))
+        assert [p.code for p in RequiredAgain().properties].count("$NAME") == 1
+
+    @pytest.mark.parametrize("left_first", [False, True])
+    def test_override_follows_python_multiple_inheritance_order(self, left_first):
+        parent = type(generate_object_type())
+
+        class OptionalName(parent):
+            name = parent.name.model_copy(update={"mandatory": False})
+
+        class RequiredName(parent):
+            name = parent.name.model_copy(update={"mandatory": True})
+
+        bases = (
+            (OptionalName, RequiredName) if left_first else (RequiredName, OptionalName)
+        )
+        child = type("CombinedType", bases, {})
+        record = child()
+        prop = next(p for p in record.properties if p.code == "$NAME")
+        assert prop.mandatory is (not left_first)
+        assert record.get_property_metadata()["name"].mandatory == prop.mandatory
+        assert [p.code for p in record.properties].count("$NAME") == 1
+        assert [p.code for p in record.properties].index("$NAME") == [
+            p.code for p in parent().properties
+        ].index("$NAME")
+
     def test_model_validator_after_init(self):
         """Test the method `model_validator_after_init` from the class `ObjectType`."""
         object_type = generate_object_type()

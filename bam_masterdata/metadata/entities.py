@@ -299,11 +299,12 @@ class BaseEntity(BaseModel):
 
         # Store property metadata at class level
         prop_meta_dict: dict = {}
+        # Subclass-first MRO: the first assignment wins.
         for base in type(self).__mro__:
             cls_attrs = getattr(base, "__dict__", {})
             for attr_name, attr_value in cls_attrs.items():
                 if isinstance(attr_value, PropertyTypeAssignment):
-                    prop_meta_dict[attr_name] = attr_value
+                    prop_meta_dict.setdefault(attr_name, attr_value)
         return prop_meta_dict
 
     def to_json(self, indent: int | None = None) -> str:
@@ -1130,16 +1131,16 @@ class ObjectType(BaseEntity):
         Returns:
             Any: The data with the validated fields.
         """
-        # ordered parent -> child properties
-        collected_properties = []
+        # Keep parent field positions while resolving overrides in Python MRO order.
+        collected_properties = {}
         for base in reversed(cls.__mro__):
-            for _, attr_val in base.__dict__.items():
+            for attr_name, attr_val in base.__dict__.items():
                 if isinstance(attr_val, PropertyTypeAssignment):
-                    collected_properties.append(attr_val)
+                    collected_properties[attr_name] = attr_val
 
         # Group by section preserving first appearance order
         grouped_sections = OrderedDict()
-        for prop in collected_properties:
+        for prop in collected_properties.values():
             section = prop.section or ""
             grouped_sections.setdefault(section, [])
             grouped_sections[section].append(prop)
