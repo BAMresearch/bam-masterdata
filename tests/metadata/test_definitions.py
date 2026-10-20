@@ -22,23 +22,17 @@ class TestDataType:
         "data_type, result",
         [
             (DataType.BOOLEAN, bool),
-            (
-                DataType.CONTROLLEDVOCABULARY,
-                None,
-            ),  # Update this once the mapping is implemented
+            (DataType.CONTROLLEDVOCABULARY, None),
             (DataType.DATE, datetime.date),
             (DataType.HYPERLINK, str),
             (DataType.INTEGER, int),
             (DataType.MULTILINE_VARCHAR, str),
-            (DataType.OBJECT, None),  # Update this once the mapping is implemented
+            (DataType.OBJECT, None),
             (DataType.REAL, float),
-            (
-                DataType.TIMESTAMP,
-                datetime.datetime,
-            ),  # Update this once the mapping is implemented
+            (DataType.TIMESTAMP, datetime.datetime),
             (DataType.VARCHAR, str),
-            (DataType.XML, None),  # Update this once the mapping is implemented
-            (DataType.JSON, None),  # Update this once the mapping is implemented
+            (DataType.XML, None),
+            (DataType.JSON, None),
         ],
     )
     def test_pytype(self, data_type: DataType, result: type):
