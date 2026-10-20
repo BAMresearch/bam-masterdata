@@ -31,8 +31,9 @@ The **How-to guides** provide step-by-step instructions for a variety of tasks. 
 - [Work with Object References](howtos/object_references.md)
 - [Extend the Current Masterdata](howtos/extend_masterdata.md)
 - Parsing
-    - [Use the Parser app](howtos/parsing/parser_app.md)
+    - [Use the openBIS Upload Helper app](howtos/parsing/parser_app.md)
     - [Create new parsers](howtos/parsing/create_new_parsers.md)
+    - [Run a parser locally with a Jupyter notebook](howtos/parsing/run_parsers.md)
 
 </div>
 
@@ -56,6 +57,7 @@ The **Explanations** offer theoretical insights into the core concepts.
 The **References** include a glossary of terms and the automatically generated API documentation.
 
 - [Glossary](references/glossary.md)
+- [List of available parsers](references/available_parsers.md)
 - [API Reference](references/api.md)
 - [Extra](references/extra.md)
 
