@@ -1,6 +1,6 @@
 import pytest
 
-from bam_masterdata.datamodel.object_types import DataTransfer
+from bam_masterdata.datamodel.v0.object_types import DataTransfer
 from bam_masterdata.metadata.entities import CollectionType
 
 

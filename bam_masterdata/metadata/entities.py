@@ -1517,6 +1517,13 @@ class ObjectType(BaseEntity):
             if prop.data_type == DataType.CONTROLLEDVOCABULARY and prop.vocabulary_code:
                 kwargs["vocabulary"] = prop.vocabulary_code
 
+            if (
+                prop.data_type in (DataType.OBJECT, DataType.SAMPLE)
+                and prop.object_code
+                and prop.object_code != "(ALL)"
+            ):
+                kwargs["sampleType"] = prop.object_code
+
             openbis.new_property_type(**kwargs).save()
             result.created(
                 target=SyncTarget.PROPERTY_TYPE,
