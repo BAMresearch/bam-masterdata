@@ -37,4 +37,4 @@ repos:
         name: Forbid VocabularyTypeDef.code values in vocabulary_types.py
         entry: python tools/precommit/forbid_vocabularies.py
         language: python
-        files: ^bam_masterdata/datamodel/vocabulary_types\.py$
+        files: ^bam_masterdata/datamodel/v0/vocabulary_types\.py$

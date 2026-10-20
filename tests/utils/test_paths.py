@@ -8,7 +8,7 @@ def test_find_dir():
 
 
 def test_default_dirs():
-    assert DATAMODEL_DIR == str(Path.cwd() / "bam_masterdata" / "datamodel")
+    assert DATAMODEL_DIR == str(Path.cwd() / "bam_masterdata" / "datamodel" / "v0")
     assert VALIDATION_RULES_DIR == str(
         Path.cwd() / "bam_masterdata" / "checker" / "validation_rules"
     )

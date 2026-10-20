@@ -20,7 +20,7 @@ These are properties defined to reference other existing objects in openBIS. The
 When creating multiple related objects in the same operation, you can reference them directly:
 
 ```python
-from bam_masterdata.datamodel.object_types import Person, Instrument
+from bam_masterdata.datamodel.v0.object_types import Person, Instrument
 from bam_masterdata.metadata.entities import CollectionType
 
 # Create a collection
@@ -49,7 +49,7 @@ instrument_id = collection.add(instrument)
 If the object already exists in openBIS, you can reference it using its identifier path:
 
 ```python
-from bam_masterdata.datamodel.object_types import Instrument
+from bam_masterdata.datamodel.v0.object_types import Instrument
 
 # Create an instrument
 instrument = Instrument(name="Spectrometer X500")
@@ -75,7 +75,7 @@ You can mix both approaches in the same parser:
 
 ```python
 from bam_masterdata.parsing import AbstractParser
-from bam_masterdata.datamodel.object_types import Person, Instrument
+from bam_masterdata.datamodel.v0.object_types import Person, Instrument
 
 
 class InstrumentParser(AbstractParser):

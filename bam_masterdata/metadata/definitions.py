@@ -1,7 +1,8 @@
 import datetime
 import re
-from enum import Enum
+from enum import StrEnum
 from typing import Any
+from urllib.parse import urlsplit
 
 from pint import DefinitionSyntaxError, UndefinedUnitError, UnitRegistry
 from pydantic import BaseModel, Field, field_validator, model_validator
@@ -9,7 +10,7 @@ from pydantic import BaseModel, Field, field_validator, model_validator
 from bam_masterdata.utils import code_to_class_name
 
 
-class DataType(str, Enum):
+class DataType(StrEnum):
     """Enumeration of the data types available in openBIS."""
 
     BOOLEAN = "BOOLEAN"
@@ -17,7 +18,6 @@ class DataType(str, Enum):
     DATE = "DATE"
     HYPERLINK = "HYPERLINK"
     INTEGER = "INTEGER"
-    # MATERIAL = "MATERIAL"  # ! deprecated
     MULTILINE_VARCHAR = "MULTILINE_VARCHAR"
     OBJECT = "OBJECT"
     SAMPLE = "SAMPLE"
@@ -25,6 +25,7 @@ class DataType(str, Enum):
     TIMESTAMP = "TIMESTAMP"
     VARCHAR = "VARCHAR"
     XML = "XML"
+    JSON = "JSON"
 
     @property
     def pytype(self) -> type:
@@ -34,19 +35,15 @@ class DataType(str, Enum):
         Returns:
             type: The native Python type of the openBIS data type.
         """
-        # TODO check the other data types
         mapping = {
             "BOOLEAN": bool,
-            # 'CONTROLLEDVOCABULARY': ,
             "DATE": datetime.date,
             "HYPERLINK": str,
             "INTEGER": int,
             "MULTILINE_VARCHAR": str,
-            # 'OBJECT': ,
             "REAL": float,
             "TIMESTAMP": datetime.datetime,
             "VARCHAR": str,
-            # 'XML': ,
         }
         return mapping.get(self, None)
 
@@ -60,7 +57,24 @@ _EXCEL_NAME_MAP = {
     "ObjectTypeDef": "SAMPLE_TYPE",
     "VocabularyTypeDef": "VOCABULARY_TYPE",
 }
-_EXCLUDED_EXCEL_HEADER_FIELDS = frozenset({"iri", "id", "row_location"})
+_EXCLUDED_EXCEL_HEADER_FIELDS = frozenset(
+    {
+        "iri",
+        "id",
+        "row_location",
+        "prev_versions",
+        "description_de",
+        "property_label_de",
+        "label_de",
+        "multivalued",
+    }
+)
+_PREV_VERSION_PATTERN = re.compile(
+    r"^[A-Za-z0-9_$.]+:v[0-9]+$"
+)  # example: "EXPERIMENTAL_STEP:v0"
+_ONTOLOGY_ID_PATTERN = re.compile(
+    r"^[A-Za-z][A-Za-z0-9]*_[0-9]+$"
+)  # example: "BFO_0000001", "CHEBI_12345"
 
 
 def _format_excel_header(field_name: str) -> str:
@@ -71,6 +85,13 @@ def _format_excel_header(field_name: str) -> str:
 def _entity_type_for_model_id(model_name: str) -> str:
     """Map a definition model name to the entity family used by `code_to_class_name`."""
     return "property" if "PropertyType" in model_name else "object"
+
+
+def _combine_translations(english: str, german: str | None) -> str:
+    if "//" in english or not german:
+        return english
+
+    return f"{english}//{german}"
 
 
 class EntityDef(BaseModel):
@@ -100,16 +121,42 @@ class EntityDef(BaseModel):
         """,
     )
 
-    # TODO: check if it is necessary to add something like `ontology_annotation_id` in the future
-    iri: str | None = Field(
+    description_de: str | None = Field(
         default=None,
         description="""
-        IRI (Internationalized Resource Identifier) of the entity. This is a unique identifier for the entity
-        and is used to link the entity to an ontology. It is a string with the format `"<ontology_id>:<ontology_version>"`.
-        Example: "http://purl.obolibrary.org/bam-masterdata/Instrument:1.0.0".
+        Optional German description of the entity.
+
+        Note: The main `description` field is considered English. German translations should be provided
+        separately instead of using the legacy 'English//German' format.
         """,
     )
 
+    prev_versions: list[str] | None = Field(
+        default=None,
+        description="""
+        references to previous versions of this entity.
+
+        Each reference follows the format `"<code>:<version>"`, where `<code>` is the code of the entity and `<version>` is the version number.
+
+        Examples:
+            ["EXPERIMENTAL_STEP:v0", "EXPERIMENT:v1"]
+        """,
+    )
+
+    iri: list[str] | None = Field(
+        default=None,
+        description="""
+        List of ontology references associated with the entity.
+
+        Each reference can be either:
+        - An absolute HTTP(S) IRI, e.g. "https://w3id.org/pmd/co/PMD_0000001".
+        - An OBO-style ontology identifier, e.g. "BFO_0000001".
+
+        Duplicate references and empty lists are not allowed.
+        """,
+    )
+
+    # INTERNAL FIELDS
     id: str | None = Field(
         default=None,
         description="""
@@ -127,23 +174,10 @@ class EntityDef(BaseModel):
         """,
     )
 
-    # TODO check ontology_id, ontology_version, ontology_annotation_id, internal (found in the openBIS docu)
-
     @field_validator("code")
     @classmethod
     def validate_code(cls, value: str) -> str:
-        """
-        Validate entity codes against the allowed openBIS format.
-
-        Args:
-            value: Candidate code string.
-
-        Returns:
-            The validated code.
-
-        Raises:
-            ValueError: If the code is empty or contains invalid characters.
-        """
+        """Validate entity codes against the allowed openBIS format."""
         if not value or not re.match(r"^[\w_\$\.\-\+]+$", value):
             raise ValueError(
                 "`code` must follow the rules specified in the description: 1) Must be uppercase, "
@@ -152,46 +186,77 @@ class EntityDef(BaseModel):
             )
         return value
 
-    @field_validator("iri")
+    @field_validator("description", "description_de")
     @classmethod
-    def validate_iri(cls, value: str | None) -> str | None:
-        """
-        Validate the optional ontology IRI against the expected BAM pattern.
+    def strip_description(cls, value: str | None) -> str | None:
+        """Strip leading and trailing whitespace from descriptions."""
+        return value.strip() if value is not None else None
 
-        Args:
-            value: Candidate IRI string, or None.
-
-        Returns:
-            The validated IRI (or None).
-
-        Raises:
-            ValueError: If the IRI does not match the required pattern.
-        """
-        if not value:
+    @field_validator("prev_versions")
+    @classmethod
+    def validate_prev_versions(cls, value: list[str] | None) -> list[str] | None:
+        """Validate previous version references against the allowed openBIS format."""
+        if value is None:
             return value
-        if not re.match(
-            r"^http://purl.obolibrary.org/bam-masterdata/[\w_]+:[\d.]+$", value
-        ):
-            raise ValueError(
-                "`iri` must follow the rules specified in the description: 1) Must start with 'http://purl.obolibrary.org/bam-masterdata/', "
-                "2) followed by the entity name, 3) separated by a colon, 4) followed by the semantic versioning number. "
-                "Example: 'http://purl.obolibrary.org/bam-masterdata/Instrument:1.0.0'."
-            )
+
+        if not value:
+            raise ValueError("`prev_versions` must not be an empty list.")
+
+        for reference in value:
+            if not _PREV_VERSION_PATTERN.fullmatch(reference):
+                raise ValueError(
+                    f"Invalid previous version reference: {reference}. Must follow the format '<code>:v<version>', e.g. 'EXPERIMENTAL_STEP:v0'."
+                )
+
+        if len(value) != len(set(value)):
+            raise ValueError("`prev_versions` contains duplicate references.")
+
         return value
 
-    @field_validator("description")
+    @field_validator("iri")
     @classmethod
-    def strip_description(cls, value: str) -> str:
-        """
-        Strip leading and trailing whitespace from descriptions.
+    def validate_iri(
+        cls,
+        value: list[str] | None,
+    ) -> list[str] | None:
+        """Validate ontology references."""
 
-        Args:
-            value: Description string.
+        if value is None:
+            return None
 
-        Returns:
-            The trimmed description.
-        """
-        return value.strip()
+        if not value:
+            raise ValueError("`iri` cannot be an empty list.")
+
+        for reference in value:
+            if not reference or reference != reference.strip():
+                raise ValueError(f"Invalid ontology reference: {reference!r}")
+
+            # Accept OBO-style identifiers.
+            if _ONTOLOGY_ID_PATTERN.fullmatch(reference):
+                continue
+
+            # Otherwise, require an absolute HTTP(S) IRI.
+            try:
+                parsed = urlsplit(reference)
+                valid_url = (
+                    parsed.scheme in {"http", "https"}
+                    and bool(parsed.hostname)
+                    and not any(char.isspace() for char in reference)
+                )
+            except ValueError:
+                valid_url = False
+
+            if not valid_url:
+                raise ValueError(
+                    f"Invalid ontology reference: {reference!r}. "
+                    "Expected an HTTP(S) IRI or an ontology identifier "
+                    "such as 'BFO_0000001'."
+                )
+
+        if len(value) != len(set(value)):
+            raise ValueError("`iri` contains duplicate references.")
+
+        return value
 
     @property
     def name(self) -> str:
@@ -214,6 +279,11 @@ class EntityDef(BaseModel):
             for field_name in self.model_fields.keys()
             if field_name not in _EXCLUDED_EXCEL_HEADER_FIELDS
         }
+
+    @property
+    def openbis_description(self) -> str:
+        """Return the description in the format expected by openBIS."""
+        return _combine_translations(self.description, self.description_de)
 
     @model_validator(mode="after")
     @classmethod
@@ -361,6 +431,11 @@ class PropertyTypeDef(EntityDef):
         """,
     )
 
+    property_label_de: str | None = Field(
+        default=None,
+        description="Optional German label of the property.",
+    )
+
     units: str | None = Field(
         default=None,
         description="""
@@ -413,6 +488,14 @@ class PropertyTypeDef(EntityDef):
         """,
     )
 
+    multivalued: bool = Field(
+        default=False,
+        strict=True,
+        description="""
+        Whether the property can contain multiple values. Defaults to False.
+        """,
+    )
+
     # TODO add descriptions for `dynamic_script`
 
     metadata: dict | None = Field(
@@ -457,6 +540,10 @@ class PropertyTypeDef(EntityDef):
         except (UndefinedUnitError, DefinitionSyntaxError) as exc:
             raise ValueError(f"Invalid units format: {value}") from exc
         return value
+
+    @property
+    def openbis_property_label(self) -> str:
+        return _combine_translations(self.property_label, self.property_label_de)
 
     @model_validator(mode="after")
     @classmethod
@@ -615,6 +702,11 @@ class VocabularyTerm(VocabularyTypeDef):
         description="""""",
     )
 
+    label_de: str | None = Field(
+        default=None,
+        description="Optional German label of the vocabulary term.",
+    )
+
     official: bool = Field(
         True,
         description="""""",
@@ -628,3 +720,7 @@ class VocabularyTerm(VocabularyTypeDef):
                 f"VocabularyTerm code must not exceed 50 characters (got {len(value)} characters)."
             )
         return value
+
+    @property
+    def openbis_label(self) -> str:
+        return _combine_translations(self.label, self.label_de)

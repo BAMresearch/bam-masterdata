@@ -3,9 +3,9 @@
 ### Basic Entity Operations
 
 ```python
-from bam_masterdata.datamodel.object_types import Sample
-from bam_masterdata.datamodel.dataset_types import RawData
-from bam_masterdata.datamodel.collection_types import MeasurementsCollection
+from bam_masterdata.datamodel.v0.object_types import Sample
+from bam_masterdata.datamodel.v0.dataset_types import RawData
+from bam_masterdata.datamodel.v0.collection_types import MeasurementsCollection
 
 # Create entities
 sample = Sample(code="SAMPLE_001", name="Test Sample")
@@ -58,10 +58,7 @@ from bam_masterdata.checker.masterdata_validator import MasterdataValidator
 
 # Validate entities
 validator = MasterdataValidator()
-entities_dict = {
-    "object_types": object_types,
-    "dataset_types": dataset_types
-}
+entities_dict = {"object_types": object_types, "dataset_types": dataset_types}
 
 result = validator.validate(entities_dict)
 if not result.is_valid:
@@ -79,7 +76,7 @@ generator = MasterdataCodeGenerator(
     objects=object_types,
     datasets=dataset_types,
     collections=collection_types,
-    vocabularies=vocabulary_types
+    vocabularies=vocabulary_types,
 )
 
 # Generate code for different entity types
@@ -177,10 +174,10 @@ Configuration.apply(config)
 from bam_masterdata.metadata.entities import ObjectType
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
 
+
 class MyCustomObject(ObjectType):
     defs = ObjectTypeDef(
-        code="MY_CUSTOM_OBJECT",
-        description="A custom object type for specific needs"
+        code="MY_CUSTOM_OBJECT", description="A custom object type for specific needs"
     )
 
     custom_property = PropertyTypeAssignment(
@@ -189,14 +186,14 @@ class MyCustomObject(ObjectType):
         property_label="Custom Property",
         description="A custom property for this object",
         mandatory=True,
-        section="Custom Section"
+        section="Custom Section",
     )
 ```
 
 ### How to Query Available Properties
 
 ```python
-from bam_masterdata.datamodel.object_types import Sample
+from bam_masterdata.datamodel.v0.object_types import Sample
 
 # Get all available properties for a Sample
 sample = Sample()
@@ -244,6 +241,7 @@ extractor = MasterdataExcelExtractor()
 
 # Load workbook
 import openpyxl
+
 workbook = openpyxl.load_workbook("masterdata.xlsx")
 
 # Extract entities
@@ -263,12 +261,14 @@ from bam_masterdata.cli.entities_to_excel import entities_to_excel
 from bam_masterdata.metadata.entities_dict import EntitiesDict
 
 # Prepare your entities data
-entities_dict = EntitiesDict({
-    "object_types": {"SAMPLE_001": sample.to_dict()},
-    "dataset_types": {},
-    "collection_types": {},
-    "vocabulary_types": {}
-})
+entities_dict = EntitiesDict(
+    {
+        "object_types": {"SAMPLE_001": sample.to_dict()},
+        "dataset_types": {},
+        "collection_types": {},
+        "vocabulary_types": {},
+    }
+)
 
 # Export to Excel
 entities_to_excel(entities_dict, "output.xlsx")
@@ -284,11 +284,7 @@ import json
 entity_json = sample.to_json()
 
 # Multiple entities to JSON
-entities_dict = {
-    "object_types": {
-        "SAMPLE_001": sample.to_dict()
-    }
-}
+entities_dict = {"object_types": {"SAMPLE_001": sample.to_dict()}}
 
 with open("entities.json", "w") as f:
     json.dump(entities_dict, f, indent=2)
@@ -321,7 +317,7 @@ from bam_masterdata.openbis.login import ologin
 openbis = ologin(
     url="https://your-openbis-instance.com",
     username="your_username",
-    password="your_password"
+    password="your_password",
 )
 
 print(f"✓ Connected to OpenBIS: {openbis.get_server_information()}")
@@ -389,7 +385,7 @@ generator = MasterdataCodeGenerator(
     objects=object_types,
     datasets=dataset_types,
     collections=collection_types,
-    vocabularies=vocabulary_types
+    vocabularies=vocabulary_types,
 )
 
 # Generate Python code for dataset types
@@ -409,6 +405,7 @@ print("✓ Generated dataset types code")
 ```python
 from bam_masterdata.checker.masterdata_validator import MasterdataValidator
 
+
 class CustomValidator(MasterdataValidator):
     def validate_custom_rules(self, entities_dict):
         """Add custom validation rules."""
@@ -420,9 +417,12 @@ class CustomValidator(MasterdataValidator):
                 required_props = ["material_type", "dimensions"]
                 for prop in required_props:
                     if prop not in obj_data.get("properties", {}):
-                        errors.append(f"Sample {obj_code} missing required property: {prop}")
+                        errors.append(
+                            f"Sample {obj_code} missing required property: {prop}"
+                        )
 
         return errors
+
 
 # Use custom validator
 validator = CustomValidator()
@@ -435,6 +435,7 @@ custom_errors = validator.validate_custom_rules(entities_dict)
 import multiprocessing
 from concurrent.futures import ProcessPoolExecutor
 
+
 def process_entity_batch(entities_batch):
     """Process a batch of entities."""
     results = []
@@ -444,10 +445,13 @@ def process_entity_batch(entities_batch):
         results.append(entity.to_dict())
     return results
 
+
 # Process entities in parallel
 entities_list = list(object_types.values())
 batch_size = 100
-batches = [entities_list[i:i+batch_size] for i in range(0, len(entities_list), batch_size)]
+batches = [
+    entities_list[i : i + batch_size] for i in range(0, len(entities_list), batch_size)
+]
 
 with ProcessPoolExecutor() as executor:
     results = list(executor.map(process_entity_batch, batches))
@@ -492,9 +496,11 @@ for chunk in pd.read_excel("large_file.xlsx", chunksize=chunk_size):
 # Use caching for repeated operations
 from functools import lru_cache
 
+
 @lru_cache(maxsize=128)
 def get_cached_entity(entity_code):
     return entity_registry.get(entity_code)
+
 
 # Batch operations instead of individual calls
 entities_to_create = []

@@ -1,5 +1,5 @@
-from bam_masterdata.datamodel.activities import ExperimentalStep
-from bam_masterdata.datamodel.instruments import Instrument
+from bam_masterdata.datamodel.v0.activities import ExperimentalStep
+from bam_masterdata.datamodel.v0.instruments import Instrument
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
 
 

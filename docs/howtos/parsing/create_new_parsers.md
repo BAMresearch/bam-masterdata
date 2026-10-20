@@ -126,7 +126,7 @@ For the purpose of this guide, we will rename everything using a ficticious code
 Open the `src/.../parser.py` file. After renaming your parser class to `SupercodeXParser`, you should have:
 
 ```python
-from bam_masterdata.datamodel.object_types import ExperimentalStep
+from bam_masterdata.datamodel.v0.object_types import ExperimentalStep
 from bam_masterdata.parsing import AbstractParser
 
 
@@ -172,7 +172,7 @@ At the top of `parser.py`, ensure you import:
 ```python
 # Step 1: import necessary classes
 import json
-from bam_masterdata.datamodel.object_types import SoftwareCode
+from bam_masterdata.datamodel.v0.object_types import SoftwareCode
 from bam_masterdata.parsing import AbstractParser
 ```
 
@@ -185,7 +185,7 @@ from bam_masterdata.parsing import AbstractParser
 ```python
 # Step 1: import necessary classes
 import json
-from bam_masterdata.datamodel.object_types import SoftwareCode
+from bam_masterdata.datamodel.v0.object_types import SoftwareCode
 from bam_masterdata.parsing import AbstractParser
 
 
@@ -207,7 +207,7 @@ class SupercodeXParser(AbstractParser):
 ```python
 # Step 1: import necessary classes
 import json
-from bam_masterdata.datamodel.object_types import SoftwareCode
+from bam_masterdata.datamodel.v0.object_types import SoftwareCode
 from bam_masterdata.parsing import AbstractParser
 
 
@@ -233,7 +233,7 @@ class SupercodeXParser(AbstractParser):
 ```python
 # Step 1: import necessary classes
 import json
-from bam_masterdata.datamodel.object_types import SoftwareCode
+from bam_masterdata.datamodel.v0.object_types import SoftwareCode
 from bam_masterdata.parsing import AbstractParser
 
 
@@ -327,7 +327,7 @@ To reference an existing object, set the `code` attribute on your object instanc
 ```python
 # Step 1
 import json
-from bam_masterdata.datamodel.object_types import SoftwareCode
+from bam_masterdata.datamodel.v0.object_types import SoftwareCode
 from bam_masterdata.parsing import AbstractParser
 
 
