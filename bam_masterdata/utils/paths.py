@@ -21,14 +21,14 @@ def find_dir(possible_locations: list[Path]) -> str:
     raise FileNotFoundError("Could not find a valid directory.")
 
 
-DIRECTORIES = {
+DIRECTORIES_V0 = {
     "datamodel": [
         # Case: Running from a project with `datamodel/`
-        Path.cwd() / "datamodel",
+        Path.cwd() / "datamodel" / "v0",
         # Case: Running inside bam-masterdata
-        Path.cwd() / "bam_masterdata" / "datamodel",
+        Path.cwd() / "bam_masterdata" / "datamodel" / "v0",
         # Case: Running inside installed package
-        Path(__file__).parent.parent / "datamodel",
+        Path(__file__).parent.parent / "datamodel" / "v0",
     ],
     "validation_rules_checker": [
         Path.cwd() / "bam_masterdata" / "checker" / "validation_rules",
@@ -37,7 +37,7 @@ DIRECTORIES = {
 }
 
 
-DATAMODEL_DIR = find_dir(possible_locations=DIRECTORIES["datamodel"])
+DATAMODEL_DIR = find_dir(possible_locations=DIRECTORIES_V0["datamodel"])
 VALIDATION_RULES_DIR = find_dir(
-    possible_locations=DIRECTORIES["validation_rules_checker"]
+    possible_locations=DIRECTORIES_V0["validation_rules_checker"]
 )
