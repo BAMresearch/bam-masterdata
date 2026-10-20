@@ -1991,11 +1991,11 @@ class Document(ObjectType):
     )
 
 
-class DataPackageFb82(ObjectType):
+class DataTransferPackage(ObjectType):
     defs = ObjectTypeDef(
-        code="DATA_PACKAGE.FB82",
-        description="Research data package (FB 8.2)//Forschungsdatenpaket (FB 8.2)",
-        generated_code_prefix="DP82",
+        code="DATA_TRANSFER_PACKAGE",
+        description="Data transfer package//Datentransferpaket",
+        generated_code_prefix="DTP",
     )
 
     name = PropertyTypeAssignment(
@@ -2050,6 +2050,15 @@ class DataPackageFb82(ObjectType):
         data_type="MULTILINE_VARCHAR",
         property_label="Description",
         description="Short description and/or purpose//Kurzbeschreibung und/oder Zweck",
+        mandatory=False,
+        section="Data Package Details",
+    )
+
+    notes = PropertyTypeAssignment(
+        code="NOTES",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Notes",
+        description="Notes",
         mandatory=False,
         section="Data Package Details",
     )

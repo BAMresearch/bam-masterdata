@@ -27524,14 +27524,14 @@ class DataPackageKind(VocabularyType):
 
     raw = VocabularyTerm(
         code="RAW",
-        label="Raw data",
-        description="Raw research data//Rohdaten",
+        label="Raw Data",
+        description="Raw data//Rohdaten",
     )
 
     processed = VocabularyTerm(
         code="PROCESSED",
-        label="Processed data",
-        description="Processed research data//Aufbereitete Forschungsdaten",
+        label="Processed Data",
+        description="Processed Data//Prozessierte Daten",
     )
 
 
