@@ -3301,6 +3301,16 @@ class DataTransfer(ObjectType):
         section="Transfer Details",
     )
 
+    input_data_package = PropertyTypeAssignment(
+        code="INPUT_DATA_PACKAGE",
+        data_type="OBJECT",
+        object_code="DATA_TRANSFER_PACKAGE",
+        property_label="Input data package",
+        description="Optional input package; reusable instructions may omit a concrete package//Optionales Eingabepaket; wiederverwendbare Anweisungen können ohne konkretes Paket angelegt werden",
+        mandatory=False,
+        section="Transfer Details",
+    )
+
 
 class Task(ObjectType):
     defs = ObjectTypeDef(
