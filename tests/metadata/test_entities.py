@@ -124,6 +124,71 @@ class TestBaseEntity:
 
 
 class TestObjectType:
+    @pytest.mark.parametrize("copy_assignment", [False, True])
+    def test_subtype_can_override_required_field_without_changing_parent(
+        self, copy_assignment
+    ):
+        parent = type(generate_object_type())
+        optional = (
+            parent.name.model_copy(update={"mandatory": False})
+            if copy_assignment
+            else PropertyTypeAssignment(
+                code="$NAME",
+                data_type="VARCHAR",
+                property_label="Name",
+                description="Name",
+                mandatory=False,
+                section="General information",
+            )
+        )
+
+        class OptionalName(parent):
+            name = optional
+
+        record = OptionalName()
+        assert not record.get_property_metadata()["name"].mandatory
+        assert CollectionType().add(record)
+        assert [p.code for p in record.properties].count("$NAME") == 1
+        assert not next(p for p in record.properties if p.code == "$NAME").mandatory
+        assert [p.code for p in record.properties].index("$NAME") == [
+            p.code for p in parent().properties
+        ].index("$NAME")
+        assert parent.name.mandatory
+        with pytest.raises(ValueError, match="name"):
+            CollectionType().add(parent())
+
+        class RequiredAgain(OptionalName):
+            name = optional.model_copy(update={"mandatory": True})
+
+        with pytest.raises(ValueError, match="name"):
+            CollectionType().add(RequiredAgain())
+        assert RequiredAgain().get_property_metadata()["name"].mandatory
+        assert CollectionType().add(RequiredAgain(name="Restored requirement"))
+        assert [p.code for p in RequiredAgain().properties].count("$NAME") == 1
+
+    @pytest.mark.parametrize("left_first", [False, True])
+    def test_override_follows_python_multiple_inheritance_order(self, left_first):
+        parent = type(generate_object_type())
+
+        class OptionalName(parent):
+            name = parent.name.model_copy(update={"mandatory": False})
+
+        class RequiredName(parent):
+            name = parent.name.model_copy(update={"mandatory": True})
+
+        bases = (
+            (OptionalName, RequiredName) if left_first else (RequiredName, OptionalName)
+        )
+        child = type("CombinedType", bases, {})
+        record = child()
+        prop = next(p for p in record.properties if p.code == "$NAME")
+        assert prop.mandatory is (not left_first)
+        assert record.get_property_metadata()["name"].mandatory == prop.mandatory
+        assert [p.code for p in record.properties].count("$NAME") == 1
+        assert [p.code for p in record.properties].index("$NAME") == [
+            p.code for p in parent().properties
+        ].index("$NAME")
+
     def test_model_validator_after_init(self):
         """Test the method `model_validator_after_init` from the class `ObjectType`."""
         object_type = generate_object_type()
@@ -801,6 +866,84 @@ class TestObjectTypeSync:
 
         openbis.new_property_type.assert_not_called()
         obj_type.assign_property.assert_called_once()
+
+    @patch("bam_masterdata.metadata.entities.OpenbisEntities")
+    def test_sync_uses_overridden_property_requirement(
+        self,
+        mocked_openbis_entities,
+        mock_openbis_sync,
+    ):
+        """Synchronize a child override without duplicating parent assignments."""
+        openbis, obj_type = mock_openbis_sync
+
+        parent = type(generate_object_type())
+
+        class RequiredAlias(parent):
+            alias = parent.alias.model_copy(update={"mandatory": True})
+
+        class OptionalAlias(RequiredAlias):
+            alias = RequiredAlias.alias.model_copy(update={"mandatory": False})
+
+        entity = OptionalAlias()
+
+        # Verify Python inheritance resolves to the child definition.
+        assert RequiredAlias.alias.mandatory is True
+        assert OptionalAlias.alias.mandatory is False
+        assert parent.alias.mandatory is False
+        assert [p.code for p in entity.properties].count("ALIAS") == 1
+
+        # Simulate an existing object type and its property assignments.
+        mocked_openbis_entities.return_value.get_object_dict.return_value = {
+            entity.defs.code: True
+        }
+
+        obj_type.description = entity.defs.openbis_description
+        obj_type.generatedCodePrefix = entity.defs.generated_code_prefix
+
+        assignment = MagicMock()
+        assignment.code = "ALIAS"
+        assignment.section = OptionalAlias.alias.section
+        assignment.mandatory = True  # Current openBIS state
+        assignment.showInEditView = OptionalAlias.alias.show_in_edit_views
+        assignment.ordinal = OptionalAlias.alias.ordinal
+
+        assignments = MagicMock()
+        assignments.df = {"code": [prop.code for prop in entity.properties]}
+        assignments.__iter__.return_value = iter([assignment])
+
+        obj_type.get_property_assignments.return_value = assignments
+
+        property_type = MagicMock()
+        property_type.dataType = "VARCHAR"
+        property_type.label = OptionalAlias.alias.openbis_property_label
+        property_type.description = OptionalAlias.alias.openbis_description
+        openbis.get_property_type.return_value = property_type
+
+        # Run the actual synchronization.
+        result = entity.to_openbis_sync(openbis=openbis)
+
+        # The child override must be sent to openBIS exactly once.
+        obj_type.assign_property.assert_called_once_with(
+            prop="ALIAS",
+            section=OptionalAlias.alias.section,
+            mandatory=False,
+            showInEditView=OptionalAlias.alias.show_in_edit_views,
+            ordinal=OptionalAlias.alias.ordinal,
+        )
+
+        # The synchronization result must report the requirement change.
+        assert any(
+            change.action == SyncAction.MODIFIED
+            and change.target == SyncTarget.PROPERTY_ASSIGNMENT
+            and change.code == "ALIAS"
+            and change.field == "mandatory"
+            and change.old_value is True
+            and change.new_value is False
+            for change in result.changes
+        )
+
+        # No new property type should be created.
+        openbis.new_property_type.assert_not_called()
 
 
 class TestVocabularyTypeSync:
