@@ -98,8 +98,10 @@
         project.setCreationId(new sdk.CreationId(plan.project.creationKey));
         project.setCode(plan.project.code);
         project.setSpaceId(new sdk.SpacePermId(plan.project.spaceCode));
-        // openBIS/ELN uses the project description as the displayed project title.
-        project.setDescription(plan.project.title);
+        // Projects have no title field; the ELN shows the description's first line
+        // as the title, so the description follows after a blank line.
+        project.setDescription(plan.project.description ?
+          plan.project.title + "\n\n" + plan.project.description : plan.project.title);
 
         var collectionCreations = plan.collections.map(function (item) {
           var creation = new sdk.ExperimentCreation();

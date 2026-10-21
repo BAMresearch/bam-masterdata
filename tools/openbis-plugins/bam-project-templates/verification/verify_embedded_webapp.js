@@ -202,7 +202,7 @@ async function run() {
   const project = execution.operations[0].creations[0];
   const collection = execution.operations[1].creations[0];
   const measurement = execution.operations[2].creations[1];
-  assert.equal(project.description, "Sicheres Projekt");
+  assert.equal(project.description, "Sicheres Projekt\n\nFachlicher Kontext");
   assert.equal(project.creationId.value, "project");
   assert.equal(collection.projectId.value, "project");
   assert.equal(measurement.projectId.value, "project");
@@ -218,6 +218,10 @@ async function run() {
   await manualAdapter.createProject(emptyPlan);
   assert.equal(manualCalls[0].operations.length, 1);
   assert.ok(manualCalls[0].operations[0] instanceof sdk.CreateProjectsOperation);
+  assert.equal(
+    manualCalls[0].operations[0].creations[0].description,
+    emptyPlan.project.title
+  );
 
   await assert.rejects(
     adapterModule.create({

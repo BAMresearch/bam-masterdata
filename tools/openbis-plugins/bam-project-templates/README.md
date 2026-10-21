@@ -12,12 +12,16 @@ deployed anywhere.
 The user picks a space, project code, title, description and a template. The
 webapp then creates, in a single transaction:
 
-- the project (description stored on the native project),
+- the project (title and description go into the native project description),
 - the template's collections (FB 8.2: `MEASUREMENTS`),
 - the template's objects (FB 8.2: a `DOCUMENT` for the project documentation
   and an initial `MEASUREMENT`).
 
 If any part fails, nothing is created.
+
+| 1. Fill in and preview | 2. Created | 3. Result in the ELN |
+| --- | --- | --- |
+| ![Form with template preview](docs/1-form.png) | ![Success message](docs/2-created.png) | ![New project in the ELN tree](docs/3-eln-structure.png) |
 
 ## Security model
 
