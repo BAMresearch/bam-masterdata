@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+  <title>Projekt aus Template · openBIS</title>
+  <link rel="stylesheet" href="./styles.css?v=2">
+  <script defer src="/openbis/resources/api/v3/openbis.var.js"></script>
+  <script defer src="./js/template-catalog.js?v=2"></script>
+  <script defer src="./js/openbis-adapter.js?v=1"></script>
+  <script defer src="./js/app.js?v=1"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Zum Inhalt springen</a>
+
+  <header class="topbar">
+    <div class="brand">
+      <strong>openBIS</strong>
+      <span class="brand-separator" aria-hidden="true"></span>
+      <span>Projekt-Templates</span>
+    </div>
+    <span class="security-chip">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M20 6 9 17l-5-5"></path>
+      </svg>
+      Aktueller Benutzerkontext
+    </span>
+  </header>
+
+  <main id="main" class="page">
+    <section class="intro" aria-labelledby="page-title">
+      <h1 id="page-title">Projekt anlegen</h1>
+      <p>Erstellen Sie ein leeres Projekt oder übernehmen Sie eine freigegebene Struktur.</p>
+    </section>
+
+    <section id="loading-state" class="state-card" aria-live="polite">
+      <span class="spinner" aria-hidden="true"></span>
+      <div>
+        <strong>openBIS wird verbunden</strong>
+        <p>Benutzersitzung, Spaces und Template-Katalog werden geprüft.</p>
+      </div>
+    </section>
+
+    <section id="error-state" class="state-card state-error" role="alert" hidden>
+      <span class="state-icon" aria-hidden="true">!</span>
+      <div>
+        <strong>Die Anwendung konnte nicht gestartet werden</strong>
+        <p id="startup-error"></p>
+      </div>
+    </section>
+
+    <div id="workspace" class="workspace" hidden>
+      <form id="project-form" class="panel form-panel" novalidate>
+        <div class="panel-head">
+          <div>
+            <h2>Projektdaten</h2>
+            <p>Pflichtfelder sind mit einem Sternchen gekennzeichnet.</p>
+          </div>
+          <span id="form-status" class="form-status" aria-live="polite"></span>
+        </div>
+
+        <div class="panel-body form-grid">
+          <div class="field">
+            <label for="space-code">Space <span aria-hidden="true">*</span></label>
+            <select id="space-code" name="spaceCode" required></select>
+            <p class="hint">Es werden nur Spaces angezeigt, die für Sie sichtbar sind.</p>
+          </div>
+
+          <div class="field">
+            <label for="project-code">Projektcode <span aria-hidden="true">*</span></label>
+            <input id="project-code" name="projectCode" required maxlength="128"
+                   autocomplete="off" autocapitalize="characters" spellcheck="false"
+                   placeholder="z. B. BAM_2026_001">
+            <p class="hint">Großbuchstaben, Zahlen, Punkt, Unterstrich und Bindestrich.</p>
+          </div>
+
+          <div class="field field-wide">
+            <label for="project-title">Projekttitel <span aria-hidden="true">*</span></label>
+            <input id="project-title" name="projectTitle" required maxlength="255"
+                   autocomplete="off" placeholder="Kurzer, verständlicher Titel">
+          </div>
+
+          <div class="field field-wide">
+            <label for="template-code">Projekt-Template</label>
+            <select id="template-code" name="templateCode">
+              <option value="">Kein Template – Projekt manuell aufbauen</option>
+            </select>
+            <p id="template-description" class="hint template-hint"></p>
+          </div>
+
+          <div class="field field-wide">
+            <label for="project-description">Projektbeschreibung</label>
+            <textarea id="project-description" name="projectDescription" rows="5"
+                      maxlength="10000" placeholder="Optionaler fachlicher Kontext"></textarea>
+            <div class="field-meta">
+              <p class="hint">Wird im Project-Description-Object vorbelegt, sofern ein Template gewählt ist.</p>
+              <span id="description-count">0 / 10000</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="submit-error" class="inline-error" role="alert" hidden></div>
+
+        <div class="panel-foot">
+          <p class="transaction-note">
+            Projekt und Template-Struktur werden in einer Transaktion erstellt.
+          </p>
+          <button id="create-button" class="primary-button" type="submit">
+            <span class="button-spinner" aria-hidden="true"></span>
+            <span class="button-label">Projekt anlegen</span>
+            <svg class="button-arrow" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6"></path>
+            </svg>
+          </button>
+        </div>
+      </form>
+
+      <aside class="side-stack">
+        <section class="panel preview-panel" aria-labelledby="preview-title">
+          <div class="panel-head">
+            <div>
+              <h2 id="preview-title">Vorschau</h2>
+              <p>Wird gemeinsam mit dem Projekt angelegt.</p>
+            </div>
+            <span id="template-version" class="version-chip" hidden></span>
+          </div>
+          <div id="preview-content" class="panel-body"></div>
+        </section>
+
+        <section class="assurance" aria-labelledby="assurance-title">
+          <svg class="assurance-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 3 5 6v5c0 4.6 2.9 8.4 7 10 4.1-1.6 7-5.4 7-10V6l-7-3Z"></path>
+            <path d="m9 12 2 2 4-4"></path>
+          </svg>
+          <div>
+            <h2 id="assurance-title">Sicherer Ausführungspfad</h2>
+            <p>Template-Inhalte werden validiert und ausschließlich als Daten an freigegebene
+              Create-Operationen der openBIS-V3-API übergeben.</p>
+          </div>
+        </section>
+      </aside>
+    </div>
+
+    <section id="success-state" class="panel success-panel" aria-live="polite"
+             tabindex="-1" hidden>
+      <div class="success-icon" aria-hidden="true">✓</div>
+      <p class="success-kicker">Erfolgreich angelegt</p>
+      <h2 id="success-title">Das Projekt ist bereit.</h2>
+      <p id="success-summary"></p>
+      <code id="success-identifier"></code>
+      <button id="create-another-button" class="secondary-button" type="button">
+        Weiteres Projekt anlegen
+      </button>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>openBIS V3 · Ausführung mit den Rechten des angemeldeten Benutzers</span>
+    <span>Keine serverseitige Skriptausführung</span>
+  </footer>
+</body>
+</html>

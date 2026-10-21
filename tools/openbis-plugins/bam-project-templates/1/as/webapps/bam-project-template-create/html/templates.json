@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "defaultTemplate": null,
+  "templates": [
+    {
+      "code": "FB82_STANDARD",
+      "label": "FB 8.2 – Standardprojekt",
+      "description": "FB-8.2-Startstruktur: Projektbeschreibung am Projekt, Projektdokumentation als DOCUMENT und eine Measurements Collection mit initialem Measurement-Objekt.",
+      "discipline": "FB 8.2",
+      "version": "2.0",
+      "status": "released",
+      "collections": [
+        {
+          "code": "MEASUREMENTS",
+          "type": "COLLECTION",
+          "properties": {
+            "$NAME": "Measurements",
+            "$DEFAULT_OBJECT_TYPE": "MEASUREMENT"
+          }
+        }
+      ],
+      "objects": [
+        {
+          "code": "DOC_PROJECT",
+          "type": "DOCUMENT",
+          "properties": {
+            "$NAME": "{{PROJECT_TITLE}} | Project Documentation",
+            "DOCUMENT_TYPE": "TECHNICAL_DOCUMENT",
+            "NOTES": "Project documentation for {{PROJECT_CODE}}. Attach documents and files here."
+          }
+        },
+        {
+          "code": "MSR_001",
+          "type": "MEASUREMENT",
+          "collection": "MEASUREMENTS",
+          "properties": {
+            "$NAME": "{{PROJECT_TITLE}} – Standard Measurement",
+            "DESCRIPTION": "Initial standard measurement for {{PROJECT_CODE}}"
+          }
+        }
+      ]
+    }
+  ]
+}
