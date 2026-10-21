@@ -4,12 +4,11 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 
-const pluginRoot = path.resolve(__dirname, "../1/as/webapps/bam-project-template-create");
-const htmlRoot = path.join(pluginRoot, "html");
-const catalogModule = require(path.join(htmlRoot, "js/template-catalog.js"));
-const adapterModule = require(path.join(htmlRoot, "js/openbis-adapter.js"));
+const pluginRoot = process.env.ELN_PLUGIN_DIR || path.resolve(__dirname, "../eln-plugin");
+const catalogModule = require(path.join(pluginRoot, "template-catalog.js"));
+const adapterModule = require(path.join(pluginRoot, "openbis-adapter.js"));
 const catalogDocument = JSON.parse(
-  fs.readFileSync(path.join(htmlRoot, "templates.json"), "utf8")
+  fs.readFileSync(path.join(pluginRoot, "templates.json"), "utf8")
 );
 
 function expectCatalogFailure(document, pattern) {
@@ -231,15 +230,17 @@ async function run() {
     /Projekt konnte nicht angelegt werden: denied/
   );
 
-  const html = fs.readFileSync(path.join(htmlRoot, "index.html"), "utf8");
-  const appSource = fs.readFileSync(path.join(htmlRoot, "js/app.js"), "utf8");
-  const catalogSource = fs.readFileSync(
-    path.join(htmlRoot, "js/template-catalog.js"), "utf8"
-  );
-  const adapterSource = fs.readFileSync(
-    path.join(htmlRoot, "js/openbis-adapter.js"), "utf8"
-  );
-  const productionSource = [html, appSource, catalogSource, adapterSource].join("\n");
+  // The ELN host formats the native description itself (rich text).
+  const formatted = [];
+  await adapterModule.create({
+    async searchSpaces() { return new SearchResult([]); },
+    async executeOperations(operations) { formatted.push(operations[0].creations[0].description); }
+  }, sdk, { projectDescription: (project) => "<p>" + project.title + "</p>" }).createProject(plan);
+  assert.equal(formatted[0], "<p>Sicheres Projekt</p>");
+
+  const read = (name) => fs.readFileSync(path.join(pluginRoot, name), "utf8");
+  const pluginSource = read("plugin.js");
+  const productionSource = [pluginSource, read("template-catalog.js"), read("openbis-adapter.js")].join("\n");
   [
     /\beval\s*\(/,
     /new\s+Function\s*\(/,
@@ -248,19 +249,18 @@ async function run() {
     /localStorage/,
     /sessionStorage/,
     /Create.*Delete|Delete.*Operation/,
-    /executeCustomASService/
+    /executeCustomASService|customASService/
   ].forEach((pattern) => {
     assert.doesNotMatch(productionSource, pattern);
   });
-  assert.match(html, /Content-Security-Policy/);
-  assert.match(html, /openbis\.var\.js/);
-  assert.doesNotMatch(html, /config\.bundle\.js|require\.js/);
+  // Uses only the documented ELN plugin API; the title is escaped and the
+  // description sanitized before they become rich text.
+  assert.match(pluginSource, /afterViewPaint/);
+  assert.match(pluginSource, /ELNLIMSPlugin\.prototype/);
+  assert.match(pluginSource, /escapeHtml\(project\.title\)/);
+  assert.match(pluginSource, /DOMPurify\.sanitize\(project\.description\)/);
 
-  const properties = fs.readFileSync(path.join(pluginRoot, "plugin.properties"), "utf8");
-  assert.match(properties, /^webapp-folder = html$/m);
-  assert.doesNotMatch(properties, /Jython|script-path|class\s*=/);
-
-  console.log("EMBEDDED WEBAPP VERIFICATION OK");
+  console.log("ELN PLUGIN VERIFICATION OK");
 }
 
 run().catch((error) => {

@@ -1,76 +1,77 @@
-# Project template webapp (proposal)
+# Project templates for the ELN (proposal)
 
-An openBIS webapp that creates a new project together with an agreed starting
-structure in one step. It was built for FB 8.2, but the template catalog is
-generic, so other departments could add their own templates.
+An ELN plugin that adds a template choice to the normal **New Project** form.
+With a template selected, saving creates the project together with an agreed
+starting structure in one step. Without a template the ELN saves as usual.
+
+Built for FB 8.2; the template catalog is generic, so other departments could
+add their own templates.
 
 **Status:** proposal, tested only on a local openBIS 20.10.12 instance. Not
 deployed anywhere.
 
-## What it does
-
-The user picks a space, project code, title, description and a template. The
-webapp then creates, in a single transaction:
-
-- the project (title and description go into the native project description),
-- the template's collections (FB 8.2: `MEASUREMENTS`),
-- the template's objects (FB 8.2: a `DOCUMENT` for the project documentation
-  and an initial `MEASUREMENT`).
-
-If any part fails, nothing is created.
-
-| 1. Fill in and preview | 2. Created | 3. Result in the ELN |
+| 1. New Project form | 2. Created project | 3. Created structure |
 | --- | --- | --- |
-| ![Form with template preview](docs/1-form.png) | ![Success message](docs/2-created.png) | ![New project in the ELN tree](docs/3-eln-structure.png) |
+| ![Template choice in the New Project form](docs/1-form.png) | ![Project page after saving](docs/2-project.png) | ![Collection and objects in the ELN tree](docs/3-structure.png) |
+
+## What it creates (FB 8.2 template)
+
+- the project; title and description go into the native project description,
+- a `DOCUMENT` for the project documentation,
+- a `MEASUREMENTS` collection with an initial `MEASUREMENT`.
+
+Everything is created in one `executeOperations()` call, so nothing is left
+behind if a step fails.
 
 ## Security model
 
-- **Client-side only.** The plugin registers a static webapp folder
-  (`webapp-folder = html`). There is no custom AS service, no Jython and no
-  server-side code.
-- **User's own session.** It uses the embedded webapp context and the logged-in
-  user's session. openBIS checks every operation; the webapp cannot do anything
-  the user could not already do through the V3 API.
+- **ELN plugin only.** It uses the documented `ELNLIMSPlugin` API
+  (`afterViewPaint` for the project form). No ELN files are changed, and there
+  is no custom AS service, Jython or other server-side code.
+- **User's own session.** It uses the ELN's V3 API client with the logged-in
+  user's session. openBIS checks every operation, so the plugin cannot do
+  anything the user could not already do.
 - **Create operations only.** The adapter builds only `CreateProjectsOperation`,
-  `CreateExperimentsOperation` and `CreateSamplesOperation` and sends them in one
-  synchronous `executeOperations()` call.
+  `CreateExperimentsOperation` and `CreateSamplesOperation`.
 - **Templates are data, not commands.** `templates.json` is validated against an
-  allowlist of types, property codes and placeholders defined in
-  `template-catalog.js`. Extending what templates may create requires a reviewed
-  code change, not just a JSON edit. Values are inserted as text only.
-- **No dependencies.** No npm/CDN packages; the page uses the instance's own
-  `openbis.var.js` and a strict Content Security Policy.
+  allowlist of types, property codes and placeholders in `template-catalog.js`.
+  A JSON change alone cannot add types or operations. A template code changed in
+  the browser is rejected.
+- **Text stays text.** The title is HTML-escaped and the description sanitized
+  with the ELN's DOMPurify before they are stored as rich text.
 
-Remaining risks: a malicious change to the deployed JavaScript could misuse the
+Remaining risk: a malicious change to the deployed JavaScript could misuse the
 user's session, so installation and updates need review and controlled write
-access to `servers/core-plugins`. openBIS 20.10 passes the session ID in the
-initial query string; the app removes it from the browser history, but proxy
-logs should not keep query strings.
+access to the ELN plugin folder.
 
 ## Files
 
 | File | Purpose |
 | --- | --- |
-| `plugin.properties` | registers the static webapp folder |
-| `html/templates.json` | released templates |
-| `html/js/template-catalog.js` | validation, allowlist, placeholders, creation plan |
-| `html/js/openbis-adapter.js` | the only openBIS V3 integration point |
-| `html/js/app.js` | form and user feedback |
-| `verification/verify_embedded_webapp.js` | offline tests (injection payloads, allowlist, single transaction) |
+| `eln-plugin/plugin.js` | form integration and save handling |
+| `eln-plugin/template-catalog.js` | validation, allowlist, placeholders, creation plan |
+| `eln-plugin/openbis-adapter.js` | the only openBIS V3 integration point |
+| `eln-plugin/templates.json` | released templates |
+| `verification/verify_eln_plugin.js` | offline tests (injection payloads, allowlist, single transaction, static checks) |
 
 ## Installation
 
-1. Copy `bam-project-templates` to `servers/core-plugins/`.
-2. Add `bam-project-templates` to `enabled-modules` in `core-plugins.properties`.
-3. Restart the application server.
-4. Open it from the openBIS modules menu ("Projekt aus Template").
+1. Copy `eln-plugin/` to
+   `servers/core-plugins/eln-lims/1/as/webapps/eln-lims/html/plugins/bam-project-templates/`.
+2. Add `"bam-project-templates"` to `PLUGINS_CONFIGURATION.extraPlugins` in the
+   ELN's `etc/config.js`.
+3. Reload the ELN.
 
 ## Tests
 
 ```bash
-node tools/openbis-plugins/bam-project-templates/verification/verify_embedded_webapp.js
+node tools/openbis-plugins/bam-project-templates/verification/verify_eln_plugin.js
 ```
 
-A live test (create, read back, forced rollback, cleanup) was run against a
-local openBIS 20.10.12 Docker instance; it is not included because it depends
-on that local setup.
+Also checked by hand against a local openBIS 20.10.12 instance: creation with
+and without a template, a template code changed in the browser, HTML in the
+title, and a duplicate project code (error shown, existing project unchanged).
+
+ELN 20.10 sometimes leaves the New Project form empty, because it shows the
+form sections from an async callback that can run too early. The plugin shows
+those sections itself.

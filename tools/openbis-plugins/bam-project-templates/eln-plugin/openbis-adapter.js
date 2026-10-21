@@ -63,7 +63,17 @@
     return String(error);
   }
 
-  function create(client, sdk) {
+  function defaultProjectDescription(project) {
+    return project.description ?
+      project.title + "\n\n" + project.description : project.title;
+  }
+
+  // options.projectDescription(project) lets a host format the native project
+  // description, e.g. the ELN, which stores it as rich text.
+  function create(client, sdk, options) {
+    var projectDescription = options && options.projectDescription ||
+      defaultProjectDescription;
+    requireFunction(projectDescription, "projectDescription");
     if (!client || typeof client.searchSpaces !== "function" ||
         typeof client.executeOperations !== "function") {
       throw new AdapterError("INCOMPATIBLE_CLIENT", "Ungültiger openBIS-V3-Client.");
@@ -98,10 +108,8 @@
         project.setCreationId(new sdk.CreationId(plan.project.creationKey));
         project.setCode(plan.project.code);
         project.setSpaceId(new sdk.SpacePermId(plan.project.spaceCode));
-        // Projects have no title field; the ELN shows the description's first line
-        // as the title, so the description follows after a blank line.
-        project.setDescription(plan.project.description ?
-          plan.project.title + "\n\n" + plan.project.description : plan.project.title);
+        // Projects have no title field, so the title leads the description.
+        project.setDescription(projectDescription(plan.project));
 
         var collectionCreations = plan.collections.map(function (item) {
           var creation = new sdk.ExperimentCreation();
