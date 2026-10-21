@@ -31559,9 +31559,9 @@ class TestFileType(VocabularyType):
     )
 
 
-class TestMethod(VocabularyType):
+class TestMethodKind(VocabularyType):
     defs = VocabularyTypeDef(
-        code="TEST_METHOD",
+        code="TEST_METHOD_KIND",
         description="Test Method//Prüfverfahren",
     )
 

@@ -117,7 +117,7 @@ class TestMethod(ObjectType):
     test_method_kind = PropertyTypeAssignment(
         code="TEST_METHOD_KIND",
         data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="TEST_METHOD",
+        vocabulary_code="TEST_METHOD_KIND",
         property_label="Test Method",
         description="Test method classification, e.g. radar//Prüfverfahren-Klasse, z. B. Radar",
         mandatory=True,
