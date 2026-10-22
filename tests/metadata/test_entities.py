@@ -846,6 +846,35 @@ class TestObjectTypeSync:
             for change in result.changes
         )
 
+    @pytest.mark.parametrize("object_code", ["DATA_TRANSFER_PACKAGE", "(ALL)"])
+    def test_create_object_property_preserves_target_type(self, object_code):
+        entity = generate_object_type()
+        prop = PropertyTypeAssignment(
+            code="INPUT_DATA_PACKAGE",
+            data_type="OBJECT",
+            object_code=object_code,
+            property_label="Input data package",
+            description="Optional input package",
+            mandatory=False,
+            section="Transfer Details",
+        )
+        openbis = MagicMock()
+        openbis.get_property_type.side_effect = ValueError
+
+        entity._create_property_assignment(
+            prop=prop,
+            obj_type=MagicMock(),
+            openbis=openbis,
+            result=SyncResult(),
+        )
+
+        kwargs = openbis.new_property_type.call_args.kwargs
+        assert kwargs["dataType"] == "SAMPLE"
+        if object_code == "(ALL)":
+            assert "sampleType" not in kwargs
+        else:
+            assert kwargs["sampleType"] == object_code
+
     def test_create_property_assignment_reuses_existing_property_type(self):
         entity = generate_object_type()
 
