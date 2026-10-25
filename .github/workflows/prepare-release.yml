@@ -2,7 +2,11 @@ name: Prepare release
 
 on:
   pull_request_target:
-    types: [opened, reopened, synchronize, edited]
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - edited
     branches:
       - main
 
@@ -10,6 +14,10 @@ permissions:
   contents: read
   pull-requests: write
   issues: write
+
+concurrency:
+  group: prepare-release-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
 
 jobs:
   prepare-release:
@@ -26,10 +34,17 @@ jobs:
           ref: dev
           persist-credentials: false
 
-      - name: Aggregate release labels
+      - name: Generate release notes and update PR
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           DRY_RUN: "false"
         run: python3 .github/scripts/prepare_release.py
+
+      - name: Upload generated release notes
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-notes
+          path: release-notes.md
+          if-no-files-found: error

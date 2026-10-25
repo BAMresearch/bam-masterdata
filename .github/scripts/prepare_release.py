@@ -15,6 +15,10 @@ SEMVER_ORDER = ("none", "patch", "minor", "major")
 VERSION_PATTERN = re.compile(r"^v?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$")
 
 
+RELEASE_COMMENT_MARKER = "<!-- bam-masterdata-release-notes -->"
+RELEASE_NOTES_PATH = Path(os.environ.get("RELEASE_NOTES_PATH", "release-notes.md"))
+
+
 def parse_version(tag):
     """Parse a stable SemVer tag into major, minor and patch."""
     match = VERSION_PATTERN.fullmatch(tag)
@@ -62,9 +66,6 @@ def suggest_next_version(current_version, impact):
         patch = 0
 
     return f"{major}.{minor}.{patch}"
-
-
-RELEASE_NOTES_PATH = Path(os.environ.get("RELEASE_NOTES_PATH", "release-notes.md"))
 
 
 def gh(*args):
@@ -413,6 +414,90 @@ def write_release_notes(
     print(f"\nRelease notes written to: {RELEASE_NOTES_PATH}")
 
 
+def render_release_comment(notes):
+    """Wrap generated release notes in a recognizable PR comment."""
+    return (
+        f"{RELEASE_COMMENT_MARKER}\n\n"
+        "## Automated Release Preparation\n\n"
+        "The following release notes and version suggestion were "
+        "generated from development PRs included in this release.\n\n"
+        "Review them before merging and publishing.\n\n"
+        "---\n\n"
+        f"{notes.rstrip()}\n\n"
+        "---\n\n"
+        "**Publication:** Release creation and PyPI publication "
+        "remain subject to maintainer approval. "
+        "These notes are not published automatically.\n"
+    )
+
+
+def upsert_release_comment(pr_number, notes):
+    """Create or update the generated release notes comment."""
+    body = render_release_comment(notes)
+
+    endpoint = f"repos/{REPO}/issues/{pr_number}/comments"
+    page = 1
+    existing_comment = None
+
+    # Find an existing comment created by this automation.
+    while True:
+        comments = gh(f"{endpoint}?per_page=100&page={page}")
+
+        for comment in comments:
+            if comment.get("user", {}).get(
+                "type"
+            ) == "Bot" and RELEASE_COMMENT_MARKER in comment.get("body", ""):
+                existing_comment = comment
+                break
+
+        if existing_comment or len(comments) < 100:
+            break
+
+        page += 1
+
+    if existing_comment:
+        if existing_comment["body"] == body:
+            print("\nRelease notes comment is already up to date.")
+            return
+
+        subprocess.run(
+            [
+                "gh",
+                "api",
+                "--method",
+                "PATCH",
+                f"repos/{REPO}/issues/comments/{existing_comment['id']}",
+                "--input",
+                "-",
+            ],
+            input=json.dumps({"body": body}),
+            text=True,
+            check=True,
+            capture_output=True,
+        )
+
+        print(f"\nUpdated release notes comment #{existing_comment['id']}.")
+
+    else:
+        subprocess.run(
+            [
+                "gh",
+                "api",
+                "--method",
+                "POST",
+                endpoint,
+                "--input",
+                "-",
+            ],
+            input=json.dumps({"body": body}),
+            text=True,
+            check=True,
+            capture_output=True,
+        )
+
+        print("\nCreated release notes comment.")
+
+
 def main():
     release_pr = get_release_pr()
     prs, unmatched = get_development_prs()
@@ -453,10 +538,13 @@ def main():
         return
 
     if DRY_RUN:
-        print("\nDRY RUN: no GitHub labels modified.")
+        print("\nDRY RUN: no GitHub labels or PR comments modified.")
         return
 
     apply_labels(release_pr, labels)
+
+    notes = RELEASE_NOTES_PATH.read_text(encoding="utf-8")
+    upsert_release_comment(release_pr["number"], notes)
 
 
 if __name__ == "__main__":

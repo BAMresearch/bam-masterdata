@@ -1,6 +1,7 @@
 """Tests for release label aggregation."""
 
 import importlib.util
+import json
 from pathlib import Path
 
 import pytest
@@ -292,3 +293,156 @@ def test_release_notes_include_version_suggestion():
     assert "**Current release:** `v0.15.0`" in notes
     assert "**Suggested release:** `v0.16.0`" in notes
     assert "**Suggested SemVer impact:** `minor`" in notes
+
+
+def test_render_release_comment():
+    notes = (
+        "# Release Notes\n\n"
+        "**Suggested release:** `v0.16.0`\n\n"
+        "## Features\n\n"
+        "- [#382](https://github.com/BAMresearch/bam-masterdata/pull/382)"
+    )
+
+    comment = module.render_release_comment(notes)
+
+    assert module.RELEASE_COMMENT_MARKER in comment
+    assert "## Automated Release Preparation" in comment
+    assert "**Suggested release:** `v0.16.0`" in comment
+    assert "## Features" in comment
+    assert "maintainer approval" in comment
+
+
+def test_release_comment_unchanged(monkeypatch, capsys):
+    notes = "# Release Notes\n"
+    body = module.render_release_comment(notes)
+
+    def fake_gh(*args):
+        return [
+            {
+                "id": 123,
+                "body": body,
+                "user": {"type": "Bot"},
+            }
+        ]
+
+    monkeypatch.setattr(module, "gh", fake_gh)
+
+    def fail_if_called(*args, **kwargs):
+        pytest.fail("No API write should occur")
+
+    monkeypatch.setattr(
+        module.subprocess,
+        "run",
+        fail_if_called,
+    )
+
+    module.upsert_release_comment(421, notes)
+
+    assert "already up to date" in capsys.readouterr().out
+
+
+def test_release_comment_created(monkeypatch):
+    notes = "# Release Notes\n"
+
+    monkeypatch.setattr(
+        module,
+        "gh",
+        lambda *args: [],
+    )
+
+    calls = []
+
+    def fake_run(command, **kwargs):
+        calls.append((command, kwargs))
+
+    monkeypatch.setattr(
+        module.subprocess,
+        "run",
+        fake_run,
+    )
+
+    module.upsert_release_comment(421, notes)
+
+    assert len(calls) == 1
+
+    command, kwargs = calls[0]
+
+    assert "POST" in command
+    assert "repos/BAMresearch/bam-masterdata/issues/421/comments" in command
+
+    payload = json.loads(kwargs["input"])
+
+    assert module.RELEASE_COMMENT_MARKER in payload["body"]
+    assert "# Release Notes" in payload["body"]
+
+
+def test_release_comment_updated(monkeypatch):
+    notes = "# Updated Release Notes\n"
+
+    monkeypatch.setattr(
+        module,
+        "gh",
+        lambda *args: [
+            {
+                "id": 456,
+                "body": (module.RELEASE_COMMENT_MARKER + "\nOld notes"),
+                "user": {"type": "Bot"},
+            }
+        ],
+    )
+
+    calls = []
+
+    def fake_run(command, **kwargs):
+        calls.append((command, kwargs))
+
+    monkeypatch.setattr(
+        module.subprocess,
+        "run",
+        fake_run,
+    )
+
+    module.upsert_release_comment(421, notes)
+
+    assert len(calls) == 1
+
+    command, kwargs = calls[0]
+
+    assert "PATCH" in command
+    assert "repos/BAMresearch/bam-masterdata/issues/comments/456" in command
+
+    payload = json.loads(kwargs["input"])
+
+    assert "# Updated Release Notes" in payload["body"]
+
+
+def test_release_comment_ignores_human_comments(monkeypatch):
+    notes = "# Release Notes\n"
+
+    monkeypatch.setattr(
+        module,
+        "gh",
+        lambda *args: [
+            {
+                "id": 789,
+                "body": module.RELEASE_COMMENT_MARKER,
+                "user": {"type": "User"},
+            }
+        ],
+    )
+
+    calls = []
+
+    def fake_run(command, **kwargs):
+        calls.append(command)
+
+    monkeypatch.setattr(
+        module.subprocess,
+        "run",
+        fake_run,
+    )
+
+    module.upsert_release_comment(421, notes)
+
+    assert len(calls) == 1
+    assert "POST" in calls[0]
