@@ -184,7 +184,7 @@ def test_release_notes_group_prs_and_preserve_links():
 
 
 def test_release_notes_include_unmatched_commits():
-    sha = "1dd09bbb990c1234567890123456789012345678"
+    sha = "1dd09bbb990c1234567890123456789012345678"  # pragma: allowlist secret
 
     notes = module.render_release_notes(
         [make_pr(100, ["type:documentation", "semver:none"])],
