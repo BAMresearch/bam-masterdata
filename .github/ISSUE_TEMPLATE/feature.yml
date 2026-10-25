@@ -1,0 +1,29 @@
+name: Feature or enhancement
+description: Suggest new functionality or improvements
+title: ""
+labels: ["type:feature"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem should we solve?
+      description: Explain the motivation or use case.
+      placeholder: Describe what is missing or could be improved.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe your idea, if you have one.
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        **Labels:** If you have permission, add the relevant
+        `area:*` and `priority:*` labels after creating the issue.
+        Maintainers may change `type:feature` to `type:enhancement`
+        when appropriate.

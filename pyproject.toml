@@ -132,3 +132,8 @@ namespaces = false
 
 [tool.setuptools_scm]
 write_to = "bam_masterdata/_version.py"
+
+[dependency-groups]
+dev = [
+    "pyyaml>=6.0.3",
+]
