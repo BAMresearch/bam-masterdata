@@ -14,9 +14,13 @@ SEMVER_ORDER = ("none", "patch", "minor", "major")
 
 VERSION_PATTERN = re.compile(r"^v?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$")
 
+RELEASE_NOTES_PATH = Path(os.environ.get("RELEASE_NOTES_PATH", "release-notes.md"))
 
 RELEASE_COMMENT_MARKER = "<!-- bam-masterdata-release-notes -->"
-RELEASE_NOTES_PATH = Path(os.environ.get("RELEASE_NOTES_PATH", "release-notes.md"))
+GENERATED_START = "<!-- release-notes:start -->"
+GENERATED_END = "<!-- release-notes:end -->"
+
+MAINTAINER_SECTION = "\n## Maintainer notes\n\nAdd any release-specific notes here.\n"
 
 
 def parse_version(tag):
@@ -414,32 +418,71 @@ def write_release_notes(
     print(f"\nRelease notes written to: {RELEASE_NOTES_PATH}")
 
 
-def render_release_comment(notes):
-    """Wrap generated release notes in a recognizable PR comment."""
-    return (
-        f"{RELEASE_COMMENT_MARKER}\n\n"
-        "## Automated Release Preparation\n\n"
-        "The following release notes and version suggestion were "
-        "generated from development PRs included in this release.\n\n"
-        "Review them before merging and publishing.\n\n"
-        "---\n\n"
-        f"{notes.rstrip()}\n\n"
-        "---\n\n"
-        "**Publication:** Release creation and PyPI publication "
-        "remain subject to maintainer approval. "
-        "These notes are not published automatically.\n"
+def render_release_pr_body(notes, existing_body=""):
+    """Render release notes while preserving manual content."""
+
+    generated = f"{GENERATED_START}\n{notes.rstrip()}\n{GENERATED_END}"
+
+    # Preserve everything following the generated section.
+    if GENERATED_END in existing_body:
+        manual_content = existing_body.split(GENERATED_END, 1)[1]
+    else:
+        # First run: discard GitHub's commit-generated description
+        # and initialize a dedicated editable section.
+        manual_content = MAINTAINER_SECTION
+
+    return generated + manual_content
+
+
+def update_release_pr(release_pr, notes, next_version):
+    """Update the release PR title and description."""
+    number = release_pr["number"]
+
+    title = (
+        f"Release v{next_version}"
+        if next_version
+        else "Release preparation (no version bump)"
     )
 
+    body = render_release_pr_body(
+        notes,
+        release_pr.get("body") or "",
+    )
 
-def upsert_release_comment(pr_number, notes):
-    """Create or update the generated release notes comment."""
-    body = render_release_comment(notes)
+    if release_pr.get("title") == title and release_pr.get("body") == body:
+        print("\nRelease PR title and description already up to date.")
+        return
 
+    subprocess.run(
+        [
+            "gh",
+            "api",
+            "--method",
+            "PATCH",
+            f"repos/{REPO}/pulls/{number}",
+            "--input",
+            "-",
+        ],
+        input=json.dumps(
+            {
+                "title": title,
+                "body": body,
+            }
+        ),
+        text=True,
+        check=True,
+        capture_output=True,
+    )
+
+    print(f"\nUpdated release PR #{number}: {title}")
+
+
+def remove_legacy_release_comment(pr_number):
+    """Remove the comment created by the previous release workflow."""
     endpoint = f"repos/{REPO}/issues/{pr_number}/comments"
     page = 1
-    existing_comment = None
+    legacy_ids = []
 
-    # Find an existing comment created by this automation.
     while True:
         comments = gh(f"{endpoint}?per_page=100&page={page}")
 
@@ -447,58 +490,30 @@ def upsert_release_comment(pr_number, notes):
             if comment.get("user", {}).get(
                 "type"
             ) == "Bot" and RELEASE_COMMENT_MARKER in comment.get("body", ""):
-                existing_comment = comment
-                break
+                legacy_ids.append(comment["id"])
 
-        if existing_comment or len(comments) < 100:
+        if len(comments) < 100:
             break
 
         page += 1
 
-    if existing_comment:
-        if existing_comment["body"] == body:
-            print("\nRelease notes comment is already up to date.")
-            return
-
+    for comment_id in legacy_ids:
         subprocess.run(
             [
                 "gh",
                 "api",
                 "--method",
-                "PATCH",
-                f"repos/{REPO}/issues/comments/{existing_comment['id']}",
-                "--input",
-                "-",
+                "DELETE",
+                f"repos/{REPO}/issues/comments/{comment_id}",
             ],
-            input=json.dumps({"body": body}),
-            text=True,
             check=True,
             capture_output=True,
         )
 
-        print(f"\nUpdated release notes comment #{existing_comment['id']}.")
-
-    else:
-        subprocess.run(
-            [
-                "gh",
-                "api",
-                "--method",
-                "POST",
-                endpoint,
-                "--input",
-                "-",
-            ],
-            input=json.dumps({"body": body}),
-            text=True,
-            check=True,
-            capture_output=True,
-        )
-
-        print("\nCreated release notes comment.")
+    if legacy_ids:
+        print(f"\nRemoved {len(legacy_ids)} legacy release comment(s).")
 
 
-# TODO: Populate release PR title and description automatically.
 def main():
     release_pr = get_release_pr()
     prs, unmatched = get_development_prs()
@@ -539,13 +554,15 @@ def main():
         return
 
     if DRY_RUN:
-        print("\nDRY RUN: no GitHub labels or PR comments modified.")
+        print("\nDRY RUN: no GitHub metadata modified.")
         return
 
     apply_labels(release_pr, labels)
 
     notes = RELEASE_NOTES_PATH.read_text(encoding="utf-8")
-    upsert_release_comment(release_pr["number"], notes)
+
+    update_release_pr(release_pr, notes, next_version)
+    remove_legacy_release_comment(release_pr["number"])
 
 
 if __name__ == "__main__":
