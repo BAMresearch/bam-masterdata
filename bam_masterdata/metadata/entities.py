@@ -299,11 +299,12 @@ class BaseEntity(BaseModel):
 
         # Store property metadata at class level
         prop_meta_dict: dict = {}
+        # Subclass-first MRO: the first assignment wins.
         for base in type(self).__mro__:
             cls_attrs = getattr(base, "__dict__", {})
             for attr_name, attr_value in cls_attrs.items():
                 if isinstance(attr_value, PropertyTypeAssignment):
-                    prop_meta_dict[attr_name] = attr_value
+                    prop_meta_dict.setdefault(attr_name, attr_value)
         return prop_meta_dict
 
     def to_json(self, indent: int | None = None) -> str:
@@ -425,14 +426,20 @@ class BaseEntity(BaseModel):
         # Add attributes like id, code, description in English and Deutsch, property_label, data_type
         graph.add((prop_uri, RDFS.label, Literal(prop.id, lang="en")))
         graph.add((prop_uri, DC.identifier, Literal(prop.code)))
-        descriptions = prop.description.split("//")
+        descriptions = prop.openbis_description.split("//")
         if len(descriptions) > 1:
             graph.add((prop_uri, RDFS.comment, Literal(descriptions[0], lang="en")))
             graph.add((prop_uri, RDFS.comment, Literal(descriptions[1], lang="de")))
         else:
-            graph.add((prop_uri, RDFS.comment, Literal(prop.description, lang="en")))
+            graph.add(
+                (prop_uri, RDFS.comment, Literal(prop.openbis_description, lang="en"))
+            )
         graph.add(
-            (prop_uri, namespace.propertyLabel, Literal(prop.property_label, lang="en"))
+            (
+                prop_uri,
+                namespace.propertyLabel,
+                Literal(prop.openbis_property_label, lang="en"),
+            )
         )
         graph.add((prop_uri, namespace.dataType, Literal(prop.data_type.value)))
         if prop.data_type.value == "OBJECT":
@@ -499,13 +506,17 @@ class BaseEntity(BaseModel):
         # Add attributes like id, code, description in English and Deutsch, property_label, data_type
         graph.add((entity_uri, RDFS.label, Literal(self.defs.id, lang="en")))
         graph.add((entity_uri, DC.identifier, Literal(self.defs.code)))
-        descriptions = self.defs.description.split("//")
+        descriptions = self.defs.openbis_description.split("//")
         if len(descriptions) > 1:
             graph.add((entity_uri, RDFS.comment, Literal(descriptions[0], lang="en")))
             graph.add((entity_uri, RDFS.comment, Literal(descriptions[1], lang="de")))
         else:
             graph.add(
-                (entity_uri, RDFS.comment, Literal(self.defs.description, lang="en"))
+                (
+                    entity_uri,
+                    RDFS.comment,
+                    Literal(self.defs.openbis_description, lang="en"),
+                )
             )
         # Adding properties relationships to the entities
         for assigned_prop in self._base_attrs:
@@ -651,15 +662,15 @@ class VocabularyType(BaseEntity):
             obis_terms.append(
                 {
                     "code": term.code,
-                    "label": term.label,
-                    "description": term.description,
+                    "label": term.openbis_label,
+                    "description": term.openbis_description,
                     # 'official': term.official,
                 }
             )
 
         vocabulary = openbis.new_vocabulary(
             code=self.defs.code,
-            description=self.defs.description,
+            description=self.defs.openbis_description,
             terms=obis_terms,
         )
         vocabulary.save()
@@ -680,16 +691,16 @@ class VocabularyType(BaseEntity):
 
         Currently only the description can be modified.
         """
-        if vocabulary.description != self.defs.description:
+        if vocabulary.description != self.defs.openbis_description:
             old_value = vocabulary.description
-            vocabulary.description = self.defs.description
+            vocabulary.description = self.defs.openbis_description
 
             result.modified(
                 target=SyncTarget.VOCABULARY,
                 code=self.defs.code,
                 field="description",
                 old_value=old_value,
-                new_value=self.defs.description,
+                new_value=self.defs.openbis_description,
             )
 
             vocabulary.save()
@@ -712,9 +723,9 @@ class VocabularyType(BaseEntity):
         modified = False
 
         # Supported: label
-        if openbis_term.label != term.label:
+        if openbis_term.label != term.openbis_label:
             old_value = openbis_term.label
-            openbis_term.label = term.label
+            openbis_term.label = term.openbis_label
             modified = True
 
             result.modified(
@@ -723,13 +734,13 @@ class VocabularyType(BaseEntity):
                 parent_code=self.defs.code,
                 field="label",
                 old_value=old_value,
-                new_value=term.label,
+                new_value=term.openbis_label,
             )
 
         # Supported: description
-        if openbis_term.description != term.description:
+        if openbis_term.description != term.openbis_description:
             old_value = openbis_term.description
-            openbis_term.description = term.description
+            openbis_term.description = term.openbis_description
             modified = True
 
             result.modified(
@@ -738,7 +749,7 @@ class VocabularyType(BaseEntity):
                 parent_code=self.defs.code,
                 field="description",
                 old_value=old_value,
-                new_value=term.description,
+                new_value=term.openbis_description,
             )
 
         # Forbidden: official
@@ -1120,16 +1131,16 @@ class ObjectType(BaseEntity):
         Returns:
             Any: The data with the validated fields.
         """
-        # ordered parent -> child properties
-        collected_properties = []
+        # Keep parent field positions while resolving overrides in Python MRO order.
+        collected_properties = {}
         for base in reversed(cls.__mro__):
-            for _, attr_val in base.__dict__.items():
+            for attr_name, attr_val in base.__dict__.items():
                 if isinstance(attr_val, PropertyTypeAssignment):
-                    collected_properties.append(attr_val)
+                    collected_properties[attr_name] = attr_val
 
         # Group by section preserving first appearance order
         grouped_sections = OrderedDict()
-        for prop in collected_properties:
+        for prop in collected_properties.values():
             section = prop.section or ""
             grouped_sections.setdefault(section, [])
             grouped_sections[section].append(prop)
@@ -1276,7 +1287,7 @@ class ObjectType(BaseEntity):
         """
         obj_type = openbis.new_object_type(
             code=self.defs.code,
-            description=self.defs.description,
+            description=self.defs.openbis_description,
             validationPlugin=self.defs.validation_script,
             generatedCodePrefix=self.defs.generated_code_prefix,
             autoGeneratedCode=self.defs.auto_generate_codes,
@@ -1305,16 +1316,16 @@ class ObjectType(BaseEntity):
             obj_type (SampleType): The object type to be synchronized.
             result (SyncResult): The result metadata of the synchronization process.
         """
-        if obj_type.description != self.defs.description:
+        if obj_type.description != self.defs.openbis_description:
             old_value = obj_type.description
-            obj_type.description = self.defs.description
+            obj_type.description = self.defs.openbis_description
 
             result.modified(
                 target=SyncTarget.OBJECT_TYPE,
                 code=self.defs.code,
                 field="description",
                 old_value=old_value,
-                new_value=self.defs.description,
+                new_value=self.defs.openbis_description,
             )
 
         if obj_type.generatedCodePrefix != self.defs.generated_code_prefix:
@@ -1386,9 +1397,9 @@ class ObjectType(BaseEntity):
         property_type_modified = False
 
         # Supported: label
-        if property_type.label != prop.property_label:
+        if property_type.label != prop.openbis_property_label:
             old_value = property_type.label
-            property_type.label = prop.property_label
+            property_type.label = prop.openbis_property_label
             property_type_modified = True
 
             result.modified(
@@ -1396,13 +1407,13 @@ class ObjectType(BaseEntity):
                 code=prop.code,
                 field="property_label",
                 old_value=old_value,
-                new_value=prop.property_label,
+                new_value=prop.openbis_property_label,
             )
 
         # Supported: description
-        if property_type.description != prop.description:
+        if property_type.description != prop.openbis_description:
             old_value = property_type.description
-            property_type.description = prop.description
+            property_type.description = prop.openbis_description
             property_type_modified = True
 
             result.modified(
@@ -1410,7 +1421,7 @@ class ObjectType(BaseEntity):
                 code=prop.code,
                 field="description",
                 old_value=old_value,
-                new_value=prop.description,
+                new_value=prop.openbis_description,
             )
 
         if property_type_modified:
@@ -1498,13 +1509,20 @@ class ObjectType(BaseEntity):
         except ValueError:
             kwargs = {
                 "code": prop.code,
-                "label": prop.property_label,
-                "description": prop.description,
+                "label": prop.openbis_property_label,
+                "description": prop.openbis_description,
                 "dataType": self._openbis_data_type(prop),
             }
             # For CONTROLLEDVOCABULARY properties with a defined vocabulary_code, we need to create the property with the vocabulary assigned
             if prop.data_type == DataType.CONTROLLEDVOCABULARY and prop.vocabulary_code:
                 kwargs["vocabulary"] = prop.vocabulary_code
+
+            if (
+                prop.data_type in (DataType.OBJECT, DataType.SAMPLE)
+                and prop.object_code
+                and prop.object_code != "(ALL)"
+            ):
+                kwargs["sampleType"] = prop.object_code
 
             openbis.new_property_type(**kwargs).save()
             result.created(

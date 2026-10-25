@@ -82,7 +82,7 @@ All parsers must inherit from `AbstractParser` and implement the `parse()` metho
 import json
 import datetime
 from bam_masterdata.parsing import AbstractParser
-from bam_masterdata.datamodel.object_types import ExperimentalStep
+from bam_masterdata.datamodel.v0.object_types import ExperimentalStep
 
 
 class ExperimentSetupParser(AbstractParser):
@@ -120,7 +120,7 @@ class ExperimentSetupParser(AbstractParser):
 ??? note "Mapping metadata to openBIS"
     Not all metadata fields you have defined in your files are necessarily defined in your openBIS instance. If you feel a field is important but missing in openBIS, please, contact the admins of your instance to include such field.
 
-    For `bam-masterdata`, you can [open an issue](https://github.com/BAMresearch/bam-masterdata/issues) with your prefered changes. The whole list of Object Types and their metadata is defined [here](https://github.com/BAMresearch/bam-masterdata/blob/main/bam_masterdata/datamodel/object_types.py).
+    For `bam-masterdata`, you can [open an issue](https://github.com/BAMresearch/bam-masterdata/issues) with your prefered changes. The whole list of Object Types and their metadata is defined [here](https://github.com/BAMresearch/bam-masterdata/blob/main/bam_masterdata/datamodel/).
 
 ### Step 2: Test the Parser Locally
 
@@ -185,7 +185,7 @@ files_parser = {
     ExperimentSetupParser(): [
         "experiment_001.json",
         "experiment_002.json",
-        "experiment_003.json"
+        "experiment_003.json",
     ]
 }
 
@@ -196,7 +196,7 @@ run_parser(
     project_name="MY_PROJECT",
     collection_name="MY_EXPERIMENT_COLLECTION",
     files_parser=files_parser,
-    collection_type="COLLECTION"  # Optional: defaults to "COLLECTION"
+    collection_type="COLLECTION",  # Optional: defaults to "COLLECTION"
 )
 ```
 
@@ -227,17 +227,9 @@ from bam_masterdata.cli.run_parser import run_parser
 
 # Use multiple parsers for different file types
 files_parser = {
-    ExperimentSetupParser(): [
-        "experiment_001.json",
-        "experiment_002.json"
-    ],
-    MaterialSampleParser(): [
-        "sample_data_A.csv",
-        "sample_data_B.csv"
-    ],
-    TestResultParser(): [
-        "results_20241015.xml"
-    ]
+    ExperimentSetupParser(): ["experiment_001.json", "experiment_002.json"],
+    MaterialSampleParser(): ["sample_data_A.csv", "sample_data_B.csv"],
+    TestResultParser(): ["results_20241015.xml"],
 }
 
 run_parser(
@@ -260,7 +252,7 @@ Often, objects in your data model are related. For example, a measurement might 
 ```python
 import json
 from bam_masterdata.parsing import AbstractParser
-from bam_masterdata.datamodel.object_types import ExperimentalStep, Sample
+from bam_masterdata.datamodel.v0.object_types import ExperimentalStep, Sample
 
 
 class ExperimentWithSamplesParser(AbstractParser):
@@ -322,7 +314,7 @@ Sometimes you want to use parsers to update objects that already exist in openBI
 ```python
 import json
 from bam_masterdata.parsing import AbstractParser
-from bam_masterdata.datamodel.object_types import Sample
+from bam_masterdata.datamodel.v0.object_types import Sample
 
 
 class SampleUpdateParser(AbstractParser):
@@ -378,7 +370,7 @@ run_parser(
     space_name="MY_RESEARCH_SPACE",
     project_name="MY_PROJECT",
     collection_name="",  # Empty string for no collection
-    files_parser=files_parser
+    files_parser=files_parser,
 )
 ```
 
@@ -398,7 +390,7 @@ from pybis import Openbis
 
 from bam_masterdata.cli.run_parser import run_parser
 from bam_masterdata.parsing import AbstractParser
-from bam_masterdata.datamodel.object_types import ExperimentalStep, SoftwareCode
+from bam_masterdata.datamodel.v0.object_types import ExperimentalStep, SoftwareCode
 
 
 class ExperimentParser(AbstractParser):
@@ -416,7 +408,9 @@ class ExperimentParser(AbstractParser):
                 name=data.get("name"),
                 start_date=datetime.datetime.strptime(
                     data.get("date"), "%Y-%m-%d"
-                ).date() if data.get("date") else None,
+                ).date()
+                if data.get("date")
+                else None,
                 finished_flag=data.get("completed", False),
             )
 
@@ -449,17 +443,13 @@ def main():
     # Find all experiment files in a directory
     data_dir = "./experiment_data"
     experiment_files = [
-        os.path.join(data_dir, f)
-        for f in os.listdir(data_dir)
-        if f.endswith(".json")
+        os.path.join(data_dir, f) for f in os.listdir(data_dir) if f.endswith(".json")
     ]
 
     print(f"Found {len(experiment_files)} files to process")
 
     # Setup parser
-    files_parser = {
-        ExperimentParser(): experiment_files
-    }
+    files_parser = {ExperimentParser(): experiment_files}
 
     # Run the parser
     print("Running parser...")
@@ -520,7 +510,9 @@ def parse(self, files, collection, logger):
             continue
 
         # Validate data types
-        if data.get("temperature") and not isinstance(data["temperature"], (int, float)):
+        if data.get("temperature") and not isinstance(
+            data["temperature"], (int, float)
+        ):
             logger.warning(f"Invalid temperature value in {file_path}")
             continue
 
@@ -534,10 +526,10 @@ def parse(self, files, collection, logger):
 Use different log levels appropriately:
 
 ```python
-logger.info("Starting to parse files")      # General progress
-logger.warning("Missing optional field")    # Non-critical issues
-logger.error("Failed to parse file")        # Errors that need attention
-logger.critical("Database connection lost") # Critical failures
+logger.info("Starting to parse files")  # General progress
+logger.warning("Missing optional field")  # Non-critical issues
+logger.error("Failed to parse file")  # Errors that need attention
+logger.critical("Database connection lost")  # Critical failures
 ```
 
 ## Troubleshooting

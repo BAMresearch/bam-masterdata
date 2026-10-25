@@ -107,6 +107,33 @@ class Entry(ObjectType):
     )
 
 
+class TestMethod(ObjectType):
+    defs = ObjectTypeDef(
+        code="TEST_METHOD",
+        description="Test Method//Prüfverfahren",
+        generated_code_prefix="TEST_METHOD",
+    )
+
+    test_method_kind = PropertyTypeAssignment(
+        code="TEST_METHOD_KIND",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="TEST_METHOD_KIND",
+        property_label="Test Method",
+        description="Test method classification, e.g. radar//Prüfverfahren-Klasse, z. B. Radar",
+        mandatory=True,
+        section="General Information",
+    )
+
+    notes = PropertyTypeAssignment(
+        code="NOTES",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Notes",
+        description="Notes",
+        mandatory=False,
+        section="General Information",
+    )
+
+
 class GeneralProtocol(ObjectType):
     defs = ObjectTypeDef(
         code="GENERAL_PROTOCOL",
@@ -1601,6 +1628,119 @@ class Instrument(ObjectType):
     )
 
 
+class MeasuringInstrument(ObjectType):
+    defs = ObjectTypeDef(
+        code="MEASURING_INSTRUMENT",
+        description="Instrument classified by measurement method and principle//Nach Messverfahren und Messprinzip klassifiziertes Messinstrument",
+        generated_code_prefix="MEAS_INS",
+    )
+
+    name = PropertyTypeAssignment(
+        code="$NAME",
+        data_type="VARCHAR",
+        property_label="Name",
+        description="Name",
+        mandatory=True,
+        section="General Information",
+    )
+
+    manufacturer = PropertyTypeAssignment(
+        code="MANUFACTURER",
+        data_type="VARCHAR",
+        property_label="Manufacturer",
+        description="Manufacturer//Hersteller",
+        mandatory=False,
+        section="General Information",
+    )
+
+    bam_location_complete = PropertyTypeAssignment(
+        code="BAM_LOCATION_COMPLETE",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_LOCATION_COMPLETE",
+        property_label="Complete BAM Location",
+        description="Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)",
+        mandatory=False,
+        section="BAM Information",
+    )
+
+    bam_oe = PropertyTypeAssignment(
+        code="BAM_OE",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_OE",
+        property_label="BAM Organizational Entity",
+        description="BAM Organizational Entity//BAM Organisationseinheit (OE)",
+        mandatory=False,
+        section="BAM Information",
+    )
+
+    device_model_name = PropertyTypeAssignment(
+        code="DEVICE_MODEL_NAME",
+        data_type="VARCHAR",
+        property_label="Model Name",
+        description="Manufacturer model name//Modellname bzw. Gerätebezeichnung seitens des Herstellers",
+        mandatory=False,
+        section="General Information",
+    )
+
+    serial_number = PropertyTypeAssignment(
+        code="SERIAL_NUMBER",
+        data_type="VARCHAR",
+        property_label="Serial Number",
+        description="Serial Number//Seriennummer",
+        mandatory=True,
+        section="General Information",
+    )
+
+    bam_inventory_number = PropertyTypeAssignment(
+        code="BAM_INVENTORY_NUMBER",
+        data_type="VARCHAR",
+        property_label="BAM Inventory Number",
+        description="BAM-Inventarnummer//BAM-Inventarnummer",
+        mandatory=False,
+        section="Equipment Details",
+    )
+
+    test_method_kind = PropertyTypeAssignment(
+        code="TEST_METHOD_KIND",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="TEST_METHOD_KIND",
+        property_label="Test Method",
+        description="Test method classification, e.g. radar//Prüfverfahren-Klasse, z. B. Radar",
+        mandatory=True,
+        section="General Information",
+    )
+
+    instrument_classification = PropertyTypeAssignment(
+        code="INSTRUMENT_CLASSIFICATION",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="MEASURING_INSTRUMENT_CLASSIFICATION",
+        property_label="Measurement Principle",
+        description="Classification of the measurement principle//Klassifizierung des Messprinzips",
+        mandatory=True,
+        section="Classification",
+    )
+
+    instrument_status = PropertyTypeAssignment(
+        code="INSTRUMENT_STATUS",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="INSTRUMENT_STATUS",
+        property_label="Instrument Status",
+        description="Instrument status//Instrumentenstatus",
+        mandatory=True,
+        section="Status",
+    )
+
+    responsible_person = PropertyTypeAssignment(
+        code="RESPONSIBLE_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON.BAM",
+        property_label="Responsible person",
+        description="Responsible person//Verantwortliche Person",
+        mandatory=False,
+        section="BAM Information",
+    )
+
+
 class TestingMachine(ObjectType):
     defs = ObjectTypeDef(
         code="TESTING_MACHINE",
@@ -1882,6 +2022,109 @@ class TestingMachine(ObjectType):
     )
 
 
+class TestingEquipment(ObjectType):
+    defs = ObjectTypeDef(
+        code="TESTING_EQUIPMENT",
+        description="Equipment classified by measurement quantity, including scales, thermometers and climate chambers//Nach Messgröße klassifiziertes Prüfgerät, z. B. Waage, Thermometer oder Klimakammer",
+        generated_code_prefix="TEST_EQ",
+    )
+
+    name = PropertyTypeAssignment(
+        code="$NAME",
+        data_type="VARCHAR",
+        property_label="Name",
+        description="Name",
+        mandatory=True,
+        section="General Information",
+    )
+
+    manufacturer = PropertyTypeAssignment(
+        code="MANUFACTURER",
+        data_type="VARCHAR",
+        property_label="Manufacturer",
+        description="Manufacturer//Hersteller",
+        mandatory=False,
+        section="General Information",
+    )
+
+    bam_location_complete = PropertyTypeAssignment(
+        code="BAM_LOCATION_COMPLETE",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_LOCATION_COMPLETE",
+        property_label="Complete BAM Location",
+        description="Complete BAM location (up to room level)//Komplette BAM-Ortsangabe (bis Raumlevel)",
+        mandatory=False,
+        section="BAM Information",
+    )
+
+    bam_oe = PropertyTypeAssignment(
+        code="BAM_OE",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BAM_OE",
+        property_label="BAM Organizational Entity",
+        description="BAM Organizational Entity//BAM Organisationseinheit (OE)",
+        mandatory=False,
+        section="BAM Information",
+    )
+
+    device_model_name = PropertyTypeAssignment(
+        code="DEVICE_MODEL_NAME",
+        data_type="VARCHAR",
+        property_label="Model Name",
+        description="Manufacturer model name//Modellname bzw. Gerätebezeichnung seitens des Herstellers",
+        mandatory=False,
+        section="General Information",
+    )
+
+    serial_number = PropertyTypeAssignment(
+        code="SERIAL_NUMBER",
+        data_type="VARCHAR",
+        property_label="Serial Number",
+        description="Serial Number//Seriennummer",
+        mandatory=True,
+        section="General Information",
+    )
+
+    bam_inventory_number = PropertyTypeAssignment(
+        code="BAM_INVENTORY_NUMBER",
+        data_type="VARCHAR",
+        property_label="BAM Inventory Number",
+        description="BAM-Inventarnummer//BAM-Inventarnummer",
+        mandatory=False,
+        section="Equipment Details",
+    )
+
+    measurement_quantity = PropertyTypeAssignment(
+        code="MEASUREMENT_QUANTITY",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="MEASUREMENT_QUANTITY",
+        property_label="Measurement Quantity",
+        description="Quantity associated with the equipment//Messgröße des Prüfgeräts",
+        mandatory=True,
+        section="Classification",
+    )
+
+    instrument_status = PropertyTypeAssignment(
+        code="INSTRUMENT_STATUS",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="INSTRUMENT_STATUS",
+        property_label="Instrument Status",
+        description="Instrument status//Instrumentenstatus",
+        mandatory=True,
+        section="Status",
+    )
+
+    responsible_person = PropertyTypeAssignment(
+        code="RESPONSIBLE_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON.BAM",
+        property_label="Responsible person",
+        description="Responsible person//Verantwortliche Person",
+        mandatory=False,
+        section="BAM Information",
+    )
+
+
 class Document(ObjectType):
     defs = ObjectTypeDef(
         code="DOCUMENT",
@@ -1988,6 +2231,79 @@ class Document(ObjectType):
         description="""Annotations State""",
         mandatory=False,
         section="",
+    )
+
+
+class DataTransferPackage(ObjectType):
+    defs = ObjectTypeDef(
+        code="DATA_TRANSFER_PACKAGE",
+        description="Data transfer package//Datentransferpaket",
+        generated_code_prefix="DTP",
+    )
+
+    name = PropertyTypeAssignment(
+        code="$NAME",
+        data_type="VARCHAR",
+        property_label="Name",
+        description="Name",
+        mandatory=True,
+        section="General Information",
+    )
+
+    data_package_kind = PropertyTypeAssignment(
+        code="DATA_PACKAGE_KIND",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="DATA_PACKAGE_KIND",
+        property_label="Data package kind",
+        description="Raw or processed research data//Rohdaten oder aufbereitete Forschungsdaten",
+        mandatory=True,
+        section="Data Package Details",
+    )
+
+    author_person = PropertyTypeAssignment(
+        code="AUTHOR_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON.BAM",
+        property_label="Corresponding Author (BAM)",
+        description="Corresponding author referenced as a BAM person//Verantwortlicher Autor als Referenz auf eine BAM-Person",
+        mandatory=False,
+        section="Data Package Details",
+    )
+
+    file_format = PropertyTypeAssignment(
+        code="FILE_FORMAT",
+        data_type="VARCHAR",
+        property_label="File format",
+        description="File format//Dateiformat",
+        mandatory=True,
+        section="Data Package Details",
+    )
+
+    data_package_date = PropertyTypeAssignment(
+        code="DATA_PACKAGE_DATE",
+        data_type="DATE",
+        property_label="Data package date",
+        description="Date of the research data package//Datum des Forschungsdatenpakets",
+        mandatory=False,
+        section="Data Package Details",
+    )
+
+    description = PropertyTypeAssignment(
+        code="DESCRIPTION",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Description",
+        description="Short description and/or purpose//Kurzbeschreibung und/oder Zweck",
+        mandatory=False,
+        section="Data Package Details",
+    )
+
+    notes = PropertyTypeAssignment(
+        code="NOTES",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Notes",
+        description="Notes",
+        mandatory=False,
+        section="Data Package Details",
     )
 
 
@@ -2929,6 +3245,70 @@ class Control(ObjectType):
         description="""Annotations State""",
         mandatory=False,
         section="",
+    )
+
+
+class DataTransfer(ObjectType):
+    defs = ObjectTypeDef(
+        code="DATA_TRANSFER",
+        description="Data Transfer//Datentransfer",
+        generated_code_prefix="DATAT",
+    )
+
+    name = PropertyTypeAssignment(
+        code="$NAME",
+        data_type="VARCHAR",
+        property_label="Name",
+        description="Name",
+        mandatory=True,
+        section="General Information",
+    )
+
+    description = PropertyTypeAssignment(
+        code="DESCRIPTION",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Description",
+        description="Short description and/or purpose//Kurzbeschreibung und/oder Zweck",
+        mandatory=True,
+        section="General Information",
+    )
+
+    notes = PropertyTypeAssignment(
+        code="NOTES",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Notes",
+        description="Notes",
+        mandatory=False,
+        section="General Information",
+    )
+
+    author_person = PropertyTypeAssignment(
+        code="AUTHOR_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON.BAM",
+        property_label="Corresponding Author (BAM)",
+        description="Corresponding author referenced as a BAM person//Verantwortlicher Autor als Referenz auf eine BAM-Person",
+        mandatory=False,
+        section="Transfer Details",
+    )
+
+    file_format = PropertyTypeAssignment(
+        code="FILE_FORMAT",
+        data_type="VARCHAR",
+        property_label="File format",
+        description="File format//Dateiformat",
+        mandatory=True,
+        section="Transfer Details",
+    )
+
+    input_data_package = PropertyTypeAssignment(
+        code="INPUT_DATA_PACKAGE",
+        data_type="OBJECT",
+        object_code="DATA_TRANSFER_PACKAGE",
+        property_label="Input data package",
+        description="Optional input package; reusable instructions may omit a concrete package//Optionales Eingabepaket; wiederverwendbare Anweisungen können ohne konkretes Paket angelegt werden",
+        mandatory=False,
+        section="Transfer Details",
     )
 
 

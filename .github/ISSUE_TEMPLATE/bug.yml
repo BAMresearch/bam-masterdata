@@ -1,0 +1,31 @@
+name: Bug report
+description: Report something that is not working correctly
+title: ""
+labels: ["type:bug"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: What is the problem?
+      description: Describe the bug and what you expected instead.
+      placeholder: Describe the unexpected behavior.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: How can we reproduce it?
+      description: Include a minimal example, error message, or relevant steps.
+      placeholder: |
+        1. Run ...
+        2. Observe ...
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        **Labels:** If you have permission, add the relevant
+        `area:*` and `priority:*` labels after creating the issue.
+        Otherwise, a maintainer will classify it.

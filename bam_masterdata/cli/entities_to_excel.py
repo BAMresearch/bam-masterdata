@@ -72,7 +72,7 @@ def entities_to_excel(
                     else:
                         val = getattr(prop, field)
                     row.append(val)
-            worksheet.append(row)
+                worksheet.append(row)
         # Terms assignment for VocabularyType
         elif obj_instance.base_name == "VocabularyType":
             if not obj_instance.terms:

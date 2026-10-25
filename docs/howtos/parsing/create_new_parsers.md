@@ -1,17 +1,17 @@
 # Create New Parsers
 
-This how-to guide explains how to create a custom parser that reads raw files (CSV, Excel, JSON, XML, etc) and transforms them into the `bam-masterdata` format. By following these steps, your parser can be integrated into the Data Store workflow and used in the [Parser app](parser_app.md).
+This how-to guide explains how to create a custom parser that reads raw files (CSV, Excel, JSON, XML, etc) and transforms them into the `bam-masterdata` format. By following these steps, your parser can be integrated into the Data Store workflow and used in the [openBIS Upload Helper](parser_app.md).
 This allows you to bring custom or third-party data sources into the existing masterdata workflows without manual conversion.
 
 !!! note "Prerequisites"
-    - **Python ≥ 3.10** installed
+    - **Python ≥ 3.11** installed
     - Knowledge of the **bam-masterdata** schema definitions in [`bam_masterdata/datamodel/`](https://github.com/BAMresearch/bam-masterdata/tree/main/bam_masterdata/datamodel). Learn more in [Schema Definitions](../../explanations/schema_defs.md).
 
 ---
 
 
 ## Use the GitHub parser example
-1. Go to [masterdata-parser-example](https://github.com/BAMresearch/masterdata-parser-example).
+1. Go to [openbis-parser-example](https://github.com/BAMresearch/openbis-parser-example).
 2. Either **fork** it (keep your own version) or **use it as a template** to start a new repository.
 3. Clone your fork/template locally:
 
@@ -26,10 +26,9 @@ This allows you to bring custom or third-party data sources into the existing ma
     ├── pyproject.toml
     ├── README.md
     ├── src
-    │   └── masterdata_parser_example
+    │   └── openbis_parser_example
     │       ├── __init__.py
-    │       ├── parser.py
-    │       └── _version.py
+    │       └── parser.py
     └── tests
         ├── __init__.py
         ├── conftest.py
@@ -93,24 +92,24 @@ You should see all tests passing before you start customizing.
 
 ## Modify the project structure and files
 
-Since everything in the template project is named `masterdata_parser_example` and derivates, you will need to replace that with your own parser name.
+Since everything in the template project is named `openbis_parser_example` and derivates, you will need to replace that with your own parser name.
 This ensures that your parser has a unique and consistent package name.
 
 For the purpose of this guide, we will rename everything using a ficticious code name _SupercodeX_.
 
-??? tip "Python naming conventions"
+??? info "Python naming conventions"
     - **Packages / modules:** lowercase, underscores allowed (e.g., `my_parser`)
     - **Classes:** CapWords / PascalCase (e.g., `MyParser`)
     - **Variables / functions:** lowercase with underscores (e.g., `file_name`, `parse_file`)
 
-    See the official Python style guide: [PEP 8 – Naming Conventions](https://peps.python.org/pep-0008/#naming-conventions)
+    See the official Python style guide: [PEP 8 - Naming Conventions](https://peps.python.org/pep-0008/#naming-conventions).
 
 ### Rename project folder and parser class
 
-1. Modify the `src` package name from `masterdata_parser_example` to your package name (e.g., `supercode_x`). This will affect on how your users install the package later on by doing `pip install` (e.g., `pip install supercode_x`).
-2. Update in the `pyproject.toml` all occurrences of `masterdata_parser_example` to the new package name (e.g., `supercode_x`).
+1. Modify the `src` package name from `openbis_parser_example` to your package name (e.g., `supercode_x`). This will affect on how your users install the package later on by doing `pip install` (e.g., `pip install supercode_x`).
+2. Update in the `pyproject.toml` all occurrences of `openbis_parser_example` to the new package name (e.g., `supercode_x`).
 3. Update the `[project]` section in `pyproject.toml` with your specific information.
-4. Go to `src/supercode_x/parser.py` and change the class name from `MasterdataParserExample` to your case (`SupercodeXParser`).
+4. Go to `src/supercode_x/parser.py` and change the class name from `OpenbisParserExample` to your case (`SupercodeXParser`).
 5. Update importing this class in `src/supercode_x/__init__.py` and `tests/conftest.py`.
 6. Update the entry point dictionary in `src/supercode_x/__init__.py`.
 7. Verify that the project is still working by running `pytest tests`. If everything is good, the testing should pass.
@@ -118,8 +117,8 @@ For the purpose of this guide, we will rename everything using a ficticious code
 ### Rename entry point
 
 1. Go to `src/supercode_x/__init__.py`.
-2. Modify `masterdata_parser_example_entry_point` for your new entry point variable name (e.g., `supercode_x_entry_point`).
-3. Update in the `pyproject.toml` all occurrences of `masterdata_parser_example_entry_point` to the new entry point name  (e.g., `supercode_x_entry_point`).
+2. Modify `openbis_parser_example_entry_point` for your new entry point variable name (e.g., `supercode_x_entry_point`).
+3. Update in the `pyproject.toml` all occurrences of `openbis_parser_example_entry_point` to the new entry point name  (e.g., `supercode_x_entry_point`).
 
 
 ## Add parser logic
@@ -127,7 +126,7 @@ For the purpose of this guide, we will rename everything using a ficticious code
 Open the `src/.../parser.py` file. After renaming your parser class to `SupercodeXParser`, you should have:
 
 ```python
-from bam_masterdata.datamodel.object_types import ExperimentalStep
+from bam_masterdata.datamodel.v0.object_types import ExperimentalStep
 from bam_masterdata.parsing import AbstractParser
 
 
@@ -173,7 +172,7 @@ At the top of `parser.py`, ensure you import:
 ```python
 # Step 1: import necessary classes
 import json
-from bam_masterdata.datamodel.object_types import SoftwareCode
+from bam_masterdata.datamodel.v0.object_types import SoftwareCode
 from bam_masterdata.parsing import AbstractParser
 ```
 
@@ -186,7 +185,7 @@ from bam_masterdata.parsing import AbstractParser
 ```python
 # Step 1: import necessary classes
 import json
-from bam_masterdata.datamodel.object_types import SoftwareCode
+from bam_masterdata.datamodel.v0.object_types import SoftwareCode
 from bam_masterdata.parsing import AbstractParser
 
 
@@ -208,7 +207,7 @@ class SupercodeXParser(AbstractParser):
 ```python
 # Step 1: import necessary classes
 import json
-from bam_masterdata.datamodel.object_types import SoftwareCode
+from bam_masterdata.datamodel.v0.object_types import SoftwareCode
 from bam_masterdata.parsing import AbstractParser
 
 
@@ -234,7 +233,7 @@ class SupercodeXParser(AbstractParser):
 ```python
 # Step 1: import necessary classes
 import json
-from bam_masterdata.datamodel.object_types import SoftwareCode
+from bam_masterdata.datamodel.v0.object_types import SoftwareCode
 from bam_masterdata.parsing import AbstractParser
 
 
@@ -328,7 +327,7 @@ To reference an existing object, set the `code` attribute on your object instanc
 ```python
 # Step 1
 import json
-from bam_masterdata.datamodel.object_types import SoftwareCode
+from bam_masterdata.datamodel.v0.object_types import SoftwareCode
 from bam_masterdata.parsing import AbstractParser
 
 
@@ -367,7 +366,7 @@ You can have multiple scenarios when deciding if setting up `code` or not:
 !!! warning "Code Format"
     The `code` must match the exact format used in OpenBIS, including any prefixes or separators. Codes are typically uppercase with underscores (e.g., `SAMPLE_001`, `EXP_2024_01`).
 
-!!! tip "Identifier Construction"
+!!! info "Identifier Construction"
     When referencing an existing object, the full identifier is constructed as:
 
     - With collection: `/{space_name}/{project_name}/{collection_name}/{code}`
@@ -392,7 +391,7 @@ You now have all the core components of your custom parser in place:
 - Parser class created and logic accepting the metainformation of the specific files.
 - Entry points updated.
 
-### What’s left?
+### What's left?
 
 1. **Update `pyproject.toml`**
     - Make sure the package name, version, and entry points match your parser.
