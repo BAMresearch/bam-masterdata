@@ -498,6 +498,7 @@ def upsert_release_comment(pr_number, notes):
         print("\nCreated release notes comment.")
 
 
+# TODO: Populate release PR title and description automatically.
 def main():
     release_pr = get_release_pr()
     prs, unmatched = get_development_prs()
