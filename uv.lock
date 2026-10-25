@@ -48,6 +48,7 @@ dev = [
     { name = "pytest-cov" },
     { name = "pytest-timeout" },
     { name = "ruff" },
+    { name = "virtualenv" },
     { name = "zensical" },
 ]
 
@@ -71,6 +72,7 @@ requires-dist = [
     { name = "rdflib" },
     { name = "ruff", marker = "extra == 'dev'" },
     { name = "structlog", specifier = "==24.4.0" },
+    { name = "virtualenv", marker = "extra == 'dev'", specifier = ">=21.7.13" },
     { name = "zensical", marker = "extra == 'dev'", specifier = ">=0.0.41" },
 ]
 provides-extras = ["dev"]
