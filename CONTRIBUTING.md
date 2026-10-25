@@ -37,15 +37,41 @@ To contribute:
 4. Open a pull request targeting `dev`.
 5. Reference the associated issue using `Refs #123` or `Closes #123`.
 
-Small contributions, such as typo corrections, may be submitted without an issue.
+### Pull requests without an associated issue
 
-Pull requests should have:
+Development PRs targeting `dev` normally require an associated issue.
 
-- Exactly one `type:*` label.
-- Relevant `area:*` labels.
-- Exactly one `semver:*` label before merging.
+Issue associations can be established through:
+- An explicit reference in the PR description, such as `Refs #123` or `Closes #123`.
+- A branch name beginning with the issue number, such as `123-fix-export`.
 
-Labels may be assigned by maintainers when contributors lack permission.
+**Exceptions**
+
+Some contributions do not require a separate issue:
+
+- Minor administrative changes, such as typo corrections.
+- Urgent fixes where creating an issue would add unnecessary overhead.
+- Other exceptional cases explicitly approved by a maintainer.
+
+For these cases, a maintainer may apply the `no-issue-required` label.
+
+This label exempts the PR **only from the issue-reference requirement**. All other validation requirements remain applicable, including valid `type:*`, `area:*`, and `semver:*` labels.
+
+Contributors should briefly explain why an issue is unnecessary in the PR description.
+
+### Release pull requests
+
+Release PRs must originate from `dev` and target `main` in the same repository.
+
+These PRs:
+
+- Do not require an associated issue.
+- May contain multiple `type:*` and `area:*` labels aggregated from development PRs.
+- Must contain exactly one `semver:*` label representing the highest release impact.
+- Are subject to maintainer review before merging.
+
+Other PRs targeting `main` are not accepted by the automated validation workflow.
+
 
 ## 3. Semantic versioning
 

@@ -200,3 +200,54 @@ def test_unknown_classification(unknown_label):
     errors = module.validate_pr(pr)
 
     assert any("Unknown" in e for e in errors)
+
+
+def test_issue_exception_still_requires_semver():
+    """Issue exceptions must not bypass SemVer validation."""
+    pr = make_pr(
+        [
+            "type:maintenance",
+            "area:ci",
+            "no-issue-required",
+        ],
+        body="",
+    )
+
+    errors = module.validate_pr(pr)
+
+    assert any("Exactly one semver" in error for error in errors)
+
+
+def test_issue_exception_still_requires_type_and_area():
+    """Issue exceptions must not bypass other required metadata."""
+    pr = make_pr(
+        [
+            "semver:none",
+            "no-issue-required",
+        ],
+        body="",
+    )
+
+    errors = module.validate_pr(pr)
+
+    assert any("Exactly one type" in error for error in errors)
+    assert any("area:" in error for error in errors)
+
+
+def test_release_pr_from_fork_is_rejected():
+    """Only the repository's own dev branch can create release PRs."""
+    pr = make_pr(
+        [
+            "semver:minor",
+            "type:feature",
+        ],
+        body="",
+        branch="dev",
+        base="main",
+    )
+
+    pr["head"]["repo"]["full_name"] = "another-user/bam-masterdata"
+
+    errors = module.validate_pr(pr)
+
+    assert any("release PRs" in error for error in errors)
