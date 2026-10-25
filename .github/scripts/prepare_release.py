@@ -3,13 +3,15 @@
 import json
 import os
 import subprocess
-from collections import defaultdict
+from pathlib import Path
 
 REPO = os.environ.get("REPO", "BAMresearch/bam-masterdata")
 PR_NUMBER = os.environ.get("PR_NUMBER")
 DRY_RUN = os.environ.get("DRY_RUN", "true").lower() == "true"
 
 SEMVER_ORDER = ("none", "patch", "minor", "major")
+
+RELEASE_NOTES_PATH = Path(os.environ.get("RELEASE_NOTES_PATH", "release-notes.md"))
 
 
 def gh(*args):
@@ -208,6 +210,120 @@ def validate_release(problems, unmatched):
         print("Review these commits manually before approving the release.")
 
 
+RELEASE_CATEGORIES = (
+    ("Features", "type:feature"),
+    ("Enhancements", "type:enhancement"),
+    ("Bug Fixes", "type:bug"),
+    ("Documentation", "type:documentation"),
+    ("Maintenance", "type:maintenance"),
+    ("Questions", "type:question"),
+)
+
+
+def markdown_text(value):
+    """Normalize untrusted text for one Markdown line."""
+    return (
+        str(value)
+        .replace("\\", "\\\\")
+        .replace("[", "\\[")
+        .replace("]", "\\]")
+        .replace("\r", " ")
+        .replace("\n", " ")
+        .strip()
+    )
+
+
+def render_release_notes(prs, labels, unmatched=()):
+    """Create categorized Markdown notes from original development PRs."""
+    impact = next(
+        (
+            label.removeprefix("semver:")
+            for label in labels
+            if label.startswith("semver:")
+        ),
+        "none",
+    )
+
+    lines = [
+        "# Release Notes",
+        "",
+        f"**Suggested SemVer impact:** `{impact}`",
+        "",
+    ]
+
+    used = set()
+
+    for title, label in RELEASE_CATEGORIES:
+        matching = [
+            pr for pr in prs if label in {item["name"] for item in pr["labels"]}
+        ]
+
+        if not matching:
+            continue
+
+        lines.extend([f"## {title}", ""])
+
+        for pr in sorted(matching, key=lambda item: item["number"]):
+            number = pr["number"]
+            author = (pr.get("user") or {}).get("login") or "unknown"
+            title_text = markdown_text(pr["title"])
+
+            url = f"https://github.com/{REPO}/pull/{number}"
+
+            lines.append(f"- [#{number}]({url}) — {title_text} (@{author})")
+            used.add(number)
+
+        lines.append("")
+
+    uncategorized = [pr for pr in prs if pr["number"] not in used]
+
+    if uncategorized:
+        lines.extend(["## Other Changes", ""])
+
+        for pr in sorted(uncategorized, key=lambda item: item["number"]):
+            number = pr["number"]
+            author = (pr.get("user") or {}).get("login") or "unknown"
+            title_text = markdown_text(pr["title"])
+            url = f"https://github.com/{REPO}/pull/{number}"
+
+            lines.append(f"- [#{number}]({url}) — {title_text} (@{author})")
+
+        lines.append("")
+
+    if unmatched:
+        lines.extend(
+            [
+                "## Needs Manual Review",
+                "",
+                "The following commits could not be associated with "
+                "a merged development PR:",
+                "",
+            ]
+        )
+
+        for sha in unmatched:
+            lines.append(f"- [`{sha[:12]}`](https://github.com/{REPO}/commit/{sha})")
+
+        lines.extend(
+            [
+                "",
+                "Review these commits before approving the release.",
+                "",
+            ]
+        )
+
+    return "\n".join(lines).rstrip() + "\n"
+
+
+def write_release_notes(prs, labels, unmatched=()):
+    """Write the generated notes to a local Markdown file."""
+    content = render_release_notes(prs, labels, unmatched)
+    RELEASE_NOTES_PATH.parent.mkdir(parents=True, exist_ok=True)
+    RELEASE_NOTES_PATH.write_text(content, encoding="utf-8")
+
+    print(f"\nRelease notes written to: {RELEASE_NOTES_PATH}")
+
+
 def main():
     release_pr = get_release_pr()
     prs, unmatched = get_development_prs()
@@ -220,6 +336,9 @@ def main():
         raise SystemExit("No merged development PRs found.")
 
     validate_release(problems, unmatched)
+
+    # Generate notes only after validation succeeds.
+    write_release_notes(prs, labels, unmatched)
 
     if not release_pr:
         print("\nNo release PR specified. Analysis only.")

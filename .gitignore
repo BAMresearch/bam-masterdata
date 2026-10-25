@@ -182,3 +182,6 @@ tmp/
 bam_masterdata/test.py
 
 bam_masterdata/datamodel/vocabulary_types_internal.py
+
+# Release notes
+/release-notes.md

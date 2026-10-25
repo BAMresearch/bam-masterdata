@@ -155,3 +155,69 @@ def test_valid_release_has_no_warnings(capsys):
     output = capsys.readouterr().out
 
     assert output == ""
+
+
+def test_release_notes_group_prs_and_preserve_links():
+    prs = [
+        make_pr(100, ["type:feature", "semver:minor"]),
+        make_pr(101, ["type:bug", "semver:patch"]),
+    ]
+
+    prs[0]["title"] = "Add instrument profiles"
+    prs[0]["user"] = {"login": "alice"}
+
+    prs[1]["title"] = "Fix Excel export"
+    prs[1]["user"] = {"login": "bob"}
+
+    notes = module.render_release_notes(
+        prs,
+        ["type:feature", "type:bug", "semver:minor"],
+    )
+
+    assert "**Suggested SemVer impact:** `minor`" in notes
+    assert "## Features" in notes
+    assert "## Bug Fixes" in notes
+
+    assert "[#100](https://github.com/BAMresearch/bam-masterdata/pull/100)" in notes
+    assert "Add instrument profiles (@alice)" in notes
+    assert "Fix Excel export (@bob)" in notes
+
+
+def test_release_notes_include_unmatched_commits():
+    sha = "1dd09bbb990c1234567890123456789012345678"
+
+    notes = module.render_release_notes(
+        [make_pr(100, ["type:documentation", "semver:none"])],
+        ["type:documentation", "semver:none"],
+        unmatched=[sha],
+    )
+
+    assert "## Needs Manual Review" in notes
+    assert sha in notes
+    assert "Review these commits" in notes
+
+
+def test_release_notes_uncategorized_pr():
+    prs = [
+        make_pr(100, ["area:datamodel", "semver:minor"]),
+    ]
+
+    notes = module.render_release_notes(prs, ["area:datamodel", "semver:minor"])
+
+    assert "## Other Changes" in notes
+    assert "[#100]" in notes
+
+
+def test_release_notes_write_file(tmp_path, monkeypatch):
+    output = tmp_path / "release-notes.md"
+
+    monkeypatch.setattr(module, "RELEASE_NOTES_PATH", output)
+
+    prs = [
+        make_pr(100, ["type:feature", "semver:minor"]),
+    ]
+
+    module.write_release_notes(prs, ["type:feature", "semver:minor"])
+
+    assert output.exists()
+    assert "## Features" in output.read_text(encoding="utf-8")
