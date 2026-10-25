@@ -75,18 +75,104 @@ Other PRs targeting `main` are not accepted by the automated validation workflow
 
 ## 3. Semantic versioning
 
-We use Semantic Versioning to classify release impact.
+`bam-masterdata` follows Semantic Versioning (SemVer) to classify changes
+to its Python package, CLI, metadata schema, and openBIS integration.
 
-| Label | Meaning |
-|---|---|
-| `semver:major` | Introduces backward-incompatible changes. |
-| `semver:minor` | Adds backward-compatible functionality. |
-| `semver:patch` | Fixes existing functionality without breaking compatibility. |
-| `semver:none` | Does not require a new release. |
+Every development PR targeting `dev` must have exactly one `semver:*`
+label describing its impact on users.
 
-During the `0.x` development series, breaking changes normally increment the minor version. Starting with `1.0.0`, breaking changes increment the major version.
+### SemVer labels
 
-Compatibility considerations include the Python API, CLI, operational metadata schema, and openBIS integration.
+| Label | Meaning | Examples |
+|---|---|---|
+| `semver:major` | Backward-incompatible change | Removing a public Python API, renaming an existing metadata property, changing required schema fields incompatibly |
+| `semver:minor` | Backward-compatible functionality | Adding a new entity type, introducing an optional metadata property, adding a CLI command |
+| `semver:patch` | Backward-compatible fix | Fixing incorrect exports, correcting validation behavior, fixing an openBIS synchronization bug |
+| `semver:none` | No user-facing release impact | Documentation-only changes, tests, CI configuration, CODEOWNERS updates |
+
+The label describes the **compatibility impact**, not the size or complexity
+of the implementation.
+
+A small change can be breaking, while a substantial internal refactoring
+may have no user-facing impact.
+
+### What constitutes a breaking change?
+
+A change should generally receive `semver:major` if existing users
+must modify their code, metadata, configuration, or workflows to continue
+using the package.
+
+Examples include:
+
+**Python API**
+- Removing or renaming public classes, functions, or attributes.
+- Changing public function signatures incompatibly.
+- Changing documented behavior or return types incompatibly.
+
+**Metadata schema**
+- Removing or renaming existing entity types or properties.
+- Making a previously optional property mandatory.
+- Changing field types, constraints, or accepted values incompatibly.
+- Changing inheritance or validation behavior in ways that invalidate
+  previously valid metadata.
+
+**CLI**
+- Removing or renaming existing commands or options.
+- Changing command arguments or output formats incompatibly.
+
+**openBIS integration**
+- Introducing incompatible changes to synchronized type or property codes.
+- Changing property assignments or requirements in ways that break
+  existing integrations.
+- Requiring migrations of existing openBIS metadata or records.
+
+Changes are not automatically breaking merely because they modify
+the schema or synchronization logic. Classification depends on their
+actual compatibility impact.
+
+For example, adding an optional property is normally backward-compatible,
+whereas making an existing property mandatory may require migration
+and should be classified as breaking.
+
+### Version numbering during 0.x development
+
+While the project remains in the `0.x` series, breaking changes increase
+the minor version rather than the major version.
+
+| Highest release impact | Current version | Suggested version |
+|---|---|---|
+| `semver:none` | `0.15.0` | No release required |
+| `semver:patch` | `0.15.0` | `0.15.1` |
+| `semver:minor` | `0.15.0` | `0.16.0` |
+| `semver:major` | `0.15.0` | `0.16.0` |
+
+The `semver:major` label must still be used for breaking changes during
+the `0.x` series so they remain identifiable in release notes.
+
+Starting with version `1.0.0`, standard SemVer version increments apply:
+
+- `semver:major`: increase the major version.
+- `semver:minor`: increase the minor version.
+- `semver:patch`: increase the patch version.
+
+The transition to `1.0.0` is a deliberate maintainer decision and is
+not triggered automatically by the release preparation script.
+
+### Release classification
+
+Release preparation aggregates the SemVer labels of the development
+PRs included in the release.
+
+The highest impact determines the suggested version increment:
+
+`major > minor > patch > none`
+
+For example, a release containing three `semver:minor` PRs and one
+`semver:patch` PR receives an aggregated `semver:minor` classification.
+
+The release preparation workflow suggests a version and generates
+release notes, but maintainers remain responsible for reviewing
+compatibility implications and approving publication.
 
 ## 4. Review and release workflow
 
