@@ -176,10 +176,38 @@ compatibility implications and approving publication.
 
 ## 4. Review and release workflow
 
-Development PRs are reviewed and merged into `dev`.
+The repository follows a controlled release process:
 
-Releases are prepared by merging `dev` into `main`. Release impact is determined from the changes included since the previous release.
+1. Development PRs are reviewed and merged into `dev`.
+2. A maintainer opens a release PR from `dev` into `main`.
+3. GitHub Actions automatically:
+   - Collects the development PRs included in the release.
+   - Aggregates their labels and determines the highest SemVer impact.
+   - Suggests the next version based on the latest published release.
+   - Generates categorized release notes.
+   - Posts or updates the release preparation comment on the release PR.
+4. A maintainer reviews the proposed version, release notes, and any
+   compatibility concerns.
+5. After approval, the release PR is manually merged into `main`.
+6. A maintainer creates and publishes a GitHub Release using a version
+   tag pointing to a commit on `main` and the prepared release notes.
+7. Publishing the GitHub Release triggers the existing GitHub Actions
+   workflow to build and publish the package to PyPI.
 
-GitHub releases are created from `main`, and publication to PyPI is handled by GitHub Actions.
+### Release approval
 
-Release publication remains a maintainer decision.
+Release preparation is automated, but **release approval and publication
+remain manual**.
+
+The automation does not:
+- Merge release PRs.
+- Create version tags.
+- Create or publish GitHub Releases.
+- Initiate PyPI publication before a GitHub Release is published.
+
+The proposed version and generated release notes must be reviewed by a
+maintainer before publication.
+
+The final release version may be adjusted by a maintainer when necessary,
+for example to address compatibility concerns or to prepare the transition
+to version `1.0.0`.
