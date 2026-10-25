@@ -120,3 +120,38 @@ def test_priority_labels_are_excluded():
 
     assert problems == []
     assert "priority:urgent" not in labels
+
+
+def test_unmatched_commits_do_not_block_release(capsys):
+    """Unmatched commits should generate warnings, not errors."""
+    unmatched = ["1dd09bbb990c"]
+
+    module.validate_release(problems=[], unmatched=unmatched)
+
+    output = capsys.readouterr().out
+
+    assert "WARNING" in output
+    assert "Review these commits manually" in output
+
+
+def test_invalid_semver_blocks_release():
+    """Invalid PR classifications must prevent release preparation."""
+    problems = ["#123: invalid SemVer labels []"]
+
+    with pytest.raises(SystemExit, match="invalid SemVer labels"):
+        module.validate_release(
+            problems=problems,
+            unmatched=[],
+        )
+
+
+def test_valid_release_has_no_warnings(capsys):
+    """A fully classified release should pass without warnings."""
+    module.validate_release(
+        problems=[],
+        unmatched=[],
+    )
+
+    output = capsys.readouterr().out
+
+    assert output == ""

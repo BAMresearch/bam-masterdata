@@ -193,6 +193,21 @@ def apply_labels(release_pr, labels):
     print(f"\nUpdated release PR #{number}")
 
 
+def validate_release(problems, unmatched):
+    """Validate release classification and report unmatched commits."""
+    if problems:
+        raise SystemExit(
+            "Release classification is incomplete. "
+            "Some PRs have missing or invalid SemVer labels."
+        )
+
+    if unmatched:
+        print(
+            "\nWARNING: Some commits are not associated with a merged development PR."
+        )
+        print("Review these commits manually before approving the release.")
+
+
 def main():
     release_pr = get_release_pr()
     prs, unmatched = get_development_prs()
@@ -204,10 +219,7 @@ def main():
     if not prs:
         raise SystemExit("No merged development PRs found.")
 
-    if problems or unmatched:
-        raise SystemExit(
-            "Release classification is incomplete. Review the reported PRs/commits."
-        )
+    validate_release(problems, unmatched)
 
     if not release_pr:
         print("\nNo release PR specified. Analysis only.")
