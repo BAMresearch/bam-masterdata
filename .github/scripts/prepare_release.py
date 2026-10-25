@@ -2,6 +2,7 @@
 
 import json
 import os
+import re
 import subprocess
 from pathlib import Path
 
@@ -10,6 +11,58 @@ PR_NUMBER = os.environ.get("PR_NUMBER")
 DRY_RUN = os.environ.get("DRY_RUN", "true").lower() == "true"
 
 SEMVER_ORDER = ("none", "patch", "minor", "major")
+
+VERSION_PATTERN = re.compile(r"^v?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$")
+
+
+def parse_version(tag):
+    """Parse a stable SemVer tag into major, minor and patch."""
+    match = VERSION_PATTERN.fullmatch(tag)
+
+    if not match:
+        raise ValueError(f"Invalid stable release version: {tag!r}")
+
+    return tuple(int(value) for value in match.groups())
+
+
+def get_latest_release_version():
+    """Read the latest published stable release from GitHub."""
+    release = gh(f"repos/{REPO}/releases/latest")
+    tag = release["tag_name"]
+
+    parse_version(tag)
+
+    return tag
+
+
+def suggest_next_version(current_version, impact):
+    """Suggest the next release version, respecting the 0.x policy."""
+    major, minor, patch = parse_version(current_version)
+
+    if impact not in SEMVER_ORDER:
+        raise ValueError(f"Unknown SemVer impact: {impact}")
+
+    if impact == "none":
+        return None
+
+    if impact == "patch":
+        patch += 1
+
+    elif impact == "minor":
+        minor += 1
+        patch = 0
+
+    elif impact == "major":
+        if major == 0:
+            minor += 1
+        else:
+            major += 1
+            minor = 0
+
+        patch = 0
+
+    return f"{major}.{minor}.{patch}"
+
 
 RELEASE_NOTES_PATH = Path(os.environ.get("RELEASE_NOTES_PATH", "release-notes.md"))
 
@@ -233,23 +286,47 @@ def markdown_text(value):
     )
 
 
-def render_release_notes(prs, labels, unmatched=()):
+def get_release_impact(labels):
+    """Return the aggregated SemVer impact."""
+    matches = [
+        label.removeprefix("semver:") for label in labels if label.startswith("semver:")
+    ]
+
+    if len(matches) != 1 or matches[0] not in SEMVER_ORDER:
+        raise ValueError(f"Expected exactly one valid SemVer label: {matches}")
+
+    return matches[0]
+
+
+def render_release_notes(
+    prs,
+    labels,
+    unmatched=(),
+    current_version=None,
+    next_version=None,
+):
     """Create categorized Markdown notes from original development PRs."""
-    impact = next(
-        (
-            label.removeprefix("semver:")
-            for label in labels
-            if label.startswith("semver:")
-        ),
-        "none",
-    )
+    impact = get_release_impact(labels)
 
     lines = [
         "# Release Notes",
         "",
-        f"**Suggested SemVer impact:** `{impact}`",
-        "",
     ]
+
+    if current_version is not None:
+        lines.append(f"**Current release:** `{current_version}`")
+
+    if next_version is not None:
+        lines.append(f"**Suggested release:** `v{next_version}`")
+    elif current_version is not None:
+        lines.append("**Suggested release:** No version bump")
+
+    lines.extend(
+        [
+            f"**Suggested SemVer impact:** `{impact}`",
+            "",
+        ]
+    )
 
     used = set()
 
@@ -315,9 +392,21 @@ def render_release_notes(prs, labels, unmatched=()):
     return "\n".join(lines).rstrip() + "\n"
 
 
-def write_release_notes(prs, labels, unmatched=()):
+def write_release_notes(
+    prs,
+    labels,
+    unmatched=(),
+    current_version=None,
+    next_version=None,
+):
     """Write the generated notes to a local Markdown file."""
-    content = render_release_notes(prs, labels, unmatched)
+    content = render_release_notes(
+        prs,
+        labels,
+        unmatched,
+        current_version=current_version,
+        next_version=next_version,
+    )
     RELEASE_NOTES_PATH.parent.mkdir(parents=True, exist_ok=True)
     RELEASE_NOTES_PATH.write_text(content, encoding="utf-8")
 
@@ -337,8 +426,27 @@ def main():
 
     validate_release(problems, unmatched)
 
+    # Determine the next version from the latest published release.
+    current_version = get_latest_release_version()
+    impact = get_release_impact(labels)
+
+    next_version = suggest_next_version(current_version, impact)
+
+    print(f"\nCurrent release: {current_version}")
+    print(f"Suggested SemVer impact: {impact}")
+    print(
+        "Suggested next version: "
+        f"{f'v{next_version}' if next_version else 'No version bump'}"
+    )
+
     # Generate notes only after validation succeeds.
-    write_release_notes(prs, labels, unmatched)
+    write_release_notes(
+        prs,
+        labels,
+        unmatched,
+        current_version=current_version,
+        next_version=next_version,
+    )
 
     if not release_pr:
         print("\nNo release PR specified. Analysis only.")

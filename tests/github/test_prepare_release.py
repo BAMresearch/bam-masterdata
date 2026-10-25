@@ -221,3 +221,74 @@ def test_release_notes_write_file(tmp_path, monkeypatch):
 
     assert output.exists()
     assert "## Features" in output.read_text(encoding="utf-8")
+
+
+@pytest.mark.parametrize(
+    ("current", "impact", "expected"),
+    [
+        ("0.15.0", "none", None),
+        ("0.15.0", "patch", "0.15.1"),
+        ("0.15.0", "minor", "0.16.0"),
+        ("0.15.0", "major", "0.16.0"),
+        ("0.15.3", "minor", "0.16.0"),
+        ("0.15.3", "major", "0.16.0"),
+        ("1.2.3", "patch", "1.2.4"),
+        ("1.2.3", "minor", "1.3.0"),
+        ("1.2.3", "major", "2.0.0"),
+        ("v1.2.3", "minor", "1.3.0"),
+    ],
+)
+def test_suggest_next_version(current, impact, expected):
+    assert module.suggest_next_version(current, impact) == expected
+
+
+@pytest.mark.parametrize(
+    "invalid_version",
+    [
+        "invalid",
+        "1.2",
+        "1.2.3.4",
+        "1.0.0rc1",
+        "01.2.3",
+    ],
+)
+def test_invalid_version_rejected(invalid_version):
+    with pytest.raises(ValueError, match="Invalid stable release version"):
+        module.parse_version(invalid_version)
+
+
+def test_unknown_semver_impact_rejected():
+    with pytest.raises(ValueError, match="Unknown SemVer impact"):
+        module.suggest_next_version("0.15.0", "unknown")
+
+
+def test_missing_semver_impact_rejected():
+    with pytest.raises(ValueError, match="Expected exactly one"):
+        module.get_release_impact(["type:feature"])
+
+
+def test_latest_release_version(monkeypatch):
+    def fake_gh(*args):
+        assert args == ("repos/BAMresearch/bam-masterdata/releases/latest",)
+        return {"tag_name": "v0.15.0"}
+
+    monkeypatch.setattr(module, "gh", fake_gh)
+
+    assert module.get_latest_release_version() == "v0.15.0"
+
+
+def test_release_notes_include_version_suggestion():
+    prs = [
+        make_pr(100, ["type:feature", "semver:minor"]),
+    ]
+
+    notes = module.render_release_notes(
+        prs,
+        ["type:feature", "semver:minor"],
+        current_version="v0.15.0",
+        next_version="0.16.0",
+    )
+
+    assert "**Current release:** `v0.15.0`" in notes
+    assert "**Suggested release:** `v0.16.0`" in notes
+    assert "**Suggested SemVer impact:** `minor`" in notes
