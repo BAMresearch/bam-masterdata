@@ -37,7 +37,13 @@ ACTIVITY_PROPERTIES = {
     "outputs",
 }
 
-MULTIVALUED_PROPERTIES = {"external_identifiers", "external_references"}
+MULTIVALUED_PROPERTIES = {
+    "external_identifier",
+    "external_reference",
+    "operators",
+    "inputs",
+    "outputs",
+}
 
 # The flat, section-grouped list of codes that each type pushes to openBIS. Note that
 # `START_DATE`/`END_DATE` are declared on `Activity` but appear next to the `Root`

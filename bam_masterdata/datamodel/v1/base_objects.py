@@ -9,7 +9,7 @@ from bam_masterdata.metadata.entities import ObjectType
 #   │   └── Computation  (see `activities.py`)
 #   └── Entity
 #       ├── Context         (see `entities.py`)
-#       ├──  Location       (see `entities.py`)
+#       ├── Location        (see `entities.py`)
 #       └── Material Entity (see `entities.py`)
 
 
@@ -28,7 +28,7 @@ class Root(ObjectType):
         property_label="Name",
         description="Name",
         description_de="Namen",
-        mandatory=False,
+        mandatory=True,
         section="General Information",
     )
 
@@ -42,8 +42,8 @@ class Root(ObjectType):
         section="General Information",
     )
 
-    external_identifiers = PropertyTypeAssignment(
-        code="EXTERNAL_IDENTIFIERS",
+    external_identifier = PropertyTypeAssignment(
+        code="EXTERNAL_IDENTIFIER",
         data_type="VARCHAR",
         property_label="External identifiers",
         description="Identifiers of the entry in external systems",
@@ -60,11 +60,12 @@ class Root(ObjectType):
         description="Hash value associated with the entry",
         description_de="Dem Eintrag zugeordneter Hashwert",
         mandatory=False,
+        show_in_edit_views=False,
         section="General Information",
     )
 
-    external_references = PropertyTypeAssignment(
-        code="EXTERNAL_REFERENCES",
+    external_reference = PropertyTypeAssignment(
+        code="EXTERNAL_REFERENCE",
         data_type="MULTILINE_VARCHAR",
         property_label="External references",
         description="References to external resources",
@@ -76,8 +77,7 @@ class Root(ObjectType):
 
     ontology_iri = PropertyTypeAssignment(
         code="ONTOLOGY_IRI",
-        data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="ONTOLOGY_IRI",
+        data_type="VARCHAR",
         property_label="Ontology IRI",
         description="IRI of the ontology concept associated with the entry",
         description_de="IRI des dem Eintrag zugeordneten Ontologiekonzepts",
@@ -100,7 +100,7 @@ class Activity(Root):
     defs = ObjectTypeDef(
         code="ACTIVITY",
         description="Activity",
-        description_de="Activität",
+        description_de="Aktivität",
         generated_code_prefix="ACT",
         prev_versions=["EXPERIMENTAL_STEP:v0"],
         iri=[
@@ -108,6 +108,7 @@ class Activity(Root):
             "http://www.w3.org/ns/prov#Activity",
         ],
     )
+
     start_date = PropertyTypeAssignment(
         code="START_DATE",
         data_type="TIMESTAMP",
@@ -117,6 +118,7 @@ class Activity(Root):
         mandatory=False,
         section="General Information",
     )
+
     end_date = PropertyTypeAssignment(
         code="END_DATE",
         data_type="TIMESTAMP",
@@ -126,6 +128,7 @@ class Activity(Root):
         mandatory=False,
         section="General Information",
     )
+
     activity_status = PropertyTypeAssignment(
         code="ACTIVITY_STATUS",
         data_type="CONTROLLEDVOCABULARY",
@@ -136,6 +139,7 @@ class Activity(Root):
         mandatory=False,
         section="Activity Details",
     )
+
     operators = PropertyTypeAssignment(
         code="OPERATORS",
         data_type="OBJECT",
@@ -145,8 +149,8 @@ class Activity(Root):
         description_de="Personen die Aktivität durchführen",
         mandatory=False,
         section="Activity Details",
+        multivalued=True,
     )
-
     objective = PropertyTypeAssignment(
         code="OBJECTIVE",
         data_type="MULTILINE_VARCHAR",
@@ -156,6 +160,7 @@ class Activity(Root):
         mandatory=False,
         section="Activity Details",
     )
+
     activity_sheet = PropertyTypeAssignment(
         code="ACTIVITY_SHEET",
         data_type="XML",
@@ -169,12 +174,13 @@ class Activity(Root):
     inputs = PropertyTypeAssignment(
         code="INPUTS",
         data_type="OBJECT",
-        property_label="Inputs",
         object_code="ENTITY",
+        property_label="Inputs",
         description="Entities used by the activity",
         description_de="Von der Aktivität verwendete Entitäten",
         mandatory=False,
         section="Inputs and Outputs",
+        multivalued=True,
     )
 
     outputs = PropertyTypeAssignment(
@@ -186,6 +192,7 @@ class Activity(Root):
         description_de="Von der Aktivität erzeugte Entitäten",
         mandatory=False,
         section="Inputs and Outputs",
+        multivalued=True,
     )
 
 
