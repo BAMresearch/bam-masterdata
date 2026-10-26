@@ -1,14 +1,57 @@
 import pytest
 
 from bam_masterdata.checker.schema_validator import (
+    get_object_types,
     validate_object_references,
     validate_object_type_codes,
 )
+from bam_masterdata.datamodel.v0.activities import Dcpd
+from bam_masterdata.datamodel.v0.object_types import (
+    Entry,
+    ExperimentalStep,
+    Person,
+)
+from bam_masterdata.datamodel.v0.welding.object_types import Welding
 from bam_masterdata.metadata.definitions import (
     ObjectTypeDef,
     PropertyTypeAssignment,
 )
 from bam_masterdata.metadata.entities import ObjectType
+
+
+class TestObjectTypeDiscovery:
+    def test_discover_v0(self):
+        object_types = get_object_types("v0")
+
+        assert Entry in object_types
+        assert ExperimentalStep in object_types
+        assert Person in object_types
+
+        # Definitions from subpackages must also be discovered.
+        assert Dcpd in object_types
+        assert Welding in object_types
+
+    def test_discovery_has_no_duplicates(self):
+        object_types = get_object_types("v0")
+
+        assert len(object_types) == len(set(object_types))
+
+    def test_only_object_types_returned(self):
+        object_types = get_object_types("v0")
+
+        assert object_types
+
+        for cls in object_types:
+            assert issubclass(cls, ObjectType)
+            assert isinstance(cls.__dict__.get("defs"), ObjectTypeDef)
+
+    def test_invalid_version(self):
+        with pytest.raises(ValueError, match="Invalid datamodel version"):
+            get_object_types("../v0")
+
+    def test_unknown_version(self):
+        with pytest.raises(ValueError, match="does not exist"):
+            get_object_types("v9999")
 
 
 class TestObjectTypeCodeValidation:

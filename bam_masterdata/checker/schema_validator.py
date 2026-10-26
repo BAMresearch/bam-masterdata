@@ -1,9 +1,72 @@
+import importlib
+import inspect
+import pkgutil
+import re
+
 from bam_masterdata.metadata.definitions import (
     DataType,
     ObjectTypeDef,
     PropertyTypeAssignment,
 )
 from bam_masterdata.metadata.entities import ObjectType
+
+
+def get_object_types(version: str) -> list[type[ObjectType]]:
+    """
+    Discover object type definitions belonging to one datamodel `version`.
+
+    Searches the version's Python package and its subpackages. Only classes defined in their original
+    module and declaring their own ObjectTypeDef are returned.
+
+    Args:
+        version (str): The datamodel version (i.e., subfolder) to search for, e.g. "v0", "v1", etc.
+
+    Returns:
+        list[type[ObjectType]]: A list of ObjectType subclasses defined in the specified datamodel version, sorted by module and class name.
+    """
+    if not re.fullmatch(r"v\d+", version):
+        raise ValueError(f"Invalid datamodel version: {version!r}")
+
+    package_name = f"bam_masterdata.datamodel.{version}"
+
+    try:
+        package = importlib.import_module(package_name)
+    except ModuleNotFoundError as exc:
+        if exc.name == package_name:
+            raise ValueError(f"Datamodel version {version!r} does not exist.") from exc
+        raise
+
+    module_names = [package_name]
+
+    module_names.extend(
+        module_info.name
+        for module_info in pkgutil.walk_packages(
+            package.__path__,
+            prefix=f"{package_name}.",
+        )
+    )
+
+    object_types: set[type[ObjectType]] = set()
+
+    for module_name in module_names:
+        module = importlib.import_module(module_name)
+
+        for _, cls in inspect.getmembers(module, inspect.isclass):
+            if cls.__module__ != module.__name__:
+                continue
+
+            if not issubclass(cls, ObjectType):
+                continue
+
+            if not isinstance(cls.__dict__.get("defs"), ObjectTypeDef):
+                continue
+
+            object_types.add(cls)
+
+    return sorted(
+        object_types,
+        key=lambda cls: (cls.__module__, cls.__qualname__),
+    )
 
 
 def validate_object_type_codes(object_types: list[type[ObjectType]]) -> None:
