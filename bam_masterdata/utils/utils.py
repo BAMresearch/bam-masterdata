@@ -141,6 +141,13 @@ def code_to_class_name(
     return "".join(c.capitalize() for c in code.lstrip("$").rsplit(".")[-1].split("_"))
 
 
+def class_name_to_code(name: str) -> str:
+    """Convert a PascalCase class name into an openBIS code."""
+    code = re.sub(r"([A-Z]+)([A-Z][a-z])", r"\1_\2", name)
+    code = re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", code)
+    return code.upper()
+
+
 def load_validation_rules(
     logger: "BoundLoggerLazyProxy",
     file_path: str = os.path.join(VALIDATION_RULES_DIR, "validation_rules.json"),

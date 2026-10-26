@@ -8,6 +8,7 @@ import pytest
 
 from bam_masterdata.logger import logger
 from bam_masterdata.utils import (
+    class_name_to_code,
     code_to_class_name,
     delete_and_create_dir,
     duplicated_property_types,
@@ -169,6 +170,19 @@ def test_import_module():
 )
 def test_code_to_class_name(code: str, entity_type: str, result: str):
     assert code_to_class_name(code, logger, entity_type) == result
+
+
+@pytest.mark.parametrize(
+    "class_name, expected",
+    [
+        ("Root", "ROOT"),
+        ("MaterialEntity", "MATERIAL_ENTITY"),
+        ("BAMPerson", "BAM_PERSON"),
+        ("GmawTorch", "GMAW_TORCH"),
+    ],
+)
+def test_class_name_to_code(class_name, expected):
+    assert class_name_to_code(class_name) == expected
 
 
 @pytest.mark.parametrize(
