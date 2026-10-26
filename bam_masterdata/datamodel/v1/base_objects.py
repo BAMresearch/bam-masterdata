@@ -18,8 +18,8 @@ class Root(ObjectType):
         code="ROOT",
         description="Root of the masterdata hierarchy",
         description_de="Wurzel der Masterdaten-Hierarchie",
-        generated_code_prefix="Root",
-        prev_version=["ENTRY"],
+        generated_code_prefix="ROOT",
+        prev_versions=["ENTRY:v0"],
     )
 
     name = PropertyTypeAssignment(
@@ -50,7 +50,7 @@ class Root(ObjectType):
         description_de="Kennungen des Eintrags in externen Systemen",
         mandatory=False,
         section="General Information",
-        metadata={"multivalued": True},
+        multivalued=True,
     )
 
     hash = PropertyTypeAssignment(
@@ -71,7 +71,7 @@ class Root(ObjectType):
         description_de="Verweise auf externe Ressourcen",
         mandatory=False,
         section="General Information",
-        metadata={"multivalued": True},
+        multivalued=True,
     )
 
     ontology_iri = PropertyTypeAssignment(
@@ -85,7 +85,7 @@ class Root(ObjectType):
         section="General Information",
     )
 
-    prev_permID = PropertyTypeAssignment(
+    prev_permid = PropertyTypeAssignment(
         code="PREV_PERMID",
         data_type="VARCHAR",
         property_label="Previous permID",
@@ -102,8 +102,8 @@ class Activity(Root):
         description="Activity",
         description_de="Activität",
         generated_code_prefix="ACT",
-        prev_version=["EEPERIMENTAL_STEP"],
-        ontodefs=[
+        prev_versions=["EXPERIMENTAL_STEP:v0"],
+        iri=[
             "http://purl.obolibrary.org/obo/BFO_0000015",
             "http://www.w3.org/ns/prov#Activity",
         ],
@@ -126,7 +126,7 @@ class Activity(Root):
         mandatory=False,
         section="General Information",
     )
-    status = PropertyTypeAssignment(
+    activity_status = PropertyTypeAssignment(
         code="ACTIVITY_STATUS",
         data_type="CONTROLLEDVOCABULARY",
         vocabulary_code="ACTIVITY_STATUS",
@@ -136,13 +136,13 @@ class Activity(Root):
         mandatory=False,
         section="Activity Details",
     )
-    operator = PropertyTypeAssignment(
+    operators = PropertyTypeAssignment(
         code="OPERATORS",
         data_type="OBJECT",
         object_code="PERSON",
         property_label="Operators",
         description="Persons performing the activity",
-        description_de="/Personen, die die Aktivität durchführen",
+        description_de="Personen die Aktivität durchführen",
         mandatory=False,
         section="Activity Details",
     )
@@ -194,10 +194,10 @@ class Entity(Root):
         code="ENTITY",
         description="A physical, digital, conceptual, or other kind of thing with some "
         "fixed aspects; entities may be tangible or intangible",
-        description_de="Ein physisches, digitales, konzeptionelles oder anderes Ding mit"
+        description_de="Ein physisches, digitales, konzeptionelles oder anderes Ding mit "
         "bestimmten festen Aspekten; Entitäten können materiell oder immateriell sein",
         generated_code_prefix="ENT",
-        ontodefs=[
+        iri=[
             "http://purl.obolibrary.org/obo/BFO_0000002",
             "http://www.w3.org/ns/prov#Entity",
         ],
