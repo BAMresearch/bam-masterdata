@@ -1334,3 +1334,114 @@ class TestVocabularyTypeSync:
             openbis=openbis,
             result=result,
         )
+
+
+class TestObjectTypeHierarchy:
+    class Root(ObjectType):
+        defs = ObjectTypeDef(
+            code="ROOT",
+            description="Root",
+        )
+
+    class Entity(Root):
+        defs = ObjectTypeDef(
+            code="ENTITY",
+            description="Entity",
+        )
+
+    class MaterialEntity(Entity):
+        defs = ObjectTypeDef(
+            code="MATERIAL_ENTITY",
+            description="Material entity",
+        )
+
+    class Organism(MaterialEntity):
+        defs = ObjectTypeDef(
+            code="ORGANISM",
+            description="Organism",
+        )
+
+    class Person(Organism):
+        defs = ObjectTypeDef(
+            code="PERSON",
+            description="Person",
+        )
+
+    class Activity(Root):
+        defs = ObjectTypeDef(
+            code="ACTIVITY",
+            description="Activity",
+        )
+
+    def test_root_hierarchy(self):
+        assert self.Root.get_hierarchy() == ["ROOT"]
+
+    def test_direct_inheritance(self):
+        assert self.Entity.get_hierarchy() == ["ROOT", "ENTITY"]
+
+    def test_deep_inheritance(self):
+        assert self.Person.get_hierarchy() == [
+            "ROOT",
+            "ENTITY",
+            "MATERIAL_ENTITY",
+            "ORGANISM",
+            "PERSON",
+        ]
+
+    def test_hierarchy_path(self):
+        assert (
+            self.Person.get_hierarchy_path()
+            == "ROOT.ENTITY.MATERIAL_ENTITY.ORGANISM.PERSON"
+        )
+
+    def test_is_subtype_of(self):
+        assert self.Person.is_subtype_of(self.Entity)
+        assert self.Person.is_subtype_of(self.Root)
+        assert self.Person.is_subtype_of(self.Person)
+
+    def test_unrelated_types(self):
+        assert not self.Person.is_subtype_of(self.Activity)
+        assert not self.Activity.is_subtype_of(self.Entity)
+
+    def test_invalid_subtype(self):
+        assert not self.Person.is_subtype_of(str)
+        assert not self.Person.is_subtype_of("ENTITY")
+
+    def test_framework_class_excluded(self):
+        assert ObjectType.get_hierarchy() == []
+        assert self.Root.get_hierarchy() == ["ROOT"]
+
+    def test_inherited_definition_not_duplicated(self):
+        class PersonChild(self.Person):
+            pass
+
+        assert PersonChild.get_hierarchy() == self.Person.get_hierarchy()
+
+    def test_explicit_codes_used_in_hierarchy(self):
+        class CustomPerson(self.Organism):
+            defs = ObjectTypeDef(
+                code="BAM_PERSON",
+                description="Custom person",
+            )
+
+        assert CustomPerson.get_hierarchy()[-1] == "BAM_PERSON"
+
+    def test_multiple_inheritance(self):
+        class AnotherEntity(self.Root):
+            defs = ObjectTypeDef(
+                code="ANOTHER_ENTITY",
+                description="Another entity",
+            )
+
+        class Combined(self.Entity, AnotherEntity):
+            defs = ObjectTypeDef(
+                code="COMBINED",
+                description="Combined entity",
+            )
+
+        with pytest.raises(ValueError, match="multiple ObjectType parents"):
+            Combined.get_hierarchy()
+
+        # Python can still determine subtype relationships.
+        assert Combined.is_subtype_of(self.Entity)
+        assert Combined.is_subtype_of(AnotherEntity)
