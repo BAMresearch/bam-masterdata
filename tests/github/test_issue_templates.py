@@ -30,9 +30,9 @@ def parse_markdown_template(path: Path) -> tuple[dict, str]:
     """Extract YAML front matter and Markdown body."""
     content = path.read_text(encoding="utf-8")
 
-    assert content.startswith("---\n"), (
-        f"{path.name}: YAML front matter must start on the first line"
-    )
+    assert content.startswith(
+        "---\n"
+    ), f"{path.name}: YAML front matter must start on the first line"
 
     parts = content.split("---\n", maxsplit=2)
 
@@ -71,9 +71,9 @@ def test_issue_template(filename: str, expected: dict):
 def test_no_legacy_yaml_issue_forms():
     """Ensure the old YAML issue forms have been removed."""
     for filename in ("bug.yml", "feature.yml", "task.yml"):
-        assert not (TEMPLATE_DIR / filename).exists(), (
-            f"Legacy issue form still exists: {filename}"
-        )
+        assert not (
+            TEMPLATE_DIR / filename
+        ).exists(), f"Legacy issue form still exists: {filename}"
 
 
 def test_blank_issues_are_enabled():
