@@ -819,7 +819,7 @@ class CreepTestChemicalCompositionNominal(ObjectType):
     creep_test_chemical_composition_nominal = PropertyTypeAssignment(
         code="CHEM_SPECIES_BY_COMP_IN_PCT",
         data_type="VARCHAR",
-        property_label="Chemical composition - nominal",
+        property_label="Chemical composition - nominal (wt.-% / at.-%)",
         description="""Chemical composition - nominal - Link to file, preferably with machine-readable (meta)data or add the wt.-% value of for each element // Chemische Zusammensetzung - nominal [wt.-% / at.-%] - Link zu einer Datei, vorzugsweise mit maschinenlesbaren (Meta-)Daten, oder geben Sie für jedes Element den Gewichts-%-Wert an.""",
         mandatory=True,
         section="Chemical composition",
@@ -861,7 +861,7 @@ class CreepTestChemicalCompositionMeasured(ObjectType):
     creep_test_chemical_composition_measured = PropertyTypeAssignment(
         code="CHEM_SPECIES_BY_COMP_IN_PCT",
         data_type="VARCHAR",
-        property_label="Chemical composition - measured",
+        property_label="Chemical composition - measured (wt.-% / at.-%)",
         description="""Chemical composition - measured - Include precision, if available. Link to file, preferably with machine-readable (meta)data or add the wt.-% value of for each element // Chemische Zusammensetzung - gemessen [wt.-% / at.-%] - Geben Sie, falls verfügbar, die Präzision an. Link zu einer Datei, vorzugsweise mit maschinenlesbaren (Meta-)Daten, oder geben Sie für jedes Element den Gewichts-%-Wert an.""",
         mandatory=True,
         section="Chemical composition",
