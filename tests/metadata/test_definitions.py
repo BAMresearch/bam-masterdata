@@ -288,6 +288,70 @@ class TestPropertyTypeDef:
                 units="meter",
             )
 
+    @pytest.mark.parametrize(
+        "data_type",
+        [DataType.REAL, DataType.INTEGER],
+    )
+    def test_units_valid_numeric_data_types(self, data_type):
+        prop = PropertyTypeDef(
+            code="LENGTH",
+            description="Length",
+            property_label="Length",
+            data_type=data_type,
+            units="meter",
+        )
+
+        assert prop.units == "meter"
+        assert prop.property_label == "Length in [meter]"
+
+    @pytest.mark.parametrize("data_type", list(DataType))
+    def test_units_none_allowed_for_all_data_types(self, data_type):
+        prop = PropertyTypeDef(
+            code="TEST_PROPERTY",
+            description="Test property",
+            property_label="Test property",
+            data_type=data_type,
+            units=None,
+        )
+
+        assert prop.units is None
+
+    @pytest.mark.parametrize(
+        "data_type",
+        [
+            data_type
+            for data_type in DataType
+            if data_type not in {DataType.REAL, DataType.INTEGER}
+        ],
+    )
+    def test_units_rejected_for_non_numeric_data_types(self, data_type):
+        with pytest.raises(
+            ValueError,
+            match=f"Got data_type='{data_type.value}'",
+        ):
+            PropertyTypeDef(
+                code="TEST_PROPERTY",
+                description="Test property",
+                property_label="Test property",
+                data_type=data_type,
+                units="meter",
+            )
+
+    def test_units_validation_in_property_assignment(self):
+        with pytest.raises(
+            ValueError,
+            match="Units are only supported for REAL and INTEGER",
+        ):
+            PropertyTypeAssignment(
+                code="NAME",
+                data_type=DataType.VARCHAR,
+                property_label="Name",
+                description="Name",
+                units="meter",
+                mandatory=False,
+                section="General Information",
+            )
+
     def test_model_id_uses_property_conversion(self):
         prop = PropertyTypeDef(
             code="$STORAGE.STORAGE_VALIDATION_LEVEL",
