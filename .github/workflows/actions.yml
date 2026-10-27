@@ -40,7 +40,12 @@ jobs:
         uv pip install -e '.[dev]'
     - name: Test with pytest
       run: |
-        uv run pytest -sv --ignore=tests/cli --ignore=tests/metadata/test_entities_dict.py tests
+        uv run pytest -sv \
+          --ignore=tests/cli/test_run_parser.py \
+          --ignore=tests/cli/test_entities_to_excel.py \
+          --ignore=tests/cli/test_entities_to_rdf.py \
+          --ignore=tests/metadata/test_entities_dict.py \
+          tests
   build-and-install:
     runs-on: ubuntu-latest
     steps:
