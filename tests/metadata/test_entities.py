@@ -737,6 +737,151 @@ class TestObjectTypeSync:
         assert change.target == SyncTarget.PROPERTY_TYPE
         assert change.field == "data_type"
 
+    @pytest.mark.parametrize(
+        "current_target",
+        ["INSTRUMENT", {"code": "INSTRUMENT"}],
+    )
+    def test_update_object_property_rejects_target_change(self, current_target):
+        entity = generate_object_type()
+
+        prop = PropertyTypeAssignment(
+            code="OPERATOR",
+            data_type="OBJECT",
+            object_code="PERSON",
+            property_label="Operator",
+            description="Person performing the activity",
+            mandatory=False,
+            section="General Information",
+        )
+
+        property_type = MagicMock()
+        property_type.dataType = "SAMPLE"
+        property_type.sampleType = current_target
+
+        openbis = MagicMock()
+        openbis.get_property_type.return_value = property_type
+
+        obj_type = MagicMock()
+        result = SyncResult()
+
+        entity._update_existing_property(
+            prop=prop,
+            obj_type=obj_type,
+            openbis=openbis,
+            result=result,
+        )
+
+        property_type.save.assert_not_called()
+        obj_type.assign_property.assert_not_called()
+
+        assert len(result.changes) == 1
+
+        change = result.changes[0]
+
+        assert change.action == SyncAction.REJECTED
+        assert change.target == SyncTarget.PROPERTY_TYPE
+        assert change.code == "OPERATOR"
+        assert change.field == "object_code"
+        assert change.old_value == "INSTRUMENT"
+        assert change.new_value == "PERSON"
+
+    def test_update_object_property_accepts_matching_target(self):
+        entity = generate_object_type()
+
+        prop = PropertyTypeAssignment(
+            code="OPERATOR",
+            data_type="OBJECT",
+            object_code="PERSON",
+            property_label="Operator",
+            description="Person performing the activity",
+            mandatory=False,
+            section="General Information",
+        )
+
+        property_type = MagicMock()
+        property_type.dataType = "SAMPLE"
+        property_type.sampleType = "PERSON"
+        property_type.label = prop.openbis_property_label
+        property_type.description = prop.openbis_description
+
+        assignment = MagicMock()
+        assignment.code = prop.code
+        assignment.section = prop.section
+        assignment.mandatory = prop.mandatory
+        assignment.showInEditView = prop.show_in_edit_views
+        assignment.ordinal = prop.ordinal
+
+        obj_type = MagicMock()
+        obj_type.get_property_assignments.return_value = [assignment]
+
+        openbis = MagicMock()
+        openbis.get_property_type.return_value = property_type
+
+        result = SyncResult()
+
+        entity._update_existing_property(
+            prop=prop,
+            obj_type=obj_type,
+            openbis=openbis,
+            result=result,
+        )
+
+        assert not any(
+            change.action == SyncAction.REJECTED for change in result.changes
+        )
+
+        property_type.save.assert_not_called()
+        obj_type.assign_property.assert_not_called()
+
+    @pytest.mark.parametrize("object_code", [None, "(ALL)"])
+    def test_update_unrestricted_object_property(self, object_code):
+        entity = generate_object_type()
+
+        prop = PropertyTypeAssignment(
+            code="INPUTS",
+            data_type="OBJECT",
+            object_code=object_code,
+            property_label="Inputs",
+            description="Input objects",
+            mandatory=False,
+            section="General Information",
+        )
+
+        property_type = MagicMock()
+        property_type.dataType = "SAMPLE"
+        property_type.sampleType = None
+        property_type.label = prop.openbis_property_label
+        property_type.description = prop.openbis_description
+
+        assignment = MagicMock()
+        assignment.code = prop.code
+        assignment.section = prop.section
+        assignment.mandatory = prop.mandatory
+        assignment.showInEditView = prop.show_in_edit_views
+        assignment.ordinal = prop.ordinal
+
+        obj_type = MagicMock()
+        obj_type.get_property_assignments.return_value = [assignment]
+
+        openbis = MagicMock()
+        openbis.get_property_type.return_value = property_type
+
+        result = SyncResult()
+
+        entity._update_existing_property(
+            prop=prop,
+            obj_type=obj_type,
+            openbis=openbis,
+            result=result,
+        )
+
+        assert not any(
+            change.action == SyncAction.REJECTED for change in result.changes
+        )
+
+        property_type.save.assert_not_called()
+        obj_type.assign_property.assert_not_called()
+
     def test_update_existing_property_modifies_label(self):
         entity = generate_object_type()
 
@@ -846,7 +991,10 @@ class TestObjectTypeSync:
             for change in result.changes
         )
 
-    @pytest.mark.parametrize("object_code", ["DATA_TRANSFER_PACKAGE", "(ALL)"])
+    @pytest.mark.parametrize(
+        "object_code",
+        ["DATA_TRANSFER_PACKAGE", "(ALL)", None],
+    )
     def test_create_object_property_preserves_target_type(self, object_code):
         entity = generate_object_type()
         prop = PropertyTypeAssignment(
@@ -870,7 +1018,7 @@ class TestObjectTypeSync:
 
         kwargs = openbis.new_property_type.call_args.kwargs
         assert kwargs["dataType"] == "SAMPLE"
-        if object_code == "(ALL)":
+        if object_code in (None, "(ALL)"):
             assert "sampleType" not in kwargs
         else:
             assert kwargs["sampleType"] == object_code
@@ -973,6 +1121,72 @@ class TestObjectTypeSync:
 
         # No new property type should be created.
         openbis.new_property_type.assert_not_called()
+
+    @patch("bam_masterdata.metadata.entities.OpenbisEntities")
+    def test_sync_uses_simple_code_for_inherited_object_type(
+        self,
+        mocked_openbis_entities,
+        mock_openbis_sync,
+    ):
+        openbis, obj_type = mock_openbis_sync
+
+        class Root(ObjectType):
+            defs = ObjectTypeDef(
+                code="ROOT",
+                description="Root object type",
+            )
+
+        class Entity(Root):
+            defs = ObjectTypeDef(
+                code="ENTITY",
+                description="Entity object type",
+            )
+
+        class Person(Entity):
+            defs = ObjectTypeDef(
+                code="PERSON",
+                description="Person object type",
+                generated_code_prefix="PER",
+            )
+
+        # Confirm Python inheritance is independent of the openBIS code.
+        assert Person.get_hierarchy() == [
+            "ROOT",
+            "ENTITY",
+            "PERSON",
+        ]
+        assert Person.defs.code == "PERSON"
+
+        # Simulate an openBIS instance where PERSON does not exist.
+        mocked_openbis_entities.return_value.get_object_dict.return_value = {}
+
+        person = Person()
+        person.to_openbis_sync(openbis=openbis)
+
+        openbis.new_object_type.assert_called_once_with(
+            code="PERSON",
+            description=Person.defs.openbis_description,
+            validationPlugin=Person.defs.validation_script,
+            generatedCodePrefix="PER",
+            autoGeneratedCode=Person.defs.auto_generate_codes,
+        )
+
+        obj_type.save.assert_called_once()
+
+        # Now simulate an existing PERSON type.
+        mocked_openbis_entities.return_value.get_object_dict.return_value = {
+            "PERSON": True,
+        }
+
+        openbis.reset_mock()
+        obj_type.description = Person.defs.openbis_description
+        obj_type.generatedCodePrefix = Person.defs.generated_code_prefix
+
+        person.to_openbis_sync(openbis=openbis)
+
+        # The existing type should be retrieved using its simple code.
+        openbis.get_object_type.assert_called_with("PERSON")
+        openbis.new_object_type.assert_not_called()
 
 
 class TestVocabularyTypeSync:
@@ -1334,3 +1548,114 @@ class TestVocabularyTypeSync:
             openbis=openbis,
             result=result,
         )
+
+
+class TestObjectTypeHierarchy:
+    class Root(ObjectType):
+        defs = ObjectTypeDef(
+            code="ROOT",
+            description="Root",
+        )
+
+    class Entity(Root):
+        defs = ObjectTypeDef(
+            code="ENTITY",
+            description="Entity",
+        )
+
+    class MaterialEntity(Entity):
+        defs = ObjectTypeDef(
+            code="MATERIAL_ENTITY",
+            description="Material entity",
+        )
+
+    class Organism(MaterialEntity):
+        defs = ObjectTypeDef(
+            code="ORGANISM",
+            description="Organism",
+        )
+
+    class Person(Organism):
+        defs = ObjectTypeDef(
+            code="PERSON",
+            description="Person",
+        )
+
+    class Activity(Root):
+        defs = ObjectTypeDef(
+            code="ACTIVITY",
+            description="Activity",
+        )
+
+    def test_root_hierarchy(self):
+        assert self.Root.get_hierarchy() == ["ROOT"]
+
+    def test_direct_inheritance(self):
+        assert self.Entity.get_hierarchy() == ["ROOT", "ENTITY"]
+
+    def test_deep_inheritance(self):
+        assert self.Person.get_hierarchy() == [
+            "ROOT",
+            "ENTITY",
+            "MATERIAL_ENTITY",
+            "ORGANISM",
+            "PERSON",
+        ]
+
+    def test_hierarchy_path(self):
+        assert (
+            self.Person.get_hierarchy_path()
+            == "ROOT.ENTITY.MATERIAL_ENTITY.ORGANISM.PERSON"
+        )
+
+    def test_is_subtype_of(self):
+        assert self.Person.is_subtype_of(self.Entity)
+        assert self.Person.is_subtype_of(self.Root)
+        assert self.Person.is_subtype_of(self.Person)
+
+    def test_unrelated_types(self):
+        assert not self.Person.is_subtype_of(self.Activity)
+        assert not self.Activity.is_subtype_of(self.Entity)
+
+    def test_invalid_subtype(self):
+        assert not self.Person.is_subtype_of(str)
+        assert not self.Person.is_subtype_of("ENTITY")
+
+    def test_framework_class_excluded(self):
+        assert ObjectType.get_hierarchy() == []
+        assert self.Root.get_hierarchy() == ["ROOT"]
+
+    def test_inherited_definition_not_duplicated(self):
+        class PersonChild(self.Person):
+            pass
+
+        assert PersonChild.get_hierarchy() == self.Person.get_hierarchy()
+
+    def test_explicit_codes_used_in_hierarchy(self):
+        class CustomPerson(self.Organism):
+            defs = ObjectTypeDef(
+                code="BAM_PERSON",
+                description="Custom person",
+            )
+
+        assert CustomPerson.get_hierarchy()[-1] == "BAM_PERSON"
+
+    def test_multiple_inheritance(self):
+        class AnotherEntity(self.Root):
+            defs = ObjectTypeDef(
+                code="ANOTHER_ENTITY",
+                description="Another entity",
+            )
+
+        class Combined(self.Entity, AnotherEntity):
+            defs = ObjectTypeDef(
+                code="COMBINED",
+                description="Combined entity",
+            )
+
+        with pytest.raises(ValueError, match="multiple ObjectType parents"):
+            Combined.get_hierarchy()
+
+        # Python can still determine subtype relationships.
+        assert Combined.is_subtype_of(self.Entity)
+        assert Combined.is_subtype_of(AnotherEntity)

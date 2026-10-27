@@ -432,13 +432,11 @@ class RunParsers:
             # Assume it's in the same space/project as the current object
             if not referenced_identifier:
                 # this is a special case where the object is anyway in the selected RunParsers destination
-                default_destination = (
-                    ResolvedDestination(
-                        space=self.space,
-                        project=self.project,
-                        collection=(
-                            self.collection_openbis if self.collection_name else None
-                        ),
+                default_destination = ResolvedDestination(
+                    space=self.space,
+                    project=self.project,
+                    collection=(
+                        self.collection_openbis if self.collection_name else None
                     ),
                 )
                 referenced_identifier = self._identifier_from_code(
