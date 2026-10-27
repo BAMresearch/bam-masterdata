@@ -712,14 +712,13 @@ class CreepTestMaterialHistoryAndCondition(ObjectType):
         code="CREEP_TEST_REPRECIPITATED_GAMMA_GAMMA_PRIME_REGIONS",
         data_type="VARCHAR",
         property_label="Reprecipitated gamma-gamma prime regions",
-        units="%",
         description="""Reprecipitated gamma-gamma prime regions - Completely dissolved and re-precipitated gamma-gamma' regions // Wieder ausgeschiedene Gamma/Gamma-Bereiche [%] - Vollständig gelöste und wieder ausgeschiedene Gamma/Gamma-Bereiche""",
         mandatory=False,
         section="Microstructure",
     )
     creep_test_gamma_prime_particles_average_size = PropertyTypeAssignment(
         code="CREEP_TEST_GAMMA_PRIME_PARTICLES_AVERAGE_SIZE",
-        data_type="VARCHAR",
+        data_type="REAL",
         property_label="Gamma prime particles - average size",
         units="µm",
         description="""Gamma prime particles - average size // Gamma-Partikel - mittlere Größe [µm]""",
@@ -821,7 +820,6 @@ class CreepTestChemicalCompositionNominal(ObjectType):
         code="CHEM_SPECIES_BY_COMP_IN_PCT",
         data_type="VARCHAR",
         property_label="Chemical composition - nominal",
-        units="%",
         description="""Chemical composition - nominal - Link to file, preferably with machine-readable (meta)data or add the wt.-% value of for each element // Chemische Zusammensetzung - nominal [wt.-% / at.-%] - Link zu einer Datei, vorzugsweise mit maschinenlesbaren (Meta-)Daten, oder geben Sie für jedes Element den Gewichts-%-Wert an.""",
         mandatory=True,
         section="Chemical composition",
@@ -864,7 +862,6 @@ class CreepTestChemicalCompositionMeasured(ObjectType):
         code="CHEM_SPECIES_BY_COMP_IN_PCT",
         data_type="VARCHAR",
         property_label="Chemical composition - measured",
-        units="%",
         description="""Chemical composition - measured - Include precision, if available. Link to file, preferably with machine-readable (meta)data or add the wt.-% value of for each element // Chemische Zusammensetzung - gemessen [wt.-% / at.-%] - Geben Sie, falls verfügbar, die Präzision an. Link zu einer Datei, vorzugsweise mit maschinenlesbaren (Meta-)Daten, oder geben Sie für jedes Element den Gewichts-%-Wert an.""",
         mandatory=True,
         section="Chemical composition",
@@ -1539,7 +1536,7 @@ class CreepTestTemperatureSensor(Instrument):
     )
     creep_test_temperature_deviation = PropertyTypeAssignment(
         code="CREEP_TEST_TEMPERATURE_DEVIATION",
-        data_type="VARCHAR",
+        data_type="REAL",
         property_label="Temperature deviation",
         units="degC",
         description="""Temperature deviation - Measurement deviation detected during calibration // Temperaturabweichung [°C] - Bei der Kalibrierung festgestellte Messabweichung""",
@@ -1652,7 +1649,7 @@ class CreepTestTemperatureDataAcquisition(Instrument):
     )
     creep_test_temperature_deviation = PropertyTypeAssignment(
         code="CREEP_TEST_TEMPERATURE_DEVIATION",
-        data_type="VARCHAR",
+        data_type="REAL",
         property_label="Temperature deviation",
         units="degC",
         description="""Temperature deviation - Measurement deviation detected during calibration // Temperaturabweichung [°C] - Bei der Kalibrierung festgestellte Messabweichung""",

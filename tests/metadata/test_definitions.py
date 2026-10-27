@@ -3,6 +3,7 @@ import datetime
 import pytest
 from pydantic import ValidationError
 
+from bam_masterdata.checker.schema_validator import get_object_types
 from bam_masterdata.metadata.definitions import (
     BaseObjectTypeDef,
     CollectionTypeDef,
@@ -698,3 +699,30 @@ class TestOpenbisTranslations:
         )
 
         assert term.openbis_label == "Solid//Fest"
+
+
+@pytest.mark.parametrize(
+    "version",
+    ["v0", "v1"],
+)
+def test_existing_datamodel_units_compatible(version):
+    """All existing property definitions must satisfy unit validation."""
+
+    object_types = get_object_types(version)
+
+    assert object_types
+
+    for object_type in object_types:
+        # Instantiation exercises Pydantic validation of the effective
+        # property definitions.
+        obj = object_type()
+
+        for prop in obj.properties:
+            if prop.units is not None:
+                assert prop.data_type in {
+                    DataType.REAL,
+                    DataType.INTEGER,
+                }, (
+                    f"{object_type.defs.code}.{prop.code} declares "
+                    f"units={prop.units!r} with datatype={prop.data_type.value}"
+                )

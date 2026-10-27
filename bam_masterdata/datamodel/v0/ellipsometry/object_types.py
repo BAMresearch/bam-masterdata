@@ -170,8 +170,7 @@ class Ellipsometer(Instrument):
         code="ELLI_MAPPING_RANGE",
         data_type="VARCHAR",
         property_label="Mapping range in X x Y format",
-        units="cm^2",
-        description="""Mapping range (e.g., 20 x 20)//Mapping-Bereich (z. B. 20 x 20)""",
+        description="""Mapping range (e.g., 20 cm x 20 cm)//Mapping-Bereich (z. B. 20 cm x 20 cm)""",
         mandatory=False,
         section="Ellipsometer Information Mapping",
     )
