@@ -846,7 +846,10 @@ class TestObjectTypeSync:
             for change in result.changes
         )
 
-    @pytest.mark.parametrize("object_code", ["DATA_TRANSFER_PACKAGE", "(ALL)"])
+    @pytest.mark.parametrize(
+        "object_code",
+        ["DATA_TRANSFER_PACKAGE", "(ALL)", None],
+    )
     def test_create_object_property_preserves_target_type(self, object_code):
         entity = generate_object_type()
         prop = PropertyTypeAssignment(
@@ -870,7 +873,7 @@ class TestObjectTypeSync:
 
         kwargs = openbis.new_property_type.call_args.kwargs
         assert kwargs["dataType"] == "SAMPLE"
-        if object_code == "(ALL)":
+        if object_code in (None, "(ALL)"):
             assert "sampleType" not in kwargs
         else:
             assert kwargs["sampleType"] == object_code
