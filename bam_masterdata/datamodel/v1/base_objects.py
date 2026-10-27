@@ -16,8 +16,8 @@ from bam_masterdata.metadata.entities import ObjectType
 class Root(ObjectType):
     defs = ObjectTypeDef(
         code="ROOT",
-        description="Root of the masterdata hierarchy",
-        description_de="Wurzel der Masterdaten-Hierarchie",
+        description="A Root is an entity that encompasses all material entities, information entities, "
+        "and activities, serving as the common superclass for all object types in the schema.",
         generated_code_prefix="ROOT",
         prev_versions=["ENTRY:v0"],
     )
@@ -26,8 +26,7 @@ class Root(ObjectType):
         code="$NAME",
         data_type="VARCHAR",
         property_label="Name",
-        description="Name",
-        description_de="Namen",
+        description="Human-readable name identifying the object.",
         mandatory=True,
         section="General Information",
     )
@@ -36,8 +35,7 @@ class Root(ObjectType):
         code="DESCRIPTION",
         data_type="MULTILINE_VARCHAR",
         property_label="Description",
-        description="Detailed description of the entry",
-        description_de="Ausführliche Beschreibung des Eintrags",
+        description="Text describing the object and its relevant characteristics.",
         mandatory=False,
         section="General Information",
     )
@@ -46,8 +44,7 @@ class Root(ObjectType):
         code="EXTERNAL_IDENTIFIER",
         data_type="VARCHAR",
         property_label="External identifiers",
-        description="Identifiers of the entry in external systems",
-        description_de="Kennungen des Eintrags in externen Systemen",
+        description="Identifiers assigned to the object by external systems, such as a DOI or database accession number.",
         mandatory=False,
         section="General Information",
         multivalued=True,
@@ -57,8 +54,7 @@ class Root(ObjectType):
         code="HASH",
         data_type="VARCHAR",
         property_label="Hash",
-        description="Hash value associated with the entry",
-        description_de="Dem Eintrag zugeordneter Hashwert",
+        description="Cryptographic hash used to identify or verify the content associated with the object.",
         mandatory=False,
         show_in_edit_views=False,
         section="General Information",
@@ -68,8 +64,7 @@ class Root(ObjectType):
         code="EXTERNAL_REFERENCE",
         data_type="MULTILINE_VARCHAR",
         property_label="External references",
-        description="References to external resources",
-        description_de="Verweise auf externe Ressourcen",
+        description="References to external resources related to the object, such as publications or documentation.",
         mandatory=False,
         section="General Information",
         multivalued=True,
@@ -79,8 +74,7 @@ class Root(ObjectType):
         code="ONTOLOGY_IRI",
         data_type="VARCHAR",
         property_label="Ontology IRI",
-        description="IRI of the ontology concept associated with the entry",
-        description_de="IRI des dem Eintrag zugeordneten Ontologiekonzepts",
+        description="IRI of an ontology concept used to describe or classify the object.",
         mandatory=False,
         section="General Information",
     )
@@ -89,8 +83,7 @@ class Root(ObjectType):
         code="PREV_PERMID",
         data_type="VARCHAR",
         property_label="Previous permID",
-        description="Previous permanent identifier of the entry",
-        description_de="Vorherige permanente Kennung des Eintrags",
+        description="Permanent identifier of the corresponding object in a previous openBIS system.",
         mandatory=False,
         section="General Information",
     )
@@ -99,8 +92,8 @@ class Root(ObjectType):
 class Activity(Root):
     defs = ObjectTypeDef(
         code="ACTIVITY",
-        description="Activity",
-        description_de="Aktivität",
+        description="An Activity is an entity that represents a process or action occurring over a period of time, "
+        "involving one or more entities and resulting in one or more outcomes.",
         generated_code_prefix="ACT",
         prev_versions=["EXPERIMENTAL_STEP:v0"],
         iri=[
@@ -113,8 +106,7 @@ class Activity(Root):
         code="START_DATE",
         data_type="TIMESTAMP",
         property_label="Start date",
-        description="Start date of a time-bounded process or action whose duration or timing can significantly affect its outcomes.",
-        description_de="Startdatum eines zeitlich begrenzten Prozesses oder einer Handlung, deren Dauer oder Zeitpunkt die Ergebnisse maßgeblich beeinflussen kann.",
+        description="Date and time when the activity started.",
         mandatory=False,
         section="Activity Details",
     )
@@ -123,8 +115,7 @@ class Activity(Root):
         code="END_DATE",
         data_type="TIMESTAMP",
         property_label="End date",
-        description="End date of a time-bounded process or action whose duration or timing can significantly affect its outcomes.",
-        description_de="Enddatum eines zeitlich begrenzten Prozesses oder einer Handlung, deren Dauer oder Zeitpunkt die Ergebnisse maßgeblich beeinflussen kann.",
+        description="Date and time when the activity ended.",
         mandatory=False,
         section="Activity Details",
     )
@@ -134,29 +125,27 @@ class Activity(Root):
         data_type="CONTROLLEDVOCABULARY",
         vocabulary_code="ACTIVITY_STATUS",
         property_label="Activity Status",
-        description="Activity Status",
-        description_de="Aktivitätsstatus",
+        description="Current lifecycle status of the activity, such as planned, in progress, or completed.",
         mandatory=False,
         section="Activity Details",
     )
 
-    operators = PropertyTypeAssignment(
-        code="OPERATOR",
+    responsible_persons = PropertyTypeAssignment(
+        code="RESPONSIBLE_PERSONS",
         data_type="OBJECT",
         object_code="PERSON",
-        property_label="Operators",
-        description="Persons performing the activity",
-        description_de="Personen die Aktivität durchführen",
+        property_label="Responsible Persons",
+        description="Persons responsible for performing or executing the activity.",
         mandatory=False,
         section="Activity Details",
         multivalued=True,
     )
+
     objective = PropertyTypeAssignment(
         code="OBJECTIVE",
         data_type="MULTILINE_VARCHAR",
         property_label="Objective",
-        description="Objective of the activity",
-        description_de="Ziel der Aktivität",
+        description="Intended goal or purpose of the activity.",
         mandatory=False,
         section="Activity Details",
     )
@@ -165,8 +154,7 @@ class Activity(Root):
         code="ACTIVITY_SHEET",
         data_type="XML",
         property_label="Activity sheet",
-        description="Activity sheet (spreadsheet)",
-        description_de="Aktivitätsblatt (Tabelle)",
+        description="Structured spreadsheet used to record information about the activity.",
         mandatory=False,
         section="Activity Details",
     )
@@ -176,8 +164,7 @@ class Activity(Root):
         data_type="OBJECT",
         object_code="ENTITY",
         property_label="Inputs",
-        description="Entities used by the activity",
-        description_de="Von der Aktivität verwendete Entitäten",
+        description="Entities used or consumed by the activity, such as samples, materials, or instruments.",
         mandatory=False,
         section="Inputs and Outputs",
         multivalued=True,
@@ -188,8 +175,7 @@ class Activity(Root):
         data_type="OBJECT",
         object_code="ENTITY",
         property_label="Outputs",
-        description="Entities generated by the activity",
-        description_de="Von der Aktivität erzeugte Entitäten",
+        description="Entities generated or modified by the activity, such as processed samples or simulation results.",
         mandatory=False,
         section="Inputs and Outputs",
         multivalued=True,
@@ -199,10 +185,8 @@ class Activity(Root):
 class Entity(Root):
     defs = ObjectTypeDef(
         code="ENTITY",
-        description="A physical, digital, conceptual, or other kind of thing with some "
-        "fixed aspects; entities may be tangible or intangible",
-        description_de="Ein physisches, digitales, konzeptionelles oder anderes Ding mit "
-        "bestimmten festen Aspekten; Entitäten können materiell oder immateriell sein",
+        description="An Entity is a physical, digital, conceptual, or other kind of thing with some "
+        "fixed aspects; entities may be tangible or intangible.",
         generated_code_prefix="ENT",
         iri=[
             "http://purl.obolibrary.org/obo/BFO_0000002",
