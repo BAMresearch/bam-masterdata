@@ -1,137 +1,242 @@
-# Define Object Types and Properties
+# Define object types and properties
 
-This how-to guide shows how to create new Object Types in `bam-masterdata`, including how to define the
-Object Type itself and the properties assigned to it. It also covers the optional `units` field
-for property definitions.
+This guide explains how to declare operational openBIS object types in `bam-masterdata`, using the **explicit-code and Python-inheritance conventions for v1**. It also identifies which behavior remains valid for the existing v0 model.
 
-## Create a New Object Type
+The v1 refactor is tracked in [issue #395](https://github.com/BAMresearch/bam-masterdata/issues/395). Code identity, hierarchy inspection, and schema validation are covered by [issue #428](https://github.com/BAMresearch/bam-masterdata/issues/428). The complete v1 type catalog is still under development.
 
-Object types live in `bam_masterdata/datamodel/object_types.py` and are defined as subclasses of
-`ObjectType` or of any other Object Type. Each object type must include:
+## 1. Choose the correct datamodel version and module
 
-- `defs`: an `ObjectTypeDef` instance describing the object type static metainformation
-- one or more `PropertyTypeAssignment` entries describing assigned properties
+- **v0:** `bam_masterdata/datamodel/v0/` contains the existing definitions and domain subpackages. Preserve their identifiers and behavior; the refactor does not automatically migrate existing objects.
+- **v1:** `bam_masterdata/datamodel/v1/` is the target package for new ontology-informed definitions. Initial base classes belong in `base_objects.py` (see [PR #401](https://github.com/BAMresearch/bam-masterdata/pull/401)); activity, entity, vocabulary, and domain-specific modules are being introduced in stages under #395.
 
-Example:
+Follow the version's existing module organization rather than creating a new top-level schema package. Avoid imports across v0 and v1 unless there is an explicit compatibility or migration reason.
+
+## 2. Declare an object type and its parent
+
+Each concrete class is an `ObjectType` subclass (directly or indirectly) and declares its **own** `ObjectTypeDef`. A v1 code is a stable openBIS identifier, **not an inheritance path**.
+
+The following self-contained example illustrates the convention; it is not a declaration of additional production v1 classes:
 
 ```python
-from bam_masterdata.metadata.definitions import DataType, ObjectTypeDef, PropertyTypeAssignment
+from bam_masterdata.metadata.definitions import (
+    ObjectTypeDef,
+    PropertyTypeAssignment,
+)
 from bam_masterdata.metadata.entities import ObjectType
 
 
-class TestSpecimen(ObjectType):
+class Root(ObjectType):
     defs = ObjectTypeDef(
-        code="TEST_SPECIMEN",
-        description="Test specimen used in experiments//Testkoerper fuer Versuche",
-        generated_code_prefix="TSP",
-        auto_generate_codes=True,
+        code="ROOT",
+        description="Common root of this example schema",
     )
 
     name = PropertyTypeAssignment(
-        code="NAME",
-        data_type=DataType.VARCHAR,
+        code="$NAME",
+        data_type="VARCHAR",
         property_label="Name",
-        description="Human readable name//Name",
+        description="Human-readable name",
         mandatory=True,
-        show_in_edit_views=True,
-        section="General",
+        section="General Information",
+    )
+
+
+class Entity(Root):
+    defs = ObjectTypeDef(
+        code="ENTITY",
+        description="A physical or informational entity",
+    )
+
+
+class Person(Entity):
+    defs = ObjectTypeDef(
+        code="PERSON",
+        description="A person",
+        generated_code_prefix="PER",
+    )
+
+
+assert Person.defs.code == "PERSON"
+assert Person.get_hierarchy() == ["ROOT", "ENTITY", "PERSON"]
+assert Person.is_subtype_of(Entity)
+```
+
+**Rules for v1:**
+
+1. Define `ObjectTypeDef.code` explicitly, using a simple uppercase identifier such as `MATERIAL_ENTITY` or `PERSON`. Do not generate it from the Python class name or concatenate parent codes.
+2. Use Python class inheritance for shared properties and hierarchy. A subclass can override an inherited property assignment.
+3. Keep the object type code (`Person.defs.code`) separate from an object's instance code (`person.code`).
+4. `generated_code_prefix` controls instance code generation and can be supplied explicitly; when omitted, its current fallback is derived from the beginning of `code`.
+5. Legacy dotted v0 codes, such as `EXPERIMENTAL_STEP.DCPD`, remain supported. Do not rewrite them during v1 development.
+
+## 3. Inspect inheritance
+
+```python
+Person.get_hierarchy()  # ["ROOT", "ENTITY", "PERSON"]
+Person.get_hierarchy_path()  # "ROOT.ENTITY.PERSON"
+Person.is_subtype_of(Entity)  # True
+```
+
+The path is a **computed description of Python ancestry**, not an identifier sent to openBIS. Classes that lack their own `ObjectTypeDef` are excluded from the hierarchy output, and multiple object-type parents are not supported by path introspection.
+
+## 4. Define property assignments
+
+Declare `PropertyTypeAssignment` objects as class attributes:
+
+```python
+class Instrument(Entity):
+    defs = ObjectTypeDef(
+        code="INSTRUMENT",
+        description="An instrument",
+        generated_code_prefix="INS",
+    )
+
+    manufacturer = PropertyTypeAssignment(
+        code="MANUFACTURER",
+        data_type="VARCHAR",
+        property_label="Manufacturer",
+        description="Instrument manufacturer",
+        mandatory=False,
+        section="General Information",
+    )
+
+    responsible_person = PropertyTypeAssignment(
+        code="RESPONSIBLE_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON",
+        property_label="Responsible person",
+        description="Person responsible for the instrument",
+        mandatory=False,
+        section="General Information",
     )
 ```
 
-## `ObjectTypeDef` Options
+Common fields:
 
-`ObjectTypeDef` defines static metadata for the object type:
+| Field | Purpose |
+| --- | --- |
+| `code` | Property type identifier in openBIS. |
+| `data_type` | `DataType` enum value or its equivalent string, such as `VARCHAR`, `REAL`, `TIMESTAMP`, `OBJECT`, `CONTROLLEDVOCABULARY`, or `XML`. |
+| `property_label`, `description` | Human-readable metadata. Optional separate translated fields are supported by current definitions; `//`-separated legacy text remains compatible. |
+| `mandatory` | **Required** Boolean: whether the assignment is mandatory. |
+| `section` | **Required** string: where the property appears in the user interface. |
+| `show_in_edit_views` | Whether to display the property in edit views (default: `True`). |
+| `vocabulary_code` | Target vocabulary for `CONTROLLEDVOCABULARY` properties. |
+| `object_code` | Optional target object type for `OBJECT` properties. |
+| `multivalued` | Whether multiple values are allowed (default: `False`). |
+| `units` | Optional pint-compatible unit expression. |
 
-- `code`: OpenBIS object type code (uppercase with underscores)
-- `description`: English text with optional German text separated by `//`
-- `generated_code_prefix` (optional): short prefix used for auto-generated codes
-- `auto_generate_codes` (optional): set `True` to auto-generate codes using the prefix
+A subclass can replace a property assignment by assigning the same Python attribute name. Validate the resulting inherited property set rather than assuming every declared ancestor property is always active unchanged.
 
-Rules:
+## 5. Add OBJECT references
 
-- `code` must be uppercase, use underscores, and may include inheritance with dots.
-- `description` should be human-readable and complete enough; use `//` to add the German version.
-- If `generated_code_prefix` is not provided, it defaults to the first three letters of `code`.
-
-## `PropertyTypeAssignment` Options
-
-Each `PropertyTypeAssignment` supports:
-
-- `code`: OpenBIS property code (uppercase with underscores)
-- `data_type`: one of the `DataType` enum values (see [Data Types](#data-types) for all the options)
-- `property_label`: human-readable label shown in the GUI
-- `description`: English and optional German text (separated by `//`)
-- `mandatory`: if `True`, the property must be set
-- `show_in_edit_views`: if `True`, show the property in edit views
-- `section`: section label used in the GUI to group properties
-- `vocabulary_code` (optional): required for `CONTROLLEDVOCABULARY`
-- `object_code` (optional): required for `OBJECT`
-- `units` (optional): units in pint format
-
-Other options are being deprecated in a near future, that is why they are not included here.
-
-Rules:
-
-- `code` must be uppercase, use underscores, and may include inheritance with dots.
-- `description` uses `//` to include German text.
-- If `data_type` is `CONTROLLEDVOCABULARY`, you must set `vocabulary_code`.
-- If `data_type` is `OBJECT`, you must set `object_code`.
-- `property_label` must be human-readable and should not include internal codes.
-- When `units` is set, `property_label` will automatic include `in [units]` when displayed on the GUI.
-
-## Data Types
-
-`data_type` must be one of the `DataType` enum values. Common choices:
-
-- `VARCHAR`, `MULTILINE_VARCHAR` for text
-- `INTEGER`, `REAL` for numeric values
-- `DATE`, `TIMESTAMP` for date/time
-- `BOOLEAN` for true/false
-- `HYPERLINK` for URLs
-- `CONTROLLEDVOCABULARY` for pick-lists (requires `vocabulary_code`)
-- `OBJECT` for references to other object types (requires `object_code`)
-
-For object references, see [How-to: Work with Object References](./object_references.md).
-
-## Units with pint
-
-You can optionally attach units to any property using `units`. Units are parsed using pint and must
-be valid according to the [default pint registry](https://github.com/hgrecco/pint/blob/master/pint/default_en.txt).
-
-When `units` is provided, `property_label` is automatically suffixed with `in [units]` unless it
-already includes `in [units]`. If it contains brackets but not the `in [units]` format, validation
-fails.
-
-Example:
+`object_code` is a **concrete openBIS object type code**:
 
 ```python
-temperature = PropertyTypeAssignment(
-    code="TEMPERATURE",
-    data_type=DataType.REAL,
-    property_label="Temperature",
-    description="Measurement temperature//Messtemperatur",
+responsible_person = PropertyTypeAssignment(
+    code="RESPONSIBLE_PERSON",
+    data_type="OBJECT",
+    object_code="PERSON",
+    property_label="Responsible person",
+    description="Responsible person reference",
     mandatory=False,
-    show_in_edit_views=True,
-    section="Measurements",
-    units="degC",
+    section="General Information",
 )
-
-# property_label becomes: "Temperature in [degC]"
 ```
 
-If your `property_label` already includes `in [units]`, it will not be modified:
+The current semantics intentionally **do not** use Python subtype relationships to widen reference constraints. `object_code="ENTITY"` does not automatically mean “any `Entity` subclass.”
+
+To declare an unrestricted reference, use `object_code=None` (or the legacy `"(ALL)"`):
+
+```python
+related_object = PropertyTypeAssignment(
+    code="RELATED_OBJECT",
+    data_type="OBJECT",
+    object_code=None,
+    property_label="Related object",
+    description="Reference to another object",
+    mandatory=False,
+    section="Relationships",
+)
+```
+
+For a restricted OBJECT property, synchronization sends the chosen code as the PyBIS `sampleType` constraint. For unrestricted properties, it omits that constraint. When an existing openBIS property's target differs from the definition, synchronization reports a rejected change rather than silently converting the constraint.
+
+**Scope:** checking that `object_code="PERSON"` names a known schema type is different from checking the type of a particular `Person` instance at runtime. The schema validator does **not** perform runtime parser validation. See [Work with Object References](./object_references.md).
+
+## 6. Controlled vocabularies and units
+
+A controlled-vocabulary property identifies its vocabulary:
+
+```python
+status = PropertyTypeAssignment(
+    code="ACTIVITY_STATUS",
+    data_type="CONTROLLEDVOCABULARY",
+    vocabulary_code="ACTIVITY_STATUS",
+    property_label="Activity status",
+    description="Current activity lifecycle status",
+    mandatory=False,
+    section="Activity Details",
+)
+```
+
+Vocabularies and their terms must be defined in the relevant version and synchronized in a suitable order. Defining the complete v1 vocabulary catalog is part of #395.
+
+For quantitative properties, specify optional pint-compatible units:
 
 ```python
 length = PropertyTypeAssignment(
     code="LENGTH",
-    data_type=DataType.REAL,
-    property_label="Length in [mm]",
-    description="Length of specimen//Laenge des Probenkoerpers",
+    data_type="REAL",
+    property_label="Length",
+    description="Measured length",
     mandatory=False,
-    show_in_edit_views=True,
     section="Measurements",
     units="mm",
 )
 
-# property_label remains: "Length in [mm]"
+assert length.property_label == "Length in [mm]"
 ```
+
+If a label already includes the expected `in [units]` format, it is retained. Incompatible bracketed labels or unrecognized units fail validation. These formatting rules apply to the current metadata definitions, not only v1.
+
+## 7. Validate the schema before synchronization
+
+For a versioned package that exists in the installed checkout:
+
+```python
+from bam_masterdata.checker.schema_validator import (
+    get_object_types,
+    validate_object_references,
+    validate_object_type_codes,
+)
+
+object_types = get_object_types("v1")
+validate_object_type_codes(object_types)
+validate_object_references(object_types)
+```
+
+`get_object_types()` discovers declared `ObjectType` classes in the selected version's Python modules and subpackages. The validators reject duplicate codes and unknown restricted OBJECT targets. `None` and `"(ALL)"` targets are unrestricted.
+
+**Important:** This is an explicit validation step; it does not run automatically during parsing or synchronization. Do not mix classes from different versions in the same validation list. Complete v1 validation will be possible when its modules are integrated.
+
+## 8. Synchronize and test
+
+`ObjectType.to_openbis_sync()` registers object types using `defs.code`, including simple v1 codes. Parser workflows also use `object_instance.defs.code` for the openBIS type and keep `object_instance.code` as the instance identifier.
+
+Relevant regression tests include:
+
+```bash
+uv run pytest \
+    tests/checker/test_schema_validator.py \
+    tests/datamodel/test_v0_compatibility.py \
+    tests/metadata/test_entities.py \
+    tests/metadata/test_object_data_type.py \
+    tests/cli/test_v1_run_parser_compatibility.py -v
+```
+
+These tests cover unit behavior and mocked PyBIS interactions. They **do not** prove successful provisioning of the v1 catalog in a real server.
+
+As tracked in [#395](https://github.com/BAMresearch/bam-masterdata/issues/395), remaining v1 work includes module and vocabulary completion, representative export/serialization tests, migration compatibility, disposable openBIS 7 provisioning, idempotent repeated synchronization, property/type updates, permissions/system-managed definitions, and broader CI coverage. Do not assume an object type is deployed just because its Python definition is valid.
+
+See also [Schema Definitions](../explanations/schema_defs.md).
