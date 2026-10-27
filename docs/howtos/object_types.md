@@ -64,9 +64,14 @@ class TestSpecimen(ObjectType):
 
 Rules:
 
-- `code` must be uppercase, use underscores, and may include inheritance with dots.
-- `description` should be human-readable and complete enough; use `//` to add the German version.
-- If `generated_code_prefix` is not provided, it defaults to the first three letters of `code`.
+- `ObjectTypeDef.code` is mandatory and explicitly defined.
+- In v1, use simple uppercase identifiers such as `ROOT`,
+  `ACTIVITY`, `MATERIAL_ENTITY`, and `PERSON`.
+- Python inheritance determines the hierarchy; object type codes
+  do not encode ancestry.
+- Legacy dotted codes remain valid for v0 definitions.
+- `generated_code_prefix` is independent of the inheritance hierarchy.
+  When omitted, it defaults to the first three characters of `code`.
 
 ## `PropertyTypeAssignment` Options
 
@@ -87,7 +92,7 @@ Other options are being deprecated in a near future, that is why they are not in
 
 Rules:
 
-- `code` must be uppercase, use underscores, and may include inheritance with dots.
+- `code` must be uppercase and use underscores.
 - `description` uses `//` to include German text.
 - If `data_type` is `CONTROLLEDVOCABULARY`, you must set `vocabulary_code`.
 - If `data_type` is `OBJECT`, you must set `object_code`.

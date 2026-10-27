@@ -64,10 +64,6 @@ This mirrors openBIS concepts:
 - Internal openBIS properties/vocabularies usually start with `$` (for example `$NAME`).
 - Type and property codes follow openBIS conventions and are validated in the model.
 
-!!! info
-    In a future refactoring, the `code` of each Object Type, Vocabulary, and assigned Property Type should be unique. Inheritance
-    will still be possible, but the handling of dotted paths will be moved to a hidden layer for the end user.
-
 ### Object type codes and inheritance
 
 In v0, some object type codes encode hierarchy using dotted identifiers,
