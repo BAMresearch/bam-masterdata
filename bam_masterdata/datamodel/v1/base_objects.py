@@ -42,7 +42,7 @@ class Root(ObjectType):
         section="General Information",
     )
 
-    external_identifier = PropertyTypeAssignment(
+    external_identifiers = PropertyTypeAssignment(
         code="EXTERNAL_IDENTIFIER",
         data_type="VARCHAR",
         property_label="External identifiers",
@@ -64,7 +64,7 @@ class Root(ObjectType):
         section="General Information",
     )
 
-    external_reference = PropertyTypeAssignment(
+    external_references = PropertyTypeAssignment(
         code="EXTERNAL_REFERENCE",
         data_type="MULTILINE_VARCHAR",
         property_label="External references",
@@ -113,20 +113,20 @@ class Activity(Root):
         code="START_DATE",
         data_type="TIMESTAMP",
         property_label="Start date",
-        description="Start date",
-        description_de="Startdatum",
+        description="Start date of a time-bounded process or action whose duration or timing can significantly affect its outcomes.",
+        description_de="Startdatum eines zeitlich begrenzten Prozesses oder einer Handlung, deren Dauer oder Zeitpunkt die Ergebnisse maßgeblich beeinflussen kann.",
         mandatory=False,
-        section="General Information",
+        section="Activity Details",
     )
 
     end_date = PropertyTypeAssignment(
         code="END_DATE",
         data_type="TIMESTAMP",
         property_label="End date",
-        description="End date",
-        description_de="Enddatum",
+        description="End date of a time-bounded process or action whose duration or timing can significantly affect its outcomes.",
+        description_de="Enddatum eines zeitlich begrenzten Prozesses oder einer Handlung, deren Dauer oder Zeitpunkt die Ergebnisse maßgeblich beeinflussen kann.",
         mandatory=False,
-        section="General Information",
+        section="Activity Details",
     )
 
     activity_status = PropertyTypeAssignment(
@@ -141,7 +141,7 @@ class Activity(Root):
     )
 
     operators = PropertyTypeAssignment(
-        code="OPERATORS",
+        code="OPERATOR",
         data_type="OBJECT",
         object_code="PERSON",
         property_label="Operators",
@@ -172,7 +172,7 @@ class Activity(Root):
     )
 
     inputs = PropertyTypeAssignment(
-        code="INPUTS",
+        code="INPUT",
         data_type="OBJECT",
         object_code="ENTITY",
         property_label="Inputs",
@@ -184,7 +184,7 @@ class Activity(Root):
     )
 
     outputs = PropertyTypeAssignment(
-        code="OUTPUTS",
+        code="OUTPUT",
         data_type="OBJECT",
         object_code="ENTITY",
         property_label="Outputs",
