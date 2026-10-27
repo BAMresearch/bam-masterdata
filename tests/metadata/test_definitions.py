@@ -3,6 +3,7 @@ import datetime
 import pytest
 from pydantic import ValidationError
 
+from bam_masterdata.checker.schema_validator import get_object_types
 from bam_masterdata.metadata.definitions import (
     BaseObjectTypeDef,
     CollectionTypeDef,
@@ -286,6 +287,70 @@ class TestPropertyTypeDef:
                 property_label="Length [m]",
                 data_type=DataType.REAL,
                 units="meter",
+            )
+
+    @pytest.mark.parametrize(
+        "data_type",
+        [DataType.REAL, DataType.INTEGER],
+    )
+    def test_units_valid_numeric_data_types(self, data_type):
+        prop = PropertyTypeDef(
+            code="LENGTH",
+            description="Length",
+            property_label="Length",
+            data_type=data_type,
+            units="meter",
+        )
+
+        assert prop.units == "meter"
+        assert prop.property_label == "Length in [meter]"
+
+    @pytest.mark.parametrize("data_type", list(DataType))
+    def test_units_none_allowed_for_all_data_types(self, data_type):
+        prop = PropertyTypeDef(
+            code="TEST_PROPERTY",
+            description="Test property",
+            property_label="Test property",
+            data_type=data_type,
+            units=None,
+        )
+
+        assert prop.units is None
+
+    @pytest.mark.parametrize(
+        "data_type",
+        [
+            data_type
+            for data_type in DataType
+            if data_type not in {DataType.REAL, DataType.INTEGER}
+        ],
+    )
+    def test_units_rejected_for_non_numeric_data_types(self, data_type):
+        with pytest.raises(
+            ValueError,
+            match=f"Got data_type='{data_type.value}'",
+        ):
+            PropertyTypeDef(
+                code="TEST_PROPERTY",
+                description="Test property",
+                property_label="Test property",
+                data_type=data_type,
+                units="meter",
+            )
+
+    def test_units_validation_in_property_assignment(self):
+        with pytest.raises(
+            ValueError,
+            match="Units are only supported for REAL and INTEGER",
+        ):
+            PropertyTypeAssignment(
+                code="NAME",
+                data_type=DataType.VARCHAR,
+                property_label="Name",
+                description="Name",
+                units="meter",
+                mandatory=False,
+                section="General Information",
             )
 
     def test_model_id_uses_property_conversion(self):
@@ -634,3 +699,30 @@ class TestOpenbisTranslations:
         )
 
         assert term.openbis_label == "Solid//Fest"
+
+
+@pytest.mark.parametrize(
+    "version",
+    ["v0", "v1"],
+)
+def test_existing_datamodel_units_compatible(version):
+    """All existing property definitions must satisfy unit validation."""
+
+    object_types = get_object_types(version)
+
+    assert object_types
+
+    for object_type in object_types:
+        # Instantiation exercises Pydantic validation of the effective
+        # property definitions.
+        obj = object_type()
+
+        for prop in obj.properties:
+            if prop.units is not None:
+                assert prop.data_type in {
+                    DataType.REAL,
+                    DataType.INTEGER,
+                }, (
+                    f"{object_type.defs.code}.{prop.code} declares "
+                    f"units={prop.units!r} with datatype={prop.data_type.value}"
+                )

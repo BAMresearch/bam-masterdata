@@ -540,6 +540,25 @@ class PropertyTypeDef(EntityDef):
             raise ValueError(f"Invalid units format: {value}") from exc
         return value
 
+    @model_validator(mode="after")
+    def validate_units_datatype(self):
+        """
+        Ensure units are only assigned to numeric property types.
+
+        Raises:
+            ValueError: If units are provided for a non-numeric data type.
+        """
+        if self.units is not None and self.data_type not in {
+            DataType.REAL,
+            DataType.INTEGER,
+        }:
+            raise ValueError(
+                f"Units are only supported for REAL and INTEGER properties. "
+                f"Got data_type='{self.data_type.value}'."
+            )
+
+        return self
+
     @property
     def openbis_property_label(self) -> str:
         return _combine_translations(self.property_label, self.property_label_de)
