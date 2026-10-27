@@ -30,12 +30,18 @@ The definitions are split into two layers.
 
 ### 2. BAM datamodel layer (concrete masterdata content)
 
-- `bam_masterdata/datamodel/object_types.py`
-- `bam_masterdata/datamodel/dataset_types.py`
-- `bam_masterdata/datamodel/collection_types.py`
-- `bam_masterdata/datamodel/vocabulary_types.py`
+The BAM datamodel is organized into versioned Python packages:
 
-These files contain the actual BAM type catalog (classes with real codes, descriptions, and assignments).
+- `bam_masterdata/datamodel/v0/`: Existing schema definitions, including
+  legacy dotted object type codes.
+- `bam_masterdata/datamodel/v1/`: Refactored schema definitions using
+  explicit object type codes and Python class inheritance.
+
+Individual versions may contain additional modules and domain-specific
+subpackages.
+
+Object type definitions are declared using `ObjectTypeDef`, while
+properties are declared using `PropertyTypeAssignment`.
 
 ## How a definition is represented
 
@@ -57,11 +63,83 @@ This mirrors openBIS concepts:
 
 - Internal openBIS properties/vocabularies usually start with `$` (for example `$NAME`).
 - Type and property codes follow openBIS conventions and are validated in the model.
-- Inheritance between Object Types is supported through dotted codes (for example `PARENT.CHILD` style codes).
 
 !!! info
     In a future refactoring, the `code` of each Object Type, Vocabulary, and assigned Property Type should be unique. Inheritance
     will still be possible, but the handling of dotted paths will be moved to a hidden layer for the end user.
+
+### Object type codes and inheritance
+
+In v0, some object type codes encode hierarchy using dotted identifiers,
+such as `EXPERIMENTAL_STEP.DCPD`. These codes remain supported for
+backward compatibility.
+
+In v1, object type codes are simple, explicitly declared identifiers.
+Inheritance is represented by Python classes, not by the object type code.
+
+For example:
+
+```python
+class Entity(Root):
+    defs = ObjectTypeDef(
+        code="ENTITY",
+        description="Entity",
+    )
+
+
+class Person(Entity):
+    defs = ObjectTypeDef(
+        code="PERSON",
+        description="Person",
+    )
+```
+
+The hierarchy can be inspected using:
+
+```python
+Person.get_hierarchy()  # ["ROOT", "ENTITY", "PERSON"]
+
+Person.get_hierarchy_path()  # "ROOT.ENTITY.PERSON"
+
+Person.is_subtype_of(Entity)  # True
+```
+
+These methods do not modify the codes registered in openBIS.
+
+The object type code of Person remains `PERSON`, not `ROOT.ENTITY.PERSON`.
+
+## Schema validation
+
+The `bam_masterdata.checker.schema_validator` module provides utilities
+for validating Python object type definitions.
+
+```python
+from bam_masterdata.checker.schema_validator import (
+    get_object_types,
+    validate_object_type_codes,
+    validate_object_references,
+)
+
+object_types = get_object_types("v1")
+
+validate_object_type_codes(object_types)
+validate_object_references(object_types)
+```
+
+The checks verify that:
+
+- Object type codes are unique within the selected version.
+- OBJECT properties reference object types declared in that version.
+- Unrestricted references using `object_code=None` or `"(ALL)"` are permitted.
+
+An `object_code` refers to an exact openBIS object type. Python
+subclasses are not automatically accepted as alternative reference types.
+
+These checks validate schema definitions, not individual objects or
+references created during parsing.
+
+The validator is not automatically executed during synchronization
+or parsing.
 
 ## How definitions move across formats
 

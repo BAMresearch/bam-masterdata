@@ -6,16 +6,31 @@ for property definitions.
 
 ## Create a New Object Type
 
-Object types live in `bam_masterdata/datamodel/object_types.py` and are defined as subclasses of
-`ObjectType` or of any other Object Type. Each object type must include:
+Object types are defined in versioned packages under
+`bam_masterdata/datamodel/`.
 
-- `defs`: an `ObjectTypeDef` instance describing the object type static metainformation
-- one or more `PropertyTypeAssignment` entries describing assigned properties
+Existing definitions are available in `v0/`. New v1 definitions
+use explicit object type codes and Python class inheritance.
+
+Rules:
+
+- `ObjectTypeDef.code` is mandatory and explicitly defined.
+- In v1, use simple uppercase identifiers such as `ROOT`,
+  `ACTIVITY`, `MATERIAL_ENTITY`, and `PERSON`.
+- Python inheritance determines the hierarchy; object type codes
+  do not encode ancestry.
+- Legacy dotted codes remain valid for v0 definitions.
+- `generated_code_prefix` is independent of the inheritance hierarchy.
+  When omitted, it defaults to the first three characters of `code`.
 
 Example:
 
 ```python
-from bam_masterdata.metadata.definitions import DataType, ObjectTypeDef, PropertyTypeAssignment
+from bam_masterdata.metadata.definitions import (
+    DataType,
+    ObjectTypeDef,
+    PropertyTypeAssignment,
+)
 from bam_masterdata.metadata.entities import ObjectType
 
 
