@@ -1394,6 +1394,33 @@ class ObjectType(BaseEntity):
                 )
                 return None
 
+        # Unsupported: OBJECT reference target changes.
+        if prop.data_type in (DataType.OBJECT, DataType.SAMPLE):
+            expected_target = (
+                None if prop.object_code in (None, "(ALL)") else prop.object_code
+            )
+
+            current_target = getattr(property_type, "sampleType", None)
+
+            # Handle the possible representations returned by PyBIS.
+            if isinstance(current_target, dict):
+                current_target = current_target.get("code")
+            elif current_target is not None and not isinstance(current_target, str):
+                current_target = getattr(current_target, "code", current_target)
+
+            if current_target in (None, "", "(ALL)"):
+                current_target = None
+
+            if current_target != expected_target:
+                result.rejected(
+                    target=SyncTarget.PROPERTY_TYPE,
+                    code=prop.code,
+                    field="object_code",
+                    old_value=current_target,
+                    new_value=expected_target,
+                )
+                return None
+
         property_type_modified = False
 
         # Supported: label

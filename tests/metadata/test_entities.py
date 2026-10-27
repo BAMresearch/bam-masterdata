@@ -737,6 +737,151 @@ class TestObjectTypeSync:
         assert change.target == SyncTarget.PROPERTY_TYPE
         assert change.field == "data_type"
 
+    @pytest.mark.parametrize(
+        "current_target",
+        ["INSTRUMENT", {"code": "INSTRUMENT"}],
+    )
+    def test_update_object_property_rejects_target_change(self, current_target):
+        entity = generate_object_type()
+
+        prop = PropertyTypeAssignment(
+            code="OPERATOR",
+            data_type="OBJECT",
+            object_code="PERSON",
+            property_label="Operator",
+            description="Person performing the activity",
+            mandatory=False,
+            section="General Information",
+        )
+
+        property_type = MagicMock()
+        property_type.dataType = "SAMPLE"
+        property_type.sampleType = current_target
+
+        openbis = MagicMock()
+        openbis.get_property_type.return_value = property_type
+
+        obj_type = MagicMock()
+        result = SyncResult()
+
+        entity._update_existing_property(
+            prop=prop,
+            obj_type=obj_type,
+            openbis=openbis,
+            result=result,
+        )
+
+        property_type.save.assert_not_called()
+        obj_type.assign_property.assert_not_called()
+
+        assert len(result.changes) == 1
+
+        change = result.changes[0]
+
+        assert change.action == SyncAction.REJECTED
+        assert change.target == SyncTarget.PROPERTY_TYPE
+        assert change.code == "OPERATOR"
+        assert change.field == "object_code"
+        assert change.old_value == "INSTRUMENT"
+        assert change.new_value == "PERSON"
+
+    def test_update_object_property_accepts_matching_target(self):
+        entity = generate_object_type()
+
+        prop = PropertyTypeAssignment(
+            code="OPERATOR",
+            data_type="OBJECT",
+            object_code="PERSON",
+            property_label="Operator",
+            description="Person performing the activity",
+            mandatory=False,
+            section="General Information",
+        )
+
+        property_type = MagicMock()
+        property_type.dataType = "SAMPLE"
+        property_type.sampleType = "PERSON"
+        property_type.label = prop.openbis_property_label
+        property_type.description = prop.openbis_description
+
+        assignment = MagicMock()
+        assignment.code = prop.code
+        assignment.section = prop.section
+        assignment.mandatory = prop.mandatory
+        assignment.showInEditView = prop.show_in_edit_views
+        assignment.ordinal = prop.ordinal
+
+        obj_type = MagicMock()
+        obj_type.get_property_assignments.return_value = [assignment]
+
+        openbis = MagicMock()
+        openbis.get_property_type.return_value = property_type
+
+        result = SyncResult()
+
+        entity._update_existing_property(
+            prop=prop,
+            obj_type=obj_type,
+            openbis=openbis,
+            result=result,
+        )
+
+        assert not any(
+            change.action == SyncAction.REJECTED for change in result.changes
+        )
+
+        property_type.save.assert_not_called()
+        obj_type.assign_property.assert_not_called()
+
+    @pytest.mark.parametrize("object_code", [None, "(ALL)"])
+    def test_update_unrestricted_object_property(self, object_code):
+        entity = generate_object_type()
+
+        prop = PropertyTypeAssignment(
+            code="INPUTS",
+            data_type="OBJECT",
+            object_code=object_code,
+            property_label="Inputs",
+            description="Input objects",
+            mandatory=False,
+            section="General Information",
+        )
+
+        property_type = MagicMock()
+        property_type.dataType = "SAMPLE"
+        property_type.sampleType = None
+        property_type.label = prop.openbis_property_label
+        property_type.description = prop.openbis_description
+
+        assignment = MagicMock()
+        assignment.code = prop.code
+        assignment.section = prop.section
+        assignment.mandatory = prop.mandatory
+        assignment.showInEditView = prop.show_in_edit_views
+        assignment.ordinal = prop.ordinal
+
+        obj_type = MagicMock()
+        obj_type.get_property_assignments.return_value = [assignment]
+
+        openbis = MagicMock()
+        openbis.get_property_type.return_value = property_type
+
+        result = SyncResult()
+
+        entity._update_existing_property(
+            prop=prop,
+            obj_type=obj_type,
+            openbis=openbis,
+            result=result,
+        )
+
+        assert not any(
+            change.action == SyncAction.REJECTED for change in result.changes
+        )
+
+        property_type.save.assert_not_called()
+        obj_type.assign_property.assert_not_called()
+
     def test_update_existing_property_modifies_label(self):
         entity = generate_object_type()
 
