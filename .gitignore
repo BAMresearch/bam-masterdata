@@ -185,3 +185,9 @@ bam_masterdata/datamodel/vocabulary_types_internal.py
 
 # Release notes
 /release-notes.md
+
+# Claude session logs
+claude_session_log
+
+CLAUDE.md
+story.md
