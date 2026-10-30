@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type {
   SchemaEdge,
   SchemaExport,
@@ -8,6 +8,68 @@ import type {
 import "./App.css";
 
 const versions: SchemaVersion[] = ["v0", "v1"];
+
+function RelationshipHelp() {
+  const detailsRef = useRef<HTMLDetailsElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: PointerEvent) {
+      if (
+        detailsRef.current &&
+        !detailsRef.current.contains(event.target as Node)
+      ) {
+        detailsRef.current.open = false;
+      }
+    }
+
+    function handleEscape(event: KeyboardEvent) {
+      if (event.key === "Escape" && detailsRef.current) {
+        detailsRef.current.open = false;
+      }
+    }
+
+    document.addEventListener("pointerdown", handleClickOutside);
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.removeEventListener("pointerdown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, []);
+
+  return (
+    <details ref={detailsRef} className="relationship-help">
+      <summary aria-label="Explain relationship cardinality">?</summary>
+
+      <div className="relationship-help-content">
+        <strong>Relationship cardinality</strong>
+
+        <p>
+          Cardinality indicates how many references an object can have
+          through a property.
+        </p>
+
+        <dl>
+          <dt>0..1</dt>
+          <dd>Optional, at most one reference.</dd>
+
+          <dt>1..1</dt>
+          <dd>Required, exactly one reference.</dd>
+
+          <dt>0..*</dt>
+          <dd>Optional, multiple references allowed.</dd>
+
+          <dt>1..*</dt>
+          <dd>Required, at least one reference.</dd>
+        </dl>
+
+        <p>
+          Cardinality applies to OBJECT references, not inheritance.
+        </p>
+      </div>
+    </details>
+  );
+}
 
 function App() {
   const [version, setVersion] = useState<SchemaVersion>("v1");
@@ -356,41 +418,10 @@ function ObjectDetails({
 
       <section className="detail-section">
         <div className="section-title">
-          <h3>Relationships</h3>
-
-          <details className="relationship-help">
-            <summary aria-label="Explain relationship cardinality">
-              ?
-            </summary>
-
-            <div className="relationship-help-content">
-              <strong>Relationship cardinality</strong>
-
-              <p>
-                Cardinality indicates how many references an object
-                can have through a property.
-              </p>
-
-              <dl>
-                <dt>0..1</dt>
-                <dd>Optional, at most one reference.</dd>
-
-                <dt>1..1</dt>
-                <dd>Required, exactly one reference.</dd>
-
-                <dt>0..*</dt>
-                <dd>Optional, multiple references allowed.</dd>
-
-                <dt>1..*</dt>
-                <dd>Required, at least one reference.</dd>
-              </dl>
-
-              <p>
-                Cardinality applies to OBJECT references,
-                not inheritance relationships.
-              </p>
-            </div>
-          </details>
+          <h3>
+            Relationships
+           <RelationshipHelp />
+          </h3>
 
           <span className="count-badge">{relationships.length}</span>
         </div>

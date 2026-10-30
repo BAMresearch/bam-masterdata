@@ -358,11 +358,14 @@ td small {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 10px;
+  gap: 8px;
   margin-bottom: 16px;
 }
 
 .section-title h3 {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 3px;
   margin: 0;
   line-height: 1.4;
 }
@@ -512,20 +515,26 @@ td small {
 }
 
 .relationship-help {
+  display: inline-block;
   position: relative;
+  vertical-align: super;
+  transform: translateY(-5px);
 }
 
 .relationship-help summary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 19px;
-  height: 19px;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--bam-blue);
   border-radius: 50%;
-  background: #e5f4f9;
   color: var(--bam-blue);
-  font-size: 12px;
+  background: transparent;
+  font-family: sans-serif;
+  font-size: 9px;
   font-weight: 700;
+  line-height: 1;
   cursor: pointer;
   list-style: none;
 }
