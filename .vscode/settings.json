@@ -25,6 +25,7 @@
     "source.organizeImports.ruff": "always",
     "source.fixAll.ruff": "always",
   },
+  "editor.tabSize": 2,
   "launch": {
     "version": "0.2.0",
     "configurations": [

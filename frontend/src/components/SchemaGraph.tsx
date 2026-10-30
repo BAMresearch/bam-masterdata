@@ -79,8 +79,43 @@ export function SchemaGraph({
 }: SchemaGraphProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const onSelectNodeRef = useRef(onSelectNode);
+  const focusNodeRef = useRef<(id: string) => void>(() => {});
+
+  const [query, setQuery] = useState("");
+  const [focusedId, setFocusedId] = useState<string | null>(null);
 
   const depths = useMemo(() => calculateDepths(schema), [schema]);
+
+  const searchResults = useMemo(() => {
+    const term = query.trim().toLowerCase();
+
+    if (!term) return [];
+
+    return schema.nodes
+      .filter(
+        (node) =>
+          node.name.toLowerCase().includes(term) ||
+          node.id.toLowerCase().includes(term),
+      )
+      .slice(0, 8);
+  }, [schema.nodes, query]);
+
+  const focusedNode = useMemo(
+    () => schema.nodes.find((node) => node.id === focusedId) ?? null,
+    [schema.nodes, focusedId],
+  );
+
+  function focusNode(id: string) {
+    setFocusedId(id);
+    setQuery("");
+  }
+
+  focusNodeRef.current = focusNode;
+
+  function resetFocus() {
+    setFocusedId(null);
+    setQuery("");
+  }
 
   const maxDepth = useMemo(
     () => Math.max(0, ...depths.values()),
@@ -97,13 +132,29 @@ export function SchemaGraph({
     onSelectNodeRef.current = onSelectNode;
   }, [onSelectNode]);
 
-  const visibleNodes = useMemo(
-    () =>
-      schema.nodes.filter(
+  const visibleNodes = useMemo(() => {
+    if (!focusedId) {
+      return schema.nodes.filter(
         (node) => (depths.get(node.id) ?? 0) <= depth,
-      ),
-    [schema.nodes, depths, depth],
-  );
+      );
+    }
+
+    const relatedIds = new Set<string>([focusedId]);
+
+    for (const edge of schema.edges) {
+      if (edge.type !== "inheritance") continue;
+
+      if (edge.source === focusedId) {
+        relatedIds.add(edge.target);
+      }
+
+      if (edge.target === focusedId) {
+        relatedIds.add(edge.source);
+      }
+    }
+
+    return schema.nodes.filter((node) => relatedIds.has(node.id));
+  }, [schema.nodes, schema.edges, depths, depth, focusedId]);
 
   const visibleEdges = useMemo(() => {
     const visibleIds = new Set(visibleNodes.map((node) => node.id));
@@ -133,8 +184,7 @@ export function SchemaGraph({
           depth: depths.get(node.id) ?? 0,
         },
         position: positions.get(node.id),
-        classes:
-          (depths.get(node.id) ?? 0) === 0 ? "root-node" : "",
+        classes: node.id === focusedId ? "focused-node" : "",
       })),
 
       ...visibleEdges.map((edge) => ({
@@ -172,13 +222,13 @@ export function SchemaGraph({
             width: 150,
             height: 44,
 
-            "background-color": "#e5f4f9",
-            "border-color": "#007599",
+            "background-color": "#007599",
+            "border-color": "#00556e",
             "border-width": 1.5,
 
             label: "data(label)",
-            color: "#002832",
-            "font-size": 12,
+            color: "#ffffff",
+            "font-size": 14,
             "font-weight": 500,
             "text-valign": "center",
             "text-halign": "center",
@@ -187,20 +237,12 @@ export function SchemaGraph({
           },
         },
         {
-          selector: ".root-node",
+          selector: ".focused-node",
           style: {
-            "background-color": "#007599",
-            "border-color": "#00556e",
-            color: "#ffffff",
+            "background-color": "#dcebbb",
+            "border-color": "#6d9410",
+            "border-width": 2.5,
             "font-weight": 700,
-          },
-        },
-        {
-          selector: "node:selected",
-          style: {
-            "background-color": "#8cb40f",
-            "border-color": "#002832",
-            "border-width": 3,
           },
         },
         {
@@ -225,62 +267,118 @@ export function SchemaGraph({
     });
 
     cy.on("tap", "node", (event) => {
-      onSelectNodeRef.current(event.target.id());
+      focusNodeRef.current(event.target.id());
     });
 
     return () => {
       cy.destroy();
     };
-  }, [visibleNodes, visibleEdges, depths]);
+  }, [visibleNodes, visibleEdges, depths, focusedId]);
 
   return (
     <div className="schema-graph">
-      <div className="graph-toolbar">
-        <div className="depth-control">
-          <label htmlFor="graph-depth">
-            Hierarchy depth
-          </label>
+        <div className="graph-toolbar">
+            <div className="depth-control">
+            <label htmlFor="graph-depth">
+                Hierarchy depth
+            </label>
 
-          <input
-            id="graph-depth"
-            type="range"
-            min={0}
-            max={maxDepth}
-            value={depth}
-            disabled={maxDepth === 0}
-            onChange={(event) =>
-              setDepth(Number(event.target.value))
-            }
+            <div className="graph-search">
+              <input
+                type="search"
+                aria-label="Find an object type"
+                placeholder="Find a class..."
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" && searchResults.length > 0) {
+                    focusNode(searchResults[0].id);
+                  }
+
+                  if (event.key === "Escape") {
+                    setQuery("");
+                  }
+                }}
+              />
+
+              {searchResults.length > 0 && (
+                <div className="graph-search-results">
+                  {searchResults.map((node) => (
+                    <button
+                      key={node.id}
+                      type="button"
+                      onClick={() => focusNode(node.id)}
+                    >
+                      <strong>{node.name}</strong>
+                      <small>{node.id}</small>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <input
+                id="graph-depth"
+                type="range"
+                min={0}
+                max={maxDepth}
+                value={depth}
+                disabled={maxDepth === 0}
+                onChange={(event) =>
+                setDepth(Number(event.target.value))
+                }
+            />
+
+            <span className="depth-value">
+                {depth} / {maxDepth}
+            </span>
+            </div>
+        </div>
+
+        {focusedNode && (
+          <div className="graph-focus-toolbar">
+            <button
+              type="button"
+              className="graph-back-button"
+              onClick={resetFocus}
+            >
+              ← All classes
+            </button>
+
+            <span className="graph-focus-title">
+              {focusedNode.name}
+            </span>
+
+            <button
+              type="button"
+              className="graph-details-button"
+              onClick={() => onSelectNodeRef.current(focusedNode.id)}
+            >
+              View details →
+            </button>
+          </div>
+        )}
+
+        <div className="graph-stage">
+          <div
+            ref={containerRef}
+            className="graph-canvas"
+            aria-label="Inheritance graph"
           />
 
-          <span className="depth-value">
-            {depth} / {maxDepth}
-          </span>
-        </div>
-      </div>
-
-      <div className="graph-legend">
-        <span className="graph-legend-arrow" aria-hidden="true">
+          <div className="graph-legend">
+            <span className="graph-legend-arrow" aria-hidden="true">
             ───▷
-        </span>
+            </span>
+            <span>Inherits from</span>
+          </div>
+        </div>
 
-        <span>
-            <strong>Inheritance:</strong> child class points to parent class
-        </span>
-      </div>
-
-      <div
-        ref={containerRef}
-        className="graph-canvas"
-        role="img"
-        aria-label={`Inheritance graph containing ${visibleNodes.length} object types`}
-      />
-
-      <div className="graph-footer">
-        <span>
-          Drag to pan · Scroll to zoom · Click a node to inspect it
-        </span>
-      </div>
+        <div className="graph-footer">
+            <span>
+                Drag to pan · Scroll to zoom · Click a node to inspect it
+            </span>
+        </div>
     </div>
   );
 }
