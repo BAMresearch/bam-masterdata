@@ -67,11 +67,11 @@ def test_schema_edges():
         source="ACTIVITY",
         target="PERSON",
         type="object_reference",
-        property_code="RESPONSIBLE_PERSONS",
+        property_code="RESPONSIBLE_PERSON",
     )
 
     assert inheritance.type == "inheritance"
-    assert reference.property_code == "RESPONSIBLE_PERSONS"
+    assert reference.property_code == "RESPONSIBLE_PERSON"
 
 
 def test_invalid_edge_type():
@@ -107,7 +107,7 @@ def test_multivalued_reference_edge():
         source="ACTIVITY",
         target="PERSON",
         type="object_reference",
-        property_code="RESPONSIBLE_PERSONS",
+        property_code="RESPONSIBLE_PERSON",
         multivalued=True,
     )
 
@@ -120,7 +120,7 @@ def test_mandatory_reference_edge():
         source="ACTIVITY",
         target="PERSON",
         type="object_reference",
-        property_code="RESPONSIBLE_PERSONS",
+        property_code="RESPONSIBLE_PERSON",
         mandatory=True,
     )
 
