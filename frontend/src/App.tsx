@@ -200,12 +200,7 @@ function App() {
       <main className="main-content">
         <section className="page-intro">
           <div>
-            <div className="eyebrow">BAM MASTERDATA</div>
-            <h1>Explore the datamodel</h1>
-            <p>
-              Browse object types, inspect their properties, and discover
-              relationships within the scientific data model.
-            </p>
+            <h1>Explore the BAM Masterdata model</h1>
           </div>
 
           <div className="version-control">
@@ -273,10 +268,7 @@ function App() {
               <section className="graph-view">
                 <div className="graph-view-header">
                   <div>
-                    <h2>Datamodel relationships</h2>
-                    <p>
-                      Complete inheritance hierarchy for {version}.
-                    </p>
+                    <h2>Datamodel relationships for {version}</h2>
                   </div>
                 </div>
 

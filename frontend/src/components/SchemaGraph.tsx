@@ -79,7 +79,6 @@ export function SchemaGraph({
 }: SchemaGraphProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const onSelectNodeRef = useRef(onSelectNode);
-  const focusNodeRef = useRef<(id: string) => void>(() => {});
 
   const [query, setQuery] = useState("");
   const [focusedId, setFocusedId] = useState<string | null>(null);
@@ -109,8 +108,6 @@ export function SchemaGraph({
     setFocusedId(id);
     setQuery("");
   }
-
-  focusNodeRef.current = focusNode;
 
   function resetFocus() {
     setFocusedId(null);
@@ -267,7 +264,8 @@ export function SchemaGraph({
     });
 
     cy.on("tap", "node", (event) => {
-      focusNodeRef.current(event.target.id());
+      setFocusedId(event.target.id());
+      setQuery("");
     });
 
     return () => {
@@ -372,12 +370,6 @@ export function SchemaGraph({
             </span>
             <span>Inherits from</span>
           </div>
-        </div>
-
-        <div className="graph-footer">
-            <span>
-                Drag to pan · Scroll to zoom · Click a node to inspect it
-            </span>
         </div>
     </div>
   );
