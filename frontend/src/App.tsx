@@ -158,6 +158,14 @@ function App() {
                 </option>
               ))}
             </select>
+
+            {schema && (
+              <div className="schema-stats" aria-label="Schema statistics">
+                <span>{schema.nodes.length} types</span>
+                <span>{inheritanceCount} inheritance</span>
+                <span>{referenceCount} references</span>
+              </div>
+            )}
           </div>
         </section>
 
@@ -175,12 +183,6 @@ function App() {
 
         {schema && (
           <>
-            <section className="stats-grid" aria-label="Schema statistics">
-              <StatCard label="Object types" value={schema.nodes.length} />
-              <StatCard label="Inheritance edges" value={inheritanceCount} />
-              <StatCard label="OBJECT references" value={referenceCount} />
-            </section>
-
             <section className="explorer-layout">
               <aside className="browser-panel">
                 <div className="panel-heading">
@@ -243,21 +245,6 @@ function App() {
           </>
         )}
       </main>
-    </div>
-  );
-}
-
-function StatCard({
-  label,
-  value,
-}: {
-  label: string;
-  value: number;
-}) {
-  return (
-    <div className="stat-card">
-      <span>{label}</span>
-      <strong>{value.toLocaleString()}</strong>
     </div>
   );
 }
@@ -327,7 +314,9 @@ function ObjectDetails({
             <thead>
               <tr>
                 <th>Property</th>
+                <th>Description</th>
                 <th>Data type</th>
+                <th>Reference</th>
                 <th>Required</th>
                 <th>Multiple</th>
               </tr>
@@ -336,20 +325,27 @@ function ObjectDetails({
               {node.properties.map((property) => (
                 <tr key={property.code}>
                   <td>
-                    <strong>
-                      {property.property_label || property.code}
-                    </strong>
+                    <strong>{property.property_label || property.code}</strong>
                     <small>{property.code}</small>
-                    {property.units && (
-                      <small>Units: {property.units}</small>
-                    )}
+                    {property.units && <small>Units: {property.units}</small>}
                   </td>
+
+                  <td className="property-description">
+                    {property.description || "—"}
+                  </td>
+
                   <td>
                     <span className="datatype-badge">
                       {property.data_type}
                     </span>
                   </td>
+
+                  <td>
+                    {property.object_code || property.vocabulary_code || "—"}
+                  </td>
+
                   <td>{property.mandatory ? "Yes" : "No"}</td>
+
                   <td>{property.multivalued ? "Yes" : "No"}</td>
                 </tr>
               ))}
@@ -361,6 +357,41 @@ function ObjectDetails({
       <section className="detail-section">
         <div className="section-title">
           <h3>Relationships</h3>
+
+          <details className="relationship-help">
+            <summary aria-label="Explain relationship cardinality">
+              ?
+            </summary>
+
+            <div className="relationship-help-content">
+              <strong>Relationship cardinality</strong>
+
+              <p>
+                Cardinality indicates how many references an object
+                can have through a property.
+              </p>
+
+              <dl>
+                <dt>0..1</dt>
+                <dd>Optional, at most one reference.</dd>
+
+                <dt>1..1</dt>
+                <dd>Required, exactly one reference.</dd>
+
+                <dt>0..*</dt>
+                <dd>Optional, multiple references allowed.</dd>
+
+                <dt>1..*</dt>
+                <dd>Required, at least one reference.</dd>
+              </dl>
+
+              <p>
+                Cardinality applies to OBJECT references,
+                not inheritance relationships.
+              </p>
+            </div>
+          </details>
+
           <span className="count-badge">{relationships.length}</span>
         </div>
 
