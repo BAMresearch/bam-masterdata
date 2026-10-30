@@ -11,7 +11,6 @@ class SchemaNode(BaseModel):
     id: str
     name: str
     description: str
-    hierarchy: str
 
     iri: list[str] = Field(default_factory=list)
 
@@ -27,8 +26,9 @@ class SchemaEdge(BaseModel):
     type: Literal["inheritance", "object_reference"]
 
     property_code: str | None = None
-    multivalued: bool = False
-    mandatory: bool = False
+
+    multivalued: bool | None = None
+    mandatory: bool | None = None
 
 
 class SchemaExport(BaseModel):

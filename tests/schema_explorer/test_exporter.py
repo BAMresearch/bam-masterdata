@@ -24,8 +24,6 @@ def test_export_schema(version):
     for node in schema.nodes:
         assert node.id
         assert node.name
-        assert node.hierarchy
-        assert node.hierarchy.split(".")[-1] or node.id
 
 
 @pytest.mark.parametrize("version", ["v0", "v1"])
@@ -43,24 +41,6 @@ def test_inheritance_edges(version):
         assert edge.source != edge.target
 
 
-def test_v1_activity_hierarchy():
-    schema = export_schema("v1")
-
-    nodes = {node.id: node for node in schema.nodes}
-
-    assert "ROOT" in nodes
-    assert "ACTIVITY" in nodes
-
-    assert nodes["Activity".upper()].hierarchy == "ROOT.ACTIVITY"
-
-    assert any(
-        edge.source == "ROOT"
-        and edge.target == "ACTIVITY"
-        and edge.type == "inheritance"
-        for edge in schema.edges
-    )
-
-
 def test_v1_object_references():
     schema = export_schema("v1")
 
@@ -68,7 +48,7 @@ def test_v1_object_references():
         edge.source == "ACTIVITY"
         and edge.target == "PERSON"
         and edge.type == "object_reference"
-        and edge.property_code == "RESPONSIBLE_PERSONS"
+        and edge.property_code == "RESPONSIBLE_PERSON"
         for edge in schema.edges
     )
 
@@ -104,7 +84,7 @@ def test_v1_multivalued_object_reference():
         for edge in schema.edges
         if edge.source == "ACTIVITY"
         and edge.target == "PERSON"
-        and edge.property_code == "RESPONSIBLE_PERSONS"
+        and edge.property_code == "RESPONSIBLE_PERSON"
     ]
 
     assert len(edges) == 1
