@@ -9,6 +9,8 @@ import "./App.css";
 
 const versions: SchemaVersion[] = ["v0", "v1"];
 
+type ExplorerView = "graph" | "browser";
+
 function RelationshipHelp() {
   const detailsRef = useRef<HTMLDetailsElement>(null);
 
@@ -73,6 +75,7 @@ function RelationshipHelp() {
 
 function App() {
   const [version, setVersion] = useState<SchemaVersion>("v1");
+  const [view, setView] = useState<ExplorerView>("graph");
   const [schema, setSchema] = useState<SchemaExport | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
@@ -245,65 +248,104 @@ function App() {
 
         {schema && (
           <>
-            <section className="explorer-layout">
-              <aside className="browser-panel">
-                <div className="panel-heading">
-                  <h2>Object types</h2>
-                  <span className="count-badge">{filteredNodes.length}</span>
+            <nav className="view-selector" aria-label="Explorer views">
+              <button
+                type="button"
+                className={view === "graph" ? "active" : ""}
+                onClick={() => setView("graph")}
+                aria-current={view === "graph" ? "page" : undefined}
+              >
+                Graph
+              </button>
+
+              <button
+                type="button"
+                className={view === "browser" ? "active" : ""}
+                onClick={() => setView("browser")}
+                aria-current={view === "browser" ? "page" : undefined}
+              >
+                Object browser
+              </button>
+            </nav>
+
+            {view === "graph" && (
+              <section className="graph-view">
+                <div className="graph-view-header">
+                  <div>
+                    <h2>Datamodel relationships</h2>
+                    <p>
+                      Complete inheritance hierarchy for {version}.
+                    </p>
+                  </div>
                 </div>
 
-                <div className="search-container">
-                  <input
-                    type="search"
-                    placeholder="Search object types..."
-                    aria-label="Search object types"
-                    value={search}
-                    onChange={(event) => setSearch(event.target.value)}
-                  />
+                <div className="graph-placeholder">
+                  Cytoscape graph will be rendered here.
                 </div>
+              </section>
+            )}
 
-                <div className="object-list">
-                  {filteredNodes.map((node) => (
-                    <button
-                      key={node.id}
-                      type="button"
-                      className={`object-item ${
-                        selectedId === node.id ? "selected" : ""
-                      }`}
-                      onClick={() => setSelectedId(node.id)}
-                      aria-pressed={selectedId === node.id}
-                    >
-                      <span className="object-icon" />
-                      <span className="object-label">
-                        <strong>{node.name}</strong>
-                        <small>{node.id}</small>
-                      </span>
-                    </button>
-                  ))}
+            {view === "browser" && (
+              <section className="explorer-layout">
+                <aside className="browser-panel">
+                  <div className="panel-heading">
+                    <h2>Object types</h2>
+                    <span className="count-badge">{filteredNodes.length}</span>
+                  </div>
 
-                  {filteredNodes.length === 0 && (
-                    <div className="empty-list">
-                      No object types match your search.
+                  <div className="search-container">
+                    <input
+                      type="search"
+                      placeholder="Search object types..."
+                      aria-label="Search object types"
+                      value={search}
+                      onChange={(event) => setSearch(event.target.value)}
+                    />
+                  </div>
+
+                  <div className="object-list">
+                    {filteredNodes.map((node) => (
+                      <button
+                        key={node.id}
+                        type="button"
+                        className={`object-item ${
+                          selectedId === node.id ? "selected" : ""
+                        }`}
+                        onClick={() => setSelectedId(node.id)}
+                        aria-pressed={selectedId === node.id}
+                      >
+                        <span className="object-icon" />
+                        <span className="object-label">
+                          <strong>{node.name}</strong>
+                          <small>{node.id}</small>
+                        </span>
+                      </button>
+                    ))}
+
+                    {filteredNodes.length === 0 && (
+                      <div className="empty-list">
+                        No object types match your search.
+                      </div>
+                    )}
+                  </div>
+                </aside>
+
+                <div className="details-panel">
+                  {selectedNode ? (
+                    <ObjectDetails
+                      node={selectedNode}
+                      relationships={relationships}
+                      onSelectNode={setSelectedId}
+                      knownIds={new Set(schema.nodes.map((node) => node.id))}
+                    />
+                  ) : (
+                    <div className="empty-state">
+                      Select an object type to inspect its definition.
                     </div>
                   )}
                 </div>
-              </aside>
-
-              <div className="details-panel">
-                {selectedNode ? (
-                  <ObjectDetails
-                    node={selectedNode}
-                    relationships={relationships}
-                    onSelectNode={setSelectedId}
-                    knownIds={new Set(schema.nodes.map((node) => node.id))}
-                  />
-                ) : (
-                  <div className="empty-state">
-                    Select an object type to inspect its definition.
-                  </div>
-                )}
-              </div>
-            </section>
+              </section>
+            )}
           </>
         )}
       </main>

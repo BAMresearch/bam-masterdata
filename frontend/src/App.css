@@ -578,3 +578,67 @@ td small {
 .relationship-help-content dd {
   margin: 0;
 }
+
+/* Explorer view navigation */
+
+.view-selector {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--bam-border);
+}
+
+.view-selector button {
+  padding: 12px 20px;
+  border: none;
+  border-bottom: 3px solid transparent;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.view-selector button:hover {
+  color: var(--bam-blue);
+}
+
+.view-selector button.active {
+  color: var(--bam-blue);
+  border-bottom-color: var(--bam-blue);
+}
+
+/* Graph view */
+
+.graph-view {
+  background: white;
+  border: 1px solid var(--bam-border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.graph-view-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--bam-border);
+}
+
+.graph-view-header h2 {
+  margin: 0 0 6px;
+  font-size: 18px;
+}
+
+.graph-view-header p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.graph-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 550px;
+  color: var(--text-muted);
+  background: #fafcfd;
+}
