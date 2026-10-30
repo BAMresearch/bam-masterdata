@@ -6,6 +6,7 @@ import type {
   SchemaVersion,
 } from "./types/schema";
 import "./App.css";
+import { SchemaGraph } from "./components/SchemaGraph";
 
 const versions: SchemaVersion[] = ["v0", "v1"];
 
@@ -279,9 +280,14 @@ function App() {
                   </div>
                 </div>
 
-                <div className="graph-placeholder">
-                  Cytoscape graph will be rendered here.
-                </div>
+                <SchemaGraph
+                  key={version}
+                  schema={schema}
+                  onSelectNode={(id) => {
+                    setSelectedId(id);
+                    setView("browser");
+                  }}
+                />
               </section>
             )}
 
