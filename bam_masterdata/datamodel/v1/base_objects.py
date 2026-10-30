@@ -131,7 +131,7 @@ class Activity(Root):
     )
 
     responsible_persons = PropertyTypeAssignment(
-        code="RESPONSIBLE_PERSONS",
+        code="RESPONSIBLE_PERSON",
         data_type="OBJECT",
         object_code="PERSON",
         property_label="Responsible Persons",
