@@ -285,7 +285,7 @@ export function SchemaGraph({
               <input
                 type="search"
                 aria-label="Find an object type"
-                placeholder="Find a class..."
+                placeholder="Search object type..."
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 onKeyDown={(event) => {
