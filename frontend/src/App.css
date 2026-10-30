@@ -723,23 +723,139 @@ td small {
   }
 }
 
+.graph-stage {
+  position: relative;
+}
+
 .graph-legend {
-  display: flex;
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  z-index: 2;
+
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 9px 24px;
-  border-bottom: 1px solid var(--bam-border);
-  background: #fff;
-  color: var(--text-muted);
+  gap: 8px;
+
+  padding: 7px 12px;
+
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid var(--bam-border);
+  border-radius: 7px;
+
+  color: var(--bam-dark);
   font-size: 11px;
+
+  pointer-events: none;
 }
 
 .graph-legend-arrow {
   color: #8299a5;
-  font-size: 19px;
+  font-size: 18px;
   line-height: 1;
 }
 
-.graph-legend strong {
+/* Graph search */
+
+.graph-search {
+  position: relative;
+  width: 240px;
+  max-width: 100%;
+}
+
+.graph-search input {
+  width: 100%;
+  padding: 9px 12px;
+  background: white;
   color: var(--bam-dark);
+  border: 1px solid var(--bam-border);
+  border-radius: 7px;
+  font-size: 12px;
+  outline-color: var(--bam-blue);
+}
+
+.graph-search-results {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+
+  max-height: 300px;
+  overflow-y: auto;
+
+  background: white;
+  border: 1px solid var(--bam-border);
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 40, 50, 0.12);
+}
+
+.graph-search-results button {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 100%;
+  padding: 10px 12px;
+
+  background: white;
+  border: 0;
+  border-bottom: 1px solid #edf1f3;
+
+  color: var(--bam-dark);
+  text-align: left;
+}
+
+.graph-search-results button:hover,
+.graph-search-results button:focus-visible {
+  background: #e5f4f9;
+}
+
+.graph-search-results small {
+  color: var(--text-muted);
+}
+
+/* Focused graph */
+
+.graph-focus-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 24px;
+  background: #f3f8ed;
+  border-bottom: 1px solid var(--bam-border);
+}
+
+.graph-focus-title {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.graph-back-button,
+.graph-details-button {
+  padding: 7px 10px;
+  background: white;
+  border: 1px solid var(--bam-border);
+  border-radius: 6px;
+  color: var(--bam-blue);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.graph-back-button:hover,
+.graph-details-button:hover {
+  background: #e5f4f9;
+}
+
+@media (max-width: 700px) {
+  .graph-search {
+    width: 100%;
+  }
+
+  .graph-focus-toolbar {
+    flex-wrap: wrap;
+    padding: 12px 16px;
+  }
 }
