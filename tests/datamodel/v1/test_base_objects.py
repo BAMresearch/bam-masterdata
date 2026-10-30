@@ -81,7 +81,7 @@ def test_property_assignments_export_with_current_codes():
         "$NAME",
         "EXTERNAL_IDENTIFIER",
         "EXTERNAL_REFERENCE",
-        "RESPONSIBLE_PERSONS",
+        "RESPONSIBLE_PERSON",
         "INPUT",
         "OUTPUT",
     } <= exported_codes

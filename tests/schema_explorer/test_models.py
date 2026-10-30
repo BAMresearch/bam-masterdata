@@ -16,11 +16,9 @@ def test_schema_node():
         id="ACTIVITY",
         name="Activity",
         description="An activity.",
-        hierarchy="ROOT.ACTIVITY",
     )
 
     assert node.id == "ACTIVITY"
-    assert node.hierarchy == "ROOT.ACTIVITY"
     assert node.properties == []
     assert node.iri == []
 
@@ -39,7 +37,6 @@ def test_schema_node_with_properties():
         id="ACTIVITY",
         name="Activity",
         description="An activity.",
-        hierarchy="ROOT.ACTIVITY",
         properties=[prop],
     )
 
@@ -94,7 +91,6 @@ def test_schema_json_serialization():
                 id="ROOT",
                 name="Root",
                 description="Root object type.",
-                hierarchy="ROOT",
             ),
         ],
     )

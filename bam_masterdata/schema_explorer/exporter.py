@@ -37,7 +37,6 @@ def export_schema(version: str) -> SchemaExport:
             id=cls.defs.code,
             name=cls.__name__,
             description=cls.defs.description,
-            hierarchy=cls.get_hierarchy_path(),  # ! don't treat is a representative
             iri=cls.defs.iri or [],
             properties=definition["properties"],
         )
