@@ -607,3 +607,72 @@ class PseudizationScheme(VocabularyType):
         label="Extra-Soft",
         description="Scheme optimized for low cutoff energies",
     )
+
+
+class SystemType(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="SYSTEM_TYPE",
+        description="Periodicity and dimensionality of a simulated system",
+    )
+
+    atom = VocabularyTerm(
+        code="ATOM",
+        label="Atom",
+        description="Single isolated atom",
+    )
+
+    molecule = VocabularyTerm(
+        code="MOLECULE",
+        label="Molecule",
+        description="Isolated molecule without periodic boundary conditions",
+    )
+
+    cluster = VocabularyTerm(
+        code="CLUSTER",
+        label="Cluster",
+        description="Isolated group of atoms without periodic boundary conditions",
+    )
+
+    one_dimensional = VocabularyTerm(
+        code="ONE_DIMENSIONAL",
+        label="1D",
+        description="System periodic in one direction, such as a nanowire or a polymer chain",
+    )
+
+    surface = VocabularyTerm(
+        code="SURFACE",
+        label="Surface",
+        description="Slab periodic in two directions with a finite thickness in the third",
+    )
+
+    two_dimensional = VocabularyTerm(
+        code="TWO_DIMENSIONAL",
+        label="2D",
+        description="Atomically thin layer periodic in two directions, such as graphene",
+    )
+
+    bulk = VocabularyTerm(
+        code="BULK",
+        label="Bulk",
+        description="System periodic in all three directions",
+    )
+
+
+class StructuralOrder(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="STRUCTURAL_ORDER",
+        description="Long-range order of the atomic arrangement of a simulated system, as asserted "
+        "by its author",
+    )
+
+    crystalline = VocabularyTerm(
+        code="CRYSTALLINE",
+        label="Crystalline",
+        description="Atomic arrangement with long-range periodic order",
+    )
+
+    amorphous = VocabularyTerm(
+        code="AMORPHOUS",
+        label="Amorphous",
+        description="Atomic arrangement without long-range order",
+    )

@@ -236,6 +236,249 @@ class Pseudopotential(Context):
     # REFERENCE
 
 
+class SimulatedSystem(Context):
+    defs = ObjectTypeDef(
+        code="SIMULATED_SYSTEM",
+        description="A SimulatedSystem is a context that specifies a set of particles, such as atoms, with their "
+        "positions, cell, and periodicity, used as input to a computation or produced by one.",
+        generated_code_prefix="SIM_SYS",
+        prev_versions=[
+            "MAT_SIM_STRUCTURE:v0",
+            "MAT_SIM_STRUCTURE.CRYSTAL:v0",
+            "MAT_SIM_STRUCTURE.AMORPHOUS:v0",
+        ],
+    )
+
+    system_type = PropertyTypeAssignment(
+        code="SYSTEM_TYPE",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="SYSTEM_TYPE",
+        property_label="System type",
+        description="Periodicity and dimensionality of the system, such as molecule, surface, or bulk.",
+        mandatory=False,
+        section="System Details",
+    )
+
+    dimensionality = PropertyTypeAssignment(
+        code="DIMENSIONALITY",
+        data_type="INTEGER",
+        property_label="Dimensionality",
+        description="Number of dimensions in which the system is extended: 0, 1, 2, or 3.",
+        mandatory=False,
+        section="System Details",
+    )
+
+    structural_order = PropertyTypeAssignment(
+        code="STRUCTURAL_ORDER",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="STRUCTURAL_ORDER",
+        property_label="Structural order",
+        description="Long-range order of the atomic arrangement, as asserted by the author. Not applicable to atoms and molecules.",
+        mandatory=False,
+        section="System Details",
+    )
+
+    n_particles = PropertyTypeAssignment(
+        code="N_PARTICLES",
+        data_type="INTEGER",
+        property_label="Number of particles",
+        description="Number of particles, such as atoms, in the system.",
+        mandatory=False,
+        section="System Details",
+        prev_versions=["N_ATOMS_TOTAL:v0"],
+    )
+
+    total_charge = PropertyTypeAssignment(
+        code="TOTAL_CHARGE",
+        data_type="INTEGER",
+        property_label="Total charge",
+        description="Net charge of the system in units of the elementary charge.",
+        mandatory=False,
+        section="System Details",
+    )
+
+    total_spin_multiplicity = PropertyTypeAssignment(
+        code="TOTAL_SPIN_MULTIPLICITY",
+        data_type="INTEGER",
+        property_label="Total spin multiplicity",
+        description="Spin multiplicity 2S+1 of the system, such as 1 for a singlet or 2 for a doublet.",
+        mandatory=False,
+        section="System Details",
+    )
+
+    chemical_formula_descriptive = PropertyTypeAssignment(
+        code="CHEMICAL_FORMULA_DESCRIPTIVE",
+        data_type="VARCHAR",
+        property_label="Descriptive formula",
+        description="Chemical formula of the system with non-reduced proportions, such as Fe54C.",
+        mandatory=False,
+        section="Chemical Formula",
+        prev_versions=["CHEM_SPECIES_BY_N_ATOMS:v0"],
+    )
+
+    chemical_formula_reduced = PropertyTypeAssignment(
+        code="CHEMICAL_FORMULA_REDUCED",
+        data_type="VARCHAR",
+        property_label="Reduced formula",
+        description="Alphabetically sorted chemical formula with reduced integer proportions, such as CFe3.",
+        mandatory=False,
+        section="Chemical Formula",
+    )
+
+    chemical_formula_iupac = PropertyTypeAssignment(
+        code="CHEMICAL_FORMULA_IUPAC",
+        data_type="VARCHAR",
+        property_label="IUPAC formula",
+        description="Chemical formula with reduced proportions and the elements ordered by electronegativity following the IUPAC nomenclature.",
+        mandatory=False,
+        section="Chemical Formula",
+    )
+
+    chemical_formula_hill = PropertyTypeAssignment(
+        code="CHEMICAL_FORMULA_HILL",
+        data_type="VARCHAR",
+        property_label="Hill formula",
+        description="Chemical formula in Hill notation: carbon first, then hydrogen, then the other elements in alphabetical order.",
+        mandatory=False,
+        section="Chemical Formula",
+    )
+
+    chemical_formula_anonymous = PropertyTypeAssignment(
+        code="CHEMICAL_FORMULA_ANONYMOUS",
+        data_type="VARCHAR",
+        property_label="Anonymous formula",
+        description="Reduced formula with the elements ordered by proportion and replaced by letters, such as A2B for H2O.",
+        mandatory=False,
+        section="Chemical Formula",
+    )
+
+    lattice_vectors = PropertyTypeAssignment(
+        code="LATTICE_VECTORS",
+        data_type="JSON",
+        property_label="Lattice vectors",
+        description="Lattice vectors of the cell in angstrom, as a 3x3 matrix whose rows are the vectors a, b, and c.",
+        mandatory=False,
+        section="Cell Details",
+        prev_versions=["SIM_CELL_VECTORS:v0"],
+    )
+
+    periodic_a = PropertyTypeAssignment(
+        code="PERIODIC_A",
+        data_type="BOOLEAN",
+        property_label="Periodic along a",
+        description="Whether periodic boundary conditions apply along the lattice vector a.",
+        mandatory=False,
+        section="Cell Details",
+    )
+
+    periodic_b = PropertyTypeAssignment(
+        code="PERIODIC_B",
+        data_type="BOOLEAN",
+        property_label="Periodic along b",
+        description="Whether periodic boundary conditions apply along the lattice vector b.",
+        mandatory=False,
+        section="Cell Details",
+    )
+
+    periodic_c = PropertyTypeAssignment(
+        code="PERIODIC_C",
+        data_type="BOOLEAN",
+        property_label="Periodic along c",
+        description="Whether periodic boundary conditions apply along the lattice vector c.",
+        mandatory=False,
+        section="Cell Details",
+    )
+
+    cell_volume = PropertyTypeAssignment(
+        code="CELL_VOLUME",
+        data_type="REAL",
+        property_label="Cell volume",
+        units="angstrom**3",
+        description="Volume of the cell.",
+        mandatory=False,
+        section="Cell Details",
+        prev_versions=["LATTICE_VOLUME_IN_A3:v0", "SIM_CELL_VOLUME_IN_A3:v0"],
+    )
+
+    cell_length_a = PropertyTypeAssignment(
+        code="CELL_LENGTH_A",
+        data_type="REAL",
+        property_label="Cell length a",
+        units="angstrom",
+        description="Length of the lattice vector a.",
+        mandatory=False,
+        section="Cell Details",
+        prev_versions=["LATTICE_PARAM_A_IN_A:v0"],
+    )
+
+    cell_length_b = PropertyTypeAssignment(
+        code="CELL_LENGTH_B",
+        data_type="REAL",
+        property_label="Cell length b",
+        units="angstrom",
+        description="Length of the lattice vector b.",
+        mandatory=False,
+        section="Cell Details",
+        prev_versions=["LATTICE_PARAM_B_IN_A:v0"],
+    )
+
+    cell_length_c = PropertyTypeAssignment(
+        code="CELL_LENGTH_C",
+        data_type="REAL",
+        property_label="Cell length c",
+        units="angstrom",
+        description="Length of the lattice vector c.",
+        mandatory=False,
+        section="Cell Details",
+        prev_versions=["LATTICE_PARAM_C_IN_A:v0"],
+    )
+
+    cell_angle_alpha = PropertyTypeAssignment(
+        code="CELL_ANGLE_ALPHA",
+        data_type="REAL",
+        property_label="Cell angle alpha",
+        units="degree",
+        description="Angle between the lattice vectors b and c.",
+        mandatory=False,
+        section="Cell Details",
+        prev_versions=["LATTICE_ANGALPHA_IN_DEG:v0"],
+    )
+
+    cell_angle_beta = PropertyTypeAssignment(
+        code="CELL_ANGLE_BETA",
+        data_type="REAL",
+        property_label="Cell angle beta",
+        units="degree",
+        description="Angle between the lattice vectors a and c.",
+        mandatory=False,
+        section="Cell Details",
+        prev_versions=["LATTICE_ANGBETA_IN_DEG:v0"],
+    )
+
+    cell_angle_gamma = PropertyTypeAssignment(
+        code="CELL_ANGLE_GAMMA",
+        data_type="REAL",
+        property_label="Cell angle gamma",
+        units="degree",
+        description="Angle between the lattice vectors a and b.",
+        mandatory=False,
+        section="Cell Details",
+        prev_versions=["LATTICE_ANGGAMMA_IN_DEG:v0"],
+    )
+
+    # Properties from v0 that need to be migrated to v1 (from MAT_SIM_STRUCTURE:v0 and subtypes):
+    # SPACE_GROUP
+    # BRAVAIS_LATTICE
+    # CRYSTAL_ORIENTATION
+    # SIM_CELL_LENGTHS_IN_A
+    # SIM_CELL_ANGLES_IN_DEG
+    # LATTICE_C_OVER_A
+    # ATOM_SHORT_RNG_ORD
+    # ATOM_SAMPLE_TEMP_IN_K
+    # WORKFLOW_MANAGER
+    # CONCEPTUAL_DICTIONARY
+
+
 class ComputationalMethod(Context):
     defs = ObjectTypeDef(
         code="COMPUTATIONAL_METHOD",

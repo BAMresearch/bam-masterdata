@@ -15,6 +15,8 @@ from bam_masterdata.datamodel.v1.vocabularies import (
     ReferenceForm,
     RelativityApproximation,
     RelativityLevel,
+    StructuralOrder,
+    SystemType,
     XcFunctional,
 )
 from bam_masterdata.metadata.definitions import VocabularyTypeDef
@@ -34,6 +36,8 @@ VOCABULARY_CLASSES = [
     MethodType,
     PseudopotentialType,
     PseudizationScheme,
+    SystemType,
+    StructuralOrder,
 ]
 
 

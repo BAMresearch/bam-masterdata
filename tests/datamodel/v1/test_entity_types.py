@@ -2,7 +2,7 @@ import json
 
 import pytest
 
-from bam_masterdata.datamodel.v1.activities import Computation
+from bam_masterdata.datamodel.v1.activities import Computation, Simulation
 from bam_masterdata.datamodel.v1.base_objects import Entity
 from bam_masterdata.datamodel.v1.entities import (
     HPC,
@@ -10,6 +10,7 @@ from bam_masterdata.datamodel.v1.entities import (
     Context,
     MaterialEntity,
     Pseudopotential,
+    SimulatedSystem,
     Software,
     WorkflowDefinition,
 )
@@ -22,6 +23,7 @@ ENTITY_CLASSES = [
     Software,
     WorkflowDefinition,
     Pseudopotential,
+    SimulatedSystem,
     ComputationalMethod,
     HPC,
 ]
@@ -48,6 +50,7 @@ def test_entity_types_can_be_instantiated_and_exported(cls):
         (Software, Context),
         (WorkflowDefinition, Context),
         (Pseudopotential, Context),
+        (SimulatedSystem, Context),
         (ComputationalMethod, Context),
         (HPC, MaterialEntity),
     ],
@@ -80,6 +83,7 @@ def test_shared_property_codes_have_identical_definitions():
     "cls, activity, property_name",
     [
         (Software, Computation, "software"),
+        (SimulatedSystem, Simulation, "simulated_system"),
         (ComputationalMethod, Computation, "computational_method"),
     ],
 )
