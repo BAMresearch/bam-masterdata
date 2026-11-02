@@ -74,6 +74,45 @@ function calculateDepths(schema: SchemaExport): Map<string, number> {
   return depths;
 }
 
+/**
+ * Calculate the shortest inheritance distance from a selected class
+ * to all connected classes, in either direction.
+ */
+function calculateFocusDistances(
+  schema: SchemaExport,
+  focusedId: string,
+): Map<string, number> {
+  const adjacency = new Map<string, Set<string>>();
+
+  for (const node of schema.nodes) {
+    adjacency.set(node.id, new Set());
+  }
+
+  for (const edge of schema.edges) {
+    if (edge.type !== "inheritance") continue;
+
+    adjacency.get(edge.source)?.add(edge.target);
+    adjacency.get(edge.target)?.add(edge.source);
+  }
+
+  const distances = new Map<string, number>([[focusedId, 0]]);
+  const queue = [focusedId];
+
+  for (let index = 0; index < queue.length; index++) {
+    const currentId = queue[index];
+    const distance = distances.get(currentId)!;
+
+    for (const neighbor of adjacency.get(currentId) ?? []) {
+      if (distances.has(neighbor)) continue;
+
+      distances.set(neighbor, distance + 1);
+      queue.push(neighbor);
+    }
+  }
+
+  return distances;
+}
+
 export function SchemaGraph({
   schema,
   onSelectNode,
@@ -103,12 +142,22 @@ export function SchemaGraph({
     setDepth(Math.min(2, maxDepth));
   }
 
-  const maxDepth = useMemo(
-    () => Math.max(0, ...depths.values()),
-    [depths],
+  const focusDistances = useMemo(
+    () =>
+      focusedId
+        ? calculateFocusDistances(schema, focusedId)
+        : null,
+    [schema, focusedId],
   );
 
+  const maxDepth = useMemo(() => {
+    const distances = focusDistances ?? depths;
+
+    return Math.max(0, ...distances.values());
+  }, [focusDistances, depths]);
+
   const [depth, setDepth] = useState(() => Math.min(2, maxDepth));
+  const effectiveDepth = Math.min(depth, maxDepth);
 
   useEffect(() => {
     setDepth(Math.min(2, maxDepth));
@@ -119,46 +168,18 @@ export function SchemaGraph({
   }, [onSelectNode]);
 
   const visibleNodes = useMemo(() => {
-    // Overview: depth measured from inheritance roots.
     if (!focusedId) {
       return schema.nodes.filter(
-        (node) => (depths.get(node.id) ?? 0) <= depth,
+        (node) => (depths.get(node.id) ?? 0) <= effectiveDepth,
       );
     }
 
-    // Focused mode: depth measured from the selected class.
-    const adjacency = new Map<string, Set<string>>();
+    return schema.nodes.filter((node) => {
+      const distance = focusDistances?.get(node.id);
 
-    for (const node of schema.nodes) {
-      adjacency.set(node.id, new Set());
-    }
-
-    for (const edge of schema.edges) {
-      if (edge.type !== "inheritance") continue;
-
-      adjacency.get(edge.source)?.add(edge.target);
-      adjacency.get(edge.target)?.add(edge.source);
-    }
-
-    const distances = new Map<string, number>([[focusedId, 0]]);
-    const queue = [focusedId];
-
-    for (let index = 0; index < queue.length; index++) {
-      const currentId = queue[index];
-      const distance = distances.get(currentId)!;
-
-      if (distance >= depth) continue;
-
-      for (const neighbor of adjacency.get(currentId) ?? []) {
-        if (distances.has(neighbor)) continue;
-
-        distances.set(neighbor, distance + 1);
-        queue.push(neighbor);
-      }
-    }
-
-    return schema.nodes.filter((node) => distances.has(node.id));
-  }, [schema.nodes, schema.edges, depths, depth, focusedId]);
+      return distance !== undefined && distance <= effectiveDepth;
+    });
+  }, [schema.nodes, depths, focusDistances, effectiveDepth, focusedId]);
 
   const visibleEdges = useMemo(() => {
     const visibleIds = new Set(visibleNodes.map((node) => node.id));
@@ -298,21 +319,20 @@ export function SchemaGraph({
               <label htmlFor="graph-depth">
                   Hierarchy depth
               </label>
-
               <input
-                  id="graph-depth"
-                  type="range"
-                  min={0}
-                  max={focusedId ? Math.max(1, maxDepth) : maxDepth}
-                  value={depth}
-                  disabled={!focusedId && maxDepth === 0}
-                  onChange={(event) =>
+                id="graph-depth"
+                type="range"
+                min={0}
+                max={maxDepth}
+                value={effectiveDepth}
+                disabled={maxDepth === 0}
+                onChange={(event) =>
                   setDepth(Number(event.target.value))
-                  }
+                }
               />
 
               <span className="depth-value">
-                  {depth} / {focusedId ? Math.max(1, maxDepth) : maxDepth}
+                {effectiveDepth} / {maxDepth}
               </span>
             </div>
         </div>
