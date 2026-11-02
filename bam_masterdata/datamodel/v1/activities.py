@@ -17,15 +17,14 @@ from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssig
 #       └── Test
 
 
-# Computation branch
-
-
 class Computation(Activity):
     defs = ObjectTypeDef(
         code="COMPUTATION",
-        description="An activity that performs computational operations using a computing environment to produce one or more outputs",
-        generated_code_prefix="COMPUTATION",
+        description="A Computation is an activity that executes computational methods to process information "
+        "or perform calculations.",
+        generated_code_prefix="COMPUT",
         prev_versions=["COMPUTATIONAL_ANALYSIS:v0"],
+        iri=["https://w3id.org/pmd/co/PMD_0000583"],
     )
 
     software = PropertyTypeAssignment(
@@ -36,6 +35,7 @@ class Computation(Activity):
         description="Software used to perform the computation",
         mandatory=False,
         section="Computation Details",
+        prev_versions=["CREEP_TEST_SOFTWARE:v0", "WORKFLOW_MANAGER:v0"],
     )
 
     computational_method = PropertyTypeAssignment(
@@ -43,81 +43,102 @@ class Computation(Activity):
         data_type="OBJECT",
         object_code="COMPUTATIONAL_METHOD",
         property_label="Computational method",
-        description="Computational methods, algorithms, and settings used during the computation, e.g. DFT Single Point or Geometry Optimization",
+        description="Computational methods applied during the computation, such as density functional "
+        "theory or molecular dynamics.",
         mandatory=False,
         section="Computation Details",
         multivalued=True,
     )
 
+    # Properties from v0 that need to be migrated to v1:
+    # SOURCE_CODE_LANGUAGE
+
 
 class Analysis(Computation):
-    # Defines no new properties; serves as a common parent for domain-specific analyses.
     defs = ObjectTypeDef(
         code="ANALYSIS",
-        description="A computation that examines one or more existing inputs to derive information, properties, parameters, or other outputs",
+        description="An Analysis is a computation that examines one or more existing inputs to derive "
+        "information, properties, parameters, or other outputs.",
         generated_code_prefix="ANALYSIS",
+        iri=["https://w3id.org/pmd/co/PMD_0025012"],
+    )
+
+    primary_data_series = PropertyTypeAssignment(
+        code="PRIMARY_DATA_SERIES",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Primary data series",
+        description="Description of the original data series used in the analysis, "
+        "including measured quantities and units.",
+        mandatory=False,
+        section="Analysis Details",
+        prev_versions=["CREEP_TEST_PRIMARY_DATA_SERIES:v0"],
+    )
+
+    processed_data_series = PropertyTypeAssignment(
+        code="PROCESSED_DATA_SERIES",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Processed data series",
+        description="Description of the data series produced by the analysis, "
+        "including derived quantities and units.",
+        mandatory=False,
+        section="Analysis Details",
+        prev_versions=["CREEP_TEST_PROCESSED_DATA_SERIES:v0"],
+    )
+
+    analysis_procedure = PropertyTypeAssignment(
+        code="ANALYSIS_PROCEDURE",
+        data_type="MULTILINE_VARCHAR",
+        property_label="Analysis procedure",
+        description="Description of the methods or operations applied to the input "
+        "data to obtain the analysis results.",
+        mandatory=False,
+        section="Analysis Details",
+        prev_versions=["CREEP_TEST_ANALYSIS_PROCEDURE:v0"],
+    )
+
+    automated_workflow = PropertyTypeAssignment(
+        code="AUTOMATED_WORKFLOW",
+        data_type="BOOLEAN",
+        property_label="Automated workflow",
+        description="Whether the analysis was performed using an automated computational workflow.",
+        mandatory=False,
+        section="Analysis Details",
+        prev_versions=["CREEP_TEST_WORKFLOW_USAGE:v0"],
     )
 
 
 class CreepTestDataProcessing(Analysis):
     defs = ObjectTypeDef(
         code="CREEP_TEST_DATA_PROCESSING",
-        description="Data processing procedures applied to the data of a creep test",
-        generated_code_prefix="CREEP_DATA_PROCESSING",
+        description="A CreepTestDataProcessing is an analysis that transforms or evaluates data acquired "
+        "during creep testing to derive material properties or characterize creep behavior.",
+        generated_code_prefix="CREEP_DATA_PROC",
         prev_versions=[
             "COMPUTATIONAL_ANALYSIS.CREEP_TEST_DATA_PROCESSING_PROCEDURES:v0"
         ],
     )
 
-    creep_test_primary_data_series = PropertyTypeAssignment(
-        code="CREEP_TEST_PRIMARY_DATA_SERIES",
-        data_type="VARCHAR",
-        property_label="Primary data series",
-        description="Primary data is data that is directly acquired by sensors or measuring instruments during or after a test. List the measured quantities and their corresponding units.",
-        mandatory=False,
-        section="Data Processing Procedures",
-    )
-
-    creep_test_processed_data_series = PropertyTypeAssignment(
-        code="CREEP_TEST_PROCESSED_DATA_SERIES",
-        data_type="VARCHAR",
-        property_label="Processed data series",
-        description="Processed data is obtained by applying procedures (equations, algorithms, methods, unit conversions, averaging, smoothing) to primary data. Describe the transformed quantities, their units, and the applied procedures.",
-        mandatory=False,
-        section="Data Processing Procedures",
-    )
-
-    creep_test_procedures = PropertyTypeAssignment(
-        code="CREEP_TEST_PROCEDURE",
-        data_type="VARCHAR",
-        property_label="Test analysis procedures",
-        description="Description of the data processing and analysis procedures used to obtain specific test results, e.g. percentage elastic extension",
-        mandatory=False,
-        section="Data Processing Procedures",
-    )
-
-    automated_workflow_usage = PropertyTypeAssignment(
-        code="CREEP_TEST_WORKFLOW_USAGE",  # needs checking for actual wording
-        data_type="BOOLEAN",
-        property_label="Automated workflow usage",
-        description="Whether automated (user-independent) analysis workflows were used",
-        mandatory=False,
-        section="Data Processing Procedures",
-    )
+    # Properties from v0 that need to be migrated to v1:
+    # CREEP_TEST_RELATED_PUBLICATIONS
 
 
 class Simulation(Computation):
     defs = ObjectTypeDef(
         code="SIMULATION",
-        description="A computation that uses one or more computational models to reproduce, predict, or explore the behavior of a system under specified conditions",
-        generated_code_prefix="SIMULATION",
-        iri=["https://ocdo.github.io/asmo/#Simulation"],
+        description="A Simulation is a computation that uses one or more computational models to "
+        "reproduce, predict, or explore the behavior of a system under specified conditions.",
+        generated_code_prefix="SIMUL",
+        iri=[
+            "https://purls.helmholtz-metadaten.de/asmo/Simulation",
+            "https://w3id.org/pmd/co/PMD_0000933",
+        ],
+        prev_versions=["PYIRON_JOB:v0"],
     )
 
     simulated_system = PropertyTypeAssignment(
         code="SIMULATED_SYSTEM",
         data_type="OBJECT",
-        object_code="ENTITY",  # need info
+        object_code="SIMULATED_SYSTEM",
         property_label="Simulated system",
         description="System being simulated, from atomistic to continuum scale",
         mandatory=False,
@@ -125,80 +146,89 @@ class Simulation(Computation):
         multivalued=True,
     )
 
-
-class PyironJob(Simulation):
-    defs = ObjectTypeDef(
-        code="PYIRON_JOB",
-        description="A simulation run as a job managed by the pyiron workflow framework",
-        generated_code_prefix="PYIRON_JOB",
-        prev_versions=["PYIRON_JOB:v0"],
-    )
-
-    simulation_walltime = PropertyTypeAssignment(
-        code="SIM_WALLTIME_IN_HOUR",
-        data_type="REAL",  # needs more info.
-        property_label="Simulation walltime",
-        units="h",
-        description="Total run time (walltime) of the job",
-        mandatory=False,
-        section="Job Details",
-    )
-
-    simulation_core_time = PropertyTypeAssignment(
-        code="SIM_CORETIME_IN_HOUR",
+    walltime = PropertyTypeAssignment(
+        code="WALLTIME",
         data_type="REAL",
-        property_label="Simulation core time",
+        property_label="Walltime",
         units="h",
-        description="Total core time used by the job",
+        description="Elapsed time between the start and end of simulation execution.",
         mandatory=False,
-        section="Job Details",
+        section="Execution Details",
+        prev_versions=["SIM_WALLTIME_IN_HOURS:v0"],
+    )
+
+    core_time = PropertyTypeAssignment(
+        code="CORE_TIME",
+        data_type="REAL",
+        property_label="Core time",
+        units="h",
+        description="Total CPU time consumed by the simulation, expressed in core-hours.",
+        mandatory=False,
+        section="Execution Details",
+        prev_versions=["SIM_CORETIME_IN_HOURS:v0"],
     )
 
     n_cores = PropertyTypeAssignment(
-        code="NCORE",
+        code="N_CORES",
         data_type="INTEGER",
         property_label="Number of cores",
-        description="Number of cores used by the job",
+        description="Number of CPU cores allocated to the simulation.",
         mandatory=False,
-        section="Job Details",
+        section="Execution Details",
+        prev_versions=["NCORES:v0"],
     )
 
     n_gpus = PropertyTypeAssignment(
-        code="NGPU",
+        code="N_GPUS",
         data_type="INTEGER",
         property_label="Number of GPUs",
-        description="Number of GPUs used by the job",
+        description="Number of GPUs allocated to the simulation.",
         mandatory=False,
-        section="Job Details",
+        section="Execution Details",
+        prev_versions=["NGPUS:v0"],
     )
 
     n_threads = PropertyTypeAssignment(
-        code="NTHREAD",
+        code="N_THREADS",
         data_type="INTEGER",
         property_label="Number of threads",
-        description="Number of threads used by the job",
+        description="Number of execution threads configured for the simulation.",
         mandatory=False,
-        section="Job Details",
+        section="Execution Details",
+        prev_versions=["NTHREADS:v0"],
+    )
+
+    hpc_job_queue = PropertyTypeAssignment(
+        code="HPC_JOB_QUEUE",
+        data_type="VARCHAR",
+        property_label="HPC job queue",
+        description="Name of the HPC scheduler queue or partition used to execute the simulation.",
+        mandatory=False,
+        section="Execution Details",
+        prev_versions=["HPC_JOB_QUEUE:v0"],
     )
 
     hpc_job_id = PropertyTypeAssignment(
         code="HPC_JOB_ID",
         data_type="VARCHAR",
         property_label="HPC job ID",
-        description="Job ID in the HPC queue",
+        description="Identifier assigned to the simulation by an HPC job scheduler.",
         mandatory=False,
-        section="Job Details",
+        section="Execution Details",
+        prev_versions=["HPC_JOB_ID:v0"],
     )
 
-
-# Experiment branch
+    # Properties from v0 that need to be migrated to v1 (from PYIRON_JOB:v0):
+    # BAM_USERNAME
+    # CONCEPTUAL_DICTIONARY
 
 
 class Experiment(Activity):
     defs = ObjectTypeDef(
         code="EXPERIMENT",
-        description="An Experiment is an activity that acquires and records observations, measurements, or results for scientific analysis",
-        generated_code_prefix="EXPERIMENT",
+        description="An Experiment is an activity that applies controlled procedures to investigate, "
+        "measure, produce, or modify physical systems.",
+        generated_code_prefix="EXPER",
     )
 
     method_name = PropertyTypeAssignment(
@@ -224,8 +254,10 @@ class Experiment(Activity):
 class Processing(Experiment):
     defs = ObjectTypeDef(
         code="PROCESSING",
-        description="An experiment that alters the structure, composition, or form of a material",
+        description="A Processing is an experiment that alters the structure, composition, or form "
+        "of a material.",
         generated_code_prefix="PROCESSING",
+        iri=["https://w3id.org/pmd/co/PMD_0000833"],
         prev_versions=["SAMPLE_PRETREATMENT:v0"],
     )
 
@@ -233,8 +265,9 @@ class Processing(Experiment):
 class Measurement(Experiment):
     defs = ObjectTypeDef(
         code="MEASUREMENT",
-        description="An experiment that uses an experimental device to produce quantitative or qualitative data about the properties of a material",
-        generated_code_prefix="MEASUREMENT",
+        description="A Measurement is an experiment that determines one or more properties or characteristics "
+        "of a system through observation or measurement procedures.",
+        generated_code_prefix="MEASUR",
         iri=["http://purl.obolibrary.org/obo/OBI_0000070"],
     )
 
@@ -242,8 +275,10 @@ class Measurement(Experiment):
 class Calibration(Experiment):
     defs = ObjectTypeDef(
         code="CALIBRATION",
-        description="A Calibration is an experiment that establishes or adjusts the mapping between measurement outputs and reference standards.",
-        generated_code_prefix="CALIBRATION",
+        description="A Calibration is an experiment that establishes or adjusts the mapping between "
+        "measurement outputs and reference standards.",
+        generated_code_prefix="CALIB",
+        iri=["https://w3id.org/pmd/co/PMD_0001039"],
         prev_versions=["CALIBRATION:v0"],
     )
 
@@ -251,7 +286,7 @@ class Calibration(Experiment):
         code="CALIBRATION_DATE",
         data_type="TIMESTAMP",
         property_label="Calibration date",
-        description="Date of calibration",
+        description="Date on which the calibration was performed or formally recorded.",
         mandatory=False,
         section="Calibration Details",
     )
@@ -296,14 +331,16 @@ class Calibration(Experiment):
 class Synthesis(Experiment):
     defs = ObjectTypeDef(
         code="SYNTHESIS",
-        description="An experiment that creates or assembles materials through chemical or physical means",
-        generated_code_prefix="SYNTHESIS",
+        description="A Synthesis is an experiment that creates or assembles materials through chemical "
+        "or physical means.",
+        generated_code_prefix="SYNTH",
     )
 
 
 class Test(Experiment):  # needs clarification # do we need test and measurement
     defs = ObjectTypeDef(
         code="TEST",
-        description="An experiment that subjects materials to specific conditions to evaluate their performance, reliability, or compliance with standards",
+        description="A Test is an experiment that evaluates the behavior or performance of a system under "
+        "specified conditions.",
         generated_code_prefix="TEST",
     )

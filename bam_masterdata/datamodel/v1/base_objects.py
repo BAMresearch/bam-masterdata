@@ -128,6 +128,7 @@ class Activity(Root):
         description="Current lifecycle status of the activity, such as planned, in progress, or completed.",
         mandatory=False,
         section="Activity Details",
+        prev_versions=["SIM_JOB_FINISHED:v0"],
     )
 
     responsible_persons = PropertyTypeAssignment(
