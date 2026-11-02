@@ -676,3 +676,137 @@ class StructuralOrder(VocabularyType):
         label="Amorphous",
         description="Atomic arrangement without long-range order",
     )
+
+
+class LatticeType(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="LATTICE_TYPE",
+        description="Crystal family of a Bravais lattice, given by the first letter of the Pearson symbol",
+    )
+
+    triclinic = VocabularyTerm(
+        code="TRICLINIC",
+        label="a - triclinic",
+        description="Triclinic 3D lattice",
+    )
+
+    monoclinic = VocabularyTerm(
+        code="MONOCLINIC",
+        label="m - monoclinic",
+        description="Monoclinic 3D lattice",
+    )
+
+    orthorhombic = VocabularyTerm(
+        code="ORTHORHOMBIC",
+        label="o - orthorhombic",
+        description="Orthorhombic 3D lattice",
+    )
+
+    tetragonal = VocabularyTerm(
+        code="TETRAGONAL",
+        label="t - tetragonal",
+        description="Tetragonal 3D lattice",
+    )
+
+    trigonal = VocabularyTerm(
+        code="TRIGONAL",
+        label="r - trigonal",
+        description="Trigonal 3D lattice",
+    )
+
+    hexagonal = VocabularyTerm(
+        code="HEXAGONAL",
+        label="h - hexagonal",
+        description="Hexagonal 3D lattice",
+    )
+
+    cubic = VocabularyTerm(
+        code="CUBIC",
+        label="c - cubic",
+        description="Cubic 3D lattice",
+    )
+
+    oblique = VocabularyTerm(
+        code="OBLIQUE",
+        label="mp - oblique",
+        description="Oblique 2D lattice",
+    )
+
+    rectangular = VocabularyTerm(
+        code="RECTANGULAR",
+        label="op - rectangular",
+        description="Rectangular 2D lattice",
+    )
+
+    centered_rectangular = VocabularyTerm(
+        code="CENTERED_RECTANGULAR",
+        label="oc - centered rectangular",
+        description="Centered rectangular 2D lattice",
+    )
+
+    square = VocabularyTerm(
+        code="SQUARE",
+        label="tp - square",
+        description="Square 2D lattice",
+    )
+
+    hexagonal_2d = VocabularyTerm(
+        code="HEXAGONAL_2D",
+        label="hp - hexagonal 2D",
+        description="Hexagonal 2D lattice",
+    )
+
+    linear = VocabularyTerm(
+        code="LINEAR",
+        label="ap - linear",
+        description="Linear 1D lattice",
+    )
+
+
+class LatticeCentering(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="LATTICE_CENTERING",
+        description="Centering of a Bravais lattice, given by the second letter of the Pearson symbol",
+    )
+
+    primitive = VocabularyTerm(
+        code="PRIMITIVE",
+        label="P - primitive",
+        description="Lattice points only at the cell corners",
+    )
+
+    rhombohedral = VocabularyTerm(
+        code="RHOMBOHEDRAL",
+        label="R - rhombohedral",
+        description="Rhombohedral centering of the hexagonal setting",
+    )
+
+    side_centered = VocabularyTerm(
+        code="SIDE_CENTERED",
+        label="S - face centered",
+        description="One pair of opposite faces centered",
+    )
+
+    body_centered = VocabularyTerm(
+        code="BODY_CENTERED",
+        label="I - body centered",
+        description="Additional lattice point at the cell center",
+    )
+
+    face_centered = VocabularyTerm(
+        code="FACE_CENTERED",
+        label="F - all faces centered",
+        description="All faces centered",
+    )
+
+    centered_2d = VocabularyTerm(
+        code="CENTERED_2D",
+        label="c - centered 2D",
+        description="Centered 2D lattice",
+    )
+
+    primitive_2d = VocabularyTerm(
+        code="PRIMITIVE_2D",
+        label="p - primitive 2D/1D",
+        description="Primitive 2D or 1D lattice",
+    )

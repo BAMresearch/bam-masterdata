@@ -7,6 +7,8 @@ from bam_masterdata.datamodel.v1.vocabularies import (
     DispersionDamping,
     DispersionModel,
     JacobsLadder,
+    LatticeCentering,
+    LatticeType,
     MethodType,
     NonlocalCorrelation,
     PotentialStyle,
@@ -38,6 +40,8 @@ VOCABULARY_CLASSES = [
     PseudizationScheme,
     SystemType,
     StructuralOrder,
+    LatticeType,
+    LatticeCentering,
 ]
 
 

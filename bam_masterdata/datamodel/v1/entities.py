@@ -466,9 +466,120 @@ class SimulatedSystem(Context):
         prev_versions=["LATTICE_ANGGAMMA_IN_DEG:v0"],
     )
 
+    space_group_number = PropertyTypeAssignment(
+        code="SPACE_GROUP_NUMBER",
+        data_type="INTEGER",
+        property_label="Space group number",
+        description="International Tables number of the space group of the system, from 1 to 230.",
+        mandatory=False,
+        section="Symmetry Details",
+        prev_versions=["SPACE_GROUP:v0"],
+    )
+
+    space_group_symbol = PropertyTypeAssignment(
+        code="SPACE_GROUP_SYMBOL",
+        data_type="VARCHAR",
+        property_label="Space group symbol",
+        description="International Tables symbol of the space group of the system, such as Fm-3m.",
+        mandatory=False,
+        section="Symmetry Details",
+    )
+
+    point_group_symbol = PropertyTypeAssignment(
+        code="POINT_GROUP_SYMBOL",
+        data_type="VARCHAR",
+        property_label="Point group symbol",
+        description="Hermann-Mauguin symbol of the crystallographic point group, such as m-3m.",
+        mandatory=False,
+        section="Symmetry Details",
+    )
+
+    hall_symbol = PropertyTypeAssignment(
+        code="HALL_SYMBOL",
+        data_type="VARCHAR",
+        property_label="Hall symbol",
+        description="Hall symbol of the space group setting, such as -F 4 2 3.",
+        mandatory=False,
+        section="Symmetry Details",
+    )
+
+    hall_number = PropertyTypeAssignment(
+        code="HALL_NUMBER",
+        data_type="INTEGER",
+        property_label="Hall number",
+        description="Number from 1 to 530 identifying the Hall symbol of the space group setting.",
+        mandatory=False,
+        section="Symmetry Details",
+    )
+
+    lattice_type = PropertyTypeAssignment(
+        code="LATTICE_TYPE",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="LATTICE_TYPE",
+        property_label="Lattice type",
+        description="Crystal family of the Bravais lattice.",
+        mandatory=False,
+        section="Symmetry Details",
+    )
+
+    lattice_centering = PropertyTypeAssignment(
+        code="LATTICE_CENTERING",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="LATTICE_CENTERING",
+        property_label="Lattice centering",
+        description="Centering of the Bravais lattice.",
+        mandatory=False,
+        section="Symmetry Details",
+    )
+
+    strukturbericht_designation = PropertyTypeAssignment(
+        code="STRUKTURBERICHT_DESIGNATION",
+        data_type="VARCHAR",
+        property_label="Strukturbericht designation",
+        description="Strukturbericht classification of the structure, such as B3 or L10.",
+        mandatory=False,
+        section="Symmetry Details",
+    )
+
+    prototype_formula = PropertyTypeAssignment(
+        code="PROTOTYPE_FORMULA",
+        data_type="VARCHAR",
+        property_label="Prototype formula",
+        description="Formula of the prototype structure in the AFLOW encyclopedia of crystallographic prototypes.",
+        mandatory=False,
+        section="Symmetry Details",
+    )
+
+    prototype_aflow_id = PropertyTypeAssignment(
+        code="PROTOTYPE_AFLOW_ID",
+        data_type="VARCHAR",
+        property_label="Prototype AFLOW ID",
+        description="Identifier of the prototype structure in the AFLOW encyclopedia of crystallographic prototypes.",
+        mandatory=False,
+        section="Symmetry Details",
+    )
+
+    symmetry_tolerance = PropertyTypeAssignment(
+        code="SYMMETRY_TOLERANCE",
+        data_type="REAL",
+        property_label="Symmetry tolerance",
+        units="angstrom",
+        description="Distance tolerance used to determine the symmetry.",
+        mandatory=False,
+        section="Symmetry Details",
+    )
+
+    symmetry_tool = PropertyTypeAssignment(
+        code="SYMMETRY_TOOL",
+        data_type="VARCHAR",
+        property_label="Symmetry tool",
+        description="Software used to determine the symmetry, such as spglib.",
+        mandatory=False,
+        section="Symmetry Details",
+    )
+
     # Properties from v0 that need to be migrated to v1 (from MAT_SIM_STRUCTURE:v0 and subtypes):
-    # SPACE_GROUP
-    # BRAVAIS_LATTICE
+    # BRAVAIS_LATTICE (split into LATTICE_TYPE and LATTICE_CENTERING)
     # CRYSTAL_ORIENTATION
     # SIM_CELL_LENGTHS_IN_A
     # SIM_CELL_ANGLES_IN_DEG
