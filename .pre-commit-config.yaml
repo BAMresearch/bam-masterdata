@@ -4,6 +4,7 @@ repos:
     rev: v5.0.0
     hooks:
       - id: check-yaml
+        exclude: ^frontend/pnpm-lock\.yaml$
       - id: end-of-file-fixer
       - id: trailing-whitespace
       - id: check-merge-conflict
