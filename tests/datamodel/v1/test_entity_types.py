@@ -6,6 +6,7 @@ from bam_masterdata.datamodel.v1.activities import Computation
 from bam_masterdata.datamodel.v1.base_objects import Entity
 from bam_masterdata.datamodel.v1.entities import (
     HPC,
+    ComputationalMethod,
     Context,
     MaterialEntity,
     Software,
@@ -14,7 +15,14 @@ from bam_masterdata.datamodel.v1.entities import (
 from bam_masterdata.metadata.definitions import ObjectTypeDef
 from bam_masterdata.metadata.entities import ObjectType
 
-ENTITY_CLASSES = [Context, MaterialEntity, Software, WorkflowDefinition, HPC]
+ENTITY_CLASSES = [
+    Context,
+    MaterialEntity,
+    Software,
+    WorkflowDefinition,
+    ComputationalMethod,
+    HPC,
+]
 
 
 @pytest.mark.parametrize("cls", ENTITY_CLASSES, ids=lambda cls: cls.__name__)
@@ -37,6 +45,7 @@ def test_entity_types_can_be_instantiated_and_exported(cls):
         (MaterialEntity, Entity),
         (Software, Context),
         (WorkflowDefinition, Context),
+        (ComputationalMethod, Context),
         (HPC, MaterialEntity),
     ],
 )
@@ -68,7 +77,13 @@ def test_shared_property_codes_have_identical_definitions():
     "cls, activity, property_name",
     [
         (Software, Computation, "software"),
+        (ComputationalMethod, Computation, "computational_method"),
     ],
 )
 def test_object_types_referenced_by_activities(cls, activity, property_name):
     assert activity()._property_metadata[property_name].object_code == cls.defs.code
+
+
+def test_computational_method_has_no_subtypes():
+    # OBJECT properties only accept objects of the exact type they point to
+    assert ComputationalMethod.__subclasses__() == []

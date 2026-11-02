@@ -93,6 +93,238 @@ class WorkflowDefinition(Context):
     # REFERENCE
 
 
+class ComputationalMethod(Context):
+    defs = ObjectTypeDef(
+        code="COMPUTATIONAL_METHOD",
+        description="A ComputationalMethod is a context that specifies the model solved in a computation, such as "
+        "density functional theory or an interatomic potential.",
+        generated_code_prefix="COMP_METH",
+        iri=["https://w3id.org/pmd/co/PMD_0000931"],
+        prev_versions=["INTERATOMIC_POTENTIAL:v0"],
+    )
+
+    method_type = PropertyTypeAssignment(
+        code="METHOD_TYPE",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="METHOD_TYPE",
+        property_label="Method type",
+        description="Kind of computational method, such as density functional theory or a force field.",
+        mandatory=False,
+        section="Method Details",
+    )
+
+    is_spin_polarized = PropertyTypeAssignment(
+        code="IS_SPIN_POLARIZED",
+        data_type="BOOLEAN",
+        property_label="Spin-polarized",
+        description="Whether the two spin channels are treated separately.",
+        mandatory=False,
+        section="DFT Details",
+        prev_versions=["ATOM_SPIN_POLARIZED:v0"],
+    )
+
+    non_collinear_magnetism = PropertyTypeAssignment(
+        code="NON_COLLINEAR_MAGNETISM",
+        data_type="BOOLEAN",
+        property_label="Non-collinear magnetism",
+        description="Whether the magnetic moments are allowed to point in arbitrary directions.",
+        mandatory=False,
+        section="DFT Details",
+        prev_versions=["ATOM_NON_COLL_MAG:v0"],
+    )
+
+    reference_form = PropertyTypeAssignment(
+        code="REFERENCE_FORM",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="REFERENCE_FORM",
+        property_label="Reference form",
+        description="Kohn-Sham reference form used for the calculation.",
+        mandatory=False,
+        section="DFT Details",
+    )
+
+    xc_functional = PropertyTypeAssignment(
+        code="XC_FUNCTIONAL",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="XC_FUNCTIONAL",
+        property_label="Exchange-correlation functional",
+        description="Exchange-correlation functional, such as PBE or HSE06.",
+        mandatory=False,
+        section="XC Functional",
+        prev_versions=["ATOM_XC_FUNCTIONAL:v0"],
+    )
+
+    xc_components = PropertyTypeAssignment(
+        code="XC_COMPONENTS",
+        data_type="VARCHAR",
+        property_label="XC components",
+        description="LibXC labels of the components of the exchange-correlation functional, such as XC_GGA_X_PBE.",
+        mandatory=False,
+        section="XC Functional",
+        multivalued=True,
+    )
+
+    jacobs_ladder = PropertyTypeAssignment(
+        code="JACOBS_LADDER",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="JACOBS_LADDER",
+        property_label="Jacob's ladder",
+        description="Highest rung of Jacob's ladder among the components of the exchange-correlation functional.",
+        mandatory=False,
+        section="XC Functional",
+    )
+
+    global_exact_exchange = PropertyTypeAssignment(
+        code="GLOBAL_EXACT_EXCHANGE",
+        data_type="REAL",
+        property_label="Global exact exchange",
+        description="Global fraction of exact (Hartree-Fock) exchange mixed into the functional.",
+        mandatory=False,
+        section="XC Functional",
+    )
+
+    uses_libxc = PropertyTypeAssignment(
+        code="USES_LIBXC",
+        data_type="BOOLEAN",
+        property_label="Uses LibXC",
+        description="Whether the program evaluated the functional with the LibXC library rather than its own implementation.",
+        mandatory=False,
+        section="XC Functional",
+    )
+
+    relativity_level = PropertyTypeAssignment(
+        code="RELATIVITY_LEVEL",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="RELATIVITY_LEVEL",
+        property_label="Relativity level",
+        description="Relativistic treatment of the valence electrons.",
+        mandatory=False,
+        section="Relativity",
+    )
+
+    relativity_approximation = PropertyTypeAssignment(
+        code="RELATIVITY_APPROXIMATION",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="RELATIVITY_APPROXIMATION",
+        property_label="Relativity approximation",
+        description="Approximation or decoupling scheme of the relativistic treatment.",
+        mandatory=False,
+        section="Relativity",
+    )
+
+    hubbard_correction = PropertyTypeAssignment(
+        code="HUBBARD_CORRECTION",
+        data_type="BOOLEAN",
+        property_label="Hubbard correction",
+        description="Whether a Hubbard (DFT+U) correction is applied.",
+        mandatory=False,
+        section="Hubbard Interactions",
+        prev_versions=["ATOM_XC_U_CORRECTION:v0"],
+    )
+
+    hubbard_parameters = PropertyTypeAssignment(
+        code="HUBBARD_PARAMETERS",
+        data_type="JSON",
+        property_label="Hubbard parameters",
+        description="Hubbard interactions as a list with one entry per corrected orbital, with the keys orbital, u_effective, u_interaction, and j_hunds_coupling, with energies in eV.",
+        mandatory=False,
+        section="Hubbard Interactions",
+    )
+
+    double_counting_correction = PropertyTypeAssignment(
+        code="DOUBLE_COUNTING_CORRECTION",
+        data_type="VARCHAR",
+        property_label="Double counting correction",
+        description="Double counting correction scheme of the Hubbard interactions, such as Dudarev or Liechtenstein.",
+        mandatory=False,
+        section="Hubbard Interactions",
+    )
+
+    dispersion_model = PropertyTypeAssignment(
+        code="DISPERSION_MODEL",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="DISPERSION_MODEL",
+        property_label="Dispersion model",
+        description="Empirical dispersion correction added to the functional.",
+        mandatory=False,
+        section="Dispersion",
+    )
+
+    dispersion_damping = PropertyTypeAssignment(
+        code="DISPERSION_DAMPING",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="DISPERSION_DAMPING",
+        property_label="Dispersion damping",
+        description="Short-range damping function of the dispersion correction.",
+        mandatory=False,
+        section="Dispersion",
+    )
+
+    nonlocal_correlation = PropertyTypeAssignment(
+        code="NONLOCAL_CORRELATION",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="NONLOCAL_CORRELATION",
+        property_label="Nonlocal correlation",
+        description="Kernel-based nonlocal correlation term added to the functional.",
+        mandatory=False,
+        section="Dispersion",
+    )
+
+    potential_style = PropertyTypeAssignment(
+        code="POTENTIAL_STYLE",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="POTENTIAL_STYLE",
+        property_label="Potential style",
+        description="Functional form of the interatomic potential.",
+        mandatory=False,
+        section="Interatomic Potential Details",
+        prev_versions=["ATOM_POTENTIAL_STYLE:v0"],
+    )
+
+    kim_id = PropertyTypeAssignment(
+        code="KIM_ID",
+        data_type="VARCHAR",
+        property_label="OpenKIM ID",
+        description="Identifier of the potential in the OpenKIM repository, such as EAM_Dynamo_Mendelev_2003_Fe__MO_546673549085_000.",
+        mandatory=False,
+        section="Interatomic Potential Details",
+    )
+
+    chemical_species = PropertyTypeAssignment(
+        code="CHEMICAL_SPECIES",
+        data_type="VARCHAR",
+        property_label="Chemical species",
+        description="Chemical species described by the entity, given as element symbols such as Fe or C.",
+        mandatory=False,
+        section="Interatomic Potential Details",
+        multivalued=True,
+        prev_versions=["CHEM_SPECIES_ADDRESSED:v0"],
+    )
+
+    link = PropertyTypeAssignment(
+        code="LINK",
+        data_type="HYPERLINK",
+        property_label="Link",
+        description="Website or download location of the entity, such as the project page or a repository.",
+        mandatory=False,
+        section="Interatomic Potential Details",
+        prev_versions=["SOURCE_LINK:v0"],
+    )
+
+    software_compatibility = PropertyTypeAssignment(
+        code="SOFTWARE_COMPATIBILITY",
+        data_type="VARCHAR",
+        property_label="Software compatibility",
+        description="Software that can use the entity as input.",
+        mandatory=False,
+        section="Interatomic Potential Details",
+        prev_versions=["SFTW_COMPATIBILITY:v0"],
+    )
+
+    # Properties from v0 that need to be migrated to v1 (from INTERATOMIC_POTENTIAL:v0):
+    # REFERENCE
+
+
 class HPC(MaterialEntity):
     defs = ObjectTypeDef(
         code="HPC",
