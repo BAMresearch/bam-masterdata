@@ -10,6 +10,7 @@ Copyright &copy; 2026 BAM Data Store
 
 nav = [
   { Home = "index.md" },
+  { "Schema Explorer" = "https://bamresearch.github.io/bam-masterdata/schema-explorer/" },
   { Tutorials = [
       "tutorials/getting_started.md",
       "tutorials/parsing.md",

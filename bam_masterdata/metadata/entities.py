@@ -1394,6 +1394,33 @@ class ObjectType(BaseEntity):
                 )
                 return None
 
+        # Unsupported: OBJECT reference target changes.
+        if prop.data_type in (DataType.OBJECT, DataType.SAMPLE):
+            expected_target = (
+                None if prop.object_code in (None, "(ALL)") else prop.object_code
+            )
+
+            current_target = getattr(property_type, "sampleType", None)
+
+            # Handle the possible representations returned by PyBIS.
+            if isinstance(current_target, dict):
+                current_target = current_target.get("code")
+            elif current_target is not None and not isinstance(current_target, str):
+                current_target = getattr(current_target, "code", current_target)
+
+            if current_target in (None, "", "(ALL)"):
+                current_target = None
+
+            if current_target != expected_target:
+                result.rejected(
+                    target=SyncTarget.PROPERTY_TYPE,
+                    code=prop.code,
+                    field="object_code",
+                    old_value=current_target,
+                    new_value=expected_target,
+                )
+                return None
+
         property_type_modified = False
 
         # Supported: label
@@ -1650,6 +1677,60 @@ class ObjectType(BaseEntity):
         obj_type.save()
 
         return result
+
+    @classmethod
+    def get_hierarchy(cls) -> list[str]:
+        """
+        Return object type codes from the root to this class. Framework classes and intermediate
+        classes without their own ObjectTypeDef are excluded. For example:
+
+        ["BASE_OBJECT", "SAMPLE", "CELL_LINE"] when CELL_LINE inherits from SAMPLE, which inherits from BASE_OBJECT.
+
+        Multiple ObjectType parents are not supported.
+        """
+        hierarchy = []
+        current = cls
+
+        while current is not ObjectType:
+            parents = [
+                base
+                for base in current.__bases__
+                if isinstance(base, type)
+                and issubclass(base, ObjectType)
+                and base is not ObjectType
+            ]
+
+            if len(parents) > 1:
+                raise ValueError(
+                    f"{current.__name__} has multiple ObjectType parents. "
+                    "A single inheritance hierarchy is required."
+                )
+
+            defs = current.__dict__.get("defs")
+
+            if isinstance(defs, ObjectTypeDef):
+                hierarchy.append(defs.code)
+
+            if not parents:
+                break
+
+            current = parents[0]
+
+        return list(reversed(hierarchy))
+
+    @classmethod
+    def get_hierarchy_path(cls) -> str:
+        """Return the dot-separated object type hierarchy."""
+        return ".".join(cls.get_hierarchy())
+
+    @classmethod
+    def is_subtype_of(cls, other: type) -> bool:
+        """Check whether this object type inherits from another."""
+        return (
+            isinstance(other, type)
+            and issubclass(other, ObjectType)
+            and issubclass(cls, other)
+        )
 
 
 UUID_SUFFIX_LENGTH = 8

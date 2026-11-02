@@ -3,7 +3,7 @@
   "python.terminal.activateEnvInCurrentTerminal": true,
   "editor.rulers": [90],
   "editor.renderWhitespace": "all",
-  "editor.tabSize": 4,
+  "editor.tabSize": 2,
   "[javascript]": {
       "editor.tabSize": 2
   },
@@ -95,11 +95,4 @@
       },
     ]
   },
-  "python-envs.pythonProjects": [
-    {
-      "path": ".",
-      "envManager": "ms-python.python:venv",
-      "packageManager": "ms-python.python:pip"
-    }
-  ],
 }

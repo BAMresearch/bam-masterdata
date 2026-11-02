@@ -116,8 +116,7 @@ class EntityDef(BaseModel):
         ...,
         description="""
         Description of the entity. This is the human-readable text for the object and must be
-        as complete and concise as possible. The German description can be added after the English
-        description separated by a double slash (//), e.g. `'Chemical Substance//Chemische Substanz'`.
+        as complete and concise as possible.
         """,
     )
 
@@ -540,6 +539,25 @@ class PropertyTypeDef(EntityDef):
         except (UndefinedUnitError, DefinitionSyntaxError) as exc:
             raise ValueError(f"Invalid units format: {value}") from exc
         return value
+
+    @model_validator(mode="after")
+    def validate_units_datatype(self):
+        """
+        Ensure units are only assigned to numeric property types.
+
+        Raises:
+            ValueError: If units are provided for a non-numeric data type.
+        """
+        if self.units is not None and self.data_type not in {
+            DataType.REAL,
+            DataType.INTEGER,
+        }:
+            raise ValueError(
+                f"Units are only supported for REAL and INTEGER properties. "
+                f"Got data_type='{self.data_type.value}'."
+            )
+
+        return self
 
     @property
     def openbis_property_label(self) -> str:

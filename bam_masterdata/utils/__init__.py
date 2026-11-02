@@ -1,5 +1,6 @@
 from .paths import DATAMODEL_DIR, VALIDATION_RULES_DIR, find_dir
 from .utils import (
+    class_name_to_code,
     code_to_class_name,
     convert_enums,
     delete_and_create_dir,
