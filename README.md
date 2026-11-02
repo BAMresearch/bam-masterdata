@@ -140,3 +140,16 @@ No issues found
 ```
 
 Simply click on `http://localhost:8000`. The changes in the `md` files of the documentation are immediately reflected when the files are saved (the local web will automatically refresh).
+
+## Schema Explorer
+
+The Schema Explorer is an interactive web application for browsing and
+visualizing the BAM Masterdata schemas.
+
+It supports:
+- Exploring object types and their properties.
+- Visualizing inheritance relationships.
+- Searching and navigating between object types.
+- Switching between datamodel versions (v0 and v1).
+
+For development instructions, see [Schema Explorer](frontend/README.md).
