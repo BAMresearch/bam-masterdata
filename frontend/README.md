@@ -64,12 +64,7 @@ The frontend uses JSON files generated from the Python datamodel.
 From the **repository root**, run:
 
 ```bash
-uv run python - <<'PY'
-from bam_masterdata.schema_explorer.exporter import write_schema
-
-for version in ("v0", "v1"):
-    write_schema(version, f"frontend/public/data/schema-{version}.json")
-PY
+uv run python .github/scripts/export_schemas.py
 ```
 
 This generates:
