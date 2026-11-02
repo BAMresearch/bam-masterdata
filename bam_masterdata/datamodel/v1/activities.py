@@ -8,7 +8,6 @@ from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssig
 #   │   ├── Analysis
 #   │   │   └── CreepTestDataProcessing
 #   │   └── Simulation
-#   │       └── PyironJob
 #   └── Experiment
 #       ├── Processing
 #       ├── Measurement
@@ -243,7 +242,7 @@ class Experiment(Activity):
         data_type="OBJECT",
         object_code="LOCATION",
         property_label="Location",
-        description="Physical location where the experiment is performed, such as a laboratory, experimental"
+        description="Physical location where the experiment is performed, such as a laboratory, experimental "
         "facility, or field site.",
         mandatory=False,
         section="Experiment Details",
@@ -306,7 +305,7 @@ class Calibration(Experiment):
         code="CALIBRATION_CERTIFICATE_NUMBER",
         data_type="VARCHAR",
         property_label="Calibration certificate number",
-        description="ER	Unique identifier assigned to the calibration certificate documenting the "
+        description="Unique identifier assigned to the calibration certificate documenting the "
         "calibration results.",
         mandatory=False,
         section="Calibration Details",
