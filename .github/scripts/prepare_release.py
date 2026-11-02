@@ -151,7 +151,7 @@ def get_release_pr():
 
 
 def get_development_prs():
-    """Find merged development PRs in main...dev."""
+    """Find merged development PRs in main...dev, including rebased commits."""
     pages = gh_pages(f"repos/{REPO}/compare/main...dev?per_page=100")
 
     commits = [commit for page in pages for commit in page.get("commits", [])]
@@ -162,6 +162,7 @@ def get_development_prs():
     for commit in commits:
         sha = commit["sha"]
 
+        # First try the original GitHub commit-to-PR association.
         associated = gh(f"repos/{REPO}/commits/{sha}/pulls?per_page=100")
 
         matching = [
@@ -169,6 +170,23 @@ def get_development_prs():
             for pr in associated
             if pr.get("merged_at") and pr["base"]["ref"] == "dev"
         ]
+
+        # Rebasing changes commit SHAs, which may break the association.
+        # Squash commits normally retain the original PR number in the title.
+        if not matching:
+            subject = commit["commit"]["message"].splitlines()[0]
+            match = re.search(r"\(#(\d+)\)$", subject)
+
+            if match:
+                pr_number = int(match.group(1))
+                pr = gh(f"repos/{REPO}/pulls/{pr_number}")
+
+                if (
+                    pr.get("merged_at")
+                    and pr["base"]["ref"] == "dev"
+                    and pr["base"]["repo"]["full_name"] == REPO
+                ):
+                    matching = [pr]
 
         if not matching:
             unmatched.append(sha)

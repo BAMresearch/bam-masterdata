@@ -354,3 +354,120 @@ def test_release_pr_title_and_description(monkeypatch):
 
     assert payload["title"] == "Release v0.16.0"
     assert "# Release Notes" in payload["body"]
+
+
+def make_commit(sha, message):
+    return {
+        "sha": sha,
+        "commit": {"message": message},
+    }
+
+
+def make_merged_dev_pr(number):
+    return {
+        **make_pr(number, ["type:feature", "semver:minor"]),
+        "merged_at": "2026-11-02T12:00:00Z",
+        "base": {
+            "ref": "dev",
+            "repo": {"full_name": module.REPO},
+        },
+    }
+
+
+def test_development_prs_with_original_commit_association(monkeypatch):
+    """The existing GitHub association remains the preferred lookup."""
+    commit = make_commit("abc123", "Add feature (#100)")
+    pr = make_merged_dev_pr(100)
+
+    monkeypatch.setattr(
+        module,
+        "gh_pages",
+        lambda endpoint: [{"commits": [commit]}],
+    )
+
+    calls = []
+
+    def fake_gh(endpoint):
+        calls.append(endpoint)
+        return [pr]
+
+    monkeypatch.setattr(module, "gh", fake_gh)
+
+    prs, unmatched = module.get_development_prs()
+
+    assert [item["number"] for item in prs] == [100]
+    assert unmatched == []
+    assert calls == [f"repos/{module.REPO}/commits/abc123/pulls?per_page=100"]
+
+
+def test_development_prs_after_rebase(monkeypatch):
+    """Recover a merged PR from the subject of a rebased squash commit."""
+    commit = make_commit(
+        "rebased123",
+        "Add feature (#434)\n\nOriginal commit description",
+    )
+
+    monkeypatch.setattr(
+        module,
+        "gh_pages",
+        lambda endpoint: [{"commits": [commit]}],
+    )
+
+    pr = make_merged_dev_pr(434)
+
+    def fake_gh(endpoint):
+        if "/commits/" in endpoint:
+            return []
+        if endpoint == f"repos/{module.REPO}/pulls/434":
+            return pr
+        raise AssertionError(f"Unexpected API call: {endpoint}")
+
+    monkeypatch.setattr(module, "gh", fake_gh)
+
+    prs, unmatched = module.get_development_prs()
+
+    assert [item["number"] for item in prs] == [434]
+    assert unmatched == []
+
+
+def test_rebased_pr_must_be_merged_into_dev(monkeypatch):
+    """Reject PR references that do not identify merged development PRs."""
+    commit = make_commit("rebased123", "Add feature (#434)")
+
+    monkeypatch.setattr(
+        module,
+        "gh_pages",
+        lambda endpoint: [{"commits": [commit]}],
+    )
+
+    pr = make_merged_dev_pr(434)
+    pr["base"]["ref"] = "main"
+
+    def fake_gh(endpoint):
+        if "/commits/" in endpoint:
+            return []
+        return pr
+
+    monkeypatch.setattr(module, "gh", fake_gh)
+
+    prs, unmatched = module.get_development_prs()
+
+    assert prs == []
+    assert unmatched == ["rebased123"]
+
+
+def test_unmatched_commit_is_preserved(monkeypatch):
+    """Commits without a recoverable PR remain subject to manual review."""
+    commit = make_commit("abc123", "Manual maintenance change")
+
+    monkeypatch.setattr(
+        module,
+        "gh_pages",
+        lambda endpoint: [{"commits": [commit]}],
+    )
+    monkeypatch.setattr(module, "gh", lambda endpoint: [])
+
+    prs, unmatched = module.get_development_prs()
+
+    assert prs == []
+    assert unmatched == ["abc123"]
