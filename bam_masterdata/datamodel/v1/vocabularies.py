@@ -535,3 +535,75 @@ class MethodType(VocabularyType):
         label="Force field",
         description="Classical or machine-learned interatomic potential",
     )
+
+
+class PseudopotentialType(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="PSEUDOPOTENTIAL_TYPE",
+        description="Formalism of a pseudopotential",
+        prev_versions=["PSEUDOPOT_TYPE:v0"],
+    )
+
+    nc = VocabularyTerm(
+        code="NC",
+        label="NC",
+        description="Norm-conserving pseudopotential",
+        prev_versions=["PSEUDOPOT_NC:v0"],
+    )
+
+    us = VocabularyTerm(
+        code="US",
+        label="US",
+        description="Ultrasoft pseudopotential in the Vanderbilt formalism",
+        prev_versions=["PSEUDOPOT_ULTRASOFT:v0"],
+    )
+
+    paw = VocabularyTerm(
+        code="PAW",
+        label="PAW",
+        description="Projector augmented wave dataset",
+        prev_versions=["PSEUDOPOT_PAW:v0"],
+    )
+
+    nc_paw = VocabularyTerm(
+        code="NC_PAW",
+        label="NC-PAW",
+        description="Projector augmented wave dataset with norm-conserving partial waves",
+    )
+
+    nc_paw_gw = VocabularyTerm(
+        code="NC_PAW_GW",
+        label="NC-PAW-GW",
+        description="Norm-conserving projector augmented wave dataset optimized for GW and BSE calculations",
+    )
+
+
+class PseudizationScheme(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="PSEUDIZATION_SCHEME",
+        description="Method used to generate the smooth part of a pseudopotential",
+    )
+
+    troullier_martins = VocabularyTerm(
+        code="TROULLIER_MARTINS",
+        label="Troullier-Martins",
+        description="Troullier-Martins scheme with continuous derivatives",
+    )
+
+    polynomial = VocabularyTerm(
+        code="POLYNOMIAL",
+        label="Polynomial",
+        description="Polynomial matching at the core radius",
+    )
+
+    bessel = VocabularyTerm(
+        code="BESSEL",
+        label="Bessel",
+        description="Construction based on Bessel functions",
+    )
+
+    extra_soft = VocabularyTerm(
+        code="EXTRA_SOFT",
+        label="Extra-Soft",
+        description="Scheme optimized for low cutoff energies",
+    )

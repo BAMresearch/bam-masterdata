@@ -93,6 +93,149 @@ class WorkflowDefinition(Context):
     # REFERENCE
 
 
+class Pseudopotential(Context):
+    defs = ObjectTypeDef(
+        code="PSEUDOPOTENTIAL",
+        description="A Pseudopotential is a context that specifies a pseudopotential or PAW dataset replacing the "
+        "core electrons of a chemical species in electronic structure calculations.",
+        generated_code_prefix="PSEUDO",
+        prev_versions=["PSEUDOPOTENTIAL:v0"],
+    )
+
+    version = PropertyTypeAssignment(
+        code="VERSION",
+        data_type="VARCHAR",
+        property_label="Version",
+        description="Version identifier of the entity, such as a release number or a date.",
+        mandatory=False,
+        section="Pseudopotential Details",
+        prev_versions=["VERSION:v0"],
+    )
+
+    license = PropertyTypeAssignment(
+        code="LICENSE",
+        data_type="VARCHAR",
+        property_label="License",
+        description="License under which the entity is distributed.",
+        mandatory=False,
+        section="Pseudopotential Details",
+        prev_versions=["LICENSE:v0"],
+    )
+
+    chemical_species = PropertyTypeAssignment(
+        code="CHEMICAL_SPECIES",
+        data_type="VARCHAR",
+        property_label="Chemical species",
+        description="Chemical species described by the entity, given as element symbols such as Fe or C.",
+        mandatory=False,
+        section="Pseudopotential Details",
+        multivalued=True,
+        prev_versions=["CHEM_SPECIES_ADDRESSED:v0"],
+    )
+
+    pseudopotential_type = PropertyTypeAssignment(
+        code="PSEUDOPOTENTIAL_TYPE",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="PSEUDOPOTENTIAL_TYPE",
+        property_label="Pseudopotential type",
+        description="Formalism of the pseudopotential, such as norm-conserving, ultrasoft, or PAW.",
+        mandatory=False,
+        section="Pseudopotential Details",
+        prev_versions=["PSEUDOPOT_TYPE:v0"],
+    )
+
+    xc_functional = PropertyTypeAssignment(
+        code="XC_FUNCTIONAL",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="XC_FUNCTIONAL",
+        property_label="Exchange-correlation functional",
+        description="Exchange-correlation functional, such as PBE or HSE06.",
+        mandatory=False,
+        section="Pseudopotential Details",
+    )
+
+    jacobs_ladder = PropertyTypeAssignment(
+        code="JACOBS_LADDER",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="JACOBS_LADDER",
+        property_label="Jacob's ladder",
+        description="Highest rung of Jacob's ladder among the components of the exchange-correlation functional.",
+        mandatory=False,
+        section="Pseudopotential Details",
+        prev_versions=["PSEUDOPOT_FUNC:v0"],
+    )
+
+    n_valence_electrons = PropertyTypeAssignment(
+        code="N_VALENCE_ELECTRONS",
+        data_type="REAL",
+        property_label="Number of valence electrons",
+        description="Number of valence electrons treated explicitly by the pseudopotential.",
+        mandatory=False,
+        section="Pseudopotential Details",
+    )
+
+    reference_configuration = PropertyTypeAssignment(
+        code="REFERENCE_CONFIGURATION",
+        data_type="VARCHAR",
+        property_label="Reference configuration",
+        description="Electronic configuration used to generate the pseudopotential, such as 3p6 3d7 4s1.",
+        mandatory=False,
+        section="Pseudopotential Details",
+    )
+
+    semicore_states = PropertyTypeAssignment(
+        code="SEMICORE_STATES",
+        data_type="VARCHAR",
+        property_label="Semicore states",
+        description="Semicore shells treated as valence states by the pseudopotential, such as 3p.",
+        mandatory=False,
+        section="Pseudopotential Details",
+        prev_versions=["PSEUDOPOT_SEMICORE:v0"],
+    )
+
+    is_gw_optimized = PropertyTypeAssignment(
+        code="IS_GW_OPTIMIZED",
+        data_type="BOOLEAN",
+        property_label="GW optimized",
+        description="Whether the pseudopotential is optimized for GW and other excited-state calculations.",
+        mandatory=False,
+        section="Pseudopotential Details",
+    )
+
+    recommended_cutoff = PropertyTypeAssignment(
+        code="RECOMMENDED_CUTOFF",
+        data_type="REAL",
+        property_label="Recommended cutoff",
+        units="eV",
+        description="Plane-wave cutoff energy for the wavefunctions recommended for the pseudopotential.",
+        mandatory=False,
+        section="Pseudopotential Details",
+    )
+
+    pseudization_scheme = PropertyTypeAssignment(
+        code="PSEUDIZATION_SCHEME",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="PSEUDIZATION_SCHEME",
+        property_label="Pseudization scheme",
+        description="Method used to generate the smooth part of the pseudopotential.",
+        mandatory=False,
+        section="Pseudopotential Details",
+    )
+
+    software_compatibility = PropertyTypeAssignment(
+        code="SOFTWARE_COMPATIBILITY",
+        data_type="VARCHAR",
+        property_label="Software compatibility",
+        description="Software that can use the entity as input.",
+        mandatory=False,
+        section="Pseudopotential Details",
+        prev_versions=["SW_COMPATIBILITY:v0"],
+    )
+
+    # Properties from v0 that need to be migrated to v1 (from PSEUDOPOTENTIAL:v0):
+    # REFERENCE
+
+
 class ComputationalMethod(Context):
     defs = ObjectTypeDef(
         code="COMPUTATIONAL_METHOD",

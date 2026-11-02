@@ -10,6 +10,8 @@ from bam_masterdata.datamodel.v1.vocabularies import (
     MethodType,
     NonlocalCorrelation,
     PotentialStyle,
+    PseudizationScheme,
+    PseudopotentialType,
     ReferenceForm,
     RelativityApproximation,
     RelativityLevel,
@@ -30,6 +32,8 @@ VOCABULARY_CLASSES = [
     NonlocalCorrelation,
     PotentialStyle,
     MethodType,
+    PseudopotentialType,
+    PseudizationScheme,
 ]
 
 

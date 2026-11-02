@@ -9,6 +9,7 @@ from bam_masterdata.datamodel.v1.entities import (
     ComputationalMethod,
     Context,
     MaterialEntity,
+    Pseudopotential,
     Software,
     WorkflowDefinition,
 )
@@ -20,6 +21,7 @@ ENTITY_CLASSES = [
     MaterialEntity,
     Software,
     WorkflowDefinition,
+    Pseudopotential,
     ComputationalMethod,
     HPC,
 ]
@@ -45,6 +47,7 @@ def test_entity_types_can_be_instantiated_and_exported(cls):
         (MaterialEntity, Entity),
         (Software, Context),
         (WorkflowDefinition, Context),
+        (Pseudopotential, Context),
         (ComputationalMethod, Context),
         (HPC, MaterialEntity),
     ],
