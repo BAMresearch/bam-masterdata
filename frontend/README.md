@@ -57,17 +57,18 @@ cd frontend
 pnpm install
 ```
 
-### 2. Generate the schema definitions
-
-The frontend uses JSON files generated from the Python datamodel.
+### 2. Generate schema definitions and launch app locally
 
 From the **repository root**, run:
 
 ```bash
-uv run python .github/scripts/export_schemas.py
+./tools/scripts/dev_schema_explorer.sh
 ```
 
-This generates:
+This regenerates the schema JSON files from the Python datamodel and starts
+the Vite development server.
+
+The schema JSON files are in:
 
 ```text
 frontend/public/data/
@@ -75,21 +76,11 @@ frontend/public/data/
 └── schema-v1.json
 ```
 
-**Important:** When modifying object types, properties, or relationships in the Python datamodel, regenerate these JSON files to reflect the changes in the Schema Explorer.
+**Note 1:** When modifying object types, properties, or relationships in the Python datamodel, regenerate these JSON files to reflect the changes in the Schema Explorer.
 
-### 3. Start the development server
+**Note 2:** Changes to React components and CSS are reflected automatically. Changes to Python datamodel definitions require regenerating the corresponding JSON files.
 
-From `frontend/`:
-
-```bash
-pnpm dev
-```
-
-Vite starts a local development server with hot module replacement (HMR).
-
-Changes to React components and CSS are reflected automatically. Changes to Python datamodel definitions require regenerating the corresponding JSON files.
-
-### 4. Build and validate
+### 3. Build and validate
 
 Before committing frontend changes, run:
 

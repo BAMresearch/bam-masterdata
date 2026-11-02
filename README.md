@@ -152,7 +152,4 @@ It supports:
 - Searching and navigating between object types.
 - Switching between datamodel versions (v0 and v1).
 
-The application is built with React, TypeScript, Vite, and Cytoscape.js.
-It uses JSON files exported from the Python datamodel definitions.
-
 For development instructions, see [Schema Explorer](frontend/README.md).
