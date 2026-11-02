@@ -29,6 +29,7 @@ class Root(ObjectType):
         description="Human-readable name identifying the object.",
         mandatory=True,
         section="General Information",
+        prev_versions=["$NAME:v0"],
     )
 
     description = PropertyTypeAssignment(
@@ -38,6 +39,7 @@ class Root(ObjectType):
         description="Text describing the object and its relevant characteristics.",
         mandatory=False,
         section="General Information",
+        prev_versions=["DESCRIPTION:v0"],
     )
 
     external_identifiers = PropertyTypeAssignment(
@@ -68,6 +70,7 @@ class Root(ObjectType):
         mandatory=False,
         section="General Information",
         multivalued=True,
+        prev_versions=["CREEP_TEST_RELATED_PUBLICATIONS:v0"],
     )
 
     ontology_iri = PropertyTypeAssignment(
@@ -169,6 +172,7 @@ class Activity(Root):
         mandatory=False,
         section="Inputs and Outputs",
         multivalued=True,
+        show_in_edit_views=False,
     )
 
     outputs = PropertyTypeAssignment(
@@ -180,6 +184,7 @@ class Activity(Root):
         mandatory=False,
         section="Inputs and Outputs",
         multivalued=True,
+        show_in_edit_views=False,
     )
 
 

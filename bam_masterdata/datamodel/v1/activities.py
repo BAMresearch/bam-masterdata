@@ -118,9 +118,6 @@ class CreepTestDataProcessing(Analysis):
         ],
     )
 
-    # Properties from v0 that need to be migrated to v1:
-    # CREEP_TEST_RELATED_PUBLICATIONS
-
 
 class Simulation(Computation):
     defs = ObjectTypeDef(
@@ -235,7 +232,8 @@ class Experiment(Activity):
         code="METHOD_NAME",
         data_type="VARCHAR",
         property_label="Method name",
-        description="Name of the experimental method",
+        description="Name of the method or procedure used to perform the experiment, such as X-ray diffraction, "
+        "tensile testing, or chemical vapor deposition.",
         mandatory=False,
         section="Experiment Details",
     )
@@ -245,7 +243,8 @@ class Experiment(Activity):
         data_type="OBJECT",
         object_code="LOCATION",
         property_label="Location",
-        description="Location where the experiment takes place",
+        description="Physical location where the experiment is performed, such as a laboratory, experimental"
+        "facility, or field site.",
         mandatory=False,
         section="Experiment Details",
     )
@@ -284,29 +283,34 @@ class Calibration(Experiment):
 
     calibration_date = PropertyTypeAssignment(
         code="CALIBRATION_DATE",
-        data_type="TIMESTAMP",
+        data_type="DATE",
         property_label="Calibration date",
         description="Date on which the calibration was performed or formally recorded.",
         mandatory=False,
         section="Calibration Details",
+        prev_versions=["CALIBRATION_DATE:v0"],
     )
 
     calibration_provider = PropertyTypeAssignment(
         code="CALIBRATION_PROVIDER",
         data_type="VARCHAR",
         property_label="Calibration provider",
-        description="Organization or service that performed the calibration",
+        description="Organization or service provider responsible for performing the calibration, "
+        "such as an internal laboratory or an external calibration service.",
         mandatory=False,
         section="Calibration Details",
+        prev_versions=["CALIBRATION_PROVIDER:v0"],
     )
 
     calibration_certificate_number = PropertyTypeAssignment(
         code="CALIBRATION_CERTIFICATE_NUMBER",
         data_type="VARCHAR",
         property_label="Calibration certificate number",
-        description="Number of the calibration certificate",
+        description="ER	Unique identifier assigned to the calibration certificate documenting the "
+        "calibration results.",
         mandatory=False,
         section="Calibration Details",
+        prev_versions=["CALIBRATION_CERTIFICATE_NUMBER:v0"],
     )
 
     accredited_calibration_lab = PropertyTypeAssignment(
@@ -316,16 +320,21 @@ class Calibration(Experiment):
         description="Whether the calibration was performed by an accredited calibration laboratory",
         mandatory=False,
         section="Calibration Details",
+        prev_versions=["ACCREDITATED_CALIBRATION_LAB:v0"],
     )
 
     calibration_lab_accreditation_number = PropertyTypeAssignment(
         code="CALIBRATION_LAB_ACCREDITATION_NUMBER",
         data_type="VARCHAR",
         property_label="Calibration laboratory accreditation number",
-        description="Accreditation number of the calibration laboratory",
+        description="Identifier assigned to the calibration laboratory by its accreditation body.",
         mandatory=False,
         section="Calibration Details",
+        prev_versions=["CALIBRATION_LAB_ACCREDITATION_NUMBER:v0"],
     )
+
+    # Properties from v0 that need to be migrated to v1 (from CALIBRATION:v0):
+    # INSTRUMENT
 
 
 class Synthesis(Experiment):
