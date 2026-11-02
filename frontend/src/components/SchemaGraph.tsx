@@ -118,7 +118,7 @@ export function SchemaGraph({
   onSelectNode,
 }: SchemaGraphProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const onSelectNodeRef = useRef(onSelectNode);
+  const cyRef = useRef<cytoscape.Core | null>(null);
 
   const [query, setQuery] = useState("");
   const [focusedId, setFocusedId] = useState<string | null>(null);
@@ -139,7 +139,7 @@ export function SchemaGraph({
   function resetFocus() {
     setFocusedId(null);
     setQuery("");
-    setDepth(Math.min(2, maxDepth));
+    setDepth(Math.min(2, Math.max(0, ...depths.values())));
   }
 
   const focusDistances = useMemo(
@@ -158,14 +158,6 @@ export function SchemaGraph({
 
   const [depth, setDepth] = useState(() => Math.min(2, maxDepth));
   const effectiveDepth = Math.min(depth, maxDepth);
-
-  useEffect(() => {
-    setDepth(Math.min(2, maxDepth));
-  }, [schema.version, maxDepth]);
-
-  useEffect(() => {
-    onSelectNodeRef.current = onSelectNode;
-  }, [onSelectNode]);
 
   const visibleNodes = useMemo(() => {
     if (!focusedId) {
@@ -195,49 +187,18 @@ export function SchemaGraph({
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const positions = calculateForestLayout(
-        visibleNodes,
-        visibleEdges,
-    );
-
-    const elements: ElementDefinition[] = [
-      ...visibleNodes.map((node) => ({
-        data: {
-          id: node.id,
-          label: truncateLabel(node.name),
-          fullName: node.name,
-          depth: depths.get(node.id) ?? 0,
-        },
-        position: positions.get(node.id),
-        classes: node.id === focusedId ? "focused-node" : "",
-      })),
-
-      ...visibleEdges.map((edge) => ({
-        data: {
-            id: `inheritance:${edge.source}:${edge.target}`,
-            source: edge.target, // Child
-            target: edge.source, // Parent
-        },
-      })),
-    ];
-
     const cy = cytoscape({
       container: containerRef.current,
-      elements,
 
       layout: {
         name: "preset",
-        fit: true,
-        padding: 60,
-        animate: false,
       },
 
       minZoom: 0.05,
       maxZoom: 5,
 
-      wheelSensitivity: 5,
+      wheelSensitivity: 3,
       motionBlur: false,
-      pixelRatio: 1,
 
       style: [
         {
@@ -278,8 +239,8 @@ export function SchemaGraph({
           },
         },
         {
-        selector: "edge",
-        style: {
+          selector: "edge",
+          style: {
             width: 2,
             "line-color": "#8299a5",
             "target-arrow-color": "#8299a5",
@@ -287,7 +248,7 @@ export function SchemaGraph({
             "target-arrow-fill": "hollow",
             "arrow-scale": 1,
             "curve-style": "bezier",
-        },
+          },
         },
       ],
     });
@@ -298,10 +259,49 @@ export function SchemaGraph({
       setDepth(1);
     });
 
+    cyRef.current = cy;
+
     return () => {
       cy.destroy();
+      cyRef.current = null;
     };
-  }, [visibleNodes, visibleEdges, depths, focusedId]);
+  }, []);
+
+  useEffect(() => {
+    const cy = cyRef.current;
+    if (!cy) return;
+
+    const positions = calculateForestLayout(
+      visibleNodes,
+      visibleEdges,
+    );
+
+    const elements: ElementDefinition[] = [
+      ...visibleNodes.map((node) => ({
+        data: {
+          id: node.id,
+          label: truncateLabel(node.name),
+        },
+        position: positions.get(node.id),
+        classes: node.id === focusedId ? "focused-node" : "",
+      })),
+
+      ...visibleEdges.map((edge) => ({
+        data: {
+          id: `inheritance:${edge.source}:${edge.target}`,
+          source: edge.target,
+          target: edge.source,
+        },
+      })),
+    ];
+
+    cy.batch(() => {
+      cy.elements().remove();
+      cy.add(elements);
+    });
+
+    cy.fit(undefined, 60);
+  }, [visibleNodes, visibleEdges, focusedId]);
 
   return (
     <div className="schema-graph">
@@ -354,7 +354,7 @@ export function SchemaGraph({
             <button
               type="button"
               className="graph-details-button"
-              onClick={() => onSelectNodeRef.current(focusedNode.id)}
+              onClick={() => onSelectNode(focusedNode.id)}
             >
               View details →
             </button>
