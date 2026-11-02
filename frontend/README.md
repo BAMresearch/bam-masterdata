@@ -86,6 +86,7 @@ Before committing frontend changes, run:
 
 ```bash
 pnpm lint
+pnpm test
 pnpm build
 ```
 

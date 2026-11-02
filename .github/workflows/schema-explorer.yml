@@ -48,6 +48,10 @@ jobs:
         working-directory: frontend
         run: pnpm lint
 
+      - name: Test frontend
+        working-directory: frontend
+        run: pnpm test
+
       - name: Build frontend
         working-directory: frontend
         run: pnpm build
