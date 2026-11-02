@@ -3,6 +3,7 @@ import cytoscape, { type ElementDefinition } from "cytoscape";
 
 import type { SchemaExport } from "../types/schema";
 import { calculateForestLayout } from "./graphLayout";
+import { ObjectTypeSearch } from "./ObjectTypeSearch";
 
 interface SchemaGraphProps {
   schema: SchemaExport;
@@ -84,20 +85,6 @@ export function SchemaGraph({
   const [focusedId, setFocusedId] = useState<string | null>(null);
 
   const depths = useMemo(() => calculateDepths(schema), [schema]);
-
-  const searchResults = useMemo(() => {
-    const term = query.trim().toLowerCase();
-
-    if (!term) return [];
-
-    return schema.nodes
-      .filter(
-        (node) =>
-          node.name.toLowerCase().includes(term) ||
-          node.id.toLowerCase().includes(term),
-      )
-      .slice(0, 8);
-  }, [schema.nodes, query]);
 
   const focusedNode = useMemo(
     () => schema.nodes.find((node) => node.id === focusedId) ?? null,
@@ -299,21 +286,11 @@ export function SchemaGraph({
     <div className="schema-graph">
         <div className="graph-toolbar">
             <div className="graph-search">
-              <input
-                type="search"
-                aria-label="Find an object type"
-                placeholder="Search object type..."
+              <ObjectTypeSearch
+                nodes={schema.nodes}
                 value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter" && searchResults.length > 0) {
-                    focusNode(searchResults[0].id);
-                  }
-
-                  if (event.key === "Escape") {
-                    setQuery("");
-                  }
-                }}
+                onChange={setQuery}
+                onSelect={focusNode}
               />
             </div>
 
@@ -321,21 +298,6 @@ export function SchemaGraph({
               <label htmlFor="graph-depth">
                   Hierarchy depth
               </label>
-
-                {searchResults.length > 0 && (
-                  <div className="graph-search-results">
-                    {searchResults.map((node) => (
-                      <button
-                        key={node.id}
-                        type="button"
-                        onClick={() => focusNode(node.id)}
-                      >
-                        <strong>{node.name}</strong>
-                        <small>{node.id}</small>
-                      </button>
-                    ))}
-                  </div>
-                )}
 
               <input
                   id="graph-depth"

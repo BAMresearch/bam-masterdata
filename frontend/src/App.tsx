@@ -7,6 +7,7 @@ import type {
 } from "./types/schema";
 import "./App.css";
 import { SchemaGraph } from "./components/SchemaGraph";
+import { ObjectTypeSearch } from "./components/ObjectTypeSearch";
 
 const versions: SchemaVersion[] = ["v0", "v1"];
 
@@ -292,12 +293,14 @@ function App() {
                   </div>
 
                   <div className="search-container">
-                    <input
-                      type="search"
-                      placeholder="Search object types..."
-                      aria-label="Search object types"
+                    <ObjectTypeSearch
+                      nodes={schema.nodes}
                       value={search}
-                      onChange={(event) => setSearch(event.target.value)}
+                      onChange={setSearch}
+                      onSelect={(id) => {
+                        setSelectedId(id);
+                        setSearch("");
+                      }}
                     />
                   </div>
 

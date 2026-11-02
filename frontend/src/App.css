@@ -645,13 +645,6 @@ td small {
   border-bottom: 1px solid var(--bam-border);
 }
 
-.graph-search {
-  position: relative;
-  width: 260px;
-  max-width: 100%;
-  flex-shrink: 0;
-}
-
 .depth-control {
   display: flex;
   align-items: center;
@@ -753,53 +746,6 @@ td small {
   max-width: 100%;
 }
 
-.graph-search input {
-  width: 100%;
-  padding: 9px 12px;
-  background: white;
-  color: var(--bam-dark);
-  border: 1px solid var(--bam-border);
-  border-radius: 7px;
-  font-size: 12px;
-  outline-color: var(--bam-blue);
-}
-
-.graph-search-results {
-  position: absolute;
-  z-index: 20;
-  top: calc(100% + 4px);
-  left: 0;
-  right: 0;
-
-  max-height: 300px;
-  overflow-y: auto;
-
-  background: white;
-  border: 1px solid var(--bam-border);
-  border-radius: 8px;
-  box-shadow: 0 8px 20px rgba(0, 40, 50, 0.12);
-}
-
-.graph-search-results button {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  width: 100%;
-  padding: 10px 12px;
-
-  background: white;
-  border: 0;
-  border-bottom: 1px solid #edf1f3;
-
-  color: var(--bam-dark);
-  text-align: left;
-}
-
-.graph-search-results button:hover,
-.graph-search-results button:focus-visible {
-  background: #e5f4f9;
-}
-
 .graph-search-results small {
   color: var(--text-muted);
 }
@@ -856,4 +802,66 @@ td small {
     flex-wrap: wrap;
     padding: 12px 16px;
   }
+}
+
+/* Shared object type autocomplete */
+
+.object-type-search {
+  position: relative;
+  width: 100%;
+}
+
+.object-type-search input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--bam-border);
+  border-radius: 7px;
+  background: white;
+  color: var(--bam-dark);
+  font-size: 12px;
+  outline-color: var(--bam-blue);
+}
+
+.object-type-suggestions {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+
+  max-height: 300px;
+  overflow-y: auto;
+
+  background: white;
+  border: 1px solid var(--bam-border);
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 40, 50, 0.12);
+}
+
+.object-type-suggestion {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #edf1f3;
+}
+
+.object-type-suggestion:last-child {
+  border-bottom: none;
+}
+
+.object-type-suggestion.active,
+.object-type-suggestion:hover {
+  background: #e5f4f9;
+}
+
+.object-type-suggestion strong {
+  color: var(--bam-dark);
+  font-size: 12px;
+}
+
+.object-type-suggestion small {
+  color: var(--text-muted);
+  font-size: 11px;
 }
