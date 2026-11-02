@@ -126,4 +126,22 @@ The Schema Explorer is intended for **read-only visualization and navigation**. 
 
 ## Deployment
 
-The application is intended to be published through GitHub Pages alongside the BAM Masterdata documentation.
+The Schema Explorer is deployed to GitHub Pages alongside the BAM Masterdata documentation.
+
+The deployment is managed by `.github/workflows/docs.yml` and runs automatically when changes are pushed to main.
+
+The workflow:
+
+1. Builds the documentation using Zensical.
+2. Generates the schema JSON files from the Python datamodel using .github/scripts/export_schemas.py.
+3. Installs the frontend dependencies and builds the React application.
+4. Copies the generated frontend into site/schema-explorer/.
+5. Publishes the combined site to GitHub Pages.
+
+The deployed application is available at:
+
+https://bamresearch.github.io/bam-masterdata/schema-explorer/
+
+The Python datamodel remains the source of truth. Schema JSON files are regenerated during deployment and are not tracked by Git.
+
+Changes to the frontend or datamodel become available on the website after they are merged into main and the deployment workflow completes successfully.

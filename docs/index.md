@@ -8,6 +8,14 @@ The `bam-masterdata` is a Python package designed to define and handle the [Mast
 <!-- This documentation page is divided according to the [diataxis method](https://www.diataxis.fr/). -->
 
 
+## Schema Explorer
+
+Explore the BAM Masterdata schemas interactively, including object types,
+properties, and inheritance relationships.
+
+[Open the Schema Explorer](https://bamresearch.github.io/bam-masterdata/schema-explorer/)
+
+
 <div markdown="block" class="home-grid">
 
 <div markdown="block">
