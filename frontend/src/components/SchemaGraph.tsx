@@ -107,11 +107,13 @@ export function SchemaGraph({
   function focusNode(id: string) {
     setFocusedId(id);
     setQuery("");
+    setDepth(1);
   }
 
   function resetFocus() {
     setFocusedId(null);
     setQuery("");
+    setDepth(Math.min(2, maxDepth));
   }
 
   const maxDepth = useMemo(
@@ -130,27 +132,45 @@ export function SchemaGraph({
   }, [onSelectNode]);
 
   const visibleNodes = useMemo(() => {
+    // Overview: depth measured from inheritance roots.
     if (!focusedId) {
       return schema.nodes.filter(
         (node) => (depths.get(node.id) ?? 0) <= depth,
       );
     }
 
-    const relatedIds = new Set<string>([focusedId]);
+    // Focused mode: depth measured from the selected class.
+    const adjacency = new Map<string, Set<string>>();
+
+    for (const node of schema.nodes) {
+      adjacency.set(node.id, new Set());
+    }
 
     for (const edge of schema.edges) {
       if (edge.type !== "inheritance") continue;
 
-      if (edge.source === focusedId) {
-        relatedIds.add(edge.target);
-      }
+      adjacency.get(edge.source)?.add(edge.target);
+      adjacency.get(edge.target)?.add(edge.source);
+    }
 
-      if (edge.target === focusedId) {
-        relatedIds.add(edge.source);
+    const distances = new Map<string, number>([[focusedId, 0]]);
+    const queue = [focusedId];
+
+    for (let index = 0; index < queue.length; index++) {
+      const currentId = queue[index];
+      const distance = distances.get(currentId)!;
+
+      if (distance >= depth) continue;
+
+      for (const neighbor of adjacency.get(currentId) ?? []) {
+        if (distances.has(neighbor)) continue;
+
+        distances.set(neighbor, distance + 1);
+        queue.push(neighbor);
       }
     }
 
-    return schema.nodes.filter((node) => relatedIds.has(node.id));
+    return schema.nodes.filter((node) => distances.has(node.id));
   }, [schema.nodes, schema.edges, depths, depth, focusedId]);
 
   const visibleEdges = useMemo(() => {
@@ -230,7 +250,8 @@ export function SchemaGraph({
             "text-valign": "center",
             "text-halign": "center",
 
-            "text-wrap": "none",
+            "text-wrap": "ellipsis",
+            "text-max-width": "130px",
           },
         },
         {
@@ -266,6 +287,7 @@ export function SchemaGraph({
     cy.on("tap", "node", (event) => {
       setFocusedId(event.target.id());
       setQuery("");
+      setDepth(1);
     });
 
     return () => {
@@ -276,11 +298,6 @@ export function SchemaGraph({
   return (
     <div className="schema-graph">
         <div className="graph-toolbar">
-            <div className="depth-control">
-            <label htmlFor="graph-depth">
-                Hierarchy depth
-            </label>
-
             <div className="graph-search">
               <input
                 type="search"
@@ -298,38 +315,43 @@ export function SchemaGraph({
                   }
                 }}
               />
-
-              {searchResults.length > 0 && (
-                <div className="graph-search-results">
-                  {searchResults.map((node) => (
-                    <button
-                      key={node.id}
-                      type="button"
-                      onClick={() => focusNode(node.id)}
-                    >
-                      <strong>{node.name}</strong>
-                      <small>{node.id}</small>
-                    </button>
-                  ))}
-                </div>
-              )}
             </div>
 
-            <input
-                id="graph-depth"
-                type="range"
-                min={0}
-                max={maxDepth}
-                value={depth}
-                disabled={maxDepth === 0}
-                onChange={(event) =>
-                setDepth(Number(event.target.value))
-                }
-            />
+            <div className="depth-control">
+              <label htmlFor="graph-depth">
+                  Hierarchy depth
+              </label>
 
-            <span className="depth-value">
-                {depth} / {maxDepth}
-            </span>
+                {searchResults.length > 0 && (
+                  <div className="graph-search-results">
+                    {searchResults.map((node) => (
+                      <button
+                        key={node.id}
+                        type="button"
+                        onClick={() => focusNode(node.id)}
+                      >
+                        <strong>{node.name}</strong>
+                        <small>{node.id}</small>
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+              <input
+                  id="graph-depth"
+                  type="range"
+                  min={0}
+                  max={focusedId ? Math.max(1, maxDepth) : maxDepth}
+                  value={depth}
+                  disabled={!focusedId && maxDepth === 0}
+                  onChange={(event) =>
+                  setDepth(Number(event.target.value))
+                  }
+              />
+
+              <span className="depth-value">
+                  {depth} / {focusedId ? Math.max(1, maxDepth) : maxDepth}
+              </span>
             </div>
         </div>
 
