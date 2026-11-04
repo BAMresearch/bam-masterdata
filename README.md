@@ -153,3 +153,21 @@ It supports:
 - Switching between datamodel versions (v0 and v1).
 
 For development instructions, see [Schema Explorer](frontend/README.md).
+
+## AI-assisted development
+
+This repository provides a multi-agent development workflow for [OpenAI Codex](https://developers.openai.com/codex/) in VS Code.
+
+- `AGENTS.md`: Project-wide development instructions.
+- `.codex/agents/`: Specialized agents for requirements, design, implementation, testing, and review.
+- `.agents/skills/`: Reusable development workflows.
+
+To work on a datamodel GitHub issue, open the repository in VS Code with the Codex extension and run:
+
+```text
+$implement-datamodel-issue
+
+Issue: BAMresearch/bam-masterdata#442
+```
+
+The workflow analyzes the issue, proposes a design for approval, implements the changes, and performs independent testing and review. It does not pushes the changes to GitHub.
