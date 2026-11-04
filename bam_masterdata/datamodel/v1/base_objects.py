@@ -20,6 +20,7 @@ class Root(ObjectType):
         "and activities, serving as the common superclass for all object types in the schema.",
         generated_code_prefix="ROOT",
         prev_versions=["ENTRY:v0"],
+        iri=["http://purl.obolibrary.org/obo/BFO_0000001"],
     )
 
     name = PropertyTypeAssignment(
