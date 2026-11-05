@@ -1,17 +1,6 @@
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
 from bam_masterdata.metadata.entities import ObjectType
 
-# Hierarchy of datamodel/v1:
-
-#   Root
-#   ├── Activity
-#   │   ├── Experiment   (see `activities.py`)
-#   │   └── Computation  (see `activities.py`)
-#   └── Entity
-#       ├── Context         (see `entities.py`)
-#       ├── Location        (see `entities.py`)
-#       └── Material Entity (see `entities.py`)
-
 
 class Root(ObjectType):
     defs = ObjectTypeDef(

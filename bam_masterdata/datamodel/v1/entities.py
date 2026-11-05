@@ -1,27 +1,6 @@
 from bam_masterdata.datamodel.v1.base_objects import Entity
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
 
-# Hierarchy of the Entity branch of datamodel/v1:
-
-#   Entity                          (see `base_objects.py`)
-#   ├── Context
-#   │   ├── Software
-#   │   ├── ParameterSet
-#   │   ├── Classification
-#   │   └── Document
-#   ├── Location
-#   │   └── BAMLocation
-#   └── MaterialEntity
-#       ├── Organism
-#       │   └── Animal
-#       │       └── Person
-#       │           └── BAMPerson
-#       ├── Device
-#       ├── Sample
-#       │     └── BAMSample
-#       ├── Material
-#       └── Chemical
-
 
 class Context(Entity):
     defs = ObjectTypeDef(
@@ -148,6 +127,15 @@ class Document(Context):
         section="Document Details",
         # multivalued=True,  # ! no multivalued VARCHAR (check openBIS 7 property type)
         prev_versions=["VERSION:v0"],
+    )
+
+
+class InventoryInformation(Context):
+    defs = ObjectTypeDef(
+        code="INVENTORY_INFORMATION",
+        description="An InventoryInformation is a context that specifies information about the inventory of "
+        "entities or activities.",
+        generated_code_prefix="INV_INFO",
     )
 
 

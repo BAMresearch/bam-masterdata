@@ -1,20 +1,6 @@
 from bam_masterdata.datamodel.v1.base_objects import Activity
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
 
-# Hierarchy of the Activity branch of datamodel/v1:
-
-#   Activity                        (see `base_objects.py`)
-#   ├── Computation
-#   │   ├── Analysis
-#   │   │   └── CreepTestDataProcessing
-#   │   └── Simulation
-#   └── Experiment
-#       ├── Processing
-#       ├── Measurement
-#       ├── Calibration
-#       ├── Synthesis
-#       └── Test
-
 
 class Computation(Activity):
     defs = ObjectTypeDef(
