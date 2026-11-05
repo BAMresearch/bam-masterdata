@@ -30,7 +30,7 @@ For user-requested datamodel changes:
 - Do not invent ontology mappings or semantic claims.
 - Do not confuse Python inheritance with native
   openBIS object-type inheritance.
-- Never silently broaden reference constraints to ALL.
+- Never remove or loosen an OBJECT `object_code` (to `None` or `"(ALL)"`) without approval.
 
 ## Quality
 
