@@ -22,6 +22,7 @@ For user-requested datamodel changes:
 
 ## Architectural constraints
 
+- Read `docs/explanations/schema_defs.md` before designing datamodel changes.
 - Prefer reuse over new definitions.
 - Keep v0 and v1 conventions separate.
 - Never change v0 merely to implement a v1 feature.
