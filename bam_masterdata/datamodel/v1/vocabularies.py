@@ -48,181 +48,181 @@ class ActivityStatus(VocabularyType):
 class DocumentType(VocabularyType):
     defs = VocabularyTypeDef(
         code="DOCUMENT_TYPE",
-        description="""Document Types//Dokumententypen""",
+        description="""Document Types""",
     )
 
     acceptance_certificate = VocabularyTerm(
         code="ACCEPTANCE_CERTIFICATE",
         label="Acceptance Certificate",
-        description="""Acceptance Certificate//Abnahmezeugnis""",
+        description="""Acceptance Certificate""",
     )
 
     calibration_certificate = VocabularyTerm(
         code="CALIBRATION_CERTIFICATE",
         label="Calibration Certificate",
-        description="""Calibration Certificate//Kalibrierschein""",
+        description="""Calibration Certificate""",
     )
 
     catalog = VocabularyTerm(
         code="CATALOG",
         label="Catalog",
-        description="""Catalog/Katalog""",
+        description="""Catalog""",
     )
 
     datasheet = VocabularyTerm(
         code="DATASHEET",
         label="Datasheet",
-        description="""Datasheet//Datenblatt""",
+        description="""Datasheet""",
     )
 
     datasheet_msds = VocabularyTerm(
         code="DATASHEET_MSDS",
         label="Material Safety Datasheet (MSDS)",
-        description="""Material Safety Datasheet (MSDS)//Sicherheitsdatenblatt""",
+        description="""Material Safety Datasheet (MSDS)""",
     )
 
     datasheet_technical = VocabularyTerm(
         code="DATASHEET_TECHNICAL",
         label="Technical Datasheet",
-        description="""Technical Datasheet//Technisches Datenblatt""",
+        description="""Technical Datasheet""",
     )
 
     delivery_note = VocabularyTerm(
         code="DELIVERY_NOTE",
         label="Delivery Note",
-        description="""Delivery Note//Lieferschein""",
+        description="""Delivery Note""",
     )
 
     diagram = VocabularyTerm(
         code="DIAGRAM",
         label="Diagram",
-        description="""Diagram//Diagramm""",
+        description="""Diagram""",
     )
 
     fabrication_order = VocabularyTerm(
         code="FABRICATION_ORDER",
         label="Fabrication Order",
-        description="""Fabrication Order//Fertigungsauftrag""",
+        description="""Fabrication Order""",
     )
 
     inspection_certificate = VocabularyTerm(
         code="INSPECTION_CERTIFICATE",
         label="Inspection Certificate",
-        description="""Inspection Certificate//Inspektionszeugnis""",
+        description="""Inspection Certificate""",
     )
 
     installation_manual = VocabularyTerm(
         code="INSTALLATION_MANUAL",
         label="Installation Manual",
-        description="""Installation Manual//Installationsanleitung""",
+        description="""Installation Manual""",
     )
 
     invoice = VocabularyTerm(
         code="INVOICE",
         label="Invoice",
-        description="""Invoice//Rechnung""",
+        description="""Invoice""",
     )
 
     maintenance_manual = VocabularyTerm(
         code="MAINTENANCE_MANUAL",
         label="Maintenance Manual",
-        description="""Maintenance Manual//Wartungsanleitung""",
+        description="""Maintenance Manual""",
     )
 
     operating_instruction = VocabularyTerm(
         code="OPERATING_INSTRUCTION",
         label="Operating Instruction",
-        description="""Operating Instruction//Betriebsanweisung""",
+        description="""Operating Instruction""",
     )
 
     order = VocabularyTerm(
         code="ORDER",
         label="Order",
-        description="""Order//Bestellung""",
+        description="""Order""",
     )
 
     photograph = VocabularyTerm(
         code="PHOTOGRAPH",
         label="Photograph",
-        description="""Photograph//Foto""",
+        description="""Photograph""",
     )
 
     repair_manual = VocabularyTerm(
         code="REPAIR_MANUAL",
         label="Repair Manual",
-        description="""Repair Manual//Reparaturanleitung""",
+        description="""Repair Manual""",
     )
 
     software_manual = VocabularyTerm(
         code="SOFTWARE_MANUAL",
         label="Software Manual",
-        description="""Software Manual//Software Bedienungsanleitung""",
+        description="""Software Manual""",
     )
 
     specification = VocabularyTerm(
         code="SPECIFICATION",
         label="Technical Specification",
-        description="""Technical Specification//Technische Spezifikation""",
+        description="""Technical Specification""",
     )
 
     technical_drawing = VocabularyTerm(
         code="TECHNICAL_DRAWING",
         label="Technical Drawing",
-        description="""Technical Drawing//Technische Zeichnung""",
+        description="""Technical Drawing""",
     )
 
     test_certificate = VocabularyTerm(
         code="TEST_CERTIFICATE",
         label="Test Certificate",
-        description="""Test Certificate//Prüfzeugnis""",
+        description="""Test Certificate""",
     )
 
     training_document = VocabularyTerm(
         code="TRAINING_DOCUMENT",
         label="Training Document",
-        description="""Training Document//Schulungsunterlagen""",
+        description="""Training Document""",
     )
 
     user_manual = VocabularyTerm(
         code="USER_MANUAL",
         label="User Manual",
-        description="""User Manual//Bedienungsanleitung""",
+        description="""User Manual""",
     )
 
     technical_document = VocabularyTerm(
         code="TECHNICAL_DOCUMENT",
         label="Technical Document",
-        description="Technical Document//Technisches Dokument",
+        description="Technical Document",
     )
 
     video = VocabularyTerm(
         code="VIDEO",
         label="Video",
-        description="Video//Video",
+        description="Video",
     )
 
     proposal = VocabularyTerm(
         code="PROPOSAL",
         label="Proposal",
-        description="Proposal//Antrag",
+        description="Proposal",
     )
 
     idea = VocabularyTerm(
         code="IDEA",
         label="Idea",
-        description="Idea//Idee",
+        description="Idea",
     )
 
     report = VocabularyTerm(
         code="REPORT",
         label="Report",
-        description="Report//Bericht",
+        description="Report",
     )
 
     publication = VocabularyTerm(
         code="PUBLICATION",
         label="Publication",
-        description="Publication//Publikation",
+        description="Publication",
     )
 
 
@@ -242,4 +242,41 @@ class BAMDataStoreStatus(VocabularyType):
         code="INACTIVE",
         label="Inactive",
         description="The data store is inactive and cannot be used for storing or retrieving data.",
+    )
+
+
+class DeviceStatus(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="DEVICE_STATUS",
+        description="""Device Status""",
+    )
+
+    in_repair = VocabularyTerm(
+        code="IN_REPAIR",
+        label="In repair",
+        description="""Device is currently in repair""",
+    )
+
+    in_storage = VocabularyTerm(
+        code="IN_STORAGE",
+        label="In storage",
+        description="""Device is currently in storage""",
+    )
+
+    in_use = VocabularyTerm(
+        code="IN_USE",
+        label="In use",
+        description="""Device is currently in use""",
+    )
+
+    is_defect = VocabularyTerm(
+        code="IS_DEFECT",
+        label="Is defect",
+        description="""Device is currently defect""",
+    )
+
+    is_discarded = VocabularyTerm(
+        code="IS_DISCARDED",
+        label="Is discarded",
+        description="""Device is discarded""",
     )

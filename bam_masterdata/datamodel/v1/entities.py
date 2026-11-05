@@ -126,16 +126,108 @@ class Document(Context):
         mandatory=False,
         section="Document Details",
         # multivalued=True,  # ! no multivalued VARCHAR (check openBIS 7 property type)
-        prev_versions=["VERSION:v0"],
+        prev_versions=["AUTHOR:v0"],
     )
 
 
 class InventoryInformation(Context):
     defs = ObjectTypeDef(
         code="INVENTORY_INFORMATION",
-        description="An InventoryInformation is a context that specifies information about the inventory of "
-        "entities or activities.",
+        description="An InventoryInformation is context that represents information about the storage, supply, "
+        "availability, identification, or inventory state of an entity.",
         generated_code_prefix="INV_INFO",
+    )
+
+    manufacturer = PropertyTypeAssignment(
+        code="MANUFACTURER",
+        data_type="VARCHAR",
+        property_label="Manufacturer",
+        description="Organization that manufactured the item.",
+        mandatory=False,
+        section="Supply Information",
+        prev_versions=["MANUFACTURER:v0"],
+    )
+
+    supplier = PropertyTypeAssignment(
+        code="SUPPLIER",
+        data_type="VARCHAR",
+        property_label="Supplier",
+        description="Organization that supplied the item.",
+        mandatory=False,
+        section="Supply Information",
+        prev_versions=["SUPPLIER:v0"],
+    )
+
+    lot_number = PropertyTypeAssignment(
+        code="LOT_NUMBER",
+        data_type="VARCHAR",
+        property_label="Lot number",
+        description="Manufacturer or supplier batch/lot identifier.",
+        mandatory=False,
+        section="Supply Information",
+        prev_versions=["LOT_NUMBER:v0"],
+    )
+
+    location = PropertyTypeAssignment(
+        code="LOCATION",
+        data_type="OBJECT",
+        object_code="LOCATION",
+        property_label="Location",
+        description="Current physical location of the inventory item.",
+        mandatory=False,
+        section="Inventory Details",
+    )
+
+    responsible_persons = PropertyTypeAssignment(
+        code="RESPONSIBLE_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON",
+        property_label="Responsible person",
+        description="Persons responsible for the inventory item.",
+        mandatory=False,
+        multivalued=True,
+        section="Inventory Details",
+        prev_versions=["RESPONSIBLE_PERSON:v0"],
+    )
+
+    date_bottling = PropertyTypeAssignment(
+        code="DATE_BOTTLING",
+        data_type="DATE",
+        property_label="Bottling date",
+        description="Date on which the material was bottled.",
+        mandatory=False,
+        section="Inventory Details",
+        prev_versions=["DATE_BOTTLING:v0"],
+    )
+
+    date_opening = PropertyTypeAssignment(
+        code="DATE_OPENING",
+        data_type="DATE",
+        property_label="Opening date",
+        description="Date on which the container was first opened.",
+        mandatory=False,
+        section="Inventory Details",
+        prev_versions=["DATE_OPENING:v0"],
+    )
+
+    date_expiration = PropertyTypeAssignment(
+        code="DATE_EXPIRATION",
+        data_type="DATE",
+        property_label="Expiration date",
+        description="Date after which the material should not be used.",
+        mandatory=False,
+        section="Inventory Details",
+        prev_versions=["DATE_EXPIRATION:v0"],
+    )
+
+    is_empty = PropertyTypeAssignment(
+        code="IS_EMPTY",
+        data_type="BOOLEAN",
+        property_label="Is empty",
+        description="Whether the inventory item has been depleted.",
+        mandatory=False,
+        section="Inventory Details",
+        prev_versions=["SUBSTANCE_EMPTY:v0"],
     )
 
 
@@ -155,14 +247,6 @@ class Location(Entity):
         description="Coordinates of the location, defined by latitude and longitude.",
         mandatory=False,
         section="Location Details",
-    )
-
-
-class BAMLocation(Location):
-    defs = ObjectTypeDef(
-        code="BAM_LOCATION",
-        description="A BAMLocation is a location that specifies a physical place within the BAM facilities.",
-        generated_code_prefix="BAM_LOCAT",
     )
 
 
@@ -326,7 +410,93 @@ class Device(MaterialEntity):
         iri=["https://w3id.org/pmd/co/PMD_0000602"],
     )
 
-    # many properties here yet to define...
+    manufacturer = PropertyTypeAssignment(
+        code="MANUFACTURER",
+        data_type="VARCHAR",
+        property_label="Manufacturer",
+        description="Organization that manufactured the device.",
+        mandatory=False,
+        section="Device Details",
+        prev_versions=["MANUFACTURER:v0"],
+    )
+
+    supplier = PropertyTypeAssignment(
+        code="SUPPLIER",
+        data_type="VARCHAR",
+        property_label="Supplier",
+        description="Organization that supplied the device.",
+        mandatory=False,
+        section="Device Details",
+        prev_versions=["SUPPLIER:v0"],
+    )
+
+    device_model_name = PropertyTypeAssignment(
+        code="DEVICE_MODEL_NAME",
+        data_type="VARCHAR",
+        property_label="Device model",
+        description="Manufacturer's model designation of the device.",
+        mandatory=False,
+        section="Device Details",
+        prev_versions=["DEVICE_MODEL_NAME:v0"],
+    )
+
+    serial_number = PropertyTypeAssignment(
+        code="SERIAL_NUMBER",
+        data_type="VARCHAR",
+        property_label="Serial number",
+        description="Manufacturer-assigned serial number of the device.",
+        mandatory=False,
+        section="Device Details",
+        prev_versions=["SERIAL_NUMBER:v0"],
+    )
+
+    mac_address = PropertyTypeAssignment(
+        code="MAC_ADDRESS",
+        data_type="VARCHAR",
+        property_label="MAC address",
+        description="Network interface MAC address of the device.",
+        mandatory=False,
+        section="Device Details",
+        prev_versions=["MAC_ADDRESS:v0"],
+    )
+
+    location = PropertyTypeAssignment(
+        code="LOCATION",
+        data_type="OBJECT",
+        object_code="LOCATION",
+        property_label="Location",
+        description="Current physical location of the device.",
+        mandatory=False,
+        section="Inventory Details",
+    )
+
+    responsible_persons = PropertyTypeAssignment(
+        code="RESPONSIBLE_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON",
+        property_label="Responsible persons",
+        description="Persons responsible for the device.",
+        mandatory=False,
+        multivalued=True,
+        section="Inventory Details",
+        prev_versions=["RESPONSIBLE_PERSON:v0"],
+    )
+
+    device_status = PropertyTypeAssignment(
+        code="DEVICE_STATUS",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="DEVICE_STATUS",
+        property_label="Device status",
+        description="Current operational or availability status of the device.",
+        mandatory=False,
+        section="Inventory Details",
+        prev_versions=["INSTRUMENT_STATUS:v0"],
+    )
+
+    # Properties from v0 that need to be migrated to v1 (from DEVICE:v0):
+    # DFG_DEVICE_CODE
+    # INVENTORY_NO
+    # INVENTORY_NO_ADD
 
 
 class Sample(MaterialEntity):
@@ -346,6 +516,27 @@ class Sample(MaterialEntity):
         mandatory=True,
         section="Sample Details",
         prev_versions=["SAMPLE_ID:v0"],
+    )
+
+    location = PropertyTypeAssignment(
+        code="LOCATION",
+        data_type="OBJECT",
+        object_code="LOCATION",
+        property_label="Location",
+        description="Current physical location of the inventory item.",
+        mandatory=False,
+        section="Sample Details",
+    )
+
+    responsible_persons = PropertyTypeAssignment(
+        code="RESPONSIBLE_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON",
+        property_label="Responsible Persons",
+        description="The persons responsible for the sample.",
+        mandatory=False,
+        section="Sample Details",
+        multivalued=True,
     )
 
     # Properties from v0 that need to be migrated to v1 (from SAMPLE:v0):
@@ -386,16 +577,6 @@ class BAMSample(Sample):
         mandatory=False,
         section="Sample Details",
         multivalued=True,
-    )
-
-    bam_location = PropertyTypeAssignment(
-        code="BAM_LOCATION",
-        data_type="OBJECT",
-        object_code="BAM_LOCATION",
-        property_label="BAM Location",
-        description="The BAM location where the sample is stored or used.",
-        mandatory=False,
-        section="Sample Details",
     )
 
 
@@ -461,4 +642,129 @@ class Chemical(MaterialEntity):
         prev_versions=["CHEMICAL:v0"],
     )
 
-    # many properties here...
+    chemical_formula_descriptive = PropertyTypeAssignment(
+        code="CHEMICAL_FORMULA_DESCRIPTIVE",
+        data_type="VARCHAR",
+        property_label="Descriptive formula",
+        description="Human-readable representation of the chemical composition.",
+        mandatory=False,
+        section="Chemical Identity",
+    )
+
+    chemical_formula_reduced = PropertyTypeAssignment(
+        code="CHEMICAL_FORMULA_REDUCED",
+        data_type="VARCHAR",
+        property_label="Reduced formula",
+        description="Chemical formula with reduced stoichiometric proportions.",
+        mandatory=False,
+        section="Chemical Identity",
+    )
+
+    chemical_formula_iupac = PropertyTypeAssignment(
+        code="CHEMICAL_FORMULA_IUPAC",
+        data_type="VARCHAR",
+        property_label="IUPAC formula",
+        description="Chemical formula following IUPAC conventions.",
+        mandatory=False,
+        section="Chemical Identity",
+        prev_versions=["IUPAC_NAME:v0"],
+    )
+
+    chemical_formula_hill = PropertyTypeAssignment(
+        code="CHEMICAL_FORMULA_HILL",
+        data_type="VARCHAR",
+        property_label="Hill formula",
+        description="Chemical formula using Hill notation.",
+        mandatory=False,
+        section="Chemical Identity",
+    )
+
+    chemical_formula_anonymous = PropertyTypeAssignment(
+        code="CHEMICAL_FORMULA_ANONYMOUS",
+        data_type="VARCHAR",
+        property_label="Anonymous formula",
+        description="Formula describing stoichiometry without chemical element identities.",
+        mandatory=False,
+        section="Chemical Identity",
+    )
+
+    cas_number = PropertyTypeAssignment(
+        code="CAS_NUMBER",
+        data_type="VARCHAR",
+        property_label="CAS number",
+        description="Chemical Abstracts Service registry number.",
+        mandatory=False,
+        section="Chemical Identifiers",
+        prev_versions=["CAS_NUMBER:v0"],
+    )
+
+    inchi = PropertyTypeAssignment(
+        code="INCHI",
+        data_type="VARCHAR",
+        property_label="InChI",
+        description="International Chemical Identifier.",
+        mandatory=False,
+        section="Chemical Identifiers",
+    )
+
+    inchi_key = PropertyTypeAssignment(
+        code="INCHI_KEY",
+        data_type="VARCHAR",
+        property_label="InChIKey",
+        description="Hashed representation of an InChI identifier.",
+        mandatory=False,
+        section="Chemical Identifiers",
+    )
+
+    smiles = PropertyTypeAssignment(
+        code="SMILES",
+        data_type="VARCHAR",
+        property_label="SMILES",
+        description="SMILES representation of the chemical structure.",
+        mandatory=False,
+        section="Chemical Identifiers",
+    )
+
+    canonical_smiles = PropertyTypeAssignment(
+        code="CANONICAL_SMILES",
+        data_type="VARCHAR",
+        property_label="Canonical SMILES",
+        description="Canonicalized SMILES representation of the chemical structure.",
+        mandatory=False,
+        section="Chemical Identifiers",
+    )
+
+    pubchem_cid = PropertyTypeAssignment(
+        code="PUBCHEM_CID",
+        data_type="INTEGER",
+        property_label="PubChem CID",
+        description="PubChem compound identifier.",
+        mandatory=False,
+        section="Chemical Identifiers",
+    )
+
+    pubchem_link = PropertyTypeAssignment(
+        code="PUBCHEM_LINK",
+        data_type="HYPERLINK",
+        property_label="PubChem link",
+        description="Link to the corresponding PubChem compound entry.",
+        mandatory=False,
+        section="Chemical Identifiers",
+    )
+
+    molar_mass = PropertyTypeAssignment(
+        code="MOLAR_MASS",
+        data_type="REAL",
+        units="g/mol",
+        property_label="Molar mass",
+        description="Molar mass of the chemical species.",
+        mandatory=False,
+        section="Chemical Properties",
+        prev_versions=["MASS_MOLAR:v0"],
+    )
+
+    # Properties from v0 that need to be migrated to v1 (from CHEMICAL:v0):
+    # DENSITY_GRAM_PER_CUBIC_CM
+    # CONCENTRATION
+    # PRODUCT_CATEGORY
+    # BARCODE_EXTERNAL
