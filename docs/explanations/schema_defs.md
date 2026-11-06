@@ -140,25 +140,3 @@ The #428 branch includes focused tests in:
 These provide unit and **mocked workflow** coverage; they do not prove live openBIS 7 compatibility. [Issue #395](https://github.com/BAMresearch/bam-masterdata/issues/395) additionally tracks disposable-instance provisioning, idempotent synchronization, metadata updates, handling system-managed definitions, migration/compatibility tests, representative v1 exports, and wider CI coverage. Some older CLI and `EntitiesDict` tests are currently excluded from the main CI selection and need a separate review.
 
 See [Define Object Types and Properties](../howtos/object_types.md) and [Work with Object References](../howtos/object_references.md).
-
-
-## Inventory records and parent-child relationships (v1)
-
-`InventoryInformation` is a `Context` object type used to describe an **individual inventory record**, such as a laboratory bottle of a chemical. It stores supplier, manufacturer, lot, storage location, responsible people, and relevant dates. A chemical's identity (for example, its CAS number and formula) belongs to `Chemical`, not to each bottle.
-
-For example, three bottles of acetone can share one `Chemical` object:
-
-```text
-Chemical: Acetone
-├── InventoryInformation: Sigma, lot A, bottle 1
-├── InventoryInformation: Sigma, lot A, bottle 2
-└── InventoryInformation: Merck, lot B, bottle 3
-```
-
-**Relationship convention:** the `Chemical` object is the **parent** and each `InventoryInformation` object describing one bottle is a **child**. These are openBIS *object-instance* parent-child relationships; they are not Python inheritance, and do not change `InventoryInformation(Context)` into a subtype of `Chemical`.
-
-This is a modeling convention, **not a constraint enforced by the current v1 schema**. The definitions do not create links automatically or require an inventory record to have exactly one parent. Code that creates or imports records must establish the relationships explicitly and validate them if a project requires that rule. The same convention may be used for a `Material` with several stock items.
-
-Use a separate `InventoryInformation` record when one chemical or material identity corresponds to multiple physical stock items with different lots, locations, or lifecycles. A `Sample` or `Device` that already represents one physical item may keep manufacturer, supplier, and location directly on that object; an additional inventory record is optional, not mandatory.
-
-**Barcodes:** `MaterialEntity` defines a `BARCODE` property for material objects, but `InventoryInformation` inherits from `Context` and does **not** currently have that property. If each bottle must have its own barcode, the inventory record needs an explicit barcode property or another agreed identifier strategy. Do not place a bottle-specific barcode on the shared `Chemical` identity.
