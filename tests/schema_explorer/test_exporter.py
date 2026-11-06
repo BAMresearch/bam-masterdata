@@ -118,3 +118,24 @@ def test_inheritance_edges_have_no_cardinality():
         assert edge.property_code is None
         assert edge.multivalued is None
         assert edge.mandatory is None
+
+
+def test_v1_property_origins():
+    schema = export_schema("v1")
+    instrument = next(node for node in schema.nodes if node.id == "INSTRUMENT")
+
+    assert instrument.property_origins["$NAME"] == "ROOT"
+    assert instrument.property_origins["MANUFACTURER"] == "PHYSICAL_OBJECT"
+    assert instrument.property_origins["SERIAL_NUMBER"] == "DEVICE"
+    assert instrument.property_origins["LAST_CALIBRATION"] == "INSTRUMENT"
+
+
+@pytest.mark.parametrize("version", ["v0", "v1"])
+def test_all_properties_have_origins(version):
+    schema = export_schema(version)
+
+    for node in schema.nodes:
+        property_codes = {prop.code for prop in node.properties}
+
+        assert property_codes == set(node.property_origins)
+        assert all(node.property_origins.values())

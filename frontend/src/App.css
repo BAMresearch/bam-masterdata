@@ -909,3 +909,12 @@ td small {
 .property-section > summary strong {
   flex: 1;
 }
+
+.inherited-property {
+  background: #f8fafb;
+}
+
+.inherited-label {
+  color: var(--bam-blue);
+  font-size: 11px;
+}

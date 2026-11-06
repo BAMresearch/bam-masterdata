@@ -453,36 +453,59 @@ function ObjectDetails({
                   </thead>
 
                   <tbody>
-                    {properties.map((property) => (
-                      <tr key={property.code}>
-                        <td>
-                          <strong>{property.property_label || property.code}</strong>
-                          <small>{property.code}</small>
-                          {property.units && (
-                            <small>Units: {property.units}</small>
-                          )}
-                        </td>
+                    {properties.map((property) => {
+                      const origin = node.property_origins?.[property.code];
+                      const inherited =
+                        origin !== undefined && origin !== node.id;
 
-                        <td className="property-description">
-                          {property.description || "—"}
-                        </td>
+                      return (
+                        <tr
+                          key={property.code}
+                          className={inherited ? "inherited-property" : ""}
+                        >
+                          <td>
+                            <strong>
+                              {property.property_label || property.code}
+                            </strong>
 
-                        <td>
-                          <span className="datatype-badge">
-                            {property.data_type}
-                          </span>
-                        </td>
+                            <small>{property.code}</small>
 
-                        <td>
-                          {property.object_code ||
-                            property.vocabulary_code ||
-                            "—"}
-                        </td>
+                            {inherited && (
+                              <small
+                                className="inherited-label"
+                                title={`Defined in ${origin}`}
+                              >
+                                Inherited from {origin}
+                              </small>
+                            )}
 
-                        <td>{property.mandatory ? "Yes" : "No"}</td>
-                        <td>{property.multivalued ? "Yes" : "No"}</td>
-                      </tr>
-                    ))}
+                            {property.units && (
+                              <small>Units: {property.units}</small>
+                            )}
+                          </td>
+
+                          <td className="property-description">
+                            {property.description || "—"}
+                          </td>
+
+                          <td>
+                            <span className="datatype-badge">
+                              {property.data_type}
+                            </span>
+                          </td>
+
+                          <td>
+                            {property.object_code ||
+                              property.vocabulary_code ||
+                              "—"}
+                          </td>
+
+                          <td>{property.mandatory ? "Yes" : "No"}</td>
+
+                          <td>{property.multivalued ? "Yes" : "No"}</td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
@@ -495,7 +518,7 @@ function ObjectDetails({
         <div className="section-title">
           <h3>
             Relationships
-           <RelationshipHelp />
+            <RelationshipHelp />
           </h3>
 
           <span className="count-badge">{relationships.length}</span>
