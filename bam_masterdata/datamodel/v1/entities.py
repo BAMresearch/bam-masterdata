@@ -129,6 +129,11 @@ class Document(Context):
         prev_versions=["AUTHOR:v0"],
     )
 
+    # Properties from v0 that need to be migrated to v1 (from DOCUMENT:v0):
+    # DOCUMENT_ID
+    # AUTHOR_PERSON
+    # DOCUMENT_LINK
+
 
 class InventoryInformation(Context):
     defs = ObjectTypeDef(
@@ -230,6 +235,17 @@ class InventoryInformation(Context):
         prev_versions=["SUBSTANCE_EMPTY:v0"],
     )
 
+    barcode = PropertyTypeAssignment(
+        code="BARCODE",
+        data_type="VARCHAR",
+        property_label="Barcode",
+        description="Identifier encoded in a barcode or QR code label "
+        "used to identify the object.",
+        mandatory=False,
+        section="Inventory Details",
+        prev_versions=["BARCODE_EXTERNAL:v0"],
+    )
+
 
 class Location(Entity):
     defs = ObjectTypeDef(
@@ -267,6 +283,7 @@ class MaterialEntity(Entity):
         "used to identify the object.",
         mandatory=False,
         section="General Information",
+        prev_versions=["BARCODE_EXTERNAL:v0"],
     )
 
 
@@ -390,6 +407,7 @@ class BAMPerson(Person):
         description="The organizational unit of the person within BAM.",
         mandatory=False,
         section="Personal Details",
+        prev_versions=["BAM_OE:v0"],
     )
 
     bam_username = PropertyTypeAssignment(
@@ -399,6 +417,7 @@ class BAMPerson(Person):
         description="The username of the person within BAM's IT systems.",
         mandatory=False,
         section="Personal Details",
+        prev_versions=["BAM_USERNAME:v0"],
     )
 
     bam_data_store_status = PropertyTypeAssignment(
@@ -409,6 +428,7 @@ class BAMPerson(Person):
         description="The status of the person's data in BAM's data store, such as active or inactive.",
         mandatory=False,
         section="Personal Details",
+        prev_versions=["BAM_DATA_STORE_USER_STATUS:v0"],
     )
 
 
@@ -689,6 +709,16 @@ class Chemical(MaterialEntity):
         prev_versions=["CHEMICAL:v0"],
     )
 
+    iupac_name = PropertyTypeAssignment(
+        code="IUPAC_NAME",
+        data_type="VARCHAR",
+        property_label="IUPAC name",
+        description="Preferred or systematic IUPAC name of the chemical.",
+        mandatory=False,
+        section="Chemical Identity",
+        prev_versions=["IUPAC_NAME:v0"],
+    )
+
     chemical_formula_descriptive = PropertyTypeAssignment(
         code="CHEMICAL_FORMULA_DESCRIPTIVE",
         data_type="VARCHAR",
@@ -714,7 +744,6 @@ class Chemical(MaterialEntity):
         description="Chemical formula following IUPAC conventions.",
         mandatory=False,
         section="Chemical Identity",
-        prev_versions=["IUPAC_NAME:v0"],
     )
 
     chemical_formula_hill = PropertyTypeAssignment(
