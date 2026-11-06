@@ -91,5 +91,10 @@ def test_instance_values_serialize():
     root = Root()
     assert root.to_dict() == {}
     root.name = "My sample"
+    root.global_id = "111-111-111"
     root.hash = "abc123"
-    assert root.to_dict() == {"name": "My sample", "hash": "abc123"}
+    assert root.to_dict() == {
+        "name": "My sample",
+        "global_id": "111-111-111",
+        "hash": "abc123",
+    }

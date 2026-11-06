@@ -1,17 +1,6 @@
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
 from bam_masterdata.metadata.entities import ObjectType
 
-# Hierarchy of datamodel/v1:
-
-#   Root
-#   ├── Activity
-#   │   ├── Experiment   (see `activities.py`)
-#   │   └── Computation  (see `activities.py`)
-#   └── Entity
-#       ├── Context         (see `entities.py`)
-#       ├── Location        (see `entities.py`)
-#       └── Material Entity (see `entities.py`)
-
 
 class Root(ObjectType):
     defs = ObjectTypeDef(
@@ -20,6 +9,7 @@ class Root(ObjectType):
         "and activities, serving as the common superclass for all object types in the schema.",
         generated_code_prefix="ROOT",
         prev_versions=["ENTRY:v0"],
+        iri=["http://purl.obolibrary.org/obo/BFO_0000001"],
     )
 
     name = PropertyTypeAssignment(
@@ -50,6 +40,16 @@ class Root(ObjectType):
         mandatory=False,
         section="General Information",
         multivalued=True,
+    )
+
+    global_id = PropertyTypeAssignment(
+        code="GLOBAL_ID",
+        data_type="VARCHAR",
+        property_label="Global ID",
+        description="Immutable global ID to identify the object and that can be used, for example, to generate barcodes or QR codes.",
+        mandatory=False,
+        show_in_edit_views=False,
+        section="General Information",
     )
 
     hash = PropertyTypeAssignment(
@@ -139,7 +139,7 @@ class Activity(Root):
         data_type="OBJECT",
         object_code="PERSON",
         property_label="Responsible Persons",
-        description="Persons responsible for performing or executing the activity.",
+        description="Responsible persons.",
         mandatory=False,
         section="Activity Details",
         multivalued=True,
