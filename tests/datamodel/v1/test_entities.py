@@ -19,6 +19,7 @@ from bam_masterdata.datamodel.v1.entities import (
     Organism,
     ParameterSet,
     Person,
+    PhysicalObject,
     Sample,
     Sensor,
     Software,
@@ -38,6 +39,7 @@ ENTITY_CLASSES = [
     Animal,
     Person,
     BAMPerson,
+    PhysicalObject,
     Device,
     Instrument,
     Sensor,
@@ -84,7 +86,8 @@ def test_entity_types_instantiate_and_export(cls):
         (Animal, Organism),
         (Person, Animal),
         (BAMPerson, Person),
-        (Device, MaterialEntity),
+        (PhysicalObject, MaterialEntity),
+        (Device, PhysicalObject),
         (Instrument, Device),
         (Sensor, Device),
         (Equipment, Device),
@@ -118,10 +121,8 @@ def test_properties_are_consistent_and_inherited(cls):
             assert prop.object_code
 
 
-@pytest.mark.parametrize(
-    "cls", [Device, Instrument, Sensor, Equipment, Sample, Material, Chemical]
-)
-def test_material_entity_inventory_properties_are_inherited(cls):
+@pytest.mark.parametrize("cls", [PhysicalObject, Device, Instrument, Sensor, Equipment])
+def test_physical_object_inventory_properties_are_inherited(cls):
     props = cls()._property_metadata
     assert INVENTORY_PROPERTIES <= set(props)
     assert props["manufacturer"].code == "MANUFACTURER"
@@ -132,16 +133,34 @@ def test_material_entity_inventory_properties_are_inherited(cls):
     assert props["responsible_persons"].multivalued is True
 
 
-def test_context_and_location_do_not_inherit_inventory_properties():
-    for cls in (Context, Software, ParameterSet, Classification, Document, Location):
-        assert INVENTORY_PROPERTIES.isdisjoint(cls()._property_metadata)
+@pytest.mark.parametrize(
+    "cls",
+    [
+        Context,
+        Software,
+        ParameterSet,
+        Classification,
+        Document,
+        Location,
+        MaterialEntity,
+        Organism,
+        Animal,
+        Person,
+        BAMPerson,
+        Sample,
+        Material,
+        Chemical,
+    ],
+)
+def test_non_physical_object_types_do_not_inherit_inventory_properties(cls):
+    # Sample, Material and Chemical currently inherit MaterialEntity directly.
+    assert INVENTORY_PROPERTIES.isdisjoint(cls()._property_metadata)
 
 
-def test_organism_inventory_inheritance_is_currently_unresolved():
-    # Documents the TODO in entities.py. Update once inventory fields move to
-    # an intermediate class or an explicit ignore mechanism is implemented.
-    for cls in (Organism, Animal, Person, BAMPerson):
-        assert INVENTORY_PROPERTIES <= set(cls()._property_metadata)
+def test_organisms_and_physical_objects_are_separate_branches():
+    assert not issubclass(Organism, PhysicalObject)
+    assert not issubclass(PhysicalObject, Organism)
+    assert PhysicalObject.defs.code == "PHYSICAL_OBJECT"
 
 
 def test_device_subtypes_and_calibration_metadata():
@@ -149,29 +168,25 @@ def test_device_subtypes_and_calibration_metadata():
     assert Instrument.calibration_status.data_type == DataType.CONTROLLEDVOCABULARY
     assert Instrument.calibration_status.vocabulary_code == "CALIBRATION_STATUS"
     for cls in (Device, Sensor, Equipment):
-        assert "calibration_status" not in cls()._property_metadata
-        assert "last_calibration" not in cls()._property_metadata
+        props = cls()._property_metadata
+        assert "calibration_status" not in props
+        assert "last_calibration" not in props
 
 
-def test_chemical_identity_and_inventory_properties():
+def test_chemical_identity_and_bottling_properties():
     props = Chemical()._property_metadata
     assert props["cas_number"].code == "CAS_NUMBER"
     assert props["iupac_name"].code == "IUPAC_NAME"
     assert props["molar_mass"].units == "g/mol"
-    assert props["lot_number"].code == "LOT_NUMBER"
     for name in ("date_bottling", "date_opening", "date_expiration"):
         assert props[name].data_type == DataType.DATE
     assert props["is_empty"].data_type == DataType.BOOLEAN
 
 
-def test_sample_inventory_and_identity_properties():
+def test_sample_identity_properties():
     props = Sample()._property_metadata
     assert props["sample_id"].code == "SAMPLE_ID"
     assert props["sample_id"].mandatory is True
-    assert props["manufacturer"].code == "MANUFACTURER"
-    assert props["supplier"].code == "SUPPLIER"
-    assert props["location"].object_code == "LOCATION"
-    assert props["responsible_persons"].multivalued is True
 
 
 def test_representative_v0_mappings():
@@ -179,11 +194,11 @@ def test_representative_v0_mappings():
     assert "SAMPLE:v0" in Sample.defs.prev_versions
     assert "CHEMICAL:v0" in Chemical.defs.prev_versions
     assert "IUPAC_NAME:v0" in Chemical.iupac_name.prev_versions
-    assert "MANUFACTURER:v0" in MaterialEntity.manufacturer.prev_versions
-    assert "SUPPLIER:v0" in MaterialEntity.supplier.prev_versions
+    assert "MANUFACTURER:v0" in PhysicalObject.manufacturer.prev_versions
+    assert "SUPPLIER:v0" in PhysicalObject.supplier.prev_versions
 
 
-def test_material_entity_instance_values_serialize():
+def test_physical_object_instance_values_serialize():
     device = Device()
     device.name = "Microscope A"
     device.manufacturer = "Example manufacturer"
