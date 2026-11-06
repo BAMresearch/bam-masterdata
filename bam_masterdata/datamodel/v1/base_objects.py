@@ -139,7 +139,7 @@ class Activity(Root):
         data_type="OBJECT",
         object_code="PERSON",
         property_label="Responsible Persons",
-        description="Persons responsible for performing or executing the activity.",
+        description="Responsible persons.",
         mandatory=False,
         section="Activity Details",
         multivalued=True,

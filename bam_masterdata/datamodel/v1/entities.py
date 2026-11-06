@@ -94,6 +94,7 @@ class Document(Context):
         description="A Document is a context that specifies a document, which can be used to provide "
         "information about entities or activities.",
         generated_code_prefix="DOCUM",
+        iri=["http://purl.obolibrary.org/obo/IAO_0000310"],
         prev_versions=["DOCUMENT:v0"],
     )
 
@@ -317,7 +318,6 @@ class PhysicalObject(MaterialEntity):
         description="A PhysicalObject is a material entity that is identified, handled, stored, or "
         "managed as a distinct physical item in a scientific or technical context.",
         generated_code_prefix="PHYS_OBJ",
-        iri=["http://purl.obolibrary.org/obo/BFO_0000030"],
     )
 
     manufacturer = PropertyTypeAssignment(
@@ -355,7 +355,7 @@ class PhysicalObject(MaterialEntity):
         data_type="OBJECT",
         object_code="LOCATION",
         property_label="Location",
-        description="Current physical location of the inventory item.",
+        description="Physical location.",
         mandatory=False,
         section="Inventory Details",
     )
@@ -365,7 +365,7 @@ class PhysicalObject(MaterialEntity):
         data_type="OBJECT",
         object_code="PERSON",
         property_label="Responsible person",
-        description="Persons responsible for the inventory item.",
+        description="Responsible persons.",
         mandatory=False,
         multivalued=True,
         section="Inventory Details",
@@ -477,7 +477,7 @@ class Equipment(Device):
     )
 
 
-class Sample(MaterialEntity):
+class Sample(PhysicalObject):
     defs = ObjectTypeDef(
         code="SAMPLE",
         description="A Sample is a physical object that is identified and treated as a discrete unit as input "
@@ -505,7 +505,7 @@ class Sample(MaterialEntity):
     # AUXILIARY_MATERIAL_TYPE
 
 
-class Material(MaterialEntity):
+class Material(PhysicalObject):
     defs = ObjectTypeDef(
         code="MATERIAL",
         description="A Material is a physical object that is composed of a physical substance or "
@@ -556,7 +556,7 @@ class Material(MaterialEntity):
     # CHARACTERISTICS
 
 
-class Chemical(MaterialEntity):
+class Chemical(PhysicalObject):
     defs = ObjectTypeDef(
         code="CHEMICAL",
         description="A Chemical is a physical object that is composed of one or more chemical substances "

@@ -147,9 +147,6 @@ def test_physical_object_inventory_properties_are_inherited(cls):
         Animal,
         Person,
         BAMPerson,
-        Sample,
-        Material,
-        Chemical,
     ],
 )
 def test_non_physical_object_types_do_not_inherit_inventory_properties(cls):
