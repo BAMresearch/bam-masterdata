@@ -280,3 +280,34 @@ class DeviceStatus(VocabularyType):
         label="Is discarded",
         description="""Device is discarded""",
     )
+
+
+class CalibrationStatus(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="CALIBRATION_STATUS",
+        description="Current calibration status of a device.",
+    )
+
+    valid = VocabularyTerm(
+        code="VALID",
+        label="Valid",
+        description="The device has a valid calibration.",
+    )
+
+    expired = VocabularyTerm(
+        code="EXPIRED",
+        label="Expired",
+        description="The device calibration has expired.",
+    )
+
+    pending = VocabularyTerm(
+        code="PENDING",
+        label="Pending",
+        description="The device is awaiting calibration.",
+    )
+
+    not_required = VocabularyTerm(
+        code="NOT_REQUIRED",
+        label="Not required",
+        description="The device does not require calibration.",
+    )

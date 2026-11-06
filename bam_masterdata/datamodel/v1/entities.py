@@ -259,6 +259,16 @@ class MaterialEntity(Entity):
         iri=["http://purl.obolibrary.org/obo/BFO_0000040"],
     )
 
+    barcode = PropertyTypeAssignment(
+        code="BARCODE",
+        data_type="VARCHAR",
+        property_label="Barcode",
+        description="Identifier encoded in a barcode or QR code label "
+        "used to identify the object.",
+        mandatory=False,
+        section="General Information",
+    )
+
 
 class Organism(MaterialEntity):
     defs = ObjectTypeDef(
@@ -493,10 +503,59 @@ class Device(MaterialEntity):
         prev_versions=["INSTRUMENT_STATUS:v0"],
     )
 
+
+class Instrument(Device):
+    defs = ObjectTypeDef(
+        code="INSTRUMENT",
+        description="An Instrument is a device used to perform, support, or control an experimental "
+        "activity. For example, microscopes, XRD instruments, spectrometer, etc, and it can be optionally "
+        "used together with sensors to describe fully an experimental setup.",
+        generated_code_prefix="INST",
+        prev_versions=["INSTRUMENT:v0"],
+    )
+
+    last_calibration = PropertyTypeAssignment(
+        code="LAST_CALIBRATION",
+        data_type="DATE",
+        property_label="Last calibration",
+        description="Date on which the device was last calibrated.",
+        mandatory=False,
+        section="Calibration Details",
+        prev_versions=["LAST_CALIBRATION:v0"],
+    )
+
+    calibration_status = PropertyTypeAssignment(
+        code="CALIBRATION_STATUS",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="CALIBRATION_STATUS",
+        property_label="Calibration status",
+        description="Current calibration status of the device.",
+        mandatory=False,
+        section="Calibration Details",
+    )
+
     # Properties from v0 that need to be migrated to v1 (from DEVICE:v0):
     # DFG_DEVICE_CODE
     # INVENTORY_NO
     # INVENTORY_NO_ADD
+
+
+class Sensor(Device):
+    defs = ObjectTypeDef(
+        code="SENSOR",
+        description="A Sensor is a device used to detect, measure, or record a physical, chemical, "
+        "biological, or environmental quality. For example, cameras, thermocouples, pressure sensors, etc.",
+        generated_code_prefix="SENS",
+    )
+
+
+class Equipment(Device):
+    defs = ObjectTypeDef(
+        code="EQUIPMENT",
+        description="An Equipment is a device used to support laboratory, technical, or operational work "
+        "without performing a measurement itself. For example, glovebox, freezer, mixer, etc.",
+        generated_code_prefix="EQUIP",
+    )
 
 
 class Sample(MaterialEntity):
@@ -516,6 +575,26 @@ class Sample(MaterialEntity):
         mandatory=True,
         section="Sample Details",
         prev_versions=["SAMPLE_ID:v0"],
+    )
+
+    manufacturer = PropertyTypeAssignment(
+        code="MANUFACTURER",
+        data_type="VARCHAR",
+        property_label="Manufacturer",
+        description="Organization that manufactured the item.",
+        mandatory=False,
+        section="Sample Details",
+        prev_versions=["MANUFACTURER:v0"],
+    )
+
+    supplier = PropertyTypeAssignment(
+        code="SUPPLIER",
+        data_type="VARCHAR",
+        property_label="Supplier",
+        description="Organization that supplied the item.",
+        mandatory=False,
+        section="Sample Details",
+        prev_versions=["SUPPLIER:v0"],
     )
 
     location = PropertyTypeAssignment(
@@ -541,43 +620,11 @@ class Sample(MaterialEntity):
 
     # Properties from v0 that need to be migrated to v1 (from SAMPLE:v0):
     # SAMPLE_ID_NUMBER
-    # MANUFACTURER
     # BARCODE_EXTERNAL
-    # SUPPLIER
     # PHYSICAL_STATE
 
     # Properties from v0 that need to be migrated to v1 (from AUXILIARY_MATERIAL:v0):
-    # MANUFACTURER
-    # SUPPLIER
     # AUXILIARY_MATERIAL_TYPE
-
-
-class BAMSample(Sample):
-    defs = ObjectTypeDef(
-        code="BAM_SAMPLE",
-        description="A BAMSample is a sample that is used or produced in the context of BAM's activities.",
-        generated_code_prefix="BAM_SAMP",
-    )
-
-    bam_oe = PropertyTypeAssignment(
-        code="BAM_OE",
-        data_type="VARCHAR",
-        property_label="BAM Organizational Unit",
-        description="The organizational unit of BAM that is responsible for the sample.",
-        mandatory=False,
-        section="Sample Details",
-    )
-
-    responsible_persons = PropertyTypeAssignment(
-        code="RESPONSIBLE_PERSON",
-        data_type="OBJECT",
-        object_code="BAM_PERSON",
-        property_label="BAM Responsible Persons",
-        description="The BAM persons responsible for the sample.",
-        mandatory=False,
-        section="Sample Details",
-        multivalued=True,
-    )
 
 
 class Material(MaterialEntity):
