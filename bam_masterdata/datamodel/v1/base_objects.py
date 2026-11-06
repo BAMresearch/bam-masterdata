@@ -42,6 +42,16 @@ class Root(ObjectType):
         multivalued=True,
     )
 
+    global_id = PropertyTypeAssignment(
+        code="GLOBAL_ID",
+        data_type="VARCHAR",
+        property_label="Global ID",
+        description="Immutable global ID to identify the object and that can be used, for example, to generate barcodes or QR codes.",
+        mandatory=False,
+        show_in_edit_views=False,
+        section="General Information",
+    )
+
     hash = PropertyTypeAssignment(
         code="HASH",
         data_type="VARCHAR",
