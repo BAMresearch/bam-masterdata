@@ -122,12 +122,11 @@ def test_inheritance_edges_have_no_cardinality():
 
 def test_v1_property_origins():
     schema = export_schema("v1")
-    instrument = next(node for node in schema.nodes if node.id == "INSTRUMENT")
+    computation = next(node for node in schema.nodes if node.id == "COMPUTATION")
 
-    assert instrument.property_origins["$NAME"] == "ROOT"
-    assert instrument.property_origins["MANUFACTURER"] == "PHYSICAL_OBJECT"
-    assert instrument.property_origins["SERIAL_NUMBER"] == "DEVICE"
-    assert instrument.property_origins["LAST_CALIBRATION"] == "INSTRUMENT"
+    assert computation.property_origins["$NAME"] == "ROOT"
+    assert computation.property_origins["START_DATE"] == "ACTIVITY"
+    assert computation.property_origins["SOFTWARE"] == "COMPUTATION"
 
 
 @pytest.mark.parametrize("version", ["v0", "v1"])
