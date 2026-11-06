@@ -373,6 +373,19 @@ function ObjectDetails({
     (edge) => edge.type === "object_reference",
   );
 
+  const groupedProperties = node.properties.reduce<
+    Record<string, typeof node.properties>
+  >((groups, property) => {
+    const section = property.section || "General Information";
+
+    if (!groups[section]) {
+      groups[section] = [];
+    }
+
+    groups[section].push(property);
+    return groups;
+  }, {});
+
   return (
     <div className="object-details">
       <div className="details-header">
@@ -414,48 +427,90 @@ function ObjectDetails({
           <span className="count-badge">{node.properties.length}</span>
         </div>
 
-        <div className="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>Property</th>
-                <th>Description</th>
-                <th>Data type</th>
-                <th>Reference</th>
-                <th>Required</th>
-                <th>Multiple</th>
-              </tr>
-            </thead>
-            <tbody>
-              {node.properties.map((property) => (
-                <tr key={property.code}>
-                  <td>
-                    <strong>{property.property_label || property.code}</strong>
-                    <small>{property.code}</small>
-                    {property.units && <small>Units: {property.units}</small>}
-                  </td>
+        <div className="property-sections">
+          {Object.entries(groupedProperties).map(([section, properties]) => (
+            <details
+              key={`${node.id}-${section}`}
+              className="property-section"
+              open
+            >
+              <summary>
+                <strong>{section}</strong>
+                <span className="count-badge">{properties.length}</span>
+              </summary>
 
-                  <td className="property-description">
-                    {property.description || "—"}
-                  </td>
+              <div className="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Property</th>
+                      <th>Description</th>
+                      <th>Data type</th>
+                      <th>Reference</th>
+                      <th>Required</th>
+                      <th>Multiple</th>
+                    </tr>
+                  </thead>
 
-                  <td>
-                    <span className="datatype-badge">
-                      {property.data_type}
-                    </span>
-                  </td>
+                  <tbody>
+                    {properties.map((property) => {
+                      const origin = node.property_origins?.[property.code];
+                      const inherited =
+                        origin !== undefined && origin !== node.id;
 
-                  <td>
-                    {property.object_code || property.vocabulary_code || "—"}
-                  </td>
+                      return (
+                        <tr
+                          key={property.code}
+                          className={inherited ? "inherited-property" : ""}
+                        >
+                          <td>
+                            <strong>
+                              {property.property_label || property.code}
+                            </strong>
 
-                  <td>{property.mandatory ? "Yes" : "No"}</td>
+                            <small>{property.code}</small>
 
-                  <td>{property.multivalued ? "Yes" : "No"}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                            {inherited && (
+                              <small
+                                className="inherited-label"
+                                title={`Defined in ${origin}`}
+                              >
+                                Inherited from {origin}
+                              </small>
+                            )}
+
+                            {property.units && (
+                              <small>Units: {property.units}</small>
+                            )}
+                          </td>
+
+                          <td className="property-description">
+                            {property.description || "—"}
+                          </td>
+
+                          <td>
+                            <span className="datatype-badge">
+                              {property.data_type}
+                            </span>
+                          </td>
+
+                          <td>
+                            {property.object_code ||
+                              property.vocabulary_code ||
+                              "—"}
+                          </td>
+
+                          <td>{property.mandatory ? "Yes" : "No"}</td>
+
+                          <td>{property.multivalued ? "Yes" : "No"}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </details>
+          ))}
         </div>
       </section>
 
@@ -463,7 +518,7 @@ function ObjectDetails({
         <div className="section-title">
           <h3>
             Relationships
-           <RelationshipHelp />
+            <RelationshipHelp />
           </h3>
 
           <span className="count-badge">{relationships.length}</span>
