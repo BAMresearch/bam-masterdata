@@ -135,118 +135,6 @@ class Document(Context):
     # DOCUMENT_LINK
 
 
-class InventoryInformation(Context):
-    defs = ObjectTypeDef(
-        code="INVENTORY_INFORMATION",
-        description="An InventoryInformation is context that represents information about the storage, supply, "
-        "availability, identification, or inventory state of an entity.",
-        generated_code_prefix="INV_INFO",
-    )
-
-    manufacturer = PropertyTypeAssignment(
-        code="MANUFACTURER",
-        data_type="VARCHAR",
-        property_label="Manufacturer",
-        description="Organization that manufactured the item.",
-        mandatory=False,
-        section="Supply Information",
-        prev_versions=["MANUFACTURER:v0"],
-    )
-
-    supplier = PropertyTypeAssignment(
-        code="SUPPLIER",
-        data_type="VARCHAR",
-        property_label="Supplier",
-        description="Organization that supplied the item.",
-        mandatory=False,
-        section="Supply Information",
-        prev_versions=["SUPPLIER:v0"],
-    )
-
-    lot_number = PropertyTypeAssignment(
-        code="LOT_NUMBER",
-        data_type="VARCHAR",
-        property_label="Lot number",
-        description="Manufacturer or supplier batch/lot identifier.",
-        mandatory=False,
-        section="Supply Information",
-        prev_versions=["LOT_NUMBER:v0"],
-    )
-
-    location = PropertyTypeAssignment(
-        code="LOCATION",
-        data_type="OBJECT",
-        object_code="LOCATION",
-        property_label="Location",
-        description="Current physical location of the inventory item.",
-        mandatory=False,
-        section="Inventory Details",
-    )
-
-    responsible_persons = PropertyTypeAssignment(
-        code="RESPONSIBLE_PERSON",
-        data_type="OBJECT",
-        object_code="PERSON",
-        property_label="Responsible person",
-        description="Persons responsible for the inventory item.",
-        mandatory=False,
-        multivalued=True,
-        section="Inventory Details",
-        prev_versions=["RESPONSIBLE_PERSON:v0"],
-    )
-
-    date_bottling = PropertyTypeAssignment(
-        code="DATE_BOTTLING",
-        data_type="DATE",
-        property_label="Bottling date",
-        description="Date on which the material was bottled.",
-        mandatory=False,
-        section="Inventory Details",
-        prev_versions=["DATE_BOTTLING:v0"],
-    )
-
-    date_opening = PropertyTypeAssignment(
-        code="DATE_OPENING",
-        data_type="DATE",
-        property_label="Opening date",
-        description="Date on which the container was first opened.",
-        mandatory=False,
-        section="Inventory Details",
-        prev_versions=["DATE_OPENING:v0"],
-    )
-
-    date_expiration = PropertyTypeAssignment(
-        code="DATE_EXPIRATION",
-        data_type="DATE",
-        property_label="Expiration date",
-        description="Date after which the material should not be used.",
-        mandatory=False,
-        section="Inventory Details",
-        prev_versions=["DATE_EXPIRATION:v0"],
-    )
-
-    is_empty = PropertyTypeAssignment(
-        code="IS_EMPTY",
-        data_type="BOOLEAN",
-        property_label="Is empty",
-        description="Whether the inventory item has been depleted.",
-        mandatory=False,
-        section="Inventory Details",
-        prev_versions=["SUBSTANCE_EMPTY:v0"],
-    )
-
-    barcode = PropertyTypeAssignment(
-        code="BARCODE",
-        data_type="VARCHAR",
-        property_label="Barcode",
-        description="Identifier encoded in a barcode or QR code label "
-        "used to identify the object.",
-        mandatory=False,
-        section="Inventory Details",
-        prev_versions=["BARCODE_EXTERNAL:v0"],
-    )
-
-
 class Location(Entity):
     defs = ObjectTypeDef(
         code="LOCATION",
@@ -275,15 +163,56 @@ class MaterialEntity(Entity):
         iri=["http://purl.obolibrary.org/obo/BFO_0000040"],
     )
 
-    barcode = PropertyTypeAssignment(
-        code="BARCODE",
+    manufacturer = PropertyTypeAssignment(
+        code="MANUFACTURER",
         data_type="VARCHAR",
-        property_label="Barcode",
-        description="Identifier encoded in a barcode or QR code label "
-        "used to identify the object.",
+        property_label="Manufacturer",
+        description="Organization that manufactured the item.",
         mandatory=False,
-        section="General Information",
-        prev_versions=["BARCODE_EXTERNAL:v0"],
+        section="Inventory Details",
+        prev_versions=["MANUFACTURER:v0"],
+    )
+
+    supplier = PropertyTypeAssignment(
+        code="SUPPLIER",
+        data_type="VARCHAR",
+        property_label="Supplier",
+        description="Organization that supplied the item.",
+        mandatory=False,
+        section="Inventory Details",
+        prev_versions=["SUPPLIER:v0"],
+    )
+
+    lot_number = PropertyTypeAssignment(
+        code="LOT_NUMBER",
+        data_type="VARCHAR",
+        property_label="Lot number",
+        description="Manufacturer or supplier batch/lot identifier.",
+        mandatory=False,
+        section="Inventory Details",
+        prev_versions=["LOT_NUMBER:v0"],
+    )
+
+    location = PropertyTypeAssignment(
+        code="LOCATION",
+        data_type="OBJECT",
+        object_code="LOCATION",
+        property_label="Location",
+        description="Current physical location of the inventory item.",
+        mandatory=False,
+        section="Inventory Details",
+    )
+
+    responsible_persons = PropertyTypeAssignment(
+        code="RESPONSIBLE_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON",
+        property_label="Responsible person",
+        description="Persons responsible for the inventory item.",
+        mandatory=False,
+        multivalued=True,
+        section="Inventory Details",
+        prev_versions=["RESPONSIBLE_PERSON:v0"],
     )
 
 
@@ -295,6 +224,8 @@ class Organism(MaterialEntity):
         generated_code_prefix="ORGANI",
         prev_versions=["ORGANISM:v0"],
     )
+
+    # TODO add `ignore` to avoid useless Inventory Details properties for Organism-derived types
 
 
 class Animal(Organism):
@@ -440,26 +371,6 @@ class Device(MaterialEntity):
         iri=["https://w3id.org/pmd/co/PMD_0000602"],
     )
 
-    manufacturer = PropertyTypeAssignment(
-        code="MANUFACTURER",
-        data_type="VARCHAR",
-        property_label="Manufacturer",
-        description="Organization that manufactured the device.",
-        mandatory=False,
-        section="Device Details",
-        prev_versions=["MANUFACTURER:v0"],
-    )
-
-    supplier = PropertyTypeAssignment(
-        code="SUPPLIER",
-        data_type="VARCHAR",
-        property_label="Supplier",
-        description="Organization that supplied the device.",
-        mandatory=False,
-        section="Device Details",
-        prev_versions=["SUPPLIER:v0"],
-    )
-
     device_model_name = PropertyTypeAssignment(
         code="DEVICE_MODEL_NAME",
         data_type="VARCHAR",
@@ -488,28 +399,6 @@ class Device(MaterialEntity):
         mandatory=False,
         section="Device Details",
         prev_versions=["MAC_ADDRESS:v0"],
-    )
-
-    location = PropertyTypeAssignment(
-        code="LOCATION",
-        data_type="OBJECT",
-        object_code="LOCATION",
-        property_label="Location",
-        description="Current physical location of the device.",
-        mandatory=False,
-        section="Inventory Details",
-    )
-
-    responsible_persons = PropertyTypeAssignment(
-        code="RESPONSIBLE_PERSON",
-        data_type="OBJECT",
-        object_code="PERSON",
-        property_label="Responsible persons",
-        description="Persons responsible for the device.",
-        mandatory=False,
-        multivalued=True,
-        section="Inventory Details",
-        prev_versions=["RESPONSIBLE_PERSON:v0"],
     )
 
     device_status = PropertyTypeAssignment(
@@ -595,47 +484,6 @@ class Sample(MaterialEntity):
         mandatory=True,
         section="Sample Details",
         prev_versions=["SAMPLE_ID:v0"],
-    )
-
-    manufacturer = PropertyTypeAssignment(
-        code="MANUFACTURER",
-        data_type="VARCHAR",
-        property_label="Manufacturer",
-        description="Organization that manufactured the item.",
-        mandatory=False,
-        section="Sample Details",
-        prev_versions=["MANUFACTURER:v0"],
-    )
-
-    supplier = PropertyTypeAssignment(
-        code="SUPPLIER",
-        data_type="VARCHAR",
-        property_label="Supplier",
-        description="Organization that supplied the item.",
-        mandatory=False,
-        section="Sample Details",
-        prev_versions=["SUPPLIER:v0"],
-    )
-
-    location = PropertyTypeAssignment(
-        code="LOCATION",
-        data_type="OBJECT",
-        object_code="LOCATION",
-        property_label="Location",
-        description="Current physical location of the inventory item.",
-        mandatory=False,
-        section="Sample Details",
-    )
-
-    responsible_persons = PropertyTypeAssignment(
-        code="RESPONSIBLE_PERSON",
-        data_type="OBJECT",
-        object_code="PERSON",
-        property_label="Responsible Persons",
-        description="The persons responsible for the sample.",
-        mandatory=False,
-        section="Sample Details",
-        multivalued=True,
     )
 
     # Properties from v0 that need to be migrated to v1 (from SAMPLE:v0):
@@ -837,6 +685,46 @@ class Chemical(MaterialEntity):
         mandatory=False,
         section="Chemical Properties",
         prev_versions=["MASS_MOLAR:v0"],
+    )
+
+    date_bottling = PropertyTypeAssignment(
+        code="DATE_BOTTLING",
+        data_type="DATE",
+        property_label="Bottling date",
+        description="Date on which the material was bottled.",
+        mandatory=False,
+        section="Inventory Details",
+        prev_versions=["DATE_BOTTLING:v0"],
+    )
+
+    date_opening = PropertyTypeAssignment(
+        code="DATE_OPENING",
+        data_type="DATE",
+        property_label="Opening date",
+        description="Date on which the container was first opened.",
+        mandatory=False,
+        section="Inventory Details",
+        prev_versions=["DATE_OPENING:v0"],
+    )
+
+    date_expiration = PropertyTypeAssignment(
+        code="DATE_EXPIRATION",
+        data_type="DATE",
+        property_label="Expiration date",
+        description="Date after which the material should not be used.",
+        mandatory=False,
+        section="Inventory Details",
+        prev_versions=["DATE_EXPIRATION:v0"],
+    )
+
+    is_empty = PropertyTypeAssignment(
+        code="IS_EMPTY",
+        data_type="BOOLEAN",
+        property_label="Is empty",
+        description="Whether the inventory item has been depleted.",
+        mandatory=False,
+        section="Inventory Details",
+        prev_versions=["SUBSTANCE_EMPTY:v0"],
     )
 
     # Properties from v0 that need to be migrated to v1 (from CHEMICAL:v0):

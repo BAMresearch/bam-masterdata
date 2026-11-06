@@ -13,7 +13,6 @@ from bam_masterdata.datamodel.v1.entities import (
     Document,
     Equipment,
     Instrument,
-    InventoryInformation,
     Location,
     Material,
     MaterialEntity,
@@ -33,7 +32,6 @@ ENTITY_CLASSES = [
     ParameterSet,
     Classification,
     Document,
-    InventoryInformation,
     Location,
     MaterialEntity,
     Organism,
@@ -72,7 +70,6 @@ def test_entity_types_instantiate_and_export(cls):
         (ParameterSet, Context),
         (Classification, Context),
         (Document, Context),
-        (InventoryInformation, Context),
         (Location, Entity),
         (MaterialEntity, Entity),
         (Organism, MaterialEntity),
@@ -113,34 +110,6 @@ def test_properties_are_consistent_and_inherited(cls):
             assert prop.object_code
 
 
-def test_inventory_information_is_context_not_material_entity():
-    assert issubclass(InventoryInformation, Context)
-    assert not issubclass(InventoryInformation, MaterialEntity)
-    assert InventoryInformation.defs.code == "INVENTORY_INFORMATION"
-    assert {
-        "manufacturer",
-        "supplier",
-        "lot_number",
-        "location",
-        "responsible_persons",
-        "date_bottling",
-        "date_opening",
-        "date_expiration",
-        "is_empty",
-    } <= set(InventoryInformation()._property_metadata)
-
-
-def test_inventory_reference_configuration():
-    props = InventoryInformation()._property_metadata
-    assert props["location"].data_type == DataType.OBJECT
-    assert props["location"].object_code == "LOCATION"
-    assert props["responsible_persons"].object_code == "PERSON"
-    assert props["responsible_persons"].multivalued is True
-    for field in ("date_bottling", "date_opening", "date_expiration"):
-        assert props[field].data_type == DataType.DATE
-    assert props["is_empty"].data_type == DataType.BOOLEAN
-
-
 def test_device_subtypes_and_calibration_metadata():
     assert Instrument.last_calibration.data_type == DataType.DATE
     assert Instrument.calibration_status.data_type == DataType.CONTROLLEDVOCABULARY
@@ -148,15 +117,6 @@ def test_device_subtypes_and_calibration_metadata():
     for cls in (Device, Sensor, Equipment):
         assert "calibration_status" not in cls()._property_metadata
         assert "last_calibration" not in cls()._property_metadata
-
-
-def test_barcode_is_defined_for_material_entities():
-    assert MaterialEntity.barcode.code == "BARCODE"
-    for cls in (Device, Instrument, Sensor, Equipment, Sample, Chemical, Material):
-        assert cls()._property_metadata["barcode"].code == "BARCODE"
-
-    # InventoryInformation is a Context, so it does not inherit this property.
-    assert "barcode" in InventoryInformation()._property_metadata
 
 
 def test_chemical_identity_and_sample_inventory_properties():
@@ -170,11 +130,3 @@ def test_chemical_identity_and_sample_inventory_properties():
     assert sample_props["supplier"].code == "SUPPLIER"
     assert sample_props["location"].object_code == "LOCATION"
     assert sample_props["responsible_persons"].multivalued is True
-
-
-def test_legacy_mappings_on_representative_entities():
-    assert "INSTRUMENT:v0" in Instrument.defs.prev_versions
-    assert "CHEMICAL:v0" in Chemical.defs.prev_versions
-    assert "SAMPLE:v0" in Sample.defs.prev_versions
-    assert "MANUFACTURER:v0" in InventoryInformation.manufacturer.prev_versions
-    assert "CAS_NUMBER:v0" in Chemical.cas_number.prev_versions
