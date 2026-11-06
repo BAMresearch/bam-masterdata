@@ -141,7 +141,7 @@ class Location(Entity):
         description="A Location is an entity that specifies a physical or spatial place, which can be used to "
         "describe where an entity is located or where an activity takes place.",
         generated_code_prefix="LOCAT",
-        iri=["http://purl.obolibrary.org/obo/BFO_0000030"],
+        iri=["http://purl.obolibrary.org/obo/BFO_0000029"],
     )
 
     coordinates = PropertyTypeAssignment(
@@ -161,58 +161,6 @@ class MaterialEntity(Entity):
         "continuant part, and persists through time while possibly gaining or losing parts.",
         generated_code_prefix="MAT_ENT",
         iri=["http://purl.obolibrary.org/obo/BFO_0000040"],
-    )
-
-    manufacturer = PropertyTypeAssignment(
-        code="MANUFACTURER",
-        data_type="VARCHAR",
-        property_label="Manufacturer",
-        description="Organization that manufactured the item.",
-        mandatory=False,
-        section="Inventory Details",
-        prev_versions=["MANUFACTURER:v0"],
-    )
-
-    supplier = PropertyTypeAssignment(
-        code="SUPPLIER",
-        data_type="VARCHAR",
-        property_label="Supplier",
-        description="Organization that supplied the item.",
-        mandatory=False,
-        section="Inventory Details",
-        prev_versions=["SUPPLIER:v0"],
-    )
-
-    lot_number = PropertyTypeAssignment(
-        code="LOT_NUMBER",
-        data_type="VARCHAR",
-        property_label="Lot number",
-        description="Manufacturer or supplier batch/lot identifier.",
-        mandatory=False,
-        section="Inventory Details",
-        prev_versions=["LOT_NUMBER:v0"],
-    )
-
-    location = PropertyTypeAssignment(
-        code="LOCATION",
-        data_type="OBJECT",
-        object_code="LOCATION",
-        property_label="Location",
-        description="Current physical location of the inventory item.",
-        mandatory=False,
-        section="Inventory Details",
-    )
-
-    responsible_persons = PropertyTypeAssignment(
-        code="RESPONSIBLE_PERSON",
-        data_type="OBJECT",
-        object_code="PERSON",
-        property_label="Responsible person",
-        description="Persons responsible for the inventory item.",
-        mandatory=False,
-        multivalued=True,
-        section="Inventory Details",
-        prev_versions=["RESPONSIBLE_PERSON:v0"],
     )
 
 
@@ -363,10 +311,72 @@ class BAMPerson(Person):
     )
 
 
-class Device(MaterialEntity):
+class PhysicalObject(MaterialEntity):
+    defs = ObjectTypeDef(
+        code="PHYSICAL_OBJECT",
+        description="A PhysicalObject is a material entity that is identified, handled, stored, or "
+        "managed as a distinct physical item in a scientific or technical context.",
+        generated_code_prefix="PHYS_OBJ",
+        iri=["http://purl.obolibrary.org/obo/BFO_0000030"],
+    )
+
+    manufacturer = PropertyTypeAssignment(
+        code="MANUFACTURER",
+        data_type="VARCHAR",
+        property_label="Manufacturer",
+        description="Organization that manufactured the item.",
+        mandatory=False,
+        section="Inventory Details",
+        prev_versions=["MANUFACTURER:v0"],
+    )
+
+    supplier = PropertyTypeAssignment(
+        code="SUPPLIER",
+        data_type="VARCHAR",
+        property_label="Supplier",
+        description="Organization that supplied the item.",
+        mandatory=False,
+        section="Inventory Details",
+        prev_versions=["SUPPLIER:v0"],
+    )
+
+    lot_number = PropertyTypeAssignment(
+        code="LOT_NUMBER",
+        data_type="VARCHAR",
+        property_label="Lot number",
+        description="Manufacturer or supplier batch/lot identifier.",
+        mandatory=False,
+        section="Inventory Details",
+        prev_versions=["LOT_NUMBER:v0"],
+    )
+
+    location = PropertyTypeAssignment(
+        code="LOCATION",
+        data_type="OBJECT",
+        object_code="LOCATION",
+        property_label="Location",
+        description="Current physical location of the inventory item.",
+        mandatory=False,
+        section="Inventory Details",
+    )
+
+    responsible_persons = PropertyTypeAssignment(
+        code="RESPONSIBLE_PERSON",
+        data_type="OBJECT",
+        object_code="PERSON",
+        property_label="Responsible person",
+        description="Persons responsible for the inventory item.",
+        mandatory=False,
+        multivalued=True,
+        section="Inventory Details",
+        prev_versions=["RESPONSIBLE_PERSON:v0"],
+    )
+
+
+class Device(PhysicalObject):
     defs = ObjectTypeDef(
         code="DEVICE",
-        description="A Device is a material entity that is designed and/or used to perform a technical function.",
+        description="A Device is a physical object that is designed and/or used to perform a technical function.",
         generated_code_prefix="DEVIC",
         iri=["https://w3id.org/pmd/co/PMD_0000602"],
     )
@@ -470,7 +480,7 @@ class Equipment(Device):
 class Sample(MaterialEntity):
     defs = ObjectTypeDef(
         code="SAMPLE",
-        description="A Sample is a material entity that is identified and treated as a discrete unit as input "
+        description="A Sample is a physical object that is identified and treated as a discrete unit as input "
         "and/or output in the context of a scientific activity.",
         generated_code_prefix="SAMP",
         prev_versions=["AUXILIARY_MATERIAL:v0", "SAMPLE:v0"],
@@ -498,7 +508,7 @@ class Sample(MaterialEntity):
 class Material(MaterialEntity):
     defs = ObjectTypeDef(
         code="MATERIAL",
-        description="A Material is a material entity that is composed of a physical substance or "
+        description="A Material is a physical object that is composed of a physical substance or "
         "mixture of substances and that is characterized primarily by its composition, structure, "
         "and resulting properties for use, production, study, or processing in a scientific, technical, "
         "or industrial context.",
@@ -549,7 +559,7 @@ class Material(MaterialEntity):
 class Chemical(MaterialEntity):
     defs = ObjectTypeDef(
         code="CHEMICAL",
-        description="A Chemical is a material entity that is composed of one or more chemical substances "
+        description="A Chemical is a physical object that is composed of one or more chemical substances "
         "and is identified, used, produced, studied, or managed primarily according to its chemical "
         "composition or chemical identity.",
         generated_code_prefix="CHEM",
