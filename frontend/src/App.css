@@ -865,3 +865,47 @@ td small {
   color: var(--text-muted);
   font-size: 11px;
 }
+
+.property-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.property-section {
+  border: 1px solid var(--bam-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.property-section > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #eef3f5;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.property-section > summary:hover {
+  background: #e5f4f9;
+}
+
+.property-section > summary::marker {
+  content: "";
+}
+
+.property-section > summary::before {
+  content: "▶";
+  font-size: 10px;
+  margin-right: 10px;
+}
+
+.property-section[open] > summary::before {
+  content: "▼";
+}
+
+.property-section > summary strong {
+  flex: 1;
+}
