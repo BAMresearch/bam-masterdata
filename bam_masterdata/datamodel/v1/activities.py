@@ -10,12 +10,12 @@ from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssig
 #   Activity                        (see `base_objects.py`)
 #   ├── Computation
 #   │   ├── Analysis
-#   │   │   └── CreepTestDataProcessing
-#   │   ├── SimulationAnalysis
-#   │   │   ├── LocalOrbitalBondingAnalysis
-#   │   │   ├── ProjectionQualityAssessment
-#   │   │   ├── BondingEnvironmentAnalysis
-#   │   │   └── EquationOfStateFit
+#   │   │   ├── CreepTestDataProcessing
+#   │   │   └── SimulationAnalysis
+#   │   │       ├── LocalOrbitalBondingAnalysis
+#   │   │       ├── ProjectionQualityAssessment
+#   │   │       ├── BondingEnvironmentAnalysis
+#   │   │       └── EquationOfStateFit
 #   │   └── Simulation
 #   │       └── AtomisticSimulation
 #   │           ├── SinglePointCalculation
@@ -657,7 +657,7 @@ class MolecularDynamics(AtomisticSimulation):
 # All analyses of one chain have the same ANALYSED_SYSTEM: the system of the static SinglePointCalculation.
 
 
-class SimulationAnalysis(Computation):
+class SimulationAnalysis(Analysis):
     defs = ObjectTypeDef(
         code="SIMULATION_ANALYSIS",
         description="A SimulationAnalysis is an analysis that derives information from the results of one or more "
