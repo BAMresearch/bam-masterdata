@@ -72,7 +72,6 @@ class Analysis(Computation):
         description="An Analysis is a computation that examines one or more existing inputs to derive "
         "information, properties, parameters, or other outputs.",
         generated_code_prefix="ANALY",
-        iri=["https://w3id.org/pmd/co/PMD_0025012"],
     )
 
     primary_data_series = PropertyTypeAssignment(
