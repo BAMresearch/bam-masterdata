@@ -49,8 +49,7 @@ class DataType(StrEnum):
 
 
 _UNIT_REGISTRY = UnitRegistry()
-_UNIT_LABEL_PATTERN = re.compile(r"\[[^\]]+\]")
-_UNIT_SUFFIX_PATTERN = re.compile(r"\bin \[[^\]]+\]")
+_UNIT_SUFFIX_PATTERN = re.compile(r" in \[([^\[\]]+)\]$")
 _EXCEL_NAME_MAP = {
     "CollectionTypeDef": "EXPERIMENT_TYPE",
     "DatasetTypeDef": "DATASET_TYPE",
@@ -564,14 +563,12 @@ class PropertyTypeDef(EntityDef):
         return _combine_translations(self.property_label, self.property_label_de)
 
     @model_validator(mode="after")
-    @classmethod
-    def apply_units_to_property_label(cls, data: Any) -> Any:
+    def apply_units_to_property_label(self) -> Any:
         """
-        Enforce the `in [units]` suffix in `property_label` when units are provided.
+        Ensure that property labels and declared units are consistent.
 
-        If the label already contains a bracketed unit, it must include the
-        exact `in [units]` format or validation fails. Otherwise, the suffix
-        is appended.
+        Append the `units` suffix when missing with `"in [units]"` format. If already present,
+        validate its format and equivalence with the declared units.
 
         Args:
             data (Any): The data containing the fields values to validate.
@@ -582,15 +579,38 @@ class PropertyTypeDef(EntityDef):
         Raises:
             ValueError: If a bracketed unit exists without the `in [units]` suffix.
         """
-        if data.units:
-            if _UNIT_LABEL_PATTERN.search(data.property_label):
-                if not _UNIT_SUFFIX_PATTERN.search(data.property_label):
-                    raise ValueError(
-                        "property_label with units must include 'in [units]'"
-                    )
-            else:
-                data.property_label += f" in [{data.units}]"
-        return data
+        if not self.units:
+            return self
+
+        if "[" in self.property_label or "]" in self.property_label:
+            match = _UNIT_SUFFIX_PATTERN.search(self.property_label)
+
+            if (
+                not match
+                or self.property_label.count("[") != 1
+                or self.property_label.count("]") != 1
+            ):
+                raise ValueError("property_label with units must end with 'in [units]'")
+
+            label_units = match.group(1)
+
+            try:
+                parsed_units = _UNIT_REGISTRY.Unit(label_units)
+            except (UndefinedUnitError, DefinitionSyntaxError) as exc:
+                raise ValueError(
+                    f"Invalid units '{label_units}' in property_label"
+                ) from exc
+
+            if parsed_units != _UNIT_REGISTRY.Unit(self.units):
+                raise ValueError(
+                    f"Unit mismatch for property '{self.code}': "
+                    f"property_label declares '{label_units}', "
+                    f"but units='{self.units}'."
+                )
+        else:
+            self.property_label += f" in [{self.units}]"
+
+        return self
 
 
 class PropertyTypeAssignment(PropertyTypeDef):

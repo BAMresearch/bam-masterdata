@@ -1110,8 +1110,7 @@ class Experiment(Activity):
         data_type="OBJECT",
         object_code="LOCATION",
         property_label="Location",
-        description="Physical location where the experiment is performed, such as a laboratory, experimental "
-        "facility, or field site.",
+        description="Physical location.",
         mandatory=False,
         section="Experiment Details",
     )

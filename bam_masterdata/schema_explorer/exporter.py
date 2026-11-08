@@ -1,8 +1,10 @@
-import json
 from pathlib import Path
 
 from bam_masterdata.checker.schema_validator import get_object_types
-from bam_masterdata.metadata.definitions import ObjectTypeDef
+from bam_masterdata.metadata.definitions import (
+    ObjectTypeDef,
+    PropertyTypeAssignment,
+)
 from bam_masterdata.metadata.entities import ObjectType
 from bam_masterdata.schema_explorer.models import (
     SchemaEdge,
@@ -33,12 +35,23 @@ def export_schema(version: str) -> SchemaExport:
         instance = cls()
         definition = instance.model_to_dict()
 
+        # Extract which class the property originates from (inherited or defined)
+        property_origins = {}
+        for base in cls.__mro__:
+            if base is ObjectType:
+                break
+
+            for value in base.__dict__.values():
+                if isinstance(value, PropertyTypeAssignment):
+                    property_origins.setdefault(value.code, base.defs.code)
+
         node = SchemaNode(
             id=cls.defs.code,
             name=cls.__name__,
             description=cls.defs.description,
             iri=cls.defs.iri or [],
             properties=definition["properties"],
+            property_origins=property_origins,
         )
         nodes.append(node)
 

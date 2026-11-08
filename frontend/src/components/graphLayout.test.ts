@@ -11,6 +11,7 @@ function node(id: string): SchemaNode {
     description: "",
     iri: [],
     properties: [],
+    property_origins: {},
   };
 }
 

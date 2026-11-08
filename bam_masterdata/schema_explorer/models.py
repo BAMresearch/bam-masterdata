@@ -15,6 +15,7 @@ class SchemaNode(BaseModel):
     iri: list[str] = Field(default_factory=list)
 
     properties: list[PropertyTypeAssignment] = Field(default_factory=list)
+    property_origins: dict[str, str] = Field(default_factory=dict)
 
 
 class SchemaEdge(BaseModel):
