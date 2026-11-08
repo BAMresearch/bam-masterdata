@@ -69,6 +69,8 @@ def format_hierarchy(hierarchy: dict[str, list[str]]) -> str:
             )
 
     for root in roots:
+        if lines:
+            lines.append("")
         render(root)
 
     return "\n".join(f"# {line}" for line in lines)
