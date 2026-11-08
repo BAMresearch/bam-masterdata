@@ -1,19 +1,3 @@
-# AUTO-GENERATED CLASS HIERARCHY — DO NOT EDIT
-#
-# Computation
-# ├── Analysis
-# │   └── CreepTestDataProcessing
-# └── Simulation
-#
-# Experiment
-# ├── Processing
-# ├── Measurement
-# ├── Calibration
-# ├── Synthesis
-# └── Test
-#
-# END AUTO-GENERATED CLASS HIERARCHY
-
 from bam_masterdata.datamodel.v1.base_objects import Activity
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
 

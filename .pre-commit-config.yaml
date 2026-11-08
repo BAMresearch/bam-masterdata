@@ -39,3 +39,9 @@ repos:
         entry: python tools/precommit/forbid_vocabularies.py
         language: python
         files: ^bam_masterdata/datamodel/v0/vocabulary_types\.py$
+      - id: generate-class-hierarchy-comments
+        name: Generate class hierarchy comments
+        entry: uv run python tools/scripts/generate_class_hierarchy_comments.py --write
+        language: system
+        files: ^(bam_masterdata/datamodel/v1/.*\.py|tools/scripts/generate_class_hierarchy_comments\.py)$
+        pass_filenames: false
