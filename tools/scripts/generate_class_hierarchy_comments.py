@@ -73,7 +73,7 @@ def format_hierarchy(hierarchy: dict[str, list[str]]) -> str:
             lines.append("")
         render(root)
 
-    return "\n".join(f"# {line}" for line in lines)
+    return "\n".join(f"# {line}" if line else "#" for line in lines)
 
 
 def update_hierarchy_comments(source: str) -> str:
