@@ -1,18 +1,21 @@
 from bam_masterdata.datamodel.v1.base_objects import Activity
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
 
+# IRI convention: object type iri = exact match of the class;
+# property iri = class of the quantity the value is an instance of;
+# vocabulary term iri = the individual of the vocabulary's class.
+
 # Hierarchy of the Activity branch of datamodel/v1:
 
 #   Activity                        (see `base_objects.py`)
 #   ├── Computation
 #   │   ├── Analysis
-#   │   │   ├── CreepTestDataProcessing
-#   │   │   └── SimulationAnalysis
-#   │   │       ├── OrbitalProjection
-#   │   │       ├── ProjectionQualityAssessment
-#   │   │       ├── ChemicalBondingAnalysis
-#   │   │       ├── BondingEnvironmentAnalysis
-#   │   │       └── EquationOfStateFit
+#   │   │   └── CreepTestDataProcessing
+#   │   ├── SimulationAnalysis
+#   │   │   ├── LocalOrbitalBondingAnalysis
+#   │   │   ├── ProjectionQualityAssessment
+#   │   │   ├── BondingEnvironmentAnalysis
+#   │   │   └── EquationOfStateFit
 #   │   └── Simulation
 #   │       └── AtomisticSimulation
 #   │           ├── SinglePointCalculation
@@ -231,10 +234,11 @@ class Simulation(Computation):
 
 # --- Atomistic simulations ---
 # The kind of process is the object type (single point, geometry optimization, molecular dynamics).
-# The physical model (DFT, force field) is the referenced ComputationalMethod (COMPUTATIONAL_METHOD), so ab initio
+# The physical model (DFT, interatomic potential) is the referenced ComputationalMethod (COMPUTATIONAL_METHOD), so ab initio
 # MD is a MolecularDynamics with a DFT ComputationalMethod and ElectronicStructureParameters.
-# Input parameters are InputSpecification objects referenced by the activity; result values are properties of
-# the activity. The final structure is a SimulatedSystem attached as OUTPUT. Per-atom quantities (positions,
+# Input parameters are ParameterSet objects referenced by the activity; result values are properties of
+# the activity. The initial and final structures are SimulatedSystems referenced by INITIAL_SYSTEM and
+# FINAL_SYSTEM. Per-atom quantities (positions,
 # velocities, forces; CMSO AtomicPosition, AtomicVelocity, AtomicForce) and trajectories are attached as files.
 
 
@@ -248,6 +252,27 @@ class AtomisticSimulation(Simulation):
         # ATOM_CALC_STRUC_OPT -> GeometryOptimization, ATOM_CALC_MD -> MolecularDynamics
         # (ATOM_CALC_MC and ATOM_CALC_NEB are not modelled yet).
         prev_versions=["PYIRON_JOB.VASP:v0", "PYIRON_JOB.LAMMPS:v0"],
+    )
+
+    initial_system = PropertyTypeAssignment(
+        code="INITIAL_SYSTEM",
+        data_type="OBJECT",
+        object_code="SIMULATED_SYSTEM",
+        property_label="Initial system",
+        description="Simulated system at the start of the simulation.",
+        mandatory=False,
+        section="Simulated Systems",
+    )
+
+    final_system = PropertyTypeAssignment(
+        code="FINAL_SYSTEM",
+        data_type="OBJECT",
+        object_code="SIMULATED_SYSTEM",
+        property_label="Final system",
+        description="Simulated system at the end of the simulation, such as the relaxed structure or the last "
+        "configuration of a molecular dynamics run.",
+        mandatory=False,
+        section="Simulated Systems",
     )
 
     electronic_structure_parameters = PropertyTypeAssignment(
@@ -297,22 +322,24 @@ class AtomisticSimulation(Simulation):
         prev_versions=["ATOM_FIN_FNORM_IN_EV_A:v0"],
     )
 
-    pressure = PropertyTypeAssignment(
-        code="PRESSURE",
+    # With a tensile-positive stress tensor sigma this is P = -tr(sigma)/3; codes differ in the sign of the stress
+    # they print, so the convention of the source must be checked. VASP prints it in the OUTCAR line external
+    # pressure, in kbar (1 GPa = 10 kbar).
+    final_pressure = PropertyTypeAssignment(
+        code="FINAL_PRESSURE",
         data_type="REAL",
-        property_label="Pressure",
+        property_label="Final pressure",
         units="GPa",
         description="Hydrostatic pressure of the final configuration, with the convention that positive values mean "
-        "the system is compressed and would expand if allowed, and negative values mean it would contract. With a "
-        "tensile-positive stress tensor sigma this is P = -tr(sigma)/3; codes differ in the sign of the stress they "
-        "print, so the convention of the source must be checked. VASP prints it in the OUTCAR line external "
-        "pressure, in kbar (1 GPa = 10 kbar).",
+        "the system is compressed and would expand if allowed, and negative values mean it would contract.",
         mandatory=False,
         section="Results",
         iri=["https://purls.helmholtz-metadaten.de/asmo/Pressure"],
         prev_versions=["ATOM_FIN_PRESS_IN_GPA:v0"],
     )
 
+    # For electronic-structure methods use the specific total energies below, which state their treatment of the
+    # electronic entropy.
     final_potential_energy = PropertyTypeAssignment(
         code="FINAL_POTENTIAL_ENERGY",
         data_type="REAL",
@@ -320,8 +347,7 @@ class AtomisticSimulation(Simulation):
         units="eV",
         description="Potential energy of the final nuclear configuration as given by the referenced computational "
         "method, such as the energy of a force field (LAMMPS: pe). For molecular dynamics, the configuration of the "
-        "last time step. For electronic-structure methods use the specific total energies below, which state their "
-        "treatment of the electronic entropy.",
+        "last time step.",
         mandatory=False,
         section="Results",
         iri=["https://purls.helmholtz-metadaten.de/asmo/PotentialEnergy"],
@@ -392,6 +418,9 @@ class AtomisticSimulation(Simulation):
         section="Electronic Structure Results",
     )
 
+    # Needs manual mapping from ATOM_FIN_TOTMGMO_IN_MUB:v0: v0 stored VARCHAR and also covered noncollinear jobs
+    # (ATOM_NON_COLL_MAG). Migrate only values that parse as a single number from collinear jobs; keep vector or
+    # other text values separately.
     total_magnetic_moment = PropertyTypeAssignment(
         code="TOTAL_MAGNETIC_MOMENT",
         data_type="REAL",
@@ -402,12 +431,6 @@ class AtomisticSimulation(Simulation):
         "noncollinear calculations, whose total moment is a vector; its magnitude must not be stored here.",
         mandatory=False,
         section="Electronic Structure Results",
-        # ASMO TotalMagneticMoment is a vector sum including direction, broader than this collinear scalar
-        # component; the IRI is a broad association.
-        iri=["https://purls.helmholtz-metadaten.de/asmo/TotalMagneticMoment"],
-        # v0 stored VARCHAR and also covered noncollinear jobs (ATOM_NON_COLL_MAG). Migrate only values that parse
-        # as a single number from collinear jobs; keep vector or other text values separately.
-        prev_versions=["ATOM_FIN_TOTMGMO_IN_MUB:v0"],
     )
 
     # Not migrated from v0:
@@ -416,7 +439,7 @@ class AtomisticSimulation(Simulation):
     #   FINAL_TOTAL_ENERGY of MolecularDynamics. For VASP it is unclear which VASP energy pyiron stored: pyiron
     #   vasp/base.py (_vasp_generic_energy_free_affected) shows that legacy HDF version 0.1.0 stored inconsistent
     #   generic energies, so check the HDF version and the raw OUTCAR per job before migrating.
-    # ATOM_FIN_VOL_IN_A3: CELL_VOLUME of the output SimulatedSystem.
+    # ATOM_FIN_VOL_IN_A3: CELL_VOLUME of the SimulatedSystem referenced by FINAL_SYSTEM.
     # PERIODIC_BOUNDARY_X/Y/Z: periodicity belongs to the SimulatedSystem (PERIODIC_A/B/C); x/y/z and a/b/c only
     #   coincide for orthogonal cells aligned with the axes.
 
@@ -459,20 +482,18 @@ class GeometryOptimization(AtomisticSimulation):
         "carried out.",
         mandatory=False,
         section="Results",
-        # Executed count. The same ASMO IRI is on MAX_IONIC_STEPS (a requested maximum); the shared IRI does not make
-        # the two values interchangeable.
         iri=["https://purls.helmholtz-metadaten.de/asmo/NumberOfIonicSteps"],
         prev_versions=["ATOMISTIC_IONIC_STEPS:v0", "ATOM_IONIC_STEPS:v0"],
     )
 
+    # Stopping before the maximum number of ionic steps does not by itself mean convergence, since an optimization
+    # can also stop for other reasons (see OPTIMIZATION_STOP_REASON).
     geometry_converged = PropertyTypeAssignment(
         code="GEOMETRY_CONVERGED",
         data_type="BOOLEAN",
         property_label="Geometry converged",
         description="Whether the final configuration satisfies the convergence criteria of the optimization, "
-        "including when they are met at the last allowed ionic step. Stopping before the maximum number of ionic "
-        "steps does not by itself mean convergence, since an optimization can also stop for other reasons "
-        "(see OPTIMIZATION_STOP_REASON).",
+        "including when they are met at the last allowed ionic step.",
         mandatory=False,
         section="Results",
     )
@@ -518,8 +539,6 @@ class MolecularDynamics(AtomisticSimulation):
         "carried out.",
         mandatory=False,
         section="Results",
-        # Executed count. The same ASMO IRI is on MAX_IONIC_STEPS (a requested maximum); the shared IRI does not make
-        # the two values interchangeable.
         iri=["https://purls.helmholtz-metadaten.de/asmo/NumberOfIonicSteps"],
         prev_versions=["ATOMISTIC_IONIC_STEPS:v0", "ATOM_IONIC_STEPS:v0"],
     )
@@ -610,7 +629,7 @@ class MolecularDynamics(AtomisticSimulation):
 
 
 # --- Analyses of simulation results ---
-# Same pattern as for simulations: parameters are InputSpecification objects referenced by the analysis, result
+# Same pattern as for simulations: parameters are ParameterSet objects referenced by the analysis, result
 # values are properties of the analysis. Two links are kept apart:
 # - Data dependency: the parents of an analysis (openBIS parent-child) are exactly the computations whose outputs
 #   it used, no more and no fewer (PROV: the analysis used their outputs / was informed by them). Parents are used
@@ -624,15 +643,12 @@ class MolecularDynamics(AtomisticSimulation):
 # Orbital-based bonding analysis of plane-wave DFT results (VASP + LOBSTER + LobsterPy, as in the atomate2
 # LobsterTaskDocument). Chain, parent -> child:
 #   SinglePointCalculation (static VASP run)
-#     -> OrbitalProjection                 projection onto a local atomic-orbital basis (LOBSTER)
-#       -> ProjectionQualityAssessment     checks of the projection (LobsterPy)
-#       -> ChemicalBondingAnalysis         COHP / COOP / COBI and Mulliken / Loewdin populations (LOBSTER)
-#         -> BondingEnvironmentAnalysis    relevant bonds and coordination environments (LobsterPy)
-# LOBSTER performs OrbitalProjection and ChemicalBondingAnalysis in one program run. They are kept apart because
-# the projection quality is a property of the projection, and one projection can feed several analyses. Parent
-# links alone do not show that two activities came from the same program run, or which saved projection
-# (LOBSTER saveProjectionToFile / loadProjectionFromFile) was reused: attach the same run files (lobsterout,
-# lobsterin) and the reused projection file to the activities concerned.
+#     -> LocalOrbitalBondingAnalysis    projection + COHP/COOP/COBI + populations (one LOBSTER run)
+#       -> ProjectionQualityAssessment  checks of the projection (LobsterPy)
+#       -> BondingEnvironmentAnalysis   relevant bonds and coordination environments (LobsterPy)
+# Parent links alone do not show which saved projection (LOBSTER saveProjectionToFile / loadProjectionFromFile)
+# was reused: attach the run files (lobsterout, lobsterin) and the reused projection file to the activities
+# concerned.
 # Per-site and per-bond results and energy-resolved curves (COHPCAR, COOPCAR, COBICAR, DOSCAR) are attached as
 # files.
 # Sources: atomate2 / emmet LobsterTaskDocument and LobsterPy source; Maintz et al., J. Comput. Chem. 37, 1030
@@ -641,7 +657,7 @@ class MolecularDynamics(AtomisticSimulation):
 # All analyses of one chain have the same ANALYSED_SYSTEM: the system of the static SinglePointCalculation.
 
 
-class SimulationAnalysis(Analysis):
+class SimulationAnalysis(Computation):
     defs = ObjectTypeDef(
         code="SIMULATION_ANALYSIS",
         description="A SimulationAnalysis is an analysis that derives information from the results of one or more "
@@ -661,13 +677,13 @@ class SimulationAnalysis(Analysis):
     )
 
 
-class OrbitalProjection(SimulationAnalysis):
+class LocalOrbitalBondingAnalysis(SimulationAnalysis):
     defs = ObjectTypeDef(
-        code="ORBITAL_PROJECTION",
-        description="An OrbitalProjection is an analysis that projects the delocalized one-electron wave functions "
-        "of a converged electronic-structure calculation, such as a plane-wave PAW calculation, onto an auxiliary "
-        "basis of local atomic orbitals, so that orbital-resolved chemical information can be derived from them.",
-        generated_code_prefix="ORB_PROJ",
+        code="LOCAL_ORBITAL_BONDING_ANALYSIS",
+        description="A LocalOrbitalBondingAnalysis is an analysis that projects the wave functions of a converged "
+        "electronic-structure calculation onto a local atomic-orbital basis and derives orbital-pair bonding "
+        "indicators and atomic populations from the projected wave functions, in one program run.",
+        generated_code_prefix="LOC_ORB_BOND",
     )
 
     orbital_projection_parameters = PropertyTypeAssignment(
@@ -680,6 +696,18 @@ class OrbitalProjection(SimulationAnalysis):
         section="Input Specification",
     )
 
+    bonding_analysis_parameters = PropertyTypeAssignment(
+        code="BONDING_ANALYSIS_PARAMETERS",
+        data_type="OBJECT",
+        object_code="BONDING_ANALYSIS_PARAMETERS",
+        property_label="Bonding analysis parameters",
+        description="Indicators, population analyses, atom pairs, and energy grid of the analysis.",
+        mandatory=False,
+        section="Input Specification",
+    )
+
+    # Taking absolute values keeps deficits and excesses from cancelling, so this is not literally the fraction of
+    # electrons lost. For spin-polarized calculations, the mean of the two spin channels.
     absolute_charge_spilling = PropertyTypeAssignment(
         code="ABSOLUTE_CHARGE_SPILLING",
         data_type="REAL",
@@ -687,9 +715,7 @@ class OrbitalProjection(SimulationAnalysis):
         units="percent",
         description="Average, over k-points and occupied states, of abs(1 - O_jj), where O = C^dagger S C is the "
         "overlap matrix of the projected states and O_jj the self-overlap (squared norm) of state j, in percent "
-        "(Maintz et al. 2016). Taking absolute values keeps deficits and excesses from cancelling, so this is not "
-        "literally the fraction of electrons lost. Lower values mean the local basis reproduces the original wave functions better. For spin-polarized "
-        "calculations, the mean of the two spin channels.",
+        "(Maintz et al. 2016). Lower values mean the local basis reproduces the original wave functions better.",
         mandatory=False,
         section="Results",
     )
@@ -741,22 +767,27 @@ class ProjectionQualityAssessment(SimulationAnalysis):
         section="Basis Check",
     )
 
+    # Original description: Whether LOBSTER reported k-points at which the projected wave functions could not be
+    # fully orthonormalized, in which case it writes the file bandOverlaps.lobster.
     has_band_overlap_deviations = PropertyTypeAssignment(
         code="HAS_BAND_OVERLAP_DEVIATIONS",
         data_type="BOOLEAN",
         property_label="Band overlap deviations reported",
-        description="Whether LOBSTER reported k-points at which the projected wave functions could not be fully "
-        "orthonormalized, in which case it writes the file bandOverlaps.lobster.",
+        description="Whether k-points were reported at which the projected wave functions could not be fully "
+        "orthonormalized (LOBSTER: bandOverlaps.lobster).",
         mandatory=False,
         section="Orthonormality Check",
     )
 
+    # Original description: Largest deviation of the overlap matrix of the projected bands from the identity
+    # matrix, over all k-points listed in bandOverlaps.lobster. Not set if no deviations were reported.
     band_overlap_max_deviation = PropertyTypeAssignment(
         code="BAND_OVERLAP_MAX_DEVIATION",
         data_type="REAL",
         property_label="Band overlap maximal deviation",
         description="Largest deviation of the overlap matrix of the projected bands from the identity matrix, over "
-        "all k-points listed in bandOverlaps.lobster. Not set if no deviations were reported.",
+        "all k-points with reported deviations (LOBSTER: bandOverlaps.lobster). Not set if no deviations were "
+        "reported.",
         mandatory=False,
         section="Orthonormality Check",
     )
@@ -782,28 +813,30 @@ class ProjectionQualityAssessment(SimulationAnalysis):
         section="Orthonormality Check",
     )
 
+    # The classification is as in LobsterPy. This is not a three-way sign test: a neutral atom is grouped with the
+    # cations.
     mulliken_signs_agree_with_bond_valence = PropertyTypeAssignment(
         code="MULLIKEN_SIGNS_AGREE_WITH_BOND_VALENCE",
         data_type="BOOLEAN",
         property_label="Mulliken charge signs agree with bond valence",
         description="Whether every atom falls in the same class for its Mulliken charge as for the valence "
         "estimated by a bond valence analysis of the crystal structure, where each value is classified as "
-        "nonnegative (zero counts with positive) or negative, as in LobsterPy. This is not a three-way sign test: "
-        "a neutral atom is grouped with the cations. Not set if the bond valence analysis could not assign "
-        "valences.",
+        "nonnegative (zero counts with positive) or negative. Not set if the bond valence analysis could not "
+        "assign valences.",
         mandatory=False,
         section="Charge Sign Check",
     )
 
+    # The classification is as in LobsterPy. This is not a three-way sign test: a neutral atom is grouped with the
+    # cations.
     loewdin_signs_agree_with_bond_valence = PropertyTypeAssignment(
         code="LOEWDIN_SIGNS_AGREE_WITH_BOND_VALENCE",
         data_type="BOOLEAN",
         property_label="Loewdin charge signs agree with bond valence",
         description="Whether every atom falls in the same class for its Loewdin charge as for the valence "
         "estimated by a bond valence analysis of the crystal structure, where each value is classified as "
-        "nonnegative (zero counts with positive) or negative, as in LobsterPy. This is not a three-way sign test: "
-        "a neutral atom is grouped with the cations. Not set if the bond valence analysis could not assign "
-        "valences.",
+        "nonnegative (zero counts with positive) or negative. Not set if the bond valence analysis could not "
+        "assign valences.",
         mandatory=False,
         section="Charge Sign Check",
     )
@@ -819,9 +852,9 @@ class ProjectionQualityAssessment(SimulationAnalysis):
     )
 
     # The energy range and number of bins in ProjectionQualityParameters are the requested settings. LobsterPy
-    # clips the range to the available DOS energies and caps the number of bins, and returns the values it used
-    # (e_range, n_bins); these are stored below as PDOS_COMPARISON_EFFECTIVE_*. Record the LobsterPy version on the
-    # Software of the assessment.
+    # clips the range to the available DOS energies and caps the number of bins, and returns the values it used;
+    # the number of bins used is stored below as PDOS_COMPARISON_EFFECTIVE_N_BINS. Record the LobsterPy version on
+    # the Software of the assessment.
 
     pdos_similarity_p = PropertyTypeAssignment(
         code="PDOS_SIMILARITY_P",
@@ -863,30 +896,6 @@ class ProjectionQualityAssessment(SimulationAnalysis):
         section="PDOS Comparison",
     )
 
-    pdos_comparison_effective_energy_min = PropertyTypeAssignment(
-        code="PDOS_COMPARISON_EFFECTIVE_ENERGY_MIN",
-        data_type="REAL",
-        property_label="PDOS comparison energy minimum used",
-        units="eV",
-        description="Lower bound of the energy range actually used for the PDOS comparison, as returned by "
-        "LobsterPy (e_range) after adjusting the requested range. Nominally relative to the Fermi level, but "
-        "LobsterPy clips against the unshifted DOS energies, so verify the reference for each import.",
-        mandatory=False,
-        section="PDOS Comparison",
-    )
-
-    pdos_comparison_effective_energy_max = PropertyTypeAssignment(
-        code="PDOS_COMPARISON_EFFECTIVE_ENERGY_MAX",
-        data_type="REAL",
-        property_label="PDOS comparison energy maximum used",
-        units="eV",
-        description="Upper bound of the energy range actually used for the PDOS comparison, as returned by "
-        "LobsterPy (e_range) after adjusting the requested range. Nominally relative to the Fermi level, but "
-        "LobsterPy clips against the unshifted DOS energies, so verify the reference for each import.",
-        mandatory=False,
-        section="PDOS Comparison",
-    )
-
     pdos_comparison_effective_n_bins = PropertyTypeAssignment(
         code="PDOS_COMPARISON_EFFECTIVE_N_BINS",
         data_type="INTEGER",
@@ -904,50 +913,6 @@ class ProjectionQualityAssessment(SimulationAnalysis):
         description="Text summary of the results of the quality checks.",
         mandatory=False,
         section="Quality Summary",
-    )
-
-
-class ChemicalBondingAnalysis(SimulationAnalysis):
-    defs = ObjectTypeDef(
-        code="CHEMICAL_BONDING_ANALYSIS",
-        description="A ChemicalBondingAnalysis is an analysis that derives energy-resolved, orbital-pair bonding "
-        "indicators and atomic populations from wave functions expressed in a local atomic-orbital basis.",
-        generated_code_prefix="CHEM_BOND",
-    )
-
-    bonding_analysis_parameters = PropertyTypeAssignment(
-        code="BONDING_ANALYSIS_PARAMETERS",
-        data_type="OBJECT",
-        object_code="BONDING_ANALYSIS_PARAMETERS",
-        property_label="Bonding analysis parameters",
-        description="Indicators, population analyses, atom pairs, and energy grid of the analysis.",
-        mandatory=False,
-        section="Input Specification",
-    )
-
-    # Normalization as parsed by pymatgen (io/lobster/outputs.py, MadelungEnergies) and used by LobsterPy, whose
-    # coxx/describe.py reports it in eV per unit cell, without division by formula units. Not yet confirmed
-    # against the current LOBSTER manual. A per-formula-unit value needs a separate property.
-    madelung_energy_mulliken = PropertyTypeAssignment(
-        code="MADELUNG_ENERGY_MULLIKEN",
-        data_type="REAL",
-        property_label="Madelung energy (Mulliken)",
-        units="eV",
-        description="Electrostatic (Madelung) part of the lattice energy of the analysed input cell, computed from "
-        "the Mulliken atomic charges (MadelungEnergies.lobster). Per input cell, not per formula unit.",
-        mandatory=False,
-        section="Results",
-    )
-
-    madelung_energy_loewdin = PropertyTypeAssignment(
-        code="MADELUNG_ENERGY_LOEWDIN",
-        data_type="REAL",
-        property_label="Madelung energy (Loewdin)",
-        units="eV",
-        description="Electrostatic (Madelung) part of the lattice energy of the analysed input cell, computed from "
-        "the Loewdin atomic charges (MadelungEnergies.lobster). Per input cell, not per formula unit.",
-        mandatory=False,
-        section="Results",
     )
 
 
@@ -972,15 +937,15 @@ class BondingEnvironmentAnalysis(SimulationAnalysis):
 
     # The next two are LobsterPy's max_considered_bond_length and number_considered_ions, renamed here because
     # the LobsterPy names do not describe what is counted.
+    # The indicator file is such as ICOHPLIST.lobster; weak interactions that are later filtered out can set this
+    # value (LobsterPy: max of Icohpcollection._list_length).
     max_input_interaction_distance = PropertyTypeAssignment(
         code="MAX_INPUT_INTERACTION_DISTANCE",
         data_type="REAL",
         property_label="Maximum interaction distance in input",
         units="angstrom",
         description="Longest interatomic distance in the full list of interactions read from the integrated bonding "
-        "indicator file (such as ICOHPLIST.lobster), before the relevant bonds are selected; weak interactions "
-        "that are later filtered out can set this value (LobsterPy: max of Icohpcollection._list_length). This "
-        "is not the longest selected bond.",
+        "indicator file, before the relevant bonds are selected. This is not the longest selected bond.",
         mandatory=False,
         section="Results",
     )
@@ -1057,6 +1022,11 @@ class EquationOfStateFit(SimulationAnalysis):
         prev_versions=["ATOM_EQUIL_TOTENG_IN_EV:v0"],
     )
 
+    # Isotropic straining is not sufficient in general: for an anisotropic crystal equal strains give unequal
+    # normal stresses, and the curvature of an isotropically scaled cell can exceed the hydrostatic bulk modulus.
+    # For cubic symmetry isotropic scaling keeps the correct cell shape, but internal coordinates must still be
+    # relaxed. Otherwise the value is the curvature along the constrained deformation path (see EOS_STRAIN_AXES and
+    # the relaxation degrees of freedom of the parent simulations).
     bulk_modulus = PropertyTypeAssignment(
         code="BULK_MODULUS",
         data_type="REAL",
@@ -1064,12 +1034,7 @@ class EquationOfStateFit(SimulationAnalysis):
         units="GPa",
         description="Bulk modulus B0 = V d2E/dV2 at the equilibrium volume, from the fitted curve. This is the "
         "equilibrium (relaxed-ion) hydrostatic bulk modulus only if, at each fixed volume, the energy was minimized "
-        "over the cell shape and the internal coordinates. Isotropic straining is not sufficient in general: for an "
-        "anisotropic crystal equal strains give unequal normal stresses, and the curvature of an isotropically "
-        "scaled cell can exceed the hydrostatic bulk modulus. For cubic symmetry isotropic scaling keeps the "
-        "correct cell shape, but internal coordinates must still be relaxed. Otherwise the value "
-        "is the curvature along the constrained deformation path (see EOS_STRAIN_AXES and the relaxation degrees "
-        "of freedom of the parent simulations).",
+        "over the cell shape and the internal coordinates.",
         mandatory=False,
         section="Results",
         iri=["https://purls.helmholtz-metadaten.de/asmo/BulkModulus"],

@@ -1,6 +1,10 @@
 from bam_masterdata.metadata.definitions import VocabularyTerm, VocabularyTypeDef
 from bam_masterdata.metadata.entities import VocabularyType
 
+# IRI convention: object type iri = exact match of the class;
+# property iri = class of the quantity the value is an instance of;
+# vocabulary term iri = the individual of the vocabulary's class.
+
 
 class ActivityStatus(VocabularyType):
     defs = VocabularyTypeDef(
@@ -380,7 +384,9 @@ class XcFunctional(VocabularyType):
     mbj = VocabularyTerm(
         code="MBJ",
         label="mBJ",
-        description="LibXC components: XC_MGGA_X_TB09",
+        description="LibXC components: XC_MGGA_X_TB09, usually combined with LDA correlation. Potential-only "
+        "functional: it has no energy expression, so total energies, forces and geometry optimizations are not "
+        "defined for it.",
     )
 
     pbe0 = VocabularyTerm(
@@ -392,7 +398,8 @@ class XcFunctional(VocabularyType):
     hse03 = VocabularyTerm(
         code="HSE03",
         label="HSE03",
-        description="LibXC components: XC_HYB_GGA_XC_HSE03",
+        description="LibXC components: XC_HYB_GGA_XC_HSE03. Codes use different screening parameters under this "
+        "name; check the value used by the code.",
         prev_versions=["XC_FUNC_HSE03:v0"],
     )
 
@@ -406,7 +413,8 @@ class XcFunctional(VocabularyType):
     b3lyp = VocabularyTerm(
         code="B3LYP",
         label="B3LYP",
-        description="LibXC components: XC_HYB_GGA_XC_B3LYP",
+        description="LibXC components: XC_HYB_GGA_XC_B3LYP (VWN RPA correlation). Some codes use VWN5 instead "
+        "(LibXC XC_HYB_GGA_XC_B3LYP5); check which one the code used.",
         prev_versions=["XC_FUNC_B3LYP:v0"],
     )
 
@@ -456,31 +464,6 @@ class JacobsLadder(VocabularyType):
         code="HYBRID_META_GGA",
         label="hybrid-meta-GGA",
         description="Meta-generalized gradient approximation mixed with exact exchange",
-    )
-
-
-class ReferenceForm(VocabularyType):
-    defs = VocabularyTypeDef(
-        code="REFERENCE_FORM",
-        description="Kohn-Sham reference form of a density functional theory calculation",
-    )
-
-    rks = VocabularyTerm(
-        code="RKS",
-        label="RKS",
-        description="Restricted Kohn-Sham reference",
-    )
-
-    uks = VocabularyTerm(
-        code="UKS",
-        label="UKS",
-        description="Unrestricted Kohn-Sham reference",
-    )
-
-    roks = VocabularyTerm(
-        code="ROKS",
-        label="ROKS",
-        description="Restricted open-shell Kohn-Sham reference",
     )
 
 
@@ -798,9 +781,9 @@ class MethodType(VocabularyType):
         description="Density functional theory",
     )
 
-    force_field = VocabularyTerm(
-        code="FORCE_FIELD",
-        label="Force field",
+    interatomic_potential = VocabularyTerm(
+        code="INTERATOMIC_POTENTIAL",
+        label="Interatomic potential",
         description="Classical or machine-learned interatomic potential",
     )
 
@@ -839,12 +822,6 @@ class PseudopotentialType(VocabularyType):
         description="Projector augmented wave dataset with norm-conserving partial waves",
     )
 
-    nc_paw_gw = VocabularyTerm(
-        code="NC_PAW_GW",
-        label="NC-PAW-GW",
-        description="Norm-conserving projector augmented wave dataset optimized for GW and BSE calculations",
-    )
-
 
 class PseudizationScheme(VocabularyType):
     defs = VocabularyTypeDef(
@@ -880,7 +857,8 @@ class PseudizationScheme(VocabularyType):
 class SystemType(VocabularyType):
     defs = VocabularyTypeDef(
         code="SYSTEM_TYPE",
-        description="Periodicity and dimensionality of a simulated system",
+        description="Physical kind of a simulated system, independent of the boundary conditions used in the "
+        "calculation",
     )
 
     atom = VocabularyTerm(
@@ -892,37 +870,37 @@ class SystemType(VocabularyType):
     molecule = VocabularyTerm(
         code="MOLECULE",
         label="Molecule",
-        description="Isolated molecule without periodic boundary conditions",
+        description="Isolated molecule; it may be computed in a periodic box with vacuum",
     )
 
     cluster = VocabularyTerm(
         code="CLUSTER",
         label="Cluster",
-        description="Isolated group of atoms without periodic boundary conditions",
+        description="Isolated group of atoms; it may be computed in a periodic box with vacuum",
     )
 
     one_dimensional = VocabularyTerm(
         code="ONE_DIMENSIONAL",
         label="1D",
-        description="System periodic in one direction, such as a nanowire or a polymer chain",
+        description="System extended in one direction, such as a nanowire or a polymer chain",
     )
 
     surface = VocabularyTerm(
         code="SURFACE",
         label="Surface",
-        description="Slab periodic in two directions with a finite thickness in the third",
+        description="Slab with a finite thickness, separated from its periodic images by vacuum along one direction",
     )
 
     two_dimensional = VocabularyTerm(
         code="TWO_DIMENSIONAL",
         label="2D",
-        description="Atomically thin layer periodic in two directions, such as graphene",
+        description="Atomically thin layer extended in two directions, such as graphene",
     )
 
     bulk = VocabularyTerm(
         code="BULK",
         label="Bulk",
-        description="System periodic in all three directions",
+        description="System extended in all three directions",
     )
 
 
@@ -974,12 +952,6 @@ class LatticeType(VocabularyType):
         code="TETRAGONAL",
         label="t - tetragonal",
         description="Tetragonal 3D lattice",
-    )
-
-    trigonal = VocabularyTerm(
-        code="TRIGONAL",
-        label="r - trigonal",
-        description="Trigonal 3D lattice",
     )
 
     hexagonal = VocabularyTerm(

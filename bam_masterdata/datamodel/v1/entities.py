@@ -1,6 +1,10 @@
 from bam_masterdata.datamodel.v1.base_objects import Entity
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
 
+# IRI convention: object type iri = exact match of the class;
+# property iri = class of the quantity the value is an instance of;
+# vocabulary term iri = the individual of the vocabulary's class.
+
 
 class Context(Entity):
     defs = ObjectTypeDef(
@@ -74,6 +78,9 @@ class ParameterSet(Context):
         mandatory=False,
         section="Parameter Set Details",
     )
+
+    # Subtypes (such as ElectronicStructureParameters) inherit GENERIC_PARAMETERS; code-specific extra settings
+    # that have no dedicated property go there.
 
     # Properties from v0 that need to be migrated to v1 (from PARAMETER_SET:v0):
     # PARAMETER_SET.SPREADSHEET
@@ -581,7 +588,7 @@ class Chemical(PhysicalObject):
         code="CHEMICAL_FORMULA_DESCRIPTIVE",
         data_type="VARCHAR",
         property_label="Descriptive formula",
-        description="Human-readable representation of the chemical composition.",
+        description="Chemical formula in a human-readable form chosen by the author, such as Fe54C for a supercell.",
         mandatory=False,
         section="Chemical Identity",
     )
@@ -590,7 +597,7 @@ class Chemical(PhysicalObject):
         code="CHEMICAL_FORMULA_REDUCED",
         data_type="VARCHAR",
         property_label="Reduced formula",
-        description="Chemical formula with reduced stoichiometric proportions.",
+        description="Alphabetically sorted chemical formula with reduced integer proportions, such as CFe3.",
         mandatory=False,
         section="Chemical Identity",
     )
@@ -599,7 +606,7 @@ class Chemical(PhysicalObject):
         code="CHEMICAL_FORMULA_IUPAC",
         data_type="VARCHAR",
         property_label="IUPAC formula",
-        description="Chemical formula following IUPAC conventions.",
+        description="Chemical formula with reduced proportions and the elements ordered by electronegativity following the IUPAC nomenclature.",
         mandatory=False,
         section="Chemical Identity",
     )
@@ -608,7 +615,7 @@ class Chemical(PhysicalObject):
         code="CHEMICAL_FORMULA_HILL",
         data_type="VARCHAR",
         property_label="Hill formula",
-        description="Chemical formula using Hill notation.",
+        description="Chemical formula in Hill notation: carbon first, then hydrogen, then the other elements in alphabetical order.",
         mandatory=False,
         section="Chemical Identity",
     )
@@ -617,7 +624,7 @@ class Chemical(PhysicalObject):
         code="CHEMICAL_FORMULA_ANONYMOUS",
         data_type="VARCHAR",
         property_label="Anonymous formula",
-        description="Formula describing stoichiometry without chemical element identities.",
+        description="Reduced formula with the elements ordered by proportion and replaced by letters, such as A2B for H2O.",
         mandatory=False,
         section="Chemical Identity",
     )
@@ -755,10 +762,10 @@ class WorkflowDefinition(Context):
     )
 
 
-class Pseudopotential(Context):
+class Pseudopotential(ParameterSet):
     defs = ObjectTypeDef(
         code="PSEUDOPOTENTIAL",
-        description="A Pseudopotential is a context that specifies a pseudopotential or PAW dataset replacing the "
+        description="A Pseudopotential is a parameter set that specifies a pseudopotential or PAW dataset replacing the "
         "core electrons of a chemical species in electronic structure calculations.",
         generated_code_prefix="PSEUDO",
         prev_versions=["PSEUDOPOTENTIAL:v0"],
@@ -895,6 +902,88 @@ class Pseudopotential(Context):
     )
 
 
+class InteratomicPotential(ParameterSet):
+    defs = ObjectTypeDef(
+        code="INTERATOMIC_POTENTIAL",
+        description="An InteratomicPotential is a parameter set that specifies a parametrized interatomic potential, such "
+        "as an EAM potential file or a machine-learned potential, that gives energies and forces as a function of "
+        "the atomic positions.",
+        generated_code_prefix="IAP",
+        prev_versions=["INTERATOMIC_POTENTIAL:v0"],
+    )
+
+    version = PropertyTypeAssignment(
+        code="VERSION",
+        data_type="VARCHAR",
+        property_label="Version",
+        description="Version identifier of the entity, such as a release number or a date.",
+        mandatory=False,
+        section="Interatomic Potential Details",
+        prev_versions=["VERSION:v0"],
+    )
+
+    license = PropertyTypeAssignment(
+        code="LICENSE",
+        data_type="VARCHAR",
+        property_label="License",
+        description="License under which the entity is distributed.",
+        mandatory=False,
+        section="Interatomic Potential Details",
+        prev_versions=["LICENSE:v0"],
+    )
+
+    potential_style = PropertyTypeAssignment(
+        code="POTENTIAL_STYLE",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="POTENTIAL_STYLE",
+        property_label="Potential style",
+        description="Functional form of the interatomic potential.",
+        mandatory=False,
+        section="Interatomic Potential Details",
+        prev_versions=["ATOM_POTENTIAL_STYLE:v0"],
+    )
+
+    kim_id = PropertyTypeAssignment(
+        code="KIM_ID",
+        data_type="VARCHAR",
+        property_label="OpenKIM ID",
+        description="Identifier of the potential in the OpenKIM repository, such as EAM_Dynamo_Mendelev_2003_Fe__MO_546673549085_000.",
+        mandatory=False,
+        section="Interatomic Potential Details",
+    )
+
+    chemical_species = PropertyTypeAssignment(
+        code="CHEMICAL_SPECIES",
+        data_type="VARCHAR",
+        property_label="Chemical species",
+        description="Chemical species described by the entity, given as element symbols such as Fe or C.",
+        mandatory=False,
+        section="Interatomic Potential Details",
+        multivalued=True,
+        prev_versions=["CHEM_SPECIES_ADDRESSED:v0"],
+    )
+
+    link = PropertyTypeAssignment(
+        code="LINK",
+        data_type="HYPERLINK",
+        property_label="Link",
+        description="Website or download location of the entity, such as the project page or a repository.",
+        mandatory=False,
+        section="Interatomic Potential Details",
+        prev_versions=["SOURCE_LINK:v0"],
+    )
+
+    software_compatibility = PropertyTypeAssignment(
+        code="SOFTWARE_COMPATIBILITY",
+        data_type="VARCHAR",
+        property_label="Software compatibility",
+        description="Software that can use the entity as input.",
+        mandatory=False,
+        section="Interatomic Potential Details",
+        prev_versions=["SFTW_COMPATIBILITY:v0"],
+    )
+
+
 class SimulatedSystem(Context):
     defs = ObjectTypeDef(
         code="SIMULATED_SYSTEM",
@@ -913,16 +1002,8 @@ class SimulatedSystem(Context):
         data_type="CONTROLLEDVOCABULARY",
         vocabulary_code="SYSTEM_TYPE",
         property_label="System type",
-        description="Periodicity and dimensionality of the system, such as molecule, surface, or bulk.",
-        mandatory=False,
-        section="System Details",
-    )
-
-    dimensionality = PropertyTypeAssignment(
-        code="DIMENSIONALITY",
-        data_type="INTEGER",
-        property_label="Dimensionality",
-        description="Number of dimensions in which the system is extended: 0, 1, 2, or 3.",
+        description="Physical kind of the system, such as molecule, surface, or bulk. The boundary conditions of "
+        "the calculation are given by PERIODIC_A, PERIODIC_B and PERIODIC_C.",
         mandatory=False,
         section="System Details",
     )
@@ -969,7 +1050,7 @@ class SimulatedSystem(Context):
         code="CHEMICAL_FORMULA_DESCRIPTIVE",
         data_type="VARCHAR",
         property_label="Descriptive formula",
-        description="Chemical formula of the system with non-reduced proportions, such as Fe54C.",
+        description="Chemical formula in a human-readable form chosen by the author, such as Fe54C for a supercell.",
         mandatory=False,
         section="Chemical Formula",
         prev_versions=["CHEM_SPECIES_BY_N_ATOMS:v0"],
@@ -1242,10 +1323,10 @@ class ComputationalMethod(Context):
     defs = ObjectTypeDef(
         code="COMPUTATIONAL_METHOD",
         description="A ComputationalMethod is a context that specifies the model solved in a computation, such as "
-        "density functional theory or an interatomic potential.",
+        "density functional theory or an interatomic potential. Methods that carry system-specific settings, such "
+        "as Hubbard parameters, belong to one calculation setup.",
         generated_code_prefix="COMP_METH",
         iri=["https://w3id.org/pmd/co/PMD_0000931"],
-        prev_versions=["INTERATOMIC_POTENTIAL:v0"],
     )
 
     method_type = PropertyTypeAssignment(
@@ -1253,7 +1334,7 @@ class ComputationalMethod(Context):
         data_type="CONTROLLEDVOCABULARY",
         vocabulary_code="METHOD_TYPE",
         property_label="Method type",
-        description="Kind of computational method, such as density functional theory or a force field.",
+        description="Kind of computational method, such as density functional theory or an interatomic potential.",
         mandatory=False,
         section="Method Details",
     )
@@ -1276,16 +1357,6 @@ class ComputationalMethod(Context):
         mandatory=False,
         section="DFT Details",
         prev_versions=["ATOM_NON_COLL_MAG:v0"],
-    )
-
-    reference_form = PropertyTypeAssignment(
-        code="REFERENCE_FORM",
-        data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="REFERENCE_FORM",
-        property_label="Reference form",
-        description="Kohn-Sham reference form used for the calculation.",
-        mandatory=False,
-        section="DFT Details",
     )
 
     xc_functional = PropertyTypeAssignment(
@@ -1324,15 +1395,6 @@ class ComputationalMethod(Context):
         data_type="REAL",
         property_label="Global exact exchange",
         description="Global fraction of exact (Hartree-Fock) exchange mixed into the functional.",
-        mandatory=False,
-        section="XC Functional",
-    )
-
-    uses_libxc = PropertyTypeAssignment(
-        code="USES_LIBXC",
-        data_type="BOOLEAN",
-        property_label="Uses LibXC",
-        description="Whether the program evaluated the functional with the LibXC library rather than its own implementation.",
         mandatory=False,
         section="XC Functional",
     )
@@ -1415,59 +1477,18 @@ class ComputationalMethod(Context):
         section="Dispersion",
     )
 
-    potential_style = PropertyTypeAssignment(
-        code="POTENTIAL_STYLE",
-        data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="POTENTIAL_STYLE",
-        property_label="Potential style",
-        description="Functional form of the interatomic potential.",
+    interatomic_potential = PropertyTypeAssignment(
+        code="INTERATOMIC_POTENTIAL",
+        data_type="OBJECT",
+        object_code="INTERATOMIC_POTENTIAL",
+        property_label="Interatomic potential",
+        description="Interatomic potential used, if the method type is an interatomic potential.",
         mandatory=False,
-        section="Interatomic Potential Details",
-        prev_versions=["ATOM_POTENTIAL_STYLE:v0"],
-    )
-
-    kim_id = PropertyTypeAssignment(
-        code="KIM_ID",
-        data_type="VARCHAR",
-        property_label="OpenKIM ID",
-        description="Identifier of the potential in the OpenKIM repository, such as EAM_Dynamo_Mendelev_2003_Fe__MO_546673549085_000.",
-        mandatory=False,
-        section="Interatomic Potential Details",
-    )
-
-    chemical_species = PropertyTypeAssignment(
-        code="CHEMICAL_SPECIES",
-        data_type="VARCHAR",
-        property_label="Chemical species",
-        description="Chemical species described by the entity, given as element symbols such as Fe or C.",
-        mandatory=False,
-        section="Interatomic Potential Details",
-        multivalued=True,
-        prev_versions=["CHEM_SPECIES_ADDRESSED:v0"],
-    )
-
-    link = PropertyTypeAssignment(
-        code="LINK",
-        data_type="HYPERLINK",
-        property_label="Link",
-        description="Website or download location of the entity, such as the project page or a repository.",
-        mandatory=False,
-        section="Interatomic Potential Details",
-        prev_versions=["SOURCE_LINK:v0"],
-    )
-
-    software_compatibility = PropertyTypeAssignment(
-        code="SOFTWARE_COMPATIBILITY",
-        data_type="VARCHAR",
-        property_label="Software compatibility",
-        description="Software that can use the entity as input.",
-        mandatory=False,
-        section="Interatomic Potential Details",
-        prev_versions=["SFTW_COMPATIBILITY:v0"],
+        section="Interatomic Potential",
     )
 
 
-class HPC(MaterialEntity):
+class HPC(Device):
     defs = ObjectTypeDef(
         code="HPC",
         description="An HPC is a material entity consisting of a high-performance computing cluster "
@@ -1538,24 +1559,11 @@ class HPC(MaterialEntity):
     )
 
 
-class InputSpecification(Context):
-    defs = ObjectTypeDef(
-        code="INPUT_SPECIFICATION",
-        description="An InputSpecification is a context that bundles the input prescriptions of a computation, "
-        "with the concrete parameter values given to it. It is referenced by the computation, so the same "
-        "specification can be reused by several computations.",
-        generated_code_prefix="IN_SPEC",
-        # PMD_0000014 prescribes a single required input data item; this type bundles several such prescriptions
-        # with their values. The IRI is a broad association at a coarser granularity, not an identity.
-        iri=["https://w3id.org/pmd/co/PMD_0000014"],
-    )
-
-
-class ElectronicStructureParameters(InputSpecification):
+class ElectronicStructureParameters(ParameterSet):
     defs = ObjectTypeDef(
         code="ELECTRONIC_STRUCTURE_PARAMETERS",
-        description="ElectronicStructureParameters is an input specification with the computational setup used to "
-        "solve the electronic structure: the pseudopotential or PAW datasets, the basis-set cutoff, the "
+        description="ElectronicStructureParameters is a parameter set for plane-wave electronic-structure "
+        "calculations, with the computational setup used to solve the electronic structure: the pseudopotential or PAW datasets, the basis-set cutoff, the "
         "Brillouin-zone sampling, the occupations, and the self-consistent field convergence. The datasets also "
         "affect the physical approximation, not only the numerics. The physical model itself (functional, spin "
         "treatment, DFT+U) is a ComputationalMethod.",
@@ -1586,6 +1594,10 @@ class ElectronicStructureParameters(InputSpecification):
         prev_versions=["ATOM_E_CUTOFF_IN_EV:v0"],
     )
 
+    # Needs manual mapping from ATOM_KPOINT_TYPE:v0: v0 ATOM_KPOINT_TYPE mixes how the mesh was generated
+    # (KPOINTS_KSPACING) with how it is placed. A mesh generated from KSPACING can be Gamma-centered or Monkhorst-Pack
+    # (VASP: KGAMMA), so the term must be derived from the v0 type together with ATOM_KPT_GAMMA_CENT or the raw
+    # KPOINTS / INCAR. Leave the property unset if the centering cannot be determined.
     kpoint_mesh_type = PropertyTypeAssignment(
         code="KPOINT_MESH_TYPE",
         data_type="CONTROLLEDVOCABULARY",
@@ -1596,13 +1608,10 @@ class ElectronicStructureParameters(InputSpecification):
         mandatory=False,
         section="Brillouin Zone Sampling",
         iri=["https://purls.helmholtz-metadaten.de/asmo/KPointMesh"],
-        # v0 ATOM_KPOINT_TYPE mixes how the mesh was generated (KPOINTS_KSPACING) with how it is placed. A mesh
-        # generated from KSPACING can be Gamma-centered or Monkhorst-Pack (VASP: KGAMMA), so the term must be
-        # derived from the v0 type together with ATOM_KPT_GAMMA_CENT or the raw KPOINTS / INCAR. Leave the
-        # property unset if the centering cannot be determined.
-        prev_versions=["ATOM_KPOINT_TYPE:v0"],
     )
 
+    # Needs manual mapping from ATOMISTIC_N_KPT_X:v0: v0 used x/y/z wording; check that these were the three mesh
+    # indices along b1/b2/b3 before migrating.
     kpoint_mesh_b1 = PropertyTypeAssignment(
         code="KPOINT_MESH_B1",
         data_type="INTEGER",
@@ -1610,10 +1619,9 @@ class ElectronicStructureParameters(InputSpecification):
         description="Number of subdivisions of the k-point mesh along the first reciprocal lattice vector b1.",
         mandatory=False,
         section="Brillouin Zone Sampling",
-        # v0 used x/y/z wording; check that these were the three mesh indices along b1/b2/b3 before migrating.
-        prev_versions=["ATOMISTIC_N_KPT_X:v0"],
     )
 
+    # Needs manual mapping from ATOMISTIC_N_KPT_Y:v0: as for KPOINT_MESH_B1.
     kpoint_mesh_b2 = PropertyTypeAssignment(
         code="KPOINT_MESH_B2",
         data_type="INTEGER",
@@ -1621,9 +1629,9 @@ class ElectronicStructureParameters(InputSpecification):
         description="Number of subdivisions of the k-point mesh along the second reciprocal lattice vector b2.",
         mandatory=False,
         section="Brillouin Zone Sampling",
-        prev_versions=["ATOMISTIC_N_KPT_Y:v0"],
     )
 
+    # Needs manual mapping from ATOMISTIC_N_KPT_Z:v0: as for KPOINT_MESH_B1.
     kpoint_mesh_b3 = PropertyTypeAssignment(
         code="KPOINT_MESH_B3",
         data_type="INTEGER",
@@ -1631,20 +1639,19 @@ class ElectronicStructureParameters(InputSpecification):
         description="Number of subdivisions of the k-point mesh along the third reciprocal lattice vector b3.",
         mandatory=False,
         section="Brillouin Zone Sampling",
-        prev_versions=["ATOMISTIC_N_KPT_Z:v0"],
     )
 
+    # With the VASP convention, the number of subdivisions along each reciprocal lattice vector b_i (b_i . a_j =
+    # delta_ij, without the factor 2 pi) is N_i = max(1, ceil(2 pi |b_i| / KSPACING)), so the realized interval
+    # 2 pi |b_i| / N_i is at most this value. Codes that define the spacing without the factor 2 pi (|b_i| / N_i)
+    # give values smaller by 2 pi; convert before comparing across codes.
     kpoint_spacing = PropertyTypeAssignment(
         code="KPOINT_SPACING",
         data_type="REAL",
         property_label="K-point spacing",
         units="1/angstrom",
-        description="Requested k-point spacing, if the mesh was generated from a spacing (VASP: KSPACING). With "
-        "the VASP convention, the number of subdivisions along each reciprocal lattice vector b_i (b_i . a_j = "
-        "delta_ij, without the factor 2 pi) is N_i = max(1, ceil(2 pi |b_i| / KSPACING)), so the realized interval "
-        "2 pi |b_i| / N_i is at most this value. Codes that define the spacing without the factor 2 pi (|b_i| / "
-        "N_i) give values smaller by 2 pi; convert before comparing across codes. The realized subdivisions are "
-        "KPOINT_MESH_B1 to B3.",
+        description="Requested k-point spacing, if the mesh was generated from a spacing (VASP: KSPACING). The "
+        "realized subdivisions are KPOINT_MESH_B1 to B3.",
         mandatory=False,
         section="Brillouin Zone Sampling",
         prev_versions=["ATOMISTIC_KPT_SPACIN_IN_1_A:v0"],
@@ -1695,13 +1702,13 @@ class ElectronicStructureParameters(InputSpecification):
         section="Occupations",
     )
 
+    # For a later LOBSTER projection, the atomate2 workflow sets it to the number of local basis functions of the
+    # largest basis set it tests.
     n_bands = PropertyTypeAssignment(
         code="N_BANDS",
         data_type="INTEGER",
         property_label="Number of bands",
-        description="Number of Kohn-Sham orbitals computed at each k-point (VASP: NBANDS). For a later LOBSTER "
-        "projection, the atomate2 workflow sets it to the number of local basis functions of the largest basis set "
-        "it tests.",
+        description="Number of Kohn-Sham orbitals computed at each k-point (VASP: NBANDS).",
         mandatory=False,
         section="Self-Consistent Field",
     )
@@ -1761,10 +1768,10 @@ class ElectronicStructureParameters(InputSpecification):
     )
 
 
-class GeometryOptimizationParameters(InputSpecification):
+class GeometryOptimizationParameters(ParameterSet):
     defs = ObjectTypeDef(
         code="GEOMETRY_OPTIMIZATION_PARAMETERS",
-        description="GeometryOptimizationParameters is an input specification that states which degrees of freedom "
+        description="GeometryOptimizationParameters is a parameter set that states which degrees of freedom "
         "of a structure may relax, the algorithm that moves them, and when the optimization counts as converged.",
         generated_code_prefix="GEO_OPT_PARAM",
     )
@@ -1795,6 +1802,10 @@ class GeometryOptimizationParameters(InputSpecification):
         prev_versions=["ATOM_IONIC_MIN_ALGO:v0"],
     )
 
+    # Needs manual mapping from ATOM_F_TOL_IN_EV_A:v0: v0 ATOM_F_TOL_IN_EV_A was shared by VASP and LAMMPS jobs
+    # without stating the norm. Migrate the value together with FORCE_CONVERGENCE_NORM: MAX_ATOM_NORM for VASP; for
+    # LAMMPS take the norm from the job's min_modify settings (default GLOBAL_VECTOR_NORM). Leave the norm unset if
+    # the settings are not known.
     force_convergence = PropertyTypeAssignment(
         code="FORCE_CONVERGENCE",
         data_type="REAL",
@@ -1805,10 +1816,6 @@ class GeometryOptimizationParameters(InputSpecification):
         "reductions are not comparable.",
         mandatory=False,
         section="Convergence",
-        # v0 ATOM_F_TOL_IN_EV_A was shared by VASP and LAMMPS jobs without stating the norm. Migrate the value
-        # together with FORCE_CONVERGENCE_NORM: MAX_ATOM_NORM for VASP; for LAMMPS take the norm from the job's
-        # min_modify settings (default GLOBAL_VECTOR_NORM). Leave the norm unset if the settings are not known.
-        prev_versions=["ATOM_F_TOL_IN_EV_A:v0"],
     )
 
     force_convergence_norm = PropertyTypeAssignment(
@@ -1822,6 +1829,9 @@ class GeometryOptimizationParameters(InputSpecification):
         section="Convergence",
     )
 
+    # Needs manual mapping from ATOM_E_TOL_ION_IN_EV:v0: v0 ATOM_E_TOL_ION_IN_EV is labelled eV but was also used
+    # for LAMMPS, whose etol is relative. Migrate values from VASP jobs here; values from LAMMPS jobs belong to
+    # IONIC_RELATIVE_ENERGY_CONVERGENCE after checking what the exporter stored. Do not convert between the two.
     ionic_energy_convergence = PropertyTypeAssignment(
         code="IONIC_ENERGY_CONVERGENCE",
         data_type="REAL",
@@ -1832,10 +1842,6 @@ class GeometryOptimizationParameters(InputSpecification):
         "IONIC_RELATIVE_ENERGY_CONVERGENCE.",
         mandatory=False,
         section="Convergence",
-        # v0 ATOM_E_TOL_ION_IN_EV is labelled eV but was also used for LAMMPS, whose etol is relative. Migrate
-        # values from VASP jobs here; values from LAMMPS jobs belong to IONIC_RELATIVE_ENERGY_CONVERGENCE after
-        # checking what the exporter stored. Do not convert between the two.
-        prev_versions=["ATOM_E_TOL_ION_IN_EV:v0"],
     )
 
     ionic_relative_energy_convergence = PropertyTypeAssignment(
@@ -1856,18 +1862,14 @@ class GeometryOptimizationParameters(InputSpecification):
         "A requested upper bound, distinct from N_IONIC_STEPS, the number actually carried out.",
         mandatory=False,
         section="Convergence",
-        # Broad association: ASMO NumberOfIonicSteps is both an input and an output parameter, but its definition
-        # describes the iterations performed. ASMO has no exact term for a maximum; the shared IRI with
-        # N_IONIC_STEPS does not make the two values interchangeable.
-        iri=["https://purls.helmholtz-metadaten.de/asmo/NumberOfIonicSteps"],
         prev_versions=["MAX_ITERS:v0"],
     )
 
 
-class MolecularDynamicsParameters(InputSpecification):
+class MolecularDynamicsParameters(ParameterSet):
     defs = ObjectTypeDef(
         code="MOLECULAR_DYNAMICS_PARAMETERS",
-        description="MolecularDynamicsParameters is an input specification that states the statistical ensemble to "
+        description="MolecularDynamicsParameters is a parameter set that states the statistical ensemble to "
         "be sampled, the target conditions, the integration time step and length, and the thermostat and barostat "
         "algorithms used to approach the ensemble.",
         generated_code_prefix="MD_PARAM",
@@ -1892,19 +1894,19 @@ class MolecularDynamicsParameters(InputSpecification):
     # one supported protocol (such as LAMMPS fix nvt/npt Tstart/Tstop, Pstart/Pstop); equal values mean constant
     # conditions. The temperature used to draw the initial velocities is a separate input.
 
+    # Needs manual mapping from ATOM_MD_INIT_TEMP_IN_K:v0: pyiron's initial_temperature is this velocity
+    # temperature. Check the exporter of each v0 record before migrating.
+    # Independent of the thermostat targets; for example, pyiron sets it to twice the first target temperature if
+    # not given.
     velocity_initialization_temperature = PropertyTypeAssignment(
         code="VELOCITY_INITIALIZATION_TEMPERATURE",
         data_type="REAL",
         property_label="Velocity initialization temperature",
         units="K",
         description="Temperature of the Maxwell-Boltzmann distribution from which the initial velocities are "
-        "drawn (LAMMPS: velocity create). Independent of the thermostat targets; for example, pyiron sets it to "
-        "twice the first target temperature if not given. Not the measured instantaneous temperature at the start.",
+        "drawn (LAMMPS: velocity create). Not the measured instantaneous temperature at the start.",
         mandatory=False,
         section="Statistical Ensemble",
-        # pyiron's initial_temperature is this velocity temperature. Check the exporter of each v0 record before
-        # migrating.
-        prev_versions=["ATOM_MD_INIT_TEMP_IN_K:v0"],
     )
 
     target_temperature_start = PropertyTypeAssignment(
@@ -1917,6 +1919,9 @@ class MolecularDynamicsParameters(InputSpecification):
         section="Statistical Ensemble",
     )
 
+    # Needs manual mapping from ATOM_MD_TARG_TEMP_IN_K:v0: v0 ATOM_MD_TARG_TEMP_IN_K is a generic target, not
+    # established as a ramp endpoint. For a constant target set both start and end; if the v0 job used a ramp, take
+    # both values from the job input.
     target_temperature_end = PropertyTypeAssignment(
         code="TARGET_TEMPERATURE_END",
         data_type="REAL",
@@ -1926,11 +1931,11 @@ class MolecularDynamicsParameters(InputSpecification):
         "value for runs at constant temperature.",
         mandatory=False,
         section="Statistical Ensemble",
-        # v0 ATOM_MD_TARG_TEMP_IN_K is a generic target, not established as a ramp endpoint. For a constant
-        # target set both start and end; if the v0 job used a ramp, take both values from the job input.
-        prev_versions=["ATOM_MD_TARG_TEMP_IN_K:v0"],
     )
 
+    # Needs manual mapping from ATOM_MD_INIT_PRESS_IN_GPA:v0: v0 ATOM_MD_INIT_PRESS_IN_GPA may be a barostat start
+    # target or a measured initial pressure. Migrate it here only if the exporter shows it was Pstart; keep a
+    # measured value separately.
     target_pressure_start = PropertyTypeAssignment(
         code="TARGET_PRESSURE_START",
         data_type="REAL",
@@ -1940,11 +1945,10 @@ class MolecularDynamicsParameters(InputSpecification):
         "describes only hydrostatic or equal-axis targets, not independently controlled stress components.",
         mandatory=False,
         section="Statistical Ensemble",
-        # v0 ATOM_MD_INIT_PRESS_IN_GPA may be a barostat start target or a measured initial pressure. Migrate it
-        # here only if the exporter shows it was Pstart; keep a measured value separately.
-        prev_versions=["ATOM_MD_INIT_PRESS_IN_GPA:v0"],
     )
 
+    # Needs manual mapping from ATOM_TARG_PRESS_IN_GPA:v0: As for TARGET_TEMPERATURE_END: a constant v0 target sets
+    # both start and end.
     target_pressure_end = PropertyTypeAssignment(
         code="TARGET_PRESSURE_END",
         data_type="REAL",
@@ -1954,17 +1958,15 @@ class MolecularDynamicsParameters(InputSpecification):
         "the start value for runs at constant pressure.",
         mandatory=False,
         section="Statistical Ensemble",
-        # As for TARGET_TEMPERATURE_END: a constant v0 target sets both start and end.
-        prev_versions=["ATOM_TARG_PRESS_IN_GPA:v0"],
     )
 
+    # (VASP: POTIM, given in fs, so divide by 1000; LAMMPS metal units: timestep, in ps).
     time_step = PropertyTypeAssignment(
         code="TIME_STEP",
         data_type="REAL",
         property_label="Time step",
         units="ps",
-        description="Time step used to integrate the equations of motion of the nuclei (VASP: POTIM, given in fs, "
-        "so divide by 1000; LAMMPS metal units: timestep, in ps).",
+        description="Time step used to integrate the equations of motion of the nuclei.",
         mandatory=False,
         section="Integration",
         iri=["https://purls.helmholtz-metadaten.de/asmo/TimeStep"],
@@ -1990,7 +1992,6 @@ class MolecularDynamicsParameters(InputSpecification):
         "was interrupted; it follows from N_IONIC_STEPS of the MolecularDynamics.",
         mandatory=False,
         section="Integration",
-        iri=["https://purls.helmholtz-metadaten.de/asmo/SimulationTime"],
         prev_versions=["ATOM_SIM_TIME_PS_IN_PS:v0"],
     )
 
@@ -2050,10 +2051,10 @@ class MolecularDynamicsParameters(InputSpecification):
     )
 
 
-class EquationOfStateFitParameters(InputSpecification):
+class EquationOfStateFitParameters(ParameterSet):
     defs = ObjectTypeDef(
         code="EQUATION_OF_STATE_FIT_PARAMETERS",
-        description="EquationOfStateFitParameters is an input specification that states the equation of state "
+        description="EquationOfStateFitParameters is a parameter set that states the equation of state "
         "fitted to energy-volume data, which computed energy is fitted, and how the volumes were sampled.",
         generated_code_prefix="EOS_PARAM",
     )
@@ -2073,6 +2074,10 @@ class EquationOfStateFitParameters(InputSpecification):
         prev_versions=["MURN_EQN_OF_STATE:v0"],
     )
 
+    # Needs manual mapping from MURN_FIT_EQN_ORDER:v0: v0 MURN_FIT_EQN_ORDER is the polynomial degree only (pyiron
+    # fit_order), and is set even for analytic fits. Migrate it only for EOS_POLYNOMIAL fits; for analytic forms take
+    # the order from the implementation (pymatgen implements fixed third-order Birch-Murnaghan), not from the old
+    # input.
     equation_of_state_order = PropertyTypeAssignment(
         code="EQUATION_OF_STATE_ORDER",
         data_type="INTEGER",
@@ -2081,10 +2086,6 @@ class EquationOfStateFitParameters(InputSpecification):
         "and Poirier-Tarantola (such as 3 for third order). Its meaning depends on EQUATION_OF_STATE.",
         mandatory=False,
         section="Fit",
-        # v0 MURN_FIT_EQN_ORDER is the polynomial degree only (pyiron fit_order), and is set even for analytic
-        # fits. Migrate it only for EOS_POLYNOMIAL fits; for analytic forms take the order from the implementation
-        # (pymatgen implements fixed third-order Birch-Murnaghan), not from the old input.
-        prev_versions=["MURN_FIT_EQN_ORDER:v0"],
     )
 
     fitted_energy = PropertyTypeAssignment(
@@ -2119,25 +2120,25 @@ class EquationOfStateFitParameters(InputSpecification):
         prev_versions=["MURN_STRAINVOL_RANGE:v0"],
     )
 
+    # Whether the fitted curvature is the hydrostatic bulk modulus depends on which cell-shape and internal degrees
+    # of freedom were relaxed at fixed volume, as recorded by the relaxation degrees of freedom of the parent
+    # simulations, not on the strain axes alone.
     strain_axes = PropertyTypeAssignment(
         code="EOS_STRAIN_AXES",
         data_type="VARCHAR",
         property_label="Strain axes",
         description="Axes along which the cell is strained to change its volume, as given to the workflow; "
-        "straining along all three axes scales the cell isotropically, which still constrains its shape. Whether "
-        "the fitted curvature is the hydrostatic bulk modulus depends on which cell-shape and internal degrees of "
-        "freedom were relaxed at fixed volume, as recorded by the relaxation degrees of freedom of the parent "
-        "simulations, not on the strain axes alone.",
+        "straining along all three axes scales the cell isotropically, which still constrains its shape.",
         mandatory=False,
         section="Volume Sampling",
         prev_versions=["MURN_STRAIN_AXES:v0"],
     )
 
 
-class OrbitalProjectionParameters(InputSpecification):
+class OrbitalProjectionParameters(ParameterSet):
     defs = ObjectTypeDef(
         code="ORBITAL_PROJECTION_PARAMETERS",
-        description="OrbitalProjectionParameters is an input specification that states the auxiliary local "
+        description="OrbitalProjectionParameters is a parameter set that states the auxiliary local "
         "atomic-orbital basis onto which wave functions are projected.",
         generated_code_prefix="ORB_PROJ_PARAM",
     )
@@ -2164,10 +2165,10 @@ class OrbitalProjectionParameters(InputSpecification):
     )
 
 
-class ProjectionQualityParameters(InputSpecification):
+class ProjectionQualityParameters(ParameterSet):
     defs = ObjectTypeDef(
         code="PROJECTION_QUALITY_PARAMETERS",
-        description="ProjectionQualityParameters is an input specification with the thresholds and comparison "
+        description="ProjectionQualityParameters is a parameter set with the thresholds and comparison "
         "settings used to judge an orbital projection.",
         generated_code_prefix="PROJ_QUAL_PARAM",
     )
@@ -2204,22 +2205,22 @@ class ProjectionQualityParameters(InputSpecification):
         section="PDOS Comparison",
     )
 
+    # LobsterPy caps the requested value, so the number actually used can be smaller.
     pdos_comparison_n_bins = PropertyTypeAssignment(
         code="PDOS_COMPARISON_N_BINS",
         data_type="INTEGER",
         property_label="PDOS comparison number of bins",
         description="Requested number of energy bins of the fingerprints used for the PDOS comparison. The "
-        "similarity values depend on it. LobsterPy caps the requested value, so the number actually used can "
-        "be smaller.",
+        "similarity values depend on it.",
         mandatory=False,
         section="PDOS Comparison",
     )
 
 
-class BondingAnalysisParameters(InputSpecification):
+class BondingAnalysisParameters(ParameterSet):
     defs = ObjectTypeDef(
         code="BONDING_ANALYSIS_PARAMETERS",
-        description="BondingAnalysisParameters is an input specification that states which orbital-pair bonding "
+        description="BondingAnalysisParameters is a parameter set that states which orbital-pair bonding "
         "indicators and population analyses are computed, for which atom pairs, and on which energy grid.",
         generated_code_prefix="BOND_PARAM",
     )
@@ -2317,10 +2318,10 @@ class BondingAnalysisParameters(InputSpecification):
     )
 
 
-class BondingEnvironmentParameters(InputSpecification):
+class BondingEnvironmentParameters(ParameterSet):
     defs = ObjectTypeDef(
         code="BONDING_ENVIRONMENT_PARAMETERS",
-        description="BondingEnvironmentParameters is an input specification that states which bonds are considered "
+        description="BondingEnvironmentParameters is a parameter set that states which bonds are considered "
         "and how relevant bonds are selected when coordination environments are derived from integrated bonding "
         "indicators.",
         generated_code_prefix="BOND_ENV_PARAM",
@@ -2346,16 +2347,16 @@ class BondingEnvironmentParameters(InputSpecification):
         section="Bond Selection",
     )
 
+    # Since bonding ICOHP values are negative, a smaller magnitude is a less negative value. The reference
+    # interaction is taken from the pairs allowed by BOND_SELECTION (LobsterPy: adapt_extremum_to_add_cond). In
+    # LobsterPy both the reference and the compared values are spin-summed ICOHPs, independent of SPINS_SUMMED.
     icohp_relative_cutoff = PropertyTypeAssignment(
         code="ICOHP_RELATIVE_CUTOFF",
         data_type="REAL",
         property_label="Relative ICOHP cutoff",
         description="Dimensionless fraction (such as 0.1) applied to bonding magnitudes: a neighbour is not counted "
         "when determining coordination environments if the magnitude |ICOHP| of its bonding interaction is below "
-        "this fraction of the largest bonding |ICOHP|. Since bonding ICOHP values are negative, a smaller magnitude "
-        "is a less negative value. The reference interaction is taken from the pairs allowed by BOND_SELECTION "
-        "(LobsterPy: adapt_extremum_to_add_cond). In LobsterPy both the reference and the compared values are "
-        "spin-summed ICOHPs, independent of SPINS_SUMMED.",
+        "this fraction of the largest bonding |ICOHP|.",
         mandatory=False,
         section="Bond Selection",
     )
@@ -2371,13 +2372,13 @@ class BondingEnvironmentParameters(InputSpecification):
         section="Evaluation",
     )
 
+    # It does not affect the selection of relevant neighbours, which in LobsterPy always uses spin-summed ICOHPs.
     spins_summed = PropertyTypeAssignment(
         code="SPINS_SUMMED",
         data_type="BOOLEAN",
         property_label="Spin channels summed",
         description="Whether the two spin channels are summed in the COHP curves collected for the relevant bonds "
-        "(LobsterPy: summed_spins). It does not affect the selection of relevant neighbours, which in LobsterPy "
-        "always uses spin-summed ICOHPs.",
+        "(LobsterPy: summed_spins).",
         mandatory=False,
         section="Evaluation",
     )
