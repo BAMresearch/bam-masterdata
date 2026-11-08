@@ -136,10 +136,7 @@ class Simulation(Computation):
         description="A Simulation is a computation that uses one or more computational models to "
         "reproduce, predict, or explore the behavior of a system under specified conditions.",
         generated_code_prefix="SIMUL",
-        iri=[
-            "https://purls.helmholtz-metadaten.de/asmo/Simulation",
-            "https://w3id.org/pmd/co/PMD_0000933",
-        ],
+        iri=["https://purls.helmholtz-metadaten.de/asmo/Simulation"],
         prev_versions=["PYIRON_JOB:v0"],
     )
 
