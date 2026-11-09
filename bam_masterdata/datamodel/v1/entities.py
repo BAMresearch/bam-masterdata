@@ -1,3 +1,29 @@
+# AUTO-GENERATED CLASS HIERARCHY — DO NOT EDIT
+#
+# Context
+# ├── Software
+# ├── ParameterSet
+# ├── Classification
+# └── Document
+#
+# Location
+#
+# MaterialEntity
+# ├── Organism
+# │   └── Animal
+# │       └── Person
+# │           └── BAMPerson
+# └── PhysicalObject
+#     ├── Device
+#     │   ├── Instrument
+#     │   ├── Sensor
+#     │   └── Equipment
+#     ├── Sample
+#     ├── Material
+#     └── Chemical
+#
+# END AUTO-GENERATED CLASS HIERARCHY
+
 from bam_masterdata.datamodel.v1.base_objects import Entity
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
 

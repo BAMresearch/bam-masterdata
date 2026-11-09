@@ -211,3 +211,36 @@ maintainer before publication.
 The final release version may be adjusted by a maintainer when necessary,
 for example to address compatibility concerns or to prepare the transition
 to version `1.0.0`.
+
+## Automatically generated class hierarchies
+
+Python modules under `bam_masterdata/datamodel/v1/` contain automatically generated comments describing their class inheritance hierarchy.
+
+These comments provide a quick overview of the classes defined in each module without requiring developers to maintain the diagrams manually.
+
+The comments are generated using Python's `ast` module and include only classes defined locally in each file. Imported parent classes are excluded.
+
+### Generating the comments
+
+When adding, removing, or changing class inheritance relationships, regenerate the comments using:
+
+```bash
+python tools/scripts/generate_class_hierarchy_comments.py --write
+```
+
+To verify that the comments are up to date:
+
+```bash
+python tools/scripts/generate_class_hierarchy_comments.py --check
+```
+
+The generator recursively processes Python modules under `datamodel/v1/`, excluding `__init__.py` and `vocabularies.py`.
+
+### Automation
+
+The generator is integrated into the development workflow:
+
+- **Pre-commit:** Automatically regenerates hierarchy comments when relevant files are modified.
+- **GitHub Actions:** Verifies that generated comments are up to date. Outdated comments cause CI validation to fail.
+
+Generated comment blocks are marked with `AUTO-GENERATED CLASS HIERARCHY — DO NOT EDIT` and should not be edited manually.

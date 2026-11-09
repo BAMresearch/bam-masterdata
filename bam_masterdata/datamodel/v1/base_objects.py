@@ -1,3 +1,11 @@
+# AUTO-GENERATED CLASS HIERARCHY — DO NOT EDIT
+#
+# Root
+# ├── Activity
+# └── Entity
+#
+# END AUTO-GENERATED CLASS HIERARCHY
+
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
 from bam_masterdata.metadata.entities import ObjectType
 
