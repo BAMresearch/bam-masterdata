@@ -1093,11 +1093,15 @@ class TestObjectTypeSync:
 
     def test_create_property_assignment_reuses_existing_property_type(self):
         entity = generate_object_type()
+        prop = next(p for p in entity.properties if p.code == "ALIAS")
 
-        prop = next(prop for prop in entity.properties if prop.code == "ALIAS")
+        property_type = MagicMock()
+        property_type.dataType = "VARCHAR"
+        property_type.label = prop.openbis_property_label
+        property_type.description = prop.openbis_description
 
         openbis = MagicMock()
-        openbis.get_property_type.return_value = MagicMock()
+        openbis.get_property_type.return_value = property_type
 
         obj_type = MagicMock()
         result = SyncResult()
@@ -1110,7 +1114,12 @@ class TestObjectTypeSync:
         )
 
         openbis.new_property_type.assert_not_called()
+        property_type.save.assert_not_called()
         obj_type.assign_property.assert_called_once()
+
+        assert len(result.changes) == 1
+        assert result.changes[0].action == SyncAction.CREATED
+        assert result.changes[0].target == SyncTarget.PROPERTY_ASSIGNMENT
 
     @patch("bam_masterdata.metadata.entities.OpenbisEntities")
     def test_sync_uses_overridden_property_requirement(
@@ -1255,6 +1264,158 @@ class TestObjectTypeSync:
         # The existing type should be retrieved using its simple code.
         openbis.get_object_type.assert_called_with("PERSON")
         openbis.new_object_type.assert_not_called()
+
+    @pytest.mark.parametrize(
+        "data_type, expected_field",
+        [
+            ("INTEGER", "data_type"),
+            ("BOOLEAN", "data_type"),
+        ],
+    )
+    def test_create_assignment_rejects_incompatible_data_type(
+        self, data_type, expected_field
+    ):
+        entity = generate_object_type()
+        prop = next(p for p in entity.properties if p.code == "ALIAS")
+
+        property_type = MagicMock()
+        property_type.dataType = data_type
+
+        openbis = MagicMock()
+        openbis.get_property_type.return_value = property_type
+
+        obj_type = MagicMock()
+        result = SyncResult()
+
+        entity._create_property_assignment(
+            prop=prop,
+            obj_type=obj_type,
+            openbis=openbis,
+            result=result,
+        )
+
+        openbis.new_property_type.assert_not_called()
+        property_type.save.assert_not_called()
+        obj_type.assign_property.assert_not_called()
+
+        assert len(result.changes) == 1
+
+        change = result.changes[0]
+        assert change.action == SyncAction.REJECTED
+        assert change.target == SyncTarget.PROPERTY_TYPE
+        assert change.field == expected_field
+
+    @pytest.mark.parametrize(
+        "current_target",
+        ["INSTRUMENT", {"code": "INSTRUMENT"}, None],
+    )
+    def test_create_assignment_rejects_incompatible_object_target(self, current_target):
+        entity = generate_object_type()
+
+        prop = PropertyTypeAssignment(
+            code="OPERATOR",
+            data_type="OBJECT",
+            object_code="PERSON",
+            property_label="Operator",
+            description="Person performing the activity",
+            mandatory=False,
+            section="General Information",
+        )
+
+        property_type = MagicMock()
+        property_type.dataType = "SAMPLE"
+        property_type.sampleType = current_target
+
+        openbis = MagicMock()
+        openbis.get_property_type.return_value = property_type
+
+        obj_type = MagicMock()
+        result = SyncResult()
+
+        entity._create_property_assignment(
+            prop=prop,
+            obj_type=obj_type,
+            openbis=openbis,
+            result=result,
+        )
+
+        obj_type.assign_property.assert_not_called()
+        property_type.save.assert_not_called()
+
+        assert len(result.changes) == 1
+        assert result.changes[0].action == SyncAction.REJECTED
+        assert result.changes[0].field == "object_code"
+
+    def test_create_assignment_rejects_incompatible_vocabulary(self):
+        entity = generate_object_type()
+
+        prop = PropertyTypeAssignment(
+            code="CATEGORY",
+            data_type="CONTROLLEDVOCABULARY",
+            vocabulary_code="EXPECTED_VOCAB",
+            property_label="Category",
+            description="Category",
+            mandatory=False,
+            section="General Information",
+        )
+
+        property_type = MagicMock()
+        property_type.dataType = "CONTROLLEDVOCABULARY"
+        property_type.vocabulary = "OTHER_VOCAB"
+
+        openbis = MagicMock()
+        openbis.get_property_type.return_value = property_type
+
+        obj_type = MagicMock()
+        result = SyncResult()
+
+        entity._create_property_assignment(
+            prop=prop,
+            obj_type=obj_type,
+            openbis=openbis,
+            result=result,
+        )
+
+        obj_type.assign_property.assert_not_called()
+        property_type.save.assert_not_called()
+
+        assert len(result.changes) == 1
+        assert result.changes[0].action == SyncAction.REJECTED
+        assert result.changes[0].field == "vocabulary_code"
+
+    def test_create_assignment_updates_existing_property_metadata(self):
+        entity = generate_object_type()
+        prop = next(p for p in entity.properties if p.code == "ALIAS")
+
+        property_type = MagicMock()
+        property_type.dataType = "VARCHAR"
+        property_type.label = "Old label"
+        property_type.description = "Old description"
+
+        openbis = MagicMock()
+        openbis.get_property_type.return_value = property_type
+
+        obj_type = MagicMock()
+        result = SyncResult()
+
+        entity._create_property_assignment(
+            prop=prop,
+            obj_type=obj_type,
+            openbis=openbis,
+            result=result,
+        )
+
+        assert property_type.label == prop.openbis_property_label
+        assert property_type.description == prop.openbis_description
+
+        property_type.save.assert_called_once()
+        obj_type.assign_property.assert_called_once()
+
+        assert {
+            change.field
+            for change in result.changes
+            if change.action == SyncAction.MODIFIED
+        } == {"property_label", "description"}
 
 
 class TestVocabularyTypeSync:
@@ -1727,3 +1888,49 @@ class TestObjectTypeHierarchy:
         # Python can still determine subtype relationships.
         assert Combined.is_subtype_of(self.Entity)
         assert Combined.is_subtype_of(AnotherEntity)
+
+
+@patch("bam_masterdata.metadata.entities.OpenbisEntities")
+def test_sync_rejects_incompatible_unassigned_global_property(
+    mocked_openbis_entities,
+    mock_openbis_sync,
+):
+    openbis, obj_type = mock_openbis_sync
+    entity = generate_object_type()
+
+    # Limit the test to the ALIAS property.
+    prop = next(p for p in entity.properties if p.code == "ALIAS")
+    entity.properties = [prop]
+
+    # The object type exists, but ALIAS is not assigned to it.
+    mocked_openbis_entities.return_value.get_object_dict.return_value = {
+        entity.defs.code: True,
+    }
+
+    obj_type.description = entity.defs.openbis_description
+    obj_type.generatedCodePrefix = entity.defs.generated_code_prefix
+
+    # ALIAS exists globally with an incompatible data type.
+    property_type = MagicMock()
+    property_type.dataType = "INTEGER"
+    openbis.get_property_type.return_value = property_type
+
+    result = entity.to_openbis_sync(openbis=openbis)
+
+    obj_type.assign_property.assert_not_called()
+    openbis.new_property_type.assert_not_called()
+    property_type.save.assert_not_called()
+
+    assert any(
+        change.action == SyncAction.REJECTED
+        and change.target == SyncTarget.PROPERTY_TYPE
+        and change.code == "ALIAS"
+        and change.field == "data_type"
+        for change in result.changes
+    )
+
+    assert not any(
+        change.action == SyncAction.CREATED
+        and change.target == SyncTarget.PROPERTY_ASSIGNMENT
+        for change in result.changes
+    )
