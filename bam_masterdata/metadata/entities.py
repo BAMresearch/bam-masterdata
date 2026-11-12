@@ -354,7 +354,7 @@ class BaseEntity(BaseModel):
         for key in self._property_metadata.keys():
             try:
                 value = getattr(self, key)
-                if not value:
+                if value is None or isinstance(value, PropertyTypeAssignment):
                     continue
                 if isinstance(value, str | int | float | bool | list | tuple):
                     group.create_dataset(key, data=value)
