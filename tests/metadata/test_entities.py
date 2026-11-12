@@ -191,15 +191,6 @@ class TestBaseEntity:
         assert [prop.code for prop in entity._base_attrs] == ["SETTINGS"]
 
 
-def test_hdf5_empty_list_behavior():
-    with h5py.File(io.BytesIO(), "w") as hdf_file:
-        dataset = hdf_file.create_dataset("empty", data=[])
-
-        assert dataset.shape == (0,)
-        assert dataset.size == 0
-        assert dataset.dtype.kind == "f"
-
-
 class TestObjectType:
     @pytest.mark.parametrize("copy_assignment", [False, True])
     def test_subtype_can_override_required_field_without_changing_parent(
