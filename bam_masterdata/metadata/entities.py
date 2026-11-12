@@ -1408,6 +1408,51 @@ class ObjectType(BaseEntity):
 
         return True
 
+    def _sync_property_type_metadata(
+        self,
+        prop: PropertyTypeAssignment,
+        property_type,
+        result: SyncResult,
+    ) -> None:
+        """
+        Synchronize mutable metadata of an existing global property type.
+
+        Args:
+            prop (PropertyTypeAssignment): The property to be checked.
+            property_type: The openBIS property type
+            result (SyncResult): The result of the compatibility check.
+        """
+        modified = False
+
+        if property_type.label != prop.openbis_property_label:
+            old_value = property_type.label
+            property_type.label = prop.openbis_property_label
+            modified = True
+
+            result.modified(
+                target=SyncTarget.PROPERTY_TYPE,
+                code=prop.code,
+                field="property_label",
+                old_value=old_value,
+                new_value=prop.openbis_property_label,
+            )
+
+        if property_type.description != prop.openbis_description:
+            old_value = property_type.description
+            property_type.description = prop.openbis_description
+            modified = True
+
+            result.modified(
+                target=SyncTarget.PROPERTY_TYPE,
+                code=prop.code,
+                field="description",
+                old_value=old_value,
+                new_value=prop.openbis_description,
+            )
+
+        if modified:
+            property_type.save()
+
     def _update_existing_property(
         self,
         prop: PropertyTypeAssignment,
@@ -1446,38 +1491,12 @@ class ObjectType(BaseEntity):
         ):
             return None
 
-        property_type_modified = False
-
-        # Supported: label
-        if property_type.label != prop.openbis_property_label:
-            old_value = property_type.label
-            property_type.label = prop.openbis_property_label
-            property_type_modified = True
-
-            result.modified(
-                target=SyncTarget.PROPERTY_TYPE,
-                code=prop.code,
-                field="property_label",
-                old_value=old_value,
-                new_value=prop.openbis_property_label,
-            )
-
-        # Supported: description
-        if property_type.description != prop.openbis_description:
-            old_value = property_type.description
-            property_type.description = prop.openbis_description
-            property_type_modified = True
-
-            result.modified(
-                target=SyncTarget.PROPERTY_TYPE,
-                code=prop.code,
-                field="description",
-                old_value=old_value,
-                new_value=prop.openbis_description,
-            )
-
-        if property_type_modified:
-            property_type.save()
+        # Sync property type metadata (label, description)
+        self._sync_property_type_metadata(
+            prop=prop,
+            property_type=property_type,
+            result=result,
+        )
 
         # --- PropertyAssignment fields ---
         assignments = obj_type.get_property_assignments()
@@ -1565,6 +1584,13 @@ class ObjectType(BaseEntity):
                 result=result,
             ):
                 return None
+
+            # Sync property type metadata
+            self._sync_property_type_metadata(
+                prop=prop,
+                property_type=property_type,
+                result=result,
+            )
 
             kwargs = {
                 "code": prop.code,
