@@ -153,14 +153,6 @@ class TestBaseEntity:
             group = hdf_file["TestResult"]
             assert "result" not in group
 
-    def test_hdf5_empty_list_behavior(self):
-        with h5py.File(io.BytesIO(), "w") as hdf_file:
-            dataset = hdf_file.create_dataset("empty", data=[])
-
-            assert dataset.shape == (0,)
-            assert dataset.size == 0
-            assert dataset.dtype.kind == "f"
-
     def test_model_to_json(self):
         """Test the method `model_to_json` from the class `BaseEntity`."""
         entity = generate_base_entity()
@@ -197,6 +189,15 @@ class TestBaseEntity:
     def test_base_attrs_only_includes_direct_class_assignments(self):
         entity = generate_object_type_longer()
         assert [prop.code for prop in entity._base_attrs] == ["SETTINGS"]
+
+
+def test_hdf5_empty_list_behavior():
+    with h5py.File(io.BytesIO(), "w") as hdf_file:
+        dataset = hdf_file.create_dataset("empty", data=[])
+
+        assert dataset.shape == (0,)
+        assert dataset.size == 0
+        assert dataset.dtype.kind == "f"
 
 
 class TestObjectType:
