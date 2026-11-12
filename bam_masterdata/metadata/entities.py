@@ -1577,21 +1577,6 @@ class ObjectType(BaseEntity):
         try:
             property_type = openbis.get_property_type(prop.code)
         except ValueError:
-            # Initial check to validate if the defined property is compatible or not with the existing property type in openBIS
-            if not self._validate_property_type_compatibility(
-                prop=prop,
-                property_type=property_type,
-                result=result,
-            ):
-                return None
-
-            # Sync property type metadata
-            self._sync_property_type_metadata(
-                prop=prop,
-                property_type=property_type,
-                result=result,
-            )
-
             kwargs = {
                 "code": prop.code,
                 "label": prop.openbis_property_label,
@@ -1613,6 +1598,21 @@ class ObjectType(BaseEntity):
             result.created(
                 target=SyncTarget.PROPERTY_TYPE,
                 code=prop.code,
+            )
+        else:
+            # Check to validate if the defined property is compatible or not with the existing property type in openBIS
+            if not self._validate_property_type_compatibility(
+                prop=prop,
+                property_type=property_type,
+                result=result,
+            ):
+                return None
+
+            # Sync property type metadata
+            self._sync_property_type_metadata(
+                prop=prop,
+                property_type=property_type,
+                result=result,
             )
 
         obj_type.assign_property(
