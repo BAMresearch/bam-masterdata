@@ -85,6 +85,74 @@ class TestBaseEntity:
             assert data["MockedEntity"]["name"][()] == b"Test"
             assert data["MockedEntity"]["name"][()].decode() == "Test"
 
+    @pytest.mark.parametrize(
+        "value, data_type",
+        [
+            (0, "INTEGER"),
+            (0.0, "REAL"),
+            (False, "BOOLEAN"),
+            ("", "VARCHAR"),
+            (42, "INTEGER"),
+            (3.14, "REAL"),
+            (True, "BOOLEAN"),
+            ("Hello", "VARCHAR"),
+        ],
+    )
+    def test_to_hdf5_preserves_values(self, value, data_type):
+        class TestResult(ObjectType):
+            defs = ObjectTypeDef(
+                code="TEST_RESULT",
+                description="Test result",
+            )
+
+            result = PropertyTypeAssignment(
+                code="RESULT",
+                data_type=data_type,
+                property_label="Result",
+                description="Test result value",
+                mandatory=False,
+                section="General",
+            )
+
+        entity = TestResult(result=value)
+
+        with h5py.File(io.BytesIO(), "w") as hdf_file:
+            entity.to_hdf5(hdf_file)
+
+            group = hdf_file["TestResult"]
+
+            assert "result" in group
+
+            stored_value = group["result"][()]
+
+            if isinstance(value, str):
+                assert stored_value.decode("utf-8") == value
+            else:
+                assert stored_value == value
+
+    def test_to_hdf5_skips_uninitialized_properties(self):
+        class TestResult(ObjectType):
+            defs = ObjectTypeDef(
+                code="TEST_RESULT",
+                description="Test result",
+            )
+
+            result = PropertyTypeAssignment(
+                code="RESULT",
+                data_type="REAL",
+                property_label="Result",
+                description="Test result value",
+                mandatory=False,
+                section="General",
+            )
+
+        entity = TestResult()
+
+        with h5py.File(io.BytesIO(), "w") as hdf_file:
+            entity.to_hdf5(hdf_file)
+            group = hdf_file["TestResult"]
+            assert "result" not in group
+
     def test_model_to_json(self):
         """Test the method `model_to_json` from the class `BaseEntity`."""
         entity = generate_base_entity()
