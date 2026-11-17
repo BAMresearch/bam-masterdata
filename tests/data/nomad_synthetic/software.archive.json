@@ -1,0 +1,12 @@
+{
+  "metadata": {
+    "upload_id": "synthetic-upload",
+    "mainfile": "software.archive.json"
+  },
+  "data": {
+    "m_def": "demo.synthetic.Software",
+    "m_def_id": "synthetic-v1",
+    "name": "Synthetic solver",
+    "version": "1.2"
+  }
+}
