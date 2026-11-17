@@ -47,10 +47,10 @@ class BaseShape(VocabularyType):
         description="V-shaped",
     )
 
-    else_ = VocabularyTerm(
-        code="ELSE",
-        label="Else",
-        description="Else",
+    other = VocabularyTerm(
+        code="OTHER",
+        label="Other",
+        description="Other",
     )
 
 
@@ -73,16 +73,16 @@ class TipShape(VocabularyType):
         description="Colloidal",
     )
 
-    none = VocabularyTerm(
-        code="NONE",
-        label="None",
-        description="None",
+    tipless = VocabularyTerm(
+        code="TIPLESS",
+        label="Tipless",
+        description="Cantilever without a tip.",
     )
 
-    else_ = VocabularyTerm(
-        code="ELSE",
-        label="Else",
-        description="Else",
+    other = VocabularyTerm(
+        code="OTHER",
+        label="Other",
+        description="Other",
     )
 
 

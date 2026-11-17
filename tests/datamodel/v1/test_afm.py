@@ -194,8 +194,8 @@ def test_afm_vocabulary_codes_do_not_collide_with_v1_vocabularies():
     "cls, expected",
     [
         (PremountedType, {"NON_PROPRIETARY", "NANO_TA", "NANO_IR"}),
-        (BaseShape, {"RECTANGULAR", "V_SHAPED", "ELSE"}),
-        (TipShape, {"SHARP", "COLLOIDAL", "NONE", "ELSE"}),
+        (BaseShape, {"RECTANGULAR", "V_SHAPED", "OTHER"}),
+        (TipShape, {"SHARP", "COLLOIDAL", "TIPLESS", "OTHER"}),
         (AFMTipStatus, {"UNUSED", "ACTIVE", "MODIFIED", "BROKEN", "ARCHIVED"}),
     ],
     ids=lambda value: value.__name__ if isinstance(value, type) else "",
