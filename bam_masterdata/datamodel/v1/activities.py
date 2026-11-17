@@ -144,8 +144,8 @@ class Simulation(Computation):
         multivalued=True,
     )
 
-    walltime = PropertyTypeAssignment(
-        code="WALLTIME",
+    walltime_h = PropertyTypeAssignment(
+        code="WALLTIME_H",
         data_type="REAL",
         property_label="Walltime",
         units="h",
@@ -155,8 +155,8 @@ class Simulation(Computation):
         prev_versions=["SIM_WALLTIME_IN_HOURS:v0"],
     )
 
-    core_time = PropertyTypeAssignment(
-        code="CORE_TIME",
+    core_time_h = PropertyTypeAssignment(
+        code="CORE_TIME_H",
         data_type="REAL",
         property_label="Core time",
         units="h",

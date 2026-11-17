@@ -712,8 +712,8 @@ class Chemical(PhysicalObject):
         section="Chemical Identifiers",
     )
 
-    molar_mass = PropertyTypeAssignment(
-        code="MOLAR_MASS",
+    molar_mass_gmol = PropertyTypeAssignment(
+        code="MOLAR_MASS_GMOL",
         data_type="REAL",
         units="g/mol",
         property_label="Molar mass",
