@@ -4,6 +4,7 @@ import json
 import warnings
 from collections import OrderedDict
 from collections.abc import Callable
+from importlib import import_module as import_python_module
 from typing import TYPE_CHECKING, Any, no_type_check
 
 import h5py
@@ -989,8 +990,19 @@ class ObjectType(BaseEntity):
             raise ValueError(
                 f"Property '{key}' of type CONTROLLEDVOCABULARY must have a vocabulary_code defined."
             )
+        # v1 vocabularies must be looked up in the selected class hierarchy's
+        # version, not in the legacy v0 catalog. Custom/v0 definitions retain
+        # the configured DATAMODEL_DIR behavior.
+        vocabulary_directory = DATAMODEL_DIR
+        if any(
+            base.__module__.startswith("bam_masterdata.datamodel.v1.")
+            for base in type(self).__mro__
+        ):
+            vocabulary_directory = import_python_module(
+                "bam_masterdata.datamodel.v1"
+            ).__path__[0]
         vocab_paths = []
-        for file in listdir_py_modules(DATAMODEL_DIR):
+        for file in listdir_py_modules(vocabulary_directory):
             if "vocabulary_types.py" in file or "vocabularies.py" in file:
                 vocab_paths.append(file)
         if not vocab_paths:

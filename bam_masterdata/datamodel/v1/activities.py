@@ -16,6 +16,7 @@
 
 from bam_masterdata.datamodel.v1.base_objects import Activity
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
+from bam_masterdata.metadata.provenance import SOURCE_RECORD, STEP_ORDER
 
 
 class Computation(Activity):
@@ -251,6 +252,9 @@ class Experiment(Activity):
 
 
 class Processing(Experiment):
+    source_record = SOURCE_RECORD
+    step_order = STEP_ORDER
+
     defs = ObjectTypeDef(
         code="PROCESSING",
         description="A Processing is an experiment that alters the structure, composition, or form "
@@ -338,6 +342,8 @@ class Calibration(Experiment):
 
 
 class Synthesis(Experiment):
+    source_record = SOURCE_RECORD
+
     defs = ObjectTypeDef(
         code="SYNTHESIS",
         description="A Synthesis is an experiment that creates or assembles materials through chemical "

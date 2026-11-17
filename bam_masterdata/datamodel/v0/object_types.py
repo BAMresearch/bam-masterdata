@@ -1,5 +1,6 @@
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
 from bam_masterdata.metadata.entities import ObjectType
+from bam_masterdata.metadata.provenance import SOURCE_RECORD, STEP_ORDER
 
 
 class SearchQuery(ObjectType):
@@ -260,6 +261,9 @@ class GeneralProtocol(ObjectType):
 
 
 class ExperimentalStep(ObjectType):
+    source_record = SOURCE_RECORD
+    step_order = STEP_ORDER
+
     defs = ObjectTypeDef(
         code="EXPERIMENTAL_STEP",
         description="""Experimental Step (generic)//Experimenteller Schritt (allgemein)""",

@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "upload_id": "synthetic-upload",
+    "mainfile": "execution.archive.json"
+  },
+  "data": {
+    "m_def": "demo.synthetic.Execution",
+    "m_def_id": "synthetic-v1",
+    "name": "Synthetic execution",
+    "duration": {
+      "value": 2,
+      "unit": "minute"
+    },
+    "software": "../uploads/synthetic-upload/archive/7s1BcG2x5fRV-JamKUxeG_RRmutp#/data",
+    "status": "done"
+  }
+}
