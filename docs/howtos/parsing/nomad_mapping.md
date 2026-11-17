@@ -12,44 +12,57 @@ integration. Domain mappings supply source-schema selection, field meaning, BAM
 classes, units, vocabulary translations, and relationship roles. The shared module
 contains no battery imports or battery dispatch rules.
 
-## Run the HZB battery example
+## Configure an HZB mapping
 
-The recursive fixture inventory is `tests/data/nomad_hzb_profile.json`. It explicitly
-supplies upload IDs and mainfiles because the 19 supplied JSON files omit archive
-metadata. One file, `1.archive.json`, contains only a schema name. The configuration
-excludes that exact path with a reason; removing the exclusion makes strict parsing
-fail on its missing name. No file is excluded by an implicit naming rule.
+Inspect the source archive and its originating schema before mapping. The HZB
+mapper recognizes supported qualified schema names, but bundles no laboratory
+records, source upload/entry IDs, or schema revision hashes. Supply the exact
+`m_def_id` values whose definitions and units you have verified through the required
+`schema_ids` configuration. A hash being present in an archive does not establish
+compatibility by itself.
 
-Run from the repository root:
+This self-contained example uses deliberately synthetic names and revision tags:
 
 ```python
 import json
 from pathlib import Path
+from tempfile import TemporaryDirectory
 import structlog
 
 from bam_masterdata.metadata.entities import CollectionType
 from bam_masterdata.parsing.nomad import ArchiveSource, NomadParser
 from bam_masterdata.parsing.nomad.hzb import HZBBatteryMapping
 
-root = Path("tests/data")
-profile = json.loads((root / "nomad_hzb_profile.json").read_text())
-sources = [
-    ArchiveSource(root / row["path"], row["upload_id"], row["mainfile"])
-    for row in profile["sources"]
-]
+chemical_schema = "nomad_battery_space.schema_packages.hzb_bs_package.BS_Chemical"
+# Demonstration placeholder only: replace with a revision you have inspected.
+schema_ids = {chemical_schema: {"example-reviewed-revision"}}
 parser = NomadParser(
     mapping=HZBBatteryMapping(
         target_version="v1",  # select "v0" explicitly for the legacy catalog
-        quantity_profile=profile["quantity_profile"],
+        quantity_profile="hzb-laboratory-units-v1",
+        schema_ids=schema_ids,
     ),
-    sources=sources,
-    exclude={root / path: reason for path, reason in profile["exclude"].items()},
 )
-collection = CollectionType()
-parser.parse([str(source.path) for source in sources], collection, structlog.get_logger())
-print(len(collection.attached_objects))  # 21: 18 entries, synthesis, two steps
-print(parser.report.to_json(indent=2))
+with TemporaryDirectory() as directory:
+    path = Path(directory) / "example.json"
+    path.write_text(json.dumps({
+        "metadata": {"upload_id": "example-upload", "mainfile": "example.json"},
+        "data": {
+            "m_def": chemical_schema,
+            "m_def_id": "example-reviewed-revision",
+            "name": "Synthetic chemical",
+            "lab_id": "synthetic-chemical",
+        },
+    }))
+    collection = CollectionType()
+    parser.parse([str(path)], collection, structlog.get_logger())
+    print(parser.report.to_json(indent=2))
 ```
+
+For data-only archives lacking identity metadata, pass explicit source descriptors
+such as `ArchiveSource(path, upload_id="example-upload", mainfile="example.json")`
+in the parser's `sources` argument. Supply identifiers from the actual source
+system rather than inferring them from local filenames or display names.
 
 A successful mapping appends objects to the supplied collection after validating
 all references and mandatory values. Required OBJECT assignments may be deferred
@@ -66,17 +79,26 @@ be attached as datasets using the existing object dataset API.
 
 ### Schema selection and quantities
 
-HZB selection uses the complete `data.m_def` and a supported `data.m_def_id` pair
-in `parsing/nomad/hzb.py`. The fixture profile recognizes nine top-level schemas,
-including both observed hashes for `ElectrodeSheet`. Recognized nested geometry,
-quantity-section, and pure-substance identifiers/hashes are checked too. Each
-subsection accepts only its expected schema kind; a known geometry schema cannot
-stand in for a pure-substance or volume section. Inline
-subsections lacking these tags are supported only in the recognized parent
-schemas. Filename changes never select a different mapping.
+HZB selection uses the complete `data.m_def` and a `data.m_def_id` explicitly
+permitted by the caller's `schema_ids` mapping. Its keys must be supported qualified
+schema names and its values nonempty collections of inspected IDs. Missing
+configuration, unsupported schema names, and unapproved revisions fail. There is
+no default revision allowlist or name-only compatibility fallback.
 
-The archives do not declare units. The explicitly approved
-`hzb-fixtures-20260701` profile uses these source conventions:
+The fixed supported names cover the nine top-level concepts below and the
+following nested kinds: `DimensionsAndWeights`, `VolumeAndWeights`, `CircleGeometry`,
+`RectangleGeometry` in `nomad_battery_space.schema_packages.utilities`, and
+`nomad.datamodel.metainfo.basesections.v1.PubChemPureSubstanceSection`. Include any
+named nested schemas encountered in `schema_ids` too. Named subsections require an
+approved ID and are validated against their path's expected kind. A recognized
+geometry schema cannot stand in for a pure-substance or volume section. Tagless
+inline quantity and pure-substance subsections use the explicitly selected parent
+schema/profile's layout; geometry still needs its supported qualified name and
+approved revision. Filenames never select a mapping.
+
+The explicitly selected `hzb-laboratory-units-v1` profile uses these conventions.
+Confirm them against the exact source schema revision before selecting this
+profile; it does not establish that an arbitrary NOMAD export uses these units.
 
 | Source quantity | Profile unit | Typed BAM target unit |
 | --- | --- | --- |
@@ -93,12 +115,12 @@ The archives do not declare units. The explicitly approved
 Current upstream [dimensions](https://github.com/nomad-hzb/nomad-battery-space/blob/main/src/nomad_battery_space/schema_packages/utilities/dimensions.py),
 [geometry](https://github.com/nomad-hzb/nomad-battery-space/blob/main/src/nomad_battery_space/schema_packages/utilities/geometry.py),
 and [component schemas](https://github.com/nomad-hzb/nomad-battery-space/blob/main/src/nomad_battery_space/schema_packages/hzb_bs_package.py)
-inform these conventions, but their current revision has not been shown to
-reproduce the archived schema hashes. Applying this profile to another export
-requires confirming its units; it must not be treated as an automatic NOMAD SI
-or display-unit policy. Declared BAM `units` alone do not perform conversion.
+inform these conventions. Compare them with the exact revisions of your source
+schemas; a current upstream definition does not prove an older export's units.
+The profile is not an automatic NOMAD SI or display-unit policy. Declared BAM
+`units` alone do not perform conversion.
 
-`yield_percent=.8` and `wt_percent=.49` retain their source values with an
+`yield_percent` and `wt_percent` retain their source values with an
 `unconfirmed_scale` diagnostic. No multiplication by 100 is assumed. Supplied
 areas are preserved rather than recalculated. Root `datetime` maps to
 `RECORD_DATETIME`, not preparation or assembly date. Shipping/opening timestamps
@@ -132,20 +154,20 @@ not inferred intrinsic anode/cathode classifications. The mapping does not loose
 or populate v1 Activity's exact `ENTITY` input/output constraints with subtypes.
 
 Collection edges run input → derived material/sample/cell, or chemicals →
-synthesis → powder. Ordered synthesis membership and workflow aliases are
+synthesis → material. Ordered synthesis membership and workflow aliases are
 qualified relations retained in source JSON, not misleading material-flow edges.
-The two workflow tasks reuse the existing two step identities. The nested
-synthesis shares the powder lab ID but has a distinct section-pointer identity.
+Workflow tasks reuse the identities of the steps they reference. A nested
+synthesis has a distinct section-pointer identity even when it shares its output
+material's lab ID.
 
 ## Identity, references, errors, and retained information
 
 An `ArchiveSource` supplies the exact mainfile path relative to the upload's raw
-directory, including any subdirectories. Local fixture folders are merely the
-explicit layout used to construct the checked-in profile. Do not infer identity
-from chemical names. An explicit entry ID can be supplied when available; otherwise
+directory, including any subdirectories. Do not infer identity from chemical
+names or assume that the local folder layout reproduces the source upload. An explicit entry ID can be supplied when available; otherwise
 the [NOMAD entry-ID recipe](https://github.com/FAIRmat-NFDI/nomad/blob/develop/nomad/utils/__init__.py)
 uses SHA-512 over upload ID, mainfile, and optional mainfile key, encoded as the
-first 28 websafe-base64 characters. It reproduces every supplied cross-file target.
+first 28 websafe-base64 characters.
 
 With real archive `metadata.upload_id` and `metadata.mainfile`, descriptors may be
 omitted. Optional entry ID/mainfile key are accepted there too. Supplied descriptors
@@ -196,7 +218,7 @@ with all NOMAD software archives.
    `demo.synthetic.Software` and `demo.synthetic.Execution`, both explicitly tagged
    `m_def_id="synthetic-v1"`. Execution contains `duration={value: 2, unit: "minute"}`,
    `status="done"` and an upload/archive software reference. Their archive metadata
-   supplies identity, so no battery layout or fixture profile is involved.
+   supplies identity, so no battery layout or laboratory profile is involved.
 2. Select `SyntheticSoftwareMapping(target_version="v0" or "v1")` explicitly.
    Its `map(context)` function recognizes only these schema/version pairs. A real
    third-party schema needs its own inspected names/hashes and mapping module.
@@ -246,9 +268,12 @@ NOMAD SDK dependency, remote crawler or speculative abstraction for this example
 
 ## Verification boundary
 
-Regression tests map actual HZB fixtures against both versions, exercise the
-synthetic extension, validate values/schema serialization, and run ordinary and
-transactional loaders against mocks. These are offline and mocked checks. They do
-not establish live openBIS masterdata provisioning, JSON property handling, server
-reference validation or transaction behavior. Those require a disposable instance
-and separately recorded execution evidence.
+Regression tests generate a small, explicitly synthetic HZB-schema graph in a
+temporary directory for both BAM versions. They use placeholder schema revision
+IDs supplied explicitly to the mapping and test roles, shared identity, ordering,
+unit conversion, validation failures and atomicity. Separate synthetic non-battery
+fixtures demonstrate reuse, and ordinary/transactional loaders run against mocks.
+These checks do not validate compatibility with a real laboratory export or prove
+live openBIS provisioning, JSON property handling, server reference validation or
+transaction behavior. Those require separately supplied source evidence and a
+disposable instance with recorded execution results.

@@ -1,8 +1,8 @@
-"""Mapping of the explicitly approved July 2026 HZB battery fixture schemas.
+"""HZB battery mapping with caller-verified source schema revisions.
 
-Units are selected by the named profile, never inferred from numeric magnitudes.
-The current upstream definitions informed the profile but are not asserted to
-reproduce the archived schema hashes. Original claims are retained unchanged.
+Units are selected by the named laboratory profile, never inferred from numeric
+magnitudes. Callers must supply the exact schema IDs they have inspected; no
+laboratory records or default schema revision allowlist are bundled here.
 """
 
 import importlib
@@ -14,63 +14,22 @@ _PACKAGE = "nomad_battery_space.schema_packages."
 _BASE = _PACKAGE + "hzb_bs_package."
 _ASSEMBLY = _PACKAGE + "hzb_bs_assembly_package."
 _SCHEMAS = {
-    _BASE + "BS_Chemical": (
-        "ChemicalStock",
-        {"a890d00a32114b167c346a1b77bb4b0b6684647e"},
-    ),
-    _BASE + "ElectrodeMaterial": (
-        "ElectrodeMaterial",
-        {"da3dc4603bd0041c6533ad2744a20d520aa4874f"},
-    ),
-    _BASE + "ElectrodeSheet": (
-        "ElectrodeSheet",
-        {
-            "5e5a8c5eb2e26738b98527463721b048f5df2700",
-            "ee83cc49256b525f2ff0c3be4114b36430070592",
-        },
-    ),
-    _BASE + "ElectrolyteStock": (
-        "ElectrolyteStock",
-        {"f0fdf25cb3f6ac969fe07cdd7d02faf4958b268b"},
-    ),
-    _BASE + "SeparatorStock": (
-        "SeparatorStock",
-        {"366d860afc6082a5cf5f65447310304524b10ccd"},
-    ),
-    _BASE + "ElectrodeSample": (
-        "ElectrodeSample",
-        {"e89299a9a5000e66167a25256b2657a9b7034d81"},
-    ),
-    _BASE + "ElectrolyteSample": (
-        "ElectrolyteSample",
-        {"d818862e3a928e841e7eb0257fca23f5dbdba58b"},
-    ),
-    _BASE + "SeparatorSample": (
-        "SeparatorSample",
-        {"10970052e1adc650de1a77215385620afb47f141"},
-    ),
-    _ASSEMBLY + "CoinCellBattery": (
-        "CoinCell",
-        {"2ed2217e330c535a18e8e9e3a9c7fea54d92a1c8"},
-    ),
+    _BASE + "BS_Chemical": "ChemicalStock",
+    _BASE + "ElectrodeMaterial": "ElectrodeMaterial",
+    _BASE + "ElectrodeSheet": "ElectrodeSheet",
+    _BASE + "ElectrolyteStock": "ElectrolyteStock",
+    _BASE + "SeparatorStock": "SeparatorStock",
+    _BASE + "ElectrodeSample": "ElectrodeSample",
+    _BASE + "ElectrolyteSample": "ElectrolyteSample",
+    _BASE + "SeparatorSample": "SeparatorSample",
+    _ASSEMBLY + "CoinCellBattery": "CoinCell",
 }
 _NESTED_SCHEMAS = {
-    _PACKAGE + "utilities.dimensions.DimensionsAndWeights": {
-        "417ba7756e5f36ac8e1bc25e5a8a94df5a83a390"
-    },
-    _PACKAGE + "utilities.dimensions.VolumeAndWeights": {
-        "c2ef11b16a35e4f33d162888193a5f19cf513362"
-    },
-    _PACKAGE + "utilities.geometry.CircleGeometry": {
-        "1e38604aef43d4a409d9596ad0467de1f78a49b3"
-    },
-    _PACKAGE + "utilities.geometry.RectangleGeometry": {
-        "3a0acb067f054e91ebc2d1f007a3ca5bfef75818",
-        "c2af99b498e9781941d27b19fb11c89d453ae94a",
-    },
-    "nomad.datamodel.metainfo.basesections.v1.PubChemPureSubstanceSection": {
-        "c791a67f2948054b5b24584fdd865478c0024779"
-    },
+    _PACKAGE + "utilities.dimensions.DimensionsAndWeights",
+    _PACKAGE + "utilities.dimensions.VolumeAndWeights",
+    _PACKAGE + "utilities.geometry.CircleGeometry",
+    _PACKAGE + "utilities.geometry.RectangleGeometry",
+    "nomad.datamodel.metainfo.basesections.v1.PubChemPureSubstanceSection",
 }
 _UNITS = {
     "thickness": "um",
@@ -86,13 +45,36 @@ _UNITS = {
 class HZBBatteryMapping:
     mapping_id = "hzb-battery/1"
 
-    def __init__(self, *, target_version: str, quantity_profile: str):
+    def __init__(
+        self,
+        *,
+        target_version: str,
+        quantity_profile: str,
+        schema_ids: dict[str, set[str]],
+    ):
         if target_version not in ("v0", "v1"):
             raise MappingError(f"Unsupported target version: {target_version}")
-        if quantity_profile != "hzb-fixtures-20260701":
+        if quantity_profile != "hzb-laboratory-units-v1":
             raise MappingError(
-                "Select the explicitly approved hzb-fixtures-20260701 quantity profile"
+                "Select the explicit hzb-laboratory-units-v1 quantity profile"
             )
+        if not isinstance(schema_ids, dict) or not schema_ids:
+            raise MappingError(
+                "Supply explicit inspected schema_ids for the HZB mapping"
+            )
+        supported = set(_SCHEMAS) | _NESTED_SCHEMAS
+        for name, ids in schema_ids.items():
+            if name not in supported:
+                raise MappingError(f"Unsupported configured schema: {name}")
+            if (
+                not isinstance(ids, (set, frozenset, list, tuple))
+                or not ids
+                or any(not isinstance(value, str) or not value.strip() for value in ids)
+            ):
+                raise MappingError(
+                    f"schema_ids[{name!r}] requires a nonempty collection of explicit IDs"
+                )
+        self.schema_ids = {name: frozenset(ids) for name, ids in schema_ids.items()}
         self.target_version = target_version
         self.quantity_profile = quantity_profile
         self.targets = importlib.import_module(
@@ -126,20 +108,18 @@ class HZBBatteryMapping:
 
     def _nested_schema(self, context, archive, path, section, expected_schemas):
         if "m_def" not in section:
-            # Several observed inline subsections omit schema tags. Their parent
-            # schema/profile establishes the field layout explicitly.
+            # Inline subsections without schema tags use the explicitly selected
+            # parent schema/profile's field layout.
             if "m_def_id" in section:
                 raise MappingError(f"{archive.key()}{path}: schema hash without m_def")
             return
         name = context.value(archive, path + "/m_def")
-        allowed = _NESTED_SCHEMAS.get(name)
-        if allowed is None or name not in expected_schemas:
+        if name not in _NESTED_SCHEMAS or name not in expected_schemas:
             raise MappingError(
                 f"{archive.key()}{path}: unsupported nested schema {name} at this path"
             )
-        if (
-            "m_def_id" in section
-            and context.value(archive, path + "/m_def_id") not in allowed
+        if context.value(archive, path + "/m_def_id", None) not in self.schema_ids.get(
+            name, ()
         ):
             raise MappingError(f"{archive.key()}{path}: unsupported nested schema hash")
 
@@ -283,10 +263,12 @@ class HZBBatteryMapping:
                 raise MappingError(
                     f"{archive.source.path}: unsupported schema {schema}"
                 )
-            class_name, hashes = _SCHEMAS[schema]
+            class_name = _SCHEMAS[schema]
             cls = getattr(self.targets, class_name)
             values = self._values(context, archive, cls)
-            if context.value(archive, "/data/m_def_id", None) not in hashes:
+            if context.value(
+                archive, "/data/m_def_id", None
+            ) not in self.schema_ids.get(schema, ()):
                 raise MappingError(
                     f"{archive.source.path}: unsupported schema hash for {schema}"
                 )
