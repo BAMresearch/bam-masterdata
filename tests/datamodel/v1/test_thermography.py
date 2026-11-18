@@ -24,8 +24,7 @@ PARAMETER_TYPES = [
 VOCABULARY_TYPES = [
     cls
     for _, cls in inspect.getmembers(vocabularies, inspect.isclass)
-    if cls.__module__ == vocabularies.__name__
-    and issubclass(cls, VocabularyType)
+    if cls.__module__ == vocabularies.__name__ and issubclass(cls, VocabularyType)
 ]
 
 
