@@ -311,3 +311,101 @@ class CalibrationStatus(VocabularyType):
         label="Not required",
         description="The device does not require calibration.",
     )
+
+
+class WindDirection(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="WIND_DIRECTION",
+        description="""Wind direction""",
+    )
+
+    east = VocabularyTerm(
+        code="EAST",
+        label="East",
+        description="""East""",
+    )
+
+    north = VocabularyTerm(
+        code="NORTH",
+        label="North",
+        description="""North""",
+    )
+
+    north_east = VocabularyTerm(
+        code="NORTH_EAST",
+        label="North East",
+        description="""North East""",
+    )
+
+    north_west = VocabularyTerm(
+        code="NORTH_WEST",
+        label="North West",
+        description="""North West""",
+    )
+
+    south = VocabularyTerm(
+        code="SOUTH",
+        label="South",
+        description="""South""",
+    )
+
+    south_east = VocabularyTerm(
+        code="SOUTH_EAST",
+        label="South East",
+        description="""South East""",
+    )
+
+    south_west = VocabularyTerm(
+        code="SOUTH_WEST",
+        label="South West",
+        description="""South West""",
+    )
+
+    west = VocabularyTerm(
+        code="WEST",
+        label="West",
+        description="""West""",
+    )
+
+
+class WeatherCondition(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="WEATHER_CONDITION",
+        description="""Weather condition""",
+    )
+
+    clear = VocabularyTerm(
+        code="CLEAR",
+        label="Clear",
+        description="""clear""",
+    )
+
+    cloudy = VocabularyTerm(
+        code="CLOUDY",
+        label="Cloudy",
+        description="""cloudy""",
+    )
+
+    foggy = VocabularyTerm(
+        code="FOGGY",
+        label="Foggy",
+        description="""foggy""",
+    )
+
+    partially_cloudy = VocabularyTerm(
+        code="PARTIALLY_CLOUDY",
+        label="Partially Cloudy",
+        description="""partially cloudy""",
+    )
+
+    rainy = VocabularyTerm(
+        code="RAINY",
+        label="Rainy",
+        description="""rainy""",
+    )
+
+    snowy = VocabularyTerm(
+        code="SNOWY",
+        label="Snowy",
+        description="""snowy""",
+    )
