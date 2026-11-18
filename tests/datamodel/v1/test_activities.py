@@ -114,8 +114,8 @@ def test_analyses_inherit_processing_metadata(cls):
 def test_simulation_execution_metadata():
     props = Simulation()._property_metadata
     for name in (
-        "walltime",
-        "core_time",
+        "walltime_h",
+        "core_time_h",
         "n_cores",
         "n_gpus",
         "n_threads",
@@ -124,8 +124,8 @@ def test_simulation_execution_metadata():
     ):
         assert name in props
         assert props[name].section == "Execution Details"
-    assert props["walltime"].units == "h"
-    assert props["core_time"].units == "h"
+    assert props["walltime_h"].units == "h"
+    assert props["core_time_h"].units == "h"
     assert props["simulated_system"].object_code == "SIMULATED_SYSTEM"
 
 
@@ -155,11 +155,11 @@ def test_legacy_mapping_is_recorded_for_migrated_types():
 def test_instance_values_serialize():
     simulation = Simulation()
     simulation.name = "Silicon calculation"
-    simulation.walltime = 2.5
+    simulation.walltime_h = 2.5
     simulation.n_cores = 16
 
     assert simulation.to_dict() == {
         "name": "Silicon calculation",
-        "walltime": 2.5,
+        "walltime_h": 2.5,
         "n_cores": 16,
     }
