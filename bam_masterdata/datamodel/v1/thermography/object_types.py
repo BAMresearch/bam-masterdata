@@ -223,7 +223,7 @@ class ThermographyHeatingParameters(ParameterSet):
     heating_power_watt = PropertyTypeAssignment(
         code="HEATING_POWER_WATT",
         data_type="REAL",
-        units="Watt",
+        units="watt",
         property_label="Heating power",
         description="Power setting of the heating source.",
         mandatory=False,
@@ -374,5 +374,3 @@ class ThermographySetup(ParameterSet):
         section="Setup Geometry",
         prev_versions=["HEAT_SOURCE_ORIENTATION:v0"],
     )
-
-    # Not mapped: SAMPLE_TREATMENT

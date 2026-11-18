@@ -37,18 +37,19 @@ class IRCameraTriggerSetting(VocabularyType):
     defs = VocabularyTypeDef(
         code="IR_CAMERA_TRIGGER_SETTING",
         description="""Trigger Setting""",
+        prev_versions=["IR_CAMERA.TRIGGER_SETTING:v0"],
     )
 
     hardware_individual_frame = VocabularyTerm(
         code="HARDWARE_INDIVIDUAL_FRAME",
         label="Hardware Individual Frame",
-        description="""Hardware Trigger: Acquisiton of a single frame""",
+        description="""Hardware Trigger: Acquisition of a single frame""",
     )
 
     hardware_start_acquisition = VocabularyTerm(
         code="HARDWARE_START_ACQUISITION",
         label="Hardware Start Acquisition",
-        description="""Hardware Trigger: Start acquisiton""",
+        description="""Hardware Trigger: Start acquisition""",
     )
 
     software = VocabularyTerm(
@@ -68,6 +69,7 @@ class NUCMode(VocabularyType):
     defs = VocabularyTypeDef(
         code="NUC_MODE",
         description="""Non-uniformity correction (NUC) mode""",
+        prev_versions=["NUC_PERFORMED:v0"],
     )
 
     before_acquisition = VocabularyTerm(
@@ -123,7 +125,7 @@ class ThermographicSetupHsOrient(VocabularyType):
     off_axis = VocabularyTerm(
         code="OFF_AXIS",
         label="Off Axis",
-        description="""Off-Axis with camer""",
+        description="""Off-Axis with camera""",
     )
 
     on_axis = VocabularyTerm(
@@ -209,7 +211,7 @@ class HeatingPrinciple(VocabularyType):
     vibration = VocabularyTerm(
         code="VIBRATION",
         label="Vibration",
-        description="""Vibratiom""",
+        description="""Vibration""",
     )
 
 
@@ -217,6 +219,7 @@ class HeatingAreaDescription(VocabularyType):
     defs = VocabularyTypeDef(
         code="HEATING_AREA_DESCRIPTION",
         description="""Area of effect of the heating""",
+        prev_versions=["HEATING_AREA_DESC:v0"],
     )
 
     full_body = VocabularyTerm(
