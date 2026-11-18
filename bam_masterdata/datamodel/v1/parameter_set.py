@@ -102,30 +102,3 @@ class OutdoorConditions(EnvironmentalConditions):
     )
 
     # LOCATION_LATITUDE_IN_DEGREES, LOCATION_LONGITUDE_IN_DEGREES, LOCATION_ADDRESS map to LOCATION
-
-
-class IRCameraAcquisitionParameters(ParameterSet):
-    defs = ObjectTypeDef(
-        code="IR_CAMERA_ACQUISITION_PARAMETERS",
-        description="...",
-        generated_code_prefix="IR_CAM_ACQ_PARAMS",
-        prev_versions=["PARAMETER_SET.IR_CAMERA_ACQUISITION:v0"],
-    )
-
-
-class ThermographyHeatingParameters(ParameterSet):
-    defs = ObjectTypeDef(
-        code="THERMOGRAPHY_HEATING_PARAMETERS",
-        description="...",
-        generated_code_prefix="THERM_HEAT_PARAMS",
-        prev_versions=["PARAMETER_SET.THERMOGRAPHY_HEATING:v0"],
-    )
-
-
-class ThermographySetup(ParameterSet):
-    defs = ObjectTypeDef(
-        code="THERMOGRAPHY_SETUP",
-        description="...",
-        generated_code_prefix="THERM_SETUP",
-        prev_versions=["PARAMETER_SET.THERMOGRAPHY_SETUP:v0"],
-    )
