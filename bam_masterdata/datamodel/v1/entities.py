@@ -522,6 +522,28 @@ class Sample(PhysicalObject):
         prev_versions=["SAMPLE_ID:v0"],
     )
 
+    sample_geometry = PropertyTypeAssignment(
+        code="SAMPLE_GEOMETRY",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="SAMPLE_GEOMETRY",
+        property_label="Sample geometry",
+        description="Geometric shape of the sample, used to classify its overall sample geometry.",
+        mandatory=False,
+        section="Sample Details",
+        prev_versions=["SAMPLE_GEOMETRY:v0"],
+    )
+
+    sample_origin = PropertyTypeAssignment(
+        code="SAMPLE_ORIGIN",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="SAMPLE_ORIGIN",
+        property_label="Sample origin",
+        description="Origin of the sample, describing where or how the sampled material was obtained or produced.",
+        mandatory=False,
+        section="Sample Details",
+        prev_versions=["SAMPLE_ORIGIN:v0"],
+    )
+
     # Properties from v0 that need to be migrated to v1 (from SAMPLE:v0):
     # SAMPLE_ID_NUMBER
     # BARCODE_EXTERNAL

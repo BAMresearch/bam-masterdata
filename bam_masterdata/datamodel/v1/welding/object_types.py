@@ -5,7 +5,8 @@ from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssig
 class WeldingWire(Material):
     defs = ObjectTypeDef(
         code="WELDING_WIRE",
-        description="A WeldingWire is a Sample ...",
+        description="A WeldingWire is a material supplied in wire form for use as a consumable electrode "
+        "or filler material in welding.",
         generated_code_prefix="WELD_WIRE",
         prev_versions=["CONSUMABLE.WELDING.WIRE_SOLID:v0"],
     )
@@ -21,12 +22,12 @@ class WeldingWire(Material):
         prev_versions=["WELDING_WIRE.DIAMETER:v0"],
     )
 
-    weight_kg = PropertyTypeAssignment(
-        code="WEIGHT_KG",
+    mass_kg = PropertyTypeAssignment(
+        code="MASS_KG",
         data_type="REAL",
-        property_label="Weight",
+        property_label="Mass",
         units="kg",
-        description="""Weight""",
+        description="""Mass""",
         mandatory=True,
         section="Wire Information",
         prev_versions=["WELDING_WIRE.WEIGHT:v0"],
@@ -72,7 +73,6 @@ class WeldingWire(Material):
         prev_versions=["WELDING_WIRE.AWS_STANDARD:v0"],
     )
 
-    # New properties suggested in Miro:
-    #   LOT_NUMBER (VARCHAR)
+    # New properties suggested in Miro: (clarify with @CagtayFabry)
     #   MATERIAL (OBJECT, WeldingWireAllow)
     #   WIRE_TYPE (CONTROLLEDVOCABULARY) --> maybe MATERIAL_TYPE?

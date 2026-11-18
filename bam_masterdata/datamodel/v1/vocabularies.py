@@ -409,3 +409,53 @@ class WeatherCondition(VocabularyType):
         label="Snowy",
         description="""snowy""",
     )
+
+
+class SampleGeometry(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="SAMPLE_GEOMETRY",
+        description="""Sample geometry""",
+    )
+
+    cube = VocabularyTerm(
+        code="CUBE",
+        label="Cube",
+        description="""Cube""",
+    )
+
+    prism = VocabularyTerm(
+        code="PRISM",
+        label="Prism",
+        description="""Prism""",
+    )
+
+    cylinder = VocabularyTerm(
+        code="CYLINDER",
+        label="Cylinder",
+        description="""Cylinder""",
+    )
+
+    drill_core = VocabularyTerm(
+        code="DRILL_CORE",
+        label="Drill core",
+        description="""Drill core""",
+    )
+
+
+class SampleOrigin(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="SAMPLE_ORIGIN",
+        description="""Sample origin""",
+    )
+
+    bam_lab = VocabularyTerm(
+        code="BAM_LAB",
+        label="BAM Laboratory//BAM-Labor",
+        description="""BAM Laboratory""",
+    )
+
+    structure = VocabularyTerm(
+        code="STRUCTURE",
+        label="Structure//Bauwerk",
+        description="""Structure""",
+    )

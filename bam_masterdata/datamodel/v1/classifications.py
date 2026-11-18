@@ -5,8 +5,8 @@ from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssig
 class DangerousGood(Classification):
     defs = ObjectTypeDef(
         code="DANGEROUS_GOOD",
-        description="A DangerousGood is a classification representing the hazardous characteristic assigned "
-        "to a material entity according to applicable dangerous goods standards.",
+        description="A DangerousGood is a classification that specifies the dangerous-goods transport "
+        "designation assigned to a material entity.",
         generated_code_prefix="DANG_GOOD",
     )
 

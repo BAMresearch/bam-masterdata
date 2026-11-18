@@ -5,7 +5,8 @@ from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssig
 class BuildingMaterialsSpecimen(Sample):
     defs = ObjectTypeDef(
         code="BUILDING_MATERIALS_SPECIMEN",
-        description="A generic sample used for building material tests, such as compressive strength tests.",
+        description="	A BuildingMaterialsSpecimen is a sample of building material prepared or "
+        "selected for characterization or testing.",
         generated_code_prefix="BUI_MAT_SAM",
         prev_versions=["SAMPLE.BUILDING_MATERIALS_SPECIMEN:v0"],
     )
@@ -62,28 +63,6 @@ class BuildingMaterialsSpecimen(Sample):
         mandatory=False,
         section="Sample Details",
         prev_versions=["DENSITY_KG_PER_CUBIC_METER:v0"],
-    )
-
-    sample_geometry = PropertyTypeAssignment(
-        code="SAMPLE_GEOMETRY",
-        data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="SAMPLE_GEOMETRY",
-        property_label="Sample geometry",
-        description="Geometric shape of the sample, used to classify its overall sample geometry.",
-        mandatory=False,
-        section="Sample Details",
-        prev_versions=["SAMPLE_GEOMETRY:v0"],
-    )
-
-    sample_origin = PropertyTypeAssignment(
-        code="SAMPLE_ORIGIN",
-        data_type="CONTROLLEDVOCABULARY",
-        vocabulary_code="SAMPLE_ORIGIN",
-        property_label="Sample origin",
-        description="Origin of the sample, describing where or how the sampled material was obtained or produced.",
-        mandatory=False,
-        section="Sample Details",
-        prev_versions=["SAMPLE_ORIGIN:v0"],
     )
 
     building_material_type = PropertyTypeAssignment(
@@ -174,9 +153,9 @@ class BuildingMaterialsSpecimen(Sample):
 
 class ConcreteMixture(Sample):
     defs = ObjectTypeDef(
-        code="SAMPLE.CONCRETE_MIXTURE",
-        description="CA concrete mixture representing the composition and fresh-state characteristics "
-        "of concrete from which samples may be prepared or building-material tests may be performed.",
+        code="CONCRETE_MIXTURE",
+        description="	A ConcreteMixture is a sample of concrete in its fresh state, identified as a "
+        "discrete batch or portion for preparation, characterization, or testing.",
         generated_code_prefix="CON_MIX",
         prev_versions=["SAMPLE.CONCRETE_MIXTURE:v0"],
     )
@@ -259,7 +238,7 @@ class ConcreteMixture(Sample):
     )
 
     admixtures = PropertyTypeAssignment(
-        code="ADDMIXTURES",
+        code="ADMIXTURES",
         data_type="MULTILINE_VARCHAR",
         property_label="Admixtures",
         description="Description of concrete admixtures added to modify properties of the fresh or hardened "

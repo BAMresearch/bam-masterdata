@@ -5,7 +5,8 @@ from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssig
 class CreepTestPiece(Sample):
     defs = ObjectTypeDef(
         code="CREEP_TEST_PIECE",
-        description="""Creep test piece""",
+        description="	A CreepTestPiece is a sample prepared or selected for testing its time-dependent "
+        "deformation under sustained loading.",
         generated_code_prefix="CREEP_TEST_PIE",
         prev_versions=["SAMPLE.CREEP_TEST_TEST_PIECE:v0"],
     )

@@ -5,7 +5,8 @@ from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssig
 class EnvironmentalConditions(ParameterSet):
     defs = ObjectTypeDef(
         code="ENVIRONMENTAL_CONDITIONS",
-        description="...",
+        description="An EnvironmentalConditions is a parameter set that describes the ambient conditions "
+        "associated with an entity or activity.",
         generated_code_prefix="ENV_COND",
         prev_versions=[
             "ENVIRONMENTAL_CONDITIONS:v0",
@@ -40,7 +41,8 @@ class EnvironmentalConditions(ParameterSet):
 class OutdoorConditions(EnvironmentalConditions):
     defs = ObjectTypeDef(
         code="OUTDOOR_CONDITIONS",
-        description="...",
+        description="An OutdoorConditions is an environmental conditions parameter set that describes ambient "
+        "and weather conditions in an outdoor setting.",
         generated_code_prefix="OUT_COND",
         prev_versions=["ENVIRONMENTAL_CONDITIONS.OUTDOOR:v0"],
     )
@@ -68,7 +70,7 @@ class OutdoorConditions(EnvironmentalConditions):
     )
 
     sun_irradiance_wattm2 = PropertyTypeAssignment(
-        code="SUN_IRRADIANCE",
+        code="SUN_IRRADIANCE_WATTM2",
         data_type="REAL",
         property_label="Sun irradiance",
         units="watt/m^2",
@@ -92,7 +94,7 @@ class OutdoorConditions(EnvironmentalConditions):
     location = PropertyTypeAssignment(
         code="LOCATION",
         data_type="OBJECT",
-        vocabulary_code="LOCATION",
+        object_code="LOCATION",
         property_label="Location",
         description="Location",
         mandatory=False,
@@ -107,7 +109,7 @@ class IRCameraAcquisitionParameters(ParameterSet):
         code="IR_CAMERA_ACQUISITION_PARAMETERS",
         description="...",
         generated_code_prefix="IR_CAM_ACQ_PARAMS",
-        prev_versions=["PARAMETER_SET.IR_CAMERA_ACQUISITION.OUTDOOR:v0"],
+        prev_versions=["PARAMETER_SET.IR_CAMERA_ACQUISITION:v0"],
     )
 
 
