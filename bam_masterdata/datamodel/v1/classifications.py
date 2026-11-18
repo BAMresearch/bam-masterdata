@@ -1,3 +1,9 @@
+# AUTO-GENERATED CLASS HIERARCHY — DO NOT EDIT
+#
+# DangerousGood
+#
+# END AUTO-GENERATED CLASS HIERARCHY
+
 from bam_masterdata.datamodel.v1.entities import Classification
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
 

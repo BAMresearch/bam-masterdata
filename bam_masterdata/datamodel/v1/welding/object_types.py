@@ -1,3 +1,9 @@
+# AUTO-GENERATED CLASS HIERARCHY — DO NOT EDIT
+#
+# WeldingWire
+#
+# END AUTO-GENERATED CLASS HIERARCHY
+
 from bam_masterdata.datamodel.v1.entities import Material
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
 

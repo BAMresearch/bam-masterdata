@@ -1,3 +1,10 @@
+# AUTO-GENERATED CLASS HIERARCHY — DO NOT EDIT
+#
+# EnvironmentalConditions
+# └── OutdoorConditions
+#
+# END AUTO-GENERATED CLASS HIERARCHY
+
 from bam_masterdata.datamodel.v1.entities import ParameterSet
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
 
