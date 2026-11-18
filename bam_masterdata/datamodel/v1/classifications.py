@@ -18,29 +18,29 @@ class DangerousGood(Classification):
 
     un_number = PropertyTypeAssignment(
         code="UN_NUMBER",
-        data_type="???",
-        property_label="UN Number",
-        description="...",
+        data_type="VARCHAR",
+        property_label="UN number",
+        description="UN identifier associated with the dangerous-goods classification.",
         mandatory=False,
-        section="Hazardous Details",
+        section="Dangerous Goods Classification",
     )
 
     hazard_class = PropertyTypeAssignment(
         code="HAZARD_CLASS",
-        data_type="???",
+        data_type="VARCHAR",
         property_label="Hazard class",
-        description="...",
+        description="Transport hazard class or division associated with the dangerous-goods classification.",
         mandatory=False,
-        section="Hazardous Details",
+        section="Dangerous Goods Classification",
     )
 
     packing_group = PropertyTypeAssignment(
         code="PACKING_GROUP",
-        data_type="???",
+        data_type="VARCHAR",
         property_label="Packing group",
-        description="...",
+        description="Packing group assigned under the applicable dangerous-goods classification, where applicable.",
         mandatory=False,
-        section="Hazardous Details",
+        section="Dangerous Goods Classification",
     )
 
     # LINK_TO_DGG_DATABASE maps to EXTERNAL_REFERENCES (in Root)
