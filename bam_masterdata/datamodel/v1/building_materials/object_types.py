@@ -102,7 +102,8 @@ class BuildingMaterialsSpecimen(Sample):
         code="BUILDING_MATERIAL_DETAILS",
         data_type="MULTILINE_VARCHAR",
         property_label="Building material details",
-        description="""Additional information describing the building material that is not captured by the material type, such as composition, grade, product designation, or other relevant characteristics.//Zusätzliche Angaben zum Baustoff, die nicht durch den Baustofftyp abgedeckt sind, z. B. Zusammensetzung, Sorte, Produktbezeichnung oder andere relevante Eigenschaften.""",
+        description="Additional information describing the building material that is not captured by the "
+        "material type, such as composition, grade, product designation, or other relevant characteristics.",
         mandatory=False,
         section="Building Materials Specimen Details",
         prev_versions=["BUILDING_MATERIAL_DETAILS:v0"],
