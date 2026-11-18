@@ -1,9 +1,12 @@
 import datetime
+import importlib
 import inspect
 import json
+import re
 import warnings
 from collections import OrderedDict
 from collections.abc import Callable
+from pathlib import Path
 from typing import TYPE_CHECKING, Any, no_type_check
 
 import h5py
@@ -989,13 +992,25 @@ class ObjectType(BaseEntity):
             raise ValueError(
                 f"Property '{key}' of type CONTROLLEDVOCABULARY must have a vocabulary_code defined."
             )
+
+        datamodel_dir = DATAMODEL_DIR
+        for base in type(self).__mro__:
+            match = re.match(
+                r"^(bam_masterdata\.datamodel\.v\d+)(?:\.|$)",
+                base.__module__,
+            )
+            if match is not None:
+                package = importlib.import_module(match.group(1))
+                datamodel_dir = str(Path(package.__file__).resolve().parent)
+                break
+
         vocab_paths = []
-        for file in listdir_py_modules(DATAMODEL_DIR):
+        for file in listdir_py_modules(datamodel_dir):
             if "vocabulary_types.py" in file or "vocabularies.py" in file:
                 vocab_paths.append(file)
         if not vocab_paths:
             raise FileNotFoundError(
-                f"No file 'vocabularies.py' was not found in the directory and sub-directories specified by {DATAMODEL_DIR}."
+                f"No file 'vocabularies.py' was not found in the directory and sub-directories specified by {datamodel_dir}."
             )
 
         # Scan all vocabularies.py files
