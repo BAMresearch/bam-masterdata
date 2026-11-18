@@ -311,3 +311,151 @@ class CalibrationStatus(VocabularyType):
         label="Not required",
         description="The device does not require calibration.",
     )
+
+
+class WindDirection(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="WIND_DIRECTION",
+        description="""Wind direction""",
+    )
+
+    east = VocabularyTerm(
+        code="EAST",
+        label="East",
+        description="""East""",
+    )
+
+    north = VocabularyTerm(
+        code="NORTH",
+        label="North",
+        description="""North""",
+    )
+
+    north_east = VocabularyTerm(
+        code="NORTH_EAST",
+        label="North East",
+        description="""North East""",
+    )
+
+    north_west = VocabularyTerm(
+        code="NORTH_WEST",
+        label="North West",
+        description="""North West""",
+    )
+
+    south = VocabularyTerm(
+        code="SOUTH",
+        label="South",
+        description="""South""",
+    )
+
+    south_east = VocabularyTerm(
+        code="SOUTH_EAST",
+        label="South East",
+        description="""South East""",
+    )
+
+    south_west = VocabularyTerm(
+        code="SOUTH_WEST",
+        label="South West",
+        description="""South West""",
+    )
+
+    west = VocabularyTerm(
+        code="WEST",
+        label="West",
+        description="""West""",
+    )
+
+
+class WeatherCondition(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="WEATHER_CONDITION",
+        description="""Weather condition""",
+    )
+
+    clear = VocabularyTerm(
+        code="CLEAR",
+        label="Clear",
+        description="""clear""",
+    )
+
+    cloudy = VocabularyTerm(
+        code="CLOUDY",
+        label="Cloudy",
+        description="""cloudy""",
+    )
+
+    foggy = VocabularyTerm(
+        code="FOGGY",
+        label="Foggy",
+        description="""foggy""",
+    )
+
+    partially_cloudy = VocabularyTerm(
+        code="PARTIALLY_CLOUDY",
+        label="Partially Cloudy",
+        description="""partially cloudy""",
+    )
+
+    rainy = VocabularyTerm(
+        code="RAINY",
+        label="Rainy",
+        description="""rainy""",
+    )
+
+    snowy = VocabularyTerm(
+        code="SNOWY",
+        label="Snowy",
+        description="""snowy""",
+    )
+
+
+class SampleGeometry(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="SAMPLE_GEOMETRY",
+        description="""Sample geometry""",
+    )
+
+    cube = VocabularyTerm(
+        code="CUBE",
+        label="Cube",
+        description="""Cube""",
+    )
+
+    prism = VocabularyTerm(
+        code="PRISM",
+        label="Prism",
+        description="""Prism""",
+    )
+
+    cylinder = VocabularyTerm(
+        code="CYLINDER",
+        label="Cylinder",
+        description="""Cylinder""",
+    )
+
+    drill_core = VocabularyTerm(
+        code="DRILL_CORE",
+        label="Drill core",
+        description="""Drill core""",
+    )
+
+
+class SampleOrigin(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="SAMPLE_ORIGIN",
+        description="""Sample origin""",
+    )
+
+    bam_lab = VocabularyTerm(
+        code="BAM_LAB",
+        label="BAM Laboratory//BAM-Labor",
+        description="""BAM Laboratory""",
+    )
+
+    structure = VocabularyTerm(
+        code="STRUCTURE",
+        label="Structure//Bauwerk",
+        description="""Structure""",
+    )
