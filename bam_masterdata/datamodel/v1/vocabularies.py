@@ -459,3 +459,29 @@ class SampleOrigin(VocabularyType):
         label="Structure//Bauwerk",
         description="""Structure""",
     )
+
+
+class EquipmentPurpose(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="EQUIPMENT_PURPOSE",
+        description="""Tool Purpose//Verwendungszweck des Werkzeugs""",
+        prev_versions=["TOOL_PURPOSE:v0"],
+    )
+
+    cut = VocabularyTerm(
+        code="CUT",
+        label="Schneiden",
+        description="""Cutting//Schneiden""",
+    )
+
+    drill = VocabularyTerm(
+        code="DRILL",
+        label="Bohren",
+        description="""Drilling//Bohren""",
+    )
+
+    scan = VocabularyTerm(
+        code="SCAN",
+        label="Scannen",
+        description="""Scanning//Scannen""",
+    )
