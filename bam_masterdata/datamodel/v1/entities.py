@@ -413,7 +413,7 @@ class Device(PhysicalObject):
         description="Manufacturer's model designation of the device.",
         mandatory=False,
         section="Device Details",
-        prev_versions=["DEVICE_MODEL_NAME:v0"],
+        prev_versions=["DEVICE_MODEL_NAME:v0", "MODEL_NAME:v0"],
     )
 
     serial_number = PropertyTypeAssignment(
@@ -424,6 +424,16 @@ class Device(PhysicalObject):
         mandatory=False,
         section="Device Details",
         prev_versions=["SERIAL_NUMBER:v0"],
+    )
+
+    inventory_number = PropertyTypeAssignment(
+        code="INVENTORY_NUMBER",
+        data_type="VARCHAR",
+        property_label="Inventory number",
+        description="Inventory number.",
+        mandatory=False,
+        section="Device Details",
+        prev_versions=["BAM_INVENTORY_NUMBER:v0"],
     )
 
     mac_address = PropertyTypeAssignment(
@@ -443,8 +453,8 @@ class Device(PhysicalObject):
         property_label="Device status",
         description="Current operational or availability status of the device.",
         mandatory=False,
-        section="Inventory Details",
-        prev_versions=["INSTRUMENT_STATUS:v0"],
+        section="Device Details",
+        prev_versions=["INSTRUMENT_STATUS:v0", "EQUIPMENT_STATUS:v0"],
     )
 
 
@@ -492,6 +502,34 @@ class Sensor(Device):
         generated_code_prefix="SENS",
     )
 
+    measured_quantity = PropertyTypeAssignment(
+        code="MEASURED_QUANTITY",
+        data_type="VARCHAR",
+        property_label="Measured quantity",
+        description="...",
+        mandatory=True,
+        section="Measured Quantities",
+        prev_versions=["MEASUREMENT_QUANTITY:v0"],
+    )
+
+    measured_quantity_units = PropertyTypeAssignment(
+        code="MEASURED_QUANTITY_UNITS",
+        data_type="VARCHAR",
+        property_label="Measured quantity units",
+        description="...",
+        mandatory=False,
+        section="Measured Quantities",
+    )
+
+    measured_quantity_values = PropertyTypeAssignment(
+        code="MEASURED_QUANTITY_VALUE",
+        data_type="ARRAY_REAL",
+        property_label="Measured quantity values",
+        description="...",
+        mandatory=False,
+        section="Measured Quantities",
+    )
+
 
 class Equipment(Device):
     defs = ObjectTypeDef(
@@ -499,6 +537,18 @@ class Equipment(Device):
         description="An Equipment is a device used to support laboratory, technical, or operational work "
         "without performing a measurement itself. For example, glovebox, freezer, mixer, etc.",
         generated_code_prefix="EQUIP",
+        prev_versions=["TOOL:v0"],
+    )
+
+    equipment_purpose = PropertyTypeAssignment(
+        code="EQUIPMENT_PURPOSE",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="EQUIPMENT_PURPOSE",
+        property_label="Equipment purpose",
+        description="Equipment purpose",
+        mandatory=False,
+        section="Equipment details",
+        prev_versions=["TOOL_PURPOSE:v0"],
     )
 
 

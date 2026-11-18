@@ -268,6 +268,7 @@ class Measurement(Experiment):
         "of a system through observation or measurement procedures.",
         generated_code_prefix="MEASUR",
         iri=["http://purl.obolibrary.org/obo/OBI_0000070"],
+        prev_versions=["MEASUREMENT:v0"],
     )
 
 
