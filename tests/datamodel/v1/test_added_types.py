@@ -62,8 +62,7 @@ def test_added_types_reference_available_vocabularies(cls):
         vocab.defs.code
         for module in (shared_vocabularies, building_vocabularies, creep_vocabularies)
         for _, vocab in inspect.getmembers(module, inspect.isclass)
-        if vocab.__module__ == module.__name__
-        and issubclass(vocab, VocabularyType)
+        if vocab.__module__ == module.__name__ and issubclass(vocab, VocabularyType)
     }
     for prop in cls().properties:
         if prop.data_type == DataType.CONTROLLEDVOCABULARY:
