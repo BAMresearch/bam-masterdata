@@ -27,6 +27,7 @@ from bam_masterdata.datamodel.v0.drmd.vocabularies import (
 )
 from bam_masterdata.datamodel.v0.object_types import Person, Sample
 from bam_masterdata.metadata.definitions import DataType
+from bam_masterdata.utils import is_reduced_version
 
 V0_TYPES = get_object_types("v0")
 DRMD_TYPES = [cls for cls in V0_TYPES if cls.__module__ == drmd_object_types.__name__]
@@ -47,7 +48,7 @@ MANDATORY = {
     "PERSON.DRMD_PRODUCER": {"$NAME", "AFFILIATION"},
     "PERSON.DRMD_RESPONSIBLE_PERSON": {"$NAME", "FAMILY_NAME", "AFFILIATION"},
     "DRMD_IDENTIFIER": {"DRMD_SCHEME", "DRMD_IDENTIFIER_VALUE"},
-    "DRMD_IDENTIFIER.MATERIAL_CLASS": {"DRMD_SCHEME", "DRMD_IDENTIFIER_VALUE"},
+    "DRMD_IDENTIFIER.DRMD_MATERIAL_CLASS": {"DRMD_SCHEME", "DRMD_IDENTIFIER_VALUE"},
     "SAMPLE.REFERENCE_MATERIAL": {"$NAME", "BAM_OE"},
     "DRMD_PROPERTY_SET": {"$NAME"},
     "DRMD_RESULT": {"$NAME"},
@@ -97,10 +98,11 @@ def test_v0_codes_and_object_references_are_valid():
     validate_object_references(V0_TYPES)
 
 
-def test_generated_code_prefixes_are_unique():
+def test_generated_code_prefixes():
     prefixes = [cls.defs.generated_code_prefix for cls in V0_TYPES]
     for cls in DRMD_TYPES:
         assert prefixes.count(cls.defs.generated_code_prefix) == 1
+        assert is_reduced_version(cls.defs.generated_code_prefix, cls.defs.code)
 
 
 @pytest.mark.parametrize("cls", DRMD_TYPES, ids=lambda cls: cls.defs.code)

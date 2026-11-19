@@ -13,7 +13,7 @@ The definitions in `bam_masterdata/datamodel/v0/drmd/` describe the content of s
 | `PERSON.DRMD_RESPONSIBLE_PERSON` | Person responsible for the document, with role | `dcc:respPerson` |
 | `SAMPLE.REFERENCE_MATERIAL` | The material described by the document | `drmd:material` |
 | `DRMD_IDENTIFIER` | Identifier given as scheme and value, e.g. DOI, ROR, CAS number, batch number | `drmd:documentIdentifier`, `drmd:organizationIdentifier`, `drmd:materialIdentifier`, `drmd:propertyIdentifier` |
-| `DRMD_IDENTIFIER.MATERIAL_CLASS` | Classification of the material | `drmd:materialClass` |
+| `DRMD_IDENTIFIER.DRMD_MATERIAL_CLASS` | Classification of the material | `drmd:materialClass` |
 | `DRMD_PROPERTY_SET` | Block of certified or informative property values | `drmd:properties` |
 | `DRMD_RESULT` | One result of a block, typically a value or a table | `drmd:result` |
 | `DRMD_QUANTITY` | Value with D-SI unit, quantity kind and measurement uncertainty | `drmd:quantity`, `dcc:itemQuantity`, `dcc:usedMethodQuantity` |
@@ -37,7 +37,7 @@ flowchart BT
     STMT["DRMD_STATEMENT"] --> DRMD
     FILE["DRMD_FILE"] --> DRMD
     RM --> PSET
-    MCL["DRMD_IDENTIFIER.MATERIAL_CLASS"] --> RM
+    MCL["DRMD_IDENTIFIER.DRMD_MATERIAL_CLASS"] --> RM
     PROC["DRMD_PROCEDURE"] --> PSET
     RES["DRMD_RESULT"] --> PSET
     META["DRMD_METADATA"] --> PSET

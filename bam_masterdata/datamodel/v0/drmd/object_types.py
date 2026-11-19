@@ -199,6 +199,7 @@ class Drmd(ObjectType):
     )
 
 
+# TODO check organization vs. person behavior of this class and its inheritance from Person
 class DrmdProducer(Person):
     defs = ObjectTypeDef(
         code="PERSON.DRMD_PRODUCER",
@@ -336,9 +337,9 @@ class DrmdIdentifier(ObjectType):
 
 class DrmdMaterialClass(DrmdIdentifier):
     defs = ObjectTypeDef(
-        code="DRMD_IDENTIFIER.MATERIAL_CLASS",
+        code="DRMD_IDENTIFIER.DRMD_MATERIAL_CLASS",
         description="""Classification of a reference material in a standard, taxonomy or catalogue: DRMD_SCHEME names the classification and DRMD_IDENTIFIER_VALUE holds the class, e.g. A03190 (drmd:materialClass)""",
-        generated_code_prefix="DRMD_MCL",
+        generated_code_prefix="DRMD_ID.DRMD_MCL",
     )
 
 
@@ -355,7 +356,7 @@ class DrmdPropertySet(ObjectType):
     defs = ObjectTypeDef(
         code="DRMD_PROPERTY_SET",
         description="""Block of property values of a DRMD, certified or informative, with procedures, results and metadata (drmd:propertiesList/drmd:properties)""",
-        generated_code_prefix="DRMD_PSET",
+        generated_code_prefix="DRMD_PROP_SET",
         iri=["http://purl.obolibrary.org/obo/IAO_0000100"],
     )
 
