@@ -118,3 +118,23 @@ def test_inheritance_edges_have_no_cardinality():
         assert edge.property_code is None
         assert edge.multivalued is None
         assert edge.mandatory is None
+
+
+def test_v1_property_origins():
+    schema = export_schema("v1")
+    computation = next(node for node in schema.nodes if node.id == "COMPUTATION")
+
+    assert computation.property_origins["$NAME"] == "ROOT"
+    assert computation.property_origins["START_DATE"] == "ACTIVITY"
+    assert computation.property_origins["SOFTWARE"] == "COMPUTATION"
+
+
+@pytest.mark.parametrize("version", ["v0", "v1"])
+def test_all_properties_have_origins(version):
+    schema = export_schema(version)
+
+    for node in schema.nodes:
+        property_codes = {prop.code for prop in node.properties}
+
+        assert property_codes == set(node.property_origins)
+        assert all(node.property_origins.values())

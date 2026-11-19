@@ -135,6 +135,8 @@ Examples:
 
 This behavior keeps Excel output and UI labels consistent.
 
+When `units` is provided, an existing unit annotation in `property_label` must match the declared units. Equivalent Pint expressions, such as `m` and `meter`, are accepted, but different units, such as `m` and `mm`, are rejected. Unit annotations must appear at the end of the label using the format `in [units]`. Multiple bracketed expressions, trailing text, and invalid units are rejected.
+
 ## How this module is used in practice
 
 Concrete datamodel classes in `bam_masterdata/datamodel/` use these definitions as class attributes. For example:

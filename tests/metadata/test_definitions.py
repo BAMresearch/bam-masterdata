@@ -249,44 +249,74 @@ class TestObjectTypeDef:
 
 
 class TestPropertyTypeDef:
-    def test_units_append_to_label(self):
+    @pytest.mark.parametrize(
+        "label, units, expected",
+        [
+            ("Length", "m", "Length in [m]"),
+            ("Length in [m]", "m", "Length in [m]"),
+            ("Length in [meter]", "m", "Length in [meter]"),
+        ],
+    )
+    def test_units_label_consistency(self, label, units, expected):
         prop = PropertyTypeDef(
             code="LENGTH",
-            description="Length of the sample",
-            property_label="Length",
+            description="Length",
+            property_label=label,
             data_type=DataType.REAL,
-            units="meter",
+            units=units,
         )
-        assert prop.property_label == "Length in [meter]"
 
-    def test_units_skip_when_label_already_has_units(self):
-        prop = PropertyTypeDef(
-            code="LENGTH",
-            description="Length of the sample",
-            property_label="Length in [m]",
-            data_type=DataType.REAL,
-            units="meter",
-        )
-        assert prop.property_label == "Length in [m]"
+        assert prop.property_label == expected
 
-    def test_units_invalid(self):
-        with pytest.raises(ValueError):
+    @pytest.mark.parametrize(
+        "label, units",
+        [
+            ("Length in [mm]", "m"),
+            ("Length in [kg]", "m"),
+            ("Length in [cm]", "mm"),
+        ],
+    )
+    def test_units_label_mismatch(self, label, units):
+        with pytest.raises(ValueError, match="Unit mismatch"):
             PropertyTypeDef(
                 code="LENGTH",
-                description="Length of the sample",
-                property_label="Length",
+                description="Length",
+                property_label=label,
                 data_type=DataType.REAL,
-                units="not_a_real_unit",
+                units=units,
             )
 
-    def test_units_invalid_label_format(self):
+    def test_units_label_idempotency(self):
+        prop = PropertyTypeDef(
+            code="LENGTH",
+            description="Length",
+            property_label="Length",
+            data_type=DataType.REAL,
+            units="m",
+        )
+
+        revalidated = PropertyTypeDef.model_validate(prop.model_dump())
+
+        assert revalidated.property_label == "Length in [m]"
+
+    @pytest.mark.parametrize(
+        "label",
+        [
+            "Length in [m] extra text",
+            "Length in [m] in [cm]",
+            "Length [m]",
+            "Length in [[m]]",
+            "Length in [invalid_unit_xyz]",
+        ],
+    )
+    def test_units_reject_invalid_label_patterns(self, label):
         with pytest.raises(ValueError):
             PropertyTypeDef(
                 code="LENGTH",
-                description="Length of the sample",
-                property_label="Length [m]",
+                description="Length",
+                property_label=label,
                 data_type=DataType.REAL,
-                units="meter",
+                units="m",
             )
 
     @pytest.mark.parametrize(

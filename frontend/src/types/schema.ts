@@ -19,6 +19,7 @@ export interface SchemaNode {
   description: string;
   iri: string[];
   properties: SchemaProperty[];
+  property_origins: Record<string, string>;
 }
 
 export interface SchemaEdge {

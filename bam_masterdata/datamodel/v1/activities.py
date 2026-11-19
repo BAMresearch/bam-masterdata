@@ -1,19 +1,21 @@
+# AUTO-GENERATED CLASS HIERARCHY — DO NOT EDIT
+#
+# Computation
+# ├── Analysis
+# │   └── CreepTestDataProcessing
+# └── Simulation
+#
+# Experiment
+# ├── Processing
+# ├── Measurement
+# ├── Calibration
+# ├── Synthesis
+# └── Test
+#
+# END AUTO-GENERATED CLASS HIERARCHY
+
 from bam_masterdata.datamodel.v1.base_objects import Activity
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
-
-# Hierarchy of the Activity branch of datamodel/v1:
-
-#   Activity                        (see `base_objects.py`)
-#   ├── Computation
-#   │   ├── Analysis
-#   │   │   └── CreepTestDataProcessing
-#   │   └── Simulation
-#   └── Experiment
-#       ├── Processing
-#       ├── Measurement
-#       ├── Calibration
-#       ├── Synthesis
-#       └── Test
 
 
 class Computation(Activity):
@@ -142,8 +144,8 @@ class Simulation(Computation):
         multivalued=True,
     )
 
-    walltime = PropertyTypeAssignment(
-        code="WALLTIME",
+    walltime_h = PropertyTypeAssignment(
+        code="WALLTIME_H",
         data_type="REAL",
         property_label="Walltime",
         units="h",
@@ -153,8 +155,8 @@ class Simulation(Computation):
         prev_versions=["SIM_WALLTIME_IN_HOURS:v0"],
     )
 
-    core_time = PropertyTypeAssignment(
-        code="CORE_TIME",
+    core_time_h = PropertyTypeAssignment(
+        code="CORE_TIME_H",
         data_type="REAL",
         property_label="Core time",
         units="h",
@@ -242,8 +244,7 @@ class Experiment(Activity):
         data_type="OBJECT",
         object_code="LOCATION",
         property_label="Location",
-        description="Physical location where the experiment is performed, such as a laboratory, experimental "
-        "facility, or field site.",
+        description="Physical location.",
         mandatory=False,
         section="Experiment Details",
     )

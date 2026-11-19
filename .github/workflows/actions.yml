@@ -69,10 +69,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: 3.14
-      - uses: pre-commit/action@v3.0.1
+
+      - name: Check class hierarchy comments
+        run: python tools/scripts/generate_class_hierarchy_comments.py --check
+
+      - name: Run pre-commit
+        uses: pre-commit/action@v3.0.1
         with:
           extra_args: --all-files

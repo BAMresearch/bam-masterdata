@@ -198,7 +198,7 @@ length = PropertyTypeAssignment(
 assert length.property_label == "Length in [mm]"
 ```
 
-If a label already includes the expected `in [units]` format, it is retained. Incompatible bracketed labels or unrecognized units fail validation. These formatting rules apply to the current metadata definitions, not only v1.
+If a label already ends with `in [units]`, the declared units must match the annotation. Equivalent Pint expressions (e.g., `m` and `meter`) are accepted. Different units (e.g., `m` and `mm`), malformed annotations, and invalid units raise a validation error. If the label contains no unit annotation, the suffix is added automatically.
 
 ## 7. Validate the schema before synchronization
 
