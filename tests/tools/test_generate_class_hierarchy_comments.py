@@ -1,4 +1,5 @@
 import importlib.util
+import sys
 from pathlib import Path
 
 import pytest
@@ -138,21 +139,27 @@ class Child(Root):
 
         assert generator.update_hierarchy_comments(source) == source
 
+    def test_marks_imported_ancestors(self, tmp_path, monkeypatch):
+        monkeypatch.setattr(generator, "DATAMODEL_DIR", tmp_path)
+        (tmp_path / "parents.py").write_text(
+            "class Root: pass\nclass Parent(Root): pass\n", encoding="utf-8"
+        )
+        source = "from .parents import Parent\n\nclass Child(Parent): pass\n"
+        module_path = tmp_path / "children.py"
+
+        local_only = generator.update_hierarchy_comments(source, 0, module_path)
+        one_layer = generator.update_hierarchy_comments(source, 1, module_path)
+        all_layers = generator.update_hierarchy_comments(source, -1, module_path)
+
+        assert "# Child\n" in local_only
+        assert "Parent*" not in local_only
+        assert "# Parent*\n# └── Child\n" in one_layer
+        assert "Root*" not in one_layer
+        assert "# Root*\n# └── Parent*\n#     └── Child\n" in all_layers
+
 
 class TestRepositoryIntegration:
-    def test_all_v1_hierarchy_comments_are_current(self):
-        """Ensure generated comments match the current v1 class definitions."""
-        files = sorted(
-            path
-            for path in generator.DATAMODEL_DIR.rglob("*.py")
-            if path.name not in {"__init__.py", "vocabularies.py"}
-        )
-
-        for path in files:
-            source = path.read_text(encoding="utf-8")
-            expected = generator.update_hierarchy_comments(source)
-
-            assert source == expected, (
-                f"Outdated hierarchy comments in {path}. "
-                "Run the generator with --write."
-            )
+    def test_all_v1_hierarchy_comments_are_current(self, monkeypatch):
+        """Ensure generated comments match the default CLI check used by CI."""
+        monkeypatch.setattr(sys, "argv", [str(SCRIPT_PATH), "--check"])
+        generator.main()

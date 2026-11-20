@@ -18,6 +18,13 @@ def get_class_hierarchy(
     A depth of -1 follows ancestors to Root. Imports are resolved statically so
     generating comments does not execute the datamodel modules.
     """
+    hierarchy, _ = _get_class_hierarchy(source, import_depth, module_path)
+    return hierarchy
+
+
+def _get_class_hierarchy(
+    source: str, import_depth: int, module_path: Path | None
+) -> tuple[dict[str, list[str]], set[str]]:
     if import_depth < -1:
         raise ValueError("import_depth must be -1 or a non-negative integer")
     if import_depth and module_path is None:
@@ -115,18 +122,24 @@ def get_class_hierarchy(
                     )
                 break
 
-    return hierarchy
+    return hierarchy, hierarchy.keys() - classes.keys()
 
 
-def format_hierarchy(hierarchy: dict[str, list[str]]) -> str:
+def format_hierarchy(
+    hierarchy: dict[str, list[str]], imported_classes: set[str] | None = None
+) -> str:
     """Render inheritance relationships as a readable tree."""
+    imported_classes = imported_classes or set()
+    labels = {
+        name: f"{name}*" if name in imported_classes else name for name in hierarchy
+    }
     children = {child for descendants in hierarchy.values() for child in descendants}
 
     roots = [name for name in hierarchy if name not in children]
     lines = []
 
     def render(name: str, prefix: str = "") -> None:
-        lines.append(f"{prefix}{name}")
+        lines.append(f"{prefix}{labels[name]}")
 
         descendants = hierarchy[name]
 
@@ -143,7 +156,7 @@ def format_hierarchy(hierarchy: dict[str, list[str]]) -> str:
         connector: str,
         continuation: str,
     ) -> None:
-        lines.append(f"{prefix}{connector}{name}")
+        lines.append(f"{prefix}{connector}{labels[name]}")
 
         descendants = hierarchy[name]
 
@@ -171,12 +184,15 @@ def update_hierarchy_comments(
     source: str, import_depth: int = 0, module_path: Path | None = None
 ) -> str:
     """Insert or replace the generated hierarchy comment block."""
-    hierarchy = get_class_hierarchy(source, import_depth, module_path)
+    hierarchy, imported_classes = _get_class_hierarchy(
+        source, import_depth, module_path
+    )
 
     if not hierarchy:
         return source
 
-    generated = f"{START_MARKER}\n#\n{format_hierarchy(hierarchy)}\n#\n{END_MARKER}"
+    tree = format_hierarchy(hierarchy, imported_classes)
+    generated = f"{START_MARKER}\n#\n{tree}\n#\n{END_MARKER}"
 
     if START_MARKER in source:
         start = source.index(START_MARKER)
@@ -210,8 +226,11 @@ def main() -> None:
     parser.add_argument(
         "--import-depth",
         type=int,
-        default=0,
-        help="Imported ancestor layers to include (default: 0; -1: through Root).",
+        default=1,
+        help=(
+            "Imported ancestor layers to include (default: %(default)s, -1: through "
+            "Root). Imported classes are marked with *."
+        ),
     )
     parser.add_argument(
         "--path",

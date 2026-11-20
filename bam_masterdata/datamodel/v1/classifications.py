@@ -1,6 +1,7 @@
 # AUTO-GENERATED CLASS HIERARCHY — DO NOT EDIT
 #
-# DangerousGood
+# Classification*
+# └── DangerousGood
 #
 # END AUTO-GENERATED CLASS HIERARCHY
 
