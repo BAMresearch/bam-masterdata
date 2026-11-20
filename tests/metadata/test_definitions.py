@@ -383,6 +383,63 @@ class TestPropertyTypeDef:
                 section="General Information",
             )
 
+    @pytest.mark.parametrize("property_cls", [PropertyTypeDef, PropertyTypeAssignment])
+    @pytest.mark.parametrize(
+        "data_type, metadata",
+        [
+            (DataType.VARCHAR, None),
+            (DataType.VARCHAR, {}),
+            (DataType.VARCHAR, {"other_setting": "keep"}),
+            (
+                DataType.MULTILINE_VARCHAR,
+                {"custom_widget": "Word Processor", "other_setting": "keep"},
+            ),
+            (
+                DataType.XML,
+                {"custom_widget": "Spreadsheet", "other_setting": "keep"},
+            ),
+        ],
+    )
+    def test_custom_widget_accepts_valid_metadata(
+        self, property_cls, data_type, metadata
+    ):
+        prop = property_cls(
+            code="CONTENT",
+            property_label="Content",
+            description="Content",
+            data_type=data_type,
+            metadata=metadata,
+        )
+
+        assert prop.metadata == metadata
+
+    @pytest.mark.parametrize("property_cls", [PropertyTypeDef, PropertyTypeAssignment])
+    @pytest.mark.parametrize(
+        "data_type, widget",
+        [
+            (DataType.MULTILINE_VARCHAR, "Unsupported"),
+            (DataType.MULTILINE_VARCHAR, ""),
+            (DataType.MULTILINE_VARCHAR, None),
+            (DataType.MULTILINE_VARCHAR, 42),
+            (DataType.MULTILINE_VARCHAR, []),
+            (DataType.MULTILINE_VARCHAR, {}),
+            (DataType.XML, "Word Processor"),
+            (DataType.MULTILINE_VARCHAR, "Spreadsheet"),
+            (DataType.INTEGER, "Spreadsheet"),
+        ],
+    )
+    def test_custom_widget_rejects_invalid_configuration(
+        self, property_cls, data_type, widget
+    ):
+        with pytest.raises(ValidationError, match="metadata.custom_widget"):
+            property_cls(
+                code="CONTENT",
+                property_label="Content",
+                description="Content",
+                data_type=data_type,
+                metadata={"custom_widget": widget},
+            )
+
     def test_model_id_uses_property_conversion(self):
         prop = PropertyTypeDef(
             code="$STORAGE.STORAGE_VALIDATION_LEVEL",
