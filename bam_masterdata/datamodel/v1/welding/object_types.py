@@ -55,6 +55,11 @@
 # ├── Pyrometer
 # └── LoadCell
 #
+# Measurement
+# ├── ProfileScan
+# ├── ImageSeries
+# └── VideoRecording
+#
 # Analysis
 # └── CameraCalibration
 #
@@ -724,8 +729,16 @@ class CameraCalibrationParameters(ParameterSet):
 class Component(Sample):
     defs = ObjectTypeDef(
         code="COMPONENT",
-        description="""assembly incorporating one or more welded joint(s) (2.1.4.2), ISO/TR 25901-1:2016 weldment (2.1.1.4) """,
+        description="An assembly that can contain multiple weldments.",
         generated_code_prefix="",
+    )
+
+
+class Weldment(Sample):
+    defs = ObjectTypeDef(
+        code="WELDMENT",
+        description="An assembly incorporating one or more welded joints that can form part of a component.",
+        generated_code_prefix="WELDMENT",
     )
 
 
@@ -1357,6 +1370,36 @@ class StationLayout(Equipment):
         description="""Date of the last system check//Datum des letzten Systemchecks""",
         mandatory=False,
         section="Additional Information",
+    )
+
+
+class TorchHead(Equipment):
+    defs = ObjectTypeDef(
+        code="TORCH_HEAD",
+        description="A torch head used for gas metal arc welding.",
+        generated_code_prefix="TORCH_HEAD",
+        prev_versions=["INSTRUMENT.WELDING_EQUIPMENT.GMAW_TORCH:v0"],
+    )
+
+    welding_torch_type = PropertyTypeAssignment(
+        code="WELDING_TORCH_TYPE",
+        data_type="CONTROLLEDVOCABULARY",
+        property_label="Torch type",
+        description="Type of gas metal arc welding torch.",
+        vocabulary_code="GMAW_TORCH_TYPE",
+        mandatory=True,
+        section="General Information",
+        prev_versions=["WELDING.TORCH_TYPE:v0"],
+    )
+
+    last_systemcheck = PropertyTypeAssignment(
+        code="LAST_SYSTEMCHECK",
+        data_type="DATE",
+        property_label="Last System Check",
+        description="Date of the last system check//Datum des letzten Systemchecks",
+        mandatory=False,
+        section="Additional Information",
+        prev_versions=["LAST_SYSTEMCHECK:v0"],
     )
 
 
@@ -2036,6 +2079,150 @@ class HydraulicTable(Equipment):
 # -------------------------
 # SIMULATION
 # -------------------------
+
+
+class ProfileScan(Measurement):
+    defs = ObjectTypeDef(
+        code="PROFILE_SCAN",
+        description="A series of two-dimensional line sensor readings.",
+        generated_code_prefix="PROFILE_SCAN",
+        prev_versions=["EXPERIMENTAL_STEP.PROFILE_SCAN:v0"],
+    )
+
+    scan_line_count = PropertyTypeAssignment(
+        code="SCAN_LINE_COUNT",
+        data_type="INTEGER",
+        property_label="Scan line count",
+        description="Number of scan lines recorded.",
+        mandatory=False,
+        section="Scan Information",
+        prev_versions=["SCAN_LINE_COUNT:v0"],
+    )
+
+    scan_line_resolution = PropertyTypeAssignment(
+        code="SCAN_LINE_RESOLUTION",
+        data_type="INTEGER",
+        property_label="Scan line resolution",
+        description="Number of measurement points per scan line.",
+        units="pixel",
+        mandatory=False,
+        section="Scan Information",
+        prev_versions=["SCAN_LINE_RESOLUTION:v0"],
+    )
+
+
+class ImageSeries(Measurement):
+    defs = ObjectTypeDef(
+        code="IMAGE_SERIES",
+        description="A series of one or more still image recordings.",
+        generated_code_prefix="IMAGE_SERIES",
+        prev_versions=["EXPERIMENTAL_STEP.IMAGE_SERIES:v0"],
+    )
+
+    image_horizontal_resolution = PropertyTypeAssignment(
+        code="IMAGE_HORIZONTAL_RESOLUTION",
+        data_type="INTEGER",
+        property_label="Horizontal image resolution",
+        description="Number of pixels across each image.",
+        units="pixel",
+        mandatory=False,
+        section="Image Series Information",
+        prev_versions=["IMAGE_HORIZONTAL_RESOLUTION:v0"],
+    )
+
+    image_vertical_resolution = PropertyTypeAssignment(
+        code="IMAGE_VERTICAL_RESOLUTION",
+        data_type="INTEGER",
+        property_label="Vertical image resolution",
+        description="Number of pixels down each image.",
+        units="pixel",
+        mandatory=False,
+        section="Image Series Information",
+        prev_versions=["IMAGE_VERTICAL_RESOLUTION:v0"],
+    )
+
+    image_series_count = PropertyTypeAssignment(
+        code="IMAGE_SERIES_COUNT",
+        data_type="INTEGER",
+        property_label="Number of images recorded",
+        description="Number of still images in the series.",
+        mandatory=False,
+        section="Image Series Information",
+        prev_versions=["IMAGE_SERIES_COUNT:v0"],
+    )
+
+
+class VideoRecording(Measurement):
+    defs = ObjectTypeDef(
+        code="VIDEO_RECORDING",
+        prev_versions=["EXPERIMENTAL_STEP.VIDEO_RECORDING:v0"],
+        description="""An experimental step describing a video recording//Ein experimenteller Schritt zur Erzeugung einer Videoaufnahme""",
+        generated_code_prefix="VIDEO_RECORDING",
+    )
+
+    image_horizontal_resolution = PropertyTypeAssignment(
+        code="IMAGE_HORIZONTAL_RESOLUTION",
+        prev_versions=["IMAGE_HORIZONTAL_RESOLUTION:v0"],
+        data_type="INTEGER",
+        property_label="Horizontal image resolution",
+        units="pixel",
+        description="""Horizontal resolution of the image [pixel]//Horizonzale Auflösung des Bildes [Pixel]""",
+        mandatory=False,
+        section="Video Information",
+    )
+
+    image_vertical_resolution = PropertyTypeAssignment(
+        code="IMAGE_VERTICAL_RESOLUTION",
+        prev_versions=["IMAGE_VERTICAL_RESOLUTION:v0"],
+        data_type="INTEGER",
+        property_label="Vertical image resolution",
+        units="pixel",
+        description="""Vertical resolution of the image [pixel]////Vertikale Auflösung des Bildes [Pixel]""",
+        mandatory=False,
+        section="Video Information",
+    )
+
+    video_frame_per_seconds = PropertyTypeAssignment(
+        code="VIDEO_FRAME_PER_SECONDS",
+        prev_versions=["VIDEO_FRAME_PER_SECONDS:v0"],
+        data_type="INTEGER",
+        property_label="Average frame rate",
+        units="Hz",
+        description="""Average video framerate [frames per second]//Mittlere Bildrate (in Bilder pro Sekunde)""",
+        mandatory=False,
+        section="Video Information",
+    )
+
+    video_codec = PropertyTypeAssignment(
+        code="VIDEO_CODEC",
+        prev_versions=["VIDEO_CODEC:v0"],
+        data_type="VARCHAR",
+        property_label="Video codec",
+        description="""Video codec used during recording (if applicable)//Videocodec (sofern kodiert)""",
+        mandatory=False,
+        section="Video Information",
+    )
+
+    video_dynamic_framerate = PropertyTypeAssignment(
+        code="VIDEO_DYNAMIC_FRAMERATE",
+        prev_versions=["VIDEO_DYNAMIC_FRAMERATE:v0"],
+        data_type="BOOLEAN",
+        property_label="Variable frame rate",
+        description="""Flag to indicate that the video frame rate varies over time//Gibt an, dass die Bildrate des Videos nicht konstant ist""",
+        mandatory=False,
+        section="Video Information",
+    )
+
+    camera_shutter_mode = PropertyTypeAssignment(
+        code="CAMERA_SHUTTER_MODE",
+        prev_versions=["CAMERA_SHUTTER_MODE:v0"],
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="CAMERA_SHUTTER_MODE",
+        property_label="Shutter mode",
+        description="""The shutter mode used for video recording//Belichtungsprinzip des Bildsensors""",
+        mandatory=False,
+        section="Video Information",
+    )
 
 
 class CameraCalibration(Analysis):

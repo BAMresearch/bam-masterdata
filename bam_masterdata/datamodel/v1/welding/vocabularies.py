@@ -4,6 +4,28 @@ from bam_masterdata.metadata.definitions import VocabularyTerm, VocabularyTypeDe
 from bam_masterdata.metadata.entities import VocabularyType
 
 
+class CameraShutterMode(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="CAMERA_SHUTTER_MODE",
+        prev_versions=["CAMERA_SHUTTER_MODE:v0"],
+        description="""Shutter modes of digital cameras//Belichtungsmodi digitaler Bildsensoren""",
+    )
+
+    camera_shutter_global = VocabularyTerm(
+        code="CAMERA_SHUTTER_GLOBAL",
+        prev_versions=["CAMERA_SHUTTER_GLOBAL:v0"],
+        label="global shutter",
+        description="""Global shutter//Global shutter""",
+    )
+
+    camera_shutter_rolling = VocabularyTerm(
+        code="CAMERA_SHUTTER_ROLLING",
+        prev_versions=["CAMERA_SHUTTER_ROLLING:v0"],
+        label="rolling shutter",
+        description="""Rolling shutter//Rolling shutter""",
+    )
+
+
 class GmawTorchType(VocabularyType):
     defs = VocabularyTypeDef(
         code="GMAW_TORCH_TYPE",
