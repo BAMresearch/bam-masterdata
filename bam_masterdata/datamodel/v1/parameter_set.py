@@ -103,7 +103,7 @@ class OutdoorConditions(EnvironmentalConditions):
         data_type="OBJECT",
         object_code="LOCATION",
         property_label="Location",
-        description="Location",
+        description="Physical location.",
         mandatory=False,
         section="Outdoor Conditions",
     )
