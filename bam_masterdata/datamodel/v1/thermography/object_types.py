@@ -1,10 +1,9 @@
 # AUTO-GENERATED CLASS HIERARCHY — DO NOT EDIT
 #
-# IRCameraAcquisitionParameters
-#
-# ThermographyHeatingParameters
-#
-# ThermographySetup
+# ParameterSet
+# ├── IRCameraAcquisitionParameters
+# ├── ThermographyHeatingParameters
+# └── ThermographySetup
 #
 # END AUTO-GENERATED CLASS HIERARCHY
 

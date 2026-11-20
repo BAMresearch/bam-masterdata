@@ -1,6 +1,7 @@
 # AUTO-GENERATED CLASS HIERARCHY — DO NOT EDIT
 #
-# WeldingWire
+# Material
+# └── WeldingWire
 #
 # END AUTO-GENERATED CLASS HIERARCHY
 
