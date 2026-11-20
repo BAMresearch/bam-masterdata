@@ -1,6 +1,7 @@
 # AUTO-GENERATED CLASS HIERARCHY — DO NOT EDIT
 #
-# CreepTestPiece
+# Sample*
+# └── CreepTestPiece
 #
 # END AUTO-GENERATED CLASS HIERARCHY
 

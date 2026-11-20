@@ -1,26 +1,25 @@
 # AUTO-GENERATED CLASS HIERARCHY — DO NOT EDIT
 #
-# Context
-# ├── Software
-# ├── ParameterSet
-# ├── Classification
-# └── Document
-#
-# Location
-#
-# MaterialEntity
-# ├── Organism
-# │   └── Animal
-# │       └── Person
-# │           └── BAMPerson
-# └── PhysicalObject
-#     ├── Device
-#     │   ├── Instrument
-#     │   ├── Sensor
-#     │   └── Equipment
-#     ├── Sample
-#     ├── Material
-#     └── Chemical
+# Entity*
+# ├── Context
+# │   ├── Software
+# │   ├── ParameterSet
+# │   ├── Classification
+# │   └── Document
+# ├── Location
+# └── MaterialEntity
+#     ├── Organism
+#     │   └── Animal
+#     │       └── Person
+#     │           └── BAMPerson
+#     └── PhysicalObject
+#         ├── Device
+#         │   ├── Instrument
+#         │   ├── Sensor
+#         │   └── Equipment
+#         ├── Sample
+#         ├── Material
+#         └── Chemical
 #
 # END AUTO-GENERATED CLASS HIERARCHY
 
