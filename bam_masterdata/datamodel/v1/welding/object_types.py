@@ -33,6 +33,7 @@
 # └── WeldingWireAlloy
 #
 # Equipment
+# ├── Lens
 # ├── Positioner
 # ├── RobotController
 # ├── StationLayout
@@ -42,6 +43,10 @@
 # ├── LaserWeldOptic
 # ├── LaserFiber
 # └── HydraulicTable
+#
+# Sensor
+# ├── Camera
+# └── LaserLineScanner
 #
 # Instrument
 # ├── GmawWeldingPowerSource
@@ -1382,6 +1387,261 @@ class WeldingContactTip(Equipment):
 # -------------------------
 # LASER
 # -------------------------
+
+
+class Camera(Sensor):
+    defs = ObjectTypeDef(
+        code="CAMERA",
+        description="A camera for recording still images or video.",
+        generated_code_prefix="CAMERA",
+        prev_versions=["INSTRUMENT.CAMERA:v0"],
+    )
+
+    image_sensor_name = PropertyTypeAssignment(
+        code="IMAGE_SENSOR_NAME",
+        data_type="VARCHAR",
+        property_label="Image sensor model",
+        description="Model designation of the image sensor.",
+        mandatory=False,
+        section="Camera Information",
+        prev_versions=["IMAGE_SENSOR_NAME:v0"],
+    )
+
+    image_sensor_size = PropertyTypeAssignment(
+        code="IMAGE_SENSOR_SIZE",
+        data_type="VARCHAR",
+        property_label="Image sensor size",
+        description="Size or format designation of the image sensor.",
+        mandatory=False,
+        section="Camera Information",
+        prev_versions=["IMAGE_SENSOR_SIZE:v0"],
+    )
+
+    image_sensor_resolution_horizontal = PropertyTypeAssignment(
+        code="IMAGE_SENSOR_RESOLUTION_HORIZONTAL",
+        data_type="INTEGER",
+        property_label="Horizontal sensor resolution",
+        units="pixel",
+        description="Number of pixels across the sensor image.",
+        mandatory=True,
+        section="Camera Information",
+        prev_versions=["IMAGE_SENSOR_RESOLUTION_HORIZONTAL:v0"],
+    )
+
+    image_sensor_resolution_vertical = PropertyTypeAssignment(
+        code="IMAGE_SENSOR_RESOLUTION_VERTICAL",
+        data_type="INTEGER",
+        property_label="Vertical sensor resolution",
+        units="pixel",
+        description="Number of pixels down the sensor image.",
+        mandatory=True,
+        section="Camera Information",
+        prev_versions=["IMAGE_SENSOR_RESOLUTION_VERTICAL:v0"],
+    )
+
+    image_sensor_framerate = PropertyTypeAssignment(
+        code="IMAGE_SENSOR_FRAMERATE",
+        data_type="REAL",
+        property_label="Frame rate at full resolution",
+        units="Hz",
+        description="Maximum frame rate at full sensor resolution, expressed in frames per second.",
+        mandatory=False,
+        section="Camera Information",
+        prev_versions=["IMAGE_SENSOR_FRAMERATE:v0"],
+    )
+
+    lens_mount_type = PropertyTypeAssignment(
+        code="LENS_MOUNT_TYPE",
+        data_type="VARCHAR",
+        property_label="Lens mount",
+        description="Mount type used to connect the lens and camera.",
+        mandatory=False,
+        section="Optics",
+        prev_versions=["LENS_MOUNT_TYPE:v0"],
+    )
+
+    firmware_version = PropertyTypeAssignment(
+        code="FIRMWARE_VERSION",
+        data_type="VARCHAR",
+        property_label="Firmware version",
+        description="Currently installed firmware version.",
+        mandatory=False,
+        section="Software Information",
+        prev_versions=["FIRMWARE_VERSION:v0"],
+    )
+
+    last_systemcheck = PropertyTypeAssignment(
+        code="LAST_SYSTEMCHECK",
+        data_type="DATE",
+        property_label="Last system check",
+        description="Date of the most recent system check.",
+        mandatory=False,
+        section="Additional Information",
+        prev_versions=["LAST_SYSTEMCHECK:v0"],
+    )
+
+
+class Lens(Equipment):
+    defs = ObjectTypeDef(
+        code="LENS",
+        description="An optical lens used with an imaging camera.",
+        generated_code_prefix="LENS",
+        prev_versions=["INSTRUMENT.CAMERA.LENS:v0"],
+    )
+
+    lens_mount_type = PropertyTypeAssignment(
+        code="LENS_MOUNT_TYPE",
+        data_type="VARCHAR",
+        property_label="Lens mount",
+        description="Mount type used to connect the lens and camera.",
+        mandatory=False,
+        section="Optics",
+        prev_versions=["LENS_MOUNT_TYPE:v0"],
+    )
+
+    lens_focallength = PropertyTypeAssignment(
+        code="LENS_FOCALLENGTH",
+        data_type="REAL",
+        property_label="Focal length",
+        units="mm",
+        description="Focal length of the lens.",
+        mandatory=True,
+        section="Lens Information",
+        prev_versions=["LENS_FOCALLENGTH:v0"],
+    )
+
+    lens_aperture_max = PropertyTypeAssignment(
+        code="LENS_APERTURE_MAX",
+        data_type="REAL",
+        property_label="Maximum aperture",
+        description="F-number at the widest aperture.",
+        mandatory=False,
+        section="Lens Information",
+        prev_versions=["LENS_APERTURE_MAX:v0"],
+    )
+
+    lens_aperture_min = PropertyTypeAssignment(
+        code="LENS_APERTURE_MIN",
+        data_type="REAL",
+        property_label="Minimum aperture",
+        description="F-number at the narrowest aperture.",
+        mandatory=False,
+        section="Lens Information",
+        prev_versions=["LENS_APERTURE_MIN:v0"],
+    )
+
+    lens_confocal = PropertyTypeAssignment(
+        code="LENS_CONFOCAL",
+        data_type="BOOLEAN",
+        property_label="Confocal optics",
+        description="Whether the lens uses confocal optics.",
+        mandatory=False,
+        section="Lens Information",
+        prev_versions=["LENS_CONFOCAL:v0"],
+    )
+
+
+class LaserLineScanner(Sensor):
+    defs = ObjectTypeDef(
+        code="LASER_LINE_SCANNER",
+        description="A scanner that measures two-dimensional profiles along a laser line.",
+        generated_code_prefix="LASER_LINE_SCANNER",
+        prev_versions=["INSTRUMENT.LASER_LINE_SCANNER:v0"],
+    )
+
+    z_min = PropertyTypeAssignment(
+        code="LASER_SCANNER_Z_MIN",
+        data_type="REAL",
+        property_label="Minimum Z distance",
+        units="mm",
+        description="Lower measurement distance along the depth axis.",
+        mandatory=False,
+        section="Measurement Range",
+        prev_versions=["INSTRUMENT.LASER_SCANNER.Z_MIN:v0"],
+    )
+
+    z_max = PropertyTypeAssignment(
+        code="LASER_SCANNER_Z_MAX",
+        data_type="REAL",
+        property_label="Maximum Z distance",
+        units="mm",
+        description="Upper measurement distance along the depth axis.",
+        mandatory=False,
+        section="Measurement Range",
+        prev_versions=["INSTRUMENT.LASER_SCANNER.Z_MAX:v0"],
+    )
+
+    x_min = PropertyTypeAssignment(
+        code="LASER_SCANNER_X_MIN",
+        data_type="REAL",
+        property_label="Minimum X position",
+        units="mm",
+        description="Lower lateral measurement limit along the laser line.",
+        mandatory=False,
+        section="Measurement Range",
+        prev_versions=["INSTRUMENT.LASER_SCANNER.X_MIN:v0"],
+    )
+
+    x_max = PropertyTypeAssignment(
+        code="LASER_SCANNER_X_MAX",
+        data_type="REAL",
+        property_label="Maximum X position",
+        units="mm",
+        description="Upper lateral measurement limit along the laser line.",
+        mandatory=False,
+        section="Measurement Range",
+        prev_versions=["INSTRUMENT.LASER_SCANNER.X_MAX:v0"],
+    )
+
+    line_resolution = PropertyTypeAssignment(
+        code="LASER_SCANNER_LINE_RESOLUTION",
+        data_type="INTEGER",
+        property_label="Maximum line resolution",
+        description="Maximum number of measurement points per profile.",
+        mandatory=False,
+        section="Scanner Specifications",
+        prev_versions=["INSTRUMENT.LASER_SCANNER.LINE_RESOLUTION:v0"],
+    )
+
+    laser_wavelength = PropertyTypeAssignment(
+        code="LASER_WAVELENGTH",
+        data_type="VARCHAR",
+        property_label="Laser wavelength",
+        description="Emitted wavelength in nm, recorded as text.",
+        mandatory=False,
+        section="Scanner Specifications",
+        prev_versions=["LASER_WAVELENGTH:v0"],
+    )
+
+    laser_class = PropertyTypeAssignment(
+        code="LASER_CLASS",
+        data_type="VARCHAR",
+        property_label="Laser class",
+        description="Laser safety classification recorded for the scanner.",
+        mandatory=False,
+        section="Scanner Specifications",
+        prev_versions=["LASER_CLASS:v0"],
+    )
+
+    firmware_version = PropertyTypeAssignment(
+        code="FIRMWARE_VERSION",
+        data_type="VARCHAR",
+        property_label="Firmware version",
+        description="Currently installed firmware version.",
+        mandatory=False,
+        section="Software Information",
+        prev_versions=["FIRMWARE_VERSION:v0"],
+    )
+
+    last_systemcheck = PropertyTypeAssignment(
+        code="LAST_SYSTEMCHECK",
+        data_type="DATE",
+        property_label="Last system check",
+        description="Date of the most recent system check.",
+        mandatory=False,
+        section="Additional Information",
+        prev_versions=["LAST_SYSTEMCHECK:v0"],
+    )
 
 
 class LaserSource(Instrument):
