@@ -390,7 +390,7 @@ class PhysicalObject(MaterialEntity):
         code="RESPONSIBLE_PERSON",
         data_type="OBJECT",
         object_code="PERSON",
-        property_label="Responsible person",
+        property_label="Responsible persons",
         description="Responsible persons.",
         mandatory=False,
         multivalued=True,
