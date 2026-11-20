@@ -1134,7 +1134,7 @@ class GmawWeldingPowerSource(Instrument):
     defs = ObjectTypeDef(
         code="GMAW_WELDING_POWER_SOURCE",
         prev_versions=["INSTRUMENT.WELDING_EQUIPMENT.GMAW_WELDING_POWER_SOURCE:v0"],
-        description="""Power source for gas metal arc welding (GMAW) applications//Stromquelle für Metall-Schutzgas-Schweißen (MSG-Schweißen)""",
+        description="""Power source for gas metal arc welding (GMAW) applications""",
         generated_code_prefix="GMAW_WELDING_POWER_SOURCE",
     )
 
@@ -1144,7 +1144,7 @@ class GmawWeldingPowerSource(Instrument):
         data_type="REAL",
         property_label="Arc current minimum",
         units="A",
-        description="""Minimum arc current//Minimaler Schweißstrom""",
+        description="""Minimum arc current""",
         mandatory=False,
         section="Power Source Information",
     )
@@ -1155,7 +1155,7 @@ class GmawWeldingPowerSource(Instrument):
         data_type="REAL",
         property_label="Arc current maximum",
         units="A",
-        description="""Maximum arc current//Maximaler Schweißstrom""",
+        description="""Maximum arc current""",
         mandatory=False,
         section="Power Source Information",
     )
@@ -1166,29 +1166,29 @@ class GmawWeldingPowerSource(Instrument):
         data_type="REAL",
         property_label="Maximum continuous arc current",
         units="A",
-        description="""Maximum continuous arc current at 100% duty cycle//Maximaler Schweißstrom bei 100% Einschaltdauer""",
+        description="""Maximum continuous arc current at 100% duty cycle""",
         mandatory=False,
         section="Power Source Information",
     )
 
     firmware_version = PropertyTypeAssignment(
         code="FIRMWARE_VERSION",
-        prev_versions=["FIRMWARE_VERSION:v0"],
         data_type="VARCHAR",
-        property_label="Current firmware version",
-        description="""The currently installed firmware version//Die aktuell installierte Firmware-Version""",
+        property_label="Firmware version",
+        description="Currently installed firmware version.",
         mandatory=False,
         section="Software Information",
+        prev_versions=["FIRMWARE_VERSION:v0"],
     )
 
     last_systemcheck = PropertyTypeAssignment(
         code="LAST_SYSTEMCHECK",
-        prev_versions=["LAST_SYSTEMCHECK:v0"],
         data_type="DATE",
-        property_label="Last System Check",
-        description="""Date of the last system check//Datum des letzten Systemchecks""",
+        property_label="Last system check",
+        description="Date of the most recent system check.",
         mandatory=False,
         section="Additional Information",
+        prev_versions=["LAST_SYSTEMCHECK:v0"],
     )
 
 
@@ -1196,7 +1196,7 @@ class Positioner(Equipment):
     defs = ObjectTypeDef(
         code="POSITIONER",
         prev_versions=["INSTRUMENT.WELDING_EQUIPMENT.POSITIONER:v0"],
-        description="""A generic welding table or handling device//Generischer Schweißtisch oder anderer Positionierer zum Schweißen""",
+        description="""A generic welding table or handling device""",
         generated_code_prefix="POSITIONER",
     )
 
@@ -1206,7 +1206,7 @@ class Positioner(Equipment):
         data_type="CONTROLLEDVOCABULARY",
         vocabulary_code="POSITIONER_TYPE",
         property_label="Positioner type",
-        description="""Positioner type//Art des Positionierers""",
+        description="""Positioner type""",
         mandatory=False,
         section="Positioner Information",
     )
@@ -1216,7 +1216,7 @@ class Positioner(Equipment):
         prev_versions=["POSITIONER_AXIS_COUNT:v0"],
         data_type="INTEGER",
         property_label="Number of axis",
-        description="""The number of controllable axis of the positioner (a value of 0 indicates static positioner)//""",
+        description="""The number of controllable axis of the positioner (a value of 0 indicates static positioner)""",
         mandatory=False,
         section="Positioner Information",
     )
@@ -1227,19 +1227,19 @@ class Positioner(Equipment):
         data_type="REAL",
         property_label="Maximum payload",
         units="kg",
-        description="""The maximum payload to be handled by the positioner//Maximal zulässige Traglast""",
+        description="""The maximum payload to be handled by the positioner""",
         mandatory=False,
         section="Positioner Information",
     )
 
     last_systemcheck = PropertyTypeAssignment(
         code="LAST_SYSTEMCHECK",
-        prev_versions=["LAST_SYSTEMCHECK:v0"],
         data_type="DATE",
-        property_label="Last System Check",
-        description="""Date of the last system check//Datum des letzten Systemchecks""",
+        property_label="Last system check",
+        description="Date of the most recent system check.",
         mandatory=False,
         section="Additional Information",
+        prev_versions=["LAST_SYSTEMCHECK:v0"],
     )
 
 
@@ -1247,7 +1247,7 @@ class RobotController(Equipment):
     defs = ObjectTypeDef(
         code="ROBOT_CONTROLLER",
         prev_versions=["INSTRUMENT.WELDING_EQUIPMENT.ROBOT_CONTROLLER:v0"],
-        description="""Controller connected to a welding robot//Steuerung für Schweißroboter""",
+        description="""Controller connected to a welding robot""",
         generated_code_prefix="ROBOT_CONTROLLER",
     )
 
@@ -1256,7 +1256,7 @@ class RobotController(Equipment):
         prev_versions=["ROBOT_CONTROLLER_AXIS_COUNT:v0"],
         data_type="INTEGER",
         property_label="Number of robot axis",
-        description="""The number of robot axis the controller can operate//Anzahl der Roboterachsen die von der Steuerung angesteuert werden können""",
+        description="""The number of robot axis the controller can operate""",
         mandatory=True,
         section="Controller Information",
     )
@@ -1266,29 +1266,29 @@ class RobotController(Equipment):
         prev_versions=["ROBOT_CONTROLLER_AXIS_COUNT_EXTERNAL:v0"],
         data_type="INTEGER",
         property_label="Number of external axis",
-        description="""The number of external axis the controller can operate//Anzahl der zusätzlichen externen Achsen die von der Steuerung angesteuert werden können""",
+        description="""The number of external axis the controller can operate""",
         mandatory=True,
         section="Controller Information",
     )
 
     firmware_version = PropertyTypeAssignment(
         code="FIRMWARE_VERSION",
-        prev_versions=["FIRMWARE_VERSION:v0"],
         data_type="VARCHAR",
-        property_label="Current firmware version",
-        description="""The currently installed firmware version//Die aktuell installierte Firmware-Version""",
+        property_label="Firmware version",
+        description="Currently installed firmware version.",
         mandatory=False,
         section="Software Information",
+        prev_versions=["FIRMWARE_VERSION:v0"],
     )
 
     last_systemcheck = PropertyTypeAssignment(
         code="LAST_SYSTEMCHECK",
-        prev_versions=["LAST_SYSTEMCHECK:v0"],
         data_type="DATE",
-        property_label="Last System Check",
-        description="""Date of the last system check//Datum des letzten Systemchecks""",
+        property_label="Last system check",
+        description="Date of the most recent system check.",
         mandatory=False,
         section="Additional Information",
+        prev_versions=["LAST_SYSTEMCHECK:v0"],
     )
 
 
@@ -1296,7 +1296,7 @@ class Robot(Instrument):
     defs = ObjectTypeDef(
         code="ROBOT",
         prev_versions=["INSTRUMENT.WELDING_EQUIPMENT.ROBOT:v0"],
-        description="""A generic robot used for welding//Ein generischer Schweißroboter""",
+        description="""A generic robot used for welding""",
         generated_code_prefix="ROBOT",
     )
 
@@ -1306,7 +1306,7 @@ class Robot(Instrument):
         data_type="CONTROLLEDVOCABULARY",
         vocabulary_code="ROBOT_TYPE",
         property_label="Type of Robot",
-        description="""Type of Robot//Roboterart""",
+        description="""Type of Robot""",
         mandatory=True,
         section="Robot Information",
     )
@@ -1317,7 +1317,7 @@ class Robot(Instrument):
         data_type="INTEGER",
         property_label="Robot maximum payload",
         units="kg",
-        description="""The maximum allowable payload of the robot//Die maximal zulässig Traglast des Roboters""",
+        description="""The maximum allowable payload of the robot""",
         mandatory=False,
         section="Robot Information",
     )
@@ -1328,7 +1328,7 @@ class Robot(Instrument):
         data_type="REAL",
         property_label="Maximum working range",
         units="mm",
-        description="""The maximum specified working range of the robot (in mm)//Größe des maximal angegegebenen Arbeitsbereiches (in mm)""",
+        description="""The maximum specified working range of the robot (in mm)""",
         mandatory=False,
         section="Robot Information",
     )
@@ -1338,19 +1338,19 @@ class Robot(Instrument):
         prev_versions=["ROBOT_AXIS_COUNT:v0"],
         data_type="INTEGER",
         property_label="Number of robot axis",
-        description="""The number of a axis on the robot//Anzahl der Roboterachsen""",
+        description="""The number of a axis on the robot""",
         mandatory=False,
         section="Robot Information",
     )
 
     last_systemcheck = PropertyTypeAssignment(
         code="LAST_SYSTEMCHECK",
-        prev_versions=["LAST_SYSTEMCHECK:v0"],
         data_type="DATE",
-        property_label="Last System Check",
-        description="""Date of the last system check//Datum des letzten Systemchecks""",
+        property_label="Last system check",
+        description="Date of the most recent system check.",
         mandatory=False,
         section="Additional Information",
+        prev_versions=["LAST_SYSTEMCHECK:v0"],
     )
 
 
@@ -1364,12 +1364,12 @@ class StationLayout(Equipment):
 
     last_systemcheck = PropertyTypeAssignment(
         code="LAST_SYSTEMCHECK",
-        prev_versions=["LAST_SYSTEMCHECK:v0"],
         data_type="DATE",
-        property_label="Last System Check",
-        description="""Date of the last system check//Datum des letzten Systemchecks""",
+        property_label="Last system check",
+        description="Date of the most recent system check.",
         mandatory=False,
         section="Additional Information",
+        prev_versions=["LAST_SYSTEMCHECK:v0"],
     )
 
 
@@ -1395,8 +1395,8 @@ class TorchHead(Equipment):
     last_systemcheck = PropertyTypeAssignment(
         code="LAST_SYSTEMCHECK",
         data_type="DATE",
-        property_label="Last System Check",
-        description="Date of the last system check//Datum des letzten Systemchecks",
+        property_label="Last system check",
+        description="Date of the most recent system check.",
         mandatory=False,
         section="Additional Information",
         prev_versions=["LAST_SYSTEMCHECK:v0"],
@@ -2156,30 +2156,30 @@ class VideoRecording(Measurement):
     defs = ObjectTypeDef(
         code="VIDEO_RECORDING",
         prev_versions=["EXPERIMENTAL_STEP.VIDEO_RECORDING:v0"],
-        description="""An experimental step describing a video recording//Ein experimenteller Schritt zur Erzeugung einer Videoaufnahme""",
+        description="""An experimental step describing a video recording""",
         generated_code_prefix="VIDEO_RECORDING",
     )
 
-    image_horizontal_resolution = PropertyTypeAssignment(
-        code="IMAGE_HORIZONTAL_RESOLUTION",
-        prev_versions=["IMAGE_HORIZONTAL_RESOLUTION:v0"],
+    video_horizontal_resolution = PropertyTypeAssignment(
+        code="VIDEO_HORIZONTAL_RESOLUTION",
         data_type="INTEGER",
-        property_label="Horizontal image resolution",
+        property_label="Horizontal video resolution",
+        description="Number of pixels across each video frame.",
         units="pixel",
-        description="""Horizontal resolution of the image [pixel]//Horizonzale Auflösung des Bildes [Pixel]""",
         mandatory=False,
         section="Video Information",
+        prev_versions=["IMAGE_HORIZONTAL_RESOLUTION:v0"],
     )
 
-    image_vertical_resolution = PropertyTypeAssignment(
-        code="IMAGE_VERTICAL_RESOLUTION",
-        prev_versions=["IMAGE_VERTICAL_RESOLUTION:v0"],
+    video_vertical_resolution = PropertyTypeAssignment(
+        code="VIDEO_VERTICAL_RESOLUTION",
         data_type="INTEGER",
-        property_label="Vertical image resolution",
+        property_label="Vertical video resolution",
         units="pixel",
-        description="""Vertical resolution of the image [pixel]////Vertikale Auflösung des Bildes [Pixel]""",
+        description="Number of pixels down each video frame.",
         mandatory=False,
         section="Video Information",
+        prev_versions=["IMAGE_VERTICAL_RESOLUTION:v0"],
     )
 
     video_frame_per_seconds = PropertyTypeAssignment(
@@ -2188,7 +2188,7 @@ class VideoRecording(Measurement):
         data_type="INTEGER",
         property_label="Average frame rate",
         units="Hz",
-        description="""Average video framerate [frames per second]//Mittlere Bildrate (in Bilder pro Sekunde)""",
+        description="""Average video framerate""",
         mandatory=False,
         section="Video Information",
     )
@@ -2198,7 +2198,7 @@ class VideoRecording(Measurement):
         prev_versions=["VIDEO_CODEC:v0"],
         data_type="VARCHAR",
         property_label="Video codec",
-        description="""Video codec used during recording (if applicable)//Videocodec (sofern kodiert)""",
+        description="""Video codec used during recording (if applicable)""",
         mandatory=False,
         section="Video Information",
     )
@@ -2208,7 +2208,7 @@ class VideoRecording(Measurement):
         prev_versions=["VIDEO_DYNAMIC_FRAMERATE:v0"],
         data_type="BOOLEAN",
         property_label="Variable frame rate",
-        description="""Flag to indicate that the video frame rate varies over time//Gibt an, dass die Bildrate des Videos nicht konstant ist""",
+        description="""Flag to indicate that the video frame rate varies over time""",
         mandatory=False,
         section="Video Information",
     )
@@ -2219,7 +2219,7 @@ class VideoRecording(Measurement):
         data_type="CONTROLLEDVOCABULARY",
         vocabulary_code="CAMERA_SHUTTER_MODE",
         property_label="Shutter mode",
-        description="""The shutter mode used for video recording//Belichtungsprinzip des Bildsensors""",
+        description="""The shutter mode used for video recording""",
         mandatory=False,
         section="Video Information",
     )
