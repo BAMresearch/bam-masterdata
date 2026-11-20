@@ -260,7 +260,7 @@ def main() -> None:
             message=(
                 "\nClass hierarchy comments are outdated.\n"
                 "Run the following command to regenerate them:\n\n"
-                "pixi run python tools/scripts/"
+                "uv run python tools/scripts/"
                 "generate_class_hierarchy_comments.py --write\n"
             ),
         )
