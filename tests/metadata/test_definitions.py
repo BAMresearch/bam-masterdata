@@ -383,7 +383,16 @@ class TestPropertyTypeDef:
                 section="General Information",
             )
 
-    @pytest.mark.parametrize("property_cls", [PropertyTypeDef, PropertyTypeAssignment])
+    @pytest.mark.parametrize(
+        "property_cls, extra_kwargs",
+        [
+            (PropertyTypeDef, {}),
+            (
+                PropertyTypeAssignment,
+                {"mandatory": False, "section": "General Information"},
+            ),
+        ],
+    )
     @pytest.mark.parametrize(
         "data_type, metadata",
         [
@@ -401,7 +410,7 @@ class TestPropertyTypeDef:
         ],
     )
     def test_custom_widget_accepts_valid_metadata(
-        self, property_cls, data_type, metadata
+        self, property_cls, extra_kwargs, data_type, metadata
     ):
         prop = property_cls(
             code="CONTENT",
@@ -409,11 +418,21 @@ class TestPropertyTypeDef:
             description="Content",
             data_type=data_type,
             metadata=metadata,
+            **extra_kwargs,
         )
 
         assert prop.metadata == metadata
 
-    @pytest.mark.parametrize("property_cls", [PropertyTypeDef, PropertyTypeAssignment])
+    @pytest.mark.parametrize(
+        "property_cls, extra_kwargs",
+        [
+            (PropertyTypeDef, {}),
+            (
+                PropertyTypeAssignment,
+                {"mandatory": False, "section": "General Information"},
+            ),
+        ],
+    )
     @pytest.mark.parametrize(
         "data_type, widget",
         [
@@ -429,7 +448,7 @@ class TestPropertyTypeDef:
         ],
     )
     def test_custom_widget_rejects_invalid_configuration(
-        self, property_cls, data_type, widget
+        self, property_cls, extra_kwargs, data_type, widget
     ):
         with pytest.raises(ValidationError, match="metadata.custom_widget"):
             property_cls(
@@ -438,6 +457,7 @@ class TestPropertyTypeDef:
                 description="Content",
                 data_type=data_type,
                 metadata={"custom_widget": widget},
+                **extra_kwargs,
             )
 
     def test_model_id_uses_property_conversion(self):
