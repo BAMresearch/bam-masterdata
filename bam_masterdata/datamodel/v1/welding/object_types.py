@@ -22,8 +22,10 @@
 # ├── Component
 # ├── WeldingJoint
 # ├── Workpiece
-# ├── WeldingWire
 # └── Weld
+#
+# PhysicalObject
+# └── WeldingWire
 #
 # Material
 # ├── MetallicAlloy
@@ -31,6 +33,9 @@
 # └── WeldingWireAlloy
 #
 # Equipment
+# ├── Positioner
+# ├── RobotController
+# ├── StationLayout
 # ├── WeldingTorchNeck
 # ├── WeldingGasNozzel
 # ├── WeldingContactTip
@@ -39,6 +44,8 @@
 # └── HydraulicTable
 #
 # Instrument
+# ├── GmawWeldingPowerSource
+# ├── Robot
 # ├── LaserSource
 # ├── Pyrometer
 # └── LoadCell
@@ -1105,6 +1112,249 @@ class WeldingWireAlloy(Material):
 
 
 # Equipment
+class GmawWeldingPowerSource(Instrument):
+    defs = ObjectTypeDef(
+        code="GMAW_WELDING_POWER_SOURCE",
+        prev_versions=["INSTRUMENT.WELDING_EQUIPMENT.GMAW_WELDING_POWER_SOURCE:v0"],
+        description="""Power source for gas metal arc welding (GMAW) applications//Stromquelle für Metall-Schutzgas-Schweißen (MSG-Schweißen)""",
+        generated_code_prefix="GMAW_WELDING_POWER_SOURCE",
+    )
+
+    welding_arc_current_min = PropertyTypeAssignment(
+        code="ARC_CURRENT_MIN",
+        prev_versions=["WELDING.ARC_CURRENT_MIN:v0"],
+        data_type="REAL",
+        property_label="Arc current minimum",
+        units="A",
+        description="""Minimum arc current//Minimaler Schweißstrom""",
+        mandatory=False,
+        section="Power Source Information",
+    )
+
+    welding_arc_current_max = PropertyTypeAssignment(
+        code="ARC_CURRENT_MAX",
+        prev_versions=["WELDING.ARC_CURRENT_MAX:v0"],
+        data_type="REAL",
+        property_label="Arc current maximum",
+        units="A",
+        description="""Maximum arc current//Maximaler Schweißstrom""",
+        mandatory=False,
+        section="Power Source Information",
+    )
+
+    welding_arc_current_continuous = PropertyTypeAssignment(
+        code="ARC_CURRENT_CONTINUOUS",
+        prev_versions=["WELDING.ARC_CURRENT_CONTINUOUS:v0"],
+        data_type="REAL",
+        property_label="Maximum continuous arc current",
+        units="A",
+        description="""Maximum continuous arc current at 100% duty cycle//Maximaler Schweißstrom bei 100% Einschaltdauer""",
+        mandatory=False,
+        section="Power Source Information",
+    )
+
+    firmware_version = PropertyTypeAssignment(
+        code="FIRMWARE_VERSION",
+        prev_versions=["FIRMWARE_VERSION:v0"],
+        data_type="VARCHAR",
+        property_label="Current firmware version",
+        description="""The currently installed firmware version//Die aktuell installierte Firmware-Version""",
+        mandatory=False,
+        section="Software Information",
+    )
+
+    last_systemcheck = PropertyTypeAssignment(
+        code="LAST_SYSTEMCHECK",
+        prev_versions=["LAST_SYSTEMCHECK:v0"],
+        data_type="DATE",
+        property_label="Last System Check",
+        description="""Date of the last system check//Datum des letzten Systemchecks""",
+        mandatory=False,
+        section="Additional Information",
+    )
+
+
+class Positioner(Equipment):
+    defs = ObjectTypeDef(
+        code="POSITIONER",
+        prev_versions=["INSTRUMENT.WELDING_EQUIPMENT.POSITIONER:v0"],
+        description="""A generic welding table or handling device//Generischer Schweißtisch oder anderer Positionierer zum Schweißen""",
+        generated_code_prefix="POSITIONER",
+    )
+
+    positioner_type = PropertyTypeAssignment(
+        code="POSITIONER_TYPE",
+        prev_versions=["POSITIONER_TYPE:v0"],
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="POSITIONER_TYPE",
+        property_label="Positioner type",
+        description="""Positioner type//Art des Positionierers""",
+        mandatory=False,
+        section="Positioner Information",
+    )
+
+    positioner_axis_count = PropertyTypeAssignment(
+        code="POSITIONER_AXIS_COUNT",
+        prev_versions=["POSITIONER_AXIS_COUNT:v0"],
+        data_type="INTEGER",
+        property_label="Number of axis",
+        description="""The number of controllable axis of the positioner (a value of 0 indicates static positioner)//""",
+        mandatory=False,
+        section="Positioner Information",
+    )
+
+    positioner_payload_max = PropertyTypeAssignment(
+        code="POSITIONER_PAYLOAD_MAX",
+        prev_versions=["POSITIONER_PAYLOAD_MAX:v0"],
+        data_type="REAL",
+        property_label="Maximum payload",
+        units="kg",
+        description="""The maximum payload to be handled by the positioner//Maximal zulässige Traglast""",
+        mandatory=False,
+        section="Positioner Information",
+    )
+
+    last_systemcheck = PropertyTypeAssignment(
+        code="LAST_SYSTEMCHECK",
+        prev_versions=["LAST_SYSTEMCHECK:v0"],
+        data_type="DATE",
+        property_label="Last System Check",
+        description="""Date of the last system check//Datum des letzten Systemchecks""",
+        mandatory=False,
+        section="Additional Information",
+    )
+
+
+class RobotController(Equipment):
+    defs = ObjectTypeDef(
+        code="ROBOT_CONTROLLER",
+        prev_versions=["INSTRUMENT.WELDING_EQUIPMENT.ROBOT_CONTROLLER:v0"],
+        description="""Controller connected to a welding robot//Steuerung für Schweißroboter""",
+        generated_code_prefix="ROBOT_CONTROLLER",
+    )
+
+    robot_controller_axis_count = PropertyTypeAssignment(
+        code="ROBOT_CONTROLLER_AXIS_COUNT",
+        prev_versions=["ROBOT_CONTROLLER_AXIS_COUNT:v0"],
+        data_type="INTEGER",
+        property_label="Number of robot axis",
+        description="""The number of robot axis the controller can operate//Anzahl der Roboterachsen die von der Steuerung angesteuert werden können""",
+        mandatory=True,
+        section="Controller Information",
+    )
+
+    robot_controller_axis_count_external = PropertyTypeAssignment(
+        code="ROBOT_CONTROLLER_AXIS_COUNT_EXTERNAL",
+        prev_versions=["ROBOT_CONTROLLER_AXIS_COUNT_EXTERNAL:v0"],
+        data_type="INTEGER",
+        property_label="Number of external axis",
+        description="""The number of external axis the controller can operate//Anzahl der zusätzlichen externen Achsen die von der Steuerung angesteuert werden können""",
+        mandatory=True,
+        section="Controller Information",
+    )
+
+    firmware_version = PropertyTypeAssignment(
+        code="FIRMWARE_VERSION",
+        prev_versions=["FIRMWARE_VERSION:v0"],
+        data_type="VARCHAR",
+        property_label="Current firmware version",
+        description="""The currently installed firmware version//Die aktuell installierte Firmware-Version""",
+        mandatory=False,
+        section="Software Information",
+    )
+
+    last_systemcheck = PropertyTypeAssignment(
+        code="LAST_SYSTEMCHECK",
+        prev_versions=["LAST_SYSTEMCHECK:v0"],
+        data_type="DATE",
+        property_label="Last System Check",
+        description="""Date of the last system check//Datum des letzten Systemchecks""",
+        mandatory=False,
+        section="Additional Information",
+    )
+
+
+class Robot(Instrument):
+    defs = ObjectTypeDef(
+        code="ROBOT",
+        prev_versions=["INSTRUMENT.WELDING_EQUIPMENT.ROBOT:v0"],
+        description="""A generic robot used for welding//Ein generischer Schweißroboter""",
+        generated_code_prefix="ROBOT",
+    )
+
+    robot_type = PropertyTypeAssignment(
+        code="ROBOT_TYPE",
+        prev_versions=["ROBOT_TYPE:v0"],
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="ROBOT_TYPE",
+        property_label="Type of Robot",
+        description="""Type of Robot//Roboterart""",
+        mandatory=True,
+        section="Robot Information",
+    )
+
+    robot_payload_max = PropertyTypeAssignment(
+        code="ROBOT_PAYLOAD_MAX",
+        prev_versions=["ROBOT_PAYLOAD_MAX:v0"],
+        data_type="INTEGER",
+        property_label="Robot maximum payload",
+        units="kg",
+        description="""The maximum allowable payload of the robot//Die maximal zulässig Traglast des Roboters""",
+        mandatory=False,
+        section="Robot Information",
+    )
+
+    robot_working_range = PropertyTypeAssignment(
+        code="ROBOT_WORKING_RANGE",
+        prev_versions=["ROBOT_WORKING_RANGE:v0"],
+        data_type="REAL",
+        property_label="Maximum working range",
+        units="mm",
+        description="""The maximum specified working range of the robot (in mm)//Größe des maximal angegegebenen Arbeitsbereiches (in mm)""",
+        mandatory=False,
+        section="Robot Information",
+    )
+
+    robot_axis_count = PropertyTypeAssignment(
+        code="ROBOT_AXIS_COUNT",
+        prev_versions=["ROBOT_AXIS_COUNT:v0"],
+        data_type="INTEGER",
+        property_label="Number of robot axis",
+        description="""The number of a axis on the robot//Anzahl der Roboterachsen""",
+        mandatory=False,
+        section="Robot Information",
+    )
+
+    last_systemcheck = PropertyTypeAssignment(
+        code="LAST_SYSTEMCHECK",
+        prev_versions=["LAST_SYSTEMCHECK:v0"],
+        data_type="DATE",
+        property_label="Last System Check",
+        description="""Date of the last system check//Datum des letzten Systemchecks""",
+        mandatory=False,
+        section="Additional Information",
+    )
+
+
+class StationLayout(Equipment):
+    defs = ObjectTypeDef(
+        code="STATION_LAYOUT",
+        prev_versions=["INSTRUMENT.WELDING_EQUIPMENT.STATION_LAYOUT:v0"],
+        description="""Layout and configuration of a welding station""",
+        generated_code_prefix="STATION_LAYOUT",
+    )
+
+    last_systemcheck = PropertyTypeAssignment(
+        code="LAST_SYSTEMCHECK",
+        prev_versions=["LAST_SYSTEMCHECK:v0"],
+        data_type="DATE",
+        property_label="Last System Check",
+        description="""Date of the last system check//Datum des letzten Systemchecks""",
+        mandatory=False,
+        section="Additional Information",
+    )
+
+
 class WeldingTorchNeck(Equipment):
     defs = ObjectTypeDef(
         code="WELDING_TORCH_NECK",

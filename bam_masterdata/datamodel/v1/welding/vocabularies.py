@@ -4,6 +4,121 @@ from bam_masterdata.metadata.definitions import VocabularyTerm, VocabularyTypeDe
 from bam_masterdata.metadata.entities import VocabularyType
 
 
+class GmawTorchType(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="GMAW_TORCH_TYPE",
+        prev_versions=["WELDING.GMAW_TORCH_TYPE:v0"],
+        description="""General types of GMAW torches//Arten von MSG-Schweißbrennern""",
+    )
+
+    welding_gmaw_torch_type_ngw_rot = VocabularyTerm(
+        code="WELDING_GMAW_TORCH_TYPE_NGW_ROT",
+        prev_versions=["WELDING_GMAW_TORCH_TYPE_NGW_ROT:v0"],
+        label="narrow gap torch (rotating arc)",
+        description="""A generic dual wire tandem torch//generischer Zweidraht-/Tandem-MSG-Brenner""",
+    )
+
+    welding_gmaw_torch_type_ngw_swing = VocabularyTerm(
+        code="WELDING_GMAW_TORCH_TYPE_NGW_SWING",
+        prev_versions=["WELDING_GMAW_TORCH_TYPE_NGW_SWING:v0"],
+        label="narrow gap torch (swing arc)",
+        description="""A generic dual wire tandem torch//generischer Zweidraht-/Tandem-MSG-Brenner""",
+    )
+
+    welding_gmaw_torch_type_single = VocabularyTerm(
+        code="WELDING_GMAW_TORCH_TYPE_SINGLE",
+        prev_versions=["WELDING_GMAW_TORCH_TYPE_SINGLE:v0"],
+        label="single wire torch",
+        description="""Generic GMAW torch with a single wire//generischer Eindraht MSG-Brenner""",
+    )
+
+    welding_gmaw_torch_type_tandem = VocabularyTerm(
+        code="WELDING_GMAW_TORCH_TYPE_TANDEM",
+        prev_versions=["WELDING_GMAW_TORCH_TYPE_TANDEM:v0"],
+        label="tandem torch",
+        description="""A generic dual wire tandem torch//generischer Zweidraht-/Tandem-MSG-Brenner""",
+    )
+
+
+class PositionerType(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="POSITIONER_TYPE",
+        prev_versions=["POSITIONER_TYPE:v0"],
+        description="""Types of specimen or workpiece positioners//Arten Positionierer für Proben und Bauteile""",
+    )
+
+    positioner_type_fixed = VocabularyTerm(
+        code="POSITIONER_TYPE_FIXED",
+        prev_versions=["POSITIONER_TYPE_FIXED:v0"],
+        label="fixed positioner",
+        description="""An unspecified fixed positionier without any movement capabilities//Fester Positionierer ohne Bewegungsmöglichkeiten""",
+    )
+
+    positioner_type_linear = VocabularyTerm(
+        code="POSITIONER_TYPE_LINEAR",
+        prev_versions=["POSITIONER_TYPE_LINEAR:v0"],
+        label="linear positioner",
+        description="""linear positioner with one or more axis//Linearpositionierer mit einer oder mehr beweglichen Achsen""",
+    )
+
+    positioner_type_rotary_tilt_table = VocabularyTerm(
+        code="POSITIONER_TYPE_ROTARY_TILT_TABLE",
+        prev_versions=["POSITIONER_TYPE_ROTARY_TILT_TABLE:v0"],
+        label="rotary tilt table",
+        description="""a rotary tilt table, usually with one tilting and one rotating axis//Drehkipptisch mit üblicherweise je einer Kipp- und Drehachse""",
+    )
+
+    positioner_type_turntable = VocabularyTerm(
+        code="POSITIONER_TYPE_TURNTABLE",
+        prev_versions=["POSITIONER_TYPE_TURNTABLE:v0"],
+        label="a turntable with rotary axis",
+        description="""A turntable with rotary axis//Drehtisch mit Drehachse""",
+    )
+
+    positioner_type_weld_table = VocabularyTerm(
+        code="POSITIONER_TYPE_WELD_TABLE",
+        prev_versions=["POSITIONER_TYPE_WELD_TABLE:v0"],
+        label="welding table",
+        description="""A welding table without moving axis//Schweißtisch ohne bewegte Achse""",
+    )
+
+
+class RobotType(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="ROBOT_TYPE",
+        prev_versions=["ROBOT_TYPE:v0"],
+        description="""Types of industrial robots//Arten von Industrierobotern""",
+    )
+
+    robot_type_articulated = VocabularyTerm(
+        code="ROBOT_TYPE_ARTICULATED",
+        prev_versions=["ROBOT_TYPE_ARTICULATED:v0"],
+        label="articulated robot",
+        description="""Articulated robot//Knickarmroboter""",
+    )
+
+    robot_type_cartesian_coordinate = VocabularyTerm(
+        code="ROBOT_TYPE_CARTESIAN_COORDINATE",
+        prev_versions=["ROBOT_TYPE_CARTESIAN_COORDINATE:v0"],
+        label="cartesian coordinate robot",
+        description="""A Cartesian coordinate robot (a.k.a. linear robot)//Roboter aus Linearachsen in rechtwinkliger Anordnung""",
+    )
+
+    robot_type_delta = VocabularyTerm(
+        code="ROBOT_TYPE_DELTA",
+        prev_versions=["ROBOT_TYPE_DELTA:v0"],
+        label="delta robot",
+        description="""Delta robot (parallel link robot)//Delta-Roboter (Parallelarmroboter mit Stabkinetik)""",
+    )
+
+    robot_type_scara = VocabularyTerm(
+        code="ROBOT_TYPE_SCARA",
+        prev_versions=["ROBOT_TYPE_SCARA:v0"],
+        label="SCARA robot",
+        description="""Selective Compliance Assembly Robot Arm (SCARA)//SCARA-Roboter (horizontaler Gelenkarmroboter)""",
+    )
+
+
 class WeldingWireTypes(VocabularyType):
     defs = VocabularyTypeDef(
         code="WELDING_WIRE_TYPES",
@@ -260,23 +375,27 @@ class BackingTypes(VocabularyType):
 class WeldTypes(VocabularyType):
     defs = VocabularyTypeDef(
         code="WELD_TYPES",
+        prev_versions=["WELDING.WELD_TYPE:v0"],
         description="""Types of joining weld.""",
     )
 
     groove = VocabularyTerm(
         code="GROOVE",
+        prev_versions=["WELDING_GROOVE_WELD:v0"],
         label="Groove",
         description="A groove weld.",
     )
 
     fillet = VocabularyTerm(
         code="FILLET",
+        prev_versions=["WELDING_FILLET_WELD:v0"],
         label="Fillet",
         description="A fillet weld.",
     )
 
     plug = VocabularyTerm(
         code="PLUG",
+        prev_versions=["WELDING_PLUG_WELD:v0"],
         label="Plug",
         description="A plug weld.",
     )
@@ -289,6 +408,7 @@ class WeldTypes(VocabularyType):
 
     spot = VocabularyTerm(
         code="SPOT",
+        prev_versions=["WELDING_SPOT_WELD:v0"],
         label="Spot",
         description="A spot weld.",
     )
@@ -303,6 +423,20 @@ class WeldTypes(VocabularyType):
         code="FLANGE",
         label="Flange",
         description="A flange weld.",
+    )
+
+    surfacing = VocabularyTerm(
+        code="SURFACING",
+        prev_versions=["WELDING_SURFACING_WELD:v0"],
+        label="surfacing weld",
+        description="""A weld applied to a surface, as opposed to making a joint, to obtain desired properties or dimensions.//Auftragsschweißung zur Strukturbildung oder Beschichtung""",
+    )
+
+    tack = VocabularyTerm(
+        code="TACK",
+        prev_versions=["WELDING_TACK_WELD:v0"],
+        label="tack weld",
+        description="""Used to hold the parts of a weldment in proper alignment are placed in grooves or fillet locations and are small enough to be consumed by the production weld.//Heftnaht zur Positionierung von Bauteilen""",
     )
 
 
