@@ -499,8 +499,12 @@ class PropertyTypeDef(EntityDef):
     metadata: dict | None = Field(
         default=None,
         description="""
-        General metadata written in a dictionary format. This is used to store additional information
-        about the property type, e.g., `{'unit': 'm', 'precision': 2}`.
+        Additional metadata associated with the global property type.
+
+        The 'custom_widget' key configures its ELN editor:
+            - 'Word Processor' requires `MULTILINE_VARCHAR`, and
+            - 'Spreadsheet' requires `XML`.
+        Example: `{'custom_widget': 'Word Processor'}`.
         """,
     )
 
@@ -554,6 +558,31 @@ class PropertyTypeDef(EntityDef):
             raise ValueError(
                 f"Units are only supported for REAL and INTEGER properties. "
                 f"Got data_type='{self.data_type.value}'."
+            )
+
+        return self
+
+    @model_validator(mode="after")
+    def validate_custom_widget(self):
+        if self.metadata is None or "custom_widget" not in self.metadata:
+            return self
+
+        widget = self.metadata["custom_widget"]
+        supported_widgets = {
+            "Word Processor": DataType.MULTILINE_VARCHAR,
+            "Spreadsheet": DataType.XML,
+        }
+
+        if not isinstance(widget, str) or widget not in supported_widgets:
+            raise ValueError(
+                "metadata.custom_widget must be 'Word Processor' or 'Spreadsheet'."
+            )
+
+        required_type = supported_widgets[widget]
+        if self.data_type != required_type:
+            raise ValueError(
+                f"metadata.custom_widget '{widget}' requires "
+                f"data_type='{required_type.value}'."
             )
 
         return self
