@@ -1,7 +1,8 @@
 # AUTO-GENERATED CLASS HIERARCHY — DO NOT EDIT
 #
-# EnvironmentalConditions
-# └── OutdoorConditions
+# ParameterSet*
+# └── EnvironmentalConditions
+#     └── OutdoorConditions
 #
 # END AUTO-GENERATED CLASS HIERARCHY
 

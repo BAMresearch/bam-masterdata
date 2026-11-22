@@ -1,8 +1,8 @@
 # AUTO-GENERATED CLASS HIERARCHY — DO NOT EDIT
 #
-# BuildingMaterialsSpecimen
-#
-# ConcreteMixture
+# Sample*
+# ├── BuildingMaterialsSpecimen
+# └── ConcreteMixture
 #
 # END AUTO-GENERATED CLASS HIERARCHY
 
