@@ -1,73 +1,75 @@
 # AUTO-GENERATED CLASS HIERARCHY — DO NOT EDIT
 #
-# Activity
+# PhysicalObject*
+# └── WeldingWire
+#
+# Activity*
 # └── RobotExecution
 #
-# Context
+# Context*
 # ├── WeldingProcess
 # ├── CuttingProcess
 # ├── WeldSegment
 # ├── SimulationDomain
 # └── MaterialData
 #
-# Processing
+# Processing*
 # ├── Welding
 # │   └── LaserCTW
 # └── Cutting
 #
-# ParameterSet
+# ParameterSet*
 # └── CameraCalibrationParameters
 #
-# Sample
+# Sample*
 # ├── Component
+# ├── Weldment
 # ├── WeldingJoint
 # ├── Workpiece
 # └── Weld
 #
-# PhysicalObject
-# └── WeldingWire
-#
-# Material
+# Material*
 # ├── MetallicAlloy
 # ├── GasMixture
 # └── WeldingWireAlloy
 #
-# Equipment
-# ├── Lens
-# ├── Positioner
-# ├── RobotController
-# ├── StationLayout
-# ├── WeldingTorchNeck
-# ├── WeldingGasNozzel
-# ├── WeldingContactTip
-# ├── LaserWeldOptic
-# ├── LaserFiber
-# └── HydraulicTable
-#
-# Sensor
-# ├── Camera
-# └── LaserLineScanner
-#
-# Instrument
+# Instrument*
 # ├── GmawWeldingPowerSource
 # ├── Robot
 # ├── LaserSource
 # ├── Pyrometer
 # └── LoadCell
 #
-# Measurement
+# Equipment*
+# ├── Positioner
+# ├── RobotController
+# ├── StationLayout
+# ├── TorchHead
+# ├── WeldingTorchNeck
+# ├── WeldingGasNozzel
+# ├── WeldingContactTip
+# ├── Lens
+# ├── LaserWeldOptic
+# ├── LaserFiber
+# └── HydraulicTable
+#
+# Sensor*
+# ├── Camera
+# └── LaserLineScanner
+#
+# Measurement*
 # ├── ProfileScan
 # ├── ImageSeries
 # └── VideoRecording
 #
-# Analysis
+# Analysis*
 # └── CameraCalibration
 #
-# Computation
+# Computation*
 # ├── Meshing
 # └── AnsisFluentRun
 #
-# Software
+# Software*
 # ├── UDFModel
 # └── AnsisFluent
 #
@@ -75,7 +77,6 @@
 
 """Object type definitions related to welding experiments and simulation."""
 
-from bam_masterdata.datamodel.v1.entities import Material
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
 
 from ..activities import (

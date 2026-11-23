@@ -1,7 +1,8 @@
 # AUTO-GENERATED CLASS HIERARCHY — DO NOT EDIT
 #
-# EnvironmentalConditions
-# └── OutdoorConditions
+# ParameterSet*
+# └── EnvironmentalConditions
+#     └── OutdoorConditions
 #
 # END AUTO-GENERATED CLASS HIERARCHY
 
@@ -103,7 +104,7 @@ class OutdoorConditions(EnvironmentalConditions):
         data_type="OBJECT",
         object_code="LOCATION",
         property_label="Location",
-        description="Location",
+        description="Physical location.",
         mandatory=False,
         section="Outdoor Conditions",
     )
