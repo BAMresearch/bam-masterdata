@@ -19,11 +19,12 @@ from bam_masterdata.datamodel.v1.building_materials.object_types import (
 )
 from bam_masterdata.datamodel.v1.creep_test import vocabularies as creep_vocabularies
 from bam_masterdata.datamodel.v1.creep_test.object_types import CreepTestPiece
-from bam_masterdata.datamodel.v1.entities import Location, Material, Sample
+from bam_masterdata.datamodel.v1.entities import Location, PhysicalObject, Sample
 from bam_masterdata.datamodel.v1.parameter_set import (
     EnvironmentalConditions,
     OutdoorConditions,
 )
+from bam_masterdata.datamodel.v1.welding import vocabularies as welding_vocabularies
 from bam_masterdata.datamodel.v1.welding.object_types import WeldingWire
 from bam_masterdata.metadata.definitions import DataType
 from bam_masterdata.metadata.entities import VocabularyType
@@ -60,7 +61,12 @@ def test_added_types_export_without_duplicate_property_assignments(cls):
 def test_added_types_reference_available_vocabularies(cls):
     vocabulary_codes = {
         vocab.defs.code
-        for module in (shared_vocabularies, building_vocabularies, creep_vocabularies)
+        for module in (
+            shared_vocabularies,
+            building_vocabularies,
+            creep_vocabularies,
+            welding_vocabularies,
+        )
         for _, vocab in inspect.getmembers(module, inspect.isclass)
         if vocab.__module__ == module.__name__ and issubclass(vocab, VocabularyType)
     }
@@ -91,20 +97,18 @@ def test_sample_subtypes_inherit_promoted_geometry_and_origin(cls):
 
 
 def test_welding_wire_inherits_inventory_and_exports_mass():
-    assert issubclass(WeldingWire, Material)
+    assert WeldingWire.__bases__ == (PhysicalObject,)
     wire = WeldingWire()
     assert wire._property_metadata["lot_number"].code == "LOT_NUMBER"
     assert "WELDING_WIRE.WEIGHT:v0" in (
         wire._property_metadata["mass_kg"].prev_versions or []
     )
     wire.name = "Wire batch A"
-    wire.material_id = "WIRE-A"
     wire.lot_number = "LOT-123"
     wire.diameter_mm = 1.2
     wire.mass_kg = 5.0
     assert wire.to_dict() == {
         "name": "Wire batch A",
-        "material_id": "WIRE-A",
         "lot_number": "LOT-123",
         "diameter_mm": 1.2,
         "mass_kg": 5.0,
