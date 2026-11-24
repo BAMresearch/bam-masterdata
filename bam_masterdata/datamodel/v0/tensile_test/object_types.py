@@ -1,9 +1,8 @@
-from bam_masterdata.datamodel.activities import MechanicalTest
-from bam_masterdata.datamodel.object_types import (
+from bam_masterdata.datamodel.v0.activities import MechanicalTest
+from bam_masterdata.datamodel.v0.object_types import (
     ComputationalAnalysis,
     EnvironmentalConditions,
     Instrument,
-    InstrumentAccessory,
     Sample,
     TestingMachine,
 )
@@ -255,7 +254,7 @@ class TensileTest(MechanicalTest):
         description="""Specified temperature (Metadata → Test info → Test parameters) // Specified temperature""",
         mandatory=True,
         section="Test parameters",
-        iri="https://w3id.org/pmd/co/PMD_0000967",
+        iri=["https://w3id.org/pmd/co/PMD_0000967"],
     )
     tensile_test_type_of_loading = PropertyTypeAssignment(
         code="TENSILE_TEST_TYPE_OF_LOADING",
@@ -283,7 +282,7 @@ class TensileTest(MechanicalTest):
         description="""Testing rate 1 (Metadata → Test info → Test parameters) // Testing rate 1""",
         mandatory=True,
         section="Test parameters",
-        iri="https://w3id.org/pmd/tto/TTO_0000051",
+        iri=["https://w3id.org/pmd/tto/TTO_0000051"],
     )
     tensile_test_switchover_point = PropertyTypeAssignment(
         code="TENSILE_TEST_SWITCHOVER_POINT",
@@ -293,7 +292,7 @@ class TensileTest(MechanicalTest):
         description="""Switchover point Description: if applicable (Metadata → Test info → Test parameters) // Switchover point Description: if applicable""",
         mandatory=False,
         section="Test parameters",
-        iri="https://w3id.org/pmd/tto/TTO_0000057",
+        iri=["https://w3id.org/pmd/tto/TTO_0000057"],
     )
     tensile_test_testing_rate_2 = PropertyTypeAssignment(
         code="TENSILE_TEST_TESTING_RATE_2",
@@ -303,7 +302,7 @@ class TensileTest(MechanicalTest):
         description="""Testing rate 2 (Metadata → Test info → Test parameters) // Testing rate 2""",
         mandatory=True,
         section="Test parameters",
-        iri="https://w3id.org/pmd/tto/TTO_0000014",
+        iri=["https://w3id.org/pmd/tto/TTO_0000014"],
     )
     tensile_test_extensometer_gauge_length_determination = PropertyTypeAssignment(
         code="TENSILE_TEST_EXTENSOMETER_GAUGE_LENGTH_DETERMINATION",
@@ -345,7 +344,7 @@ class TensileTestContactingExtensometer(Instrument):
         code="INSTRUMENT.TENSILE_TEST_EXTENSION_VALUES_CONTACTING_EXTENSOMETER",
         description="""Tensile-test data object: TensileTestContactingExtensometer // Datenobjekt fuer den Zugversuch: TensileTestContactingExtensometer""",
         generated_code_prefix="INS.TENSILE_EXTEN_VALUE",
-        iri="https://w3id.org/pmd/co/PMD_0000636",
+        iri=["https://w3id.org/pmd/co/PMD_0000636"],
     )
     tensile_test_measurement_set_up = PropertyTypeAssignment(
         code="TENSILE_TEST_MEASUREMENT_SET_UP",
@@ -397,7 +396,7 @@ class TensileTestContactingExtensometer(Instrument):
         description="""Extensometer ID Description: The ID used for identification in the laboratory (Metadata → Measuring and test equipment → Extension values → Contacting extensometer) // Extensometer ID Description: The ID used for identification in the laboratory""",
         mandatory=False,
         section="Contacting extensometer",
-        iri="http://purl.obolibrary.org/obo/IAO_0020000",
+        iri=["http://purl.obolibrary.org/obo/IAO_0020000"],
     )
     tensile_test_extensometer_leg_material = PropertyTypeAssignment(
         code="TENSILE_TEST_EXTENSOMETER_LEG_MATERIAL",
@@ -423,7 +422,7 @@ class TensileTestContactingExtensometer(Instrument):
         description="""Extension range - Upper limit (Metadata → Measuring and test equipment → Extension values → Contacting extensometer) // Extension range - Upper limit""",
         mandatory=True,
         section="Contacting extensometer",
-        iri="https://w3id.org/pmd/tto/TTO_0000005",
+        iri=["https://w3id.org/pmd/tto/TTO_0000005"],
     )
     tensile_test_extension_range_lower_limit = PropertyTypeAssignment(
         code="TENSILE_TEST_EXTENSION_RANGE_LOWER_LIMIT",
@@ -433,7 +432,7 @@ class TensileTestContactingExtensometer(Instrument):
         description="""Extension range - Lower limit (Metadata → Measuring and test equipment → Extension values → Contacting extensometer) // Extension range - Lower limit""",
         mandatory=True,
         section="Contacting extensometer",
-        iri="https://w3id.org/pmd/tto/TTO_0000005",
+        iri=["https://w3id.org/pmd/tto/TTO_0000005"],
     )
     tensile_test_nominal_gauge_length = PropertyTypeAssignment(
         code="TENSILE_TEST_NOMINAL_GAUGE_LENGTH",
@@ -540,7 +539,7 @@ class TensileTestDataProcessingProcedures(ComputationalAnalysis):
         description="""Workflow usage Description: Were automated (user-independent) analysis workflows used? (Metadata → Data processing procedures) // Workflow usage Description: Were automated (user-independent) analysis workflows used?""",
         mandatory=True,
         section="Data processing procedures",
-        iri="https://w3id.org/pmd/co/PMD_0000016",
+        iri=["https://w3id.org/pmd/co/PMD_0000016"],
     )
     tensile_test_software = PropertyTypeAssignment(
         code="TENSILE_TEST_SOFTWARE",
@@ -549,7 +548,7 @@ class TensileTestDataProcessingProcedures(ComputationalAnalysis):
         description="""Software Description: If applicable, please list the used software/workflow, including product and version (Metadata → Data processing procedures) // Software Description: If applicable, please list the used software/workflow, including product and version""",
         mandatory=False,
         section="Data processing procedures",
-        iri="http://purl.obolibrary.org/obo/IAO_0000010",
+        iri=["http://purl.obolibrary.org/obo/IAO_0000010"],
     )
     tensile_test_related_publications = PropertyTypeAssignment(
         code="TENSILE_TEST_RELATED_PUBLICATIONS",
@@ -617,7 +616,7 @@ class TensileTestElongationAndCrossSectionalMeasuringEquipment(Instrument):
         description="""Equipment ID Description: The ID used for identification in the laboratory (Metadata → Measuring and test equipment → Elongation and cross-sectional values) // Equipment ID Description: The ID used for identification in the laboratory""",
         mandatory=False,
         section="Elongation and cross-sectional values",
-        iri="http://purl.obolibrary.org/obo/IAO_0020000",
+        iri=["http://purl.obolibrary.org/obo/IAO_0020000"],
     )
     tensile_test_calibration_status = PropertyTypeAssignment(
         code="TENSILE_TEST_CALIBRATION_STATUS",
@@ -700,7 +699,7 @@ class TensileTestExtensometerSystem(Instrument):
         code="INSTRUMENT.TENSILE_TEST_EXTENSOMETER_SYSTEM",
         description="""Tensile-test data object: TensileTestExtensometerSystem // Datenobjekt fuer den Zugversuch: TensileTestExtensometerSystem""",
         generated_code_prefix="INS.TENSILE_EXTEN_SYSTE",
-        iri="https://w3id.org/pmd/co/PMD_0000636",
+        iri=["https://w3id.org/pmd/co/PMD_0000636"],
     )
     tensile_test_displacement_measuring_method = PropertyTypeAssignment(
         code="TENSILE_TEST_DISPLACEMENT_MEASURING_METHOD",
@@ -745,7 +744,7 @@ class TensileTestHeatingSystem(Instrument):
         description="""Furnace type (Metadata → Measuring and test equipment → Test machine → Heating system) // Furnace type""",
         mandatory=True,
         section="Heating system",
-        iri="https://w3id.org/pmd/co/PMD_0000655",
+        iri=["https://w3id.org/pmd/co/PMD_0000655"],
     )
 
 
@@ -891,7 +890,7 @@ class TensileTestMachineDataAcquisition(Instrument):
         description="""Data acquisition unit - ID (Metadata → Measuring and test equipment → Test machine → Data acquisition) // Data acquisition unit - ID""",
         mandatory=False,
         section="Data acquisition",
-        iri="http://purl.obolibrary.org/obo/IAO_0020000",
+        iri=["http://purl.obolibrary.org/obo/IAO_0020000"],
     )
     tensile_test_data_acquisition_software_and_version = PropertyTypeAssignment(
         code="TENSILE_TEST_DATA_ACQUISITION_SOFTWARE_AND_VERSION",
@@ -932,7 +931,7 @@ class TensileTestMaterialHistoryAndCondition(ObjectType):
         description="""Material Identifier  Description: e.g., NIMONIC75, 2.4630, CMSX-6, CMSX-4, ERBO1, … (Metadata → Material History and Condition) // Material Identifier  Description: e.g., NIMONIC75, 2.4630, CMSX-6, CMSX-4, ERBO1, …""",
         mandatory=True,
         section="Material History and Condition",
-        iri="http://purl.obolibrary.org/obo/IAO_0020000",
+        iri=["http://purl.obolibrary.org/obo/IAO_0020000"],
     )
     tensile_test_phase_transformation_during_test = PropertyTypeAssignment(
         code="TENSILE_TEST_PHASE_TRANSFORMATION_DURING_TEST",
@@ -941,7 +940,7 @@ class TensileTestMaterialHistoryAndCondition(ObjectType):
         description="""Phase transformation during test? (Metadata → Material History and Condition → As-manufactured material) // Phase transformation during test?""",
         mandatory=False,
         section="As-manufactured material",
-        iri="https://w3id.org/pmd/co/PMD_0020136",
+        iri=["https://w3id.org/pmd/co/PMD_0020136"],
     )
     tensile_test_possible_phase_transformation = PropertyTypeAssignment(
         code="TENSILE_TEST_POSSIBLE_PHASE_TRANSFORMATION",
@@ -982,7 +981,7 @@ class TensileTestMaterialHistoryAndCondition(ObjectType):
         description="""Casting temperature (Metadata → Material History and Condition → As-manufactured material) // Casting temperature""",
         mandatory=False,
         section="As-manufactured material",
-        iri="https://w3id.org/pmd/co/PMD_0000967",
+        iri=["https://w3id.org/pmd/co/PMD_0000967"],
     )
     tensile_test_casting_speed = PropertyTypeAssignment(
         code="TENSILE_TEST_CASTING_SPEED",
@@ -1106,7 +1105,7 @@ class TensileTestMaterialHistoryAndCondition(ObjectType):
         description="""Microstructure feature (Metadata → Material History and Condition → Microstructure) // Microstructure feature""",
         mandatory=True,
         section="Microstructure",
-        iri="https://w3id.org/pmd/co/PMD_0000857",
+        iri=["https://w3id.org/pmd/co/PMD_0000857"],
     )
     tensile_test_characterization_method = PropertyTypeAssignment(
         code="TENSILE_TEST_CHARACTERIZATION_METHOD",
@@ -1163,7 +1162,7 @@ class TensileTestMaterialHistoryAndCondition(ObjectType):
         description="""Grain size Description: if polycrystal (Metadata → Material History and Condition → Microstructure) // Grain size Description: if polycrystal""",
         mandatory=True,
         section="Microstructure",
-        iri="https://w3id.org/pmd/co/PMD_0020243",
+        iri=["https://w3id.org/pmd/co/PMD_0020243"],
     )
     tensile_test_grain_size_determination_method = PropertyTypeAssignment(
         code="TENSILE_TEST_GRAIN_SIZE_DETERMINATION_METHOD",
@@ -1188,7 +1187,7 @@ class TensileTestMaterialHistoryAndCondition(ObjectType):
         description="""Grain size distribution Description: Link to file, preferably with machine-readable (meta)data (Metadata → Material History and Condition → Microstructure) // Grain size distribution Description: Link to file, preferably with machine-readable (meta)data""",
         mandatory=False,
         section="Microstructure",
-        iri="https://w3id.org/pmd/co/PMD_0020112",
+        iri=["https://w3id.org/pmd/co/PMD_0020112"],
     )
     tensile_test_grain_additional_information = PropertyTypeAssignment(
         code="TENSILE_TEST_GRAIN_ADDITIONAL_INFORMATION",
@@ -1285,7 +1284,7 @@ class TensileTestMaterialHistoryAndCondition(ObjectType):
         description="""Chemical composition - nominal Description:  Link to file, preferably with machine-readable (meta)data  or add the wt.-% value for each element (Metadata → Material History and Condition → Chemical composition) // Chemical composition - nominal Description:  Link to file, preferably with machine-readable (meta)data  or add the wt.-% value for each element""",
         mandatory=True,
         section="Chemical composition",
-        iri="https://w3id.org/pmd/co/PMD_0025002",
+        iri=["https://w3id.org/pmd/co/PMD_0025002"],
     )
     tensile_test_chemical_composition_measured = PropertyTypeAssignment(
         code="TENSILE_TEST_CHEMICAL_COMPOSITION_MEASURED",
@@ -1294,7 +1293,7 @@ class TensileTestMaterialHistoryAndCondition(ObjectType):
         description="""Chemical composition - measured Description: include precision, if available. Link to file, preferably with machine-readable (meta)data  or add the wt.-% value for each element (Metadata → Material History and Condition → Chemical composition) // Chemical composition - measured Description: include precision, if available. Link to file, preferably with machine-readable (meta)data  or add the wt.-% value for each element""",
         mandatory=True,
         section="Chemical composition",
-        iri="https://w3id.org/pmd/co/PMD_0025002",
+        iri=["https://w3id.org/pmd/co/PMD_0025002"],
     )
     tensile_test_measurement_method = PropertyTypeAssignment(
         code="TENSILE_TEST_MEASUREMENT_METHOD",
@@ -1335,7 +1334,7 @@ class TensileTestMaterialHistoryAndCondition(ObjectType):
         description="""Hardness (Metadata → Material History and Condition → Mechanical Tests Results) // Hardness""",
         mandatory=False,
         section="Mechanical Tests Results",
-        iri="https://w3id.org/pmd/co/PMD_0000773",
+        iri=["https://w3id.org/pmd/co/PMD_0000773"],
     )
 
 
@@ -1361,7 +1360,7 @@ class TensileTestPrimaryValuesRecordedAfterEndOfTest(ObjectType):
         description="""Final gauge length after fracture (Primary data → Test result → Values recorded after end of test) // Final gauge length after fracture""",
         mandatory=True,
         section="Values recorded after end of test",
-        iri="https://w3id.org/pmd/tto/TTO_0000018",
+        iri=["https://w3id.org/pmd/tto/TTO_0000018"],
     )
 
 
@@ -1378,7 +1377,7 @@ class TensileTestPrimaryValuesRecordedAtTestStart(ObjectType):
         description="""Original thickness of a flat test piece (Primary data → Test result → Values recorded at test start) // Original thickness of a flat test piece""",
         mandatory=True,
         section="Values recorded at test start",
-        iri="https://w3id.org/pmd/tto/TTO_0000029",
+        iri=["https://w3id.org/pmd/tto/TTO_0000029"],
     )
     tensile_test_original_width_of_the_parallel_length_of_a_flat_test_piece = PropertyTypeAssignment(
         code="TENSILE_TEST_ORIGINAL_WIDTH_OF_THE_PARALLEL_LENGTH_OF_A_FLAT_TEST_PIECE",
@@ -1387,7 +1386,7 @@ class TensileTestPrimaryValuesRecordedAtTestStart(ObjectType):
         description="""Original width of the parallel length of a flat test piece (Primary data → Test result → Values recorded at test start) // Original width of the parallel length of a flat test piece""",
         mandatory=True,
         section="Values recorded at test start",
-        iri="https://w3id.org/pmd/tto/TTO_0000030",
+        iri=["https://w3id.org/pmd/tto/TTO_0000030"],
     )
     tensile_test_original_gauge_length = PropertyTypeAssignment(
         code="TENSILE_TEST_ORIGINAL_GAUGE_LENGTH",
@@ -1397,7 +1396,7 @@ class TensileTestPrimaryValuesRecordedAtTestStart(ObjectType):
         description="""Original gauge length (Primary data → Test result → Values recorded at test start) // Original gauge length""",
         mandatory=True,
         section="Values recorded at test start",
-        iri="https://w3id.org/pmd/tto/TTO_0000028",
+        iri=["https://w3id.org/pmd/tto/TTO_0000028"],
     )
     tensile_test_parallel_length = PropertyTypeAssignment(
         code="TENSILE_TEST_PARALLEL_LENGTH",
@@ -1407,7 +1406,7 @@ class TensileTestPrimaryValuesRecordedAtTestStart(ObjectType):
         description="""Parallel length (Primary data → Test result → Values recorded at test start) // Parallel length""",
         mandatory=True,
         section="Values recorded at test start",
-        iri="https://w3id.org/pmd/tto/TTO_0000031",
+        iri=["https://w3id.org/pmd/tto/TTO_0000031"],
     )
     tensile_test_extensometer_gauge_length = PropertyTypeAssignment(
         code="TENSILE_TEST_EXTENSOMETER_GAUGE_LENGTH",
@@ -1417,7 +1416,7 @@ class TensileTestPrimaryValuesRecordedAtTestStart(ObjectType):
         description="""Extensometer gauge length (Primary data → Test result → Values recorded at test start) // Extensometer gauge length""",
         mandatory=True,
         section="Values recorded at test start",
-        iri="https://w3id.org/pmd/tto/TTO_0000017",
+        iri=["https://w3id.org/pmd/tto/TTO_0000017"],
     )
 
 
@@ -1434,7 +1433,7 @@ class TensileTestPrimaryValuesRecordedDuringTestRun(ObjectType):
         description="""Force Description: Link to file, preferably with machine-readable (meta)data (Primary data → Test result → Values recorded during test run) // Force Description: Link to file, preferably with machine-readable (meta)data""",
         mandatory=True,
         section="Values recorded during test run",
-        iri="https://w3id.org/pmd/co/PMD_0020200",
+        iri=["https://w3id.org/pmd/co/PMD_0020200"],
     )
     tensile_test_time = PropertyTypeAssignment(
         code="TENSILE_TEST_TIME",
@@ -1451,7 +1450,7 @@ class TensileTestPrimaryValuesRecordedDuringTestRun(ObjectType):
         description="""Crosshead displacement Description: Link to file, preferably with machine-readable (meta)data (Primary data → Test result → Values recorded during test run) // Crosshead displacement Description: Link to file, preferably with machine-readable (meta)data""",
         mandatory=False,
         section="Values recorded during test run",
-        iri="https://w3id.org/pmd/tto/TTO_0000013",
+        iri=["https://w3id.org/pmd/tto/TTO_0000013"],
     )
 
 
@@ -1469,7 +1468,7 @@ class TensileTestSecondaryElongationValues(ObjectType):
         description="""Percentage elongation after fracture (Secondary data → Test result → Elongation values) // Percentage elongation after fracture""",
         mandatory=True,
         section="Elongation values",
-        iri="https://w3id.org/pmd/tto/TTO_0000033",
+        iri=["https://w3id.org/pmd/tto/TTO_0000033"],
     )
 
 
@@ -1502,7 +1501,7 @@ class TensileTestSecondaryStrengthValues(ObjectType):
         description="""Upper yield strength Description: if applicable (Secondary data → Test result → Strength values) // Upper yield strength Description: if applicable""",
         mandatory=False,
         section="Strength values",
-        iri="https://w3id.org/pmd/tto/TTO_0000059",
+        iri=["https://w3id.org/pmd/tto/TTO_0000059"],
     )
     tensile_test_lower_yield_strength = PropertyTypeAssignment(
         code="TENSILE_TEST_LOWER_YIELD_STRENGTH",
@@ -1511,7 +1510,7 @@ class TensileTestSecondaryStrengthValues(ObjectType):
         description="""Lower yield strength Description: if applicable (Secondary data → Test result → Strength values) // Lower yield strength Description: if applicable""",
         mandatory=False,
         section="Strength values",
-        iri="https://w3id.org/pmd/tto/TTO_0000022",
+        iri=["https://w3id.org/pmd/tto/TTO_0000022"],
     )
     tensile_test_percentage_yield_point_extension = PropertyTypeAssignment(
         code="TENSILE_TEST_PERCENTAGE_YIELD_POINT_EXTENSION",
@@ -1520,7 +1519,7 @@ class TensileTestSecondaryStrengthValues(ObjectType):
         description="""Percentage yield point extension Description: if applicable (Secondary data → Test result → Strength values) // Percentage yield point extension Description: if applicable""",
         mandatory=False,
         section="Strength values",
-        iri="https://w3id.org/pmd/tto/TTO_0000041",
+        iri=["https://w3id.org/pmd/tto/TTO_0000041"],
     )
 
 
@@ -1537,7 +1536,7 @@ class TensileTestSecondaryValuesRecordedDuringTestRun(ObjectType):
         description="""Indicated temperature Description: Link to file, preferably with machine-readable (meta)data (Secondary data → Test result → Values recorded during test run) // Indicated temperature Description: Link to file, preferably with machine-readable (meta)data""",
         mandatory=False,
         section="Values recorded during test run",
-        iri="https://w3id.org/pmd/co/PMD_0000967",
+        iri=["https://w3id.org/pmd/co/PMD_0000967"],
     )
     tensile_test_stress = PropertyTypeAssignment(
         code="TENSILE_TEST_STRESS",
@@ -1554,7 +1553,7 @@ class TensileTestSecondaryValuesRecordedDuringTestRun(ObjectType):
         description="""Percentage extension Description: Link to File, preferably with machine-readable (meta)data. (Secondary data → Test result → Values recorded during test run) // Percentage extension Description: Link to File, preferably with machine-readable (meta)data.""",
         mandatory=True,
         section="Values recorded during test run",
-        iri="https://w3id.org/pmd/tto/TTO_0000034",
+        iri=["https://w3id.org/pmd/tto/TTO_0000034"],
     )
 
 
@@ -1637,7 +1636,7 @@ class TensileTestTemperatureDataAcquisition(Instrument):
         description="""Calibration Range (Metadata → Measuring and test equipment → Temperature-measuring system → Data acquisition) // Calibration Range""",
         mandatory=True,
         section="Data acquisition",
-        iri="https://w3id.org/pmd/co/PMD_0000967",
+        iri=["https://w3id.org/pmd/co/PMD_0000967"],
     )
 
 
@@ -1712,7 +1711,7 @@ class TensileTestTemperatureSensor(Instrument):
         description="""Sensor ID (Metadata → Measuring and test equipment → Temperature-measuring system → Temperature sensor) // Sensor ID""",
         mandatory=False,
         section="Temperature sensor",
-        iri="http://purl.obolibrary.org/obo/IAO_0020000",
+        iri=["http://purl.obolibrary.org/obo/IAO_0020000"],
     )
     tensile_test_thermocouple_type = PropertyTypeAssignment(
         code="TENSILE_TEST_THERMOCOUPLE_TYPE",
@@ -1722,7 +1721,7 @@ class TensileTestTemperatureSensor(Instrument):
         description="""Thermocouple type (Metadata → Measuring and test equipment → Temperature-measuring system → Temperature sensor) // Thermocouple type""",
         mandatory=True,
         section="Temperature sensor",
-        iri="https://w3id.org/pmd/co/PMD_0000983",
+        iri=["https://w3id.org/pmd/co/PMD_0000983"],
     )
     tensile_test_wire_gauge = PropertyTypeAssignment(
         code="TENSILE_TEST_WIRE_GAUGE",
@@ -1732,7 +1731,7 @@ class TensileTestTemperatureSensor(Instrument):
         description="""Wire gauge (Metadata → Measuring and test equipment → Temperature-measuring system → Temperature sensor) // Wire gauge""",
         mandatory=False,
         section="Temperature sensor",
-        iri="https://w3id.org/pmd/co/PMD_0050051",
+        iri=["https://w3id.org/pmd/co/PMD_0050051"],
     )
     tensile_test_layout = PropertyTypeAssignment(
         code="TENSILE_TEST_LAYOUT",
@@ -1808,7 +1807,7 @@ class TensileTestTemperatureSensor(Instrument):
         description="""Calibration Range (Metadata → Measuring and test equipment → Temperature-measuring system → Temperature sensor) // Calibration Range""",
         mandatory=True,
         section="Temperature sensor",
-        iri="https://w3id.org/pmd/co/PMD_0000967",
+        iri=["https://w3id.org/pmd/co/PMD_0000967"],
     )
     tensile_test_contact_method = PropertyTypeAssignment(
         code="TENSILE_TEST_CONTACT_METHOD",
@@ -1842,7 +1841,7 @@ class TensileTestTestMachine(TestingMachine):
         code="TESTING_MACHINE.TENSILE_TEST_MACHINE",
         description="""Tensile-test data object: TensileTestTestMachine // Datenobjekt fuer den Zugversuch: TensileTestTestMachine""",
         generated_code_prefix="TM.TENSILE_MACHI",
-        iri="https://w3id.org/pmd/co/PMD_0000973",
+        iri=["https://w3id.org/pmd/co/PMD_0000973"],
     )
     tensile_test_machine_id = PropertyTypeAssignment(
         code="TENSILE_TEST_MACHINE_ID",
@@ -1851,7 +1850,7 @@ class TensileTestTestMachine(TestingMachine):
         description="""Test machine ID (Metadata → Measuring and test equipment → Test machine) // Test machine ID""",
         mandatory=False,
         section="Test machine",
-        iri="http://purl.obolibrary.org/obo/IAO_0020000",
+        iri=["http://purl.obolibrary.org/obo/IAO_0020000"],
     )
     tensile_test_machine_type = PropertyTypeAssignment(
         code="TENSILE_TEST_MACHINE_TYPE",
@@ -1861,7 +1860,7 @@ class TensileTestTestMachine(TestingMachine):
         description="""Test machine type (Metadata → Measuring and test equipment → Test machine) // Test machine type""",
         mandatory=False,
         section="Test machine",
-        iri="https://w3id.org/pmd/co/PMD_0000973",
+        iri=["https://w3id.org/pmd/co/PMD_0000973"],
     )
     tensile_test_minimum_applicable_force = PropertyTypeAssignment(
         code="TENSILE_TEST_MINIMUM_APPLICABLE_FORCE",
@@ -1871,7 +1870,7 @@ class TensileTestTestMachine(TestingMachine):
         description="""Minimum applicable force (Metadata → Measuring and test equipment → Test machine) // Minimum applicable force""",
         mandatory=False,
         section="Test machine",
-        iri="https://w3id.org/pmd/co/PMD_0020200",
+        iri=["https://w3id.org/pmd/co/PMD_0020200"],
     )
     tensile_test_maximum_applicable_force = PropertyTypeAssignment(
         code="TENSILE_TEST_MAXIMUM_APPLICABLE_FORCE",
@@ -1881,7 +1880,7 @@ class TensileTestTestMachine(TestingMachine):
         description="""Maximum applicable force (Metadata → Measuring and test equipment → Test machine) // Maximum applicable force""",
         mandatory=False,
         section="Test machine",
-        iri="https://w3id.org/pmd/co/PMD_0020200",
+        iri=["https://w3id.org/pmd/co/PMD_0020200"],
     )
     tensile_test_zeroing_test_force = PropertyTypeAssignment(
         code="TENSILE_TEST_ZEROING_TEST_FORCE",
@@ -1922,7 +1921,7 @@ class TensileTestTestPiece(Sample):
         code="SAMPLE.TENSILE_TEST_PIECE",
         description="""Tensile-test data object: TensileTestTestPiece // Datenobjekt fuer den Zugversuch: TensileTestTestPiece""",
         generated_code_prefix="SAMPL.TENSILE_PIECE",
-        iri="https://w3id.org/pmd/co/PMD_0020193",
+        iri=["https://w3id.org/pmd/co/PMD_0020193"],
     )
     tensile_test_workshop_order_id = PropertyTypeAssignment(
         code="TENSILE_TEST_WORKSHOP_ORDER_ID",
@@ -1948,7 +1947,7 @@ class TensileTestTestPiece(Sample):
         description="""Type of test piece I (Metadata → Test piece) // Type of test piece I""",
         mandatory=True,
         section="Test piece",
-        iri="https://w3id.org/pmd/co/PMD_0020193",
+        iri=["https://w3id.org/pmd/co/PMD_0020193"],
     )
     tensile_test_type_of_test_piece_ii = PropertyTypeAssignment(
         code="TENSILE_TEST_TYPE_OF_TEST_PIECE_II",
@@ -1958,7 +1957,7 @@ class TensileTestTestPiece(Sample):
         description="""Type of test piece II (Metadata → Test piece) // Type of test piece II""",
         mandatory=True,
         section="Test piece",
-        iri="https://w3id.org/pmd/co/PMD_0020193",
+        iri=["https://w3id.org/pmd/co/PMD_0020193"],
     )
     tensile_test_type_of_test_piece_iii = PropertyTypeAssignment(
         code="TENSILE_TEST_TYPE_OF_TEST_PIECE_III",
@@ -1968,7 +1967,7 @@ class TensileTestTestPiece(Sample):
         description="""Type of test piece III (Metadata → Test piece) // Type of test piece III""",
         mandatory=True,
         section="Test piece",
-        iri="https://w3id.org/pmd/co/PMD_0020193",
+        iri=["https://w3id.org/pmd/co/PMD_0020193"],
     )
     tensile_test_piece_technical_drawing = PropertyTypeAssignment(
         code="TENSILE_TEST_PIECE_TECHNICAL_DRAWING",
