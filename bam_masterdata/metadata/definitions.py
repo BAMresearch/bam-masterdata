@@ -50,6 +50,7 @@ class DataType(StrEnum):
 
 _UNIT_REGISTRY = UnitRegistry()
 _UNIT_SUFFIX_PATTERN = re.compile(r" in \[([^\[\]]+)\]$")
+_OPENBIS_PROPERTY_LABEL_MAX_LENGTH = 128
 _EXCEL_NAME_MAP = {
     "CollectionTypeDef": "EXPERIMENT_TYPE",
     "DatasetTypeDef": "DATASET_TYPE",
@@ -639,6 +640,18 @@ class PropertyTypeDef(EntityDef):
         else:
             self.property_label += f" in [{self.units}]"
 
+        return self
+
+    # !Note: this validator has to come after `apply_units_to_property_label` to properly account for the length of the final `property_label`
+    @model_validator(mode="after")
+    def validate_openbis_property_label_length(self) -> Any:
+        """Validate the final label, including units and translation."""
+        length = len(self.openbis_property_label)
+        if length > _OPENBIS_PROPERTY_LABEL_MAX_LENGTH:
+            raise ValueError(
+                f"Property '{self.code}' has an openBIS label of {length} characters "
+                f"(maximum {_OPENBIS_PROPERTY_LABEL_MAX_LENGTH})."
+            )
         return self
 
 
