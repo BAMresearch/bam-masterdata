@@ -642,6 +642,7 @@ class PropertyTypeDef(EntityDef):
 
         return self
 
+    # !Note: this validator has to come after `apply_units_to_property_label` to properly account for the length of the final `property_label`
     @model_validator(mode="after")
     def validate_openbis_property_label_length(self) -> Any:
         """Validate the final label, including units and translation."""
