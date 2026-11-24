@@ -1,10 +1,15 @@
 from bam_masterdata.datamodel.activities import MechanicalTest
 from bam_masterdata.datamodel.object_types import (
-    ComputationalAnalysis, EnvironmentalConditions, Instrument, InstrumentAccessory,
-    Sample, TestingMachine,
+    ComputationalAnalysis,
+    EnvironmentalConditions,
+    Instrument,
+    InstrumentAccessory,
+    Sample,
+    TestingMachine,
 )
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
 from bam_masterdata.metadata.entities import ObjectType
+
 
 class TensileTest(MechanicalTest):
     defs = ObjectTypeDef(
@@ -334,6 +339,7 @@ class TensileTest(MechanicalTest):
         section="Related research outcome",
     )
 
+
 class TensileTestContactingExtensometer(Instrument):
     defs = ObjectTypeDef(
         code="INSTRUMENT.TENSILE_TEST_EXTENSION_VALUES_CONTACTING_EXTENSOMETER",
@@ -496,6 +502,7 @@ class TensileTestContactingExtensometer(Instrument):
         section="Contacting extensometer",
     )
 
+
 class TensileTestDataProcessingProcedures(ComputationalAnalysis):
     defs = ObjectTypeDef(
         code="COMPUTATIONAL_ANALYSIS.TENSILE_TEST_DATA_PROCESSING_PROCEDURES",
@@ -552,6 +559,7 @@ class TensileTestDataProcessingProcedures(ComputationalAnalysis):
         mandatory=False,
         section="Data processing procedures",
     )
+
 
 class TensileTestElongationAndCrossSectionalMeasuringEquipment(Instrument):
     defs = ObjectTypeDef(
@@ -686,6 +694,7 @@ class TensileTestElongationAndCrossSectionalMeasuringEquipment(Instrument):
         section="Elongation and cross-sectional values",
     )
 
+
 class TensileTestExtensometerSystem(Instrument):
     defs = ObjectTypeDef(
         code="INSTRUMENT.TENSILE_TEST_EXTENSOMETER_SYSTEM",
@@ -721,6 +730,7 @@ class TensileTestExtensometerSystem(Instrument):
         section="Extensometer system",
     )
 
+
 class TensileTestHeatingSystem(Instrument):
     defs = ObjectTypeDef(
         code="INSTRUMENT.TENSILE_TEST_MACHINE_HEATING_SYSTEM",
@@ -737,6 +747,7 @@ class TensileTestHeatingSystem(Instrument):
         section="Heating system",
         iri="https://w3id.org/pmd/co/PMD_0000655",
     )
+
 
 class TensileTestLaboratoryConditions(EnvironmentalConditions):
     defs = ObjectTypeDef(
@@ -769,6 +780,7 @@ class TensileTestLaboratoryConditions(EnvironmentalConditions):
         section="Laboratory conditions",
     )
 
+
 class TensileTestLoadDataAcquisition(ObjectType):
     defs = ObjectTypeDef(
         code="TENSILE_TEST_LOAD_DATA_ACQUISITION",
@@ -784,6 +796,7 @@ class TensileTestLoadDataAcquisition(ObjectType):
         mandatory=True,
         section="Data acquisition",
     )
+
 
 class TensileTestLoadSensor(Instrument):
     defs = ObjectTypeDef(
@@ -856,6 +869,7 @@ class TensileTestLoadSensor(Instrument):
         section="Load sensor",
     )
 
+
 class TensileTestMachineDataAcquisition(Instrument):
     defs = ObjectTypeDef(
         code="INSTRUMENT.TENSILE_TEST_MACHINE_DATA_ACQUISITION",
@@ -903,6 +917,7 @@ class TensileTestMachineDataAcquisition(Instrument):
         mandatory=False,
         section="Data acquisition",
     )
+
 
 class TensileTestMaterialHistoryAndCondition(ObjectType):
     defs = ObjectTypeDef(
@@ -1323,6 +1338,7 @@ class TensileTestMaterialHistoryAndCondition(ObjectType):
         iri="https://w3id.org/pmd/co/PMD_0000773",
     )
 
+
 class TensileTestPrimaryValuesRecordedAfterEndOfTest(ObjectType):
     defs = ObjectTypeDef(
         code="TENSILE_TEST_PRIMARY_VALUES_RECORDED_AFTER_END_OF_TEST",
@@ -1347,6 +1363,7 @@ class TensileTestPrimaryValuesRecordedAfterEndOfTest(ObjectType):
         section="Values recorded after end of test",
         iri="https://w3id.org/pmd/tto/TTO_0000018",
     )
+
 
 class TensileTestPrimaryValuesRecordedAtTestStart(ObjectType):
     defs = ObjectTypeDef(
@@ -1403,6 +1420,7 @@ class TensileTestPrimaryValuesRecordedAtTestStart(ObjectType):
         iri="https://w3id.org/pmd/tto/TTO_0000017",
     )
 
+
 class TensileTestPrimaryValuesRecordedDuringTestRun(ObjectType):
     defs = ObjectTypeDef(
         code="TENSILE_TEST_PRIMARY_VALUES_RECORDED_DURING_TEST_RUN",
@@ -1436,6 +1454,7 @@ class TensileTestPrimaryValuesRecordedDuringTestRun(ObjectType):
         iri="https://w3id.org/pmd/tto/TTO_0000013",
     )
 
+
 class TensileTestSecondaryElongationValues(ObjectType):
     defs = ObjectTypeDef(
         code="TENSILE_TEST_SECONDARY_ELONGATION_VALUES",
@@ -1453,6 +1472,7 @@ class TensileTestSecondaryElongationValues(ObjectType):
         iri="https://w3id.org/pmd/tto/TTO_0000033",
     )
 
+
 class TensileTestSecondaryExtensionValues(ObjectType):
     defs = ObjectTypeDef(
         code="TENSILE_TEST_SECONDARY_EXTENSION_VALUES",
@@ -1467,6 +1487,7 @@ class TensileTestSecondaryExtensionValues(ObjectType):
         mandatory=False,
         section="Extension values",
     )
+
 
 class TensileTestSecondaryStrengthValues(ObjectType):
     defs = ObjectTypeDef(
@@ -1502,6 +1523,7 @@ class TensileTestSecondaryStrengthValues(ObjectType):
         iri="https://w3id.org/pmd/tto/TTO_0000041",
     )
 
+
 class TensileTestSecondaryValuesRecordedDuringTestRun(ObjectType):
     defs = ObjectTypeDef(
         code="TENSILE_TEST_SECONDARY_VALUES_RECORDED_DURING_TEST_RUN",
@@ -1534,6 +1556,7 @@ class TensileTestSecondaryValuesRecordedDuringTestRun(ObjectType):
         section="Values recorded during test run",
         iri="https://w3id.org/pmd/tto/TTO_0000034",
     )
+
 
 class TensileTestTemperatureDataAcquisition(Instrument):
     defs = ObjectTypeDef(
@@ -1617,6 +1640,7 @@ class TensileTestTemperatureDataAcquisition(Instrument):
         iri="https://w3id.org/pmd/co/PMD_0000967",
     )
 
+
 class TensileTestTemperatureMeasuringSystem(Instrument):
     defs = ObjectTypeDef(
         code="INSTRUMENT.TENSILE_TEST_TEMPERATURE_MEASURING_SYSTEM",
@@ -1664,6 +1688,7 @@ class TensileTestTemperatureMeasuringSystem(Instrument):
         mandatory=True,
         section="Temperature-measuring system",
     )
+
 
 class TensileTestTemperatureSensor(Instrument):
     defs = ObjectTypeDef(
@@ -1811,6 +1836,7 @@ class TensileTestTemperatureSensor(Instrument):
         section="Temperature sensor",
     )
 
+
 class TensileTestTestMachine(TestingMachine):
     defs = ObjectTypeDef(
         code="TESTING_MACHINE.TENSILE_TEST_MACHINE",
@@ -1889,6 +1915,7 @@ class TensileTestTestMachine(TestingMachine):
         mandatory=True,
         section="Test machine",
     )
+
 
 class TensileTestTestPiece(Sample):
     defs = ObjectTypeDef(

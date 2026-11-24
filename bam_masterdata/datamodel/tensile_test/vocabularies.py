@@ -13,6 +13,7 @@ class TensileTestTypeOfLoading(VocabularyType):
         description="""Tension // Tension""",
     )
 
+
 class TensileTestMethodTestingRate(VocabularyType):
     defs = VocabularyTypeDef(
         code="TENSILE_TEST_METHOD_TESTING_RATE",
@@ -28,6 +29,7 @@ class TensileTestMethodTestingRate(VocabularyType):
         label="Method B: testing with expanded strain rate ranges",
         description="""Method B: testing with expanded strain rate ranges // Method B: testing with expanded strain rate ranges""",
     )
+
 
 class TensileTestExtensometerGaugeLengthDetermination(VocabularyType):
     defs = VocabularyTypeDef(
@@ -55,6 +57,7 @@ class TensileTestExtensometerGaugeLengthDetermination(VocabularyType):
         description="""Other (specify) // Other (specify)""",
     )
 
+
 class TensileTestSolidification(VocabularyType):
     defs = VocabularyTypeDef(
         code="TENSILE_TEST_SOLIDIFICATION",
@@ -76,6 +79,7 @@ class TensileTestSolidification(VocabularyType):
         description="""Other (specify) // Other (specify)""",
     )
 
+
 class TensileTestCondition(VocabularyType):
     defs = VocabularyTypeDef(
         code="TENSILE_TEST_CONDITION",
@@ -96,6 +100,7 @@ class TensileTestCondition(VocabularyType):
         label="Other (specify)",
         description="""Other (specify) // Other (specify)""",
     )
+
 
 class TensileTestHeatTreatmentState(VocabularyType):
     defs = VocabularyTypeDef(
@@ -123,6 +128,7 @@ class TensileTestHeatTreatmentState(VocabularyType):
         description="""Other (specify) // Other (specify)""",
     )
 
+
 class TensileTestTestPieceTypeI(VocabularyType):
     defs = VocabularyTypeDef(
         code="TENSILE_TEST_TEST_PIECE_TYPE_I",
@@ -144,6 +150,7 @@ class TensileTestTestPieceTypeI(VocabularyType):
         description="""Other (specify) // Other (specify)""",
     )
 
+
 class TensileTestTestPieceTypeIi(VocabularyType):
     defs = VocabularyTypeDef(
         code="TENSILE_TEST_TEST_PIECE_TYPE_II",
@@ -164,6 +171,7 @@ class TensileTestTestPieceTypeIi(VocabularyType):
         label="Other (specify)",
         description="""Other (specify) // Other (specify)""",
     )
+
 
 class TensileTestTestPieceTypeIii(VocabularyType):
     defs = VocabularyTypeDef(
@@ -191,6 +199,7 @@ class TensileTestTestPieceTypeIii(VocabularyType):
         description="""Other (specify) // Other (specify)""",
     )
 
+
 class TensileTestMachineType(VocabularyType):
     defs = VocabularyTypeDef(
         code="TENSILE_TEST_MACHINE_TYPE",
@@ -212,6 +221,7 @@ class TensileTestMachineType(VocabularyType):
         description="""Other (specify) // Other (specify)""",
     )
 
+
 class TensileTestFurnaceType(VocabularyType):
     defs = VocabularyTypeDef(
         code="TENSILE_TEST_FURNACE_TYPE",
@@ -232,6 +242,7 @@ class TensileTestFurnaceType(VocabularyType):
         label="Other (specify)",
         description="""Other (specify) // Other (specify)""",
     )
+
 
 class TensileTestFixingTechnique(VocabularyType):
     defs = VocabularyTypeDef(
@@ -259,6 +270,7 @@ class TensileTestFixingTechnique(VocabularyType):
         description="""Other (specify) // Other (specify)""",
     )
 
+
 class TensileTestTemperatureSignal(VocabularyType):
     defs = VocabularyTypeDef(
         code="TENSILE_TEST_TEMPERATURE_SIGNAL",
@@ -279,6 +291,7 @@ class TensileTestTemperatureSignal(VocabularyType):
         label="Other (specify)",
         description="""Other (specify) // Other (specify)""",
     )
+
 
 class TensileTestTemperatureSensorType(VocabularyType):
     defs = VocabularyTypeDef(
@@ -305,6 +318,7 @@ class TensileTestTemperatureSensorType(VocabularyType):
         label="Other (specify)",
         description="""Other (specify) // Other (specify)""",
     )
+
 
 class ThermocoupleType(VocabularyType):
     defs = VocabularyTypeDef(
@@ -342,6 +356,7 @@ class ThermocoupleType(VocabularyType):
         description="""Other (specify) // Other (specify)""",
     )
 
+
 class TensileTestThermocoupleCalibrationMethod(VocabularyType):
     defs = VocabularyTypeDef(
         code="TENSILE_TEST_THERMOCOUPLE_CALIBRATION_METHOD",
@@ -362,6 +377,7 @@ class TensileTestThermocoupleCalibrationMethod(VocabularyType):
         label="Other (specify)",
         description="""Other (specify) // Other (specify)""",
     )
+
 
 class TensileTestThermocoupleContactMethod(VocabularyType):
     defs = VocabularyTypeDef(
@@ -394,6 +410,7 @@ class TensileTestThermocoupleContactMethod(VocabularyType):
         description="""Other (specify) // Other (specify)""",
     )
 
+
 class TensileTestDisplacementMeasuringMethod(VocabularyType):
     defs = VocabularyTypeDef(
         code="TENSILE_TEST_DISPLACEMENT_MEASURING_METHOD",
@@ -409,6 +426,7 @@ class TensileTestDisplacementMeasuringMethod(VocabularyType):
         label="Non-contacting method",
         description="""Non-contacting method // Non-contacting method""",
     )
+
 
 class TensileTestSensorTypeContacting(VocabularyType):
     defs = VocabularyTypeDef(
@@ -430,6 +448,7 @@ class TensileTestSensorTypeContacting(VocabularyType):
         label="Other (specify)",
         description="""Other (specify) // Other (specify)""",
     )
+
 
 class TensileTestSensorTypeNonContacting(VocabularyType):
     defs = VocabularyTypeDef(
@@ -457,6 +476,7 @@ class TensileTestSensorTypeNonContacting(VocabularyType):
         description="""Other (specify) // Other (specify)""",
     )
 
+
 class TensileTestMeasurementSetup(VocabularyType):
     defs = VocabularyTypeDef(
         code="TENSILE_TEST_MEASUREMENT_SETUP",
@@ -473,6 +493,7 @@ class TensileTestMeasurementSetup(VocabularyType):
         description="""Two-sided // Two-sided""",
     )
 
+
 class TensileTestMeasurementDirection(VocabularyType):
     defs = VocabularyTypeDef(
         code="TENSILE_TEST_MEASUREMENT_DIRECTION",
@@ -488,6 +509,7 @@ class TensileTestMeasurementDirection(VocabularyType):
         label="Diametrical action",
         description="""Diametrical action // Diametrical action""",
     )
+
 
 class TensileTestMountingType(VocabularyType):
     defs = VocabularyTypeDef(
@@ -509,6 +531,7 @@ class TensileTestMountingType(VocabularyType):
         label="Other (specify)",
         description="""Other (specify) // Other (specify)""",
     )
+
 
 class TensileTestMeasuringEquipment(VocabularyType):
     defs = VocabularyTypeDef(
@@ -536,6 +559,7 @@ class TensileTestMeasuringEquipment(VocabularyType):
         description="""Other (specify) // Other (specify)""",
     )
 
+
 class TensileTestMeasuringEquipmentType(VocabularyType):
     defs = VocabularyTypeDef(
         code="TENSILE_TEST_MEASURING_EQUIPMENT_TYPE",
@@ -556,6 +580,7 @@ class TensileTestMeasuringEquipmentType(VocabularyType):
         label="Other (specify)",
         description="""Other (specify) // Other (specify)""",
     )
+
 
 class TensileTestFracturePosition(VocabularyType):
     defs = VocabularyTypeDef(
@@ -587,6 +612,7 @@ class TensileTestFracturePosition(VocabularyType):
         label="Other (specify)",
         description="""Other (specify) // Other (specify)""",
     )
+
 
 class TensileTestForceRecording(VocabularyType):
     defs = VocabularyTypeDef(
