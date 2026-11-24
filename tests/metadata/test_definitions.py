@@ -548,6 +548,40 @@ class TestPropertyTypeDef:
 
         assert prop.multivalued is True
 
+    @pytest.mark.parametrize(
+        "label, extra",
+        [
+            ("ä" * 128, {}),
+            ("x" * 121, {"units": "m"}),
+            ("x" * 63, {"property_label_de": "y" * 63}),
+            ("x" * 63 + "//" + "y" * 63, {}),
+        ],
+        ids=["plain", "units", "translation", "legacy-translation"],
+    )
+    def test_openbis_property_label_length_boundary(self, label, extra):
+        fields = dict(code="LENGTH", description="Length", data_type="REAL", **extra)
+
+        prop = PropertyTypeDef(property_label=label, **fields)
+        assert len(prop.openbis_property_label) == 128
+
+        with pytest.raises(
+            ValidationError, match=r"'LENGTH'.*129 characters \(maximum 128\)"
+        ):
+            PropertyTypeDef(property_label="x" + label, **fields)
+
+    def test_property_assignment_inherits_label_length_validation(self):
+        with pytest.raises(
+            ValidationError, match=r"'LENGTH'.*129 characters \(maximum 128\)"
+        ):
+            PropertyTypeAssignment(
+                code="LENGTH",
+                description="Length",
+                data_type="VARCHAR",
+                property_label="x" * 129,
+                mandatory=False,
+                section="General",
+            )
+
 
 class TestPreviousVersions:
     """Tests for EntityDef.prev_versions validation."""

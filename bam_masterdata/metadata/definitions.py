@@ -50,6 +50,7 @@ class DataType(StrEnum):
 
 _UNIT_REGISTRY = UnitRegistry()
 _UNIT_SUFFIX_PATTERN = re.compile(r" in \[([^\[\]]+)\]$")
+_OPENBIS_PROPERTY_LABEL_MAX_LENGTH = 128
 _EXCEL_NAME_MAP = {
     "CollectionTypeDef": "EXPERIMENT_TYPE",
     "DatasetTypeDef": "DATASET_TYPE",
