@@ -642,6 +642,17 @@ class PropertyTypeDef(EntityDef):
 
         return self
 
+    @model_validator(mode="after")
+    def validate_openbis_property_label_length(self) -> Any:
+        """Validate the final label, including units and translation."""
+        length = len(self.openbis_property_label)
+        if length > _OPENBIS_PROPERTY_LABEL_MAX_LENGTH:
+            raise ValueError(
+                f"Property '{self.code}' has an openBIS label of {length} characters "
+                f"(maximum {_OPENBIS_PROPERTY_LABEL_MAX_LENGTH})."
+            )
+        return self
+
 
 class PropertyTypeAssignment(PropertyTypeDef):
     """
