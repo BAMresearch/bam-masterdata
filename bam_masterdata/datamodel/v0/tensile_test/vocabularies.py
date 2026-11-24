@@ -320,43 +320,6 @@ class TensileTestTemperatureSensorType(VocabularyType):
     )
 
 
-class ThermocoupleType(VocabularyType):
-    defs = VocabularyTypeDef(
-        code="THERMOCOUPLE_TYPE",
-        description="""Controlled vocabulary for tensile-test metadata // Kontrolliertes Vokabular fuer Zugversuchsmetadaten""",
-    )
-    type_k = VocabularyTerm(
-        code="TYPE_K",
-        label="Type K",
-        description="""Type K // Type K""",
-    )
-    type_n = VocabularyTerm(
-        code="TYPE_N",
-        label="Type N",
-        description="""Type N // Type N""",
-    )
-    type_s = VocabularyTerm(
-        code="TYPE_S",
-        label="Type S",
-        description="""Type S // Type S""",
-    )
-    type_r = VocabularyTerm(
-        code="TYPE_R",
-        label="Type R",
-        description="""Type R // Type R""",
-    )
-    type_b = VocabularyTerm(
-        code="TYPE_B",
-        label="Type B",
-        description="""Type B // Type B""",
-    )
-    other_specify = VocabularyTerm(
-        code="OTHER_SPECIFY",
-        label="Other (specify)",
-        description="""Other (specify) // Other (specify)""",
-    )
-
-
 class TensileTestThermocoupleCalibrationMethod(VocabularyType):
     defs = VocabularyTypeDef(
         code="TENSILE_TEST_THERMOCOUPLE_CALIBRATION_METHOD",

@@ -269,7 +269,7 @@ class TensileTest(MechanicalTest):
         code="TENSILE_TEST_METHOD_TESTING_RATE",
         data_type="CONTROLLEDVOCABULARY",
         vocabulary_code="TENSILE_TEST_METHOD_TESTING_RATE",
-        property_label="Method testing rate  Method A: Testing rate based on strain rate control Method B: Method of testing with expanded strain rate ranges",
+        property_label="Testing rate method",
         description="""Method testing rate  Method A: Testing rate based on strain rate control Method B: Method of testing with expanded strain rate ranges (Metadata → Test info → Test parameters) // Method testing rate  Method A: Testing rate based on strain rate control Method B: Method of testing with expanded strain rate ranges""",
         mandatory=True,
         section="Test parameters",
