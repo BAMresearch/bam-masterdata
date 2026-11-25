@@ -501,7 +501,6 @@ class GeometryOptimization(SimulationWorkflow, _SimulationConfigurationPropertie
         description="A GeometryOptimization is a simulation workflow that moves the nuclei, and the cell if "
         "allowed, towards a local minimum of the energy.",
         generated_code_prefix="GEO_OPT",
-        iri=["https://w3id.org/pmd/co/PMD_0000956"],
     )
 
     geometry_optimization_parameters = PropertyTypeAssignment(
