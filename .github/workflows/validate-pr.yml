@@ -19,8 +19,28 @@ permissions:
   pull-requests: read
 
 jobs:
+  sync-labels:
+    if: >-
+      github.event.pull_request.base.ref == 'dev' &&
+      contains(
+        fromJSON('["opened", "reopened", "edited"]'),
+        github.event.action
+      )
+    permissions:
+      contents: read
+      issues: read
+      pull-requests: write
+    uses: ./.github/workflows/sync-issue-labels.yml
+
   validate:
     name: Validate PR metadata
+    needs: sync-labels
+    if: >-
+      always() &&
+      (
+        needs.sync-labels.result == 'success' ||
+        needs.sync-labels.result == 'skipped'
+      )
     runs-on: ubuntu-latest
 
     steps:
