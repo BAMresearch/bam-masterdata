@@ -7,6 +7,8 @@ import { ObjectTypeSearch } from "./ObjectTypeSearch";
 
 interface SchemaGraphProps {
   schema: SchemaExport;
+  focusedId: string | null;
+  onFocusNode: (id: string | null) => void;
   onSelectNode: (id: string) => void;
 }
 
@@ -115,13 +117,14 @@ function calculateFocusDistances(
 
 export function SchemaGraph({
   schema,
+  focusedId,
+  onFocusNode,
   onSelectNode,
 }: SchemaGraphProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const cyRef = useRef<cytoscape.Core | null>(null);
 
   const [query, setQuery] = useState("");
-  const [focusedId, setFocusedId] = useState<string | null>(null);
 
   const depths = useMemo(() => calculateDepths(schema), [schema]);
 
@@ -131,13 +134,13 @@ export function SchemaGraph({
   );
 
   function focusNode(id: string) {
-    setFocusedId(id);
+    onFocusNode(id);
     setQuery("");
     setDepth(1);
   }
 
   function resetFocus() {
-    setFocusedId(null);
+    onFocusNode(null);
     setQuery("");
     setDepth(Math.min(2, Math.max(0, ...depths.values())));
   }
@@ -254,7 +257,7 @@ export function SchemaGraph({
     });
 
     cy.on("tap", "node", (event) => {
-      setFocusedId(event.target.id());
+      onFocusNode(event.target.id());
       setQuery("");
       setDepth(1);
     });
@@ -265,7 +268,7 @@ export function SchemaGraph({
       cy.destroy();
       cyRef.current = null;
     };
-  }, []);
+  }, [onFocusNode]);
 
   useEffect(() => {
     const cy = cyRef.current;

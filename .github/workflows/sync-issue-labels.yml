@@ -1,8 +1,7 @@
 name: Sync issue labels
 
 on:
-  pull_request_target:
-    types: [opened, reopened, edited]
+  workflow_call:
 
 permissions:
   contents: read
@@ -15,7 +14,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Never check out untrusted PR code with pull_request_target.
       - name: Check out trusted workflow scripts
         uses: actions/checkout@v4
         with:

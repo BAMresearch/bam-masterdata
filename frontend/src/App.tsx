@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import type {
   SchemaEdge,
   SchemaExport,
@@ -8,10 +8,15 @@ import type {
 import "./App.css";
 import { SchemaGraph } from "./components/SchemaGraph";
 import { ObjectTypeSearch } from "./components/ObjectTypeSearch";
+import {
+  defaultExplorerLocation,
+  parseExplorerHash,
+  type ExplorerLocation,
+  resolveExplorerEntity,
+  updateExplorerHistory,
+} from "./explorerUrl";
 
 const versions: SchemaVersion[] = ["v0", "v1"];
-
-type ExplorerView = "graph" | "browser";
 
 function RelationshipHelp() {
   const detailsRef = useRef<HTMLDetailsElement>(null);
@@ -76,19 +81,57 @@ function RelationshipHelp() {
 }
 
 function App() {
-  const [version, setVersion] = useState<SchemaVersion>("v1");
-  const [view, setView] = useState<ExplorerView>("graph");
+  const [location, setLocation] = useState<ExplorerLocation>(
+    () => parseExplorerHash(window.location.hash) ?? defaultExplorerLocation,
+  );
+  const { version, view } = location;
+
   const [schema, setSchema] = useState<SchemaExport | null>(null);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [error, setError] = useState<string | null>(null);
+
+  const navigate = useCallback((next: ExplorerLocation, replace = false) => {
+    updateExplorerHistory(next, replace);
+    setLocation(next);
+  }, []);
+
+  useEffect(() => {
+    if (!parseExplorerHash(window.location.hash)) {
+      navigate(defaultExplorerLocation, true);
+    }
+  }, [navigate]);
+
+  useEffect(() => {
+    function restoreLocation() {
+      const parsed = parseExplorerHash(window.location.hash);
+
+      if (parsed) {
+        setLocation(parsed);
+      } else {
+        navigate(defaultExplorerLocation, true);
+      }
+    }
+
+    window.addEventListener("popstate", restoreLocation);
+    window.addEventListener("hashchange", restoreLocation);
+
+    return () => {
+      window.removeEventListener("popstate", restoreLocation);
+      window.removeEventListener("hashchange", restoreLocation);
+    };
+  }, [navigate]);
+
+  const focusGraphNode = useCallback(
+    (id: string | null) =>
+      navigate({ version, view: "graph", entityId: id }),
+    [navigate, version],
+  );
 
   useEffect(() => {
     const controller = new AbortController();
 
     async function loadSchema() {
       setSchema(null);
-      setSelectedId(null);
       setSearch("");
       setError(null);
 
@@ -114,7 +157,6 @@ function App() {
 
         if (!controller.signal.aborted) {
           setSchema(data);
-          setSelectedId(data.nodes[0]?.id ?? null);
         }
       } catch (err) {
         if (!controller.signal.aborted) {
@@ -127,6 +169,25 @@ function App() {
 
     return () => controller.abort();
   }, [version]);
+
+  useEffect(() => {
+    if (!schema || schema.version !== version) return;
+
+    const resolved = resolveExplorerEntity(
+      location,
+      schema.nodes.map((node) => node.id),
+    );
+
+    if (resolved !== location) {
+      navigate(resolved, true);
+    }
+  }, [schema, version, location, navigate]);
+
+  const selectedId =
+    schema?.version === version
+      ? (location.entityId ??
+        (view === "browser" ? schema.nodes[0]?.id ?? null : null))
+      : null;
 
   const filteredNodes = useMemo(() => {
     if (!schema) return [];
@@ -211,7 +272,11 @@ function App() {
               id="schema-version"
               value={version}
               onChange={(event) =>
-                setVersion(event.target.value as SchemaVersion)
+                navigate({
+                  version: event.target.value as SchemaVersion,
+                  view: "graph",
+                  entityId: null,
+                })
               }
             >
               {versions.map((value) => (
@@ -249,7 +314,7 @@ function App() {
               <button
                 type="button"
                 className={view === "graph" ? "active" : ""}
-                onClick={() => setView("graph")}
+                onClick={() => navigate({ ...location, view: "graph" })}
                 aria-current={view === "graph" ? "page" : undefined}
               >
                 Graph
@@ -258,7 +323,7 @@ function App() {
               <button
                 type="button"
                 className={view === "browser" ? "active" : ""}
-                onClick={() => setView("browser")}
+                onClick={() => navigate({ ...location, view: "browser" })}
                 aria-current={view === "browser" ? "page" : undefined}
               >
                 Object browser
@@ -276,10 +341,11 @@ function App() {
                 <SchemaGraph
                   key={version}
                   schema={schema}
-                  onSelectNode={(id) => {
-                    setSelectedId(id);
-                    setView("browser");
-                  }}
+                  focusedId={view === "graph" ? location.entityId : null}
+                  onFocusNode={focusGraphNode}
+                  onSelectNode={(id) =>
+                    navigate({ version, view: "browser", entityId: id })
+                  }
                 />
               </section>
             )}
@@ -298,7 +364,7 @@ function App() {
                       value={search}
                       onChange={setSearch}
                       onSelect={(id) => {
-                        setSelectedId(id);
+                        navigate({ version, view: "browser", entityId: id });
                         setSearch("");
                       }}
                     />
@@ -312,7 +378,9 @@ function App() {
                         className={`object-item ${
                           selectedId === node.id ? "selected" : ""
                         }`}
-                        onClick={() => setSelectedId(node.id)}
+                        onClick={() =>
+                          navigate({ version, view: "browser", entityId: node.id })
+                        }
                         aria-pressed={selectedId === node.id}
                       >
                         <span className="object-icon" />
@@ -336,7 +404,9 @@ function App() {
                     <ObjectDetails
                       node={selectedNode}
                       relationships={relationships}
-                      onSelectNode={setSelectedId}
+                      onSelectNode={(id) =>
+                        navigate({ version, view: "browser", entityId: id })
+                      }
                       knownIds={new Set(schema.nodes.map((node) => node.id))}
                     />
                   ) : (

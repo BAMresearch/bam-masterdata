@@ -50,29 +50,9 @@ class Root(ObjectType):
         multivalued=True,
     )
 
-    global_id = PropertyTypeAssignment(
-        code="GLOBAL_ID",
-        data_type="VARCHAR",
-        property_label="Global ID",
-        description="Immutable global ID to identify the object and that can be used, for example, to generate barcodes or QR codes.",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="General Information",
-    )
-
-    hash = PropertyTypeAssignment(
-        code="HASH",
-        data_type="VARCHAR",
-        property_label="Hash",
-        description="Cryptographic hash used to identify or verify the content associated with the object.",
-        mandatory=False,
-        show_in_edit_views=False,
-        section="General Information",
-    )
-
     external_references = PropertyTypeAssignment(
         code="EXTERNAL_REFERENCE",
-        data_type="MULTILINE_VARCHAR",
+        data_type="VARCHAR",
         property_label="External references",
         description="References to external resources related to the object, such as publications or documentation.",
         mandatory=False,
@@ -96,6 +76,26 @@ class Root(ObjectType):
         property_label="Previous permID",
         description="Permanent identifier of the corresponding object in a previous openBIS system.",
         mandatory=False,
+        section="General Information",
+    )
+
+    global_id = PropertyTypeAssignment(
+        code="GLOBAL_ID",
+        data_type="VARCHAR",
+        property_label="Global ID",
+        description="Immutable global ID to identify the object and that can be used, for example, to generate barcodes or QR codes.",
+        mandatory=False,
+        show_in_edit_views=False,
+        section="General Information",
+    )
+
+    hash = PropertyTypeAssignment(
+        code="HASH",
+        data_type="VARCHAR",
+        property_label="Hash",
+        description="Cryptographic hash used to identify or verify the content associated with the object.",
+        mandatory=False,
+        show_in_edit_views=False,
         section="General Information",
     )
 
