@@ -41,9 +41,13 @@ def export_schema(version: str) -> SchemaExport:
             if base is ObjectType:
                 break
 
+            # A mixin without its own `defs` is not an openBIS type; its properties
+            # are assigned to the class that mixes it in.
+            base_defs = base.__dict__.get("defs")
+            origin = base_defs.code if base_defs is not None else cls.defs.code
             for value in base.__dict__.values():
                 if isinstance(value, PropertyTypeAssignment):
-                    property_origins.setdefault(value.code, base.defs.code)
+                    property_origins.setdefault(value.code, origin)
 
         node = SchemaNode(
             id=cls.defs.code,

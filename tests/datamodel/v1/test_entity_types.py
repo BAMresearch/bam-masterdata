@@ -3,26 +3,30 @@ import pytest
 from bam_masterdata.datamodel.v1.activities import Computation, Simulation
 from bam_masterdata.datamodel.v1.entities import (
     HPC,
+    CalculationDatum,
     ComputationalMethod,
     Context,
+    DataItem,
     InteratomicPotential,
     MaterialEntity,
+    MeasurementDatum,
     Pseudopotential,
     SimulatedSystem,
     Software,
-    WorkflowDefinition,
 )
 
 ENTITY_CLASSES = [
     Context,
     MaterialEntity,
     Software,
-    WorkflowDefinition,
     Pseudopotential,
     InteratomicPotential,
     SimulatedSystem,
     ComputationalMethod,
     HPC,
+    DataItem,
+    CalculationDatum,
+    MeasurementDatum,
 ]
 
 
@@ -41,6 +45,7 @@ def test_inherited_properties_are_available(cls):
         (Software, Computation, "software"),
         (SimulatedSystem, Simulation, "simulated_system"),
         (ComputationalMethod, Computation, "computational_method"),
+        (HPC, Computation, "executed_on"),
     ],
 )
 def test_object_types_referenced_by_activities(cls, activity, property_name):

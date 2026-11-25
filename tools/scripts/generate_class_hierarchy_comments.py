@@ -41,7 +41,13 @@ def _get_class_hierarchy(
     if module_path is not None:
         module_path = module_path.resolve()
         modules[module_path] = tree
-    classes = {node.name: node for node in tree.body if isinstance(node, ast.ClassDef)}
+    # Classes whose name starts with "_" are Python mixins without their own
+    # ObjectTypeDef. They are not openBIS types and are left out of the tree.
+    classes = {
+        node.name: node
+        for node in tree.body
+        if isinstance(node, ast.ClassDef) and not node.name.startswith("_")
+    }
     hierarchy = {name: [] for name in classes}
 
     def resolve(
@@ -85,7 +91,7 @@ def _get_class_hierarchy(
 
     for name, node in classes.items():
         for base in node.bases:
-            if not isinstance(base, ast.Name):
+            if not isinstance(base, ast.Name) or base.id.startswith("_"):
                 continue
             if base.id in classes:
                 hierarchy[base.id].append(name)

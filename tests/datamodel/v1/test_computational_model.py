@@ -1,66 +1,139 @@
+import ast
+from pathlib import Path
+
 import pytest
 
+from bam_masterdata.checker.schema_validator import get_object_types
+from bam_masterdata.datamodel import v1
 from bam_masterdata.datamodel.v1.activities import (
-    Analysis,
-    CreepTestDataProcessing,
+    Computation,
     EquationOfStateFit,
     GeometryOptimization,
     MolecularDynamics,
     Simulation,
-    SimulationAnalysis,
     SinglePointCalculation,
 )
 from bam_masterdata.datamodel.v1.entities import (
+    CalculationDatum,
     ElectronicStructureParameters,
     EquationOfStateFitParameters,
     GeometryOptimizationParameters,
     MolecularDynamicsParameters,
+    ParameterSet,
 )
 
-SIMULATION_ANALYSES = [
-    EquationOfStateFit,
+RESULT_SECTIONS = {"Results", "Electronic Structure Results"}
+GENERAL_SECTIONS = {"General Information"}
+
+ACTIVITY_RESULTS = [
+    (SinglePointCalculation, "single_point_results"),
+    (GeometryOptimization, "geometry_optimization_results"),
+    (MolecularDynamics, "molecular_dynamics_results"),
+    (EquationOfStateFit, "equation_of_state_fit_results"),
 ]
 
-SPECIFICATIONS = [
-    ElectronicStructureParameters,
-    GeometryOptimizationParameters,
-    MolecularDynamicsParameters,
-    EquationOfStateFitParameters,
-]
+EXECUTION_PROPERTIES = {
+    "executed_on",
+    "walltime_h",
+    "core_time_h",
+    "n_cores",
+    "n_gpus",
+    "n_threads",
+    "hpc_job_queue",
+    "hpc_job_id",
+}
+
+# IRIs allowed in datamodel/v1 for the computation schema (verified against PMDco, OBO, ASMO, CMSO).
+ALLOWED_NEW_IRIS = {
+    "https://w3id.org/pmd/co/PMD_0000583",
+    "https://w3id.org/pmd/co/PMD_0000933",
+    "https://w3id.org/pmd/co/PMD_0000862",
+    "https://w3id.org/pmd/co/PMD_0000931",
+    "https://w3id.org/pmd/co/PMD_0000582",
+    "https://w3id.org/pmd/co/PMD_0025035",
+    "http://purl.obolibrary.org/obo/IAO_0000027",
+    "http://purl.obolibrary.org/obo/IAO_0000109",
+    "http://purl.obolibrary.org/obo/IAO_0000136",
+    "http://purl.obolibrary.org/obo/OBI_0000293",
+    "http://purl.obolibrary.org/obo/OBI_0000299",
+    "http://purl.obolibrary.org/obo/RO_0000057",
+    "http://purls.helmholtz-metadaten.de/cmso/ComputationalSample",
+}
+# IRIs that were already in datamodel/v1 on dev and are inherited by the computation types.
+PREEXISTING_IRIS = {
+    "http://purl.obolibrary.org/obo/BFO_0000001",
+    "http://purl.obolibrary.org/obo/BFO_0000002",
+    "http://purl.obolibrary.org/obo/BFO_0000015",
+    "http://purl.obolibrary.org/obo/BFO_0000040",
+    "http://purl.obolibrary.org/obo/IAO_0000010",
+    "http://purl.obolibrary.org/obo/IAO_0000030",
+    "http://www.w3.org/ns/prov#Activity",
+    "http://www.w3.org/ns/prov#Entity",
+    "https://w3id.org/pmd/co/PMD_0000602",
+}
+ASMO_PREFIX = "https://purls.helmholtz-metadaten.de/asmo/"
+COMPUTATION_MODULES = (
+    "bam_masterdata.datamodel.v1.activities",
+    "bam_masterdata.datamodel.v1.entities",
+)
 
 
-@pytest.mark.parametrize("cls", SIMULATION_ANALYSES, ids=lambda cls: cls.__name__)
-def test_simulation_analyses_reference_one_analysed_system(cls):
-    # Single-valued on purpose: every result of the analysis describes one system.
-    prop = cls()._property_metadata["analysed_system"]
-    assert not prop.multivalued
-
-
-def test_analysed_system_is_not_on_every_analysis():
-    # Non-simulation analyses (creep data processing) have no simulated system.
-    assert issubclass(CreepTestDataProcessing, Analysis)
-    assert not issubclass(CreepTestDataProcessing, SimulationAnalysis)
-    assert "analysed_system" not in CreepTestDataProcessing()._property_metadata
-    assert "analysed_system" not in Analysis()._property_metadata
-
-
-def test_analysed_system_is_distinct_from_simulated_system():
-    # SIMULATED_SYSTEM of simulations is multivalued and has no roles; the analysis subject is a separate property.
-    props = SimulationAnalysis()._property_metadata
-    assert "simulated_system" not in props
-    assert Simulation()._property_metadata["simulated_system"].multivalued
-
-
-def test_simulation_itself_is_not_extended():
-    added = {
-        "electronic_structure_parameters",
-        "geometry_optimization_parameters",
-        "molecular_dynamics_parameters",
-        "final_pressure",
-        "total_free_energy",
-        "average_temperature",
+def _computation_types():
+    """Object types of the computation schema: computations and the entities they use."""
+    used = (Computation, ParameterSet, CalculationDatum)
+    names = {
+        "SIMULATED_SYSTEM",
+        "COMPUTATIONAL_METHOD",
+        "HPC",
+        "DATA_ITEM",
+        "MEASUREMENT_DATUM",
     }
-    assert not added & set(Simulation()._property_metadata)
+    return [
+        cls
+        for cls in get_object_types("v1")
+        if issubclass(cls, used) or cls.defs.code in names
+    ]
+
+
+@pytest.mark.parametrize(
+    "activity, property_name", ACTIVITY_RESULTS, ids=lambda x: getattr(x, "__name__", x)
+)
+def test_activities_link_to_one_results_type(activity, property_name):
+    prop = activity()._property_metadata[property_name]
+    assert not prop.multivalued
+    targets = [
+        cls for cls in get_object_types("v1") if cls.defs.code == prop.object_code
+    ]
+    assert len(targets) == 1
+    assert issubclass(targets[0], CalculationDatum)
+
+
+def test_results_types_describe_a_simulated_system():
+    for cls in CalculationDatum.__subclasses__():
+        prop = cls()._property_metadata["described_system"]
+        assert prop.object_code == "SIMULATED_SYSTEM"
+
+
+def test_results_types_hold_only_results():
+    for cls in CalculationDatum.__subclasses__():
+        sections = {prop.section for prop in cls().properties}
+        assert sections <= RESULT_SECTIONS | GENERAL_SECTIONS, cls.__name__
+
+
+def test_parameter_sets_hold_no_results():
+    for cls in get_object_types("v1"):
+        if issubclass(cls, ParameterSet):
+            sections = {prop.section for prop in cls().properties}
+            assert not sections & RESULT_SECTIONS, cls.__name__
+
+
+def test_execution_details_belong_to_computation():
+    assert EXECUTION_PROPERTIES <= set(Computation()._property_metadata)
+    declared_on_simulation = {
+        name for name, value in vars(Simulation).items() if name in EXECUTION_PROPERTIES
+    }
+    assert not declared_on_simulation
+    assert Computation()._property_metadata["executed_on"].object_code == "HPC"
 
 
 @pytest.mark.parametrize(
@@ -94,69 +167,41 @@ def test_activities_reference_their_specification(
     assert prop.object_code == specification.defs.code
 
 
-def test_ab_initio_md_is_md_with_electronic_structure_parameters():
-    props = set(MolecularDynamics()._property_metadata)
-    assert {
-        "molecular_dynamics_parameters",
-        "electronic_structure_parameters",
-        "computational_method",
-    } <= props
+def test_mixins_are_not_object_types():
+    assert not [cls for cls in get_object_types("v1") if cls.__name__.startswith("_")]
 
 
-@pytest.mark.parametrize(
-    "cls",
-    [SinglePointCalculation, GeometryOptimization, MolecularDynamics],
-    ids=lambda cls: cls.__name__,
-)
-def test_simulation_tasks_preserve_shared_configuration_properties(cls):
-    assert cls.get_hierarchy() == [
-        "ROOT",
-        "ACTIVITY",
-        "COMPUTATION",
-        "SIMULATION",
-        cls.defs.code,
-    ]
-    obj = cls()
-    props = obj._property_metadata
-    expected = {
-        "initial_system",
-        "final_system",
-        "electronic_structure_parameters",
-        "max_force_norm",
-        "max_force_component",
-        "force_vector_norm",
-        "final_pressure",
-        "final_potential_energy",
-        "scf_converged",
-        "n_irreducible_kpoints",
-        "total_free_energy",
-        "total_energy_without_entropy",
-        "total_energy_zero_smearing",
-        "fermi_energy",
-        "total_magnetic_moment",
-    }
-    assert expected <= props.keys()
-    exported_codes = [prop["code"] for prop in obj.model_to_dict()["properties"]]
-    for name in expected:
-        assert exported_codes.count(props[name].code) == 1
+def test_computation_schema_uses_only_allowed_iris():
+    unexpected = set()
+    for cls in _computation_types():
+        if cls.__module__ not in COMPUTATION_MODULES:
+            continue
+        iris = list(cls.defs.iri or [])
+        iris += [iri for prop in cls().properties for iri in (prop.iri or [])]
+        unexpected |= {
+            iri
+            for iri in iris
+            if iri not in ALLOWED_NEW_IRIS | PREEXISTING_IRIS
+            and not iri.startswith(ASMO_PREFIX)
+        }
+    assert not unexpected, unexpected
 
 
-def test_md_velocity_temperature_is_separate_from_thermostat_targets():
-    props = MolecularDynamicsParameters()._property_metadata
-    assert "velocity_initialization_temperature" in props
-    for name in (
-        "target_temperature_start",
-        "target_temperature_end",
-        "target_pressure_start",
-        "target_pressure_end",
-    ):
-        assert name in props
-    assert props["target_temperature_start"].prev_versions is None
-
-
-def test_specifications_hold_no_results():
-    # Structural check only: it looks at section labels, so it cannot tell whether a value in an input section is
-    # really an input (e.g. requested vs. achieved duration). It does not prove that a value is an input.
-    result_sections = {"Results", "Electronic Structure Results"}
-    for cls in SPECIFICATIONS:
-        assert not {p.section for p in cls().properties} & result_sections, cls.__name__
+def test_classes_without_defs_are_private_mixins():
+    # The hierarchy comment generator leaves out classes whose name starts with "_".
+    # A mixin without the underscore would be drawn as a parent type, so require it.
+    offending = []
+    for path in sorted(Path(v1.__file__).parent.rglob("*.py")):
+        for node in ast.parse(path.read_text(encoding="utf-8")).body:
+            if not isinstance(node, ast.ClassDef) or node.name.startswith("_"):
+                continue
+            has_defs = any(
+                isinstance(stmt, ast.Assign)
+                and any(
+                    getattr(target, "id", None) == "defs" for target in stmt.targets
+                )
+                for stmt in node.body
+            )
+            if not has_defs:
+                offending.append(f"{path.name}:{node.name}")
+    assert not offending, offending

@@ -14,6 +14,8 @@ SHARED_FIELDS = (
     "vocabulary_code",
     "object_code",
     "multivalued",
+    "prev_versions",
+    "iri",
 )
 
 # Pre-existing inconsistencies, not part of the computation schema work.

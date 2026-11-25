@@ -120,6 +120,20 @@ validate_object_references(object_types)
 
 **Important limitations:** discovery and validation do not constitute a new registry; calling code is responsible for selecting the intended version. Mixed class lists can give misleading results. The validators are not automatically invoked by the parser or synchronization. The full v1 package will need its own discovery and validation tests once integrated.
 
+## Ontology IRIs
+
+The optional `iri` field links a definition to an ontology term. Its meaning depends on what it is attached to:
+
+| Attached to | `iri` is |
+|-|-|
+| Object type | the class the type corresponds to |
+| Value property (REAL, INTEGER, VARCHAR, ...) | the class of the quantity the value is an instance of |
+| OBJECT property | the relation between the two objects, such as has specified input (OBI_0000293) |
+| Vocabulary type | the class whose individuals are the terms |
+| Vocabulary term | that individual |
+
+The RDF export does not read `iri` yet; it is an annotation for exporters and for the schema explorer. See [Computation schema](computation_schema.md) for the computation types.
+
 ## Synchronization, parsing, and exports
 
 `ObjectType.to_openbis_sync()` registers or queries openBIS object types using `self.defs.code`, not `get_hierarchy_path()`. Existing OBJECT property target mismatches are reported as rejected synchronization changes rather than silently rewritten. Unit tests cover the registration calls and comparison logic; the exact representation returned by PyBIS and behavior against openBIS 7 must also be verified in integration tests.

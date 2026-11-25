@@ -12,9 +12,15 @@
 # │   │   └── EquationOfStateFitParameters
 # │   ├── Classification
 # │   ├── Document
-# │   ├── WorkflowDefinition
 # │   ├── SimulatedSystem
-# │   └── ComputationalMethod
+# │   ├── ComputationalMethod
+# │   └── DataItem
+# │       ├── CalculationDatum
+# │       │   ├── SinglePointResults
+# │       │   ├── GeometryOptimizationResults
+# │       │   ├── MolecularDynamicsResults
+# │       │   └── EquationOfStateFitResults
+# │       └── MeasurementDatum
 # ├── Location
 # └── MaterialEntity
 #     ├── Organism
@@ -33,13 +39,8 @@
 #
 # END AUTO-GENERATED CLASS HIERARCHY
 
-from bam_masterdata.datamodel.v1.activities import Computation
 from bam_masterdata.datamodel.v1.base_objects import Entity
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
-
-# IRI convention: object type iri = exact match of the class;
-# property iri = class of the quantity the value is an instance of;
-# vocabulary term iri = the individual of the vocabulary's class.
 
 
 class Context(Entity):
@@ -114,9 +115,6 @@ class ParameterSet(Context):
         mandatory=False,
         section="Parameter Set Details",
     )
-
-    # Subtypes (such as ElectronicStructureParameters) inherit GENERIC_PARAMETERS; code-specific extra settings
-    # that have no dedicated property go there.
 
     # Properties from v0 that need to be migrated to v1 (from PARAMETER_SET:v0):
     # PARAMETER_SET.SPREADSHEET
@@ -646,9 +644,10 @@ class Chemical(PhysicalObject):
         code="CHEMICAL_FORMULA_DESCRIPTIVE",
         data_type="VARCHAR",
         property_label="Descriptive formula",
-        description="Chemical formula in a human-readable form chosen by the author, such as Fe54C for a supercell.",
+        description="Chemical formula in a human-readable form chosen by the author, such as Fe3C or CuSO4·5H2O.",
         mandatory=False,
         section="Chemical Identity",
+        prev_versions=["CHEM_SPECIES_BY_N_ATOMS:v0"],
     )
 
     chemical_formula_reduced = PropertyTypeAssignment(
@@ -809,17 +808,6 @@ class Chemical(PhysicalObject):
     # BARCODE_EXTERNAL
 
 
-class WorkflowDefinition(Context):
-    defs = ObjectTypeDef(
-        code="WORKFLOW_DEFINITION",
-        description="A WorkflowDefinition is a context that specifies the steps of a computational "
-        "workflow and the order in which they are executed.",
-        generated_code_prefix="WF_DEF",
-        iri=["https://w3id.org/pmd/co/PMD_0000012"],
-        prev_versions=["WORKFLOW_REFERENCE:v0"],
-    )
-
-
 class Pseudopotential(ParameterSet):
     defs = ObjectTypeDef(
         code="PSEUDOPOTENTIAL",
@@ -878,17 +866,19 @@ class Pseudopotential(ParameterSet):
         property_label="Exchange-correlation functional",
         description="Exchange-correlation functional, such as PBE or HSE06.",
         mandatory=False,
-        section="Pseudopotential Details",
+        section="Generation",
+        prev_versions=["ATOM_XC_FUNCTIONAL:v0"],
     )
 
-    jacobs_ladder = PropertyTypeAssignment(
-        code="JACOBS_LADDER",
+    functional_compatibility = PropertyTypeAssignment(
+        code="FUNCTIONAL_COMPATIBILITY",
         data_type="CONTROLLEDVOCABULARY",
         vocabulary_code="JACOBS_LADDER",
-        property_label="Jacob's ladder",
-        description="Highest rung of Jacob's ladder among the components of the exchange-correlation functional.",
+        property_label="Functional compatibility",
+        description="Families of exchange-correlation functionals the pseudopotential is meant to be used with.",
         mandatory=False,
         section="Pseudopotential Details",
+        multivalued=True,
         prev_versions=["PSEUDOPOT_FUNC:v0"],
     )
 
@@ -956,7 +946,7 @@ class Pseudopotential(ParameterSet):
         description="Software that can use the entity as input.",
         mandatory=False,
         section="Pseudopotential Details",
-        prev_versions=["SW_COMPATIBILITY:v0"],
+        prev_versions=["SW_COMPATIBILITY:v0", "SFTW_COMPATIBILITY:v0"],
     )
 
 
@@ -1038,16 +1028,19 @@ class InteratomicPotential(ParameterSet):
         description="Software that can use the entity as input.",
         mandatory=False,
         section="Interatomic Potential Details",
-        prev_versions=["SFTW_COMPATIBILITY:v0"],
+        prev_versions=["SW_COMPATIBILITY:v0", "SFTW_COMPATIBILITY:v0"],
     )
 
 
+# Particle positions, velocities, species, and sub-systems are not properties: they are attached as a structure
+# file to the SimulatedSystem object.
 class SimulatedSystem(Context):
     defs = ObjectTypeDef(
         code="SIMULATED_SYSTEM",
-        description="A SimulatedSystem is a context that specifies a set of particles, such as atoms, with their "
-        "positions, cell, and periodicity, used as input to a computation or produced by one.",
+        description="A SimulatedSystem is a context that specifies the model of a material used in or produced by a "
+        "computation: a set of particles, such as atoms, with their positions, cell, and periodicity.",
         generated_code_prefix="SIM_SYS",
+        iri=["http://purls.helmholtz-metadaten.de/cmso/ComputationalSample"],
         prev_versions=[
             "MAT_SIM_STRUCTURE:v0",
             "MAT_SIM_STRUCTURE.CRYSTAL:v0",
@@ -1074,6 +1067,27 @@ class SimulatedSystem(Context):
         description="Long-range order of the atomic arrangement, as asserted by the author. Not applicable to atoms and molecules.",
         mandatory=False,
         section="System Details",
+    )
+
+    dimensionality = PropertyTypeAssignment(
+        code="DIMENSIONALITY",
+        data_type="INTEGER",
+        property_label="Dimensionality",
+        description="Number of directions in which the system is extended: 0, 1, 2, or 3.",
+        mandatory=False,
+        section="System Details",
+    )
+
+    represented_material = PropertyTypeAssignment(
+        code="REPRESENTED_MATERIAL",
+        data_type="OBJECT",
+        object_code=None,
+        property_label="Represented material",
+        description="Material or sample that this simulated system is a model of.",
+        mandatory=False,
+        section="System Details",
+        multivalued=True,
+        iri=["http://purl.obolibrary.org/obo/IAO_0000136"],
     )
 
     n_particles = PropertyTypeAssignment(
@@ -1108,7 +1122,7 @@ class SimulatedSystem(Context):
         code="CHEMICAL_FORMULA_DESCRIPTIVE",
         data_type="VARCHAR",
         property_label="Descriptive formula",
-        description="Chemical formula in a human-readable form chosen by the author, such as Fe54C for a supercell.",
+        description="Chemical formula in a human-readable form chosen by the author, such as Fe3C or CuSO4·5H2O.",
         mandatory=False,
         section="Chemical Formula",
         prev_versions=["CHEM_SPECIES_BY_N_ATOMS:v0"],
@@ -1150,7 +1164,7 @@ class SimulatedSystem(Context):
         section="Chemical Formula",
     )
 
-    # SIM_CELL_VECTORS:v0 stores text; migration must parse a numeric 3x3 matrix and verify row ordering and units.
+    # Migration: see docs/explanations/computation_schema.md, rule R13.
     lattice_vectors = PropertyTypeAssignment(
         code="LATTICE_VECTORS",
         data_type="JSON",
@@ -1274,7 +1288,7 @@ class SimulatedSystem(Context):
         section="Symmetry Details",
     )
 
-    # SPACE_GROUP:v0 stores vocabulary terms; migration must extract the Hermann-Mauguin symbol from the term label.
+    # Migration: see docs/explanations/computation_schema.md, rule R14.
     space_group_symbol = PropertyTypeAssignment(
         code="SPACE_GROUP_SYMBOL",
         data_type="VARCHAR",
@@ -1383,8 +1397,7 @@ class ComputationalMethod(Context):
     defs = ObjectTypeDef(
         code="COMPUTATIONAL_METHOD",
         description="A ComputationalMethod is a context that specifies the model solved in a computation, such as "
-        "density functional theory or an interatomic potential. Methods that carry system-specific settings, such "
-        "as Hubbard parameters, belong to one calculation setup.",
+        "density functional theory or an interatomic potential.",
         generated_code_prefix="COMP_METH",
         iri=["https://w3id.org/pmd/co/PMD_0000931"],
     )
@@ -1555,6 +1568,29 @@ class HPC(Device):
         "used to execute computations.",
         generated_code_prefix="HPC",
         prev_versions=["HPC:v0"],
+        iri=["https://w3id.org/pmd/co/PMD_0000582"],
+    )
+
+    operating_system = PropertyTypeAssignment(
+        code="OPERATING_SYSTEM",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="OPERATING_SYSTEM",
+        property_label="Operating system",
+        description="Operating system of the nodes of the cluster.",
+        mandatory=False,
+        section="HPC Details",
+        prev_versions=["OPERATING_SYSTEM:v0"],
+    )
+
+    queuing_system = PropertyTypeAssignment(
+        code="QUEUING_SYSTEM",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="QUEUING_SYSTEM",
+        property_label="Queuing system",
+        description="Job scheduler used on the cluster.",
+        mandatory=False,
+        section="HPC Details",
+        prev_versions=["QUEUING_SYSTEM:v0"],
     )
 
     alias = PropertyTypeAssignment(
@@ -1635,7 +1671,7 @@ class ElectronicStructureParameters(ParameterSet):
         data_type="OBJECT",
         object_code="PSEUDOPOTENTIAL",
         property_label="Pseudopotentials",
-        description="Pseudopotentials or PAW datasets, where used, one per chemical species (VASP: POTCAR).",
+        description="Pseudopotentials or PAW datasets, where used, one per chemical species.",
         mandatory=False,
         section="Pseudopotentials",
         multivalued=True,
@@ -1646,7 +1682,7 @@ class ElectronicStructureParameters(ParameterSet):
         data_type="REAL",
         property_label="Plane-wave cutoff",
         units="eV",
-        description="Kinetic-energy cutoff of the plane-wave basis set for the wave functions (VASP: ENCUT). "
+        description="Kinetic-energy cutoff of the plane-wave basis set for the wave functions. "
         "Applicable only when the wave functions use a plane-wave basis.",
         mandatory=False,
         section="Basis Set",
@@ -1654,10 +1690,7 @@ class ElectronicStructureParameters(ParameterSet):
         prev_versions=["ATOM_E_CUTOFF_IN_EV:v0"],
     )
 
-    # Needs manual mapping from ATOM_KPOINT_TYPE:v0: v0 ATOM_KPOINT_TYPE mixes how the mesh was generated
-    # (KPOINTS_KSPACING) with how it is placed. A mesh generated from KSPACING can be Gamma-centered or Monkhorst-Pack
-    # (VASP: KGAMMA), so the term must be derived from the v0 type together with ATOM_KPT_GAMMA_CENT or the raw
-    # KPOINTS / INCAR. Leave the property unset if the centering cannot be determined.
+    # Migration: see docs/explanations/computation_schema.md, rule R2.
     kpoint_mesh_type = PropertyTypeAssignment(
         code="KPOINT_MESH_TYPE",
         data_type="CONTROLLEDVOCABULARY",
@@ -1670,8 +1703,7 @@ class ElectronicStructureParameters(ParameterSet):
         iri=["https://purls.helmholtz-metadaten.de/asmo/KPointMesh"],
     )
 
-    # Needs manual mapping from ATOMISTIC_N_KPT_X:v0: v0 used x/y/z wording; check that these were the three mesh
-    # indices along b1/b2/b3 before migrating.
+    # Migration: see docs/explanations/computation_schema.md, rule R3.
     kpoint_mesh_b1 = PropertyTypeAssignment(
         code="KPOINT_MESH_B1",
         data_type="INTEGER",
@@ -1681,7 +1713,7 @@ class ElectronicStructureParameters(ParameterSet):
         section="Brillouin Zone Sampling",
     )
 
-    # Needs manual mapping from ATOMISTIC_N_KPT_Y:v0: as for KPOINT_MESH_B1.
+    # Migration: see docs/explanations/computation_schema.md, rule R3.
     kpoint_mesh_b2 = PropertyTypeAssignment(
         code="KPOINT_MESH_B2",
         data_type="INTEGER",
@@ -1691,7 +1723,7 @@ class ElectronicStructureParameters(ParameterSet):
         section="Brillouin Zone Sampling",
     )
 
-    # Needs manual mapping from ATOMISTIC_N_KPT_Z:v0: as for KPOINT_MESH_B1.
+    # Migration: see docs/explanations/computation_schema.md, rule R3.
     kpoint_mesh_b3 = PropertyTypeAssignment(
         code="KPOINT_MESH_B3",
         data_type="INTEGER",
@@ -1701,15 +1733,12 @@ class ElectronicStructureParameters(ParameterSet):
         section="Brillouin Zone Sampling",
     )
 
-    # With the VASP convention, the number of subdivisions along each reciprocal lattice vector b_i (b_i . a_j =
-    # delta_ij, without the factor 2 pi) is N_i = max(1, ceil(2 pi |b_i| / KSPACING)), so the realized interval
-    # 2 pi |b_i| / N_i is at most this value.
     kpoint_spacing = PropertyTypeAssignment(
         code="KPOINT_SPACING",
         data_type="REAL",
         property_label="K-point spacing",
         units="1/angstrom",
-        description="Requested k-point spacing, if the mesh was generated from a spacing (VASP: KSPACING). The "
+        description="Requested k-point spacing, if the mesh was generated from a spacing. The "
         "realized subdivisions are KPOINT_MESH_B1 to B3.",
         mandatory=False,
         section="Brillouin Zone Sampling",
@@ -1721,8 +1750,7 @@ class ElectronicStructureParameters(ParameterSet):
         data_type="CONTROLLEDVOCABULARY",
         vocabulary_code="SYMMETRY_USAGE",
         property_label="Symmetry usage",
-        description="Which symmetries are used to reduce the k-point sampling and to symmetrize quantities "
-        "(VASP: ISYM).",
+        description="Which symmetries are used to reduce the k-point sampling and to symmetrize quantities.",
         mandatory=False,
         section="Brillouin Zone Sampling",
     )
@@ -1733,7 +1761,7 @@ class ElectronicStructureParameters(ParameterSet):
         vocabulary_code="OCCUPATION_SCHEME",
         property_label="Occupation scheme",
         description="Method used to set the (partial) occupations of the Kohn-Sham orbitals, such as Gaussian "
-        "smearing or the tetrahedron method (VASP: ISMEAR).",
+        "smearing or the tetrahedron method.",
         mandatory=False,
         section="Occupations",
         prev_versions=["ELECTRONIC_SMEARING:v0"],
@@ -1744,7 +1772,7 @@ class ElectronicStructureParameters(ParameterSet):
         data_type="REAL",
         property_label="Smearing width",
         units="eV",
-        description="Width of the smearing function (VASP: SIGMA). For Fermi-Dirac smearing it equals the "
+        description="Width of the smearing function. For Fermi-Dirac smearing it equals the "
         "electronic temperature times the Boltzmann constant. Not used by the tetrahedron methods without smearing.",
         mandatory=False,
         section="Occupations",
@@ -1755,8 +1783,7 @@ class ElectronicStructureParameters(ParameterSet):
         code="METHFESSEL_PAXTON_ORDER",
         data_type="INTEGER",
         property_label="Methfessel-Paxton order",
-        description="Order of the Methfessel-Paxton expansion, if that occupation scheme is used (VASP: the "
-        "positive value of ISMEAR).",
+        description="Order of the Methfessel-Paxton expansion, if that occupation scheme is used.",
         mandatory=False,
         section="Occupations",
     )
@@ -1765,7 +1792,7 @@ class ElectronicStructureParameters(ParameterSet):
         code="N_BANDS",
         data_type="INTEGER",
         property_label="Number of bands",
-        description="Number of Kohn-Sham orbitals computed at each k-point (VASP: NBANDS).",
+        description="Number of Kohn-Sham orbitals computed at each k-point.",
         mandatory=False,
         section="Self-Consistent Field",
     )
@@ -1775,8 +1802,7 @@ class ElectronicStructureParameters(ParameterSet):
         data_type="CONTROLLEDVOCABULARY",
         vocabulary_code="ELECTRONIC_ALGORITHM",
         property_label="Electronic algorithm",
-        description="Algorithm used to optimize the Kohn-Sham orbitals in the self-consistent field cycle "
-        "(VASP: ALGO).",
+        description="Algorithm used to optimize the Kohn-Sham orbitals in the self-consistent field cycle.",
         mandatory=False,
         section="Self-Consistent Field",
         prev_versions=["ATOM_ELEC_MIN_ALGO:v0"],
@@ -1788,8 +1814,7 @@ class ElectronicStructureParameters(ParameterSet):
         property_label="SCF energy convergence threshold",
         units="eV",
         description="The self-consistent field cycle stops when the total energy changes by less than this value "
-        "between two iterations (VASP: EDIFF; VASP also requires the change of the band-structure energy to be "
-        "below it).",
+        "between two iterations.",
         mandatory=False,
         section="Self-Consistent Field",
         prev_versions=["ATOM_EL_E_TOL_IN_EV:v0"],
@@ -1799,7 +1824,7 @@ class ElectronicStructureParameters(ParameterSet):
         code="MAX_SCF_ITERATIONS",
         data_type="INTEGER",
         property_label="Maximum number of SCF iterations",
-        description="Largest number of self-consistent field iterations per ionic step (VASP: NELM).",
+        description="Largest number of self-consistent field iterations per ionic step.",
         mandatory=False,
         section="Self-Consistent Field",
     )
@@ -1833,8 +1858,7 @@ class GeometryOptimizationParameters(ParameterSet):
         generated_code_prefix="GEO_OPT_PARAM",
     )
 
-    # v0 had three booleans (ATOM_POS_RELAX, ATOM_CELL_SHP_RELAX, ATOM_CELL_VOL_RELAX). They are one multivalued
-    # vocabulary here, following ASMO RelaxationDOF; a v0 value of True maps to the corresponding term.
+    # Migration: see docs/explanations/computation_schema.md, rule R16.
     relaxation_degrees_of_freedom = PropertyTypeAssignment(
         code="RELAXATION_DEGREES_OF_FREEDOM",
         data_type="CONTROLLEDVOCABULARY",
@@ -1859,18 +1883,14 @@ class GeometryOptimizationParameters(ParameterSet):
         prev_versions=["ATOM_IONIC_MIN_ALGO:v0"],
     )
 
-    # Needs manual mapping from ATOM_F_TOL_IN_EV_A:v0: v0 ATOM_F_TOL_IN_EV_A was shared by VASP and LAMMPS jobs
-    # without stating the norm. Migrate the value together with FORCE_CONVERGENCE_NORM: MAX_ATOM_NORM for VASP; for
-    # LAMMPS take the norm from the job's min_modify settings (default GLOBAL_VECTOR_NORM). Leave the norm unset if
-    # the settings are not known.
+    # Migration: see docs/explanations/computation_schema.md, rule R4.
     force_convergence = PropertyTypeAssignment(
         code="FORCE_CONVERGENCE",
         data_type="REAL",
         property_label="Force convergence threshold",
         units="eV/angstrom",
         description="The optimization stops when the force reduction given by FORCE_CONVERGENCE_NORM is below this "
-        "value (VASP: absolute value of a negative EDIFFG; LAMMPS minimize: ftol). Thresholds for different "
-        "reductions are not comparable.",
+        "value. Thresholds for different reductions are not comparable.",
         mandatory=False,
         section="Convergence",
     )
@@ -1881,21 +1901,19 @@ class GeometryOptimizationParameters(ParameterSet):
         vocabulary_code="FORCE_CONVERGENCE_NORM",
         property_label="Force convergence norm",
         description="Reduction of the atomic forces compared with the force convergence threshold, such as the "
-        "largest per-atom force norm (VASP) or the norm of the 3N-dimensional force vector (LAMMPS default).",
+        "largest per-atom force norm or the norm of the 3N-dimensional force vector.",
         mandatory=False,
         section="Convergence",
     )
 
-    # Needs manual mapping from ATOM_E_TOL_ION_IN_EV:v0: v0 ATOM_E_TOL_ION_IN_EV is labelled eV but was also used
-    # for LAMMPS, whose etol is relative. Migrate values from VASP jobs here; values from LAMMPS jobs belong to
-    # IONIC_RELATIVE_ENERGY_CONVERGENCE after checking what the exporter stored. Do not convert between the two.
+    # Migration: see docs/explanations/computation_schema.md, rule R5.
     ionic_energy_convergence = PropertyTypeAssignment(
         code="IONIC_ENERGY_CONVERGENCE",
         data_type="REAL",
         property_label="Ionic energy convergence threshold",
         units="eV",
         description="Absolute criterion: the optimization stops when the total energy changes by less than this "
-        "value between two ionic steps (VASP: positive EDIFFG). For a relative criterion use "
+        "value between two ionic steps. For a relative criterion use "
         "IONIC_RELATIVE_ENERGY_CONVERGENCE.",
         mandatory=False,
         section="Convergence",
@@ -1906,7 +1924,7 @@ class GeometryOptimizationParameters(ParameterSet):
         data_type="REAL",
         property_label="Ionic relative energy convergence threshold",
         description="Dimensionless relative criterion: the optimization stops when the energy change between two "
-        "iterations, divided by the magnitude of the energy, is below this value (LAMMPS minimize: etol).",
+        "iterations, divided by the magnitude of the energy, is below this value.",
         mandatory=False,
         section="Convergence",
     )
@@ -1915,7 +1933,7 @@ class GeometryOptimizationParameters(ParameterSet):
         code="MAX_IONIC_STEPS",
         data_type="INTEGER",
         property_label="Maximum number of ionic steps",
-        description="Largest number of ionic steps the optimization may take (VASP: NSW; LAMMPS minimize: maxiter). "
+        description="Largest number of ionic steps the optimization may take. "
         "A requested upper bound, distinct from N_IONIC_STEPS, the number actually carried out.",
         mandatory=False,
         section="Convergence",
@@ -1932,9 +1950,6 @@ class MolecularDynamicsParameters(ParameterSet):
         generated_code_prefix="MD_PARAM",
     )
 
-    # The ensemble is what the run is meant to sample; thermostat and barostat are the algorithms used for it.
-    # Not every algorithm samples the intended ensemble exactly (see the vocabulary term descriptions).
-
     thermodynamic_ensemble = PropertyTypeAssignment(
         code="THERMODYNAMIC_ENSEMBLE",
         data_type="CONTROLLEDVOCABULARY",
@@ -1947,20 +1962,14 @@ class MolecularDynamicsParameters(ParameterSet):
         prev_versions=["ATOM_MD_ENSEMBLE:v0"],
     )
 
-    # Target conditions of the thermostat and barostat are given as start and end values. A ramp between them is
-    # one supported protocol (such as LAMMPS fix nvt/npt Tstart/Tstop, Pstart/Pstop); equal values mean constant
-    # conditions. The temperature used to draw the initial velocities is a separate input.
-
-    # Needs manual mapping from ATOM_MD_INIT_TEMP_IN_K:v0: pyiron's LammpsControl.calc_md uses
-    # initial_temperature to initialize velocities. When it is None and a target temperature is supplied,
-    # it defaults to twice the first target temperature. Check the exporter of each v0 record before migrating.
+    # Migration of the MD targets: see docs/explanations/computation_schema.md, rule R6.
     velocity_initialization_temperature = PropertyTypeAssignment(
         code="VELOCITY_INITIALIZATION_TEMPERATURE",
         data_type="REAL",
         property_label="Velocity initialization temperature",
         units="K",
         description="Temperature of the Maxwell-Boltzmann distribution from which the initial velocities are "
-        "drawn (LAMMPS: velocity create). Not the measured instantaneous temperature at the start.",
+        "drawn. Not the measured instantaneous temperature at the start.",
         mandatory=False,
         section="Statistical Ensemble",
     )
@@ -1970,53 +1979,44 @@ class MolecularDynamicsParameters(ParameterSet):
         data_type="REAL",
         property_label="Target temperature at start",
         units="K",
-        description="Target temperature of the thermostat at the start of the run (LAMMPS: Tstart).",
+        description="Target temperature of the thermostat at the start of the run.",
         mandatory=False,
         section="Statistical Ensemble",
     )
 
-    # Needs manual mapping from ATOM_MD_TARG_TEMP_IN_K:v0: v0 ATOM_MD_TARG_TEMP_IN_K is a generic target, not
-    # established as a ramp endpoint. For a constant target set both start and end; if the v0 job used a ramp, take
-    # both values from the job input.
     target_temperature_end = PropertyTypeAssignment(
         code="TARGET_TEMPERATURE_END",
         data_type="REAL",
         property_label="Target temperature at end",
         units="K",
-        description="Target temperature of the thermostat at the end of the run (LAMMPS: Tstop); equal to the start "
+        description="Target temperature of the thermostat at the end of the run; equal to the start "
         "value for runs at constant temperature.",
         mandatory=False,
         section="Statistical Ensemble",
     )
 
-    # Needs manual mapping from ATOM_MD_INIT_PRESS_IN_GPA:v0: v0 ATOM_MD_INIT_PRESS_IN_GPA may be a barostat start
-    # target or a measured initial pressure. Migrate it here only if the exporter shows it was Pstart; keep a
-    # measured value separately.
     target_pressure_start = PropertyTypeAssignment(
         code="TARGET_PRESSURE_START",
         data_type="REAL",
         property_label="Target pressure at start",
         units="GPa",
-        description="Hydrostatic target pressure of the barostat at the start of the run (LAMMPS: Pstart). A scalar "
+        description="Hydrostatic target pressure of the barostat at the start of the run. A scalar "
         "describes only hydrostatic or equal-axis targets, not independently controlled stress components.",
         mandatory=False,
         section="Statistical Ensemble",
     )
 
-    # Needs manual mapping from ATOM_TARG_PRESS_IN_GPA:v0: As for TARGET_TEMPERATURE_END: a constant v0 target sets
-    # both start and end.
     target_pressure_end = PropertyTypeAssignment(
         code="TARGET_PRESSURE_END",
         data_type="REAL",
         property_label="Target pressure at end",
         units="GPa",
-        description="Hydrostatic target pressure of the barostat at the end of the run (LAMMPS: Pstop); equal to "
+        description="Hydrostatic target pressure of the barostat at the end of the run; equal to "
         "the start value for runs at constant pressure.",
         mandatory=False,
         section="Statistical Ensemble",
     )
 
-    # (VASP: POTIM, given in fs, so divide by 1000; LAMMPS metal units: timestep, in ps).
     time_step = PropertyTypeAssignment(
         code="TIME_STEP",
         data_type="REAL",
@@ -2033,7 +2033,7 @@ class MolecularDynamicsParameters(ParameterSet):
         code="N_TIME_STEPS",
         data_type="INTEGER",
         property_label="Number of time steps",
-        description="Number of time steps to integrate (VASP: NSW).",
+        description="Number of time steps to integrate.",
         mandatory=False,
         section="Integration",
     )
@@ -2051,8 +2051,6 @@ class MolecularDynamicsParameters(ParameterSet):
         prev_versions=["ATOM_SIM_TIME_PS_IN_PS:v0"],
     )
 
-    # prev_versions may link properties with different types, but ATOM_MD_LANGEVIN:v0 needs conditional mapping:
-    # true identifies THERMOSTAT = LANGEVIN; false does not identify the thermostat and must not imply NONE.
     thermostat = PropertyTypeAssignment(
         code="THERMOSTAT",
         data_type="CONTROLLEDVOCABULARY",
@@ -2070,7 +2068,7 @@ class MolecularDynamicsParameters(ParameterSet):
         property_label="Thermostat time constant",
         units="ps",
         description="Characteristic relaxation time of the thermostat coupling. For Langevin dynamics, the damping "
-        "time tau of the friction force -m v / tau (LAMMPS: damp), i.e. the inverse of a friction rate gamma in "
+        "time tau of the friction force -m v / tau, i.e. the inverse of a friction rate gamma in "
         "-m gamma v. If the friction is given as a coefficient zeta in -zeta v, the time is m / zeta instead.",
         mandatory=False,
         section="Temperature Control",
@@ -2121,19 +2119,14 @@ class EquationOfStateFitParameters(ParameterSet):
         data_type="CONTROLLEDVOCABULARY",
         vocabulary_code="EQUATION_OF_STATE",
         property_label="Equation of state",
-        description="Equation-of-state model fitted to the energy-volume data, such as Birch-Murnaghan or Vinet. "
-        "It identifies the fitting model or algorithm family, not the fit activity itself.",
+        description="Equation-of-state model fitted to the energy-volume data, such as Birch-Murnaghan or Vinet.",
         mandatory=False,
         section="Fit",
-        # ASMO EquationOfStateFit is a SimulationAlgorithm whose individuals (Murnaghan, BirchMurnaghan, Vinet) are
-        # the vocabulary terms; the IRI groups them, it is not an identity with this property.
         iri=["https://purls.helmholtz-metadaten.de/asmo/EquationOfStateFit"],
         prev_versions=["MURN_EQN_OF_STATE:v0"],
     )
 
-    # Needs manual mapping from MURN_FIT_EQN_ORDER:v0: pyiron Murnaghan uses fit_order as the polynomial degree
-    # for polynomial fits. Analytic fits (birch, birchmurnaghan, murnaghan, pouriertarantola, vinet) ignore the
-    # input order and reset fit_order to zero. Migrate fit_order only for EOS_POLYNOMIAL fits.
+    # Migration: see docs/explanations/computation_schema.md, rule R15.
     equation_of_state_order = PropertyTypeAssignment(
         code="EQUATION_OF_STATE_ORDER",
         data_type="INTEGER",
@@ -2176,9 +2169,6 @@ class EquationOfStateFitParameters(ParameterSet):
         prev_versions=["MURN_STRAINVOL_RANGE:v0"],
     )
 
-    # Whether the fitted curvature is the hydrostatic bulk modulus depends on which cell-shape and internal degrees
-    # of freedom were relaxed at fixed volume, as recorded by the relaxation degrees of freedom of the parent
-    # simulations, not on the strain axes alone.
     strain_axes = PropertyTypeAssignment(
         code="EOS_STRAIN_AXES",
         data_type="VARCHAR",
@@ -2188,4 +2178,391 @@ class EquationOfStateFitParameters(ParameterSet):
         mandatory=False,
         section="Volume Sampling",
         prev_versions=["MURN_STRAIN_AXES:v0"],
+    )
+
+
+class DataItem(Context):
+    defs = ObjectTypeDef(
+        code="DATA_ITEM",
+        description="A DataItem is a context that records values intended to be a truthful statement about "
+        "something, such as a measured or calculated result.",
+        generated_code_prefix="DATA_ITEM",
+        iri=["http://purl.obolibrary.org/obo/IAO_0000027"],
+    )
+
+
+class CalculationDatum(DataItem):
+    defs = ObjectTypeDef(
+        code="CALCULATION_DATUM",
+        description="A CalculationDatum is a data item that is an output of a computation.",
+        generated_code_prefix="CALC_DATUM",
+        iri=["https://w3id.org/pmd/co/PMD_0025035"],
+    )
+
+    described_system = PropertyTypeAssignment(
+        code="DESCRIBED_SYSTEM",
+        data_type="OBJECT",
+        object_code="SIMULATED_SYSTEM",
+        property_label="Described system",
+        description="Simulated system whose properties these results describe.",
+        mandatory=False,
+        section="Results",
+        iri=["http://purl.obolibrary.org/obo/IAO_0000136"],
+    )
+
+
+class MeasurementDatum(DataItem):
+    defs = ObjectTypeDef(
+        code="MEASUREMENT_DATUM",
+        description="A MeasurementDatum is a data item that records the output of a measurement.",
+        generated_code_prefix="MEAS_DATUM",
+        iri=["http://purl.obolibrary.org/obo/IAO_0000109"],
+    )
+
+
+# Results shared by single point calculations, geometry optimizations, and molecular dynamics. Values refer to
+# the final configuration; for a single point calculation that is its only configuration.
+
+MAX_FORCE_NORM = PropertyTypeAssignment(
+    code="MAX_FORCE_NORM",
+    data_type="REAL",
+    property_label="Maximum force norm",
+    units="eV/angstrom",
+    description="Largest norm of the force on a single atom in the final configuration.",
+    mandatory=False,
+    section="Results",
+)
+
+# Migration: see docs/explanations/computation_schema.md, rule R8.
+MAX_FORCE_COMPONENT = PropertyTypeAssignment(
+    code="MAX_FORCE_COMPONENT",
+    data_type="REAL",
+    property_label="Maximum force component",
+    units="eV/angstrom",
+    description="Largest absolute Cartesian component of the force on any atom in the final configuration.",
+    mandatory=False,
+    section="Results",
+    prev_versions=["ATOM_FORCE_MAX_IN_EV_A:v0"],
+)
+
+FORCE_VECTOR_NORM = PropertyTypeAssignment(
+    code="FORCE_VECTOR_NORM",
+    data_type="REAL",
+    property_label="Force vector norm",
+    units="eV/angstrom",
+    description="Euclidean norm of the 3N-dimensional vector of all atomic forces in the final configuration.",
+    mandatory=False,
+    section="Results",
+    prev_versions=["ATOM_FIN_FNORM_IN_EV_A:v0"],
+)
+
+FINAL_PRESSURE = PropertyTypeAssignment(
+    code="FINAL_PRESSURE",
+    data_type="REAL",
+    property_label="Final pressure",
+    units="GPa",
+    description="Hydrostatic pressure of the final configuration, with the convention that positive values mean "
+    "the system is compressed and would expand if allowed, and negative values mean it would contract.",
+    mandatory=False,
+    section="Results",
+    iri=["https://purls.helmholtz-metadaten.de/asmo/Pressure"],
+    prev_versions=["ATOM_FIN_PRESS_IN_GPA:v0"],
+)
+
+# Migration of the v0 final energies: see docs/explanations/computation_schema.md, rule R11.
+FINAL_POTENTIAL_ENERGY = PropertyTypeAssignment(
+    code="FINAL_POTENTIAL_ENERGY",
+    data_type="REAL",
+    property_label="Final potential energy",
+    units="eV",
+    description="Potential energy of the final nuclear configuration as given by the referenced computational "
+    "method, such as the energy of a force field. For molecular dynamics, the configuration of the last time step.",
+    mandatory=False,
+    section="Results",
+    iri=["https://purls.helmholtz-metadaten.de/asmo/PotentialEnergy"],
+)
+
+SCF_CONVERGED = PropertyTypeAssignment(
+    code="SCF_CONVERGED",
+    data_type="BOOLEAN",
+    property_label="SCF converged",
+    description="Whether the self-consistent field cycle of the final configuration reached its convergence "
+    "threshold.",
+    mandatory=False,
+    section="Electronic Structure Results",
+)
+
+N_IRREDUCIBLE_KPOINTS = PropertyTypeAssignment(
+    code="N_IRREDUCIBLE_KPOINTS",
+    data_type="INTEGER",
+    property_label="Number of irreducible k-points",
+    description="Number of k-points left after the mesh was reduced by the symmetry used in the calculation.",
+    mandatory=False,
+    section="Electronic Structure Results",
+)
+
+TOTAL_FREE_ENERGY = PropertyTypeAssignment(
+    code="TOTAL_FREE_ENERGY",
+    data_type="REAL",
+    property_label="Total free energy",
+    units="eV",
+    description="Total energy of the final configuration including the electronic entropy term -TS of the "
+    "smeared occupations.",
+    mandatory=False,
+    section="Electronic Structure Results",
+)
+
+TOTAL_ENERGY_WITHOUT_ENTROPY = PropertyTypeAssignment(
+    code="TOTAL_ENERGY_WITHOUT_ENTROPY",
+    data_type="REAL",
+    property_label="Total energy without entropy",
+    units="eV",
+    description="Total free energy minus the electronic entropy term -TS.",
+    mandatory=False,
+    section="Electronic Structure Results",
+)
+
+TOTAL_ENERGY_ZERO_SMEARING = PropertyTypeAssignment(
+    code="TOTAL_ENERGY_ZERO_SMEARING",
+    data_type="REAL",
+    property_label="Total energy extrapolated to zero smearing",
+    units="eV",
+    description="Total energy extrapolated to zero smearing width.",
+    mandatory=False,
+    section="Electronic Structure Results",
+)
+
+FERMI_ENERGY = PropertyTypeAssignment(
+    code="FERMI_ENERGY",
+    data_type="REAL",
+    property_label="Fermi energy",
+    units="eV",
+    description="Fermi energy of the final configuration. For systems with a band gap, where in the gap it lies "
+    "depends on the occupation scheme and code settings.",
+    mandatory=False,
+    section="Electronic Structure Results",
+)
+
+# Migration: see docs/explanations/computation_schema.md, rule R10.
+TOTAL_MAGNETIC_MOMENT = PropertyTypeAssignment(
+    code="TOTAL_MAGNETIC_MOMENT",
+    data_type="REAL",
+    property_label="Total magnetic moment",
+    units="bohr_magneton",
+    description="Total spin magnetic moment of the cell along the spin quantization axis of a collinear "
+    "spin-polarized calculation.",
+    mandatory=False,
+    section="Electronic Structure Results",
+)
+
+N_IONIC_STEPS = PropertyTypeAssignment(
+    code="N_IONIC_STEPS",
+    data_type="INTEGER",
+    property_label="Number of ionic steps",
+    description="Number of ionic steps (geometry optimization steps or molecular dynamics time steps) actually "
+    "carried out.",
+    mandatory=False,
+    section="Results",
+    iri=["https://purls.helmholtz-metadaten.de/asmo/NumberOfIonicSteps"],
+    prev_versions=["ATOMISTIC_IONIC_STEPS:v0", "ATOM_IONIC_STEPS:v0"],
+)
+
+
+class _SimulationResultValues:  # no defs: not an openBIS type
+    max_force_norm = MAX_FORCE_NORM
+    max_force_component = MAX_FORCE_COMPONENT
+    force_vector_norm = FORCE_VECTOR_NORM
+    final_pressure = FINAL_PRESSURE
+    final_potential_energy = FINAL_POTENTIAL_ENERGY
+    scf_converged = SCF_CONVERGED
+    n_irreducible_kpoints = N_IRREDUCIBLE_KPOINTS
+    total_free_energy = TOTAL_FREE_ENERGY
+    total_energy_without_entropy = TOTAL_ENERGY_WITHOUT_ENTROPY
+    total_energy_zero_smearing = TOTAL_ENERGY_ZERO_SMEARING
+    fermi_energy = FERMI_ENERGY
+    total_magnetic_moment = TOTAL_MAGNETIC_MOMENT
+
+
+class SinglePointResults(_SimulationResultValues, CalculationDatum):
+    defs = ObjectTypeDef(
+        code="SINGLE_POINT_RESULTS",
+        description="A SinglePointResults is a calculation datum holding the results of a single point calculation.",
+        generated_code_prefix="SP_RES",
+    )
+
+
+class GeometryOptimizationResults(_SimulationResultValues, CalculationDatum):
+    defs = ObjectTypeDef(
+        code="GEOMETRY_OPTIMIZATION_RESULTS",
+        description="A GeometryOptimizationResults is a calculation datum holding the results of a geometry "
+        "optimization.",
+        generated_code_prefix="GEO_OPT_RES",
+    )
+
+    n_ionic_steps = N_IONIC_STEPS
+
+    geometry_converged = PropertyTypeAssignment(
+        code="GEOMETRY_CONVERGED",
+        data_type="BOOLEAN",
+        property_label="Geometry converged",
+        description="Whether the final configuration satisfies the convergence criteria of the optimization.",
+        mandatory=False,
+        section="Results",
+    )
+
+    optimization_stop_reason = PropertyTypeAssignment(
+        code="OPTIMIZATION_STOP_REASON",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="OPTIMIZATION_STOP_REASON",
+        property_label="Stop reason",
+        description="Reason why the optimization stopped, as reported by the code.",
+        mandatory=False,
+        section="Results",
+    )
+
+
+class MolecularDynamicsResults(_SimulationResultValues, CalculationDatum):
+    defs = ObjectTypeDef(
+        code="MOLECULAR_DYNAMICS_RESULTS",
+        description="A MolecularDynamicsResults is a calculation datum holding the results of a molecular dynamics "
+        "run. Averages are over the time steps of the run.",
+        generated_code_prefix="MD_RES",
+    )
+
+    n_ionic_steps = N_IONIC_STEPS
+
+    average_temperature = PropertyTypeAssignment(
+        code="AVERAGE_TEMPERATURE",
+        data_type="REAL",
+        property_label="Average temperature",
+        units="K",
+        description="Time average of the instantaneous temperature over the time steps of the run.",
+        mandatory=False,
+        section="Results",
+        prev_versions=["ATOM_MD_AVG_TEMP_IN_K:v0"],
+    )
+
+    average_pressure = PropertyTypeAssignment(
+        code="AVERAGE_PRESSURE",
+        data_type="REAL",
+        property_label="Average pressure",
+        units="GPa",
+        description="Time average of the instantaneous pressure over the time steps of the run.",
+        mandatory=False,
+        section="Results",
+        prev_versions=["ATOM_AVG_PRESS_IN_GPA:v0"],
+    )
+
+    average_volume = PropertyTypeAssignment(
+        code="AVERAGE_VOLUME",
+        data_type="REAL",
+        property_label="Average volume",
+        units="angstrom**3",
+        description="Time average of the cell volume over the time steps of the run.",
+        mandatory=False,
+        section="Results",
+        prev_versions=["ATOM_AVG_VOL_IN_A3:v0"],
+    )
+
+    average_potential_energy = PropertyTypeAssignment(
+        code="AVERAGE_POTENTIAL_ENERGY",
+        data_type="REAL",
+        property_label="Average potential energy",
+        units="eV",
+        description="Time average of the potential energy of the nuclear configuration over the time steps of "
+        "the run.",
+        mandatory=False,
+        section="Results",
+        prev_versions=["ATOM_AVG_POT_ENG_IN_EV:v0"],
+    )
+
+    average_total_energy = PropertyTypeAssignment(
+        code="AVERAGE_TOTAL_ENERGY",
+        data_type="REAL",
+        property_label="Average total energy",
+        units="eV",
+        description="Time average of potential plus kinetic energy of the nuclei over the time steps of the run.",
+        mandatory=False,
+        section="Results",
+        prev_versions=["ATOM_AVG_TOT_ENG_IN_EV:v0"],
+    )
+
+    average_force_vector_norm = PropertyTypeAssignment(
+        code="AVERAGE_FORCE_VECTOR_NORM",
+        data_type="REAL",
+        property_label="Average force vector norm",
+        units="eV/angstrom",
+        description="Time average of the Euclidean norm of the 3N-dimensional force vector over the time steps of "
+        "the run.",
+        mandatory=False,
+        section="Results",
+        prev_versions=["ATOM_AVG_FNORM_IN_EV_A:v0"],
+    )
+
+    final_total_energy = PropertyTypeAssignment(
+        code="FINAL_TOTAL_ENERGY",
+        data_type="REAL",
+        property_label="Final total energy",
+        units="eV",
+        description="Potential plus kinetic energy of the nuclei at the last time step.",
+        mandatory=False,
+        section="Results",
+        iri=["https://purls.helmholtz-metadaten.de/asmo/TotalEnergy"],
+    )
+
+
+class EquationOfStateFitResults(CalculationDatum):
+    defs = ObjectTypeDef(
+        code="EQUATION_OF_STATE_FIT_RESULTS",
+        description="An EquationOfStateFitResults is a calculation datum holding the results of an equation of "
+        "state fit. DESCRIBED_SYSTEM is the reference structure whose volume was scaled.",
+        generated_code_prefix="EOS_RES",
+    )
+
+    equilibrium_volume = PropertyTypeAssignment(
+        code="EQUILIBRIUM_VOLUME",
+        data_type="REAL",
+        property_label="Equilibrium volume",
+        units="angstrom**3",
+        description="Volume V0 at the minimum of the fitted E(V) curve, for the cell of the described system, "
+        "i.e. for its number of particles.",
+        mandatory=False,
+        section="Results",
+        prev_versions=["ATOM_EQUIL_VOL_IN_A3:v0"],
+    )
+
+    equilibrium_energy = PropertyTypeAssignment(
+        code="EQUILIBRIUM_ENERGY",
+        data_type="REAL",
+        property_label="Equilibrium energy",
+        units="eV",
+        description="Energy E0 at the minimum of the fitted E(V) curve, for the cell of the described system, "
+        "i.e. for its number of particles.",
+        mandatory=False,
+        section="Results",
+        prev_versions=["ATOM_EQUIL_TOTENG_IN_EV:v0"],
+    )
+
+    bulk_modulus = PropertyTypeAssignment(
+        code="BULK_MODULUS",
+        data_type="REAL",
+        property_label="Bulk modulus",
+        units="GPa",
+        description="Bulk modulus B0 = V d2E/dV2 at the equilibrium volume, from the fitted curve. This is the "
+        "equilibrium (relaxed-ion) hydrostatic bulk modulus only if, at each fixed volume, the energy was minimized "
+        "over the cell shape and the internal coordinates.",
+        mandatory=False,
+        section="Results",
+        iri=["https://purls.helmholtz-metadaten.de/asmo/BulkModulus"],
+        prev_versions=["ATOM_EQUIL_K_MOD_IN_GPA:v0"],
+    )
+
+    bulk_modulus_pressure_derivative = PropertyTypeAssignment(
+        code="BULK_MODULUS_PRESSURE_DERIVATIVE",
+        data_type="REAL",
+        property_label="Pressure derivative of the bulk modulus",
+        description="Dimensionless pressure derivative B0' = dB/dP of the bulk modulus at the equilibrium volume, "
+        "from the fitted curve.",
+        mandatory=False,
+        section="Results",
     )

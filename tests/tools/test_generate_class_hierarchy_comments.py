@@ -41,6 +41,21 @@ class Grandchild(Child):
             "Grandchild": [],
         }
 
+    def test_skips_private_mixins(self):
+        source = """
+class Root:
+    pass
+
+class _Mixin:
+    pass
+
+class Child(_Mixin, Root):
+    pass
+"""
+        hierarchy = generator.get_class_hierarchy(source)
+
+        assert hierarchy == {"Root": ["Child"], "Child": []}
+
     def test_excludes_imported_parents(self):
         source = """
 from another_module import External

@@ -1,10 +1,6 @@
 from bam_masterdata.metadata.definitions import VocabularyTerm, VocabularyTypeDef
 from bam_masterdata.metadata.entities import VocabularyType
 
-# IRI convention: object type iri = exact match of the class;
-# property iri = class of the quantity the value is an instance of;
-# vocabulary term iri = the individual of the vocabulary's class.
-
 
 class ActivityStatus(VocabularyType):
     defs = VocabularyTypeDef(
@@ -327,7 +323,8 @@ class XcFunctional(VocabularyType):
     lda = VocabularyTerm(
         code="LDA",
         label="LDA",
-        description="LibXC components: XC_LDA_X, XC_LDA_C_PW",
+        description="LibXC components: XC_LDA_X, XC_LDA_C_PW. The LDA correlation parametrization differs between "
+        "codes (for example Perdew-Zunger or Perdew-Wang); check which one the code used.",
         prev_versions=["XC_FUNC_LDA:v0"],
     )
 
@@ -525,7 +522,7 @@ class RelativityApproximation(VocabularyType):
     iora = VocabularyTerm(
         code="IORA",
         label="IORA",
-        description="Improved regular approximation",
+        description="Infinite-order regular approximation",
     )
 
     x2c = VocabularyTerm(
@@ -580,7 +577,7 @@ class DispersionModel(VocabularyType):
     d3bj = VocabularyTerm(
         code="D3BJ",
         label="D3(BJ)",
-        description="Grimme DFT-D3 with Becke-Johnson damping",
+        description="Grimme DFT-D3 with Becke-Johnson damping; DISPERSION_DAMPING is then BJ",
     )
 
     d4 = VocabularyTerm(
@@ -659,7 +656,8 @@ class DispersionDamping(VocabularyType):
     rational = VocabularyTerm(
         code="RATIONAL",
         label="rational",
-        description="Rational damping",
+        description="Rational damping, as used for example by XDM; Becke-Johnson damping is a rational form but is "
+        "recorded as BJ",
     )
 
 
@@ -927,7 +925,8 @@ class StructuralOrder(VocabularyType):
 class LatticeType(VocabularyType):
     defs = VocabularyTypeDef(
         code="LATTICE_TYPE",
-        description="Crystal family of a Bravais lattice, given by the first letter of the Pearson symbol",
+        description="Crystal family of a 3D Bravais lattice, given by the first letter of the Pearson symbol, or the "
+        "Pearson-style symbol of a 2D or 1D lattice",
     )
 
     triclinic = VocabularyTerm(
@@ -1023,8 +1022,8 @@ class LatticeCentering(VocabularyType):
 
     side_centered = VocabularyTerm(
         code="SIDE_CENTERED",
-        label="S - face centered",
-        description="One pair of opposite faces centered",
+        label="S - side centered",
+        description="One pair of opposite faces centered (A, B, or C centering)",
     )
 
     body_centered = VocabularyTerm(
@@ -1091,8 +1090,7 @@ class GeometryOptimizationAlgorithm(VocabularyType):
     conjugate_gradient = VocabularyTerm(
         code="CONJUGATE_GRADIENT",
         label="Conjugate gradient",
-        description="Each search direction is conjugate to the previous ones, with a line minimization along it "
-        "(VASP: IBRION = 2)",
+        description="Each search direction is conjugate to the previous ones, with a line minimization along it",
         prev_versions=["MIN_ALGO_CG:v0"],
     )
 
@@ -1100,14 +1098,15 @@ class GeometryOptimizationAlgorithm(VocabularyType):
         code="QUASI_NEWTON_RMM_DIIS",
         label="Quasi-Newton (RMM-DIIS)",
         description="Quasi-Newton (variable metric) method that builds an approximate inverse Hessian from the "
-        "history of previous steps (VASP: IBRION = 1)",
+        "history of previous steps",
+        prev_versions=["MIN_ALGO_RMM_DIIS:v0"],
     )
 
     damped_molecular_dynamics = VocabularyTerm(
         code="DAMPED_MOLECULAR_DYNAMICS",
         label="Damped molecular dynamics",
         description="Molecular dynamics with a friction term on the velocities, so the system comes to rest in a "
-        "minimum (VASP: IBRION = 3)",
+        "minimum",
         prev_versions=["MIN_ALGO_DAMPED_MD:v0"],
     )
 
@@ -1157,21 +1156,20 @@ class ForceConvergenceNorm(VocabularyType):
     max_atom_norm = VocabularyTerm(
         code="MAX_ATOM_NORM",
         label="Maximum per-atom force norm",
-        description="Largest Euclidean norm of the force on a single atom (VASP: negative EDIFFG; LAMMPS: min_modify "
-        "norm max)",
+        description="Largest Euclidean norm of the force on a single atom",
     )
 
     max_component = VocabularyTerm(
         code="MAX_COMPONENT",
         label="Maximum force component",
-        description="Largest absolute Cartesian component of the force on any atom (LAMMPS: min_modify norm inf)",
+        description="Largest absolute Cartesian component of the force on any atom",
     )
 
     global_vector_norm = VocabularyTerm(
         code="GLOBAL_VECTOR_NORM",
         label="Global force vector norm",
         description="Euclidean norm of the 3N-dimensional vector of all atomic forces; grows with the number of "
-        "atoms (LAMMPS: min_modify norm two, the default)",
+        "atoms",
     )
 
 
@@ -1184,35 +1182,33 @@ class OptimizationStopReason(VocabularyType):
     energy_criterion_met = VocabularyTerm(
         code="ENERGY_CRITERION_MET",
         label="Energy criterion met",
-        description="The energy convergence criterion was satisfied (VASP: positive EDIFFG reached; LAMMPS: stopping "
-        "criterion energy tolerance)",
+        description="The energy convergence criterion was satisfied",
     )
 
     force_criterion_met = VocabularyTerm(
         code="FORCE_CRITERION_MET",
         label="Force criterion met",
-        description="The force convergence criterion was satisfied (VASP: negative EDIFFG reached; LAMMPS: stopping "
-        "criterion force tolerance)",
+        description="The force convergence criterion was satisfied",
     )
 
     max_steps_reached = VocabularyTerm(
         code="MAX_STEPS_REACHED",
         label="Maximum number of steps reached",
         description="The maximum number of ionic steps or iterations was reached without the convergence criteria "
-        "being satisfied (VASP: NSW reached; LAMMPS: max iterations)",
+        "being satisfied",
     )
 
     max_force_evaluations_reached = VocabularyTerm(
         code="MAX_FORCE_EVALUATIONS_REACHED",
         label="Maximum number of force evaluations reached",
-        description="The maximum number of energy and force evaluations was reached (LAMMPS: max force evaluations)",
+        description="The maximum number of energy and force evaluations was reached",
     )
 
     line_search_failed = VocabularyTerm(
         code="LINE_SEARCH_FAILED",
         label="Line search failed",
         description="The minimizer could not make further progress, such as a line search step length of zero or a "
-        "trust region that became too small (LAMMPS: linesearch alpha is zero, trust region too small)",
+        "trust region that became too small",
     )
 
     time_limit_reached = VocabularyTerm(
@@ -1238,22 +1234,21 @@ class ElectronicAlgorithm(VocabularyType):
     blocked_davidson = VocabularyTerm(
         code="BLOCKED_DAVIDSON",
         label="Blocked Davidson",
-        description="Blocked Davidson iterative diagonalization (VASP: ALGO = Normal)",
+        description="Blocked Davidson iterative diagonalization",
         prev_versions=["MIN_ALGO_BLOCK_DVD:v0"],
     )
 
     rmm_diis = VocabularyTerm(
         code="RMM_DIIS",
         label="RMM-DIIS",
-        description="Residual minimization method with direct inversion in the iterative subspace "
-        "(VASP: ALGO = VeryFast)",
+        description="Residual minimization method with direct inversion in the iterative subspace",
         prev_versions=["MIN_ALGO_RMM_DIIS:v0"],
     )
 
     blocked_davidson_then_rmm_diis = VocabularyTerm(
         code="BLOCKED_DAVIDSON_THEN_RMM_DIIS",
         label="Blocked Davidson, then RMM-DIIS",
-        description="Blocked Davidson in the initial phase, then RMM-DIIS (VASP: ALGO = Fast)",
+        description="Blocked Davidson in the initial phase, then RMM-DIIS",
         prev_versions=["MIN_ALGO_VAPS_FAST:v0"],
     )
 
@@ -1261,14 +1256,14 @@ class ElectronicAlgorithm(VocabularyType):
         code="ALL_BAND_CONJUGATE_GRADIENT",
         label="All-band conjugate gradient",
         description="Direct minimization updating all orbitals simultaneously with a preconditioned conjugate "
-        "gradient (VASP: ALGO = All)",
+        "gradient",
         prev_versions=["MIN_ALGO_PREC_CG:v0"],
     )
 
     exact_diagonalization = VocabularyTerm(
         code="EXACT_DIAGONALIZATION",
         label="Exact diagonalization",
-        description="Exact diagonalization of the Hamiltonian (VASP: ALGO = Exact)",
+        description="Exact diagonalization of the Hamiltonian",
         prev_versions=["MIN_ALGO_EXCT_DIAG:v0"],
     )
 
@@ -1315,21 +1310,20 @@ class SymmetryUsage(VocabularyType):
     crystal_symmetry = VocabularyTerm(
         code="CRYSTAL_SYMMETRY",
         label="Crystal symmetry",
-        description="The symmetry of the structure (and of the initial magnetic moments) is used (VASP: ISYM = 1, "
-        "2, or 3)",
+        description="The symmetry of the structure (and of the initial magnetic moments) is used",
     )
 
     time_reversal_only = VocabularyTerm(
         code="TIME_REVERSAL_ONLY",
         label="Time reversal only",
         description="No crystal symmetry is used, but the wave function at -k is taken as the complex conjugate of "
-        "the one at k (VASP: ISYM = 0)",
+        "the one at k",
     )
 
     none = VocabularyTerm(
         code="NONE",
         label="None",
-        description="No symmetry is used, not even time reversal (VASP: ISYM = -1)",
+        description="No symmetry is used, not even time reversal",
     )
 
 
@@ -1343,7 +1337,7 @@ class OccupationScheme(VocabularyType):
     gaussian = VocabularyTerm(
         code="GAUSSIAN",
         label="Gaussian smearing",
-        description="Occupations from a Gaussian-broadened step function (VASP: ISMEAR = 0)",
+        description="Occupations from a Gaussian-broadened step function",
         prev_versions=["ELEC_SMEAR_GAUSS:v0"],
     )
 
@@ -1351,7 +1345,7 @@ class OccupationScheme(VocabularyType):
         code="FERMI_DIRAC",
         label="Fermi-Dirac smearing",
         description="Occupations from the Fermi-Dirac distribution; the smearing width is an electronic "
-        "temperature (VASP: ISMEAR = -1)",
+        "temperature",
         prev_versions=["ELEC_SMEAR_FERMI:v0"],
     )
 
@@ -1359,28 +1353,28 @@ class OccupationScheme(VocabularyType):
         code="METHFESSEL_PAXTON",
         label="Methfessel-Paxton smearing",
         description="Higher-order approximation of the step function by Methfessel and Paxton; occupations can be "
-        "negative or larger than one, so it is not suited for insulators (VASP: ISMEAR > 0, the value is the order)",
+        "negative or larger than one, so it is not suited for insulators",
         prev_versions=["ELEC_SMEAR_MP:v0"],
     )
 
     tetrahedron = VocabularyTerm(
         code="TETRAHEDRON",
         label="Tetrahedron method",
-        description="Linear tetrahedron method without smearing (VASP: ISMEAR = -4)",
+        description="Linear tetrahedron method without smearing",
         prev_versions=["ELEC_SMEAR_TET:v0"],
     )
 
     tetrahedron_bloechl = VocabularyTerm(
         code="TETRAHEDRON_BLOECHL",
         label="Tetrahedron method with Bloechl corrections",
-        description="Tetrahedron method with Bloechl corrections without smearing (VASP: ISMEAR = -5)",
+        description="Tetrahedron method with Bloechl corrections without smearing",
         prev_versions=["ELEC_SMEAR_TET_BL:v0"],
     )
 
     fixed = VocabularyTerm(
         code="FIXED",
         label="Fixed occupations",
-        description="Occupations given by the user or read from a file and kept fixed (VASP: ISMEAR = -2)",
+        description="Occupations given by the user or read from a file and kept fixed",
         prev_versions=["ELEC_SMEAR_FILE:v0"],
     )
 
@@ -1438,7 +1432,7 @@ class ThermodynamicEnsemble(VocabularyType):
         label="Semi-grand canonical",
         description="Fixed total number of particles, temperature, and differences of the chemical potentials; "
         "the composition varies. Exists at fixed volume or at fixed pressure, depending on the molecular dynamics "
-        "ensemble combined with the identity changes (such as LAMMPS fix atom/swap with NVT or NPT)",
+        "ensemble combined with the identity changes",
         prev_versions=["TD_ENSEMBLE_SGC:v0"],
     )
 
@@ -1615,6 +1609,106 @@ class EquationOfState(VocabularyType):
         label="Polynomial",
         description="Polynomial in the volume; the order is given separately",
         prev_versions=["EOS_POLYNOMIAL:v0"],
+    )
+
+
+class OperatingSystem(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="OPERATING_SYSTEM",
+        description="Operating system of a computer or cluster",
+        prev_versions=["OPERATING_SYSTEM:v0"],
+    )
+
+    debian_11_bullseye = VocabularyTerm(
+        code="DEBIAN_11_BULLSEYE",
+        label="Debian GNU/Linux 11 (bullseye)",
+        description="Debian GNU/Linux 11 (bullseye)",
+        prev_versions=["DEBIAN_11_BULLSEYE:v0"],
+    )
+
+    debian_12_bookworm = VocabularyTerm(
+        code="DEBIAN_12_BOOKWORM",
+        label="Debian GNU/Linux 12 (bookworm)",
+        description="Debian GNU/Linux 12 (bookworm)",
+        prev_versions=["DEBIAN_12_BOOKWORM:v0"],
+    )
+
+    rhel_8_10_ootpa = VocabularyTerm(
+        code="RHEL_8_10_OOTPA",
+        label="Red Hat Enterprise Linux 8.10 (Ootpa)",
+        description="Red Hat Enterprise Linux 8.10 (Ootpa)",
+        prev_versions=["RHEL_8_10_OOTPA:v0"],
+    )
+
+    rhel_9_3_plow = VocabularyTerm(
+        code="RHEL_9_3_PLOW",
+        label="Red Hat Enterprise Linux 9.3 (Plow)",
+        description="Red Hat Enterprise Linux 9.3 (Plow)",
+        prev_versions=["RHEL_9_3_PLOW:v0"],
+    )
+
+    suse_sles_15_sp5 = VocabularyTerm(
+        code="SUSE_SLES_15_SP5",
+        label="SUSE Linux Enterprise Server 15 SP5",
+        description="SUSE Linux Enterprise Server 15 SP5",
+        prev_versions=["SUSE_SLES_15_SP5:v0"],
+    )
+
+    ubuntu_22_04_4 = VocabularyTerm(
+        code="UBUNTU_22_04_4",
+        label="Ubuntu 22.04.4 LTS",
+        description="Ubuntu 22.04.4 LTS",
+        prev_versions=["UBUNTU_22_04_4:v0"],
+    )
+
+    windows_11_ent = VocabularyTerm(
+        code="WINDOWS_11_ENT",
+        label="Windows 11 Enterprise",
+        description="Windows 11 Enterprise",
+        prev_versions=["WINDOWS_11_ENT:v0"],
+    )
+
+
+class QueuingSystem(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="QUEUING_SYSTEM",
+        description="Job scheduler of a computing cluster",
+        prev_versions=["QUEUING_SYSTEM:v0"],
+    )
+
+    open_pbs = VocabularyTerm(
+        code="OPEN_PBS",
+        label="openPBS",
+        description="openPBS",
+        prev_versions=["OPEN_PBS:v0"],
+    )
+
+    oracle_ge = VocabularyTerm(
+        code="ORACLE_GE",
+        label="Oracle Grid Engine",
+        description="Oracle Grid Engine",
+        prev_versions=["ORACLE_GE:v0"],
+    )
+
+    pbs_pro = VocabularyTerm(
+        code="PBS_PRO",
+        label="PBS Pro",
+        description="PBS Pro",
+        prev_versions=["PBS_PRO:v0"],
+    )
+
+    slurm = VocabularyTerm(
+        code="SLURM",
+        label="SLURM",
+        description="SLURM",
+        prev_versions=["SLURM:v0"],
+    )
+
+    torque = VocabularyTerm(
+        code="TORQUE",
+        label="TORQUE",
+        description="TORQUE",
+        prev_versions=["TORQUE:v0"],
     )
 
 
