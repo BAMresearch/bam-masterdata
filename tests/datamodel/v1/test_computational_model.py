@@ -7,28 +7,21 @@ from bam_masterdata.datamodel.v1 import activities, entities, vocabularies
 from bam_masterdata.datamodel.v1.activities import (
     Analysis,
     AtomisticSimulation,
-    BondingEnvironmentAnalysis,
     CreepTestDataProcessing,
     EquationOfStateFit,
     GeometryOptimization,
-    LocalOrbitalBondingAnalysis,
     MolecularDynamics,
-    ProjectionQualityAssessment,
     Simulation,
     SimulationAnalysis,
     SinglePointCalculation,
 )
 from bam_masterdata.datamodel.v1.entities import (
-    BondingAnalysisParameters,
-    BondingEnvironmentParameters,
     Context,
     ElectronicStructureParameters,
     EquationOfStateFitParameters,
     GeometryOptimizationParameters,
     MolecularDynamicsParameters,
-    OrbitalProjectionParameters,
     ParameterSet,
-    ProjectionQualityParameters,
 )
 from bam_masterdata.metadata.entities import VocabularyType
 
@@ -38,16 +31,10 @@ NEW_ACTIVITIES = [
     GeometryOptimization,
     MolecularDynamics,
     SimulationAnalysis,
-    LocalOrbitalBondingAnalysis,
-    ProjectionQualityAssessment,
-    BondingEnvironmentAnalysis,
     EquationOfStateFit,
 ]
 
 SIMULATION_ANALYSES = [
-    LocalOrbitalBondingAnalysis,
-    ProjectionQualityAssessment,
-    BondingEnvironmentAnalysis,
     EquationOfStateFit,
 ]
 
@@ -56,10 +43,6 @@ SPECIFICATIONS = [
     GeometryOptimizationParameters,
     MolecularDynamicsParameters,
     EquationOfStateFitParameters,
-    OrbitalProjectionParameters,
-    ProjectionQualityParameters,
-    BondingAnalysisParameters,
-    BondingEnvironmentParameters,
 ]
 
 
@@ -87,9 +70,6 @@ def test_parameters_are_parameter_sets(cls):
         (GeometryOptimization, AtomisticSimulation),
         (MolecularDynamics, AtomisticSimulation),
         (SimulationAnalysis, Analysis),
-        (LocalOrbitalBondingAnalysis, SimulationAnalysis),
-        (ProjectionQualityAssessment, SimulationAnalysis),
-        (BondingEnvironmentAnalysis, SimulationAnalysis),
         (EquationOfStateFit, SimulationAnalysis),
     ],
 )
@@ -156,26 +136,6 @@ def test_simulation_itself_is_not_extended():
             EquationOfStateFit,
             "equation_of_state_fit_parameters",
             EquationOfStateFitParameters,
-        ),
-        (
-            LocalOrbitalBondingAnalysis,
-            "orbital_projection_parameters",
-            OrbitalProjectionParameters,
-        ),
-        (
-            ProjectionQualityAssessment,
-            "projection_quality_parameters",
-            ProjectionQualityParameters,
-        ),
-        (
-            LocalOrbitalBondingAnalysis,
-            "bonding_analysis_parameters",
-            BondingAnalysisParameters,
-        ),
-        (
-            BondingEnvironmentAnalysis,
-            "bonding_environment_parameters",
-            BondingEnvironmentParameters,
         ),
     ],
 )
