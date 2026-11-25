@@ -51,14 +51,14 @@ def _schema():
         installed = version(package)
         if installed != expected:
             raise RuntimeError(f"Expected {package}=={expected}, found {installed}")
-    from nomad.datamodel import (
-        EntryArchive,  # noqa: PLC0415 — optional interoperability dependency
+    from nomad.datamodel import (  # noqa: PLC0415 — optional interoperability dependency
+        EntryArchive,
     )
-    from nomad.datamodel.context import (
-        Context,  # noqa: PLC0415 — optional interoperability dependency
+    from nomad.datamodel.context import (  # noqa: PLC0415 — optional interoperability dependency
+        Context,
     )
-    from nomad.datamodel.metainfo.workflow import (
-        Task,  # noqa: PLC0415 — optional interoperability dependency
+    from nomad.datamodel.metainfo.workflow import (  # noqa: PLC0415 — optional interoperability dependency
+        Task,
     )
     from nomad.metainfo import (  # noqa: PLC0415 — optional interoperability dependency
         MSection,

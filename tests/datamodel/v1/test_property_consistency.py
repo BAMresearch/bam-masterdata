@@ -1,11 +1,9 @@
-import inspect
 from collections import defaultdict
 
 import pytest
 
-from bam_masterdata.datamodel.v1 import activities, base_objects, entities
+from bam_masterdata.checker.schema_validator import get_object_types
 from bam_masterdata.metadata.definitions import PropertyTypeAssignment
-from bam_masterdata.metadata.entities import ObjectType
 
 # openBIS property types are global: every assignment of a code must agree on these fields.
 SHARED_FIELDS = (
@@ -33,14 +31,7 @@ OBJECT_TARGET_WITH_SUBTYPES_ALLOWLIST = {
 
 
 def _object_type_classes():
-    return [
-        cls
-        for module in (base_objects, entities, activities)
-        for _, cls in inspect.getmembers(module, inspect.isclass)
-        if issubclass(cls, ObjectType)
-        and cls.__module__ == module.__name__
-        and "defs" in vars(cls)
-    ]
+    return get_object_types("v1")
 
 
 def _assignments():

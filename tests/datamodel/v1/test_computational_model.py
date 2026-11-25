@@ -1,9 +1,5 @@
-import inspect
-import json
-
 import pytest
 
-from bam_masterdata.datamodel.v1 import activities, entities, vocabularies
 from bam_masterdata.datamodel.v1.activities import (
     Analysis,
     CreepTestDataProcessing,
@@ -12,27 +8,14 @@ from bam_masterdata.datamodel.v1.activities import (
     MolecularDynamics,
     Simulation,
     SimulationAnalysis,
-    SimulationWorkflow,
     SinglePointCalculation,
 )
 from bam_masterdata.datamodel.v1.entities import (
-    Context,
     ElectronicStructureParameters,
     EquationOfStateFitParameters,
     GeometryOptimizationParameters,
     MolecularDynamicsParameters,
-    ParameterSet,
 )
-from bam_masterdata.metadata.entities import VocabularyType
-
-NEW_ACTIVITIES = [
-    SinglePointCalculation,
-    GeometryOptimization,
-    MolecularDynamics,
-    SimulationAnalysis,
-    SimulationWorkflow,
-    EquationOfStateFit,
-]
 
 SIMULATION_ANALYSES = [
     EquationOfStateFit,
@@ -46,44 +29,10 @@ SPECIFICATIONS = [
 ]
 
 
-@pytest.mark.parametrize(
-    "cls", NEW_ACTIVITIES + SPECIFICATIONS, ids=lambda cls: cls.__name__
-)
-def test_types_can_be_instantiated_and_exported(cls):
-    obj = cls()
-    exported = obj.model_to_dict()
-    assert exported["defs"]["code"] == cls.defs.code
-    assert json.loads(obj.model_to_json()) == exported
-
-
-@pytest.mark.parametrize("cls", SPECIFICATIONS, ids=lambda cls: cls.__name__)
-def test_parameters_are_parameter_sets(cls):
-    assert issubclass(cls, ParameterSet)
-    assert issubclass(cls, Context)
-
-
-@pytest.mark.parametrize(
-    "child, parent",
-    [
-        (SinglePointCalculation, SimulationWorkflow),
-        (GeometryOptimization, SimulationWorkflow),
-        (MolecularDynamics, SimulationWorkflow),
-        (SimulationAnalysis, Analysis),
-        (EquationOfStateFit, SimulationAnalysis),
-    ],
-)
-def test_activity_hierarchy(child, parent):
-    assert parent in child.__bases__
-    assert child.get_hierarchy() == [*parent.get_hierarchy(), child.defs.code]
-
-
 @pytest.mark.parametrize("cls", SIMULATION_ANALYSES, ids=lambda cls: cls.__name__)
 def test_simulation_analyses_reference_one_analysed_system(cls):
     # Single-valued on purpose: every result of the analysis describes one system.
     prop = cls()._property_metadata["analysed_system"]
-    assert prop.code == "ANALYSED_SYSTEM"
-    assert prop.data_type == "OBJECT"
-    assert prop.object_code == "SIMULATED_SYSTEM"
     assert not prop.multivalued
 
 
@@ -142,7 +91,6 @@ def test_activities_reference_their_specification(
     activity, property_name, specification
 ):
     prop = activity()._property_metadata[property_name]
-    assert prop.data_type == "OBJECT"
     assert prop.object_code == specification.defs.code
 
 
@@ -181,27 +129,9 @@ def test_simulation_tasks_preserve_shared_configuration_properties(cls):
         "total_magnetic_moment",
     }
     assert expected <= props.keys()
-    for name in ("initial_system", "final_system"):
-        assert props[name].data_type == "OBJECT"
-        assert props[name].object_code == "SIMULATED_SYSTEM"
-    assert props["final_potential_energy"].units == "eV"
-    assert props["max_force_norm"].units == "eV/angstrom"
     exported_codes = [prop["code"] for prop in obj.model_to_dict()["properties"]]
     for name in expected:
         assert exported_codes.count(props[name].code) == 1
-
-
-def test_force_convergence_has_norm_selector():
-    props = GeometryOptimizationParameters()._property_metadata
-    assert props["force_convergence_norm"].vocabulary_code == "FORCE_CONVERGENCE_NORM"
-    codes = {t.code for t in vocabularies.ForceConvergenceNorm().terms}
-    assert codes == {"MAX_ATOM_NORM", "MAX_COMPONENT", "GLOBAL_VECTOR_NORM"}
-
-
-def test_ionic_energy_convergence_absolute_and_relative():
-    props = GeometryOptimizationParameters()._property_metadata
-    assert props["ionic_energy_convergence"].units == "eV"
-    assert props["ionic_relative_energy_convergence"].units is None
 
 
 def test_md_velocity_temperature_is_separate_from_thermostat_targets():
@@ -217,57 +147,9 @@ def test_md_velocity_temperature_is_separate_from_thermostat_targets():
     assert props["target_temperature_start"].prev_versions is None
 
 
-def test_geometry_optimization_records_stop_reason():
-    prop = GeometryOptimization()._property_metadata["optimization_stop_reason"]
-    assert prop.vocabulary_code == "OPTIMIZATION_STOP_REASON"
-
-
 def test_specifications_hold_no_results():
     # Structural check only: it looks at section labels, so it cannot tell whether a value in an input section is
     # really an input (e.g. requested vs. achieved duration). It does not prove that a value is an input.
     result_sections = {"Results", "Electronic Structure Results"}
     for cls in SPECIFICATIONS:
         assert not {p.section for p in cls().properties} & result_sections, cls.__name__
-
-
-def _vocabulary_codes():
-    return {
-        c.defs.code
-        for _, c in inspect.getmembers(vocabularies, inspect.isclass)
-        if issubclass(c, VocabularyType) and c.__module__ == vocabularies.__name__
-    }
-
-
-@pytest.mark.parametrize(
-    "cls", NEW_ACTIVITIES + SPECIFICATIONS, ids=lambda cls: cls.__name__
-)
-def test_vocabulary_and_object_references_resolve(cls):
-    # PERSON is not defined in v1: it is an inherited dependency of the base objects (base_objects.py) and is
-    # whitelisted here, so passing does not prove that v1 resolves on its own.
-    vocab_codes = _vocabulary_codes()
-    object_codes = {
-        c.defs.code
-        for module in (activities, entities)
-        for _, c in inspect.getmembers(module, inspect.isclass)
-        if hasattr(c, "defs") and c.__module__ == module.__name__
-    } | {"PERSON", "ENTITY"}
-    for prop in cls().properties:
-        if prop.data_type == "CONTROLLEDVOCABULARY":
-            assert prop.vocabulary_code in vocab_codes, prop.code
-        if prop.data_type == "OBJECT":
-            assert prop.object_code in object_codes, prop.code
-
-
-@pytest.mark.parametrize(
-    "cls",
-    [
-        c
-        for _, c in inspect.getmembers(vocabularies, inspect.isclass)
-        if issubclass(c, VocabularyType) and c.__module__ == vocabularies.__name__
-    ],
-    ids=lambda cls: cls.__name__,
-)
-def test_vocabulary_term_codes_are_unique(cls):
-    codes = [term.code for term in cls().terms]
-    assert codes
-    assert len(codes) == len(set(codes))

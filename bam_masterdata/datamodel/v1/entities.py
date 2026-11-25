@@ -1744,8 +1744,7 @@ class ElectronicStructureParameters(ParameterSet):
 
     # With the VASP convention, the number of subdivisions along each reciprocal lattice vector b_i (b_i . a_j =
     # delta_ij, without the factor 2 pi) is N_i = max(1, ceil(2 pi |b_i| / KSPACING)), so the realized interval
-    # 2 pi |b_i| / N_i is at most this value. Codes that define the spacing without the factor 2 pi (|b_i| / N_i)
-    # give values smaller by 2 pi; convert before comparing across codes.
+    # 2 pi |b_i| / N_i is at most this value.
     kpoint_spacing = PropertyTypeAssignment(
         code="KPOINT_SPACING",
         data_type="REAL",
@@ -1803,8 +1802,6 @@ class ElectronicStructureParameters(ParameterSet):
         section="Occupations",
     )
 
-    # For a later LOBSTER projection, the atomate2 workflow sets it to the number of local basis functions of the
-    # largest basis set it tests.
     n_bands = PropertyTypeAssignment(
         code="N_BANDS",
         data_type="INTEGER",
@@ -1995,10 +1992,9 @@ class MolecularDynamicsParameters(ParameterSet):
     # one supported protocol (such as LAMMPS fix nvt/npt Tstart/Tstop, Pstart/Pstop); equal values mean constant
     # conditions. The temperature used to draw the initial velocities is a separate input.
 
-    # Needs manual mapping from ATOM_MD_INIT_TEMP_IN_K:v0: pyiron's initial_temperature is this velocity
-    # temperature. Check the exporter of each v0 record before migrating.
-    # Independent of the thermostat targets; for example, pyiron sets it to twice the first target temperature if
-    # not given.
+    # Needs manual mapping from ATOM_MD_INIT_TEMP_IN_K:v0: pyiron's LammpsControl.calc_md uses
+    # initial_temperature to initialize velocities. When it is None and a target temperature is supplied,
+    # it defaults to twice the first target temperature. Check the exporter of each v0 record before migrating.
     velocity_initialization_temperature = PropertyTypeAssignment(
         code="VELOCITY_INITIALIZATION_TEMPERATURE",
         data_type="REAL",
@@ -2176,10 +2172,9 @@ class EquationOfStateFitParameters(ParameterSet):
         prev_versions=["MURN_EQN_OF_STATE:v0"],
     )
 
-    # Needs manual mapping from MURN_FIT_EQN_ORDER:v0: v0 MURN_FIT_EQN_ORDER is the polynomial degree only (pyiron
-    # fit_order), and is set even for analytic fits. Migrate it only for EOS_POLYNOMIAL fits; for analytic forms take
-    # the order from the implementation (pymatgen implements fixed third-order Birch-Murnaghan), not from the old
-    # input.
+    # Needs manual mapping from MURN_FIT_EQN_ORDER:v0: pyiron Murnaghan uses fit_order as the polynomial degree
+    # for polynomial fits. Analytic fits (birch, birchmurnaghan, murnaghan, pouriertarantola, vinet) ignore the
+    # input order and reset fit_order to zero. Migrate fit_order only for EOS_POLYNOMIAL fits.
     equation_of_state_order = PropertyTypeAssignment(
         code="EQUATION_OF_STATE_ORDER",
         data_type="INTEGER",

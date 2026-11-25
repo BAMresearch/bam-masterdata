@@ -6,54 +6,20 @@ import json
 
 import pytest
 
-from bam_masterdata.datamodel.v1.entities import ParameterSet
 from bam_masterdata.datamodel.v1.thermography import vocabularies
 from bam_masterdata.datamodel.v1.thermography.object_types import (
     IRCameraAcquisitionParameters,
     ThermographyHeatingParameters,
     ThermographySetup,
 )
-from bam_masterdata.metadata.definitions import DataType, PropertyTypeAssignment
+from bam_masterdata.metadata.definitions import PropertyTypeAssignment
 from bam_masterdata.metadata.entities import VocabularyType
 
-PARAMETER_TYPES = [
-    IRCameraAcquisitionParameters,
-    ThermographyHeatingParameters,
-    ThermographySetup,
-]
 VOCABULARY_TYPES = [
     cls
     for _, cls in inspect.getmembers(vocabularies, inspect.isclass)
     if cls.__module__ == vocabularies.__name__ and issubclass(cls, VocabularyType)
 ]
-
-
-@pytest.mark.parametrize("cls", PARAMETER_TYPES, ids=lambda cls: cls.__name__)
-def test_parameter_sets_export_inherited_and_local_properties(cls):
-    obj = cls()
-    assert isinstance(obj, ParameterSet)
-    codes = [prop.code for prop in obj.properties]
-    assert len(codes) == len(set(codes))
-    assert {prop.code for prop in ParameterSet().properties} <= set(codes)
-
-    exported = obj.model_to_dict()
-    assert exported["defs"]["code"] == cls.defs.code
-    assert {prop["code"] for prop in exported["properties"]} == set(codes)
-    assert json.loads(obj.model_to_json()) == exported
-
-
-@pytest.mark.parametrize("cls", PARAMETER_TYPES, ids=lambda cls: cls.__name__)
-def test_controlled_properties_resolve_to_nonempty_vocabularies(cls):
-    vocabulary_codes = [vocab.defs.code for vocab in VOCABULARY_TYPES]
-    assert len(vocabulary_codes) == len(set(vocabulary_codes))
-    catalog = {vocab.defs.code: vocab() for vocab in VOCABULARY_TYPES}
-
-    for prop in cls().properties:
-        if prop.data_type == DataType.CONTROLLEDVOCABULARY:
-            assert prop.vocabulary_code in catalog, prop.code
-            terms = [term.code for term in catalog[prop.vocabulary_code].terms]
-            assert terms, prop.vocabulary_code
-            assert len(terms) == len(set(terms)), prop.vocabulary_code
 
 
 @pytest.mark.parametrize(

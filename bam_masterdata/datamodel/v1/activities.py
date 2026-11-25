@@ -393,10 +393,6 @@ class _SimulationConfigurationProperties:
         iri=["https://purls.helmholtz-metadaten.de/asmo/PotentialEnergy"],
     )
 
-    # Results of electronic-structure methods. The three energies coincide when no smearing is used. In VASP all
-    # energies are relative to the isolated atoms in the reference configuration of the PAW datasets, so only
-    # differences between calculations with the same datasets are meaningful.
-
     scf_converged = PropertyTypeAssignment(
         code="SCF_CONVERGED",
         data_type="BOOLEAN",
@@ -476,9 +472,10 @@ class _SimulationConfigurationProperties:
     # Not migrated from v0:
     # ATOM_FIN_TOT_ENG_IN_EV, ATOM_FIN_POT_ENG_IN_EV: shared by the v0 VASP and LAMMPS job types. For LAMMPS the
     #   potential energy is FINAL_POTENTIAL_ENERGY for every calculation type, and the total energy is
-    #   FINAL_TOTAL_ENERGY of MolecularDynamics. For VASP it is unclear which VASP energy pyiron stored: pyiron
-    #   vasp/base.py (_vasp_generic_energy_free_affected) shows that legacy HDF version 0.1.0 stored inconsistent
-    #   generic energies, so check the HDF version and the raw OUTCAR per job before migrating.
+    #   FINAL_TOTAL_ENERGY of MolecularDynamics. For VASP, pyiron vasp/base.py
+    #   (_vasp_generic_energy_free_affected) checks HDF version 0.1.0 (also assumed when absent) for a mismatch
+    #   between output/generic/energy_pot and the final SCF free energies. Check the HDF version, stored energy
+    #   fields, and raw OUTCAR per job before choosing the v1 energy property.
     # ATOM_FIN_VOL_IN_A3: CELL_VOLUME of the SimulatedSystem referenced by FINAL_SYSTEM.
     # PERIODIC_BOUNDARY_X/Y/Z: periodicity belongs to the SimulatedSystem (PERIODIC_A/B/C); x/y/z and a/b/c only
     #   coincide for orthogonal cells aligned with the axes.
