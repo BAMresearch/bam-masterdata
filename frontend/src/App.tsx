@@ -80,6 +80,7 @@ function App() {
   const [view, setView] = useState<ExplorerView>("graph");
   const [schema, setSchema] = useState<SchemaExport | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [focusedId, setFocusedId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [error, setError] = useState<string | null>(null);
 
@@ -89,6 +90,7 @@ function App() {
     async function loadSchema() {
       setSchema(null);
       setSelectedId(null);
+      setFocusedId(null)
       setSearch("");
       setError(null);
 
@@ -276,6 +278,8 @@ function App() {
                 <SchemaGraph
                   key={version}
                   schema={schema}
+                  focusedId={focusedId}
+                  onFocusNode={setFocusedId}
                   onSelectNode={(id) => {
                     setSelectedId(id);
                     setView("browser");
