@@ -128,6 +128,37 @@ Common fields:
 
 A subclass can replace a property assignment by assigning the same Python attribute name. Validate the resulting inherited property set rather than assuming every declared ancestor property is always active unchanged.
 
+### Custom ELN widgets
+
+Use `metadata["custom_widget"]` to configure the editor for a property:
+
+```python
+notes = PropertyTypeAssignment(
+    code="NOTES",
+    data_type="MULTILINE_VARCHAR",
+    property_label="Notes",
+    description="Notes about the object.",
+    mandatory=False,
+    section="General Information",
+    metadata={"custom_widget": "Word Processor"},
+)
+
+results_table = PropertyTypeAssignment(
+    code="RESULTS_TABLE",
+    data_type="XML",
+    property_label="Results table",
+    description="Tabular results.",
+    mandatory=False,
+    section="Results",
+    metadata={"custom_widget": "Spreadsheet"},
+)
+```
+
+`Word Processor` requires `MULTILINE_VARCHAR`; `Spreadsheet` requires `XML`. Unsupported widget values and incompatible data types raise a validation error.
+
+Widget configuration belongs to the global property type. All object, collection or dataset types using the same property code share that setting. Use consistent metadata wherever that property is declared.
+
+
 ## 5. Add OBJECT references
 
 `object_code` is a **concrete openBIS object type code**:

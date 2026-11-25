@@ -383,6 +383,83 @@ class TestPropertyTypeDef:
                 section="General Information",
             )
 
+    @pytest.mark.parametrize(
+        "property_cls, extra_kwargs",
+        [
+            (PropertyTypeDef, {}),
+            (
+                PropertyTypeAssignment,
+                {"mandatory": False, "section": "General Information"},
+            ),
+        ],
+    )
+    @pytest.mark.parametrize(
+        "data_type, metadata",
+        [
+            (DataType.VARCHAR, None),
+            (DataType.VARCHAR, {}),
+            (DataType.VARCHAR, {"other_setting": "keep"}),
+            (
+                DataType.MULTILINE_VARCHAR,
+                {"custom_widget": "Word Processor", "other_setting": "keep"},
+            ),
+            (
+                DataType.XML,
+                {"custom_widget": "Spreadsheet", "other_setting": "keep"},
+            ),
+        ],
+    )
+    def test_custom_widget_accepts_valid_metadata(
+        self, property_cls, extra_kwargs, data_type, metadata
+    ):
+        prop = property_cls(
+            code="CONTENT",
+            property_label="Content",
+            description="Content",
+            data_type=data_type,
+            metadata=metadata,
+            **extra_kwargs,
+        )
+
+        assert prop.metadata == metadata
+
+    @pytest.mark.parametrize(
+        "property_cls, extra_kwargs",
+        [
+            (PropertyTypeDef, {}),
+            (
+                PropertyTypeAssignment,
+                {"mandatory": False, "section": "General Information"},
+            ),
+        ],
+    )
+    @pytest.mark.parametrize(
+        "data_type, widget",
+        [
+            (DataType.MULTILINE_VARCHAR, "Unsupported"),
+            (DataType.MULTILINE_VARCHAR, ""),
+            (DataType.MULTILINE_VARCHAR, None),
+            (DataType.MULTILINE_VARCHAR, 42),
+            (DataType.MULTILINE_VARCHAR, []),
+            (DataType.MULTILINE_VARCHAR, {}),
+            (DataType.XML, "Word Processor"),
+            (DataType.MULTILINE_VARCHAR, "Spreadsheet"),
+            (DataType.INTEGER, "Spreadsheet"),
+        ],
+    )
+    def test_custom_widget_rejects_invalid_configuration(
+        self, property_cls, extra_kwargs, data_type, widget
+    ):
+        with pytest.raises(ValidationError, match="metadata.custom_widget"):
+            property_cls(
+                code="CONTENT",
+                property_label="Content",
+                description="Content",
+                data_type=data_type,
+                metadata={"custom_widget": widget},
+                **extra_kwargs,
+            )
+
     def test_model_id_uses_property_conversion(self):
         prop = PropertyTypeDef(
             code="$STORAGE.STORAGE_VALIDATION_LEVEL",
@@ -470,6 +547,40 @@ class TestPropertyTypeDef:
         )
 
         assert prop.multivalued is True
+
+    @pytest.mark.parametrize(
+        "label, extra",
+        [
+            ("ä" * 128, {}),
+            ("x" * 121, {"units": "m"}),
+            ("x" * 63, {"property_label_de": "y" * 63}),
+            ("x" * 63 + "//" + "y" * 63, {}),
+        ],
+        ids=["plain", "units", "translation", "legacy-translation"],
+    )
+    def test_openbis_property_label_length_boundary(self, label, extra):
+        fields = dict(code="LENGTH", description="Length", data_type="REAL", **extra)
+
+        prop = PropertyTypeDef(property_label=label, **fields)
+        assert len(prop.openbis_property_label) == 128
+
+        with pytest.raises(
+            ValidationError, match=r"'LENGTH'.*129 characters \(maximum 128\)"
+        ):
+            PropertyTypeDef(property_label="x" + label, **fields)
+
+    def test_property_assignment_inherits_label_length_validation(self):
+        with pytest.raises(
+            ValidationError, match=r"'LENGTH'.*129 characters \(maximum 128\)"
+        ):
+            PropertyTypeAssignment(
+                code="LENGTH",
+                description="Length",
+                data_type="VARCHAR",
+                property_label="x" * 129,
+                mandatory=False,
+                section="General",
+            )
 
 
 class TestPreviousVersions:

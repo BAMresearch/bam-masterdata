@@ -30,6 +30,7 @@ nav = [
       "explanations/schema_defs.md",
       "explanations/metadata_definitions.md",
       "explanations/metadata_entities.md",
+      "explanations/drmd.md",
   ]},
   { References = [
       "references/glossary.md",

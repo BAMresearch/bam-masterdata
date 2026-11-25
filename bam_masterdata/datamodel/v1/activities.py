@@ -1,3 +1,25 @@
+# AUTO-GENERATED CLASS HIERARCHY — DO NOT EDIT
+#
+# Activity*
+# ├── Computation
+# │   ├── Analysis
+# │   │   ├── CreepTestDataProcessing
+# │   │   └── SimulationAnalysis
+# │   │       └── EquationOfStateFit
+# │   └── Simulation
+# │       └── AtomisticSimulation
+# │           ├── SinglePointCalculation
+# │           ├── GeometryOptimization
+# │           └── MolecularDynamics
+# └── Experiment
+#     ├── Processing
+#     ├── Measurement
+#     ├── Calibration
+#     ├── Synthesis
+#     └── Test
+#
+# END AUTO-GENERATED CLASS HIERARCHY
+
 from bam_masterdata.datamodel.v1.base_objects import Activity
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
 
@@ -148,8 +170,8 @@ class Simulation(Computation):
         multivalued=True,
     )
 
-    walltime = PropertyTypeAssignment(
-        code="WALLTIME",
+    walltime_h = PropertyTypeAssignment(
+        code="WALLTIME_H",
         data_type="REAL",
         property_label="Walltime",
         units="h",
@@ -159,8 +181,8 @@ class Simulation(Computation):
         prev_versions=["SIM_WALLTIME_IN_HOURS:v0"],
     )
 
-    core_time = PropertyTypeAssignment(
-        code="CORE_TIME",
+    core_time_h = PropertyTypeAssignment(
+        code="CORE_TIME_H",
         data_type="REAL",
         property_label="Core time",
         units="h",

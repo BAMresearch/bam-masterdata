@@ -112,8 +112,13 @@ class EntitiesDict:
 
         # Process all classes in the module
         for name, obj in inspect.getmembers(module, inspect.isclass):
+            # Skipping imported classes
+            if obj.__module__ != module.__name__:
+                continue
+            # Only accepting ObjectType definitions
             if not hasattr(obj, "defs") or not callable(getattr(obj, "model_to_dict")):
                 continue
+
             try:
                 obj_data = obj().model_to_dict()
                 obj_data["defs"]["row_location"] = class_locations.get(name, None)
@@ -176,7 +181,17 @@ class EntitiesDict:
         full_data: dict = {}
         for module_path in py_modules:
             data = self.to_dict(module_path=module_path)
-            # name can be collection_type, object_type, dataset_type, vocabulary_type, or property_type
-            name = os.path.basename(module_path).replace(".py", "")
-            full_data[name] = data
+            name = os.path.splitext(os.path.basename(module_path))[0]
+
+            entities = full_data.setdefault(name, {})
+
+            duplicates = entities.keys() & data.keys()
+            if duplicates:
+                raise ValueError(
+                    f"Duplicate entity codes in '{name}': {sorted(duplicates)} "
+                    f"(while processing {module_path})"
+                )
+
+            entities.update(data)
+
         return full_data

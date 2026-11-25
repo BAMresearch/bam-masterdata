@@ -1,3 +1,11 @@
+# AUTO-GENERATED CLASS HIERARCHY — DO NOT EDIT
+#
+# Root
+# ├── Activity
+# └── Entity
+#
+# END AUTO-GENERATED CLASS HIERARCHY
+
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
 from bam_masterdata.metadata.entities import ObjectType
 
@@ -138,11 +146,12 @@ class Activity(Root):
         code="RESPONSIBLE_PERSON",
         data_type="OBJECT",
         object_code="PERSON",
-        property_label="Responsible Persons",
+        property_label="Responsible persons",
         description="Responsible persons.",
         mandatory=False,
-        section="Activity Details",
         multivalued=True,
+        section="Activity Details",
+        prev_versions=["RESPONSIBLE_PERSON:v0"],
     )
 
     objective = PropertyTypeAssignment(

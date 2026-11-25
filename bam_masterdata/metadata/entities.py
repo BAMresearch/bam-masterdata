@@ -1,9 +1,12 @@
 import datetime
+import importlib
 import inspect
 import json
+import re
 import warnings
 from collections import OrderedDict
 from collections.abc import Callable
+from pathlib import Path
 from typing import TYPE_CHECKING, Any, no_type_check
 
 import h5py
@@ -354,7 +357,7 @@ class BaseEntity(BaseModel):
         for key in self._property_metadata.keys():
             try:
                 value = getattr(self, key)
-                if not value:
+                if value is None or isinstance(value, PropertyTypeAssignment):
                     continue
                 if isinstance(value, str | int | float | bool | list | tuple):
                     group.create_dataset(key, data=value)
@@ -989,13 +992,25 @@ class ObjectType(BaseEntity):
             raise ValueError(
                 f"Property '{key}' of type CONTROLLEDVOCABULARY must have a vocabulary_code defined."
             )
+
+        datamodel_dir = DATAMODEL_DIR
+        for base in type(self).__mro__:
+            match = re.match(
+                r"^(bam_masterdata\.datamodel\.v\d+)(?:\.|$)",
+                base.__module__,
+            )
+            if match is not None:
+                package = importlib.import_module(match.group(1))
+                datamodel_dir = str(Path(package.__file__).resolve().parent)
+                break
+
         vocab_paths = []
-        for file in listdir_py_modules(DATAMODEL_DIR):
+        for file in listdir_py_modules(datamodel_dir):
             if "vocabulary_types.py" in file or "vocabularies.py" in file:
                 vocab_paths.append(file)
         if not vocab_paths:
             raise FileNotFoundError(
-                f"No file 'vocabularies.py' was not found in the directory and sub-directories specified by {DATAMODEL_DIR}."
+                f"No file 'vocabularies.py' was not found in the directory and sub-directories specified by {datamodel_dir}."
             )
 
         # Scan all vocabularies.py files
@@ -1337,6 +1352,138 @@ class ObjectType(BaseEntity):
                 new_value=self.defs.generated_code_prefix,
             )
 
+    def _validate_property_type_compatibility(
+        self,
+        prop: PropertyTypeAssignment,
+        property_type,
+        result: SyncResult,
+    ) -> bool:
+        """
+        Check whether an existing openBIS property type is compatible.
+
+        Args:
+            prop (PropertyTypeAssignment): The property to be checked.
+            property_type: The openBIS property type
+            result (SyncResult): The result of the compatibility check.
+
+        Returns:
+            (bool): True if property type details are compatible, False otherwise.
+        """
+        expected_data_type = self._openbis_data_type(prop)
+
+        # Unsupported: data type changes
+        if property_type.dataType != expected_data_type:
+            result.rejected(
+                target=SyncTarget.PROPERTY_TYPE,
+                code=prop.code,
+                field="data_type",
+                old_value=property_type.dataType,
+                new_value=expected_data_type,
+            )
+            return False
+
+        # Unsupported: vocabulary changes
+        if prop.data_type == DataType.CONTROLLEDVOCABULARY:
+            current_vocabulary = getattr(property_type, "vocabulary", None)
+            if current_vocabulary != prop.vocabulary_code:
+                result.rejected(
+                    target=SyncTarget.PROPERTY_TYPE,
+                    code=prop.code,
+                    field="vocabulary_code",
+                    old_value=current_vocabulary,
+                    new_value=prop.vocabulary_code,
+                )
+                return False
+
+        # Unsupported: OBJECT reference target changes.
+        if prop.data_type in (DataType.OBJECT, DataType.SAMPLE):
+            expected_target = (
+                None if prop.object_code in (None, "(ALL)") else prop.object_code
+            )
+
+            current_target = getattr(property_type, "sampleType", None)
+
+            if isinstance(current_target, dict):
+                current_target = current_target.get("code")
+            elif current_target is not None and not isinstance(current_target, str):
+                current_target = getattr(current_target, "code", current_target)
+
+            if current_target in (None, "", "(ALL)"):
+                current_target = None
+
+            if current_target != expected_target:
+                result.rejected(
+                    target=SyncTarget.PROPERTY_TYPE,
+                    code=prop.code,
+                    field="object_code",
+                    old_value=current_target,
+                    new_value=expected_target,
+                )
+                return False
+
+        return True
+
+    def _sync_property_type_metadata(
+        self,
+        prop: PropertyTypeAssignment,
+        property_type,
+        result: SyncResult,
+    ) -> None:
+        """
+        Synchronize mutable metadata of an existing global property type.
+
+        Args:
+            prop (PropertyTypeAssignment): The property to be checked.
+            property_type: The openBIS property type
+            result (SyncResult): The result of the compatibility check.
+        """
+        modified = False
+
+        if property_type.label != prop.openbis_property_label:
+            old_value = property_type.label
+            property_type.label = prop.openbis_property_label
+            modified = True
+
+            result.modified(
+                target=SyncTarget.PROPERTY_TYPE,
+                code=prop.code,
+                field="property_label",
+                old_value=old_value,
+                new_value=prop.openbis_property_label,
+            )
+
+        if property_type.description != prop.openbis_description:
+            old_value = property_type.description
+            property_type.description = prop.openbis_description
+            modified = True
+
+            result.modified(
+                target=SyncTarget.PROPERTY_TYPE,
+                code=prop.code,
+                field="description",
+                old_value=old_value,
+                new_value=prop.openbis_description,
+            )
+
+        if prop.metadata:
+            old_metadata = dict(property_type.metaData or {})
+            new_metadata = {**old_metadata, **prop.metadata}
+
+            if new_metadata != old_metadata:
+                property_type.metaData = new_metadata
+                modified = True
+
+                result.modified(
+                    target=SyncTarget.PROPERTY_TYPE,
+                    code=prop.code,
+                    field="metadata",
+                    old_value=old_metadata,
+                    new_value=new_metadata,
+                )
+
+        if modified:
+            property_type.save()
+
     def _update_existing_property(
         self,
         prop: PropertyTypeAssignment,
@@ -1368,94 +1515,21 @@ class ObjectType(BaseEntity):
 
         # --- PropertyType fields ---
         property_type = openbis.get_property_type(prop.code)
-        expected_data_type = self._openbis_data_type(prop)
-        # Unsupported: data type changes
-        if property_type.dataType != expected_data_type:
-            result.rejected(
-                target=SyncTarget.PROPERTY_TYPE,
-                code=prop.code,
-                field="data_type",
-                old_value=property_type.dataType,
-                new_value=expected_data_type,
-            )
+        if not self._validate_property_type_compatibility(
+            prop=prop,
+            property_type=property_type,
+            result=result,
+        ):
             return None
 
-        # Unsupported: vocabulary changes
-        if prop.data_type == DataType.CONTROLLEDVOCABULARY:
-            current_vocabulary = getattr(property_type, "vocabulary", None)
-
-            if current_vocabulary != prop.vocabulary_code:
-                result.rejected(
-                    target=SyncTarget.PROPERTY_TYPE,
-                    code=prop.code,
-                    field="vocabulary_code",
-                    old_value=current_vocabulary,
-                    new_value=prop.vocabulary_code,
-                )
-                return None
-
-        # Unsupported: OBJECT reference target changes.
-        if prop.data_type in (DataType.OBJECT, DataType.SAMPLE):
-            expected_target = (
-                None if prop.object_code in (None, "(ALL)") else prop.object_code
-            )
-
-            current_target = getattr(property_type, "sampleType", None)
-
-            # Handle the possible representations returned by PyBIS.
-            if isinstance(current_target, dict):
-                current_target = current_target.get("code")
-            elif current_target is not None and not isinstance(current_target, str):
-                current_target = getattr(current_target, "code", current_target)
-
-            if current_target in (None, "", "(ALL)"):
-                current_target = None
-
-            if current_target != expected_target:
-                result.rejected(
-                    target=SyncTarget.PROPERTY_TYPE,
-                    code=prop.code,
-                    field="object_code",
-                    old_value=current_target,
-                    new_value=expected_target,
-                )
-                return None
-
-        property_type_modified = False
-
-        # Supported: label
-        if property_type.label != prop.openbis_property_label:
-            old_value = property_type.label
-            property_type.label = prop.openbis_property_label
-            property_type_modified = True
-
-            result.modified(
-                target=SyncTarget.PROPERTY_TYPE,
-                code=prop.code,
-                field="property_label",
-                old_value=old_value,
-                new_value=prop.openbis_property_label,
-            )
-
-        # Supported: description
-        if property_type.description != prop.openbis_description:
-            old_value = property_type.description
-            property_type.description = prop.openbis_description
-            property_type_modified = True
-
-            result.modified(
-                target=SyncTarget.PROPERTY_TYPE,
-                code=prop.code,
-                field="description",
-                old_value=old_value,
-                new_value=prop.openbis_description,
-            )
-
-        if property_type_modified:
-            property_type.save()
+        # Sync property type metadata (label, description)
+        self._sync_property_type_metadata(
+            prop=prop,
+            property_type=property_type,
+            result=result,
+        )
 
         # --- PropertyAssignment fields ---
-
         assignments = obj_type.get_property_assignments()
         assignment = next(
             assignment for assignment in assignments if assignment.code == prop.code
@@ -1532,7 +1606,7 @@ class ObjectType(BaseEntity):
             result (SyncResult): The result metadata of the synchronization process.
         """
         try:
-            _ = openbis.get_property_type(prop.code)
+            property_type = openbis.get_property_type(prop.code)
         except ValueError:
             kwargs = {
                 "code": prop.code,
@@ -1551,10 +1625,28 @@ class ObjectType(BaseEntity):
             ):
                 kwargs["sampleType"] = prop.object_code
 
+            if prop.metadata:
+                kwargs["metaData"] = prop.metadata.copy()
+
             openbis.new_property_type(**kwargs).save()
             result.created(
                 target=SyncTarget.PROPERTY_TYPE,
                 code=prop.code,
+            )
+        else:
+            # Check to validate if the defined property is compatible or not with the existing property type in openBIS
+            if not self._validate_property_type_compatibility(
+                prop=prop,
+                property_type=property_type,
+                result=result,
+            ):
+                return None
+
+            # Sync property type metadata
+            self._sync_property_type_metadata(
+                prop=prop,
+                property_type=property_type,
+                result=result,
             )
 
         obj_type.assign_property(

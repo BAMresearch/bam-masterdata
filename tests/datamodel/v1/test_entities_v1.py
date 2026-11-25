@@ -174,7 +174,7 @@ def test_chemical_identity_and_bottling_properties():
     props = Chemical()._property_metadata
     assert props["cas_number"].code == "CAS_NUMBER"
     assert props["iupac_name"].code == "IUPAC_NAME"
-    assert props["molar_mass"].units == "g/mol"
+    assert props["molar_mass_gmol"].units == "g/mol"
     for name in ("date_bottling", "date_opening", "date_expiration"):
         assert props[name].data_type == DataType.DATE
     assert props["is_empty"].data_type == DataType.BOOLEAN

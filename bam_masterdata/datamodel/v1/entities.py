@@ -1,3 +1,38 @@
+# AUTO-GENERATED CLASS HIERARCHY — DO NOT EDIT
+#
+# Entity*
+# ├── Context
+# │   ├── Software
+# │   ├── ParameterSet
+# │   │   ├── Pseudopotential
+# │   │   ├── InteratomicPotential
+# │   │   ├── ElectronicStructureParameters
+# │   │   ├── GeometryOptimizationParameters
+# │   │   ├── MolecularDynamicsParameters
+# │   │   └── EquationOfStateFitParameters
+# │   ├── Classification
+# │   ├── Document
+# │   ├── WorkflowDefinition
+# │   ├── SimulatedSystem
+# │   └── ComputationalMethod
+# ├── Location
+# └── MaterialEntity
+#     ├── Organism
+#     │   └── Animal
+#     │       └── Person
+#     │           └── BAMPerson
+#     └── PhysicalObject
+#         ├── Device
+#         │   ├── Instrument
+#         │   ├── Sensor
+#         │   ├── Equipment
+#         │   └── HPC
+#         ├── Sample
+#         ├── Material
+#         └── Chemical
+#
+# END AUTO-GENERATED CLASS HIERARCHY
+
 from bam_masterdata.datamodel.v1.base_objects import Entity
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
 
@@ -371,7 +406,7 @@ class PhysicalObject(MaterialEntity):
         code="RESPONSIBLE_PERSON",
         data_type="OBJECT",
         object_code="PERSON",
-        property_label="Responsible person",
+        property_label="Responsible persons",
         description="Responsible persons.",
         mandatory=False,
         multivalued=True,
@@ -501,6 +536,28 @@ class Sample(PhysicalObject):
         mandatory=True,
         section="Sample Details",
         prev_versions=["SAMPLE_ID:v0"],
+    )
+
+    sample_geometry = PropertyTypeAssignment(
+        code="SAMPLE_GEOMETRY",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="SAMPLE_GEOMETRY",
+        property_label="Sample geometry",
+        description="Geometric shape of the sample, used to classify its overall sample geometry.",
+        mandatory=False,
+        section="Sample Details",
+        prev_versions=["SAMPLE_GEOMETRY:v0"],
+    )
+
+    sample_origin = PropertyTypeAssignment(
+        code="SAMPLE_ORIGIN",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="SAMPLE_ORIGIN",
+        property_label="Sample origin",
+        description="Origin of the sample, describing where or how the sampled material was obtained or produced.",
+        mandatory=False,
+        section="Sample Details",
+        prev_versions=["SAMPLE_ORIGIN:v0"],
     )
 
     # Properties from v0 that need to be migrated to v1 (from SAMPLE:v0):
@@ -693,8 +750,8 @@ class Chemical(PhysicalObject):
         section="Chemical Identifiers",
     )
 
-    molar_mass = PropertyTypeAssignment(
-        code="MOLAR_MASS",
+    molar_mass_gmol = PropertyTypeAssignment(
+        code="MOLAR_MASS_GMOL",
         data_type="REAL",
         units="g/mol",
         property_label="Molar mass",
