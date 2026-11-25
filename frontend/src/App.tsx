@@ -10,10 +10,10 @@ import { SchemaGraph } from "./components/SchemaGraph";
 import { ObjectTypeSearch } from "./components/ObjectTypeSearch";
 import {
   defaultExplorerLocation,
-  formatExplorerHash,
   parseExplorerHash,
   type ExplorerLocation,
   resolveExplorerEntity,
+  updateExplorerHistory,
 } from "./explorerUrl";
 
 const versions: SchemaVersion[] = ["v0", "v1"];
@@ -91,16 +91,7 @@ function App() {
   const [error, setError] = useState<string | null>(null);
 
   const navigate = useCallback((next: ExplorerLocation, replace = false) => {
-    const hash = formatExplorerHash(next);
-
-    if (window.location.hash !== hash) {
-      if (replace) {
-        window.history.replaceState(null, "", hash);
-      } else {
-        window.history.pushState(null, "", hash);
-      }
-    }
-
+    updateExplorerHistory(next, replace);
     setLocation(next);
   }, []);
 

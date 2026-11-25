@@ -56,3 +56,18 @@ export function resolveExplorerEntity(
 
   return location;
 }
+
+export function updateExplorerHistory(
+  location: ExplorerLocation,
+  replace = false,
+): void {
+  const hash = formatExplorerHash(location);
+
+  if (window.location.hash === hash) return;
+
+  if (replace) {
+    window.history.replaceState(null, "", hash);
+  } else {
+    window.history.pushState(null, "", hash);
+  }
+}

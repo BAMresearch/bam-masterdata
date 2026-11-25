@@ -1,10 +1,11 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import {
   defaultExplorerLocation,
   formatExplorerHash,
   parseExplorerHash,
   resolveExplorerEntity,
+  updateExplorerHistory,
 } from "./explorerUrl";
 
 describe("Explorer URLs", () => {
@@ -84,5 +85,76 @@ describe("resolving an entity against the loaded schema", () => {
     };
 
     expect(resolveExplorerEntity(location, ["ROOT"])).toBe(location);
+  });
+});
+
+describe("Explorer history updates", () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it("adds a history entry when selecting an entity", () => {
+    const pushState = vi.fn();
+    const replaceState = vi.fn();
+
+    vi.stubGlobal("window", {
+      location: { hash: "#/graph/v1" },
+      history: { pushState, replaceState },
+    });
+
+    updateExplorerHistory({
+      version: "v1",
+      view: "graph",
+      entityId: "ROOT",
+    });
+
+    expect(pushState).toHaveBeenCalledOnce();
+    expect(pushState).toHaveBeenCalledWith(
+      null,
+      "",
+      "#/graph/v1/ROOT",
+    );
+    expect(replaceState).not.toHaveBeenCalled();
+  });
+
+  it("replaces an invalid entity URL without adding history", () => {
+    const pushState = vi.fn();
+    const replaceState = vi.fn();
+
+    vi.stubGlobal("window", {
+      location: { hash: "#/browser/v1/UNKNOWN" },
+      history: { pushState, replaceState },
+    });
+
+    updateExplorerHistory(
+      { version: "v1", view: "browser", entityId: null },
+      true,
+    );
+
+    expect(replaceState).toHaveBeenCalledWith(
+      null,
+      "",
+      "#/browser/v1",
+    );
+    expect(pushState).not.toHaveBeenCalled();
+  });
+
+  it("does not add another entry for the current URL", () => {
+    const pushState = vi.fn();
+    const replaceState = vi.fn();
+
+    vi.stubGlobal("window", {
+      location: { hash: "#/graph/v1/ROOT" },
+      history: { pushState, replaceState },
+    });
+
+    updateExplorerHistory({
+      version: "v1",
+      view: "graph",
+      entityId: "ROOT",
+    });
+
+    expect(pushState).not.toHaveBeenCalled();
+    expect(replaceState).not.toHaveBeenCalled();
   });
 });
