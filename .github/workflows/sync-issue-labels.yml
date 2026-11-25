@@ -14,7 +14,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Never check out untrusted PR code with pull_request_target.
       - name: Check out trusted workflow scripts
         uses: actions/checkout@v4
         with:
