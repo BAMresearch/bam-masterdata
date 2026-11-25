@@ -27,8 +27,6 @@ class DataType(StrEnum):
     XML = "XML"
     JSON = "JSON"
 
-    # TODO add ARRAY_REAL, ARRAY_INTEGER, ARRAY_STRING, ARRAY_TIMESTAMP and check how these interact with `multivalued`
-
     @property
     def pytype(self) -> type:
         """
