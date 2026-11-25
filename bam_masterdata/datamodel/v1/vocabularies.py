@@ -459,3 +459,69 @@ class SampleOrigin(VocabularyType):
         label="Structure//Bauwerk",
         description="""Structure""",
     )
+
+
+class EquipmentPurpose(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="EQUIPMENT_PURPOSE",
+        description="""Tool Purpose//Verwendungszweck des Werkzeugs""",
+        prev_versions=["TOOL_PURPOSE:v0"],
+    )
+
+    cut = VocabularyTerm(
+        code="CUT",
+        label="Schneiden",
+        description="""Cutting//Schneiden""",
+    )
+
+    drill = VocabularyTerm(
+        code="DRILL",
+        label="Bohren",
+        description="""Drilling//Bohren""",
+    )
+
+    scan = VocabularyTerm(
+        code="SCAN",
+        label="Scannen",
+        description="""Scanning//Scannen""",
+    )
+
+
+class DataPackageKind(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="DATA_PACKAGE_KIND",
+        description="Data package kind",
+        prev_versions=["DATA_PACKAGE_KIND:v0"],
+    )
+
+    raw = VocabularyTerm(
+        code="RAW",
+        label="Raw Data",
+        description="Raw data",
+    )
+
+    processed = VocabularyTerm(
+        code="PROCESSED",
+        label="Processed Data",
+        description="Processed Data",
+    )
+
+
+class SampleStatus(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="SAMPLE_STATUS",
+        description="""Sample status""",
+        prev_versions=["TEST_OBJECT_STATUS:v0"],
+    )
+
+    available = VocabularyTerm(
+        code="AVAILABLE",
+        label="Available",
+        description="""Sample available""",
+    )
+
+    disposed = VocabularyTerm(
+        code="DISPOSED",
+        label="Disposed",
+        description="""Sample disposed""",
+    )

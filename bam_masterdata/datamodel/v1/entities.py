@@ -5,7 +5,8 @@
 # │   ├── Software
 # │   ├── ParameterSet
 # │   ├── Classification
-# │   └── Document
+# │   ├── Document
+# │   └── Method
 # ├── Location
 # └── MaterialEntity
 #     ├── Organism
@@ -159,6 +160,19 @@ class Document(Context):
     # DOCUMENT_ID
     # AUTHOR_PERSON
     # DOCUMENT_LINK
+
+
+class Method(Context):
+    defs = ObjectTypeDef(
+        code="METHOD",
+        description="A Method is a context specification of how an activity is carried out.",
+        generated_code_prefix="METHO",
+        prev_versions=["TEST_METHOD:v0"],
+    )
+
+    # Properties from v0 not migrated (from MEASURING_INSTRUMENT:v0)
+    # INSTRUMENT_CLASSIFICATION
+    # TEST_METHOD_KIND
 
 
 class Location(Entity):
@@ -413,7 +427,7 @@ class Device(PhysicalObject):
         description="Manufacturer's model designation of the device.",
         mandatory=False,
         section="Device Details",
-        prev_versions=["DEVICE_MODEL_NAME:v0"],
+        prev_versions=["DEVICE_MODEL_NAME:v0", "MODEL_NAME:v0"],
     )
 
     serial_number = PropertyTypeAssignment(
@@ -424,6 +438,16 @@ class Device(PhysicalObject):
         mandatory=False,
         section="Device Details",
         prev_versions=["SERIAL_NUMBER:v0"],
+    )
+
+    inventory_number = PropertyTypeAssignment(
+        code="INVENTORY_NUMBER",
+        data_type="VARCHAR",
+        property_label="Inventory number",
+        description="Inventory number.",
+        mandatory=False,
+        section="Device Details",
+        prev_versions=["BAM_INVENTORY_NUMBER:v0"],
     )
 
     mac_address = PropertyTypeAssignment(
@@ -443,8 +467,8 @@ class Device(PhysicalObject):
         property_label="Device status",
         description="Current operational or availability status of the device.",
         mandatory=False,
-        section="Inventory Details",
-        prev_versions=["INSTRUMENT_STATUS:v0"],
+        section="Device Details",
+        prev_versions=["INSTRUMENT_STATUS:v0", "EQUIPMENT_STATUS:v0"],
     )
 
 
@@ -490,7 +514,15 @@ class Sensor(Device):
         description="A Sensor is a device used to detect, measure, or record a physical, chemical, "
         "biological, or environmental quality. For example, cameras, thermocouples, pressure sensors, etc.",
         generated_code_prefix="SENS",
+        prev_versions=["MEASURING_INSTRUMENT:v0"],
     )
+
+    # Properties from v0 not migrated (from MEASURING_INSTRUMENT:v0)
+    # INSTRUMENT_CLASSIFICATION
+    # TEST_METHOD_KIND
+
+    # Properties from v0 not migrated (from TESTING_EQUIPMENT:v0)
+    # MEASUREMENT_QUANTITY
 
 
 class Equipment(Device):
@@ -499,6 +531,18 @@ class Equipment(Device):
         description="An Equipment is a device used to support laboratory, technical, or operational work "
         "without performing a measurement itself. For example, glovebox, freezer, mixer, etc.",
         generated_code_prefix="EQUIP",
+        prev_versions=["TOOL:v0"],
+    )
+
+    equipment_purpose = PropertyTypeAssignment(
+        code="EQUIPMENT_PURPOSE",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="EQUIPMENT_PURPOSE",
+        property_label="Equipment purpose",
+        description="Equipment purpose",
+        mandatory=False,
+        section="Equipment details",
+        prev_versions=["TOOL_PURPOSE:v0"],
     )
 
 
@@ -541,6 +585,27 @@ class Sample(PhysicalObject):
         mandatory=False,
         section="Sample Details",
         prev_versions=["SAMPLE_ORIGIN:v0"],
+    )
+
+    date_of_production = PropertyTypeAssignment(
+        code="DATE_OF_PRODUCTION",
+        data_type="DATE",
+        property_label="Date of production",
+        description="Date on which the sample was produced or prepared.",
+        mandatory=False,
+        section="Sample Details",
+        prev_versions=["PRODUCTION_DATE:v0", "DATE_OF_PRODUCTION:v0"],
+    )
+
+    sample_status = PropertyTypeAssignment(
+        code="SAMPLE_STATUS",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="SAMPLE_STATUS",
+        property_label="Sample status",
+        description="""Status of the sample""",
+        mandatory=False,
+        section="Sample Details",
+        prev_versions=["TEST_OBJ_STATUS:v0"],
     )
 
     # Properties from v0 that need to be migrated to v1 (from SAMPLE:v0):
