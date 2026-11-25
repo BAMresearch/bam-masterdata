@@ -138,3 +138,19 @@ def test_all_properties_have_origins(version):
 
         assert property_codes == set(node.property_origins)
         assert all(node.property_origins.values())
+
+
+@pytest.mark.parametrize(
+    "code", ["SINGLE_POINT_CALCULATION", "GEOMETRY_OPTIMIZATION", "MOLECULAR_DYNAMICS"]
+)
+def test_configuration_property_origins_use_concrete_simulation(code):
+    schema = export_schema("v1")
+    node = next(node for node in schema.nodes if node.id == code)
+    node_ids = {node.id for node in schema.nodes}
+
+    assert node.property_origins["INITIAL_SYSTEM"] == code
+    assert node.property_origins["FINAL_POTENTIAL_ENERGY"] == code
+    assert node.property_origins["ELECTRONIC_STRUCTURE_PARAMETERS"] == code
+    assert node.property_origins["N_CORES"] == code
+    assert node.property_origins["SOFTWARE"] == "COMPUTATION"
+    assert set(node.property_origins.values()) <= node_ids

@@ -44,11 +44,14 @@ def _object_type_classes():
 
 
 def _assignments():
-    """(defining class, assignment) for every property declared directly on a v1 class."""
+    """Assignments from v1 types and their bases, preserving each defining class."""
+    owners = dict.fromkeys(
+        owner for cls in _object_type_classes() for owner in cls.__mro__
+    )
     return [
-        (cls, value)
-        for cls in _object_type_classes()
-        for value in vars(cls).values()
+        (owner, value)
+        for owner in owners
+        for value in vars(owner).values()
         if isinstance(value, PropertyTypeAssignment)
     ]
 

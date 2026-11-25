@@ -11,6 +11,10 @@ from bam_masterdata.metadata.entities import (
     PropertyTypeAssignment,
 )
 from bam_masterdata.parsing import AbstractParser
+from bam_masterdata.workflows.ingestion import (
+    prepare_workflow_documents,
+    workflow_documents,
+)
 
 if TYPE_CHECKING:
     from pybis import Openbis
@@ -56,6 +60,7 @@ class RunParsers:
         files_parser: dict[AbstractParser, list[str]] | None = None,
         logger: BoundLoggerLazyProxy = logger,
         collection_type: str = "COLLECTION",
+        workflow_resolver=None,
     ):
         # Initial checks
         if openbis is None:
@@ -77,6 +82,7 @@ class RunParsers:
             )
 
         self.logger = logger
+        self.workflow_resolver = workflow_resolver
         self.openbis = openbis
         self.collection_name = collection_name
         self.files_parser = files_parser
@@ -451,6 +457,23 @@ class RunParsers:
         )
         return None
 
+    def _prepare_workflow_documents(self) -> None:
+        """Validate all workflow references before any object writes occur."""
+        objects = self.collection.attached_objects
+        self._workflow_properties = {}
+        if not any(list(workflow_documents(obj)) for obj in objects.values()):
+            return
+        identifiers = {
+            key: self._identifier(obj, self._resolve_destination(key))
+            for key, obj in objects.items()
+        }
+        self._workflow_properties = prepare_workflow_documents(
+            objects,
+            identifiers,
+            self.openbis,
+            self.workflow_resolver,
+        )
+
     def _load_openbis_props(self, object_instance: ObjectType) -> dict:
         """
         Loads the properties of an object instance into a dictionary suitable for openBIS, where the keys are the
@@ -470,9 +493,14 @@ class RunParsers:
                 continue
 
             prop_name = property_metadata.code.lower()
+            prepared = getattr(self, "_workflow_properties", {}).get(
+                id(object_instance), {}
+            )
+            if key in prepared:
+                value = prepared[key]
 
             # For the special case of OBJECT type properties, we need to resolve the reference to an openBIS identifier.
-            if property_metadata.data_type == "OBJECT":
+            if property_metadata.data_type == "OBJECT" and key not in prepared:
                 value = self._resolve_object_reference(key, value)
                 if value is None:
                     self.logger.warning(
@@ -625,6 +653,7 @@ class RunParsers:
 
         # Storing objects in openBIS and creating a mapping of local IDs to openBIS identifiers for later use in relationships.
         self.openbis_id_map = {}
+        self._prepare_workflow_documents()
         for object_id, object_instance in self.collection.attached_objects.items():
             resolved_destination = self._resolve_destination(object_id)
             identifier = self._identifier(object_instance, resolved_destination)
@@ -696,6 +725,7 @@ class RunParsersWithTransactions(RunParsers):
         files_parser: dict[AbstractParser, list[str]] | None = None,
         logger: BoundLoggerLazyProxy = logger,
         collection_type: str = "COLLECTION",
+        workflow_resolver=None,
     ):
         super().__init__(
             openbis=openbis,
@@ -705,6 +735,7 @@ class RunParsersWithTransactions(RunParsers):
             files_parser=files_parser,
             logger=logger,
             collection_type=collection_type,
+            workflow_resolver=workflow_resolver,
         )
 
     def run(self) -> None:
@@ -719,6 +750,7 @@ class RunParsersWithTransactions(RunParsers):
 
         self.parsing()
         self.openbis_id_map = {}
+        self._prepare_workflow_documents()
 
         # Create or update objects in openBIS within a single transaction
         obj_transaction = self.openbis.new_transaction()

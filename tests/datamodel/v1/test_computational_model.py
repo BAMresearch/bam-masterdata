@@ -6,13 +6,13 @@ import pytest
 from bam_masterdata.datamodel.v1 import activities, entities, vocabularies
 from bam_masterdata.datamodel.v1.activities import (
     Analysis,
-    AtomisticSimulation,
     CreepTestDataProcessing,
     EquationOfStateFit,
     GeometryOptimization,
     MolecularDynamics,
     Simulation,
     SimulationAnalysis,
+    SimulationWorkflow,
     SinglePointCalculation,
 )
 from bam_masterdata.datamodel.v1.entities import (
@@ -26,11 +26,11 @@ from bam_masterdata.datamodel.v1.entities import (
 from bam_masterdata.metadata.entities import VocabularyType
 
 NEW_ACTIVITIES = [
-    AtomisticSimulation,
     SinglePointCalculation,
     GeometryOptimization,
     MolecularDynamics,
     SimulationAnalysis,
+    SimulationWorkflow,
     EquationOfStateFit,
 ]
 
@@ -65,16 +65,16 @@ def test_parameters_are_parameter_sets(cls):
 @pytest.mark.parametrize(
     "child, parent",
     [
-        (AtomisticSimulation, Simulation),
-        (SinglePointCalculation, AtomisticSimulation),
-        (GeometryOptimization, AtomisticSimulation),
-        (MolecularDynamics, AtomisticSimulation),
+        (SinglePointCalculation, SimulationWorkflow),
+        (GeometryOptimization, SimulationWorkflow),
+        (MolecularDynamics, SimulationWorkflow),
         (SimulationAnalysis, Analysis),
         (EquationOfStateFit, SimulationAnalysis),
     ],
 )
 def test_activity_hierarchy(child, parent):
-    assert issubclass(child, parent)
+    assert parent in child.__bases__
+    assert child.get_hierarchy() == [*parent.get_hierarchy(), child.defs.code]
 
 
 @pytest.mark.parametrize("cls", SIMULATION_ANALYSES, ids=lambda cls: cls.__name__)
@@ -117,11 +117,10 @@ def test_simulation_itself_is_not_extended():
 @pytest.mark.parametrize(
     "activity, property_name, specification",
     [
-        (
-            AtomisticSimulation,
-            "electronic_structure_parameters",
-            ElectronicStructureParameters,
-        ),
+        *[
+            (cls, "electronic_structure_parameters", ElectronicStructureParameters)
+            for cls in (SinglePointCalculation, GeometryOptimization, MolecularDynamics)
+        ],
         (
             GeometryOptimization,
             "geometry_optimization_parameters",
@@ -161,10 +160,35 @@ def test_ab_initio_md_is_md_with_electronic_structure_parameters():
     [SinglePointCalculation, GeometryOptimization, MolecularDynamics],
     ids=lambda cls: cls.__name__,
 )
-def test_static_and_md_runs_have_potential_energy(cls):
-    # Force-field single points and optimizations need a potential-energy result, not only the DFT energies.
-    prop = cls()._property_metadata["final_potential_energy"]
-    assert prop.code == "FINAL_POTENTIAL_ENERGY"
+def test_simulation_tasks_preserve_shared_configuration_properties(cls):
+    obj = cls()
+    props = obj._property_metadata
+    expected = {
+        "initial_system",
+        "final_system",
+        "electronic_structure_parameters",
+        "max_force_norm",
+        "max_force_component",
+        "force_vector_norm",
+        "final_pressure",
+        "final_potential_energy",
+        "scf_converged",
+        "n_irreducible_kpoints",
+        "total_free_energy",
+        "total_energy_without_entropy",
+        "total_energy_zero_smearing",
+        "fermi_energy",
+        "total_magnetic_moment",
+    }
+    assert expected <= props.keys()
+    for name in ("initial_system", "final_system"):
+        assert props[name].data_type == "OBJECT"
+        assert props[name].object_code == "SIMULATED_SYSTEM"
+    assert props["final_potential_energy"].units == "eV"
+    assert props["max_force_norm"].units == "eV/angstrom"
+    exported_codes = [prop["code"] for prop in obj.model_to_dict()["properties"]]
+    for name in expected:
+        assert exported_codes.count(props[name].code) == 1
 
 
 def test_force_convergence_has_norm_selector():

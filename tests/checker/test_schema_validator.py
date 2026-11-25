@@ -1,3 +1,5 @@
+from typing import ClassVar
+
 import pytest
 
 from bam_masterdata.checker.schema_validator import (
@@ -245,6 +247,47 @@ class TestObjectReferenceValidation:
                     SpecializedActivity,
                 ]
             )
+
+    @pytest.mark.parametrize("include_target", [False, True])
+    def test_reference_from_plain_mixin(self, include_target):
+        class OperatorProperties:
+            operator = self.Activity.operator
+
+        class MixinActivity(self.Root, OperatorProperties):
+            defs = ObjectTypeDef(code="MIXIN_ACTIVITY", description="Mixin activity")
+
+        selected = [self.Root, MixinActivity]
+        if include_target:
+            validate_object_references([*selected, self.Person])
+        else:
+            with pytest.raises(ValueError, match="Unknown object_code 'PERSON'"):
+                validate_object_references(selected)
+
+    @pytest.mark.parametrize("remove_reference", [False, True])
+    def test_overridden_mixin_reference(self, remove_reference):
+        class OperatorProperties:
+            operator = self.Activity.operator
+
+        replacement = (
+            None
+            if remove_reference
+            else PropertyTypeAssignment(
+                code="OPERATOR",
+                data_type="OBJECT",
+                object_code="ROOT",
+                property_label="Operator",
+                description="Overridden operator",
+                mandatory=False,
+                section="General Information",
+            )
+        )
+
+        class MixinActivity(self.Root, OperatorProperties):
+            defs = ObjectTypeDef(code="MIXIN_ACTIVITY", description="Mixin activity")
+            operator: ClassVar = replacement
+
+        # PERSON is deliberately absent: an overridden mixin target must not be checked.
+        validate_object_references([self.Root, MixinActivity])
 
     def test_overridden_reference(self):
         class SpecializedActivity(self.Activity):
