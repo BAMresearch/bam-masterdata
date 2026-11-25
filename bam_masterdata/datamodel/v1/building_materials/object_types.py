@@ -10,12 +10,12 @@ from bam_masterdata.datamodel.v1.entities import Sample
 from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
 
 
-class BuildingMaterialsSpecimen(Sample):
+class BuildingMaterialsSample(Sample):
     defs = ObjectTypeDef(
-        code="BUILDING_MATERIALS_SPECIMEN",
-        description="	A BuildingMaterialsSpecimen is a sample of building material prepared or "
+        code="BUILDING_MATERIALS_SAMPLE",
+        description="A BuildingMaterialsSample is a sample of building material prepared or "
         "selected for characterization or testing.",
-        generated_code_prefix="BUI_MAT_SAM",
+        generated_code_prefix="BUILD_MAT_SAM",
         prev_versions=["SAMPLE.BUILDING_MATERIALS_SPECIMEN:v0"],
     )
 
@@ -29,17 +29,6 @@ class BuildingMaterialsSpecimen(Sample):
         prev_versions=["PSP_NUMBER:v0"],
     )
 
-    date_of_production = PropertyTypeAssignment(
-        code="DATE_OF_PRODUCTION",
-        data_type="DATE",
-        property_label="Date of production",
-        description="Date on which the sample or the material represented by the sample was produced or "
-        "prepared.",
-        mandatory=False,
-        section="Sample Details",
-        prev_versions=["DATE_OF_PRODUCTION:v0"],
-    )
-
     sample_age_days = PropertyTypeAssignment(
         code="SAMPLE_AGE_DAYS",
         data_type="INTEGER",
@@ -51,26 +40,59 @@ class BuildingMaterialsSpecimen(Sample):
         prev_versions=["SAMPLE_AGE_IN_DAYS:v0"],
     )
 
-    sample_dimensions_set_points = PropertyTypeAssignment(
-        code="SAMPLE_DIMENSIONS_SET_POINTS",
-        data_type="VARCHAR",
-        property_label="Sample dimensions set points",
-        description="Nominal or target dimensions of the sample, including all dimensions required "
-        "to describe its geometry, for example '100 mm x 100 mm x 100 mm'.",
+    # ! note that SAMPLE_DIMENSIONS_SET_POINTS (defined as '100 mm x 100 mm x 100 mm') is the same as TEST_OBJ_LENGTH x TEST_OBJ_WIDTH TEST_OBJ_HEIGHT
+    sample_length_mm = PropertyTypeAssignment(
+        code="SAMPLE_LENGTH_MM",
+        data_type="REAL",
+        property_label="Sample length",
+        units="mm",
+        description="Length of the sample.",
         mandatory=False,
-        section="Sample Details",
+        section="Dimensions",
         prev_versions=["SAMPLE_DIMENSIONS_SET_POINTS:v0"],
     )
 
-    density_kgm3 = PropertyTypeAssignment(
-        code="DENSITY_KGM3",
+    sample_width_mm = PropertyTypeAssignment(
+        code="SAMPLE_WIDTH_MM",
         data_type="REAL",
+        property_label="Sample width",
+        units="mm",
+        description="Width of the sample.",
+        mandatory=False,
+        section="Dimensions",
+        prev_versions=["SAMPLE_DIMENSIONS_SET_POINTS:v0"],
+    )
+
+    sample_height_mm = PropertyTypeAssignment(
+        code="SAMPLE_HEIGHT_MM",
+        data_type="REAL",
+        property_label="Sample height",
+        units="mm",
+        description="Height of the sample.",
+        mandatory=False,
+        section="Dimensions",
+        prev_versions=["SAMPLE_DIMENSIONS_SET_POINTS:v0"],
+    )
+
+    sample_density_kgm3 = PropertyTypeAssignment(
+        code="SAMPLE_DENSITY_KGM3",
+        data_type="REAL",
+        property_label="Sample density",
         units="kg/m^3",
-        property_label="Density",
         description="Density of the sample.",
         mandatory=False,
-        section="Sample Details",
+        section="Dimensions",
         prev_versions=["DENSITY_KG_PER_CUBIC_METER:v0"],
+    )
+
+    sample_weight_kg = PropertyTypeAssignment(
+        code="SAMPLE_WEIGHT_KG",
+        data_type="REAL",
+        property_label="Sample weight",
+        units="kg",
+        description="Weight of the sample.",
+        mandatory=False,
+        section="Dimensions",
     )
 
     building_material_type = PropertyTypeAssignment(
@@ -81,29 +103,8 @@ class BuildingMaterialsSpecimen(Sample):
         description="General category of building material from which the sample consists, such as mineral, "
         "bituminous, plastic, or wood-based material.",
         mandatory=True,
-        section="Building Materials Specimen Details",
+        section="Building Materials Sample Details",
         prev_versions=["BUILDING_MATERIAL_TYPE:v0"],
-    )
-
-    building_material_details = PropertyTypeAssignment(
-        code="BUILDING_MATERIAL_DETAILS",
-        data_type="MULTILINE_VARCHAR",
-        property_label="Building material details",
-        description="Additional information describing the building material that is not captured by the "
-        "material type, such as composition, grade, product designation, or other relevant characteristics.",
-        mandatory=False,
-        section="Building Materials Specimen Details",
-        prev_versions=["BUILDING_MATERIAL_DETAILS:v0"],
-    )
-
-    building_name = PropertyTypeAssignment(
-        code="BUILDING_NAME",
-        data_type="MULTILINE_VARCHAR",
-        property_label="Building name",
-        description="Name or designation of the building or structure from which the sample originates, if applicable.",
-        mandatory=False,
-        section="Building Materials Specimen Details",
-        prev_versions=["BUILDING_NAME:v0"],
     )
 
     building_material_test_standard = PropertyTypeAssignment(
@@ -113,7 +114,7 @@ class BuildingMaterialsSpecimen(Sample):
         description="Standard, technical specification, or other normative document according to which the "
         "building-material test is performed.",
         mandatory=False,
-        section="Building Materials Specimen Details",
+        section="Building Materials Sample Details",
         prev_versions=["BUILDING_MATERIAL_TEST_STANDARD:v0"],
     )
 
@@ -124,7 +125,7 @@ class BuildingMaterialsSpecimen(Sample):
         property_label="Test machine",
         description="Machine or testing system used to perform the building-material test.",
         mandatory=False,
-        section="Building Materials Specimen Details",
+        section="Building Materials Sample Details",
         prev_versions=["BUILDING_MATERIALS_TEST_MACHINE:v0"],
     )
 
@@ -134,7 +135,7 @@ class BuildingMaterialsSpecimen(Sample):
         property_label="Test ID",
         description="Identifier used to uniquely reference the test performed on the sample.",
         mandatory=False,
-        section="Building Materials Specimen Details",
+        section="Building Materials Sample Details",
         prev_versions=["BUILDING_MATERIALS_TEST_ID:v0"],
     )
 
@@ -143,8 +144,8 @@ class BuildingMaterialsSpecimen(Sample):
         data_type="VARCHAR",
         property_label="Measured quantity",
         description="Name and unit of the measured quantity from the building-material test.",
-        mandatory=True,
-        section="Building Materials Specimen Details",
+        mandatory=False,
+        section="Building Materials Sample Details",
         prev_versions=["BUILDING_MATERIALS_TEST_QUANTITY:v0"],
     )
 
@@ -153,9 +154,176 @@ class BuildingMaterialsSpecimen(Sample):
         data_type="REAL",
         property_label="Measured quantity result",
         description="Result obtained from the building-material test.",
-        mandatory=True,
-        section="Building Materials Specimen Details",
+        mandatory=False,
+        section="Building Materials Sample Details",
         prev_versions=["BUILDING_MATERIALS_TEST_RESULT:v0"],
+    )
+
+    # Properties from v0 not mapped in v1 (from BUILDING_MATERIALS_SPECIMEN:v0)
+    # BUILDING_NAME --> $NAME
+    # BUILDING_MATERIAL_DETAILS --> DESCRIPTION
+
+
+class BuildingSample(Sample):
+    defs = ObjectTypeDef(
+        code="BUILDING_SAMPLE",
+        description="A BuildingSample is a building materials sample that ....",
+        generated_code_prefix="BUILD_SAM",
+        prev_versions=["TEST_OBJECT:v0", "TEST_OBJECT_EXTERNAL:v0"],
+    )
+
+    sample_length_mm = PropertyTypeAssignment(
+        code="SAMPLE_LENGTH_MM",
+        data_type="REAL",
+        property_label="Sample length",
+        units="mm",
+        description="Length of the sample.",
+        mandatory=False,
+        section="Dimensions",
+        prev_versions=["TEST_OBJ_LENGTH:v0"],
+    )
+
+    sample_width_mm = PropertyTypeAssignment(
+        code="SAMPLE_WIDTH_MM",
+        data_type="REAL",
+        property_label="Sample width",
+        units="mm",
+        description="Width of the sample.",
+        mandatory=False,
+        section="Dimensions",
+        prev_versions=["TEST_OBJ_WIDTH:v0"],
+    )
+
+    sample_height_mm = PropertyTypeAssignment(
+        code="SAMPLE_HEIGHT_MM",
+        data_type="REAL",
+        property_label="Sample height",
+        units="mm",
+        description="Height of the sample.",
+        mandatory=False,
+        section="Dimensions",
+        prev_versions=["TEST_OBJ_HEIGHT:v0"],
+    )
+
+    sample_density_kgm3 = PropertyTypeAssignment(
+        code="SAMPLE_DENSITY_KGM3",
+        data_type="REAL",
+        property_label="Sample density",
+        units="kg/m^3",
+        description="Density of the sample.",
+        mandatory=False,
+        section="Dimensions",
+    )
+
+    sample_weight_kg = PropertyTypeAssignment(
+        code="SAMPLE_WEIGHT_KG",
+        data_type="REAL",
+        property_label="Sample weight",
+        units="kg",
+        description="Weight of the sample.",
+        mandatory=False,
+        section="Dimensions",
+        prev_versions=["TEST_OBJ_EXT_WEIGHT:v0"],
+    )
+
+    building_material_type = PropertyTypeAssignment(
+        code="BUILDING_MATERIAL_TYPE",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="BUILDING_MATERIAL_TYPE",
+        property_label="Building material type",
+        description="General category of building material from which the sample consists, such as mineral, "
+        "bituminous, plastic, or wood-based material.",
+        mandatory=True,
+        section="Building Sample Details",
+        prev_versions=["TEST_OBJ_MATERIAL:v0"],
+    )
+
+    building_year = PropertyTypeAssignment(
+        code="BUILDING_YEAR",
+        data_type="INTEGER",
+        property_label="Building tear",
+        description="Year of construction",
+        mandatory=False,
+        section="Building Sample Details",
+        prev_versions=["BUILDING_YEAR:v0"],
+    )
+
+    building_number = PropertyTypeAssignment(
+        code="BUILDING_NUMBER",
+        data_type="VARCHAR",
+        property_label="Building number",
+        description="Building or structure identifier",
+        mandatory=False,
+        section="Building Sample Details",
+        prev_versions=["BUILDING_NUMBER:v0"],
+    )
+
+    location = PropertyTypeAssignment(
+        code="LOCATION",
+        data_type="OBJECT",
+        object_code="LOCATION",
+        property_label="Location",
+        description="Physical location.",
+        mandatory=False,
+        section="Building Sample Details",
+        prev_versions=["LOCATION:v0", "GIS_COORDINATES:v0"],
+    )
+
+    # Properties from v0 not migrated to v1 (from TEST_OBJECT:v0)
+    # BAM_OE
+    # BAM_ROOM
+    # BAM_FLOOR
+    # BAM_HOUSE
+    # BAM_LOCATION
+    # BAM_LOCATION_COMPLETE
+
+
+class BuildingSampleBAM(BuildingSample):
+    defs = ObjectTypeDef(
+        code="BUILDING_SAMPLE_BAM",
+        description="A BuildingSampleBAM is a building sample that ....",
+        generated_code_prefix="BUILD_SAM_BAM",
+        prev_versions=["TEST_OBJECT_BAM:v0"],
+    )
+
+    old_db_name = PropertyTypeAssignment(
+        code="OLD_DB_NAME",
+        data_type="VARCHAR",
+        property_label="Old database name",
+        description="Name in the previous database",
+        mandatory=False,
+        section="Building Sample Details",
+        prev_versions=["OLD_DB_NAME:v0"],
+    )
+
+    project_name = PropertyTypeAssignment(
+        code="PROJECT_NAME",
+        data_type="VARCHAR",
+        property_label="Originating project name",
+        description="Name of the originating research project",
+        mandatory=True,
+        section="Building Sample Details",
+        prev_versions=["PROJECT_NAME:v0"],
+    )
+
+    parfis_project_no = PropertyTypeAssignment(
+        code="PARFIS_PROJECT_NO",
+        data_type="VARCHAR",
+        property_label="PARFIS project number",
+        description="PARFIS project number: `VhXXXX`",
+        mandatory=False,
+        section="Building Sample Details",
+        prev_versions=["PROJECT_NAME:v0"],
+    )
+
+    funding_grant_no = PropertyTypeAssignment(
+        code="FUNDING_GRANT_NO",
+        data_type="VARCHAR",
+        property_label="Grant number",
+        description="Grant number",
+        mandatory=False,
+        section="Building Sample Details",
+        prev_versions=["FUNDING_GRANT_NO:v0"],
     )
 
 

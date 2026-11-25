@@ -586,6 +586,27 @@ class Sample(PhysicalObject):
         prev_versions=["SAMPLE_ORIGIN:v0"],
     )
 
+    date_of_production = PropertyTypeAssignment(
+        code="DATE_OF_PRODUCTION",
+        data_type="DATE",
+        property_label="Date of production",
+        description="Date on which the sample was produced or prepared.",
+        mandatory=False,
+        section="Sample Details",
+        prev_versions=["PRODUCTION_DATE:v0", "DATE_OF_PRODUCTION:v0"],
+    )
+
+    sample_status = PropertyTypeAssignment(
+        code="SAMPLE_STATUS",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="SAMPLE_STATUS",
+        property_label="Sample status",
+        description="""Status of the sample""",
+        mandatory=False,
+        section="Sample Details",
+        prev_versions=["TEST_OBJ_STATUS:v0"],
+    )
+
     # Properties from v0 that need to be migrated to v1 (from SAMPLE:v0):
     # SAMPLE_ID_NUMBER
     # BARCODE_EXTERNAL

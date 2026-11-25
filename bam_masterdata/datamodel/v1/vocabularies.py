@@ -505,3 +505,23 @@ class DataPackageKind(VocabularyType):
         label="Processed Data",
         description="Processed Data",
     )
+
+
+class SampleStatus(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="SAMPLE_STATUS",
+        description="""Sample status""",
+        prev_versions=["TEST_OBJECT_STATUS:v0"],
+    )
+
+    available = VocabularyTerm(
+        code="AVAILABLE",
+        label="Available",
+        description="""Sample available""",
+    )
+
+    disposed = VocabularyTerm(
+        code="DISPOSED",
+        label="Disposed",
+        description="""Sample disposed""",
+    )
