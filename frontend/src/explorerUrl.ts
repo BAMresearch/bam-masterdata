@@ -18,8 +18,8 @@ export function formatExplorerHash(location: ExplorerLocation): string {
   const { version, view, entityId } = location;
 
   return entityId
-    ? `#/${version}/${encodeURIComponent(entityId)}/${view}`
-    : `#/${version}/${view}`;
+    ? `#/${view}/${version}/${encodeURIComponent(entityId)}`
+    : `#/${view}/${version}`;
 }
 
 export function parseExplorerHash(hash: string): ExplorerLocation | null {
@@ -27,21 +27,32 @@ export function parseExplorerHash(hash: string): ExplorerLocation | null {
 
   if (parts.length !== 2 && parts.length !== 3) return null;
 
-  const [version, second, third] = parts;
-  if (version !== "v0" && version !== "v1") return null;
+  const [view, version, encodedEntityId] = parts;
 
-  const view = parts.length === 2 ? second : third;
   if (view !== "graph" && view !== "browser") return null;
+  if (version !== "v0" && version !== "v1") return null;
 
   if (parts.length === 2) {
     return { version, view, entityId: null };
   }
 
   try {
-    const entityId = decodeURIComponent(second);
+    const entityId = decodeURIComponent(encodedEntityId);
     if (!entityId || entityId.includes("/")) return null;
+
     return { version, view, entityId };
   } catch {
     return null;
   }
+}
+
+export function resolveExplorerEntity(
+  location: ExplorerLocation,
+  knownIds: readonly string[],
+): ExplorerLocation {
+  if (location.entityId && !knownIds.includes(location.entityId)) {
+    return { ...location, entityId: null };
+  }
+
+  return location;
 }

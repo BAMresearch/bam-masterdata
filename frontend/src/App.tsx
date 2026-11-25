@@ -13,6 +13,7 @@ import {
   formatExplorerHash,
   parseExplorerHash,
   type ExplorerLocation,
+  resolveExplorerEntity,
 } from "./explorerUrl";
 
 const versions: SchemaVersion[] = ["v0", "v1"];
@@ -179,10 +180,15 @@ function App() {
   }, [version]);
 
   useEffect(() => {
-    if (!schema || schema.version !== version || !location.entityId) return;
+    if (!schema || schema.version !== version) return;
 
-    if (!schema.nodes.some((node) => node.id === location.entityId)) {
-      navigate({ ...location, entityId: null }, true);
+    const resolved = resolveExplorerEntity(
+      location,
+      schema.nodes.map((node) => node.id),
+    );
+
+    if (resolved !== location) {
+      navigate(resolved, true);
     }
   }, [schema, version, location, navigate]);
 
