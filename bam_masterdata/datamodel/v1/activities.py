@@ -7,10 +7,9 @@
 # │   │   └── SimulationAnalysis
 # │   │       └── EquationOfStateFit
 # │   └── Simulation
-# │       └── AtomisticSimulation
-# │           ├── SinglePointCalculation
-# │           ├── GeometryOptimization
-# │           └── MolecularDynamics
+# │       ├── SinglePointCalculation
+# │       ├── GeometryOptimization
+# │       └── MolecularDynamics
 # └── Experiment
 #     ├── Processing
 #     ├── Measurement
@@ -236,7 +235,6 @@ class Simulation(Computation):
     # CONCEPTUAL_DICTIONARY
 
 
-# --- Atomistic simulations ---
 # The kind of process is the object type (single point, geometry optimization, molecular dynamics).
 # The physical model (DFT, interatomic potential) is the referenced ComputationalMethod (COMPUTATIONAL_METHOD), so ab initio
 # MD is a MolecularDynamics with a DFT ComputationalMethod and ElectronicStructureParameters.
@@ -246,210 +244,198 @@ class Simulation(Computation):
 # velocities, forces; CMSO AtomicPosition, AtomicVelocity, AtomicForce) and trajectories are attached as files.
 
 
-class AtomisticSimulation(Simulation):
-    defs = ObjectTypeDef(
-        code="ATOMISTIC_SIMULATION",
-        description="An AtomisticSimulation is a simulation in which the atoms of the system and their positions are "
-        "represented explicitly, and energies and forces are computed for nuclear configurations.",
-        generated_code_prefix="ATOM_SIM",
-        # v0 jobs map to the subtype given by their ATOMISTIC_CALC_TYPE: ATOM_CALC_SC -> SinglePointCalculation,
-        # ATOM_CALC_STRUC_OPT -> GeometryOptimization, ATOM_CALC_MD -> MolecularDynamics
-        # (ATOM_CALC_MC and ATOM_CALC_NEB are not modelled yet).
-        prev_versions=["PYIRON_JOB.VASP:v0", "PYIRON_JOB.LAMMPS:v0"],
-    )
+INITIAL_SYSTEM = PropertyTypeAssignment(
+    code="INITIAL_SYSTEM",
+    data_type="OBJECT",
+    object_code="SIMULATED_SYSTEM",
+    property_label="Initial system",
+    description="Simulated system at the start of the simulation.",
+    mandatory=False,
+    section="Simulated Systems",
+)
 
-    initial_system = PropertyTypeAssignment(
-        code="INITIAL_SYSTEM",
-        data_type="OBJECT",
-        object_code="SIMULATED_SYSTEM",
-        property_label="Initial system",
-        description="Simulated system at the start of the simulation.",
-        mandatory=False,
-        section="Simulated Systems",
-    )
+FINAL_SYSTEM = PropertyTypeAssignment(
+    code="FINAL_SYSTEM",
+    data_type="OBJECT",
+    object_code="SIMULATED_SYSTEM",
+    property_label="Final system",
+    description="Simulated system at the end of the simulation, such as the relaxed structure or the last "
+    "configuration of a molecular dynamics run.",
+    mandatory=False,
+    section="Simulated Systems",
+)
 
-    final_system = PropertyTypeAssignment(
-        code="FINAL_SYSTEM",
-        data_type="OBJECT",
-        object_code="SIMULATED_SYSTEM",
-        property_label="Final system",
-        description="Simulated system at the end of the simulation, such as the relaxed structure or the last "
-        "configuration of a molecular dynamics run.",
-        mandatory=False,
-        section="Simulated Systems",
-    )
+ELECTRONIC_STRUCTURE_PARAMETERS = PropertyTypeAssignment(
+    code="ELECTRONIC_STRUCTURE_PARAMETERS",
+    data_type="OBJECT",
+    object_code="ELECTRONIC_STRUCTURE_PARAMETERS",
+    property_label="Electronic structure parameters",
+    description="Numerical parameters used to solve the electronic structure, for electronic-structure methods "
+    "such as DFT.",
+    mandatory=False,
+    section="Input Specification",
+)
 
-    electronic_structure_parameters = PropertyTypeAssignment(
-        code="ELECTRONIC_STRUCTURE_PARAMETERS",
-        data_type="OBJECT",
-        object_code="ELECTRONIC_STRUCTURE_PARAMETERS",
-        property_label="Electronic structure parameters",
-        description="Numerical parameters used to solve the electronic structure, for electronic-structure methods "
-        "such as DFT.",
-        mandatory=False,
-        section="Input Specification",
-    )
+# Results for the final configuration
 
-    # Results for the final configuration
+MAX_FORCE_NORM = PropertyTypeAssignment(
+    code="MAX_FORCE_NORM",
+    data_type="REAL",
+    property_label="Maximum force norm",
+    units="eV/angstrom",
+    description="Largest norm of the force on a single atom in the final configuration.",
+    mandatory=False,
+    section="Results",
+)
 
-    max_force_norm = PropertyTypeAssignment(
-        code="MAX_FORCE_NORM",
-        data_type="REAL",
-        property_label="Maximum force norm",
-        units="eV/angstrom",
-        description="Largest norm of the force on a single atom in the final configuration.",
-        mandatory=False,
-        section="Results",
-    )
+MAX_FORCE_COMPONENT = PropertyTypeAssignment(
+    code="MAX_FORCE_COMPONENT",
+    data_type="REAL",
+    property_label="Maximum force component",
+    units="eV/angstrom",
+    description="Largest absolute Cartesian component of the force on any atom in the final configuration "
+    "(LAMMPS: fmax).",
+    mandatory=False,
+    section="Results",
+    prev_versions=["ATOM_FORCE_MAX_IN_EV_A:v0"],
+)
 
-    max_force_component = PropertyTypeAssignment(
-        code="MAX_FORCE_COMPONENT",
-        data_type="REAL",
-        property_label="Maximum force component",
-        units="eV/angstrom",
-        description="Largest absolute Cartesian component of the force on any atom in the final configuration "
-        "(LAMMPS: fmax).",
-        mandatory=False,
-        section="Results",
-        prev_versions=["ATOM_FORCE_MAX_IN_EV_A:v0"],
-    )
+FORCE_VECTOR_NORM = PropertyTypeAssignment(
+    code="FORCE_VECTOR_NORM",
+    data_type="REAL",
+    property_label="Force vector norm",
+    units="eV/angstrom",
+    description="Euclidean norm of the 3N-dimensional vector of all atomic forces in the final configuration "
+    "(LAMMPS: fnorm).",
+    mandatory=False,
+    section="Results",
+    prev_versions=["ATOM_FIN_FNORM_IN_EV_A:v0"],
+)
 
-    force_vector_norm = PropertyTypeAssignment(
-        code="FORCE_VECTOR_NORM",
-        data_type="REAL",
-        property_label="Force vector norm",
-        units="eV/angstrom",
-        description="Euclidean norm of the 3N-dimensional vector of all atomic forces in the final configuration "
-        "(LAMMPS: fnorm).",
-        mandatory=False,
-        section="Results",
-        prev_versions=["ATOM_FIN_FNORM_IN_EV_A:v0"],
-    )
+# With a tensile-positive stress tensor sigma this is P = -tr(sigma)/3; codes differ in the sign of the stress
+# they print, so the convention of the source must be checked. VASP prints it in the OUTCAR line external
+# pressure, in kbar (1 GPa = 10 kbar).
+FINAL_PRESSURE = PropertyTypeAssignment(
+    code="FINAL_PRESSURE",
+    data_type="REAL",
+    property_label="Final pressure",
+    units="GPa",
+    description="Hydrostatic pressure of the final configuration, with the convention that positive values mean "
+    "the system is compressed and would expand if allowed, and negative values mean it would contract.",
+    mandatory=False,
+    section="Results",
+    iri=["https://purls.helmholtz-metadaten.de/asmo/Pressure"],
+    prev_versions=["ATOM_FIN_PRESS_IN_GPA:v0"],
+)
 
-    # With a tensile-positive stress tensor sigma this is P = -tr(sigma)/3; codes differ in the sign of the stress
-    # they print, so the convention of the source must be checked. VASP prints it in the OUTCAR line external
-    # pressure, in kbar (1 GPa = 10 kbar).
-    final_pressure = PropertyTypeAssignment(
-        code="FINAL_PRESSURE",
-        data_type="REAL",
-        property_label="Final pressure",
-        units="GPa",
-        description="Hydrostatic pressure of the final configuration, with the convention that positive values mean "
-        "the system is compressed and would expand if allowed, and negative values mean it would contract.",
-        mandatory=False,
-        section="Results",
-        iri=["https://purls.helmholtz-metadaten.de/asmo/Pressure"],
-        prev_versions=["ATOM_FIN_PRESS_IN_GPA:v0"],
-    )
+# For electronic-structure methods use the specific total energies below, which state their treatment of the
+# electronic entropy.
+FINAL_POTENTIAL_ENERGY = PropertyTypeAssignment(
+    code="FINAL_POTENTIAL_ENERGY",
+    data_type="REAL",
+    property_label="Final potential energy",
+    units="eV",
+    description="Potential energy of the final nuclear configuration as given by the referenced computational "
+    "method, such as the energy of a force field (LAMMPS: pe). For molecular dynamics, the configuration of the "
+    "last time step.",
+    mandatory=False,
+    section="Results",
+    iri=["https://purls.helmholtz-metadaten.de/asmo/PotentialEnergy"],
+)
 
-    # For electronic-structure methods use the specific total energies below, which state their treatment of the
-    # electronic entropy.
-    final_potential_energy = PropertyTypeAssignment(
-        code="FINAL_POTENTIAL_ENERGY",
-        data_type="REAL",
-        property_label="Final potential energy",
-        units="eV",
-        description="Potential energy of the final nuclear configuration as given by the referenced computational "
-        "method, such as the energy of a force field (LAMMPS: pe). For molecular dynamics, the configuration of the "
-        "last time step.",
-        mandatory=False,
-        section="Results",
-        iri=["https://purls.helmholtz-metadaten.de/asmo/PotentialEnergy"],
-    )
+# Results of electronic-structure methods. The three energies coincide when no smearing is used. In VASP all
+# energies are relative to the isolated atoms in the reference configuration of the PAW datasets, so only
+# differences between calculations with the same datasets are meaningful.
 
-    # Results of electronic-structure methods. The three energies coincide when no smearing is used. In VASP all
-    # energies are relative to the isolated atoms in the reference configuration of the PAW datasets, so only
-    # differences between calculations with the same datasets are meaningful.
+SCF_CONVERGED = PropertyTypeAssignment(
+    code="SCF_CONVERGED",
+    data_type="BOOLEAN",
+    property_label="SCF converged",
+    description="Whether the self-consistent field cycle of the final configuration reached its convergence "
+    "threshold.",
+    mandatory=False,
+    section="Electronic Structure Results",
+)
 
-    scf_converged = PropertyTypeAssignment(
-        code="SCF_CONVERGED",
-        data_type="BOOLEAN",
-        property_label="SCF converged",
-        description="Whether the self-consistent field cycle of the final configuration reached its convergence "
-        "threshold.",
-        mandatory=False,
-        section="Electronic Structure Results",
-    )
+N_IRREDUCIBLE_KPOINTS = PropertyTypeAssignment(
+    code="N_IRREDUCIBLE_KPOINTS",
+    data_type="INTEGER",
+    property_label="Number of irreducible k-points",
+    description="Number of k-points left after the mesh was reduced by the symmetry used in the calculation.",
+    mandatory=False,
+    section="Electronic Structure Results",
+)
 
-    n_irreducible_kpoints = PropertyTypeAssignment(
-        code="N_IRREDUCIBLE_KPOINTS",
-        data_type="INTEGER",
-        property_label="Number of irreducible k-points",
-        description="Number of k-points left after the mesh was reduced by the symmetry used in the calculation.",
-        mandatory=False,
-        section="Electronic Structure Results",
-    )
+TOTAL_FREE_ENERGY = PropertyTypeAssignment(
+    code="TOTAL_FREE_ENERGY",
+    data_type="REAL",
+    property_label="Total free energy",
+    units="eV",
+    description="Total energy of the final configuration including the electronic entropy term -TS of the "
+    "smeared occupations (VASP: free energy TOTEN).",
+    mandatory=False,
+    section="Electronic Structure Results",
+)
 
-    total_free_energy = PropertyTypeAssignment(
-        code="TOTAL_FREE_ENERGY",
-        data_type="REAL",
-        property_label="Total free energy",
-        units="eV",
-        description="Total energy of the final configuration including the electronic entropy term -TS of the "
-        "smeared occupations (VASP: free energy TOTEN).",
-        mandatory=False,
-        section="Electronic Structure Results",
-    )
+TOTAL_ENERGY_WITHOUT_ENTROPY = PropertyTypeAssignment(
+    code="TOTAL_ENERGY_WITHOUT_ENTROPY",
+    data_type="REAL",
+    property_label="Total energy without entropy",
+    units="eV",
+    description="Total free energy minus the electronic entropy term -TS (VASP: energy without entropy).",
+    mandatory=False,
+    section="Electronic Structure Results",
+)
 
-    total_energy_without_entropy = PropertyTypeAssignment(
-        code="TOTAL_ENERGY_WITHOUT_ENTROPY",
-        data_type="REAL",
-        property_label="Total energy without entropy",
-        units="eV",
-        description="Total free energy minus the electronic entropy term -TS (VASP: energy without entropy).",
-        mandatory=False,
-        section="Electronic Structure Results",
-    )
+TOTAL_ENERGY_ZERO_SMEARING = PropertyTypeAssignment(
+    code="TOTAL_ENERGY_ZERO_SMEARING",
+    data_type="REAL",
+    property_label="Total energy extrapolated to zero smearing",
+    units="eV",
+    description="Total energy extrapolated to zero smearing width (VASP: energy(sigma->0)).",
+    mandatory=False,
+    section="Electronic Structure Results",
+)
 
-    total_energy_zero_smearing = PropertyTypeAssignment(
-        code="TOTAL_ENERGY_ZERO_SMEARING",
-        data_type="REAL",
-        property_label="Total energy extrapolated to zero smearing",
-        units="eV",
-        description="Total energy extrapolated to zero smearing width (VASP: energy(sigma->0)).",
-        mandatory=False,
-        section="Electronic Structure Results",
-    )
+FERMI_ENERGY = PropertyTypeAssignment(
+    code="FERMI_ENERGY",
+    data_type="REAL",
+    property_label="Fermi energy",
+    units="eV",
+    description="Fermi energy of the final configuration (VASP: E-fermi). For systems with a band gap, where "
+    "in the gap it lies depends on the occupation scheme and code settings.",
+    mandatory=False,
+    section="Electronic Structure Results",
+)
 
-    fermi_energy = PropertyTypeAssignment(
-        code="FERMI_ENERGY",
-        data_type="REAL",
-        property_label="Fermi energy",
-        units="eV",
-        description="Fermi energy of the final configuration (VASP: E-fermi). For systems with a band gap, where "
-        "in the gap it lies depends on the occupation scheme and code settings.",
-        mandatory=False,
-        section="Electronic Structure Results",
-    )
+# Needs manual mapping from ATOM_FIN_TOTMGMO_IN_MUB:v0: v0 stored VARCHAR and also covered noncollinear jobs
+# (ATOM_NON_COLL_MAG). Migrate only values that parse as a single number from collinear jobs; keep vector or
+# other text values separately.
+TOTAL_MAGNETIC_MOMENT = PropertyTypeAssignment(
+    code="TOTAL_MAGNETIC_MOMENT",
+    data_type="REAL",
+    property_label="Total magnetic moment",
+    units="bohr_magneton",
+    description="Signed total spin magnetic moment of the cell along the spin quantization axis of a collinear "
+    "spin-polarized calculation, i.e. the number of spin-up minus spin-down electrons. Not defined for "
+    "noncollinear calculations, whose total moment is a vector; its magnitude must not be stored here.",
+    mandatory=False,
+    section="Electronic Structure Results",
+)
 
-    # Needs manual mapping from ATOM_FIN_TOTMGMO_IN_MUB:v0: v0 stored VARCHAR and also covered noncollinear jobs
-    # (ATOM_NON_COLL_MAG). Migrate only values that parse as a single number from collinear jobs; keep vector or
-    # other text values separately.
-    total_magnetic_moment = PropertyTypeAssignment(
-        code="TOTAL_MAGNETIC_MOMENT",
-        data_type="REAL",
-        property_label="Total magnetic moment",
-        units="bohr_magneton",
-        description="Signed total spin magnetic moment of the cell along the spin quantization axis of a collinear "
-        "spin-polarized calculation, i.e. the number of spin-up minus spin-down electrons. Not defined for "
-        "noncollinear calculations, whose total moment is a vector; its magnitude must not be stored here.",
-        mandatory=False,
-        section="Electronic Structure Results",
-    )
-
-    # Not migrated from v0:
-    # ATOM_FIN_TOT_ENG_IN_EV, ATOM_FIN_POT_ENG_IN_EV: shared by the v0 VASP and LAMMPS job types. For LAMMPS the
-    #   potential energy is FINAL_POTENTIAL_ENERGY for every calculation type, and the total energy is
-    #   FINAL_TOTAL_ENERGY of MolecularDynamics. For VASP, pyiron vasp/base.py
-    #   (_vasp_generic_energy_free_affected) checks HDF version 0.1.0 (also assumed when absent) for a mismatch
-    #   between output/generic/energy_pot and the final SCF free energies. Check the HDF version, stored energy
-    #   fields, and raw OUTCAR per job before choosing the v1 energy property.
-    # ATOM_FIN_VOL_IN_A3: CELL_VOLUME of the SimulatedSystem referenced by FINAL_SYSTEM.
-    # PERIODIC_BOUNDARY_X/Y/Z: periodicity belongs to the SimulatedSystem (PERIODIC_A/B/C); x/y/z and a/b/c only
-    #   coincide for orthogonal cells aligned with the axes.
+# Not migrated from v0:
+# ATOM_FIN_TOT_ENG_IN_EV, ATOM_FIN_POT_ENG_IN_EV: shared by the v0 VASP and LAMMPS job types. For LAMMPS the
+#   potential energy is FINAL_POTENTIAL_ENERGY for every calculation type, and the total energy is
+#   FINAL_TOTAL_ENERGY of MolecularDynamics. For VASP, pyiron vasp/base.py
+#   (_vasp_generic_energy_free_affected) checks HDF version 0.1.0 (also assumed when absent) for a mismatch
+#   between output/generic/energy_pot and the final SCF free energies. Check the HDF version, stored energy
+#   fields, and raw OUTCAR per job before choosing the v1 energy property.
+# ATOM_FIN_VOL_IN_A3: CELL_VOLUME of the SimulatedSystem referenced by FINAL_SYSTEM.
+# PERIODIC_BOUNDARY_X/Y/Z: periodicity belongs to the SimulatedSystem (PERIODIC_A/B/C); x/y/z and a/b/c only
+#   coincide for orthogonal cells aligned with the axes.
 
 
-class SinglePointCalculation(AtomisticSimulation):
+class SinglePointCalculation(Simulation):
     defs = ObjectTypeDef(
         code="SINGLE_POINT_CALCULATION",
         description="A SinglePointCalculation is an atomistic simulation that computes the energy, forces, and other "
@@ -459,14 +445,46 @@ class SinglePointCalculation(AtomisticSimulation):
         generated_code_prefix="SINGLE_PT",
     )
 
+    initial_system = INITIAL_SYSTEM
+    final_system = FINAL_SYSTEM
+    electronic_structure_parameters = ELECTRONIC_STRUCTURE_PARAMETERS
+    max_force_norm = MAX_FORCE_NORM
+    max_force_component = MAX_FORCE_COMPONENT
+    force_vector_norm = FORCE_VECTOR_NORM
+    final_pressure = FINAL_PRESSURE
+    final_potential_energy = FINAL_POTENTIAL_ENERGY
+    scf_converged = SCF_CONVERGED
+    n_irreducible_kpoints = N_IRREDUCIBLE_KPOINTS
+    total_free_energy = TOTAL_FREE_ENERGY
+    total_energy_without_entropy = TOTAL_ENERGY_WITHOUT_ENTROPY
+    total_energy_zero_smearing = TOTAL_ENERGY_ZERO_SMEARING
+    fermi_energy = FERMI_ENERGY
+    total_magnetic_moment = TOTAL_MAGNETIC_MOMENT
 
-class GeometryOptimization(AtomisticSimulation):
+
+class GeometryOptimization(Simulation):
     defs = ObjectTypeDef(
         code="GEOMETRY_OPTIMIZATION",
         description="A GeometryOptimization is an atomistic simulation that moves the nuclei, and the cell if "
         "allowed, towards a local minimum of the energy.",
         generated_code_prefix="GEO_OPT",
     )
+
+    initial_system = INITIAL_SYSTEM
+    final_system = FINAL_SYSTEM
+    electronic_structure_parameters = ELECTRONIC_STRUCTURE_PARAMETERS
+    max_force_norm = MAX_FORCE_NORM
+    max_force_component = MAX_FORCE_COMPONENT
+    force_vector_norm = FORCE_VECTOR_NORM
+    final_pressure = FINAL_PRESSURE
+    final_potential_energy = FINAL_POTENTIAL_ENERGY
+    scf_converged = SCF_CONVERGED
+    n_irreducible_kpoints = N_IRREDUCIBLE_KPOINTS
+    total_free_energy = TOTAL_FREE_ENERGY
+    total_energy_without_entropy = TOTAL_ENERGY_WITHOUT_ENTROPY
+    total_energy_zero_smearing = TOTAL_ENERGY_ZERO_SMEARING
+    fermi_energy = FERMI_ENERGY
+    total_magnetic_moment = TOTAL_MAGNETIC_MOMENT
 
     geometry_optimization_parameters = PropertyTypeAssignment(
         code="GEOMETRY_OPTIMIZATION_PARAMETERS",
@@ -515,7 +533,7 @@ class GeometryOptimization(AtomisticSimulation):
     )
 
 
-class MolecularDynamics(AtomisticSimulation):
+class MolecularDynamics(Simulation):
     defs = ObjectTypeDef(
         code="MOLECULAR_DYNAMICS",
         description="A MolecularDynamics is an atomistic simulation that integrates the classical equations of motion "
@@ -524,6 +542,22 @@ class MolecularDynamics(AtomisticSimulation):
         # No IRI: PMDco has ab initio MD (PMD_0000504) and empirical potential MD (PMD_0000631) as separate process
         # classes, both narrower than this type; ASMO MolecularDynamics is a computational method, not a process.
     )
+
+    initial_system = INITIAL_SYSTEM
+    final_system = FINAL_SYSTEM
+    electronic_structure_parameters = ELECTRONIC_STRUCTURE_PARAMETERS
+    max_force_norm = MAX_FORCE_NORM
+    max_force_component = MAX_FORCE_COMPONENT
+    force_vector_norm = FORCE_VECTOR_NORM
+    final_pressure = FINAL_PRESSURE
+    final_potential_energy = FINAL_POTENTIAL_ENERGY
+    scf_converged = SCF_CONVERGED
+    n_irreducible_kpoints = N_IRREDUCIBLE_KPOINTS
+    total_free_energy = TOTAL_FREE_ENERGY
+    total_energy_without_entropy = TOTAL_ENERGY_WITHOUT_ENTROPY
+    total_energy_zero_smearing = TOTAL_ENERGY_ZERO_SMEARING
+    fermi_energy = FERMI_ENERGY
+    total_magnetic_moment = TOTAL_MAGNETIC_MOMENT
 
     molecular_dynamics_parameters = PropertyTypeAssignment(
         code="MOLECULAR_DYNAMICS_PARAMETERS",
@@ -617,8 +651,6 @@ class MolecularDynamics(AtomisticSimulation):
         section="Results",
         prev_versions=["ATOM_AVG_FNORM_IN_EV_A:v0"],
     )
-
-    # FINAL_POTENTIAL_ENERGY is inherited from AtomisticSimulation.
 
     final_total_energy = PropertyTypeAssignment(
         code="FINAL_TOTAL_ENERGY",

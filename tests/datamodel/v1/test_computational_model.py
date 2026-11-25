@@ -109,6 +109,13 @@ def test_ab_initio_md_is_md_with_electronic_structure_parameters():
     ids=lambda cls: cls.__name__,
 )
 def test_simulation_tasks_preserve_shared_configuration_properties(cls):
+    assert cls.get_hierarchy() == [
+        "ROOT",
+        "ACTIVITY",
+        "COMPUTATION",
+        "SIMULATION",
+        cls.defs.code,
+    ]
     obj = cls()
     props = obj._property_metadata
     expected = {
