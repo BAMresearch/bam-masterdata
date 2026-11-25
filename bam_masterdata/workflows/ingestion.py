@@ -65,7 +65,7 @@ def prepare_workflow_documents(objects, identifiers, openbis, external_resolver=
             return canonical_by_instance[id(value)]
         if isinstance(value, dict):
             return {key: plain_value(item) for key, item in value.items()}
-        if isinstance(value, (list, tuple)):
+        if isinstance(value, list | tuple):
             return [plain_value(item) for item in value]
         return value
 

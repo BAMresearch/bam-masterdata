@@ -51,10 +51,19 @@ def _schema():
         installed = version(package)
         if installed != expected:
             raise RuntimeError(f"Expected {package}=={expected}, found {installed}")
-    from nomad.datamodel import EntryArchive  # noqa: PLC0415 — optional interoperability dependency
-    from nomad.datamodel.context import Context  # noqa: PLC0415 — optional interoperability dependency
-    from nomad.datamodel.metainfo.workflow import Task  # noqa: PLC0415 — optional interoperability dependency
-    from nomad.metainfo import MSection, Reference  # noqa: PLC0415 — optional interoperability dependency
+    from nomad.datamodel import (
+        EntryArchive,  # noqa: PLC0415 — optional interoperability dependency
+    )
+    from nomad.datamodel.context import (
+        Context,  # noqa: PLC0415 — optional interoperability dependency
+    )
+    from nomad.datamodel.metainfo.workflow import (
+        Task,  # noqa: PLC0415 — optional interoperability dependency
+    )
+    from nomad.metainfo import (  # noqa: PLC0415 — optional interoperability dependency
+        MSection,
+        Reference,
+    )
 
     for path in WORKFLOW_CLASSES.values():
         importlib.import_module(path.rsplit(".", 1)[0])
@@ -85,7 +94,7 @@ def load_nomad_archives(archives: dict[str, dict]) -> dict[str, Any]:
     def resolve_reference(value):
         if value is None:
             raise ValueError("Reference resolves to no target")
-        if isinstance(value, (list, tuple)):
+        if isinstance(value, list | tuple):
             for item in value:
                 resolve_reference(item)
         elif hasattr(value, "m_proxy_resolve"):

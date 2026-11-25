@@ -36,7 +36,7 @@ def select_value(value: Any, selector: str | None) -> Any:
         key = segment.replace("~1", "/").replace("~0", "~")
         if isinstance(value, Mapping) and key in value:
             value = value[key]
-        elif isinstance(value, (list, tuple)) and (
+        elif isinstance(value, list | tuple) and (
             key == "0" or (key.isascii() and key.isdigit() and not key.startswith("0"))
         ):
             try:
