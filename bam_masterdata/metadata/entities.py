@@ -1465,6 +1465,22 @@ class ObjectType(BaseEntity):
                 new_value=prop.openbis_description,
             )
 
+        if prop.metadata:
+            old_metadata = dict(property_type.metaData or {})
+            new_metadata = {**old_metadata, **prop.metadata}
+
+            if new_metadata != old_metadata:
+                property_type.metaData = new_metadata
+                modified = True
+
+                result.modified(
+                    target=SyncTarget.PROPERTY_TYPE,
+                    code=prop.code,
+                    field="metadata",
+                    old_value=old_metadata,
+                    new_value=new_metadata,
+                )
+
         if modified:
             property_type.save()
 
@@ -1608,6 +1624,9 @@ class ObjectType(BaseEntity):
                 and prop.object_code != "(ALL)"
             ):
                 kwargs["sampleType"] = prop.object_code
+
+            if prop.metadata:
+                kwargs["metaData"] = prop.metadata.copy()
 
             openbis.new_property_type(**kwargs).save()
             result.created(

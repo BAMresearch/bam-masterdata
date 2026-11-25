@@ -1417,6 +1417,143 @@ class TestObjectTypeSync:
             if change.action == SyncAction.MODIFIED
         } == {"property_label", "description"}
 
+    @pytest.mark.parametrize(
+        "data_type, metadata",
+        [
+            ("VARCHAR", None),
+            ("VARCHAR", {}),
+            ("VARCHAR", {"other_setting": "keep"}),
+            (
+                "MULTILINE_VARCHAR",
+                {"custom_widget": "Word Processor", "other_setting": "keep"},
+            ),
+            ("XML", {"custom_widget": "Spreadsheet"}),
+        ],
+    )
+    def test_create_property_type_passes_metadata(self, data_type, metadata):
+        entity = generate_object_type()
+        prop = PropertyTypeAssignment(
+            code="CONTENT",
+            property_label="Content",
+            description="Content",
+            data_type=data_type,
+            metadata=metadata,
+            mandatory=False,
+            section="General Information",
+        )
+
+        openbis = MagicMock()
+        openbis.get_property_type.side_effect = ValueError("Property not found")
+        obj_type = MagicMock()
+        result = SyncResult()
+
+        entity._create_property_assignment(
+            prop=prop,
+            obj_type=obj_type,
+            openbis=openbis,
+            result=result,
+        )
+
+        openbis.new_property_type.assert_called_once()
+        creation_kwargs = openbis.new_property_type.call_args.kwargs
+
+        if metadata:
+            assert creation_kwargs["metaData"] == metadata
+        else:
+            assert "metaData" not in creation_kwargs
+
+        openbis.new_property_type.return_value.save.assert_called_once()
+        obj_type.assign_property.assert_called_once_with(
+            prop=prop.code,
+            section=prop.section,
+            mandatory=prop.mandatory,
+            showInEditView=prop.show_in_edit_views,
+            ordinal=prop.ordinal,
+        )
+
+    @pytest.mark.parametrize(
+        "current_metadata, desired_metadata, expected_metadata, changed",
+        [
+            (
+                None,
+                {"custom_widget": "Word Processor"},
+                {"custom_widget": "Word Processor"},
+                True,
+            ),
+            (
+                {"other_setting": "keep"},
+                {"custom_widget": "Word Processor"},
+                {"other_setting": "keep", "custom_widget": "Word Processor"},
+                True,
+            ),
+            (
+                {"custom_widget": "Word Processor", "other_setting": "old"},
+                {"other_setting": "new"},
+                {"custom_widget": "Word Processor", "other_setting": "new"},
+                True,
+            ),
+            (
+                {"custom_widget": "Word Processor", "other_setting": "keep"},
+                {"custom_widget": "Word Processor"},
+                {"custom_widget": "Word Processor", "other_setting": "keep"},
+                False,
+            ),
+            (
+                {"custom_widget": "Word Processor"},
+                None,
+                {"custom_widget": "Word Processor"},
+                False,
+            ),
+            (
+                {"custom_widget": "Word Processor"},
+                {},
+                {"custom_widget": "Word Processor"},
+                False,
+            ),
+        ],
+    )
+    def test_sync_property_metadata_preserves_unrelated_keys(
+        self, current_metadata, desired_metadata, expected_metadata, changed
+    ):
+        entity = generate_object_type()
+        prop = PropertyTypeAssignment(
+            code="CONTENT",
+            property_label="Content",
+            description="Content",
+            data_type="MULTILINE_VARCHAR",
+            metadata=desired_metadata,
+            mandatory=False,
+            section="General Information",
+        )
+
+        property_type = MagicMock()
+        property_type.label = prop.openbis_property_label
+        property_type.description = prop.openbis_description
+        property_type.metaData = current_metadata
+        result = SyncResult()
+
+        entity._sync_property_type_metadata(
+            prop=prop,
+            property_type=property_type,
+            result=result,
+        )
+
+        assert property_type.metaData == expected_metadata
+
+        if changed:
+            property_type.save.assert_called_once()
+            assert len(result.changes) == 1
+            change = result.changes[0]
+            assert change.action == SyncAction.MODIFIED
+            assert change.target == SyncTarget.PROPERTY_TYPE
+            assert change.code == prop.code
+            assert change.field == "metadata"
+            assert change.old_value == (current_metadata or {})
+            assert change.new_value == expected_metadata
+        else:
+            property_type.save.assert_not_called()
+            assert not result.changes
+
 
 class TestVocabularyTypeSync:
     @patch("bam_masterdata.metadata.entities.OpenbisEntities")

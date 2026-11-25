@@ -50,6 +50,7 @@ class DataType(StrEnum):
 
 _UNIT_REGISTRY = UnitRegistry()
 _UNIT_SUFFIX_PATTERN = re.compile(r" in \[([^\[\]]+)\]$")
+_OPENBIS_PROPERTY_LABEL_MAX_LENGTH = 128
 _EXCEL_NAME_MAP = {
     "CollectionTypeDef": "EXPERIMENT_TYPE",
     "DatasetTypeDef": "DATASET_TYPE",
@@ -499,8 +500,12 @@ class PropertyTypeDef(EntityDef):
     metadata: dict | None = Field(
         default=None,
         description="""
-        General metadata written in a dictionary format. This is used to store additional information
-        about the property type, e.g., `{'unit': 'm', 'precision': 2}`.
+        Additional metadata associated with the global property type.
+
+        The 'custom_widget' key configures its ELN editor:
+            - 'Word Processor' requires `MULTILINE_VARCHAR`, and
+            - 'Spreadsheet' requires `XML`.
+        Example: `{'custom_widget': 'Word Processor'}`.
         """,
     )
 
@@ -558,6 +563,31 @@ class PropertyTypeDef(EntityDef):
 
         return self
 
+    @model_validator(mode="after")
+    def validate_custom_widget(self):
+        if self.metadata is None or "custom_widget" not in self.metadata:
+            return self
+
+        widget = self.metadata["custom_widget"]
+        supported_widgets = {
+            "Word Processor": DataType.MULTILINE_VARCHAR,
+            "Spreadsheet": DataType.XML,
+        }
+
+        if not isinstance(widget, str) or widget not in supported_widgets:
+            raise ValueError(
+                "metadata.custom_widget must be 'Word Processor' or 'Spreadsheet'."
+            )
+
+        required_type = supported_widgets[widget]
+        if self.data_type != required_type:
+            raise ValueError(
+                f"metadata.custom_widget '{widget}' requires "
+                f"data_type='{required_type.value}'."
+            )
+
+        return self
+
     @property
     def openbis_property_label(self) -> str:
         return _combine_translations(self.property_label, self.property_label_de)
@@ -610,6 +640,18 @@ class PropertyTypeDef(EntityDef):
         else:
             self.property_label += f" in [{self.units}]"
 
+        return self
+
+    # !Note: this validator has to come after `apply_units_to_property_label` to properly account for the length of the final `property_label`
+    @model_validator(mode="after")
+    def validate_openbis_property_label_length(self) -> Any:
+        """Validate the final label, including units and translation."""
+        length = len(self.openbis_property_label)
+        if length > _OPENBIS_PROPERTY_LABEL_MAX_LENGTH:
+            raise ValueError(
+                f"Property '{self.code}' has an openBIS label of {length} characters "
+                f"(maximum {_OPENBIS_PROPERTY_LABEL_MAX_LENGTH})."
+            )
         return self
 
 
