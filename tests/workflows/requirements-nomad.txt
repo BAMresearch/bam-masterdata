@@ -1,3 +1,0 @@
-# Optional, pinned interoperability test environment; not runtime BAM dependencies.
-nomad-lab==2.0.1
-nomad-simulations==0.10.0

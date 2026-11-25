@@ -38,16 +38,12 @@ def export_schema(version: str) -> SchemaExport:
         # Extract which class the property originates from (inherited or defined)
         property_origins = {}
         for base in cls.__mro__:
-            base_defs = getattr(base, "defs", None)
-            # Plain mixins supply properties without introducing a schema node.
-            origin = (
-                base_defs.code
-                if isinstance(base_defs, ObjectTypeDef)
-                else cls.defs.code
-            )
+            if base is ObjectType:
+                break
+
             for value in base.__dict__.values():
                 if isinstance(value, PropertyTypeAssignment):
-                    property_origins.setdefault(value.code, origin)
+                    property_origins.setdefault(value.code, base.defs.code)
 
         node = SchemaNode(
             id=cls.defs.code,

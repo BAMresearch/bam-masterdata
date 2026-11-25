@@ -1,18 +1,13 @@
 # AUTO-GENERATED CLASS HIERARCHY — DO NOT EDIT
 #
-# _SimulationExecutionProperties
-#
-# _SimulationConfigurationProperties
-#
 # Activity*
 # ├── Computation
 # │   ├── Analysis
 # │   │   ├── CreepTestDataProcessing
 # │   │   └── SimulationAnalysis
 # │   │       └── EquationOfStateFit
-# │   ├── Simulation
-# │   └── WorkflowRun
-# │       └── SimulationWorkflow
+# │   └── Simulation
+# │       └── AtomisticSimulation
 # │           ├── SinglePointCalculation
 # │           ├── GeometryOptimization
 # │           └── MolecularDynamics
@@ -134,15 +129,31 @@ class CreepTestDataProcessing(Analysis):
     )
 
 
-class _SimulationExecutionProperties:
-    """Execution properties shared by simulations and simulation workflows."""
+# The openBIS parents of a simulation are the computations whose outputs it used. For example, an MD run
+# starting from a relaxed structure has the GeometryOptimization as its parent.
+# INITIAL_SYSTEM and FINAL_SYSTEM are typed, searchable links to the structures. When a simulation continues
+# from another, its INITIAL_SYSTEM is the same SimulatedSystem object as the previous run's FINAL_SYSTEM,
+# not a copy. SIMULATED_SYSTEM lists all systems involved; INITIAL_SYSTEM and FINAL_SYSTEM identify the
+# start and the end.
+
+
+class Simulation(Computation):
+    defs = ObjectTypeDef(
+        code="SIMULATION",
+        description="A Simulation is a computation that uses one or more computational models to "
+        "reproduce, predict, or explore the behavior of a system under specified conditions.",
+        generated_code_prefix="SIMUL",
+        iri=["https://purls.helmholtz-metadaten.de/asmo/Simulation"],
+        prev_versions=["PYIRON_JOB:v0"],
+    )
 
     simulated_system = PropertyTypeAssignment(
         code="SIMULATED_SYSTEM",
         data_type="OBJECT",
         object_code="SIMULATED_SYSTEM",
         property_label="Simulated system",
-        description="System being simulated, from atomistic to continuum scale",
+        description="All systems involved in the simulation, with INITIAL_SYSTEM and FINAL_SYSTEM "
+        "identifying which of them is the start and the end.",
         mandatory=False,
         section="Simulation Details",
         multivalued=True,
@@ -225,57 +236,7 @@ class _SimulationExecutionProperties:
     # CONCEPTUAL_DICTIONARY
 
 
-class Simulation(Computation, _SimulationExecutionProperties):
-    defs = ObjectTypeDef(
-        code="SIMULATION",
-        description="A Simulation is a computation that uses one or more computational models to "
-        "reproduce, predict, or explore the behavior of a system under specified conditions.",
-        generated_code_prefix="SIMUL",
-        iri=["https://purls.helmholtz-metadaten.de/asmo/Simulation"],
-        prev_versions=["PYIRON_JOB:v0"],
-    )
-
-
-class WorkflowRun(Computation):
-    defs = ObjectTypeDef(
-        code="WORKFLOW_RUN",
-        description="A WorkflowRun is a computation that executes a workflow definition through "
-        "recorded computational steps and their input and output data connections.",
-        generated_code_prefix="WF_RUN",
-        iri=["https://w3id.org/pmd/co/PMD_0000016"],
-    )
-
-    workflow_definition = PropertyTypeAssignment(
-        code="WORKFLOW_DEFINITION",
-        data_type="OBJECT",
-        object_code="WORKFLOW_DEFINITION",
-        property_label="Workflow definition",
-        description="Reusable specification followed by the workflow execution, when known.",
-        mandatory=False,
-        section="Workflow Details",
-    )
-
-    workflow_graph = PropertyTypeAssignment(
-        code="WORKFLOW_GRAPH",
-        data_type="JSON",
-        property_label="Workflow graph",
-        description="Versioned execution graph containing recorded tasks, execution references, "
-        "and named input and output connections. References are validated on ingestion and export.",
-        mandatory=False,
-        section="Workflow Details",
-    )
-
-
-class SimulationWorkflow(WorkflowRun, _SimulationExecutionProperties):
-    defs = ObjectTypeDef(
-        code="SIMULATION_WORKFLOW",
-        description="A SimulationWorkflow is a workflow execution that organizes simulation "
-        "calculations and their configurations, methods, and computed outputs.",
-        generated_code_prefix="SIM_WF",
-    )
-
-
-# --- Simulation tasks ---
+# --- Atomistic simulations ---
 # The kind of process is the object type (single point, geometry optimization, molecular dynamics).
 # The physical model (DFT, interatomic potential) is the referenced ComputationalMethod (COMPUTATIONAL_METHOD), so ab initio
 # MD is a MolecularDynamics with a DFT ComputationalMethod and ElectronicStructureParameters.
@@ -285,14 +246,17 @@ class SimulationWorkflow(WorkflowRun, _SimulationExecutionProperties):
 # velocities, forces; CMSO AtomicPosition, AtomicVelocity, AtomicForce) and trajectories are attached as files.
 
 
-# v0 PYIRON_JOB.VASP and PYIRON_JOB.LAMMPS jobs map to the task selected by
-# ATOMISTIC_CALC_TYPE: ATOM_CALC_SC -> SinglePointCalculation,
-# ATOM_CALC_STRUC_OPT -> GeometryOptimization, ATOM_CALC_MD -> MolecularDynamics.
-# ATOM_CALC_MC and ATOM_CALC_NEB are not modelled yet.
-
-
-class _SimulationConfigurationProperties:
-    """Shared configuration properties; not an openBIS object type."""
+class AtomisticSimulation(Simulation):
+    defs = ObjectTypeDef(
+        code="ATOMISTIC_SIMULATION",
+        description="An AtomisticSimulation is a simulation in which the atoms of the system and their positions are "
+        "represented explicitly, and energies and forces are computed for nuclear configurations.",
+        generated_code_prefix="ATOM_SIM",
+        # v0 jobs map to the subtype given by their ATOMISTIC_CALC_TYPE: ATOM_CALC_SC -> SinglePointCalculation,
+        # ATOM_CALC_STRUC_OPT -> GeometryOptimization, ATOM_CALC_MD -> MolecularDynamics
+        # (ATOM_CALC_MC and ATOM_CALC_NEB are not modelled yet).
+        prev_versions=["PYIRON_JOB.VASP:v0", "PYIRON_JOB.LAMMPS:v0"],
+    )
 
     initial_system = PropertyTypeAssignment(
         code="INITIAL_SYSTEM",
@@ -393,6 +357,10 @@ class _SimulationConfigurationProperties:
         iri=["https://purls.helmholtz-metadaten.de/asmo/PotentialEnergy"],
     )
 
+    # Results of electronic-structure methods. The three energies coincide when no smearing is used. In VASP all
+    # energies are relative to the isolated atoms in the reference configuration of the PAW datasets, so only
+    # differences between calculations with the same datasets are meaningful.
+
     scf_converged = PropertyTypeAssignment(
         code="SCF_CONVERGED",
         data_type="BOOLEAN",
@@ -481,10 +449,10 @@ class _SimulationConfigurationProperties:
     #   coincide for orthogonal cells aligned with the axes.
 
 
-class SinglePointCalculation(SimulationWorkflow, _SimulationConfigurationProperties):
+class SinglePointCalculation(AtomisticSimulation):
     defs = ObjectTypeDef(
         code="SINGLE_POINT_CALCULATION",
-        description="A SinglePointCalculation is a simulation workflow that computes the energy, forces, and other "
+        description="A SinglePointCalculation is an atomistic simulation that computes the energy, forces, and other "
         "properties for one fixed nuclear configuration. For electronic-structure methods this usually includes one "
         "self-consistent field solution, but it can also be a non-self-consistent calculation on a fixed density, "
         "such as for a band structure.",
@@ -492,10 +460,10 @@ class SinglePointCalculation(SimulationWorkflow, _SimulationConfigurationPropert
     )
 
 
-class GeometryOptimization(SimulationWorkflow, _SimulationConfigurationProperties):
+class GeometryOptimization(AtomisticSimulation):
     defs = ObjectTypeDef(
         code="GEOMETRY_OPTIMIZATION",
-        description="A GeometryOptimization is a simulation workflow that moves the nuclei, and the cell if "
+        description="A GeometryOptimization is an atomistic simulation that moves the nuclei, and the cell if "
         "allowed, towards a local minimum of the energy.",
         generated_code_prefix="GEO_OPT",
     )
@@ -547,10 +515,10 @@ class GeometryOptimization(SimulationWorkflow, _SimulationConfigurationPropertie
     )
 
 
-class MolecularDynamics(SimulationWorkflow, _SimulationConfigurationProperties):
+class MolecularDynamics(AtomisticSimulation):
     defs = ObjectTypeDef(
         code="MOLECULAR_DYNAMICS",
-        description="A MolecularDynamics is a simulation workflow that integrates the classical equations of motion "
+        description="A MolecularDynamics is an atomistic simulation that integrates the classical equations of motion "
         "of the nuclei in time, with forces from the referenced computational method.",
         generated_code_prefix="MD",
         # No IRI: PMDco has ab initio MD (PMD_0000504) and empirical potential MD (PMD_0000631) as separate process
@@ -650,7 +618,7 @@ class MolecularDynamics(SimulationWorkflow, _SimulationConfigurationProperties):
         prev_versions=["ATOM_AVG_FNORM_IN_EV_A:v0"],
     )
 
-    # FINAL_POTENTIAL_ENERGY is supplied by the shared configuration properties.
+    # FINAL_POTENTIAL_ENERGY is inherited from AtomisticSimulation.
 
     final_total_energy = PropertyTypeAssignment(
         code="FINAL_TOTAL_ENERGY",

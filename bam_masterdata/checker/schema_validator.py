@@ -111,8 +111,7 @@ def validate_object_type_codes(object_types: list[type[ObjectType]]) -> None:
 def validate_object_references(object_types: list[type[ObjectType]]) -> None:
     """
     Validate OBJECT reference targets within a selected datamodel. The supplied classes must belong
-    to the same datamodel version. Inherited properties, including plain Python mixins, are included,
-    respecting Python attribute overrides.
+    to the same datamodel version. Inherited properties are included, respecting Python attribute overrides.
 
     Args:
         object_types (list[type[ObjectType]]): The list of ObjectType subclasses to validate.
@@ -135,6 +134,9 @@ def validate_object_references(object_types: list[type[ObjectType]]) -> None:
         properties: dict[str, PropertyTypeAssignment] = {}
 
         for base in reversed(cls.__mro__):
+            if not issubclass(base, ObjectType):
+                continue
+
             for name, value in base.__dict__.items():
                 if isinstance(value, PropertyTypeAssignment):
                     properties[name] = value

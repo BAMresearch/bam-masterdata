@@ -13,7 +13,6 @@
 # │   ├── Classification
 # │   ├── Document
 # │   ├── WorkflowDefinition
-# │   ├── WorkflowFunction
 # │   ├── SimulatedSystem
 # │   └── ComputationalMethod
 # ├── Location
@@ -818,46 +817,6 @@ class WorkflowDefinition(Context):
         generated_code_prefix="WF_DEF",
         iri=["https://w3id.org/pmd/co/PMD_0000012"],
         prev_versions=["WORKFLOW_REFERENCE:v0"],
-    )
-
-    workflow_specification = PropertyTypeAssignment(
-        code="WORKFLOW_SPECIFICATION",
-        data_type="JSON",
-        property_label="Workflow specification",
-        description="Versioned specification of prescribed workflow functions, named ports, "
-        "and their connections; distinct from a recorded execution graph.",
-        mandatory=False,
-        section="Workflow Definition",
-    )
-
-
-class WorkflowFunction(Context):
-    defs = ObjectTypeDef(
-        code="WORKFLOW_FUNCTION",
-        description="A WorkflowFunction is a specification of a callable software method, "
-        "its computational action, and its input and output requirements.",
-        generated_code_prefix="WF_FUNC",
-        iri=["https://w3id.org/pmd/co/PMD_0000010"],
-    )
-
-    software = Computation.software
-
-    function_identifier = PropertyTypeAssignment(
-        code="FUNCTION_IDENTIFIER",
-        data_type="VARCHAR",
-        property_label="Function identifier",
-        description="Identifier of the callable procedure or software entry point.",
-        mandatory=False,
-        section="Workflow Function",
-    )
-
-    function_specification = PropertyTypeAssignment(
-        code="FUNCTION_SPECIFICATION",
-        data_type="JSON",
-        property_label="Function specification",
-        description="Versioned specification of the callable procedure's named input and output ports.",
-        mandatory=False,
-        section="Workflow Function",
     )
 
 
