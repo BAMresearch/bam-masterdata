@@ -1,8 +1,7 @@
 name: Sync issue labels
 
 on:
-  pull_request_target:
-    types: [opened, reopened, edited]
+  workflow_call:
 
 permissions:
   contents: read
