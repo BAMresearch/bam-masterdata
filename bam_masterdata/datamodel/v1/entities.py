@@ -161,6 +161,19 @@ class Document(Context):
     # DOCUMENT_LINK
 
 
+class Method(Context):
+    defs = ObjectTypeDef(
+        code="METHOD",
+        description="A Method is a context specification of how an activity is carried out.",
+        generated_code_prefix="METHO",
+        prev_versions=["TEST_METHOD"],
+    )
+
+    # Properties from v0 not migrated (from MEASURING_INSTRUMENT:v0)
+    # INSTRUMENT_CLASSIFICATION
+    # TEST_METHOD_KIND
+
+
 class Location(Entity):
     defs = ObjectTypeDef(
         code="LOCATION",
@@ -500,35 +513,15 @@ class Sensor(Device):
         description="A Sensor is a device used to detect, measure, or record a physical, chemical, "
         "biological, or environmental quality. For example, cameras, thermocouples, pressure sensors, etc.",
         generated_code_prefix="SENS",
+        prev_versions=["MEASURING_INSTRUMENT:v0"],
     )
 
-    measured_quantity = PropertyTypeAssignment(
-        code="MEASURED_QUANTITY",
-        data_type="VARCHAR",
-        property_label="Measured quantity",
-        description="...",
-        mandatory=True,
-        section="Measured Quantities",
-        prev_versions=["MEASUREMENT_QUANTITY:v0"],
-    )
+    # Properties from v0 not migrated (from MEASURING_INSTRUMENT:v0)
+    # INSTRUMENT_CLASSIFICATION
+    # TEST_METHOD_KIND
 
-    measured_quantity_units = PropertyTypeAssignment(
-        code="MEASURED_QUANTITY_UNITS",
-        data_type="VARCHAR",
-        property_label="Measured quantity units",
-        description="...",
-        mandatory=False,
-        section="Measured Quantities",
-    )
-
-    measured_quantity_values = PropertyTypeAssignment(
-        code="MEASURED_QUANTITY_VALUE",
-        data_type="ARRAY_REAL",
-        property_label="Measured quantity values",
-        description="...",
-        mandatory=False,
-        section="Measured Quantities",
-    )
+    # Properties from v0 not migrated (from TESTING_EQUIPMENT:v0)
+    # MEASUREMENT_QUANTITY
 
 
 class Equipment(Device):

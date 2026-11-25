@@ -485,3 +485,23 @@ class EquipmentPurpose(VocabularyType):
         label="Scannen",
         description="""Scanning//Scannen""",
     )
+
+
+class DataPackageKind(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="DATA_PACKAGE_KIND",
+        description="Data package kind",
+        prev_versions=["DATA_PACKAGE_KIND:v0"],
+    )
+
+    raw = VocabularyTerm(
+        code="RAW",
+        label="Raw Data",
+        description="Raw data",
+    )
+
+    processed = VocabularyTerm(
+        code="PROCESSED",
+        label="Processed Data",
+        description="Processed Data",
+    )

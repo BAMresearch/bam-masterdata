@@ -347,10 +347,47 @@ class Synthesis(Experiment):
     )
 
 
-class Test(Experiment):  # needs clarification # do we need test and measurement
+class Test(Experiment):
     defs = ObjectTypeDef(
         code="TEST",
         description="A Test is an experiment that evaluates the behavior or performance of a system under "
         "specified conditions.",
         generated_code_prefix="TEST",
     )
+
+
+class DataTransfer(Activity):
+    defs = ObjectTypeDef(
+        code="DATA_TRANSFER",
+        description="A DataTransfer is an activity in which data is moved from a source to a destination.",
+        generated_code_prefix="DATA_TRANSF",
+        prev_versions=["DATA_TRANSFER:v0"],
+    )
+
+    data_package_kind = PropertyTypeAssignment(
+        code="DATA_PACKAGE_KIND",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="DATA_PACKAGE_KIND",
+        property_label="Data package kind",
+        description="Kind of the data package being transferred.",
+        mandatory=False,
+        section="Data Package Details",
+        prev_versions=["DATA_PACKAGE_KIND:v0"],
+    )
+
+    data_package_date = PropertyTypeAssignment(
+        code="DATA_PACKAGE_DATE",
+        data_type="DATE",
+        property_label="Data package date",
+        description="Date on which the transferred data package was prepared.",
+        mandatory=False,
+        section="Data Package Details",
+        prev_versions=["DATA_PACKAGE_DATE:v0"],
+    )
+
+    # DATA_TRANSFER_PACKAGE:v0 was not migrated and instead its properties were defined here (use datasets to attach the files to this)
+
+    # Properties from v0 not migrated
+    # FILE_FORMAT
+    # AUTHOR_PERSON
+    # INPUT_DATA_PACKAGE
