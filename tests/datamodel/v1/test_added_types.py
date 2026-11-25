@@ -14,7 +14,7 @@ from bam_masterdata.datamodel.v1.building_materials import (
     vocabularies as building_vocabularies,
 )
 from bam_masterdata.datamodel.v1.building_materials.object_types import (
-    BuildingMaterialsSpecimen,
+    BuildingMaterialsSample,
     ConcreteMixture,
 )
 from bam_masterdata.datamodel.v1.creep_test import vocabularies as creep_vocabularies
@@ -29,7 +29,7 @@ from bam_masterdata.metadata.definitions import DataType
 from bam_masterdata.metadata.entities import VocabularyType
 
 ADDED_TYPES = [
-    BuildingMaterialsSpecimen,
+    BuildingMaterialsSample,
     ConcreteMixture,
     CreepTestPiece,
     WeldingWire,
@@ -79,7 +79,7 @@ def test_outdoor_location_uses_the_shared_typed_object_reference():
 
 
 @pytest.mark.parametrize(
-    "cls", [BuildingMaterialsSpecimen, ConcreteMixture, CreepTestPiece]
+    "cls", [BuildingMaterialsSample, ConcreteMixture, CreepTestPiece]
 )
 def test_sample_subtypes_inherit_promoted_geometry_and_origin(cls):
     assert issubclass(cls, Sample)

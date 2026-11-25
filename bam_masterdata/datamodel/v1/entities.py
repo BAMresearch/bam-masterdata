@@ -5,7 +5,8 @@
 # │   ├── Software
 # │   ├── ParameterSet
 # │   ├── Classification
-# │   └── Document
+# │   ├── Document
+# │   └── Method
 # ├── Location
 # └── MaterialEntity
 #     ├── Organism
@@ -166,7 +167,7 @@ class Method(Context):
         code="METHOD",
         description="A Method is a context specification of how an activity is carried out.",
         generated_code_prefix="METHO",
-        prev_versions=["TEST_METHOD"],
+        prev_versions=["TEST_METHOD:v0"],
     )
 
     # Properties from v0 not migrated (from MEASURING_INSTRUMENT:v0)
