@@ -21,6 +21,31 @@ properties, units, and existing parameter references are retained. Generic
 `Simulation` remains available separately. Python inheritance does not imply
 polymorphic openBIS OBJECT targets.
 
+## Electronic-structure basis settings
+
+`ElectronicStructureParameters` supports electronic-structure calculations using
+different basis representations. `PLANE_WAVE_CUTOFF` applies only when the wave
+functions use a plane-wave basis; pseudopotential or PAW references apply only
+when those datasets are used. Other basis definitions and code-specific settings
+can be stored in the inherited `GENERIC_PARAMETERS` JSON, for example:
+
+```json
+{
+  "basis_sets": [
+    {
+      "name": "def2-TZVP",
+      "representation": "gaussian",
+      "role": "orbital",
+      "elements": ["C", "H"]
+    }
+  ]
+}
+```
+
+This is a storage example, not a validated interoperable basis-set schema or an
+automatic mapping to NOMAD. The scientific-data parser remains responsible for
+interpreting these settings and constructing the corresponding NOMAD sections.
+
 ## Versioned graph contract
 
 A run's `workflow_graph` is JSON with `schema_version: "1"`. It contains named

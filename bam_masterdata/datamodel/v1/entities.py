@@ -1191,6 +1191,7 @@ class SimulatedSystem(Context):
         section="Chemical Formula",
     )
 
+    # SIM_CELL_VECTORS:v0 stores text; migration must parse a numeric 3x3 matrix and verify row ordering and units.
     lattice_vectors = PropertyTypeAssignment(
         code="LATTICE_VECTORS",
         data_type="JSON",
@@ -1312,9 +1313,9 @@ class SimulatedSystem(Context):
         description="International Tables number of the space group of the system, from 1 to 230.",
         mandatory=False,
         section="Symmetry Details",
-        prev_versions=["SPACE_GROUP:v0"],
     )
 
+    # SPACE_GROUP:v0 stores vocabulary terms; migration must extract the Hermann-Mauguin symbol from the term label.
     space_group_symbol = PropertyTypeAssignment(
         code="SPACE_GROUP_SYMBOL",
         data_type="VARCHAR",
@@ -1322,6 +1323,7 @@ class SimulatedSystem(Context):
         description="International Tables symbol of the space group of the system, such as Fm-3m.",
         mandatory=False,
         section="Symmetry Details",
+        prev_versions=["SPACE_GROUP:v0"],
     )
 
     point_group_symbol = PropertyTypeAssignment(
@@ -1590,10 +1592,9 @@ class ComputationalMethod(Context):
 class HPC(Device):
     defs = ObjectTypeDef(
         code="HPC",
-        description="An HPC is a material entity consisting of a high-performance computing cluster "
+        description="An HPC is a device comprising a high-performance computing cluster "
         "used to execute computations.",
         generated_code_prefix="HPC",
-        iri=["https://w3id.org/pmd/co/PMD_0000582"],
         prev_versions=["HPC:v0"],
     )
 
@@ -1661,11 +1662,12 @@ class HPC(Device):
 class ElectronicStructureParameters(ParameterSet):
     defs = ObjectTypeDef(
         code="ELECTRONIC_STRUCTURE_PARAMETERS",
-        description="ElectronicStructureParameters is a parameter set for plane-wave electronic-structure "
-        "calculations, with the computational setup used to solve the electronic structure: the pseudopotential or PAW datasets, the basis-set cutoff, the "
-        "Brillouin-zone sampling, the occupations, and the self-consistent field convergence. The datasets also "
-        "affect the physical approximation, not only the numerics. The physical model itself (functional, spin "
-        "treatment, DFT+U) is a ComputationalMethod.",
+        description="ElectronicStructureParameters is a parameter set for electronic-structure calculations, "
+        "including basis settings, pseudopotential or PAW datasets where used, Brillouin-zone sampling where "
+        "applicable, occupations, and self-consistent field convergence. Basis definitions and code-specific "
+        "settings without dedicated properties are stored in GENERIC_PARAMETERS. Pseudopotential or PAW datasets "
+        "also affect the physical approximation, not only the numerics. The physical model itself (functional, "
+        "spin treatment, DFT+U) is a ComputationalMethod.",
         generated_code_prefix="EL_PARAM",
     )
 
@@ -1674,7 +1676,7 @@ class ElectronicStructureParameters(ParameterSet):
         data_type="OBJECT",
         object_code="PSEUDOPOTENTIAL",
         property_label="Pseudopotentials",
-        description="Pseudopotentials or PAW datasets used, one per chemical species (VASP: POTCAR).",
+        description="Pseudopotentials or PAW datasets, where used, one per chemical species (VASP: POTCAR).",
         mandatory=False,
         section="Pseudopotentials",
         multivalued=True,
@@ -1686,7 +1688,7 @@ class ElectronicStructureParameters(ParameterSet):
         property_label="Plane-wave cutoff",
         units="eV",
         description="Kinetic-energy cutoff of the plane-wave basis set for the wave functions (VASP: ENCUT). "
-        "Only for plane-wave codes.",
+        "Applicable only when the wave functions use a plane-wave basis.",
         mandatory=False,
         section="Basis Set",
         iri=["https://purls.helmholtz-metadaten.de/asmo/EnergyCutoff"],
@@ -2094,7 +2096,8 @@ class MolecularDynamicsParameters(ParameterSet):
         prev_versions=["ATOM_SIM_TIME_PS_IN_PS:v0"],
     )
 
-    # v0 ATOM_MD_LANGEVIN (boolean) corresponds to THERMOSTAT = LANGEVIN; the type change prevents a direct link.
+    # prev_versions may link properties with different types, but ATOM_MD_LANGEVIN:v0 needs conditional mapping:
+    # true identifies THERMOSTAT = LANGEVIN; false does not identify the thermostat and must not imply NONE.
     thermostat = PropertyTypeAssignment(
         code="THERMOSTAT",
         data_type="CONTROLLEDVOCABULARY",

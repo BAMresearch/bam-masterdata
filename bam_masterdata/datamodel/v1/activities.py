@@ -60,7 +60,7 @@ class Computation(Activity):
         object_code="COMPUTATIONAL_METHOD",
         property_label="Computational method",
         description="Computational methods applied during the computation, such as density functional "
-        "theory or molecular dynamics.",
+        "theory or an interatomic potential.",
         mandatory=False,
         section="Computation Details",
         multivalued=True,
