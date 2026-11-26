@@ -31835,6 +31835,32 @@ class ThermocoupleType(VocabularyType):
         description="""Type T (Cu-CuNi)//Typ T (Cu-CuNi)""",
     )
 
+    type_k = VocabularyTerm(
+        code="TYPE_K",
+        label="Type K",
+        description="""Type K // Typ K""",
+    )
+    type_n = VocabularyTerm(
+        code="TYPE_N",
+        label="Type N",
+        description="""Type N // Typ N""",
+    )
+    type_s = VocabularyTerm(
+        code="TYPE_S",
+        label="Type S",
+        description="""Type S // Typ S""",
+    )
+    type_r = VocabularyTerm(
+        code="TYPE_R",
+        label="Type R",
+        description="""Type R // Typ R""",
+    )
+    other_specify = VocabularyTerm(
+        code="OTHER_SPECIFY",
+        label="Other (Specify)",
+        description="""Other (Specify) // andere (bitte angeben)""",
+    )
+
 
 class ThermodynEnsemble(VocabularyType):
     defs = VocabularyTypeDef(

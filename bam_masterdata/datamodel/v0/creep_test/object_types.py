@@ -514,7 +514,7 @@ class CreepTestMaterialHistoryAndCondition(ObjectType):
         code="SUPPLIER",
         data_type="VARCHAR",
         property_label="Supplier",
-        description="""Supplier // Lieferant""",
+        description="""Supplier//Lieferant""",
         mandatory=True,
         section="As-tested material",
     )
@@ -537,15 +537,15 @@ class CreepTestMaterialHistoryAndCondition(ObjectType):
     creep_test_supply_date = PropertyTypeAssignment(
         code="SAMPLE_RECEIVED",
         data_type="TIMESTAMP",
-        property_label="Supply Date",
-        description="""Supply Date // Lieferdatum""",
+        property_label="""Date of receipt""",
+        description="""Date when samples arrived//Eingangsdatum der Proben""",
         mandatory=True,
         section="As-tested material",
     )
     creep_test_order_number = PropertyTypeAssignment(
         code="WORKSHOP_ORDER_ID",
         data_type="VARCHAR",
-        property_label="Order number",
+        property_label="""Workshop order ID""",
         description="""Workshop/Order identifier (free text)""",
         mandatory=False,
         section="As-tested material",
@@ -638,7 +638,7 @@ class CreepTestMaterialHistoryAndCondition(ObjectType):
         code="CREEP_TEST_MEASURING_POSITION",
         data_type="VARCHAR",
         property_label="Measuring position",
-        description="""Measuring position - Specify position(s) for bulk (middle/top/bottom/surface) and/or microstructure feature (matrix, interdendtitic region, phase,...) // Messposition - Geben Sie Position(en) an, z. B. im Volumen (Mitte/oben/unten/Oberfläche) und/oder bezogen auf das Mikrostrukturmerkmal (Matrix, interdendritischer Bereich, Phase, …).""",
+        description="""Measuring position - Specify position(s) for bulk (middle/top/bottom/surface) and/or microstructure feature (matrix, interdendtitic region, phase,...) // Messposition - Geben Sie Position(en) an, z. B. im Volumen (Mitte/oben/unten/Oberfläche) und/oder bezogen auf das Mikrostrukturmerkmal (Matrix, interdendritischer Bereich, Phase, ...).""",
         mandatory=True,
         section="Microstructure",
     )
@@ -796,7 +796,7 @@ class CreepTestChemicalCompositionNominal(ObjectType):
         data_type="CONTROLLEDVOCABULARY",
         vocabulary_code="CREEP_TEST_MEASURED_CONDITION",
         property_label="Measured condition",
-        description="""Measured condition // Gemessener Zustand""",
+        description="""Measured condition - E.g., as-manufactured, heat-treated, before testing, after testing // Gemessener Zustand - z. B. wie hergestellt, wärmebehandelt, vor der Prüfung, nach der Prüfung""",
         mandatory=True,
         section="Chemical composition",
     )
@@ -819,8 +819,8 @@ class CreepTestChemicalCompositionNominal(ObjectType):
     creep_test_chemical_composition_nominal = PropertyTypeAssignment(
         code="CHEM_SPECIES_BY_COMP_IN_PCT",
         data_type="VARCHAR",
-        property_label="Chemical composition - nominal (wt.-% / at.-%)",
-        description="""Chemical composition - nominal - Link to file, preferably with machine-readable (meta)data or add the wt.-% value of for each element // Chemische Zusammensetzung - nominal [wt.-% / at.-%] - Link zu einer Datei, vorzugsweise mit maschinenlesbaren (Meta-)Daten, oder geben Sie für jedes Element den Gewichts-%-Wert an.""",
+        property_label="""Chemical species involved by composition [%]""",
+        description="""Chemical species involved by composition [%]//Inbegriffene chemische Spezies nach Zusammensetzung [%]""",
         mandatory=True,
         section="Chemical composition",
     )
@@ -838,7 +838,7 @@ class CreepTestChemicalCompositionMeasured(ObjectType):
         data_type="CONTROLLEDVOCABULARY",
         vocabulary_code="CREEP_TEST_MEASURED_CONDITION",
         property_label="Measured condition",
-        description="""Measured condition // Gemessener Zustand""",
+        description="""Measured condition - E.g., as-manufactured, heat-treated, before testing, after testing // Gemessener Zustand - z. B. wie hergestellt, wärmebehandelt, vor der Prüfung, nach der Prüfung""",
         mandatory=True,
         section="Chemical composition",
     )
@@ -861,8 +861,8 @@ class CreepTestChemicalCompositionMeasured(ObjectType):
     creep_test_chemical_composition_measured = PropertyTypeAssignment(
         code="CHEM_SPECIES_BY_COMP_IN_PCT",
         data_type="VARCHAR",
-        property_label="Chemical composition - measured (wt.-% / at.-%)",
-        description="""Chemical composition - measured - Include precision, if available. Link to file, preferably with machine-readable (meta)data or add the wt.-% value of for each element // Chemische Zusammensetzung - gemessen [wt.-% / at.-%] - Geben Sie, falls verfügbar, die Präzision an. Link zu einer Datei, vorzugsweise mit maschinenlesbaren (Meta-)Daten, oder geben Sie für jedes Element den Gewichts-%-Wert an.""",
+        property_label="""Chemical species involved by composition [%]""",
+        description="""Chemical species involved by composition [%]//Inbegriffene chemische Spezies nach Zusammensetzung [%]""",
         mandatory=True,
         section="Chemical composition",
     )
@@ -1094,9 +1094,9 @@ class CreepTestTestMachine(TestingMachine):
     creep_test_maximum_applicable_force = PropertyTypeAssignment(
         code="MAX_STATIC_FORCE",
         data_type="REAL",
-        property_label="Maximum applicable force",
+        property_label="""Maximum Static Force in [kN]""",
         units="kN",
-        description="""Maximum applicable force // Maximale anwendbare Kraft""",
+        description="""Maximum Static Force in kN//Maximale statische Kraft [kN]""",
         mandatory=False,
         section="Test machine",
     )
@@ -1120,7 +1120,7 @@ class CreepTestTestMachine(TestingMachine):
         code="CREEP_TEST_CALIBRATION_CLASS",
         data_type="REAL",
         property_label="Calibration class",
-        description="""Calibration class - Calibration class of test frame and specimen alignment, e.g., 5 / 5 starting from 3 kN (according to ASTM E1012) // Kalibrierklasse - Kalibrierklasse der Ausrichtung von Testrahmen und Probekörper, z. B. 5/5 ab 3 kN (gemäß ASTM E1012).""",
+        description="""Calibration class of the measuring equipment or test machine//Kalibrierklasse des Messgeräts oder der Prüfmaschine""",
         mandatory=True,
         section="Test machine",
     )
@@ -1178,8 +1178,8 @@ class CreepTestTestMachineLoadingSystem(Instrument):
     creep_test_calibration_certificate = PropertyTypeAssignment(
         code="CALIBRATION_CERTIFICATE_NUMBER",
         data_type="VARCHAR",
-        property_label="Calibration certificate",
-        description="""Calibration certificate - Link to file, preferably with machine-readable (meta)data. Please specify which device/feature/part of the test machine was calibrated. // Kalibrierzertifikat - Link zu einer Datei, vorzugsweise mit maschinenlesbaren (Meta-)Daten. Bitte geben Sie an, welches Gerät/Feature/welcher Teil der Prüfmaschine kalibriert wurde.""",
+        property_label="""Calibration Certificate Number""",
+        description="""Calibration Certificate Number//Kalibrierschein-Nummer""",
         mandatory=False,
         section="Loading system",
     )
@@ -1187,7 +1187,7 @@ class CreepTestTestMachineLoadingSystem(Instrument):
         code="CALIBRATION_DATE",
         data_type="DATE",
         property_label="Calibration date",
-        description="""Calibration date // Kalibrierdatum""",
+        description="""Date of calibration//Datum der Kalibrierung""",
         mandatory=True,
         section="Loading system",
     )
@@ -1212,7 +1212,7 @@ class CreepTestTestMachineLoadingSystem(Instrument):
         code="CREEP_TEST_CALIBRATION_CLASS",
         data_type="REAL",
         property_label="Calibration class",
-        description="""Calibration class // Kalibrierklasse""",
+        description="""Calibration class of the measuring equipment or test machine//Kalibrierklasse des Messgeräts oder der Prüfmaschine""",
         mandatory=True,
         section="Loading system",
     )
@@ -1220,8 +1220,7 @@ class CreepTestTestMachineLoadingSystem(Instrument):
         code="CREEP_TEST_CALIBRATION_RANGE",
         data_type="REAL",
         property_label="Calibration range",
-        units="kN",
-        description="""Calibration range // Kalibrierbereich [kN]""",
+        description="""Calibration range in the unit applicable to the measuring equipment: mm, percent, kN, or degrees Celsius//Kalibrierbereich in der für das Messgerät geltenden Einheit: mm, Prozent, kN oder Grad Celsius""",
         mandatory=True,
         section="Loading system",
     )
@@ -1318,8 +1317,8 @@ class CreepTestLoadSensor(Instrument):
     creep_test_calibration_certificate = PropertyTypeAssignment(
         code="CALIBRATION_CERTIFICATE_NUMBER",
         data_type="VARCHAR",
-        property_label="Calibration certificate",
-        description="""Calibration certificate - Link to file, preferably with machine-readable (meta)data. // Kalibrierzertifikat - Link to file, preferably with machine-readable (meta)data.""",
+        property_label="""Calibration Certificate Number""",
+        description="""Calibration Certificate Number//Kalibrierschein-Nummer""",
         mandatory=False,
         section="Load sensor",
     )
@@ -1327,7 +1326,7 @@ class CreepTestLoadSensor(Instrument):
         code="CALIBRATION_DATE",
         data_type="DATE",
         property_label="Calibration date",
-        description="""Calibration date // Kalibrierdatum""",
+        description="""Date of calibration//Datum der Kalibrierung""",
         mandatory=True,
         section="Load sensor",
     )
@@ -1352,16 +1351,15 @@ class CreepTestLoadSensor(Instrument):
         code="CREEP_TEST_CALIBRATION_CLASS",
         data_type="REAL",
         property_label="Calibration class",
-        description="""Calibration class // Kalibrierklasse""",
+        description="""Calibration class of the measuring equipment or test machine//Kalibrierklasse des Messgeräts oder der Prüfmaschine""",
         mandatory=True,
         section="Load sensor",
     )
     creep_test_calibration_range = PropertyTypeAssignment(
         code="CREEP_TEST_CALIBRATION_RANGE",
         data_type="REAL",
-        property_label="Calibration Range",
-        units="kN",
-        description="""Calibration Range // Kalibrierbereich [kN]""",
+        property_label="""Calibration range""",
+        description="""Calibration range in the unit applicable to the measuring equipment: mm, percent, kN, or degrees Celsius//Kalibrierbereich in der für das Messgerät geltenden Einheit: mm, Prozent, kN oder Grad Celsius""",
         mandatory=True,
         section="Load sensor",
     )
@@ -1487,8 +1485,8 @@ class CreepTestTemperatureSensor(Instrument):
         code="CREEP_TEST_CALIBRATION_STATUS",
         data_type="CONTROLLEDVOCABULARY",
         vocabulary_code="CREEP_TEST_CALIBRATION_STATUS",
-        property_label="Is/are the thermocouples calibrated?",
-        description="""Calibration status - Is/are the thermocouples calibrated? // Kalibrierstatus - Ist/sind das/die Thermoelement(e) kalibriert?""",
+        property_label="""Calibration status""",
+        description="""Calibration status of the measuring equipment//Kalibrierstatus der Messgeräte""",
         mandatory=True,
         section="Temperature sensor",
     )
@@ -1513,8 +1511,8 @@ class CreepTestTemperatureSensor(Instrument):
     creep_test_calibration_certificate = PropertyTypeAssignment(
         code="CALIBRATION_CERTIFICATE_NUMBER",
         data_type="VARCHAR",
-        property_label="Calibration certificate",
-        description="""Calibration certificate - Link to file, preferably with machine-readable (meta)data. // Kalibrierzertifikat - Link zu einer Datei, vorzugsweise mit maschinenlesbaren (Meta-)Daten.""",
+        property_label="""Calibration Certificate Number""",
+        description="""Calibration Certificate Number//Kalibrierschein-Nummer""",
         mandatory=False,
         section="Temperature sensor",
     )
@@ -1522,7 +1520,7 @@ class CreepTestTemperatureSensor(Instrument):
         code="CALIBRATION_DATE",
         data_type="DATE",
         property_label="Calibration date",
-        description="""Calibration date // Kalibrierdatum""",
+        description="""Date of calibration//Datum der Kalibrierung""",
         mandatory=True,
         section="Temperature sensor",
     )
@@ -1546,9 +1544,8 @@ class CreepTestTemperatureSensor(Instrument):
     creep_test_calibration_range = PropertyTypeAssignment(
         code="CREEP_TEST_CALIBRATION_RANGE",
         data_type="REAL",
-        property_label="Calibration Range",
-        units="degC",
-        description="""Calibration Range // Kalibrierbereich [°C]""",
+        property_label="""Calibration range""",
+        description="""Calibration range in the unit applicable to the measuring equipment: mm, percent, kN, or degrees Celsius//Kalibrierbereich in der für das Messgerät geltenden Einheit: mm, Prozent, kN oder Grad Celsius""",
         mandatory=True,
         section="Temperature sensor",
     )
@@ -1592,8 +1589,8 @@ class CreepTestTemperatureDataAcquisition(Instrument):
         code="CREEP_TEST_CALIBRATION_STATUS",
         data_type="CONTROLLEDVOCABULARY",
         vocabulary_code="CREEP_TEST_CALIBRATION_STATUS",
-        property_label="Is/are the data acquisition unit calibrated?",
-        description="""Calibration status - Is/are the data acquisition unit calibrated? // Kalibrierstatus - Ist/sind die Datenerfassungseinheit(en) kalibriert?""",
+        property_label="""Calibration status""",
+        description="""Calibration status of the measuring equipment//Kalibrierstatus der Messgeräte""",
         mandatory=True,
         section="Data acquisition",
     )
@@ -1609,8 +1606,8 @@ class CreepTestTemperatureDataAcquisition(Instrument):
     creep_test_calibration_certificate = PropertyTypeAssignment(
         code="CALIBRATION_CERTIFICATE_NUMBER",
         data_type="VARCHAR",
-        property_label="Calibration certificate",
-        description="""Calibration certificate - Link to file, preferably with machine-readable (meta)data. // Kalibrierzertifikat - Link zu einer Datei, vorzugsweise mit maschinenlesbaren (Meta-)Daten.""",
+        property_label="""Calibration Certificate Number""",
+        description="""Calibration Certificate Number//Kalibrierschein-Nummer""",
         mandatory=False,
         section="Data acquisition",
     )
@@ -1618,7 +1615,7 @@ class CreepTestTemperatureDataAcquisition(Instrument):
         code="CALIBRATION_DATE",
         data_type="DATE",
         property_label="Calibration date",
-        description="""Calibration date // Kalibrierdatum""",
+        description="""Date of calibration//Datum der Kalibrierung""",
         mandatory=True,
         section="Data acquisition",
     )
@@ -1659,9 +1656,8 @@ class CreepTestTemperatureDataAcquisition(Instrument):
     creep_test_calibration_range = PropertyTypeAssignment(
         code="CREEP_TEST_CALIBRATION_RANGE",
         data_type="REAL",
-        property_label="Calibration Range",
-        units="degC",
-        description="""Calibration Range // Kalibrierbereich [°C]""",
+        property_label="""Calibration range""",
+        description="""Calibration range in the unit applicable to the measuring equipment: mm, percent, kN, or degrees Celsius//Kalibrierbereich in der für das Messgerät geltenden Einheit: mm, Prozent, kN oder Grad Celsius""",
         mandatory=True,
         section="Data acquisition",
     )
@@ -1816,8 +1812,8 @@ class CreepTestExtensionValuesContactingExtensometer(Instrument):
     creep_test_calibration_certificate = PropertyTypeAssignment(
         code="CALIBRATION_CERTIFICATE_NUMBER",
         data_type="VARCHAR",
-        property_label="Calibration certificate",
-        description="""Calibration certificate - Link to file, preferably with machine-readable (meta)data. // Kalibrierzertifikat - Link zu einer Datei, vorzugsweise mit maschinenlesbaren (Meta-)Daten.""",
+        property_label="""Calibration Certificate Number""",
+        description="""Calibration Certificate Number//Kalibrierschein-Nummer""",
         mandatory=False,
         section="Contacting extensometer",
     )
@@ -1825,7 +1821,7 @@ class CreepTestExtensionValuesContactingExtensometer(Instrument):
         code="CALIBRATION_DATE",
         data_type="DATE",
         property_label="Calibration date",
-        description="""Calibration date // Kalibrierdatum""",
+        description="""Date of calibration//Datum der Kalibrierung""",
         mandatory=True,
         section="Contacting extensometer",
     )
@@ -1841,16 +1837,15 @@ class CreepTestExtensionValuesContactingExtensometer(Instrument):
         code="CREEP_TEST_CALIBRATION_CLASS",
         data_type="REAL",
         property_label="Calibration class",
-        description="""Calibration class // Calibration class""",
+        description="""Calibration class of the measuring equipment or test machine//Kalibrierklasse des Messgeräts oder der Prüfmaschine""",
         mandatory=True,
         section="Contacting extensometer",
     )
     creep_test_calibration_range = PropertyTypeAssignment(
         code="CREEP_TEST_CALIBRATION_RANGE",
         data_type="REAL",
-        property_label="Calibration Range",
-        units="% (mm)",
-        description="""Calibration Range // Kalibrierbereich [% (mm)]""",
+        property_label="""Calibration range""",
+        description="""Calibration range in the unit applicable to the measuring equipment: mm, percent, kN, or degrees Celsius//Kalibrierbereich in der für das Messgerät geltenden Einheit: mm, Prozent, kN oder Grad Celsius""",
         mandatory=True,
         section="Contacting extensometer",
     )
@@ -1906,11 +1901,11 @@ class CreepTestElongationValuesAndCrossSectionalDimensions(Instrument):
         mandatory=False,
         section="Elongation values and cross-sectional dimensions",
     )
-    creep_test_equipment_model_information = PropertyTypeAssignment(
+    device_model_name = PropertyTypeAssignment(
         code="DEVICE_MODEL_NAME",
         data_type="VARCHAR",
-        property_label="Equipment model information",
-        description="""Equipment model information // Gerätemodellinformationen""",
+        property_label="""Model Name""",
+        description="""Manufacturer model name//Modellname bzw. Gerätebezeichnung seitens des Herstellers""",
         mandatory=False,
         section="Elongation values and cross-sectional dimensions",
     )
@@ -1926,16 +1921,16 @@ class CreepTestElongationValuesAndCrossSectionalDimensions(Instrument):
         code="CREEP_TEST_CALIBRATION_STATUS",
         data_type="CONTROLLEDVOCABULARY",
         vocabulary_code="CREEP_TEST_CALIBRATION_STATUS",
-        property_label="Is the measuring equipment calibrated?",
-        description="""Calibration status - Is the measuring equipment calibrated? // Kalibrierstatus - Sind/Waren die Messgeräte kalibriert?""",
+        property_label="""Calibration status""",
+        description="""Calibration status of the measuring equipment//Kalibrierstatus der Messgeräte""",
         mandatory=True,
         section="Elongation values and cross-sectional dimensions",
     )
     creep_test_calibration_certificate = PropertyTypeAssignment(
         code="CALIBRATION_CERTIFICATE_NUMBER",
         data_type="VARCHAR",
-        property_label="Calibration certificate",
-        description="""Calibration certificate - Link to file, preferably with machine-readable (meta)data. // Kalibrierzertifikat - Link zu einer Datei, vorzugsweise mit maschinenlesbaren (Meta-)Daten.""",
+        property_label="""Calibration Certificate Number""",
+        description="""Calibration Certificate Number//Kalibrierschein-Nummer""",
         mandatory=False,
         section="Elongation values and cross-sectional dimensions",
     )
@@ -1943,7 +1938,7 @@ class CreepTestElongationValuesAndCrossSectionalDimensions(Instrument):
         code="CALIBRATION_DATE",
         data_type="DATE",
         property_label="Calibration date",
-        description="""Calibration date // Kalibrierdatum""",
+        description="""Date of calibration//Datum der Kalibrierung""",
         mandatory=True,
         section="Elongation values and cross-sectional dimensions",
     )
@@ -1967,8 +1962,7 @@ class CreepTestElongationValuesAndCrossSectionalDimensions(Instrument):
         code="CREEP_TEST_CALIBRATION_RANGE",
         data_type="REAL",
         property_label="Calibration range",
-        units="mm",
-        description="""Calibration range // Kalibrierbereich [mm]""",
+        description="""Calibration range in the unit applicable to the measuring equipment: mm, percent, kN, or degrees Celsius//Kalibrierbereich in der für das Messgerät geltenden Einheit: mm, Prozent, kN oder Grad Celsius""",
         mandatory=True,
         section="Elongation values and cross-sectional dimensions",
     )

@@ -782,7 +782,7 @@ class LaserMagnet(Weldment):
         code="SHIELDING_GAS_FLOWRATE",
         data_type="REAL",
         property_label="Shielding gas flowrate",
-        units="l/minute",
+        units="l/min",
         description="""Shielding gas flowrate in [l/min]//Schutzgasflussrate in [l/min]""",
         mandatory=False,
         section="Welding Parameters",
