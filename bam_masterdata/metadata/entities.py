@@ -1004,16 +1004,18 @@ class ObjectType(BaseEntity):
                 datamodel_dir = str(Path(package.__file__).resolve().parent)
                 break
 
-        vocab_paths = []
-        for file in listdir_py_modules(datamodel_dir):
-            if "vocabulary_types.py" in file or "vocabularies.py" in file:
-                vocab_paths.append(file)
+        vocab_paths = [
+            path
+            for path in listdir_py_modules(datamodel_dir)
+            if re.fullmatch(
+                r"(?:vocabulary_types|vocabularies)(?:_v\d+)?\.py", Path(path).name
+            )
+        ]
         if not vocab_paths:
             raise FileNotFoundError(
-                f"No file 'vocabularies.py' was not found in the directory and sub-directories specified by {datamodel_dir}."
+                f"No vocabulary modules were found in {datamodel_dir}."
             )
 
-        # Scan all vocabularies.py files
         vocabulary_class = None
         for vocab_path in vocab_paths:
             vocabulary_class = self.get_vocabulary_class(vocabulary_code, vocab_path)

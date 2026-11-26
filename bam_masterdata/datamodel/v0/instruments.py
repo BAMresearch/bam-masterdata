@@ -1155,6 +1155,16 @@ class LaserGeneral(Instrument):
         section="Laser Specifications",
     )
 
+    laser_gain_medium = PropertyTypeAssignment(
+        code="LASER_GAIN_MEDIUM",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="LASER_GAIN_MEDIUM",
+        property_label="Laser Gain Medium",
+        description="""Material that provides optical gain in the laser//Material, das die optische Verstärkung im Laser erzeugt""",
+        mandatory=False,
+        section="Laser Specifications",
+    )
+
 
 class FlashLamp(Instrument):
     defs = ObjectTypeDef(

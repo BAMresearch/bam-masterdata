@@ -11,7 +11,7 @@ from bam_masterdata.datamodel.v0.object_types import (
     TestObjectBAM,
 )
 from bam_masterdata.datamodel.v0.welding.object_types import Welding
-from bam_masterdata.metadata.definitions import ObjectTypeDef
+from bam_masterdata.metadata.definitions import ObjectTypeDef, PropertyTypeAssignment
 
 
 @pytest.mark.parametrize(
@@ -72,3 +72,22 @@ def test_v0_hierarchy_does_not_modify_codes():
 
     assert Dcpd.defs.code == original_code
     assert Dcpd.defs.generated_code_prefix == original_prefix
+
+
+def test_v0_property_uses_vocabulary_from_versioned_module():
+    class WeldingStep(ExperimentalStep):
+        welding_position = PropertyTypeAssignment(
+            code="WELDING_POSITION",
+            data_type="CONTROLLEDVOCABULARY",
+            vocabulary_code="WELDING.POSITIONS",
+            property_label="Welding position",
+            description="Position in which welding is performed.",
+            mandatory=False,
+            section="Welding",
+        )
+
+    step = WeldingStep(welding_position="PA")
+    assert step.welding_position == "PA"
+
+    with pytest.raises(ValueError, match="not in the list of allowed terms"):
+        step.welding_position = "INVALID_POSITION"
