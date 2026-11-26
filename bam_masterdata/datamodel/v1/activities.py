@@ -377,7 +377,6 @@ class MonteCarloSimulation(_SimulationInputsAndOutputs, Simulation):
         "sampling.",
         generated_code_prefix="MC",
         prev_versions=["PYIRON_JOB.VASP:v0", "PYIRON_JOB.LAMMPS:v0"],
-        iri=["https://w3id.org/pmd/co/PMD_0000862"],
     )
 
 
