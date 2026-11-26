@@ -3,8 +3,15 @@
 # Activity*
 # ├── Computation
 # │   ├── Analysis
-# │   │   └── CreepTestDataProcessing
+# │   │   ├── CreepTestDataProcessing
+# │   │   └── SimulationAnalysis
+# │   │       └── EquationOfStateFit
 # │   └── Simulation
+# │       ├── SinglePointCalculation
+# │       ├── GeometryOptimization
+# │       ├── MolecularDynamics
+# │       ├── MonteCarloSimulation
+# │       └── NudgedElasticBand
 # └── Experiment
 #     ├── Processing
 #     ├── Measurement
@@ -45,10 +52,93 @@ class Computation(Activity):
         object_code="COMPUTATIONAL_METHOD",
         property_label="Computational method",
         description="Computational methods applied during the computation, such as density functional "
-        "theory or molecular dynamics.",
+        "theory or an interatomic potential.",
         mandatory=False,
         section="Computation Details",
         multivalued=True,
+    )
+
+    executed_on = PropertyTypeAssignment(
+        code="EXECUTED_ON",
+        data_type="OBJECT",
+        object_code="HPC",
+        property_label="Executed on",
+        description="Computing cluster on which the computation was run.",
+        mandatory=False,
+        section="Execution Details",
+        iri=["http://purl.obolibrary.org/obo/RO_0000057"],
+    )
+
+    walltime_h = PropertyTypeAssignment(
+        code="WALLTIME_H",
+        data_type="REAL",
+        property_label="Walltime",
+        units="h",
+        description="Elapsed time between the start and the end of this computation.",
+        mandatory=False,
+        section="Execution Details",
+        prev_versions=["SIM_WALLTIME_IN_HOURS:v0"],
+    )
+
+    core_time_h = PropertyTypeAssignment(
+        code="CORE_TIME_H",
+        data_type="REAL",
+        property_label="Core time",
+        units="h",
+        description="Total CPU time consumed by this computation, expressed in core-hours.",
+        mandatory=False,
+        section="Execution Details",
+        prev_versions=["SIM_CORETIME_IN_HOURS:v0"],
+    )
+
+    n_cores = PropertyTypeAssignment(
+        code="N_CORES",
+        data_type="INTEGER",
+        property_label="Number of cores",
+        description="Number of CPU cores allocated to this computation.",
+        mandatory=False,
+        section="Execution Details",
+        prev_versions=["NCORES:v0"],
+    )
+
+    n_gpus = PropertyTypeAssignment(
+        code="N_GPUS",
+        data_type="INTEGER",
+        property_label="Number of GPUs",
+        description="Number of GPUs allocated to this computation.",
+        mandatory=False,
+        section="Execution Details",
+        prev_versions=["NGPUS:v0"],
+    )
+
+    n_threads = PropertyTypeAssignment(
+        code="N_THREADS",
+        data_type="INTEGER",
+        property_label="Number of threads",
+        description="Number of execution threads configured for this computation.",
+        mandatory=False,
+        section="Execution Details",
+        prev_versions=["NTHREADS:v0"],
+    )
+
+    hpc_job_queue = PropertyTypeAssignment(
+        code="HPC_JOB_QUEUE",
+        data_type="VARCHAR",
+        property_label="HPC job queue",
+        description="Queue or partition of the cluster in which this computation was run.",
+        mandatory=False,
+        section="Execution Details",
+        prev_versions=["HPC_JOB_QUEUE:v0"],
+    )
+
+    hpc_job_id = PropertyTypeAssignment(
+        code="HPC_JOB_ID",
+        data_type="VARCHAR",
+        property_label="HPC job ID",
+        description="Identifier that the job scheduler of the cluster assigned to this computation.",
+        mandatory=False,
+        section="Execution Details",
+        prev_versions=["HPC_JOB_ID:v0"],
     )
 
     # Properties from v0 that need to be migrated to v1:
@@ -61,7 +151,6 @@ class Analysis(Computation):
         description="An Analysis is a computation that examines one or more existing inputs to derive "
         "information, properties, parameters, or other outputs.",
         generated_code_prefix="ANALY",
-        iri=["https://w3id.org/pmd/co/PMD_0025012"],
     )
 
     primary_data_series = PropertyTypeAssignment(
@@ -120,16 +209,16 @@ class CreepTestDataProcessing(Analysis):
     )
 
 
+# How computations are linked: see docs/explanations/computation_schema.md.
+
+
 class Simulation(Computation):
     defs = ObjectTypeDef(
         code="SIMULATION",
         description="A Simulation is a computation that uses one or more computational models to "
         "reproduce, predict, or explore the behavior of a system under specified conditions.",
         generated_code_prefix="SIMUL",
-        iri=[
-            "https://purls.helmholtz-metadaten.de/asmo/Simulation",
-            "https://w3id.org/pmd/co/PMD_0000933",
-        ],
+        iri=["https://w3id.org/pmd/co/PMD_0000933"],
         prev_versions=["PYIRON_JOB:v0"],
     )
 
@@ -138,87 +227,211 @@ class Simulation(Computation):
         data_type="OBJECT",
         object_code="SIMULATED_SYSTEM",
         property_label="Simulated system",
-        description="System being simulated, from atomistic to continuum scale",
+        description="All systems involved in the simulation, with INITIAL_SYSTEM and FINAL_SYSTEM "
+        "identifying which of them is the start and the end.",
         mandatory=False,
         section="Simulation Details",
         multivalued=True,
     )
 
-    walltime_h = PropertyTypeAssignment(
-        code="WALLTIME_H",
-        data_type="REAL",
-        property_label="Walltime",
-        units="h",
-        description="Elapsed time between the start and end of simulation execution.",
-        mandatory=False,
-        section="Execution Details",
-        prev_versions=["SIM_WALLTIME_IN_HOURS:v0"],
-    )
-
-    core_time_h = PropertyTypeAssignment(
-        code="CORE_TIME_H",
-        data_type="REAL",
-        property_label="Core time",
-        units="h",
-        description="Total CPU time consumed by the simulation, expressed in core-hours.",
-        mandatory=False,
-        section="Execution Details",
-        prev_versions=["SIM_CORETIME_IN_HOURS:v0"],
-    )
-
-    n_cores = PropertyTypeAssignment(
-        code="N_CORES",
-        data_type="INTEGER",
-        property_label="Number of cores",
-        description="Number of CPU cores allocated to the simulation.",
-        mandatory=False,
-        section="Execution Details",
-        prev_versions=["NCORES:v0"],
-    )
-
-    n_gpus = PropertyTypeAssignment(
-        code="N_GPUS",
-        data_type="INTEGER",
-        property_label="Number of GPUs",
-        description="Number of GPUs allocated to the simulation.",
-        mandatory=False,
-        section="Execution Details",
-        prev_versions=["NGPUS:v0"],
-    )
-
-    n_threads = PropertyTypeAssignment(
-        code="N_THREADS",
-        data_type="INTEGER",
-        property_label="Number of threads",
-        description="Number of execution threads configured for the simulation.",
-        mandatory=False,
-        section="Execution Details",
-        prev_versions=["NTHREADS:v0"],
-    )
-
-    hpc_job_queue = PropertyTypeAssignment(
-        code="HPC_JOB_QUEUE",
-        data_type="VARCHAR",
-        property_label="HPC job queue",
-        description="Name of the HPC scheduler queue or partition used to execute the simulation.",
-        mandatory=False,
-        section="Execution Details",
-        prev_versions=["HPC_JOB_QUEUE:v0"],
-    )
-
-    hpc_job_id = PropertyTypeAssignment(
-        code="HPC_JOB_ID",
-        data_type="VARCHAR",
-        property_label="HPC job ID",
-        description="Identifier assigned to the simulation by an HPC job scheduler.",
-        mandatory=False,
-        section="Execution Details",
-        prev_versions=["HPC_JOB_ID:v0"],
-    )
-
     # Properties from v0 that need to be migrated to v1 (from PYIRON_JOB:v0):
     # BAM_USERNAME
     # CONCEPTUAL_DICTIONARY
+
+
+INITIAL_SYSTEM = PropertyTypeAssignment(
+    code="INITIAL_SYSTEM",
+    data_type="OBJECT",
+    object_code="SIMULATED_SYSTEM",
+    property_label="Initial system",
+    description="Simulated system at the start of the simulation.",
+    mandatory=False,
+    section="Simulated Systems",
+    iri=["http://purl.obolibrary.org/obo/OBI_0000293"],
+)
+
+FINAL_SYSTEM = PropertyTypeAssignment(
+    code="FINAL_SYSTEM",
+    data_type="OBJECT",
+    object_code="SIMULATED_SYSTEM",
+    property_label="Final system",
+    description="Simulated system at the end of the simulation, such as the relaxed structure or the last "
+    "configuration of a molecular dynamics run.",
+    mandatory=False,
+    section="Simulated Systems",
+    iri=["http://purl.obolibrary.org/obo/OBI_0000299"],
+)
+
+ELECTRONIC_STRUCTURE_PARAMETERS = PropertyTypeAssignment(
+    code="ELECTRONIC_STRUCTURE_PARAMETERS",
+    data_type="OBJECT",
+    object_code="ELECTRONIC_STRUCTURE_PARAMETERS",
+    property_label="Electronic structure parameters",
+    description="Numerical parameters used to solve the electronic structure, for electronic-structure methods "
+    "such as DFT.",
+    mandatory=False,
+    section="Input Specification",
+)
+
+
+class _SimulationInputs:  # no defs: not an openBIS type
+    initial_system = INITIAL_SYSTEM
+    electronic_structure_parameters = ELECTRONIC_STRUCTURE_PARAMETERS
+
+
+class _SimulationInputsAndOutputs(_SimulationInputs):  # no defs: not an openBIS type
+    final_system = FINAL_SYSTEM
+
+
+class SinglePointCalculation(_SimulationInputs, Simulation):
+    defs = ObjectTypeDef(
+        code="SINGLE_POINT_CALCULATION",
+        description="A SinglePointCalculation is a simulation that computes the energy and other properties of one "
+        "fixed configuration of a system.",
+        generated_code_prefix="SINGLE_PT",
+        prev_versions=["PYIRON_JOB.VASP:v0", "PYIRON_JOB.LAMMPS:v0"],
+    )
+
+    single_point_results = PropertyTypeAssignment(
+        code="SINGLE_POINT_RESULTS",
+        data_type="OBJECT",
+        object_code="SINGLE_POINT_RESULTS",
+        property_label="Results",
+        description="Results of this computation.",
+        mandatory=False,
+        section="Results",
+        iri=["http://purl.obolibrary.org/obo/OBI_0000299"],
+    )
+
+
+class GeometryOptimization(_SimulationInputsAndOutputs, Simulation):
+    defs = ObjectTypeDef(
+        code="GEOMETRY_OPTIMIZATION",
+        description="A GeometryOptimization is a simulation that changes the structure of a system, and its cell if "
+        "allowed, towards a local minimum of its energy.",
+        generated_code_prefix="GEO_OPT",
+        prev_versions=["PYIRON_JOB.VASP:v0", "PYIRON_JOB.LAMMPS:v0"],
+        # No IRI: PMD_0000956 (structural optimization simulation) is about the most stable structure,
+        # not a local minimum.
+    )
+
+    geometry_optimization_parameters = PropertyTypeAssignment(
+        code="GEOMETRY_OPTIMIZATION_PARAMETERS",
+        data_type="OBJECT",
+        object_code="GEOMETRY_OPTIMIZATION_PARAMETERS",
+        property_label="Geometry optimization parameters",
+        description="Degrees of freedom, algorithm, and convergence thresholds of the optimization.",
+        mandatory=False,
+        section="Input Specification",
+    )
+
+    geometry_optimization_results = PropertyTypeAssignment(
+        code="GEOMETRY_OPTIMIZATION_RESULTS",
+        data_type="OBJECT",
+        object_code="GEOMETRY_OPTIMIZATION_RESULTS",
+        property_label="Results",
+        description="Results of this computation.",
+        mandatory=False,
+        section="Results",
+        iri=["http://purl.obolibrary.org/obo/OBI_0000299"],
+    )
+
+
+class MolecularDynamics(_SimulationInputsAndOutputs, Simulation):
+    defs = ObjectTypeDef(
+        code="MOLECULAR_DYNAMICS",
+        description="A MolecularDynamics is a simulation that integrates the equations of motion of the particles "
+        "of a system over time, with forces from the referenced computational method.",
+        generated_code_prefix="MD",
+        prev_versions=["PYIRON_JOB.VASP:v0", "PYIRON_JOB.LAMMPS:v0"],
+        # No IRI: PMDco has ab initio MD (PMD_0000504) and empirical potential MD (PMD_0000631) as separate
+        # classes, both narrower than this type.
+    )
+
+    molecular_dynamics_parameters = PropertyTypeAssignment(
+        code="MOLECULAR_DYNAMICS_PARAMETERS",
+        data_type="OBJECT",
+        object_code="MOLECULAR_DYNAMICS_PARAMETERS",
+        property_label="Molecular dynamics parameters",
+        description="Ensemble, target conditions, time step, thermostat, and barostat of the run.",
+        mandatory=False,
+        section="Input Specification",
+    )
+
+    molecular_dynamics_results = PropertyTypeAssignment(
+        code="MOLECULAR_DYNAMICS_RESULTS",
+        data_type="OBJECT",
+        object_code="MOLECULAR_DYNAMICS_RESULTS",
+        property_label="Results",
+        description="Results of this computation.",
+        mandatory=False,
+        section="Results",
+        iri=["http://purl.obolibrary.org/obo/OBI_0000299"],
+    )
+
+
+class MonteCarloSimulation(_SimulationInputsAndOutputs, Simulation):
+    defs = ObjectTypeDef(
+        code="MONTE_CARLO_SIMULATION",
+        description="A MonteCarloSimulation is a simulation that samples configurations of a system by random "
+        "sampling.",
+        generated_code_prefix="MC",
+        prev_versions=["PYIRON_JOB.VASP:v0", "PYIRON_JOB.LAMMPS:v0"],
+    )
+
+
+class NudgedElasticBand(Simulation):
+    defs = ObjectTypeDef(
+        code="NUDGED_ELASTIC_BAND",
+        description="A NudgedElasticBand is a simulation that finds a minimum energy path between two given "
+        "configurations of a system, represented by a chain of intermediate configurations. The end "
+        "configurations and the intermediate configurations are listed in SIMULATED_SYSTEM.",
+        generated_code_prefix="NEB",
+        prev_versions=["PYIRON_JOB.VASP:v0", "PYIRON_JOB.LAMMPS:v0"],
+    )
+
+    electronic_structure_parameters = ELECTRONIC_STRUCTURE_PARAMETERS
+
+
+class SimulationAnalysis(Analysis):
+    defs = ObjectTypeDef(
+        code="SIMULATION_ANALYSIS",
+        description="A SimulationAnalysis is an analysis that derives information from the results of one or more "
+        "simulations.",
+        generated_code_prefix="SIM_ANALY",
+    )
+
+
+class EquationOfStateFit(SimulationAnalysis):
+    defs = ObjectTypeDef(
+        code="EQUATION_OF_STATE_FIT",
+        description="An EquationOfStateFit is an analysis that fits an equation of state E(V) to the energies of "
+        "one structure computed at several cell volumes, to obtain its equilibrium volume, equilibrium energy, and "
+        "bulk modulus.",
+        generated_code_prefix="EOS_FIT",
+        prev_versions=["PYIRON_JOB.MURNAGHAN:v0"],
+    )
+
+    equation_of_state_fit_parameters = PropertyTypeAssignment(
+        code="EQUATION_OF_STATE_FIT_PARAMETERS",
+        data_type="OBJECT",
+        object_code="EQUATION_OF_STATE_FIT_PARAMETERS",
+        property_label="Equation of state fit parameters",
+        description="Equation of state, fit order, fitted energy, and volume sampling.",
+        mandatory=False,
+        section="Input Specification",
+    )
+
+    equation_of_state_fit_results = PropertyTypeAssignment(
+        code="EQUATION_OF_STATE_FIT_RESULTS",
+        data_type="OBJECT",
+        object_code="EQUATION_OF_STATE_FIT_RESULTS",
+        property_label="Results",
+        description="Results of this computation.",
+        mandatory=False,
+        section="Results",
+        iri=["http://purl.obolibrary.org/obo/OBI_0000299"],
+    )
 
 
 class Experiment(Activity):
