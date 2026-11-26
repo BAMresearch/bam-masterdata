@@ -76,3 +76,21 @@ class WeldType(VocabularyType):
         label="tack weld",
         description="""Used to hold the parts of a weldment in proper alignment are placed in grooves or fillet locations and are small enough to be consumed by the production weld.//Heftnaht zur Positionierung von Bauteilen""",
     )
+
+    welding_slot_weld = VocabularyTerm(
+        code="WELDING_SLOT_WELD",
+        label="slot weld",
+        description="""A weld made through an elongated opening in one of two overlapping workpieces, joining it to the workpiece underneath.//Schweißnaht in einem Langloch eines von zwei überlappenden Werkstücken, die dieses mit dem darunterliegenden Werkstück verbindet.""",
+    )
+
+    welding_seam_weld = VocabularyTerm(
+        code="WELDING_SEAM_WELD",
+        label="seam weld",
+        description="""A linear weld joining workpieces at their contacting surfaces. The seam can be formed continuously or by a series of overlapping weld spots.//Linienförmige Schweißnaht zwischen den Berührungsflächen der Werkstücke, die durchgehend oder aus überlappenden Schweißpunkten hergestellt werden kann.""",
+    )
+
+    welding_flange_weld = VocabularyTerm(
+        code="WELDING_FLANGE_WELD",
+        label="flange weld",
+        description="""A weld joining workpieces along their edges, where at least one edge is flanged. Common configurations include edge and corner joints.//Schweißnaht an den Kanten von Werkstücken, von denen mindestens eine aufgebördelt ist, beispielsweise an einem Parallel- oder Eckstoß.""",
+    )

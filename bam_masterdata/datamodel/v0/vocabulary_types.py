@@ -28189,6 +28189,18 @@ class LaserType(VocabularyType):
         description="""Quantum cascade laser//Quantenkaskadenlaser""",
     )
 
+    fiber = VocabularyTerm(
+        code="FIBER",
+        label="Fiber laser",
+        description="Fiber based solid-state laser.",
+    )
+
+    disk = VocabularyTerm(
+        code="DISK",
+        label="Disk laser",
+        description="Disk-based solid state laser.",
+    )
+
 
 class LoadFrameOrientation(VocabularyType):
     defs = VocabularyTypeDef(
