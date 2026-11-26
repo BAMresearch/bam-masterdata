@@ -191,6 +191,7 @@ class WeldingProcess(Context):
         description="ISO 4063 number identifying the process.",
         section="Process Identification",
         mandatory=False,
+        prev_versions=["PROCESS_NUMBER:v0"],
     )
 
     standard_edition = PropertyTypeAssignment(
@@ -200,6 +201,7 @@ class WeldingProcess(Context):
         description="Edition of ISO 4063 used to identify the process.",
         section="Process Identification",
         mandatory=False,
+        prev_versions=["STANDARD_EDITION:v0"],
     )
 
 
@@ -218,6 +220,7 @@ class CuttingProcess(Context):
         description="ISO 4063 number identifying the process.",
         section="Process Identification",
         mandatory=False,
+        prev_versions=["PROCESS_NUMBER:v0"],
     )
 
     standard_edition = PropertyTypeAssignment(
@@ -227,6 +230,7 @@ class CuttingProcess(Context):
         description="Edition of ISO 4063 used to identify the process.",
         section="Process Identification",
         mandatory=False,
+        prev_versions=["STANDARD_EDITION:v0"],
     )
 
 
@@ -525,6 +529,7 @@ class CameraCalibrationParameters(ParameterSet):
         units="pixel",
         section="Camera Intrinsics",
         mandatory=False,
+        prev_versions=["FOCAL_LENGTH_FX:v0"],
     )
 
     focal_length_fy = PropertyTypeAssignment(
@@ -535,6 +540,7 @@ class CameraCalibrationParameters(ParameterSet):
         units="pixel",
         section="Camera Intrinsics",
         mandatory=False,
+        prev_versions=["FOCAL_LENGTH_FY:v0"],
     )
 
     principal_point_cx = PropertyTypeAssignment(
@@ -545,6 +551,7 @@ class CameraCalibrationParameters(ParameterSet):
         units="pixel",
         section="Camera Intrinsics",
         mandatory=False,
+        prev_versions=["PRINCIPAL_POINT_CX:v0"],
     )
 
     principal_point_cy = PropertyTypeAssignment(
@@ -555,6 +562,7 @@ class CameraCalibrationParameters(ParameterSet):
         units="pixel",
         section="Camera Intrinsics",
         mandatory=False,
+        prev_versions=["PRINCIPAL_POINT_CY:v0"],
     )
 
     skew = PropertyTypeAssignment(
@@ -565,6 +573,7 @@ class CameraCalibrationParameters(ParameterSet):
         units="pixel",
         section="Camera Intrinsics",
         mandatory=False,
+        prev_versions=["CAMERA_SKEW:v0"],
     )
 
     radial_distortion_k1 = PropertyTypeAssignment(
@@ -574,6 +583,7 @@ class CameraCalibrationParameters(ParameterSet):
         description="First radial distortion coefficient.",
         section="Lens Distortion",
         mandatory=False,
+        prev_versions=["RADIAL_DISTORTION_K1:v0"],
     )
 
     radial_distortion_k2 = PropertyTypeAssignment(
@@ -583,6 +593,7 @@ class CameraCalibrationParameters(ParameterSet):
         description="Second radial distortion coefficient.",
         section="Lens Distortion",
         mandatory=False,
+        prev_versions=["RADIAL_DISTORTION_K2:v0"],
     )
 
     radial_distortion_k3 = PropertyTypeAssignment(
@@ -592,6 +603,7 @@ class CameraCalibrationParameters(ParameterSet):
         description="Third radial distortion coefficient.",
         section="Lens Distortion",
         mandatory=False,
+        prev_versions=["RADIAL_DISTORTION_K3:v0"],
     )
 
     radial_distortion_k4 = PropertyTypeAssignment(
@@ -601,6 +613,7 @@ class CameraCalibrationParameters(ParameterSet):
         description="Fourth radial distortion coefficient, used by the rational model.",
         section="Lens Distortion",
         mandatory=False,
+        prev_versions=["RADIAL_DISTORTION_K4:v0"],
     )
 
     radial_distortion_k5 = PropertyTypeAssignment(
@@ -610,6 +623,7 @@ class CameraCalibrationParameters(ParameterSet):
         description="Fifth radial distortion coefficient, used by the rational model.",
         section="Lens Distortion",
         mandatory=False,
+        prev_versions=["RADIAL_DISTORTION_K5:v0"],
     )
 
     radial_distortion_k6 = PropertyTypeAssignment(
@@ -619,6 +633,7 @@ class CameraCalibrationParameters(ParameterSet):
         description="Sixth radial distortion coefficient, used by the rational model.",
         section="Lens Distortion",
         mandatory=False,
+        prev_versions=["RADIAL_DISTORTION_K6:v0"],
     )
 
     tangential_distortion_p1 = PropertyTypeAssignment(
@@ -628,6 +643,7 @@ class CameraCalibrationParameters(ParameterSet):
         description="First tangential distortion coefficient.",
         section="Lens Distortion",
         mandatory=False,
+        prev_versions=["TANGENTIAL_DISTORTION_P1:v0"],
     )
 
     tangential_distortion_p2 = PropertyTypeAssignment(
@@ -637,6 +653,7 @@ class CameraCalibrationParameters(ParameterSet):
         description="Second tangential distortion coefficient.",
         section="Lens Distortion",
         mandatory=False,
+        prev_versions=["TANGENTIAL_DISTORTION_P2:v0"],
     )
 
     thin_prism_distortion_s1 = PropertyTypeAssignment(
@@ -646,6 +663,7 @@ class CameraCalibrationParameters(ParameterSet):
         description="First thin-prism distortion coefficient.",
         section="Lens Distortion",
         mandatory=False,
+        prev_versions=["THIN_PRISM_DISTORTION_S1:v0"],
     )
 
     thin_prism_distortion_s2 = PropertyTypeAssignment(
@@ -655,6 +673,7 @@ class CameraCalibrationParameters(ParameterSet):
         description="Second thin-prism distortion coefficient.",
         section="Lens Distortion",
         mandatory=False,
+        prev_versions=["THIN_PRISM_DISTORTION_S2:v0"],
     )
 
     thin_prism_distortion_s3 = PropertyTypeAssignment(
@@ -664,6 +683,7 @@ class CameraCalibrationParameters(ParameterSet):
         description="Third thin-prism distortion coefficient.",
         section="Lens Distortion",
         mandatory=False,
+        prev_versions=["THIN_PRISM_DISTORTION_S3:v0"],
     )
 
     thin_prism_distortion_s4 = PropertyTypeAssignment(
@@ -673,6 +693,7 @@ class CameraCalibrationParameters(ParameterSet):
         description="Fourth thin-prism distortion coefficient.",
         section="Lens Distortion",
         mandatory=False,
+        prev_versions=["THIN_PRISM_DISTORTION_S4:v0"],
     )
 
     sensor_tilt_tau_x = PropertyTypeAssignment(
@@ -683,6 +704,7 @@ class CameraCalibrationParameters(ParameterSet):
         units="rad",
         section="Lens Distortion",
         mandatory=False,
+        prev_versions=["SENSOR_TILT_TAU_X:v0"],
     )
 
     sensor_tilt_tau_y = PropertyTypeAssignment(
@@ -693,6 +715,7 @@ class CameraCalibrationParameters(ParameterSet):
         units="rad",
         section="Lens Distortion",
         mandatory=False,
+        prev_versions=["SENSOR_TILT_TAU_Y:v0"],
     )
 
     image_width = PropertyTypeAssignment(
@@ -703,6 +726,7 @@ class CameraCalibrationParameters(ParameterSet):
         units="pixel",
         section="Calibration Details",
         mandatory=False,
+        prev_versions=["CALIBRATION_IMAGE_WIDTH:v0"],
     )
 
     image_height = PropertyTypeAssignment(
@@ -713,6 +737,7 @@ class CameraCalibrationParameters(ParameterSet):
         units="pixel",
         section="Calibration Details",
         mandatory=False,
+        prev_versions=["CALIBRATION_IMAGE_HEIGHT:v0"],
     )
 
     rms_reprojection_error = PropertyTypeAssignment(
@@ -723,6 +748,7 @@ class CameraCalibrationParameters(ParameterSet):
         units="pixel",
         section="Calibration Details",
         mandatory=False,
+        prev_versions=["RMS_REPROJECTION_ERROR:v0"],
     )
 
 
@@ -758,6 +784,7 @@ class WeldingJoint(Sample):
         description="Current state of the welding joint.",
         section="Joint Details",
         mandatory=False,
+        prev_versions=["JOINT_STATUS:v0"],
     )
 
     joint_type = PropertyTypeAssignment(
@@ -768,6 +795,7 @@ class WeldingJoint(Sample):
         description="Arrangement of the workpieces in the welding joint.",
         section="Joint Details",
         mandatory=False,
+        prev_versions=["JOINT_TYPE:v0"],
     )
 
     groove_type = PropertyTypeAssignment(
@@ -778,6 +806,7 @@ class WeldingJoint(Sample):
         description="Groove preparation identified by its unique code number and type name.",
         section="Groove Preparation",
         mandatory=False,
+        prev_versions=["GROOVE_TYPE:v0"],
     )
 
     workpiece_thickness = PropertyTypeAssignment(
@@ -788,6 +817,7 @@ class WeldingJoint(Sample):
         units="mm",
         section="Groove Preparation",
         mandatory=False,
+        prev_versions=["WORKPIECE_THICKNESS:v0"],
     )
 
     workpiece_thickness2 = PropertyTypeAssignment(
@@ -798,6 +828,7 @@ class WeldingJoint(Sample):
         units="mm",
         section="Groove Preparation",
         mandatory=False,
+        prev_versions=["WORKPIECE_THICKNESS_2:v0"],
     )
 
     root_gap = PropertyTypeAssignment(
@@ -808,6 +839,7 @@ class WeldingJoint(Sample):
         units="mm",
         section="Groove Preparation",
         mandatory=False,
+        prev_versions=["ROOT_GAP:v0"],
     )
 
     root_face = PropertyTypeAssignment(
@@ -818,6 +850,7 @@ class WeldingJoint(Sample):
         units="mm",
         section="Groove Preparation",
         mandatory=False,
+        prev_versions=["ROOT_FACE:v0"],
     )
 
     root_face2 = PropertyTypeAssignment(
@@ -828,6 +861,7 @@ class WeldingJoint(Sample):
         units="mm",
         section="Groove Preparation",
         mandatory=False,
+        prev_versions=["ROOT_FACE_2:v0"],
     )
 
     root_face3 = PropertyTypeAssignment(
@@ -838,6 +872,7 @@ class WeldingJoint(Sample):
         units="mm",
         section="Groove Preparation",
         mandatory=False,
+        prev_versions=["ROOT_FACE_3:v0"],
     )
 
     bevel_radius = PropertyTypeAssignment(
@@ -848,6 +883,7 @@ class WeldingJoint(Sample):
         units="mm",
         section="Groove Preparation",
         mandatory=False,
+        prev_versions=["BEVEL_RADIUS:v0"],
     )
 
     bevel_radius2 = PropertyTypeAssignment(
@@ -858,6 +894,7 @@ class WeldingJoint(Sample):
         units="mm",
         section="Groove Preparation",
         mandatory=False,
+        prev_versions=["BEVEL_RADIUS_2:v0"],
     )
 
     bevel_angle = PropertyTypeAssignment(
@@ -868,6 +905,7 @@ class WeldingJoint(Sample):
         units="deg",
         section="Groove Preparation",
         mandatory=False,
+        prev_versions=["BEVEL_ANGLE:v0"],
     )
 
     bevel_angle2 = PropertyTypeAssignment(
@@ -878,6 +916,7 @@ class WeldingJoint(Sample):
         units="deg",
         section="Groove Preparation",
         mandatory=False,
+        prev_versions=["BEVEL_ANGLE_2:v0"],
     )
 
     groove_angle = PropertyTypeAssignment(
@@ -888,6 +927,7 @@ class WeldingJoint(Sample):
         units="deg",
         section="Groove Preparation",
         mandatory=False,
+        prev_versions=["GROOVE_ANGLE:v0"],
     )
 
     groove_angle2 = PropertyTypeAssignment(
@@ -898,6 +938,7 @@ class WeldingJoint(Sample):
         units="deg",
         section="Groove Preparation",
         mandatory=False,
+        prev_versions=["GROOVE_ANGLE_2:v0"],
     )
 
     special_depth = PropertyTypeAssignment(
@@ -908,6 +949,7 @@ class WeldingJoint(Sample):
         units="mm",
         section="Groove Preparation",
         mandatory=False,
+        prev_versions=["SPECIAL_DEPTH:v0"],
     )
 
 
@@ -916,10 +958,124 @@ class Workpiece(Sample):
         code="WORKPIECE",
         description="""a single metallic plate, sheet, tube or similarly shaped sample""",
         generated_code_prefix="",
+        prev_versions=["RAW_MATERIAL.STEEL:v0", "RAW_MATERIAL.ALUMINIUM:v0"],
     )
-    # shape (EN 10079, DIN EN 12258-1)
-    # material (object, MetallicAlloy)
-    # treatments (vocab) (multivalue)(RAW_MAT_TREATMENT_STEEL,RAW_MAT_TREATMENT_ALU)
+
+    lot_number = Sample.lot_number.model_copy(
+        update={"prev_versions": ["LOT_NUMBER:v0", "RAW_MAT_BATCH_NUMBER:v0"]},
+    )
+
+    workpiece_alloy = PropertyTypeAssignment(
+        code="WORKPIECE_ALLOY",
+        data_type="OBJECT",
+        object_code="METALLIC_ALLOY",
+        property_label="Workpiece alloy",
+        description="Alloy grade of the workpiece.",
+        section="Material",
+        mandatory=False,
+        prev_versions=["MAT_CODE:v0"],
+    )
+
+    workpiece_form = PropertyTypeAssignment(
+        code="WORKPIECE_FORM",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="RAW_MAT_FORM",
+        property_label="Workpiece form",
+        description="Product form of the workpiece, such as plate, sheet, pipe, or bar.",
+        section="Geometry",
+        mandatory=False,
+        prev_versions=["RAW_MAT_FORM:v0"],
+    )
+
+    workpiece_length = PropertyTypeAssignment(
+        code="WORKPIECE_LENGTH",
+        data_type="REAL",
+        property_label="Workpiece length",
+        description="Length of the individual workpiece.",
+        units="mm",
+        section="Geometry",
+        mandatory=False,
+        prev_versions=["RAW_MAT_LENGTH:v0"],
+    )
+
+    workpiece_width = PropertyTypeAssignment(
+        code="WORKPIECE_WIDTH",
+        data_type="REAL",
+        property_label="Workpiece width",
+        description="Width of the individual workpiece.",
+        units="mm",
+        section="Geometry",
+        mandatory=False,
+        prev_versions=["RAW_MAT_WIDTH:v0"],
+    )
+
+    workpiece_section_thickness = PropertyTypeAssignment(
+        code="WORKPIECE_SECTION_THICKNESS",
+        data_type="REAL",
+        property_label="Workpiece section thickness",
+        description="Plate or sheet thickness, or wall thickness for a hollow workpiece.",
+        units="mm",
+        section="Geometry",
+        mandatory=False,
+        prev_versions=["RAW_MAT_THICKNESS:v0"],
+    )
+
+    workpiece_outer_diameter = PropertyTypeAssignment(
+        code="WORKPIECE_OUTER_DIAMETER",
+        data_type="REAL",
+        property_label="Workpiece outer diameter",
+        description="Outside diameter of a round or tubular workpiece.",
+        units="mm",
+        section="Geometry",
+        mandatory=False,
+        prev_versions=["RAW_MAT_DIAMETER:v0"],
+    )
+
+    # TODO: Combine the treatment slots when multivalued properties are supported.
+
+    workpiece_treatment_first = PropertyTypeAssignment(
+        code="WORKPIECE_TREATMENT_FIRST",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="WORKPIECE_TREATMENT",
+        property_label="First treatment",
+        description="First treatment recorded for the workpiece.",
+        section="Delivery Condition",
+        mandatory=False,
+        prev_versions=["STEEL_TREATMENT_FIRST:v0", "ALU_TREATMENT_FIRST:v0"],
+    )
+
+    workpiece_treatment_second = PropertyTypeAssignment(
+        code="WORKPIECE_TREATMENT_SECOND",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="WORKPIECE_TREATMENT",
+        property_label="Second treatment",
+        description="Second treatment recorded for the workpiece.",
+        section="Delivery Condition",
+        mandatory=False,
+        prev_versions=["STEEL_TREATMENT_SECOND:v0", "ALU_TREATMENT_SECOND:v0"],
+    )
+
+    workpiece_treatment_third = PropertyTypeAssignment(
+        code="WORKPIECE_TREATMENT_THIRD",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="WORKPIECE_TREATMENT",
+        property_label="Third treatment",
+        description="Third treatment recorded for the workpiece.",
+        section="Delivery Condition",
+        mandatory=False,
+        prev_versions=["STEEL_TREATMENT_THIRD:v0", "ALU_TREATMENT_THIRD:v0"],
+    )
+
+    workpiece_treatment_fourth = PropertyTypeAssignment(
+        code="WORKPIECE_TREATMENT_FOURTH",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="WORKPIECE_TREATMENT",
+        property_label="Fourth treatment",
+        description="Fourth treatment recorded for the workpiece.",
+        section="Delivery Condition",
+        mandatory=False,
+        prev_versions=["STEEL_TREATMENT_FOURTH:v0", "ALU_TREATMENT_FOURTH:v0"],
+    )
 
 
 class Weld(Sample):
@@ -934,7 +1090,7 @@ class Weld(Sample):
 class MetallicAlloy(Material):
     defs = ObjectTypeDef(
         code="METALLIC_ALLOY",
-        description="""Material Number and name according to VDEh""",
+        description="""A general metallic alloy with material numbers, name and additional treatment specifiers according to ISO standards or VDEh""",
         generated_code_prefix="",
         prev_versions=["RAW_MATERIAL_CODE:v0"],
     )
@@ -997,6 +1153,7 @@ class GasMixture(Material):
         units="percent",
         section="Gas Composition",
         mandatory=False,
+        prev_versions=["VOLUME_PERCENT_ARGON:v0"],
     )
 
     helium = PropertyTypeAssignment(
@@ -1007,6 +1164,7 @@ class GasMixture(Material):
         units="percent",
         section="Gas Composition",
         mandatory=False,
+        prev_versions=["VOLUME_PERCENT_HELIUM:v0"],
     )
 
     carbon_dioxide = PropertyTypeAssignment(
@@ -1017,6 +1175,7 @@ class GasMixture(Material):
         units="percent",
         section="Gas Composition",
         mandatory=False,
+        prev_versions=["VOLUME_PERCENT_CARBON_DIOXIDE:v0"],
     )
 
     oxygen = PropertyTypeAssignment(
@@ -1027,6 +1186,7 @@ class GasMixture(Material):
         units="percent",
         section="Gas Composition",
         mandatory=False,
+        prev_versions=["VOLUME_PERCENT_OXYGEN:v0"],
     )
 
     nitrogen = PropertyTypeAssignment(
@@ -1037,6 +1197,7 @@ class GasMixture(Material):
         units="percent",
         section="Gas Composition",
         mandatory=False,
+        prev_versions=["VOLUME_PERCENT_NITROGEN:v0"],
     )
 
     hydrogen = PropertyTypeAssignment(
@@ -1047,6 +1208,7 @@ class GasMixture(Material):
         units="percent",
         section="Gas Composition",
         mandatory=False,
+        prev_versions=["VOLUME_PERCENT_HYDROGEN:v0"],
     )
 
     mixture_standard = PropertyTypeAssignment(
@@ -1056,6 +1218,7 @@ class GasMixture(Material):
         description="Standard and edition used to classify the mixture.",
         section="Mixture Identification",
         mandatory=False,
+        prev_versions=["MIXTURE_STANDARD:v0"],
     )
 
     mixture_designation = PropertyTypeAssignment(
@@ -1065,6 +1228,7 @@ class GasMixture(Material):
         description="Designation of the mixture according to the specified standard.",
         section="Mixture Identification",
         mandatory=False,
+        prev_versions=["MIXTURE_DESIGNATION:v0"],
     )
 
 
@@ -1082,6 +1246,7 @@ class WeldingWireAlloy(Material):
         description="Alternative name, abbreviation, or nickname for the alloy.",
         section="Material Details",
         mandatory=False,
+        prev_versions=["ALIAS:v0"],
     )
 
     material_group = PropertyTypeAssignment(
@@ -1091,6 +1256,7 @@ class WeldingWireAlloy(Material):
         description="Material group.",
         section="Material Details",
         mandatory=False,
+        prev_versions=["MATERIAL_GROUP:v0"],
     )
 
     characteristics = PropertyTypeAssignment(
@@ -1100,6 +1266,7 @@ class WeldingWireAlloy(Material):
         description="Characteristics of the alloy.",
         section="Material Details",
         mandatory=False,
+        prev_versions=["CHARACTERISTICS:v0"],
     )
 
     notes = PropertyTypeAssignment(
@@ -1109,6 +1276,7 @@ class WeldingWireAlloy(Material):
         description="Additional notes about the alloy.",
         section="Additional Information",
         mandatory=False,
+        prev_versions=["NOTES:v0"],
     )
 
     alloy_standard = PropertyTypeAssignment(
@@ -1118,6 +1286,7 @@ class WeldingWireAlloy(Material):
         description="Standard and edition used to classify the welding wire alloy.",
         section="Alloy Identification",
         mandatory=False,
+        prev_versions=["ALLOY_STANDARD:v0"],
     )
 
     alloy_designation = PropertyTypeAssignment(
@@ -1127,6 +1296,7 @@ class WeldingWireAlloy(Material):
         description="Designation of the welding wire alloy according to the specified standard.",
         section="Alloy Identification",
         mandatory=False,
+        prev_versions=["ALLOY_DESIGNATION:v0"],
     )
 
 
@@ -1703,6 +1873,17 @@ class LaserSource(Instrument):
         description="Type of laser source.",
         section="Laser Specifications",
         mandatory=False,
+    )
+
+    laser_gain_medium = PropertyTypeAssignment(
+        code="LASER_GAIN_MEDIUM",
+        data_type="CONTROLLEDVOCABULARY",
+        vocabulary_code="LASER_GAIN_MEDIUM",
+        property_label="Laser gain medium",
+        description="Material that provides optical gain in the laser.",
+        section="Laser Specifications",
+        mandatory=False,
+        prev_versions=["LASER_GAIN_MEDIUM:v0"],
     )
 
     wavelength = PropertyTypeAssignment(

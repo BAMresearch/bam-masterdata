@@ -672,3 +672,295 @@ class GrooveTypes(VocabularyType):
         label="4.1.3 (Frontal-Face-Groove)",
         description="Frontal-Face-Groove with code number 4.1.3.",
     )
+
+
+class LaserGainMedium(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="LASER_GAIN_MEDIUM",
+        description="""Material in which optical gain is produced//Material, in dem die optische Verstärkung stattfindet""",
+    )
+
+    nd_yag = VocabularyTerm(
+        code="ND_YAG",
+        label="Nd:YAG",
+        description="""Neodymium-doped yttrium aluminum garnet//Neodym-dotierter Yttrium-Aluminium-Granat""",
+    )
+
+    yb_yag = VocabularyTerm(
+        code="YB_YAG",
+        label="Yb:YAG",
+        description="""Ytterbium-doped yttrium aluminum garnet//Ytterbium-dotierter Yttrium-Aluminium-Granat""",
+    )
+
+    yb_doped_silica = VocabularyTerm(
+        code="YB_DOPED_SILICA",
+        label="Ytterbium-doped silica",
+        description="""Silica glass doped with ytterbium//Ytterbium-dotiertes Siliziumdioxidglas""",
+    )
+
+    semiconductor = VocabularyTerm(
+        code="SEMICONDUCTOR",
+        label="Semiconductor",
+        description="""Semiconductor material serving as the optical gain medium//Halbleitermaterial als optisches Verstärkungsmedium""",
+    )
+
+
+class RawMatForm(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="RAW_MAT_FORM",
+        prev_versions=["RAW_MAT_FORM:v0"],
+        description="""Raw Material Form//Form des Rohmaterials""",
+    )
+
+    component = VocabularyTerm(
+        code="COMPONENT",
+        prev_versions=["COMPONENT:v0"],
+        label="Material from component",
+        description="""Material from component//Material aus Komponente""",
+    )
+
+    flat_bar = VocabularyTerm(
+        code="FLAT_BAR",
+        prev_versions=["FLAT_BAR:v0"],
+        label="Flat bar",
+        description="""Flat bar//Flachmaterial""",
+    )
+
+    pipe = VocabularyTerm(
+        code="PIPE",
+        prev_versions=["PIPE:v0"],
+        label="Pipe",
+        description="""Pipe//Rohr""",
+    )
+
+    plate_metal = VocabularyTerm(
+        code="PLATE_METAL",
+        prev_versions=["PLATE_METAL:v0"],
+        label="Plate metal",
+        description="""Plate metal//Plattenmaterial""",
+    )
+
+    round_bar = VocabularyTerm(
+        code="ROUND_BAR",
+        prev_versions=["ROUND_BAR:v0"],
+        label="Round bar",
+        description="""Round bar//Rundmaterial""",
+    )
+
+    sheet_metal = VocabularyTerm(
+        code="SHEET_METAL",
+        prev_versions=["SHEET_METAL:v0"],
+        label="Sheet metal",
+        description="""Sheet metal//Blech""",
+    )
+
+
+class WorkpieceTreatment(VocabularyType):
+    defs = VocabularyTypeDef(
+        code="WORKPIECE_TREATMENT",
+        prev_versions=["RAW_MAT_TREATMENT_STEEL:v0", "RAW_MAT_TREATMENT_ALU:v0"],
+        description="Treatment or temper recorded for an individual workpiece.",
+    )
+
+    steel_a = VocabularyTerm(
+        code="STEEL_A",
+        prev_versions=["A:v0"],
+        label="Annealed (+A)",
+        description="""Annealed (+A)//Weichgeglüht (+A)""",
+    )
+
+    steel_ac = VocabularyTerm(
+        code="STEEL_AC",
+        prev_versions=["AC:v0"],
+        label="Annealed on globular cementite (+AC)",
+        description="""Annealed on globular cementite (+AC)//Geglüht zur Erzielung kugeliger Carbide (+AC)""",
+    )
+
+    steel_ar = VocabularyTerm(
+        code="STEEL_AR",
+        prev_versions=["AR:v0"],
+        label="As Rolled (+AR)",
+        description="""As Rolled (+AR)//Wie gewalzt (+AR)""",
+    )
+
+    steel_at = VocabularyTerm(
+        code="STEEL_AT",
+        prev_versions=["AT:v0"],
+        label="Solution Annealed and Quenched (+AT)",
+        description="""Solution Annealed and Quenched (+AT)//Lösungsgeglüht und Abgeschreckt (+AT)""",
+    )
+
+    steel_bc = VocabularyTerm(
+        code="STEEL_BC",
+        prev_versions=["BC:v0"],
+        label="Thermoformed and Blasted (+BC)",
+        description="""Thermoformed and Blasted (+BC)//Warmgeformt und gestrahlt (+BC)""",
+    )
+
+    steel_c = VocabularyTerm(
+        code="STEEL_C",
+        prev_versions=["C:v0"],
+        label="Cold Drawn (+C)",
+        description="""Cold Drawn (+C)//Kaltgezogen (+C)""",
+    )
+
+    steel_fp = VocabularyTerm(
+        code="STEEL_FP",
+        prev_versions=["FP:v0"],
+        label="Annealed on Ferrite-Perlite Microstructure (+FP)",
+        description="""Annealed on Ferrite-Perlite Microstructure (+FP)//Behandelt auf Ferrit-Perlit-Gefüge (+FP)""",
+    )
+
+    steel_h = VocabularyTerm(
+        code="STEEL_H",
+        prev_versions=["H:v0"],
+        label="Normal Hardenability (+H)",
+        description="""Normal Hardenability (+H)//Normale Härtbarkeit (+H)""",
+    )
+
+    steel_hh = VocabularyTerm(
+        code="STEEL_HH",
+        prev_versions=["HH:v0"],
+        label="Hardenability restricted to upper scatter band (+HH)",
+        description="""Hardenability restricted to upper scatter band (+HH)//Härtbarkeit beschränkt auf oberes Streuband (+HH)""",
+    )
+
+    steel_hl = VocabularyTerm(
+        code="STEEL_HL",
+        prev_versions=["HL:v0"],
+        label="Hardenability restricted to lower scatter band (+HL)",
+        description="""Hardenability restricted to lower scatter band (+HL)//Härtbarkeit beschränkt auf unteres Streuband (+HL)""",
+    )
+
+    steel_m = VocabularyTerm(
+        code="STEEL_M",
+        prev_versions=["M:v0"],
+        label="Thermomechanically Rolled (+M)",
+        description="""Thermomechanically Rolled (+M)//Thermomechanisch gewalzt (+M)""",
+    )
+
+    steel_n = VocabularyTerm(
+        code="STEEL_N",
+        prev_versions=["N:v0"],
+        label="Normalised or Normalising Rolled (+N)",
+        description="""Normalised or Normalising Rolled (+N)//Normalgeglüht oder Normalisierend umgeformt (+N)""",
+    )
+
+    steel_nt = VocabularyTerm(
+        code="STEEL_NT",
+        prev_versions=["NT:v0"],
+        label="Normalised and Tempered (+NT)",
+        description="""Normalised and Tempered (+NT)//Normalisiert und angelassen (+NT)""",
+    )
+
+    steel_qt = VocabularyTerm(
+        code="STEEL_QT",
+        prev_versions=["QT:v0"],
+        label="Quenched and Tempered (+QT)",
+        description="""Quenched and Tempered (+QT)//Vergütet (+QT)""",
+    )
+
+    steel_sh = VocabularyTerm(
+        code="STEEL_SH",
+        prev_versions=["SH:v0"],
+        label="Peeled (+SH)",
+        description="""Peeled (+SH)//Geschält (+SH)""",
+    )
+
+    steel_t = VocabularyTerm(
+        code="STEEL_T",
+        prev_versions=["T:v0"],
+        label="Tempered (+T)",
+        description="""Tempered (+T)//Angelassen (+T)""",
+    )
+
+    aluminium_h14 = VocabularyTerm(
+        code="ALUMINIUM_H14",
+        prev_versions=["H14:v0"],
+        label="H14",
+        description="""Work hardenend - 1/2 hard//Kaltverfestigt - 1/2 hart""",
+    )
+
+    aluminium_h16 = VocabularyTerm(
+        code="ALUMINIUM_H16",
+        prev_versions=["H16:v0"],
+        label="H16",
+        description="""Work hardenend - 3/4 hard//Kaltverfestigt - 3/4 hart""",
+    )
+
+    aluminium_h18 = VocabularyTerm(
+        code="ALUMINIUM_H18",
+        prev_versions=["H18:v0"],
+        label="H18",
+        description="""Work hardenend - 4/4 hard//Kaltverfestigt - 4/4 hart""",
+    )
+
+    aluminium_h19 = VocabularyTerm(
+        code="ALUMINIUM_H19",
+        prev_versions=["H19:v0"],
+        label="H19",
+        description="""Work hardenend - extra hard//Kaltverfestigt - extra hart""",
+    )
+
+    aluminium_h22 = VocabularyTerm(
+        code="ALUMINIUM_H22",
+        prev_versions=["H22:v0"],
+        label="H22",
+        description="""Work hardenend - 1/4 hard//Kaltverfestigt - 1/4 hart""",
+    )
+
+    aluminium_h24_h34 = VocabularyTerm(
+        code="ALUMINIUM_H24_H34",
+        prev_versions=["H24_H34:v0"],
+        label="H24_H34",
+        description="""Work hardenend - 1/2 hard//Kaltverfestigt - 1/2 hart""",
+    )
+
+    aluminium_h26_h36 = VocabularyTerm(
+        code="ALUMINIUM_H26_H36",
+        prev_versions=["H26_H36:v0"],
+        label="H26_H36",
+        description="""Work hardenend - 3/4 hard//Kaltverfestigt - 3/4 hart""",
+    )
+
+    aluminium_h111 = VocabularyTerm(
+        code="ALUMINIUM_H111",
+        prev_versions=["H111:v0"],
+        label="H111",
+        description="""Annealed and slightly strain-hardened (less than H11) during subsequent operations such as stretching or levelling//Geglüht und durch anschließende Arbeitsgänge, z.B. Recken oder Richten, geringfügig kaltverfestigt""",
+    )
+
+    aluminium_o = VocabularyTerm(
+        code="ALUMINIUM_O",
+        prev_versions=["O:v0"],
+        label="O",
+        description="""Annealed (O)//Geglüht (O)""",
+    )
+
+    aluminium_t4 = VocabularyTerm(
+        code="ALUMINIUM_T4",
+        prev_versions=["T4:v0"],
+        label="T4",
+        description="""Solution Annealed and Naturally Aged//Lösungsgeglüht und natürlich gealtert""",
+    )
+
+    aluminium_t6 = VocabularyTerm(
+        code="ALUMINIUM_T6",
+        prev_versions=["T6:v0"],
+        label="T6",
+        description="""Solution Annealed and Artificially Aged//Lösungsgeglüht und künstlich gealtert""",
+    )
+
+    aluminium_t73 = VocabularyTerm(
+        code="ALUMINIUM_T73",
+        prev_versions=["T73:v0"],
+        label="T73",
+        description="""Solution Annealed and Artificially Overaged to achieve best Resistance to Stress Corrosion//Lösungsgeglüht und künstlich überaltert zum Erreichen einer guten Beständigkeit gegen Spannungsrisskorrosion""",
+    )
+
+    aluminium_t76 = VocabularyTerm(
+        code="ALUMINIUM_T76",
+        prev_versions=["T76:v0"],
+        label="T76",
+        description="""Solution Annealed and Artificially Overaged to achieve best Resistance to Stress Corrosion//Lösungsgeglüht und künstlich überaltert zum Erreichen einer guten Beständigkeit gegen Schichtkorrosion""",
+    )
