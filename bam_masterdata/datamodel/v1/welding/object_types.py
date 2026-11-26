@@ -1258,7 +1258,7 @@ class RobotController(Equipment):
         property_label="Number of robot axis",
         description="""The number of robot axis the controller can operate""",
         section="Controller Information",
-        mandatory=True,
+        mandatory=False,
         prev_versions=["ROBOT_CONTROLLER_AXIS_COUNT:v0"],
     )
 
@@ -1268,7 +1268,7 @@ class RobotController(Equipment):
         property_label="Number of external axis",
         description="""The number of external axis the controller can operate""",
         section="Controller Information",
-        mandatory=True,
+        mandatory=False,
         prev_versions=["ROBOT_CONTROLLER_AXIS_COUNT_EXTERNAL:v0"],
     )
 
@@ -1308,7 +1308,7 @@ class Robot(Instrument):
         property_label="Type of Robot",
         description="""Type of Robot""",
         section="Robot Information",
-        mandatory=True,
+        mandatory=False,
         prev_versions=["ROBOT_TYPE:v0"],
     )
 
@@ -1389,7 +1389,7 @@ class TorchHead(Equipment):
         property_label="Torch type",
         description="Type of gas metal arc welding torch.",
         section="General Information",
-        mandatory=True,
+        mandatory=False,
         prev_versions=["WELDING.TORCH_TYPE:v0"],
     )
 
@@ -1468,7 +1468,7 @@ class Camera(Sensor):
         description="Number of pixels across the sensor image.",
         units="pixel",
         section="Camera Information",
-        mandatory=True,
+        mandatory=False,
         prev_versions=["IMAGE_SENSOR_RESOLUTION_HORIZONTAL:v0"],
     )
 
@@ -1479,7 +1479,7 @@ class Camera(Sensor):
         description="Number of pixels down the sensor image.",
         units="pixel",
         section="Camera Information",
-        mandatory=True,
+        mandatory=False,
         prev_versions=["IMAGE_SENSOR_RESOLUTION_VERTICAL:v0"],
     )
 
@@ -1550,7 +1550,7 @@ class Lens(Equipment):
         description="Focal length of the lens.",
         units="mm",
         section="Lens Information",
-        mandatory=True,
+        mandatory=False,
         prev_versions=["LENS_FOCALLENGTH:v0"],
     )
 
