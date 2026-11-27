@@ -217,7 +217,7 @@ class LoadFrame(Instrument):
     max_static_force = PropertyTypeAssignment(
         code="MAX_STATIC_FORCE",
         data_type="REAL",
-        property_label="Maximum Static Force in [kN]",
+        property_label="Maximum Static Force",
         units="kN",
         description="""Maximum Static Force in kN//Maximale statische Kraft [kN]""",
         mandatory=False,
@@ -272,7 +272,7 @@ class AlignmentFixture(Instrument):
     max_static_force = PropertyTypeAssignment(
         code="MAX_STATIC_FORCE",
         data_type="REAL",
-        property_label="Maximum Static Force in [kN]",
+        property_label="Maximum Static Force",
         units="kN",
         description="""Maximum Static Force in kN//Maximale statische Kraft [kN]""",
         mandatory=False,
