@@ -455,7 +455,7 @@ class TensileTestContactingExtensometer(Instrument):
         code="TENSILE_TEST_CALIBRATION_CERTIFICATE",
         data_type="MULTILINE_VARCHAR",
         property_label="Calibration certificate",
-        description="""Calibration certificate Description: Link to File, preferably with machine-readable (meta)data. (Metadata → Measuring and test equipment → Extension values → Contacting extensometer) // Calibration certificate Description: Link to File, preferably with machine-readable (meta)data.""",
+        description="""Link to the calibration certificate, preferably with machine-readable metadata.//Link zum Kalibrierzertifikat, vorzugsweise mit maschinenlesbaren Metadaten.""",
         mandatory=False,
         section="Contacting extensometer",
     )
@@ -463,7 +463,7 @@ class TensileTestContactingExtensometer(Instrument):
         code="TENSILE_TEST_CALIBRATION_DATE",
         data_type="DATE",
         property_label="Calibration date",
-        description="""Calibration date (Metadata → Measuring and test equipment → Extension values → Contacting extensometer) // Calibration date""",
+        description="""Date of calibration.//Datum der Kalibrierung.""",
         mandatory=True,
         section="Contacting extensometer",
     )
@@ -471,7 +471,7 @@ class TensileTestContactingExtensometer(Instrument):
         code="TENSILE_TEST_CALIBRATION_VALIDITY_TIME_PERIOD",
         data_type="VARCHAR",
         property_label="Calibration validity time period",
-        description="""Calibration validity time period (Metadata → Measuring and test equipment → Extension values → Contacting extensometer) // Calibration validity time period""",
+        description="""Period for which the calibration is valid.//Zeitraum, in dem die Kalibrierung gültig ist.""",
         mandatory=True,
         section="Contacting extensometer",
     )
@@ -479,7 +479,7 @@ class TensileTestContactingExtensometer(Instrument):
         code="TENSILE_TEST_CALIBRATION_CLASS",
         data_type="VARCHAR",
         property_label="Calibration class",
-        description="""Calibration class (Metadata → Measuring and test equipment → Extension values → Contacting extensometer) // Calibration class""",
+        description="""Calibration class of the measuring equipment.//Kalibrierklasse des Messgeräts.""",
         mandatory=True,
         section="Contacting extensometer",
     )
@@ -496,7 +496,7 @@ class TensileTestContactingExtensometer(Instrument):
         code="TENSILE_TEST_CALIBRATION_STANDARD",
         data_type="VARCHAR",
         property_label="Calibration standard",
-        description="""Calibration standard (Metadata → Measuring and test equipment → Extension values → Contacting extensometer) // Calibration standard""",
+        description="""Standard used to calibrate the measuring equipment.//Norm, nach der das Messgerät kalibriert wurde.""",
         mandatory=True,
         section="Contacting extensometer",
     )
@@ -630,7 +630,7 @@ class TensileTestElongationAndCrossSectionalMeasuringEquipment(Instrument):
         code="TENSILE_TEST_CALIBRATION_CERTIFICATE",
         data_type="MULTILINE_VARCHAR",
         property_label="Calibration certificate",
-        description="""Calibration certificate Description: Link to File, preferably with machine-readable (meta)data. (Metadata → Measuring and test equipment → Elongation and cross-sectional values) // Calibration certificate Description: Link to File, preferably with machine-readable (meta)data.""",
+        description="""Link to the calibration certificate, preferably with machine-readable metadata.//Link zum Kalibrierzertifikat, vorzugsweise mit maschinenlesbaren Metadaten.""",
         mandatory=False,
         section="Elongation and cross-sectional values",
     )
@@ -638,7 +638,7 @@ class TensileTestElongationAndCrossSectionalMeasuringEquipment(Instrument):
         code="TENSILE_TEST_CALIBRATION_DATE",
         data_type="DATE",
         property_label="Calibration date",
-        description="""Calibration date (Metadata → Measuring and test equipment → Elongation and cross-sectional values) // Calibration date""",
+        description="""Date of calibration.//Datum der Kalibrierung.""",
         mandatory=True,
         section="Elongation and cross-sectional values",
     )
@@ -646,7 +646,7 @@ class TensileTestElongationAndCrossSectionalMeasuringEquipment(Instrument):
         code="TENSILE_TEST_CALIBRATION_VALIDITY_TIME_PERIOD",
         data_type="VARCHAR",
         property_label="Calibration validity time period",
-        description="""Calibration validity time period (Metadata → Measuring and test equipment → Elongation and cross-sectional values) // Calibration validity time period""",
+        description="""Period for which the calibration is valid.//Zeitraum, in dem die Kalibrierung gültig ist.""",
         mandatory=True,
         section="Elongation and cross-sectional values",
     )
@@ -670,7 +670,7 @@ class TensileTestElongationAndCrossSectionalMeasuringEquipment(Instrument):
         code="TENSILE_TEST_CALIBRATION_STANDARD",
         data_type="VARCHAR",
         property_label="Calibration standard",
-        description="""Calibration standard (Metadata → Measuring and test equipment → Elongation and cross-sectional values) // Calibration standard""",
+        description="""Standard used to calibrate the measuring equipment.//Norm, nach der das Messgerät kalibriert wurde.""",
         mandatory=True,
         section="Elongation and cross-sectional values",
     )
@@ -823,7 +823,7 @@ class TensileTestLoadSensor(Instrument):
         code="TENSILE_TEST_CALIBRATION_CERTIFICATE",
         data_type="MULTILINE_VARCHAR",
         property_label="Calibration certificate",
-        description="""Calibration certificate Description: Link to File, preferably with machine-readable (meta)data. (Metadata → Measuring and test equipment → Load-measuring system → Load sensor) // Calibration certificate Description: Link to File, preferably with machine-readable (meta)data.""",
+        description="""Link to the calibration certificate, preferably with machine-readable metadata.//Link zum Kalibrierzertifikat, vorzugsweise mit maschinenlesbaren Metadaten.""",
         mandatory=False,
         section="Load sensor",
     )
@@ -831,7 +831,7 @@ class TensileTestLoadSensor(Instrument):
         code="TENSILE_TEST_CALIBRATION_DATE",
         data_type="DATE",
         property_label="Calibration date",
-        description="""Calibration date (Metadata → Measuring and test equipment → Load-measuring system → Load sensor) // Calibration date""",
+        description="""Date of calibration.//Datum der Kalibrierung.""",
         mandatory=True,
         section="Load sensor",
     )
@@ -839,7 +839,7 @@ class TensileTestLoadSensor(Instrument):
         code="TENSILE_TEST_CALIBRATION_VALIDITY_TIME_PERIOD",
         data_type="VARCHAR",
         property_label="Calibration validity time period",
-        description="""Calibration validity time period (Metadata → Measuring and test equipment → Load-measuring system → Load sensor) // Calibration validity time period""",
+        description="""Period for which the calibration is valid.//Zeitraum, in dem die Kalibrierung gültig ist.""",
         mandatory=True,
         section="Load sensor",
     )
@@ -847,7 +847,7 @@ class TensileTestLoadSensor(Instrument):
         code="TENSILE_TEST_CALIBRATION_STANDARD",
         data_type="VARCHAR",
         property_label="Calibration standard",
-        description="""Calibration standard (Metadata → Measuring and test equipment → Load-measuring system → Load sensor) // Calibration standard""",
+        description="""Standard used to calibrate the measuring equipment.//Norm, nach der das Messgerät kalibriert wurde.""",
         mandatory=True,
         section="Load sensor",
     )
@@ -855,7 +855,7 @@ class TensileTestLoadSensor(Instrument):
         code="TENSILE_TEST_CALIBRATION_CLASS",
         data_type="VARCHAR",
         property_label="Calibration class",
-        description="""Calibration class (Metadata → Measuring and test equipment → Load-measuring system → Load sensor) // Calibration class""",
+        description="""Calibration class of the measuring equipment.//Kalibrierklasse des Messgeräts.""",
         mandatory=True,
         section="Load sensor",
     )
@@ -1583,7 +1583,7 @@ class TensileTestTemperatureDataAcquisition(Instrument):
         code="TENSILE_TEST_CALIBRATION_CERTIFICATE",
         data_type="MULTILINE_VARCHAR",
         property_label="Calibration certificate",
-        description="""Calibration certificate Description: Link to File, preferably with machine-readable (meta)data. (Metadata → Measuring and test equipment → Temperature-measuring system → Data acquisition) // Calibration certificate Description: Link to File, preferably with machine-readable (meta)data.""",
+        description="""Link to the calibration certificate, preferably with machine-readable metadata.//Link zum Kalibrierzertifikat, vorzugsweise mit maschinenlesbaren Metadaten.""",
         mandatory=False,
         section="Data acquisition",
     )
@@ -1591,7 +1591,7 @@ class TensileTestTemperatureDataAcquisition(Instrument):
         code="TENSILE_TEST_CALIBRATION_DATE",
         data_type="DATE",
         property_label="Calibration date",
-        description="""Calibration date (Metadata → Measuring and test equipment → Temperature-measuring system → Data acquisition) // Calibration date""",
+        description="""Date of calibration.//Datum der Kalibrierung.""",
         mandatory=True,
         section="Data acquisition",
     )
@@ -1599,7 +1599,7 @@ class TensileTestTemperatureDataAcquisition(Instrument):
         code="TENSILE_TEST_CALIBRATION_VALIDITY_TIME_PERIOD",
         data_type="VARCHAR",
         property_label="Calibration validity time period",
-        description="""Calibration validity time period (Metadata → Measuring and test equipment → Temperature-measuring system → Data acquisition) // Calibration validity time period""",
+        description="""Period for which the calibration is valid.//Zeitraum, in dem die Kalibrierung gültig ist.""",
         mandatory=True,
         section="Data acquisition",
     )
@@ -1608,7 +1608,7 @@ class TensileTestTemperatureDataAcquisition(Instrument):
         data_type="CONTROLLEDVOCABULARY",
         vocabulary_code="TENSILE_TEST_THERMOCOUPLE_CALIBRATION_METHOD",
         property_label="Calibration method",
-        description="""Calibration method (Metadata → Measuring and test equipment → Temperature-measuring system → Data acquisition) // Calibration method""",
+        description="""Method used to calibrate the measuring equipment.//Verfahren zur Kalibrierung des Messgeräts.""",
         mandatory=True,
         section="Data acquisition",
     )
@@ -1616,7 +1616,7 @@ class TensileTestTemperatureDataAcquisition(Instrument):
         code="TENSILE_TEST_CALIBRATION_STANDARD",
         data_type="VARCHAR",
         property_label="Calibration standard",
-        description="""Calibration standard (Metadata → Measuring and test equipment → Temperature-measuring system → Data acquisition) // Calibration standard""",
+        description="""Standard used to calibrate the measuring equipment.//Norm, nach der das Messgerät kalibriert wurde.""",
         mandatory=True,
         section="Data acquisition",
     )
@@ -1754,7 +1754,7 @@ class TensileTestTemperatureSensor(Instrument):
         data_type="CONTROLLEDVOCABULARY",
         vocabulary_code="TENSILE_TEST_THERMOCOUPLE_CALIBRATION_METHOD",
         property_label="Calibration method",
-        description="""Calibration method (Metadata → Measuring and test equipment → Temperature-measuring system → Temperature sensor) // Calibration method""",
+        description="""Method used to calibrate the measuring equipment.//Verfahren zur Kalibrierung des Messgeräts.""",
         mandatory=True,
         section="Temperature sensor",
     )
@@ -1762,7 +1762,7 @@ class TensileTestTemperatureSensor(Instrument):
         code="TENSILE_TEST_CALIBRATION_STANDARD",
         data_type="VARCHAR",
         property_label="Calibration standard",
-        description="""Calibration standard (Metadata → Measuring and test equipment → Temperature-measuring system → Temperature sensor) // Calibration standard""",
+        description="""Standard used to calibrate the measuring equipment.//Norm, nach der das Messgerät kalibriert wurde.""",
         mandatory=True,
         section="Temperature sensor",
     )
@@ -1770,7 +1770,7 @@ class TensileTestTemperatureSensor(Instrument):
         code="TENSILE_TEST_CALIBRATION_CERTIFICATE",
         data_type="MULTILINE_VARCHAR",
         property_label="Calibration certificate",
-        description="""Calibration certificate Description: Link to File, preferably with machine-readable (meta)data. (Metadata → Measuring and test equipment → Temperature-measuring system → Temperature sensor) // Calibration certificate Description: Link to File, preferably with machine-readable (meta)data.""",
+        description="""Link to the calibration certificate, preferably with machine-readable metadata.//Link zum Kalibrierzertifikat, vorzugsweise mit maschinenlesbaren Metadaten.""",
         mandatory=False,
         section="Temperature sensor",
     )
@@ -1778,7 +1778,7 @@ class TensileTestTemperatureSensor(Instrument):
         code="TENSILE_TEST_CALIBRATION_DATE",
         data_type="DATE",
         property_label="Calibration date",
-        description="""Calibration date (Metadata → Measuring and test equipment → Temperature-measuring system → Temperature sensor) // Calibration date""",
+        description="""Date of calibration.//Datum der Kalibrierung.""",
         mandatory=True,
         section="Temperature sensor",
     )
@@ -1786,7 +1786,7 @@ class TensileTestTemperatureSensor(Instrument):
         code="TENSILE_TEST_CALIBRATION_VALIDITY_TIME_PERIOD",
         data_type="VARCHAR",
         property_label="Calibration validity time period",
-        description="""Calibration validity time period (Metadata → Measuring and test equipment → Temperature-measuring system → Temperature sensor) // Calibration validity time period""",
+        description="""Period for which the calibration is valid.//Zeitraum, in dem die Kalibrierung gültig ist.""",
         mandatory=True,
         section="Temperature sensor",
     )
