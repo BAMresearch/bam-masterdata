@@ -31834,10 +31834,10 @@ class ThermocoupleType(VocabularyType):
         label="Type T (Cu-CuNi)",
         description="""Type T (Cu-CuNi)//Typ T (Cu-CuNi)""",
     )
-    other_specify = VocabularyTerm(
-        code="OTHER_SPECIFY",
-        label="Other (Specify)",
-        description="""Other (Specify) // andere (bitte angeben)""",
+    other = VocabularyTerm(
+        code="OTHER",
+        label="Other (specify)",
+        description="""Other (specify) // andere (bitte angeben)""",
     )
 
 
