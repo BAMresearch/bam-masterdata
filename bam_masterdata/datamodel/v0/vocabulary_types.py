@@ -31834,6 +31834,11 @@ class ThermocoupleType(VocabularyType):
         label="Type T (Cu-CuNi)",
         description="""Type T (Cu-CuNi)//Typ T (Cu-CuNi)""",
     )
+    other = VocabularyTerm(
+        code="OTHER",
+        label="Other (specify)",
+        description="""Other (specify) // andere (bitte angeben)""",
+    )
 
 
 class ThermodynEnsemble(VocabularyType):
