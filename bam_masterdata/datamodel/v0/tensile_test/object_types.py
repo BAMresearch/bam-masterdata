@@ -447,7 +447,7 @@ class TensileTestContactingExtensometer(Instrument):
         code="TENSILE_TEST_CALIBRATION_STATUS",
         data_type="BOOLEAN",
         property_label="Calibration status",
-        description="""Calibration status Description: Is the extensometer calibrated? (Metadata → Measuring and test equipment → Extension values → Contacting extensometer) // Calibration status Description: Is the extensometer calibrated?""",
+        description="""Whether the measuring equipment is calibrated.//Gibt an, ob das Messgerät kalibriert ist.""",
         mandatory=True,
         section="Contacting extensometer",
     )
@@ -622,7 +622,7 @@ class TensileTestElongationAndCrossSectionalMeasuringEquipment(Instrument):
         code="TENSILE_TEST_CALIBRATION_STATUS",
         data_type="BOOLEAN",
         property_label="Calibration status",
-        description="""Calibration status Description: Is the measuring equipment calibrated? (Metadata → Measuring and test equipment → Elongation and cross-sectional values) // Calibration status Description: Is the measuring equipment calibrated?""",
+        description="""Whether the measuring equipment is calibrated.//Gibt an, ob das Messgerät kalibriert ist.""",
         mandatory=True,
         section="Elongation and cross-sectional values",
     )
@@ -1567,7 +1567,7 @@ class TensileTestTemperatureDataAcquisition(Instrument):
         code="TENSILE_TEST_CALIBRATION_STATUS",
         data_type="BOOLEAN",
         property_label="Calibration status",
-        description="""Calibration status Description: Is/are the data acquisition unit calibrated? (Metadata → Measuring and test equipment → Temperature-measuring system → Data acquisition) // Calibration status Description: Is/are the data acquisition unit calibrated?""",
+        description="""Whether the measuring equipment is calibrated.//Gibt an, ob das Messgerät kalibriert ist.""",
         mandatory=True,
         section="Data acquisition",
     )
@@ -1745,7 +1745,7 @@ class TensileTestTemperatureSensor(Instrument):
         code="TENSILE_TEST_CALIBRATION_STATUS",
         data_type="BOOLEAN",
         property_label="Calibration status",
-        description="""Calibration status Description: Is/are the thermocouples calibrated? (Metadata → Measuring and test equipment → Temperature-measuring system → Temperature sensor) // Calibration status Description: Is/are the thermocouples calibrated?""",
+        description="""Whether the measuring equipment is calibrated.//Gibt an, ob das Messgerät kalibriert ist.""",
         mandatory=True,
         section="Temperature sensor",
     )
